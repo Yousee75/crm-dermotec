@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     // Validation des données
     const validatedData = inscriptionExpressSchema.parse(body)
 
-    const supabase = createServiceSupabase()
+    const supabase = await createServiceSupabase()
 
     // 1. Récupérer formation et session
     const { data: formation, error: formationError } = await supabase
@@ -35,9 +35,11 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (formationError || !formation) {
+      // Log serveur avec detail, message generique au client
+      console.error('[inscription-express] Formation introuvable:', validatedData.formation_id, formationError)
       return NextResponse.json(
-        { error: 'Formation non trouvée ou inactive' },
-        { status: 404 }
+        { error: 'Inscription impossible. Veuillez réessayer ou nous contacter.' },
+        { status: 400 }
       )
     }
 
@@ -49,16 +51,21 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (sessionError || !session) {
+      console.error('[inscription-express] Session introuvable:', validatedData.session_id, sessionError)
       return NextResponse.json(
-        { error: 'Session non trouvée ou non confirmée' },
-        { status: 404 }
+        { error: 'Inscription impossible. Veuillez réessayer ou nous contacter.' },
+        { status: 400 }
       )
     }
 
     // Vérifier places disponibles
     if (session.places_occupees >= session.places_max) {
+      console.warn('[inscription-express] Session pleine:', validatedData.session_id, {
+        places_max: session.places_max,
+        places_occupees: session.places_occupees,
+      })
       return NextResponse.json(
-        { error: 'Session complète — Plus de places disponibles' },
+        { error: 'Inscription impossible pour cette date. Veuillez choisir une autre session ou nous contacter.' },
         { status: 400 }
       )
     }
@@ -106,7 +113,7 @@ export async function POST(request: NextRequest) {
           financement_souhaite: false,
           nb_contacts: 0,
           tags: ['inscription_express'],
-          ip_address: request.ip || request.headers.get('x-forwarded-for'),
+          ip_address: request.headers.get('x-forwarded-for'),
           user_agent: request.headers.get('user-agent'),
           data_sources: {
             inscription_express: true,
@@ -184,7 +191,7 @@ export async function POST(request: NextRequest) {
           montant: montantFinal,
           convention_accepted: true,
           rgpd_accepted: true,
-          ip_address: request.ip || request.headers.get('x-forwarded-for'),
+          ip_address: request.headers.get('x-forwarded-for'),
           user_agent: request.headers.get('user-agent'),
         },
       })

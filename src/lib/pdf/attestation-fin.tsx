@@ -131,6 +131,7 @@ interface AttestationFinPDFProps {
   lead: {
     prenom: string
     nom: string
+    civilite?: string
     date_naissance?: string
   }
   formation: {
@@ -294,6 +295,7 @@ export function generateAttestationFinProps(
     lead: {
       prenom: lead.prenom,
       nom: lead.nom || '',
+      civilite: lead.civilite,
       date_naissance: lead.date_naissance,
     },
     formation: {

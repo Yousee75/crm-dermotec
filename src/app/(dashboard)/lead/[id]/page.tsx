@@ -1,14 +1,17 @@
 'use client'
 
-import { use, useState } from 'react'
+import { use, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useLead, useUpdateLead } from '@/hooks/use-leads'
+import { trackLeadView } from '@/components/ui/CommandPalette'
 import { useMessages, useSendMessage } from '@/hooks/use-messages'
 import { useCadenceInstances } from '@/hooks/use-cadences'
 import { STATUTS_LEAD, type Lead, type Message, type CanalMessage, type Inscription, type Financement } from '@/types'
 import { formatEuro, formatDate, formatPhone } from '@/lib/utils'
 import { getScoreColor, getScoreLabel } from '@/lib/scoring'
 import { ActivityTimeline } from '@/components/ui/ActivityTimeline'
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
+import { SkeletonCard, SkeletonList } from '@/components/ui/Skeleton'
 import {
   ArrowLeft, Phone, Mail, MessageCircle, MessageSquare,
   User, MessageSquareText, CreditCard, FileText, Clock,
@@ -36,6 +39,16 @@ const CANAUX_MESSAGE: { id: CanalMessage; label: string; icon: React.ElementType
   { id: 'note_interne', label: 'Note', icon: Edit3, color: '#6B7280' },
 ]
 
+const getCanalIcon = (canal: CanalMessage) => {
+  const config = CANAUX_MESSAGE.find(c => c.id === canal)
+  return config ? config.icon : MessageSquare
+}
+
+const getCanalColor = (canal: CanalMessage) => {
+  const config = CANAUX_MESSAGE.find(c => c.id === canal)
+  return config ? config.color : '#6B7280'
+}
+
 export default function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const [activeTab, setActiveTab] = useState<TabId>('infos')
@@ -49,21 +62,44 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const { data: lead, isLoading } = useLead(id)
   const { data: messages = [] } = useMessages(id)
   const { data: cadenceInstances = [] } = useCadenceInstances({ lead_id: id, statut: 'active' })
+
+  // Track this lead view for recent leads in Command Palette
+  useEffect(() => {
+    if (lead) trackLeadView(id, `${lead.prenom} ${lead.nom}`, lead.email)
+  }, [lead, id])
   const updateLead = useUpdateLead()
   const sendMessage = useSendMessage()
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-gray-400">Chargement...</div>
+      <div className="space-y-6">
+        <div className="flex items-center gap-2 text-xs text-gray-400">
+          <div className="skeleton h-3 w-16" />
+          <div className="skeleton h-3 w-4" />
+          <div className="skeleton h-3 w-12" />
+          <div className="skeleton h-3 w-4" />
+          <div className="skeleton h-3 w-24" />
+        </div>
+        <SkeletonCard />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
       </div>
     )
   }
 
   if (!lead) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-gray-400">Lead introuvable</div>
+      <div className="flex flex-col items-center justify-center h-64 text-center">
+        <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
+          <User className="w-6 h-6 text-gray-300" />
+        </div>
+        <h3 className="text-sm font-semibold text-gray-900 mb-1">Lead introuvable</h3>
+        <p className="text-sm text-gray-500 mb-4">Ce lead n&apos;existe pas ou a été supprimé</p>
+        <Link href="/leads" className="text-sm text-[#2EC6F3] hover:underline">
+          Retour aux leads
+        </Link>
       </div>
     )
   }
@@ -112,16 +148,6 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
   const getInitials = (prenom: string, nom?: string) => {
     return (prenom[0] + (nom?.[0] || '')).toUpperCase()
-  }
-
-  const getCanalIcon = (canal: CanalMessage) => {
-    const config = CANAUX_MESSAGE.find(c => c.id === canal)
-    return config ? config.icon : MessageSquare
-  }
-
-  const getCanalColor = (canal: CanalMessage) => {
-    const config = CANAUX_MESSAGE.find(c => c.id === canal)
-    return config ? config.color : '#6B7280'
   }
 
   return (
@@ -345,7 +371,7 @@ function InformationsTab({
             />
             <InputField
               label="Téléphone"
-              value={isEditing ? editedLead.telephone || lead.telephone || '' : formatPhone(lead.telephone) || ''}
+              value={isEditing ? editedLead.telephone || lead.telephone || '' : formatPhone(lead.telephone || '') || ''}
               onChange={(value) => setEditedLead(prev => ({ ...prev, telephone: value }))}
               disabled={!isEditing}
             />
@@ -515,7 +541,7 @@ function InformationsTab({
             <button
               onClick={() => {
                 setIsEditing(false)
-                setEditedLead({})
+                setEditedLead(() => ({}))
               }}
               className="px-4 py-2 text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
               disabled={isLoading}
@@ -754,7 +780,7 @@ function FinancementTab({ lead }: { lead: Lead }) {
                       </span>
                     </div>
                     <div className="text-sm text-gray-600 space-y-1">
-                      <p>Montant demandé: {formatEuro(financement.montant_demande)}</p>
+                      <p>Montant demandé: {formatEuro(financement.montant_demande || 0)}</p>
                       {financement.montant_accorde && (
                         <p>Montant accordé: {formatEuro(financement.montant_accorde)}</p>
                       )}

@@ -71,7 +71,15 @@ function InscriptionSuccessContent() {
         .single()
 
       if (inscription) {
-        setData({ inscription })
+        // Supabase returns arrays for joined relations; extract first element
+        const raw = inscription as Record<string, unknown>
+        const sessionRaw = Array.isArray(raw.session) ? raw.session[0] : raw.session
+        const leadRaw = Array.isArray(raw.lead) ? raw.lead[0] : raw.lead
+        if (sessionRaw && typeof sessionRaw === 'object') {
+          const s = sessionRaw as Record<string, unknown>
+          s.formation = Array.isArray(s.formation) ? s.formation[0] : s.formation
+        }
+        setData({ inscription: { ...inscription, session: sessionRaw, lead: leadRaw } as unknown as InscriptionData['inscription'] })
       }
 
       setLoading(false)

@@ -20,6 +20,26 @@ export async function POST(
       return NextResponse.json({ error: 'Format de signature invalide' }, { status: 400 })
     }
 
+    // Limite de taille : 500KB max pour une signature
+    const MAX_SIGNATURE_SIZE = 500 * 1024
+    const base64Part = signature_data.replace('data:image/png;base64,', '')
+    let signatureBuffer: Buffer
+    try {
+      signatureBuffer = Buffer.from(base64Part, 'base64')
+    } catch {
+      return NextResponse.json({ error: 'Signature corrompue (base64 invalide)' }, { status: 400 })
+    }
+
+    if (signatureBuffer.length > MAX_SIGNATURE_SIZE) {
+      return NextResponse.json({ error: 'Signature trop volumineuse (max 500KB)' }, { status: 400 })
+    }
+
+    // Verification du magic number PNG (89 50 4E 47 0D 0A 1A 0A)
+    const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A])
+    if (signatureBuffer.length < 8 || !signatureBuffer.subarray(0, 8).equals(PNG_MAGIC)) {
+      return NextResponse.json({ error: 'Le fichier signature n\'est pas un PNG valide' }, { status: 400 })
+    }
+
     const supabase = await createServiceSupabase()
 
     // Récupérer l'inscription via le token portail

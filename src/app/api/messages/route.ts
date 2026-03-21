@@ -32,17 +32,25 @@ export async function GET(req: NextRequest) {
     }
 
     // Inbox : derniers messages groupés par lead
-    const { data, error } = await service.rpc('get_inbox_conversations', {
-      p_limit: per_page,
-      p_offset: (page - 1) * per_page,
-    }).catch(() => {
+    let data: unknown = null
+    let error: unknown = null
+    try {
+      const result = await service.rpc('get_inbox_conversations', {
+        p_limit: per_page,
+        p_offset: (page - 1) * per_page,
+      })
+      data = result.data
+      error = result.error
+    } catch {
       // Fallback si la RPC n'existe pas : query directe
-      return service
+      const result = await service
         .from('messages')
         .select('id, lead_id, canal, contenu, statut, created_at, lead:leads(prenom, nom, email, telephone, photo_url, statut)')
         .order('created_at', { ascending: false })
         .limit(per_page)
-    })
+      data = result.data
+      error = result.error
+    }
 
     if (error) return NextResponse.json({ error: 'Erreur inbox' }, { status: 500 })
     return NextResponse.json({ messages: data })

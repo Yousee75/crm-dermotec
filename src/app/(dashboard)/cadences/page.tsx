@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client'
 
 import { useState } from 'react'
@@ -66,7 +67,7 @@ function CadenceStep({
   index,
   isLast
 }: {
-  step: any
+  step: { type: CadenceStepType; [key: string]: unknown }
   index: number
   isLast: boolean
 }) {

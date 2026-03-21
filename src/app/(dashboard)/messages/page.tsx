@@ -57,7 +57,7 @@ export default function MessagesPage() {
 
   const { data: conversations, isLoading: loadingInbox } = useInbox(searchQuery)
   const { data: messages, isLoading: loadingMessages } = useMessages(selectedLeadId || '')
-  const { data: leadsData } = useLeads({ ids: selectedLeadId ? [selectedLeadId] : undefined })
+  const { data: leadsData } = useLeads({ search: selectedLeadId || undefined })
   const sendMessage = useSendMessage()
 
   const selectedLead = leadsData?.leads?.[0]
@@ -136,7 +136,7 @@ export default function MessagesPage() {
             <div className="flex items-center gap-3">
               <Avatar
                 size="sm"
-                fallback={getInitials(selectedLead.prenom, selectedLead.nom)}
+                name={getInitials(selectedLead.prenom, selectedLead.nom)}
                 src={selectedLead.photo_url}
               />
               <div>
@@ -344,8 +344,8 @@ export default function MessagesPage() {
                       <div className="relative">
                         <Avatar
                           size="md"
-                          fallback={getInitials(conv.lead_prenom, conv.lead_nom)}
-                          src={conv.lead_photo_url}
+                          name={getInitials(conv.lead_prenom, conv.lead_nom)}
+                          src={conv.lead_photo_url ?? undefined}
                         />
                         <div
                           className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
@@ -365,7 +365,7 @@ export default function MessagesPage() {
                               {formatRelativeDate(conv.dernier_date)}
                             </span>
                             {conv.non_lus > 0 && (
-                              <Badge variant="primary" size="xs">
+                              <Badge variant="primary" size="sm">
                                 {conv.non_lus}
                               </Badge>
                             )}
@@ -401,7 +401,7 @@ export default function MessagesPage() {
                     <div className="flex items-center gap-3">
                       <Avatar
                         size="sm"
-                        fallback={getInitials(selectedLead.prenom, selectedLead.nom)}
+                        name={getInitials(selectedLead.prenom, selectedLead.nom)}
                         src={selectedLead.photo_url}
                       />
                       <div>
@@ -556,7 +556,7 @@ export default function MessagesPage() {
                 <div className="text-center">
                   <Avatar
                     size="lg"
-                    fallback={getInitials(selectedLead.prenom, selectedLead.nom)}
+                    name={getInitials(selectedLead.prenom, selectedLead.nom)}
                     src={selectedLead.photo_url}
                     className="mx-auto mb-3"
                   />
