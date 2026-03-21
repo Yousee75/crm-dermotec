@@ -156,6 +156,13 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // Mode demo : si Supabase n'est pas configuré, on laisse passer
+  const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co'
+
+  if (isDemoMode) {
+    return addSecurityHeaders(supabaseResponse, nonce)
+  }
+
   const { data: { user } } = await supabase.auth.getUser()
   const isPublic = isPublicPath(pathname)
 
