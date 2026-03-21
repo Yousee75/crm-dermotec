@@ -1,10 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@supabase/supabase-js'
+import { isDisposableEmail } from '@/lib/disposable-emails'
 
-function getResend() {
-  if (!process.env.RESEND_API_KEY) throw new Error('RESEND_API_KEY non configurée')
-  return new Resend(process.env.RESEND_API_KEY)
+function getResend(): Resend | null {
+  const key = process.env.RESEND_API_KEY
+  if (!key) {
+    console.warn('[Email API] RESEND_API_KEY manquante')
+    return null
+  }
+  return new Resend(key)
+}
+
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return null
+  return createClient(url, key, { auth: { persistSession: false } })
 }
 
 export const dynamic = 'force-dynamic'
@@ -29,7 +41,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createClient()
+    // Anti-spam : bloquer emails jetables
+    if (isDisposableEmail(to)) {
+      return NextResponse.json(
+        { error: 'Adresse email non acceptée' },
+        { status: 400 }
+      )
+    }
+
+    const supabase = getSupabase()
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Service indisponible' },
+        { status: 503 }
+      )
+    }
 
     // 1. Récupérer le template
     const { data: template, error: templateError } = await supabase
@@ -61,6 +87,12 @@ export async function POST(request: NextRequest) {
 
     // 3. Envoyer l'email via Resend
     const resend = getResend()
+    if (!resend) {
+      return NextResponse.json(
+        { error: 'Service email non configuré' },
+        { status: 503 }
+      )
+    }
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: 'Dermotec Formation <formation@dermotec.fr>',
       to,
@@ -132,7 +164,10 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const categorie = searchParams.get('categorie')
 
-    const supabase = createClient()
+    const supabase = getSupabase()
+    if (!supabase) {
+      return NextResponse.json({ error: 'Service indisponible' }, { status: 503 })
+    }
 
     let query = supabase
       .from('email_templates')

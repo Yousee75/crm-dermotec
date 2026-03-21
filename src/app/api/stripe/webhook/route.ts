@@ -17,8 +17,9 @@ function getSupabase() {
   return createClient(url, key, { auth: { persistSession: false } })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function logActivite(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   data: {
     type: string
     description: string
@@ -29,7 +30,8 @@ async function logActivite(
   }
 ) {
   try {
-    await supabase.from('activites').insert({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase.from('activites') as any).insert({
       type: data.type,
       description: data.description,
       lead_id: data.lead_id || null,
@@ -120,12 +122,14 @@ export async function POST(request: NextRequest) {
 
           // Mettre à jour CA réalisé de la session
           if (inscription?.session_id) {
-            await supabase.rpc('increment_session_ca', {
-              p_session_id: inscription.session_id,
-              p_amount: inscription.montant_total,
-            }).catch(() => {
-              // RPC optionnelle, on ignore si elle n'existe pas
-            })
+            try {
+              await supabase.rpc('increment_session_ca', {
+                p_session_id: inscription.session_id,
+                p_amount: inscription.montant_total,
+              })
+            } catch {
+              // RPC optionnelle
+            }
           }
         }
 
