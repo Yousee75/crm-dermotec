@@ -45,13 +45,15 @@ export function useFeature(feature: Feature): FeatureHookResult {
 }
 
 export function useCurrentPlan(): Plan {
-  // TODO: Intégration avec Supabase
-  // 1. Lire user metadata: user.user_metadata?.plan
-  // 2. Ou lire depuis table subscriptions avec join equipe
-  // 3. Gérer cache avec React Query/SWR
-
-  // MVP: plan par défaut Pro
-  return 'pro'
+  // Dermotec = instance unique, pas multi-tenant
+  // Le plan est determine par la config, pas par utilisateur
+  // En production : 'pro' (toutes les fonctionnalites actives)
+  // Override possible via env var pour demo/test
+  if (typeof window !== 'undefined') {
+    const override = (window as Record<string, unknown>).__DERMOTEC_PLAN as Plan | undefined
+    if (override) return override
+  }
+  return (process.env.NEXT_PUBLIC_PLAN as Plan) || 'pro'
 }
 
 export function usePlanLimits(plan?: Plan) {

@@ -293,7 +293,7 @@ export function CoachingCard({ className }: CoachingCardProps) {
                 <Link href={currentInsight.action.url}>
                   <Button
                     size="sm"
-                    variant="default"
+                    variant="outline"
                     className="h-8 text-xs bg-white/80 hover:bg-white text-gray-700 border border-gray-200"
                   >
                     {currentInsight.action.label}

@@ -259,26 +259,34 @@ npm run analyze          # Bundle analyzer
 - **PDFs** : numéro déclaration activité = placeholder `11755XXX075`
 - **Cadences** : métrique MCC TODO dans cadences/page.tsx:358
 
-### Sécurité
-- Chiffrement PII = XOR basique (api-key-auth.ts) — nécessite AES-256-GCM
-- documents/upload : uploaded_by: null (ligne 142)
-- portail/sign-convention : validation format PNG incomplète
+### Sécurité (corrigé session mars 2026)
+- ✅ Chiffrement PII = AES-256-GCM + PBKDF2 100K itérations (XOR legacy = compat lecture seule)
+- ✅ Auth sur toutes les routes API (requireAuth centralisé)
+- ✅ RLS optimisé avec (SELECT auth.uid()) wrapper (migration 011)
+- ✅ CVEs Next.js tous patchés (15.5.14)
+- ⚠️ documents/upload : uploaded_by: null (ligne 142)
+- ⚠️ portail/sign-convention : validation format PNG incomplète
 
-### Build
-- `ignoreBuildErrors: true` dans next.config.ts
-- Bug /404 avec catch-all Hono [[...route]]
-- 0 tests écrits (Vitest configuré, 1 test result.test.ts)
-- Sentry désactivé (fichiers .bak)
-- 55 fichiers non commités
+### Build (corrigé session mars 2026)
+- ✅ `ignoreBuildErrors` désactivé (0 erreurs TS)
+- ✅ 385 tests Vitest (14 fichiers)
+- ✅ Sentry configuré (client/server/edge + tunnel)
+- ⚠️ Bug /404 avec catch-all Hono [[...route]] (non bloquant en dev)
 
 ## Règles absolues
 
 1. JAMAIS commiter .env.local ni .env.vercel
 2. TOUJOURS valider côté serveur (API routes) avec zod
 3. TOUJOURS logger les activités (activity-logger.ts)
-4. TOUJOURS vérifier auth dans les API routes
+4. TOUJOURS vérifier auth dans les API routes (`requireAuth()` de `lib/api-auth.ts`)
 5. TOUJOURS utiliser les state machines pour les transitions de statut
 6. TOUJOURS passer par use cases DDD pour la logique métier (pas de query Supabase dans les routes)
+7. TOUJOURS utiliser `(SELECT auth.uid())` wrapper dans les policies RLS (100x plus rapide)
+8. TOUJOURS ajouter `idempotencyKey` sur les appels Stripe
+9. TOUJOURS utiliser `safeStripeCall()` (circuit breaker) pour les appels Stripe
+10. TOUJOURS utiliser port 6543 Supavisor en production (SUPABASE_POOLER_URL)
+11. JAMAIS de `console.log` avec des données PII en production (utiliser `safe-log.ts`)
+12. JAMAIS de `eval()`, `innerHTML`, ou `dangerouslySetInnerHTML` sans sanitization
 7. Branding : #2EC6F3 primary, #082545 accent, DM Sans + Bricolage Grotesque
 8. CSS hover (Tailwind), jamais JS onMouseEnter/onMouseLeave
 9. Touch targets minimum 44x44px sur mobile

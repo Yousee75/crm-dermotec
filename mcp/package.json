@@ -1,0 +1,22 @@
+{
+  "name": "dermotec-crm-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server pour le CRM Dermotec — expose les données CRM à Claude",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "@supabase/supabase-js": "^2.49.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.8.0",
+    "@types/node": "^22.0.0"
+  }
+}
