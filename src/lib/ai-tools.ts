@@ -407,10 +407,196 @@ EXEMPLE : "Envoie un email de relance à Marie" → D'ABORD getLeadDetails pour 
   },
 })
 
+// --- TOOL 11: Think (raisonnement privé) ---
+// Best practice Anthropic : https://www.anthropic.com/engineering/claude-think-tool
+export const thinkTool = tool({
+  description: `Espace de réflexion PRIVÉ. Utilise cet outil pour RAISONNER avant de répondre à une question complexe.
+Le contenu de ta réflexion n'est PAS montré au commercial — c'est ton brouillon interne.
+QUAND L'UTILISER :
+- Avant de recommander une formation (comparer prix, durée, ROI)
+- Avant de conseiller un financement (croiser statut pro + organisme + montant)
+- Quand la question est ambiguë et tu dois clarifier ta compréhension
+- Pour vérifier que les prix/chiffres que tu vas citer sont corrects
+- Pour planifier une séquence de tools à exécuter
+EXEMPLE : "Je dois réfléchir... Marie est gérante, formation microblading 1400€. OPCO EP plafond 3500€ → couvert à 100%. FAFCEA plafond 2000€ → couvert aussi. Meilleur choix : OPCO EP car plus rapide."`,
+  parameters: z.object({
+    reasoning: z.string().describe('Ta réflexion interne — analyse, vérification de données, planification'),
+  }),
+  execute: async ({ reasoning }) => {
+    // Le think tool ne fait rien côté serveur — c'est juste un espace de réflexion pour le LLM
+    // Le résultat n'est pas affiché dans l'UI (filtré dans AgentChat.tsx)
+    return { thought: reasoning, _private: true }
+  },
+})
+
+// --- TOOL 12: Proactive Insights (alertes automatiques) ---
+export const getProactiveInsightsTool = tool({
+  description: `Analyse un lead et retourne les ALERTES et OPPORTUNITÉS urgentes.
+QUAND L'UTILISER : AUTOMATIQUEMENT quand tu as un lead_id en contexte. Appelle cet outil en PREMIER avant toute autre chose.
+Retourne : rappels en retard, jours sans contact, dossiers financement en attente, sessions bientôt complètes.`,
+  parameters: z.object({
+    lead_id: z.string().describe('ID du lead'),
+  }),
+  execute: async ({ lead_id }) => {
+    const supabase = await createServiceSupabase()
+    const insights: string[] = []
+    const urgences: string[] = []
+
+    // 1. Infos lead
+    const { data: lead } = await supabase
+      .from('leads')
+      .select('prenom, nom, statut, date_dernier_contact, nb_contacts, financement_souhaite, formation_principale:formations!leads_formation_principale_id_fkey(nom, slug)')
+      .eq('id', lead_id)
+      .single()
+
+    if (!lead) return { error: 'Lead non trouvé' }
+
+    // 2. Jours sans contact
+    if (lead.date_dernier_contact) {
+      const daysSince = Math.floor((Date.now() - new Date(lead.date_dernier_contact).getTime()) / (1000 * 60 * 60 * 24))
+      if (daysSince >= 7) urgences.push(`⚠️ Aucun contact depuis ${daysSince} jours`)
+      else if (daysSince >= 3) insights.push(`Dernier contact il y a ${daysSince} jours`)
+    } else if (lead.nb_contacts === 0) {
+      urgences.push('🔴 Lead JAMAIS contacté')
+    }
+
+    // 3. Rappels en retard
+    const { data: rappels } = await supabase
+      .from('rappels')
+      .select('titre, type, date_rappel')
+      .eq('lead_id', lead_id)
+      .eq('statut', 'EN_ATTENTE')
+      .lte('date_rappel', new Date().toISOString())
+
+    if (rappels?.length) {
+      urgences.push(`🔴 ${rappels.length} rappel(s) en retard : ${rappels.map(r => r.titre || r.type).join(', ')}`)
+    }
+
+    // 4. Financement en attente
+    if (lead.financement_souhaite) {
+      const { data: financements } = await supabase
+        .from('financements')
+        .select('organisme, statut')
+        .eq('lead_id', lead_id)
+
+      if (!financements?.length) {
+        insights.push('💡 Financement souhaité mais aucun dossier ouvert')
+      } else {
+        const enCours = financements.filter(f => ['SOUMIS', 'EN_EXAMEN', 'COMPLEMENT_DEMANDE'].includes(f.statut))
+        if (enCours.length) insights.push(`📋 ${enCours.length} dossier(s) financement en cours : ${enCours.map(f => f.organisme).join(', ')}`)
+      }
+    }
+
+    // 5. Sessions bientôt complètes pour sa formation
+    if (lead.formation_principale) {
+      const slug = (lead.formation_principale as any)?.slug
+      if (slug) {
+        const { data: sessions } = await supabase
+          .from('sessions')
+          .select('date_debut, places_max, places_occupees, formation:formations(slug)')
+          .in('statut', ['PLANIFIEE', 'CONFIRMEE'])
+          .gte('date_debut', new Date().toISOString())
+          .order('date_debut', { ascending: true })
+          .limit(5)
+
+        const matching = sessions?.filter((s: any) => s.formation?.slug === slug)
+        if (matching?.length) {
+          const next = matching[0]
+          const placesLeft = next.places_max - next.places_occupees
+          if (placesLeft <= 2) urgences.push(`🔥 Prochaine session ${(lead.formation_principale as any)?.nom} presque complète (${placesLeft} place${placesLeft > 1 ? 's' : ''})`)
+          else insights.push(`📅 Prochaine session : ${new Date(next.date_debut).toLocaleDateString('fr-FR')} (${placesLeft} places dispo)`)
+        }
+      }
+    }
+
+    return {
+      lead: `${lead.prenom} ${lead.nom}`,
+      statut: lead.statut,
+      urgences,
+      insights,
+      nb_urgences: urgences.length,
+      nb_insights: insights.length,
+    }
+  },
+})
+
+// --- TOOL 13: Find Similar Success Leads ---
+export const findSimilarSuccessTool = tool({
+  description: `Trouve des leads avec un profil SIMILAIRE qui ont RÉUSSI (statut FORME ou ALUMNI).
+Retourne les patterns de succès : nombre de contacts moyen, financement utilisé, délai de conversion.
+QUAND L'UTILISER : quand tu veux donner des insights data-driven au commercial.
+EXEMPLE : "Comment les gérantes d'institut comme Marie ont converti ?" → findSimilarSuccess({ statut_pro: "gerant_institut", formation_slug: "microblading" })`,
+  parameters: z.object({
+    statut_pro: z.string().optional().describe('Statut professionnel du lead courant'),
+    formation_slug: z.string().optional().describe('Slug de la formation'),
+    source: z.string().optional().describe('Source du lead'),
+  }),
+  execute: async ({ statut_pro, formation_slug, source }) => {
+    const supabase = await createServiceSupabase()
+
+    let q = supabase
+      .from('leads')
+      .select('statut_pro, nb_contacts, source, created_at, financements(organisme, statut, montant_accorde), inscriptions(created_at, note_satisfaction, session:sessions(formation:formations(nom, slug)))')
+      .in('statut', ['FORME', 'ALUMNI'])
+      .order('updated_at', { ascending: false })
+      .limit(50)
+
+    if (statut_pro) q = q.eq('statut_pro', statut_pro)
+
+    const { data: successLeads } = await q
+    if (!successLeads?.length) return { found: false, message: 'Pas assez de données historiques pour ce profil' }
+
+    // Filtrer par formation si précisé
+    let filtered = successLeads
+    if (formation_slug) {
+      filtered = successLeads.filter((l: any) =>
+        l.inscriptions?.some((i: any) => i.session?.formation?.slug === formation_slug)
+      )
+      if (!filtered.length) filtered = successLeads // fallback
+    }
+
+    // Calculer les stats
+    const totalContacts = filtered.reduce((sum: number, l: any) => sum + (l.nb_contacts || 0), 0)
+    const avgContacts = Math.round(totalContacts / filtered.length)
+
+    const financements = filtered.flatMap((l: any) => l.financements?.filter((f: any) => f.statut === 'VERSE' || f.statut === 'VALIDE') || [])
+    const orgCounts: Record<string, number> = {}
+    for (const f of financements) {
+      orgCounts[f.organisme] = (orgCounts[f.organisme] || 0) + 1
+    }
+    const topOrg = Object.entries(orgCounts).sort(([, a], [, b]) => b - a)[0]
+
+    const satisfactions = filtered.flatMap((l: any) => l.inscriptions?.map((i: any) => i.note_satisfaction).filter(Boolean) || [])
+    const avgSatisfaction = satisfactions.length ? (satisfactions.reduce((s: number, v: number) => s + v, 0) / satisfactions.length).toFixed(1) : null
+
+    // Délai moyen (création → inscription)
+    const delays = filtered.flatMap((l: any) =>
+      l.inscriptions?.map((i: any) => {
+        if (!i.created_at || !l.created_at) return null
+        return Math.floor((new Date(i.created_at).getTime() - new Date(l.created_at).getTime()) / (1000 * 60 * 60 * 24))
+      }).filter(Boolean) || []
+    )
+    const avgDelay = delays.length ? Math.round(delays.reduce((s: number, v: number) => s + v, 0) / delays.length) : null
+
+    return {
+      found: true,
+      nb_leads_similaires: filtered.length,
+      contacts_moyens: avgContacts,
+      delai_conversion_jours: avgDelay,
+      financement_principal: topOrg ? { organisme: topOrg[0], count: topOrg[1] } : null,
+      satisfaction_moyenne: avgSatisfaction,
+      insight: `${filtered.length} leads similaires ont converti en moyenne en ${avgDelay || '?'} jours avec ${avgContacts} contacts. ${topOrg ? `${Math.round(topOrg[1] / filtered.length * 100)}% ont utilisé ${topOrg[0]}.` : ''}`,
+    }
+  },
+})
+
 // --- Export tous les tools ---
 export const crmTools = {
+  think: thinkTool,
   searchLeads: searchLeadsTool,
   getLeadDetails: getLeadDetailsTool,
+  getProactiveInsights: getProactiveInsightsTool,
+  findSimilarSuccess: findSimilarSuccessTool,
   createReminder: createReminderTool,
   getNextSessions: getNextSessionsTool,
   analyzeFinancement: analyzeFinancementTool,

@@ -8,7 +8,7 @@ import {
   ChevronLeft, Menu, Zap, ChevronRight, Bell, Search,
   Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle
 } from 'lucide-react'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
 import { createClient } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'

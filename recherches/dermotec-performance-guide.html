@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermotec — Guide Performance Ultime 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f7f4;
+  --ink: #0f0e0c;
+  --surface: #ffffff;
+  --border: #e8e4de;
+  --muted: #78746c;
+  --gold: #b5760e;
+  --gold-bg: #fdf8ee;
+  --gold-border: #e8d48a;
+  --green: #166534;
+  --green-bg: #f0fdf4;
+  --green-border: #bbf7d0;
+  --blue: #1e3a5f;
+  --blue-bg: #eff6ff;
+  --blue-border: #bfdbfe;
+  --red: #991b1b;
+  --red-bg: #fef2f2;
+  --red-border: #fecaca;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --purple-border: #ddd6fe;
+  --orange: #9a3412;
+  --orange-bg: #fff7ed;
+  --orange-border: #fed7aa;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Geist',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+}
+
+/* HERO */
+.hero{
+  background:var(--ink);
+  color:#f8f7f4;
+  padding:72px 80px 56px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  right:-100px;top:-100px;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(181,118,14,0.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-tag{
+  font-family:'Geist Mono',monospace;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(248,247,244,0.4);
+  margin-bottom:16px;
+}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(32px,5vw,72px);
+  font-weight:800;
+  line-height:1.02;
+  letter-spacing:-1.5px;
+  margin-bottom:16px;
+}
+.hero h1 em{color:#d4a853;font-style:italic;}
+.hero-sub{font-size:16px;font-weight:300;color:rgba(248,247,244,0.55);max-width:600px;margin-bottom:48px;}
+
+/* IMPACT METRICS */
+.impact-row{display:flex;gap:0;flex-wrap:wrap;}
+.impact{padding:20px 32px 20px 0;margin-right:32px;border-right:1px solid rgba(255,255,255,0.06);}
+.impact:last-child{border-right:none;}
+.impact-val{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#d4a853;line-height:1;}
+.impact-lbl{font-size:11px;color:rgba(248,247,244,0.35);margin-top:4px;text-transform:uppercase;letter-spacing:1px;}
+
+/* LAYOUT */
+.wrap{max-width:1100px;margin:0 auto;padding:0 80px;}
+@media(max-width:800px){.wrap{padding:0 24px;}.hero{padding:48px 24px;}}
+
+/* SECTION */
+.sec{padding:64px 0;border-bottom:1px solid var(--border);}
+.sec-tag{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(22px,3vw,38px);font-weight:800;line-height:1.1;margin-bottom:10px;letter-spacing:-0.5px;}
+.sec-sub{font-size:15px;font-weight:300;color:var(--muted);max-width:640px;margin-bottom:40px;}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;}
+.card h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.2px;}
+.card p{font-size:13.5px;color:var(--muted);line-height:1.6;}
+.card.gold{border-left:3px solid var(--gold);}
+.card.green{border-left:3px solid var(--green);}
+.card.blue{border-left:3px solid var(--blue);}
+.card.red{border-left:3px solid var(--red);}
+.card.purple{border-left:3px solid var(--purple);}
+.card.dark{background:var(--ink);color:#f8f7f4;border-color:transparent;}
+.card.dark h3{color:#f8f7f4;}
+.card.dark p{color:rgba(248,247,244,0.55);}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.tag{font-family:'Geist Mono',monospace;font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid;}
+.tg{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-border);}
+.tr{background:var(--green-bg);color:var(--green);border-color:var(--green-border);}
+.tb{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border);}
+.tp{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-border);}
+.to{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-border);}
+.trr{background:var(--red-bg);color:var(--red);border-color:var(--red-border);}
+
+/* GAIN PILLS */
+.gain{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;
+  padding:3px 9px;border-radius:100px;
+}
+.gain-xl{background:#dcfce7;color:#166534;}
+.gain-lg{background:#d1fae5;color:#065f46;}
+.gain-md{background:#fef9c3;color:#713f12;}
+.gain-sm{background:#fef3c7;color:#92400e;}
+
+/* TECHNIQUE ROWS */
+.tech-list{display:flex;flex-direction:column;gap:0;}
+.tech-item{
+  display:grid;grid-template-columns:180px 1fr 100px 80px;
+  gap:16px;padding:16px 0;
+  border-bottom:1px solid var(--border);
+  align-items:start;
+  font-size:13.5px;
+}
+.tech-item:last-child{border-bottom:none;}
+.tech-name{font-weight:600;color:var(--ink);}
+.tech-desc{color:var(--muted);font-size:13px;line-height:1.5;}
+.tech-effort{text-align:center;}
+.tech-gain{text-align:right;}
+
+/* PRIORITY SYSTEM */
+.priority{
+  display:flex;gap:12px;padding:16px 20px;
+  border-radius:10px;margin-bottom:10px;
+  align-items:flex-start;border:1px solid;
+}
+.p-num{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  line-height:1;flex-shrink:0;width:36px;
+}
+.p-content h4{font-size:14px;font-weight:600;margin-bottom:4px;}
+.p-content p{font-size:13px;color:var(--muted);line-height:1.5;}
+.priority.p1{background:var(--green-bg);border-color:var(--green-border);}
+.priority.p2{background:var(--gold-bg);border-color:var(--gold-border);}
+.priority.p3{background:var(--blue-bg);border-color:var(--blue-border);}
+.priority.p4{background:var(--purple-bg);border-color:var(--purple-border);}
+.priority.p1 .p-num{color:var(--green);}
+.priority.p2 .p-num{color:var(--gold);}
+.priority.p3 .p-num{color:var(--blue);}
+.priority.p4 .p-num{color:var(--purple);}
+
+/* CODE BLOCKS */
+.code{
+  background:#0f0e0c;
+  color:#e8e4de;
+  border-radius:10px;
+  padding:20px 24px;
+  font-family:'Geist Mono',monospace;
+  font-size:12px;
+  line-height:1.85;
+  overflow-x:auto;
+  margin-top:14px;
+}
+.cm{color:#4a4742;} /* comment */
+.ck{color:#f87171;} /* keyword */
+.cs{color:#86efac;} /* string */
+.cf{color:#c084fc;} /* function */
+.cv{color:#67e8f9;} /* variable */
+.cn{color:#fcd34d;} /* number */
+
+/* COMPARISON TABLE */
+.ctable{width:100%;border-collapse:collapse;font-size:13px;}
+.ctable th{
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;padding:12px 16px;text-align:left;
+  border-bottom:2px solid var(--border);color:var(--muted);font-weight:400;
+}
+.ctable td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.ctable tr:hover td{background:var(--gold-bg);}
+.ctable .cat{font-weight:600;font-size:12px;background:var(--bg)!important;color:var(--muted);letter-spacing:1px;font-family:'Geist Mono',monospace;text-transform:uppercase;font-size:9px;}
+.check{color:var(--green);font-size:16px;}
+.cross{color:#d1d5db;}
+.best{color:var(--gold);font-weight:700;}
+
+/* VITALS GAUGE */
+.vitals{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px;}
+@media(max-width:700px){.vitals{grid-template-columns:1fr;}}
+.vital{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;}
+.vital-name{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.vital-score{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;line-height:1;margin-bottom:6px;}
+.vital-score.good{color:var(--green);}
+.vital-score.ok{color:var(--gold);}
+.vital-score.bad{color:var(--red);}
+.vital-target{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.vital-bar{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;}
+.vital-fill{height:100%;border-radius:3px;}
+.fill-green{background:#16a34a;}
+.fill-gold{background:#ca8a04;}
+.fill-red{background:#dc2626;}
+
+/* STACK TABLE */
+.stack-row{
+  display:flex;gap:16px;padding:18px 0;
+  border-bottom:1px solid var(--border);align-items:flex-start;
+}
+.stack-row:last-child{border-bottom:none;}
+.stack-layer{
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);width:120px;flex-shrink:0;padding-top:2px;
+}
+.stack-content h4{font-size:14px;font-weight:600;margin-bottom:4px;}
+.stack-content p{font-size:13px;color:var(--muted);}
+
+/* CALLOUT */
+.callout{
+  background:var(--ink);color:#f8f7f4;border-radius:14px;
+  padding:36px 40px;display:flex;gap:24px;align-items:flex-start;
+  margin-bottom:24px;
+}
+.callout-ico{font-size:36px;flex-shrink:0;}
+.callout h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#d4a853;margin-bottom:6px;}
+.callout p{font-size:14px;color:rgba(248,247,244,0.65);line-height:1.6;}
+
+/* CHECKLIST */
+.checklist{list-style:none;}
+.checklist li{
+  display:flex;gap:10px;padding:10px 0;
+  border-bottom:1px solid var(--border);font-size:13.5px;align-items:flex-start;
+}
+.checklist li:last-child{border-bottom:none;}
+.check-ico{flex-shrink:0;margin-top:2px;font-size:15px;}
+.check-text strong{display:block;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.check-text span{color:var(--muted);font-size:12.5px;}
+
+/* FOOTER */
+footer{background:var(--ink);color:#f8f7f4;padding:48px 80px;text-align:center;}
+footer .logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#d4a853;margin-bottom:8px;}
+footer p{font-size:12px;color:rgba(248,247,244,0.3);}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">// Dermotec — Guide Performance Ultime · Mars 2026</div>
+  <h1>Devenir <em>le plus rapide</em><br>du marché français</h1>
+  <p class="hero-sub">Stack technique, techniques d'expert, outils non-conventionnels et stratégie edge — pour que Dermotec charge en moins d'une seconde et écrase la concurrence sur les Core Web Vitals.</p>
+  <div class="impact-row">
+    <div class="impact"><div class="impact-val">&lt;1s</div><div class="impact-lbl">LCP cible réaliste</div></div>
+    <div class="impact"><div class="impact-val">−60%</div><div class="impact-lbl">Latence avec Edge</div></div>
+    <div class="impact"><div class="impact-val">+34%</div><div class="impact-lbl">Trafic SEO (cas réel)</div></div>
+    <div class="impact"><div class="impact-val">7%</div><div class="impact-lbl">Conversion perdue / 100ms</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══ 1. CORE WEB VITALS ══ -->
+<div class="sec">
+  <div class="sec-tag">// 01 — Métriques cibles</div>
+  <h2 class="sec-title">Les 3 métriques qui comptent</h2>
+  <p class="sec-sub">Google mesure ces 3 valeurs en temps réel sur les vraies sessions utilisateurs. Passer au vert sur les 3 = +8-15% de visibilité SEO + +7% de conversion par 100ms gagné.</p>
+
+  <div class="vitals">
+    <div class="vital">
+      <div class="vital-name">LCP — Largest Contentful Paint</div>
+      <div class="vital-score good">&lt;2.5s</div>
+      <div class="vital-target">Objectif Dermotec : <strong>&lt;1.2s</strong></div>
+      <div class="vital-bar"><div class="vital-fill fill-green" style="width:85%;"></div></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">Quand le contenu principal est visible. Fixé par : images hero, fonts, Server Components</div>
+    </div>
+    <div class="vital">
+      <div class="vital-name">INP — Interaction to Next Paint</div>
+      <div class="vital-score good">&lt;200ms</div>
+      <div class="vital-target">Objectif Dermotec : <strong>&lt;100ms</strong></div>
+      <div class="vital-bar"><div class="vital-fill fill-green" style="width:75%;"></div></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">Réactivité à chaque interaction. Fixé par : bundle JS, React.memo, useTransition</div>
+    </div>
+    <div class="vital">
+      <div class="vital-name">CLS — Cumulative Layout Shift</div>
+      <div class="vital-score good">&lt;0.1</div>
+      <div class="vital-target">Objectif Dermotec : <strong>&lt;0.05</strong></div>
+      <div class="vital-bar"><div class="vital-fill fill-green" style="width:90%;"></div></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">Stabilité visuelle. Fixé par : dimensions images, skeleton screens, fonts swap</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-ico">⚡</div>
+    <div>
+      <h3>La vraie équation business</h3>
+      <p>Amazon a mesuré que chaque 100ms de latence coûte 1% de ventes. Pinterest a réduit son LCP de 40% → +15% de trafic SEO et +15% d'inscriptions. Vodafone a amélioré son LCP de 31% → +8% de ventes. Pour Dermotec, une plateforme académie qui convertit les pros en inscrits formation physique, c'est la même logique : chaque seconde gagnée = plus de conversions.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 2. PRIORITÉS IMMÉDIATES ══ -->
+<div class="sec">
+  <div class="sec-tag">// 02 — Priorités par impact</div>
+  <h2 class="sec-title">Ce que tu fais en premier</h2>
+  <p class="sec-sub">Classé par ratio impact/effort. Les 4 premières actions donnent 80% des gains de performance.</p>
+
+  <div class="g2">
+    <div>
+      <div class="priority p1">
+        <div class="p-num">1</div>
+        <div class="p-content">
+          <h4>React Server Components — déjà en place</h4>
+          <p>Les Server Components ne s'envoient PAS au client. Bundle JS réduit de 30-62%. LCP amélioré de 65%. INP de 250ms → 175ms. C'est le gain le plus massif avec le moins d'effort sur Next.js 15.</p>
+          <div class="tags"><span class="tag tr">−62% bundle</span><span class="tag tr">−65% LCP</span></div>
+        </div>
+      </div>
+      <div class="priority p1">
+        <div class="p-num">2</div>
+        <div class="p-content">
+          <h4>Images AVIF + next/image priority</h4>
+          <p>AVIF = −50% vs JPEG à qualité identique. next/image génère automatiquement WebP/AVIF, ajoute width/height (anti-CLS), lazy-load automatique. Pour l'image LCP hero : ajouter priority={true}.</p>
+          <div class="tags"><span class="tag tr">−50% poids</span><span class="tag tr">CLS=0</span></div>
+        </div>
+      </div>
+      <div class="priority p2">
+        <div class="p-num">3</div>
+        <div class="p-content">
+          <h4>Partial Prerendering (PPR) — Next.js 15</h4>
+          <p>Le shell statique de la page (sidebar, header, layout) est servi depuis le CDN en &lt;50ms. Les données dynamiques (dashboard, points) streamées derrière. Le pro voit immédiatement l'interface, pas un écran blanc.</p>
+          <div class="tags"><span class="tag tg">Expérimental</span><span class="tag tg">Shell &lt;50ms</span></div>
+        </div>
+      </div>
+      <div class="priority p2">
+        <div class="p-num">4</div>
+        <div class="p-content">
+          <h4>Fonts — next/font + display swap</h4>
+          <p>next/font auto-héberge Cal Sans et Geist, génère les fallback metrics automatiquement, évite le CLS de font. Zero layout shift garanti. La font est préchargée avant le premier paint.</p>
+          <div class="tags"><span class="tag tg">CLS=0</span><span class="tag tg">Preload auto</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="priority p3">
+        <div class="p-num">5</div>
+        <div class="p-content">
+          <h4>useTransition + useDeferredValue</h4>
+          <p>Pour les actions CRM coûteuses (filtrer 247 contacts, chercher, ouvrir une modal lourde) → marquer comme "non-urgent". React traite d'abord l'UI, le reste après. INP garanti &lt;100ms même sur desktop bas de gamme.</p>
+          <div class="tags"><span class="tag tb">INP &lt;100ms</span><span class="tag tb">React 19</span></div>
+        </div>
+      </div>
+      <div class="priority p3">
+        <div class="p-num">6</div>
+        <div class="p-content">
+          <h4>Virtualisation listes longues</h4>
+          <p>La table contacts (247+ entrées) et le feed activités : utiliser TanStack Virtual (react-virtual). DOM = seulement les lignes visibles. Interaction instantanée même avec 10 000 contacts.</p>
+          <div class="tags"><span class="tag tb">DOM minimal</span><span class="tag tb">@tanstack/virtual</span></div>
+        </div>
+      </div>
+      <div class="priority p4">
+        <div class="p-num">7</div>
+        <div class="p-content">
+          <h4>Edge caching Vercel + Cloudflare</h4>
+          <p>Vercel Edge Network sert depuis le POP le plus proche. Pour le CRM : dashboard statique depuis edge, données dynamiques (Supabase) depuis origin. TTFB de 300ms → 20ms pour le shell.</p>
+          <div class="tags"><span class="tag tp">TTFB &lt;20ms</span><span class="tag tp">300+ PoPs</span></div>
+        </div>
+      </div>
+      <div class="priority p4">
+        <div class="p-num">8</div>
+        <div class="p-content">
+          <h4>Supabase queries — index + select partiel</h4>
+          <p>Chaque query non-optimisée retarde le streaming. Index sur user_id, video_id, created_at. Jamais de SELECT * — sélectionner uniquement les colonnes nécessaires. Connection pooling avec pgBouncer (inclus Supabase Pro).</p>
+          <div class="tags"><span class="tag tp">DB &lt;10ms</span><span class="tag tp">pgBouncer</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3. TECHNIQUES EXPERTS ══ -->
+<div class="sec">
+  <div class="sec-tag">// 03 — Techniques d'expert</div>
+  <h2 class="sec-title">Ce que les pros font et que personne ne documente</h2>
+
+  <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th>Description</th>
+          <th>Gain estimé</th>
+          <th>Effort</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="4" class="cat">// Rendu & Bundle</td></tr>
+        <tr>
+          <td style="font-weight:600;">use cache directive</td>
+          <td style="color:var(--muted);font-size:12.5px;">Nouvelle directive Next.js 15 — cache une fonction ou un composant entier. Clé auto depuis les arguments. Plus granulaire que unstable_cache.</td>
+          <td><span class="gain gain-xl">↑↑ LCP −40%</span></td>
+          <td><span class="tag tr">⬛ 2h</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">React Compiler (auto-memo)</td>
+          <td style="color:var(--muted);font-size:12.5px;">React 19 compile et mémoïse automatiquement les composants. Supprime la nécessité de useMemo/useCallback/React.memo manuels. INP amélioré sans aucun changement de code.</td>
+          <td><span class="gain gain-xl">↑↑ INP −30%</span></td>
+          <td><span class="tag tr">⬛ 30min</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Streaming + Suspense hiérarchique</td>
+          <td style="color:var(--muted);font-size:12.5px;">Wrapper chaque widget du dashboard dans son propre Suspense avec skeleton approprié. Le user voit les KPIs critiques en premier, le feed d'activité charge derrière.</td>
+          <td><span class="gain gain-lg">↑ FCP −50%</span></td>
+          <td><span class="tag tg">⬛⬛ 4h</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Dynamic imports ciblés</td>
+          <td style="color:var(--muted);font-size:12.5px;">Charger Motion, canvas-confetti, et les charts Tremor uniquement si l'utilisateur scrolle vers ces zones. Économise 80-150ko de JS au premier load.</td>
+          <td><span class="gain gain-lg">↑ Bundle −30%</span></td>
+          <td><span class="tag tg">⬛⬛ 3h</span></td>
+        </tr>
+        <tr><td colspan="4" class="cat">// Images & Assets</td></tr>
+        <tr>
+          <td style="font-weight:600;">fetchPriority="high" sur LCP</td>
+          <td style="color:var(--muted);font-size:12.5px;">Attribut HTML natif qui dit au browser de charger cette ressource en priorité maximale. +50ms à +200ms de gain sur LCP selon les benchmarks Google.</td>
+          <td><span class="gain gain-xl">↑↑ LCP −200ms</span></td>
+          <td><span class="tag tr">⬛ 5min</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Preload des fonts critiques</td>
+          <td style="color:var(--muted);font-size:12.5px;">&lt;link rel="preload" as="font"> pour Cal Sans et Geist dans _document.tsx. La font arrive avant que le HTML soit parsé. Zero FOUT (flash of unstyled text).</td>
+          <td><span class="gain gain-xl">↑ CLS=0</span></td>
+          <td><span class="tag tr">⬛ 15min</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">CSS contain property</td>
+          <td style="color:var(--muted);font-size:12.5px;">contain: layout paint sur les cards du dashboard. Isole les recalculs de layout. Une card qui change ne force pas le browser à recalculer tout le DOM. INP amélioré silencieusement.</td>
+          <td><span class="gain gain-md">↑ INP −15%</span></td>
+          <td><span class="tag tr">⬛ 1h</span></td>
+        </tr>
+        <tr><td colspan="4" class="cat">// Caching & Edge</td></tr>
+        <tr>
+          <td style="font-weight:600;">Vercel Edge Config</td>
+          <td style="color:var(--muted);font-size:12.5px;">Stocker feature flags, config Dermotec, seuils gamification dans Edge Config. Lecture &lt;1ms depuis n'importe où. Élimine les queries Supabase pour les données quasi-statiques.</td>
+          <td><span class="gain gain-xl">↑ TTFB −80%</span></td>
+          <td><span class="tag tg">⬛⬛ 3h</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">stale-while-revalidate pattern</td>
+          <td style="color:var(--muted);font-size:12.5px;">Cache: stale-while-revalidate=60 sur les API non-critiques. Le user reçoit immédiatement la version cachée. En parallèle, les données fraîches arrivent silencieusement. Aucune attente perçue.</td>
+          <td><span class="gain gain-lg">↑ Perçu −60%</span></td>
+          <td><span class="tag tg">⬛⬛ 2h</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Supabase connection pooling</td>
+          <td style="color:var(--muted);font-size:12.5px;">Utiliser le mode "transaction" de pgBouncer (port 6543 au lieu de 5432). Élimine le cold start de connexion PostgreSQL (~50-200ms). Critique pour les API Routes serverless qui créent une nouvelle connexion à chaque requête.</td>
+          <td><span class="gain gain-xl">↑ API −200ms</span></td>
+          <td><span class="tag tr">⬛ 30min</span></td>
+        </tr>
+        <tr><td colspan="4" class="cat">// Non-conventionnel</td></tr>
+        <tr>
+          <td style="font-weight:600;">Speculation Rules API</td>
+          <td style="color:var(--muted);font-size:12.5px;">API browser native 2024 — précharge en arrière-plan les pages que l'utilisateur va probablement visiter (hover sur un lien). La page suivante est déjà prête avant le clic. Navigation instantanée.</td>
+          <td><span class="gain gain-xl">↑ Navigation 0ms</span></td>
+          <td><span class="tag tg">⬛⬛ 2h</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Web Worker pour calculs lourds</td>
+          <td style="color:var(--muted);font-size:12.5px;">Traitement des analytics gamification, calcul des scores de maîtrise, tri des 247 contacts → dans un Web Worker. Le main thread reste libre. INP reste &lt;100ms même pendant des calculs lourds.</td>
+          <td><span class="gain gain-lg">↑ INP garanti</span></td>
+          <td><span class="tag tg">⬛⬛⬛ 8h</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">requestIdleCallback pour analytics</td>
+          <td style="color:var(--muted);font-size:12.5px;">PostHog, Resend tracking, et tout le code analytics chargé via requestIdleCallback. S'exécute uniquement quand le browser est inactif. Aucun impact sur LCP ou INP.</td>
+          <td><span class="gain gain-lg">↑ INP −20ms</span></td>
+          <td><span class="tag tr">⬛ 1h</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ 4. CONFIG NEXT.JS ══ -->
+<div class="sec">
+  <div class="sec-tag">// 04 — Configuration Next.js 15</div>
+  <h2 class="sec-title">Le next.config.ts optimal</h2>
+
+  <div class="code">
+<span class="cm">// next.config.ts — Configuration performance maximale Dermotec</span>
+<span class="ck">import type</span> { NextConfig } <span class="ck">from</span> <span class="cs">'next'</span>
+
+<span class="ck">const</span> <span class="cv">nextConfig</span>: NextConfig = {
+  <span class="cm">// 1. Turbopack — builds 5-10x plus rapides (stable Next.js 15)</span>
+  turbopack: {},
+
+  <span class="cm">// 2. PPR — Partial Prerendering (shell statique + streaming dynamique)</span>
+  experimental: {
+    ppr: <span class="cs">'incremental'</span>, <span class="cm">// Activer route par route</span>
+    reactCompiler: <span class="cs">true</span>,  <span class="cm">// Auto-memoïsation React 19</span>
+    dynamicIO: <span class="cs">true</span>,     <span class="cm">// Meilleure gestion async dans RSC</span>
+  },
+
+  <span class="cm">// 3. Images — AVIF en priorité, WebP en fallback</span>
+  images: {
+    formats: [<span class="cs">'image/avif'</span>, <span class="cs">'image/webp'</span>],
+    minimumCacheTTL: <span class="cn">31536000</span>, <span class="cm">// Cache 1 an</span>
+    deviceSizes: [<span class="cn">640</span>, <span class="cn">750</span>, <span class="cn">828</span>, <span class="cn">1080</span>, <span class="cn">1200</span>, <span class="cn">1920</span>],
+    remotePatterns: [{ protocol: <span class="cs">'https'</span>, hostname: <span class="cs">'**.vdocipher.com'</span> }],
+  },
+
+  <span class="cm">// 4. Headers sécurité + cache statique</span>
+  <span class="cf">async headers</span>() {
+    <span class="ck">return</span> [{
+      source: <span class="cs">'/(.*)'</span>,
+      headers: [
+        { key: <span class="cs">'X-Frame-Options'</span>, value: <span class="cs">'SAMEORIGIN'</span> },
+        { key: <span class="cs">'X-Content-Type-Options'</span>, value: <span class="cs">'nosniff'</span> },
+        <span class="cm">// Assets statiques : cache 1 an immutable</span>
+        { key: <span class="cs">'Cache-Control'</span>, value: <span class="cs">'public, max-age=31536000, immutable'</span> },
+      ],
+    }]
+  },
+
+  <span class="cm">// 5. Packages serveur — éviter de les bundler côté client</span>
+  serverExternalPackages: [<span class="cs">'puppeteer'</span>, <span class="cs">'pdfjs-dist'</span>],
+
+  <span class="cm">// 6. Speculation Rules — navigation instantanée</span>
+  <span class="cm">// Ajouter dans _document.tsx :</span>
+  <span class="cm">// &lt;script dangerouslySetInnerHTML={{ __html: JSON.stringify({</span>
+  <span class="cm">//   prerender: [{ source: "list", urls: ["/academy/dashboard"] }]</span>
+  <span class="cm">// })}} type="speculationrules" /&gt;</span>
+}
+
+<span class="ck">export default</span> <span class="cv">nextConfig</span></div>
+
+  <div class="g2" style="margin-top:20px;">
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px;">PPR — Pattern pour les pages CRM</h3>
+      <div class="code" style="margin-top:0;">
+<span class="cm">// app/academy/dashboard/page.tsx</span>
+<span class="cm">// Shell statique servi depuis CDN + données streamées</span>
+
+<span class="ck">export const</span> experimental_ppr = <span class="cs">true</span>
+
+<span class="ck">export default function</span> <span class="cf">Dashboard</span>() {
+  <span class="ck">return</span> (
+    &lt;&gt;
+      <span class="cm">{/* Servi depuis CDN en &lt;50ms */}</span>
+      &lt;<span class="cv">DashboardLayout</span> /&gt;
+      &lt;<span class="cv">KpiCardSkeleton</span> /&gt;
+
+      <span class="cm">{/* Streamés depuis Supabase */}</span>
+      &lt;<span class="cv">Suspense</span> fallback={&lt;<span class="cv">KpiCardSkeleton</span> /&gt;}&gt;
+        &lt;<span class="cv">KpiCards</span> /&gt; <span class="cm">{/* Server Component async */}</span>
+      &lt;/<span class="cv">Suspense</span>&gt;
+
+      &lt;<span class="cv">Suspense</span> fallback={&lt;<span class="cv">PipelineSkeleton</span> /&gt;}&gt;
+        &lt;<span class="cv">Pipeline</span> /&gt;
+      &lt;/<span class="cv">Suspense</span>&gt;
+
+      &lt;<span class="cv">Suspense</span> fallback={&lt;<span class="cv">ActivitySkeleton</span> /&gt;}&gt;
+        &lt;<span class="cv">ActivityFeed</span> /&gt; <span class="cm">{/* Charge en dernier */}</span>
+      &lt;/<span class="cv">Suspense</span>&gt;
+    &lt;/&gt;
+  )
+}</div>
+    </div>
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px;">use cache — Données quasi-statiques</h3>
+      <div class="code" style="margin-top:0;">
+<span class="cm">// lib/academy/content.ts</span>
+<span class="cm">// Les modules de formation ne changent pas souvent</span>
+<span class="cm">// → les cacher côté serveur</span>
+
+<span class="ck">export async function</span> <span class="cf">getModules</span>() {
+  <span class="cs">'use cache'</span>  <span class="cm">// Directive Next.js 15</span>
+
+  <span class="ck">const</span> { data } = <span class="ck">await</span> supabase
+    .from(<span class="cs">'modules'</span>)
+    .select(<span class="cs">'id, title, theme, niveau, required_level'</span>)
+    .eq(<span class="cs">'is_published'</span>, <span class="cs">true</span>)
+
+  <span class="ck">return</span> data
+}
+<span class="cm">// Résultat mis en cache automatiquement</span>
+<span class="cm">// Invalidé uniquement si les données changent</span>
+<span class="cm">// Zéro requête Supabase pour le 2ème visiteur</span>
+
+<span class="cm">// Pour les données user-spécifiques :</span>
+<span class="ck">export async function</span> <span class="cf">getUserProgress</span>(userId: string) {
+  <span class="cs">'use cache'</span>
+  <span class="cm">// userId dans les args = clé de cache unique par user</span>
+  <span class="ck">const</span> { data } = <span class="ck">await</span> supabase
+    .from(<span class="cs">'profiles'</span>)
+    .select(<span class="cs">'points, level, streak_count'</span>)
+    .eq(<span class="cs">'user_id'</span>, userId).single()
+  <span class="ck">return</span> data
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 5. SUPABASE PERFORMANCE ══ -->
+<div class="sec">
+  <div class="sec-tag">// 05 — Supabase Performance</div>
+  <h2 class="sec-title">Base de données ultra-rapide</h2>
+  <div class="g3">
+    <div class="card gold">
+      <div class="card-ico" style="font-size:24px;margin-bottom:12px;">🔗</div>
+      <h3>Connection Pooling — 30min</h3>
+      <p>Utiliser le port 6543 (pgBouncer transaction mode) au lieu de 5432. Élimine 50-200ms de cold start par requête serverless. Critique pour les API Routes Next.js.</p>
+      <div class="tags"><span class="tag tg">DATABASE_URL:6543</span><span class="tag tr">−200ms</span></div>
+    </div>
+    <div class="card gold">
+      <div class="card-ico" style="font-size:24px;margin-bottom:12px;">📊</div>
+      <h3>Index stratégiques — 2h</h3>
+      <p>Index sur les colonnes les plus filtrées : user_id, created_at DESC, is_published. Analyser les slow queries avec supabase inspect db --verbose.</p>
+      <div class="code" style="margin-top:8px;font-size:11px;">
+<span class="cm">-- Index performance critiques</span>
+CREATE INDEX idx_watch_user
+  ON watch_events(user_id, created_at DESC);
+CREATE INDEX idx_videos_level
+  ON videos(required_level, is_published);
+CREATE INDEX idx_points_user
+  ON points_history(user_id) INCLUDE (points_earned);</div>
+    </div>
+    <div class="card gold">
+      <div class="card-ico" style="font-size:24px;margin-bottom:12px;">🎯</div>
+      <h3>Select partiel — toujours</h3>
+      <p>Jamais SELECT * sur une table lourde. Sélectionner uniquement les colonnes nécessaires pour l'affichage. Les colonnes binaires (vdocipher_id) coûtent cher si non utilisées.</p>
+      <div class="tags"><span class="tag tg">select('id, title, niveau')</span><span class="tag tr">−40% payload</span></div>
+    </div>
+    <div class="card green">
+      <div class="card-ico" style="font-size:24px;margin-bottom:12px;">⚡</div>
+      <h3>Parallel fetching</h3>
+      <p>Ne jamais enchaîner des requêtes Supabase séquentiellement. Utiliser Promise.all pour les requêtes indépendantes. KPIs + modules + activité = 1 round-trip au lieu de 3.</p>
+      <div class="code" style="margin-top:8px;font-size:11px;">
+<span class="cm">// ❌ Séquentiel : 150ms + 120ms + 80ms</span>
+<span class="ck">const</span> kpis = <span class="ck">await</span> getKpis()
+<span class="ck">const</span> modules = <span class="ck">await</span> getModules()
+<span class="cm">// ✅ Parallèle : max(150, 120, 80) = 150ms</span>
+<span class="ck">const</span> [kpis, modules] = <span class="ck">await</span> Promise.<span class="cf">all</span>([
+  <span class="cf">getKpis</span>(), <span class="cf">getModules</span>()
+])</div>
+    </div>
+    <div class="card green">
+      <div class="card-ico" style="font-size:24px;margin-bottom:12px;">🔄</div>
+      <h3>Realtime sélectif</h3>
+      <p>Supabase Realtime pour les points uniquement (gamification). Pas de subscription inutile sur les tables statiques. Un channel Realtime = une connexion WebSocket permanente = overhead.</p>
+      <div class="tags"><span class="tag tr">1 channel max</span><span class="tag tr">Déconnecter à unmount</span></div>
+    </div>
+    <div class="card green">
+      <div class="card-ico" style="font-size:24px;margin-bottom:12px;">🗄️</div>
+      <h3>Materialized Views</h3>
+      <p>Le tableau de bord KPI (48 200€ revenus, 247 contacts actifs) = aggréger plusieurs tables. Créer une Materialized View rafraîchie toutes les 5 minutes plutôt que calculer à chaque requête.</p>
+      <div class="tags"><span class="tag tg">5min refresh</span><span class="tag tr">−90% query time</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 6. OUTILS DE MESURE ══ -->
+<div class="sec">
+  <div class="sec-tag">// 06 — Outils de mesure</div>
+  <h2 class="sec-title">Comment mesurer et monitorer</h2>
+
+  <div class="g2">
+    <div>
+      <ul class="checklist">
+        <li>
+          <span class="check-ico">🔍</span>
+          <div class="check-text">
+            <strong>PageSpeed Insights (PSI)</strong>
+            <span>pagespeed.web.dev — mesure LCP, INP, CLS sur les vrais utilisateurs Chrome. Utiliser avant ET après chaque optimisation. C'est la source officielle Google.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-ico">⚡</span>
+          <div class="check-text">
+            <strong>Vercel Speed Insights</strong>
+            <span>Intégré directement dans le dashboard Vercel. Mesure les Core Web Vitals sur vos vrais utilisateurs en continu. Alertes si une métrique dégrade.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-ico">📦</span>
+          <div class="check-text">
+            <strong>Bundle Analyzer — bundlejs.com</strong>
+            <span>Analyser le poids de chaque import AVANT de l'ajouter. Alternative : @next/bundle-analyzer. Objectif : &lt;150ko JS par route (gzippé).</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-ico">🎯</span>
+          <div class="check-text">
+            <strong>web-vitals library</strong>
+            <span>Mesurer LCP, INP, CLS en production sur les vrais utilisateurs → envoyer vers PostHog. Alertes si performance dégrade après un deploy.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-ico">🔬</span>
+          <div class="check-text">
+            <strong>Chrome DevTools — Performance Profiler</strong>
+            <span>Enregistrer un profil lors d'une interaction lente. Identifier les Long Tasks (>50ms). Cible : aucun Long Task sur le main thread.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-ico">🗄️</span>
+          <div class="check-text">
+            <strong>Supabase Logs + supabase inspect</strong>
+            <span>supabase inspect db --verbose → identifier les requêtes lentes. Objectif : aucune query > 50ms en P99.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;">Monitoring production — code snippet</h3>
+      <div class="code">
+<span class="cm">// lib/performance.ts — Monitoring CWV en production</span>
+<span class="ck">import</span> { onLCP, onINP, onCLS } <span class="ck">from</span> <span class="cs">'web-vitals'</span>
+
+<span class="ck">export function</span> <span class="cf">initPerformanceMonitoring</span>() {
+  <span class="cm">// Envoyer vers PostHog pour alertes</span>
+  <span class="ck">const</span> <span class="cf">send</span> = (metric: any) => {
+    posthog.capture(<span class="cs">'web_vital'</span>, {
+      metric: metric.name,
+      value: metric.value,
+      rating: metric.rating, <span class="cm">// 'good'|'needs-improvement'|'poor'</span>
+      route: window.location.pathname
+    })
+
+    <span class="cm">// Alerte si dégradation</span>
+    <span class="ck">if</span> (metric.rating === <span class="cs">'poor'</span>) {
+      console.warn(<span class="cs">`⚡ CWV dégradé: ${metric.name} = ${metric.value}ms`</span>)
+    }
+  }
+
+  onLCP(send)
+  onINP(send)
+  onCLS(send)
+}
+
+<span class="cm">// Dans app/layout.tsx :</span>
+<span class="cm">// &lt;PerformanceMonitor /&gt; — Client Component lazy loaded</span>
+<span class="cm">// requestIdleCallback(() => initPerformanceMonitoring())</span></div>
+
+      <div style="background:var(--green-bg);border:1px solid var(--green-border);border-radius:10px;padding:16px 20px;margin-top:16px;">
+        <h4 style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:6px;">🎯 Budget de performance Dermotec</h4>
+        <ul style="font-size:12.5px;color:var(--muted);list-style:none;display:flex;flex-direction:column;gap:4px;">
+          <li>• LCP cible : <strong style="color:var(--ink);">&lt;1.5s</strong> (excellent = &lt;2.5s)</li>
+          <li>• INP cible : <strong style="color:var(--ink);">&lt;100ms</strong> (excellent = &lt;200ms)</li>
+          <li>• CLS cible : <strong style="color:var(--ink);">&lt;0.05</strong> (excellent = &lt;0.1)</li>
+          <li>• TTFB cible : <strong style="color:var(--ink);">&lt;200ms</strong></li>
+          <li>• Bundle JS par route : <strong style="color:var(--ink);">&lt;150ko gzip</strong></li>
+          <li>• Supabase P99 : <strong style="color:var(--ink);">&lt;50ms</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 7. STACK PERFORMANCE ══ -->
+<div class="sec">
+  <div class="sec-tag">// 07 — Stack Performance Complète</div>
+  <h2 class="sec-title">Chaque outil à sa place</h2>
+
+  <div class="card" style="padding:8px 0;">
+    <div class="stack-row">
+      <div class="stack-layer">Bundler</div>
+      <div class="stack-content">
+        <h4>Turbopack (Next.js 15 natif)</h4>
+        <p>Remplace Webpack. Builds 5-10x plus rapides. Hot reload &lt;100ms. Activer avec next dev --turbo ou configurer turbopack dans next.config.ts.</p>
+      </div>
+      <div><span class="gain gain-xl">DX ×10</span></div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-layer">Images</div>
+      <div class="stack-content">
+        <h4>next/image + AVIF + Sharp</h4>
+        <p>AVIF auto-généré. Lazy loading natif. width/height automatiques (anti-CLS). Installer sharp : npm install sharp pour la conversion serveur.</p>
+      </div>
+      <div><span class="gain gain-xl">LCP −50%</span></div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-layer">Fonts</div>
+      <div class="stack-content">
+        <h4>next/font (auto-hébergé)</h4>
+        <p>Google Fonts auto-hébergés, zéro requête externe, fallback metrics auto, font-display swap. Déclarer dans app/layout.tsx, utiliser comme variable CSS.</p>
+      </div>
+      <div><span class="gain gain-xl">CLS = 0</span></div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-layer">Listes</div>
+      <div class="stack-content">
+        <h4>@tanstack/react-virtual</h4>
+        <p>Virtualiser la table contacts et le feed d'activité dès 100 éléments. DOM minimal = interactions instantanées même avec 10 000 contacts.</p>
+      </div>
+      <div><span class="gain gain-lg">INP &lt;50ms</span></div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-layer">Animations</div>
+      <div class="stack-content">
+        <h4>Motion v11 (ex Framer)</h4>
+        <p>Uniquement transform + opacity. Jamais width/height/margin en animation. will-change auto-géré. 2.5x plus rapide que GSAP. GPU uniquement.</p>
+      </div>
+      <div><span class="gain gain-lg">60fps garanti</span></div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-layer">Monitoring</div>
+      <div class="stack-content">
+        <h4>Vercel Speed Insights + web-vitals</h4>
+        <p>CWV en temps réel sur les vrais users. Alertes automatiques si une métrique passe en "poor". Gratuit avec Vercel Pro.</p>
+      </div>
+      <div><span class="gain gain-md">Alertes auto</span></div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-layer">Analyse</div>
+      <div class="stack-content">
+        <h4>Chrome DevTools + bundlejs.com</h4>
+        <p>Performance profiler pour Long Tasks. bundlejs.com pour analyser le poids d'un import AVANT installation. Lighthouse en mode CI via @lhci/cli.</p>
+      </div>
+      <div><span class="gain gain-md">Debug précis</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 8. CLAUDE CODE SKILL ══ -->
+<div class="sec">
+  <div class="sec-tag">// 08 — Claude Code Autonome</div>
+  <h2 class="sec-title">Comment configurer Claude Code pour qu'il maintienne la performance automatiquement</h2>
+
+  <div class="g2">
+    <div class="card dark">
+      <h3>Hook PostToolUse — Vérification auto</h3>
+      <p>À chaque modification de fichier, Claude Code vérifie automatiquement si un import lourd a été ajouté ou si une image n'utilise pas next/image.</p>
+      <div class="code" style="margin-top:12px;">
+<span class="cm"># .claude/hooks/check-perf.js</span>
+<span class="cm"># Déclenché après chaque Write/Edit</span>
+
+<span class="cm"># Vérifier : imports lourds sans lazy loading</span>
+<span class="ck">if</span> grep -q <span class="cs">"import.*motion"</span> $FILE; <span class="ck">then</span>
+  <span class="ck">if</span> ! grep -q <span class="cs">"dynamic.*motion"</span> $FILE; <span class="ck">then</span>
+    echo <span class="cs">"⚠️ Motion devrait être un dynamic import"</span>
+  <span class="ck">fi</span>
+<span class="ck">fi</span>
+
+<span class="cm"># Vérifier : &lt;img> au lieu de next/image</span>
+<span class="ck">if</span> grep -q <span class="cs">"&lt;img "</span> $FILE; <span class="ck">then</span>
+  echo <span class="cs">"❌ Utiliser &lt;Image> de next/image"</span>
+<span class="ck">fi</span></div>
+    </div>
+    <div class="card dark">
+      <h3>Slash command /dermotec-perf</h3>
+      <p>Audit de performance complet avant chaque deploy. Déclenche 3 subagents en parallèle : bundle analysis, DB queries, image optimization.</p>
+      <div class="code" style="margin-top:12px;">
+<span class="cm"># .claude/commands/dermotec-perf.md</span>
+<span class="cm"># Lance 3 agents en parallèle :</span>
+
+<span class="cm">## Agent 1 — Bundle</span>
+Analyser tous les imports et identifier :
+- Libs &gt;50ko sans dynamic import
+- Imports côté client de libs serveur
+- Tree-shaking non optimal
+
+<span class="cm">## Agent 2 — DB Queries</span>
+Vérifier chaque query Supabase :
+- SELECT * non autorisé
+- Queries sans index
+- Requêtes séquentielles à paralléliser
+
+<span class="cm">## Agent 3 — Images & Assets</span>
+Identifier :
+- &lt;img&gt; sans next/image
+- Images sans priority sur LCP
+- Fonts sans next/font</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="logo">Dermotec Performance Guide</div>
+  <p>Stack : Next.js 15 PPR · Turbopack · React 19 Compiler · Supabase pgBouncer · AVIF · Vercel Edge</p>
+  <p style="margin-top:6px;">Mars 2026 — Objectif : LCP &lt;1.5s · INP &lt;100ms · CLS &lt;0.05</p>
+</footer>
+
+</body>
+</html>

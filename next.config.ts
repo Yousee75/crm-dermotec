@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
 
   // Security
   poweredByHeader: false,
+  productionBrowserSourceMaps: false,
 
   // Exclure react-pdf du bundle serveur (conflit Html avec next/document en SSG)
   serverExternalPackages: ['@react-pdf/renderer'],

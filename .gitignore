@@ -42,4 +42,8 @@ next-env.d.ts
 # supabase
 .supabase/
 
+# pnpm (ce projet utilise npm, pas pnpm)
+pnpm-lock.yaml
 
+# playwright MCP logs
+.playwright-mcp/

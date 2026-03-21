@@ -99,12 +99,18 @@ export default function CockpitPage() {
     }
   })
 
-  // NPS Score (simulation)
+  // Satisfaction moyenne (données réelles inscriptions)
   const { data: npsData } = useQuery({
-    queryKey: ['cockpit-nps'],
+    queryKey: ['cockpit-satisfaction'],
     queryFn: async () => {
-      // Simulation NPS - en pratique, viendrais d'une enquête satisfaction
-      return { score: 72, trend: 5 }
+      const { data: notes } = await supabase
+        .from('inscriptions')
+        .select('note_satisfaction')
+        .not('note_satisfaction', 'is', null)
+
+      if (!notes || notes.length === 0) return { score: 0, trend: 0, count: 0 }
+      const avg = notes.reduce((sum, n) => sum + (n.note_satisfaction || 0), 0) / notes.length
+      return { score: Math.round(avg * 10) / 10, trend: 0, count: notes.length }
     }
   })
 
@@ -375,14 +381,13 @@ export default function CockpitPage() {
           <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">NPS Score</p>
-                <p className="text-lg md:text-2xl font-bold text-gray-900">{npsData?.score || 0}</p>
-                <div className="flex items-center gap-1 mt-1">
-                  <TrendingUp className="w-4 h-4 text-green-500" />
-                  <span className="text-sm font-medium text-green-500">
-                    +{npsData?.trend || 0}
-                  </span>
-                </div>
+                <p className="text-sm font-medium text-gray-600">Satisfaction</p>
+                <p className="text-lg md:text-2xl font-bold text-gray-900">
+                  {npsData?.score ? `${npsData.score}/5` : '—'}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {npsData?.count ? `${npsData.count} avis` : 'Aucun avis'}
+                </p>
               </div>
               <div className="w-10 h-10 md:w-12 md:h-12 bg-green-50 rounded-lg flex items-center justify-center">
                 <Star className="w-6 h-6 text-green-500" />
@@ -463,19 +468,19 @@ export default function CockpitPage() {
                 {
                   label: 'Sessions < 50% remplissage',
                   count: alertesData?.sessionsVides || 0,
-                  href: '/sessions?filter=low-fill',
+                  href: '/sessions',
                   color: 'text-yellow-600'
                 },
                 {
                   label: 'Financements retard > 15j',
                   count: alertesData?.financementsRetard || 0,
-                  href: '/financements?filter=late',
+                  href: '/financement',
                   color: 'text-red-600'
                 },
                 {
                   label: 'Rappels en retard',
                   count: alertesData?.rappelsRetard || 0,
-                  href: '/rappels?filter=overdue',
+                  href: '/cockpit',
                   color: 'text-red-600'
                 }
               ].map((alerte) => (
@@ -586,7 +591,7 @@ export default function CockpitPage() {
             <CardTitle icon={<Activity className="w-4 h-4" />}>
               Activité récente
             </CardTitle>
-            <Link href="/activites" className="text-sm text-[#0EA5E9] hover:text-[#082545] transition flex items-center gap-1">
+            <Link href="/analytics" className="text-sm text-[#0EA5E9] hover:text-[#0F172A] transition flex items-center gap-1">
               Voir tout <ArrowRight className="w-3 h-3" />
             </Link>
           </div>

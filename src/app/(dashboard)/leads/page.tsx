@@ -197,8 +197,8 @@ export default function LeadsPage() {
 
       {/* Bulk Actions Bar */}
       {someSelected && (
-        <div className="flex items-center gap-3 bg-[#082545] text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
-          <CheckSquare className="w-4 h-4 text-[#2EC6F3]" />
+        <div className="flex items-center gap-3 bg-[#0F172A] text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
+          <CheckSquare className="w-4 h-4 text-[#0EA5E9]" />
           <span className="text-sm font-medium">{selectedIds.size} sélectionné{selectedIds.size > 1 ? 's' : ''}</span>
           <div className="flex-1" />
           <select
@@ -218,7 +218,7 @@ export default function LeadsPage() {
               clearSelection()
               setBulkStatut('')
             }}
-            className="px-3 py-1.5 bg-[#2EC6F3] rounded-lg text-sm font-medium hover:bg-[#2EC6F3]/80 transition"
+            className="px-3 py-1.5 bg-[#0EA5E9] rounded-lg text-sm font-medium hover:bg-[#0EA5E9]/80 transition"
             disabled={!bulkStatut}
           >
             Appliquer
@@ -257,7 +257,7 @@ export default function LeadsPage() {
                       type="checkbox"
                       checked={allSelected}
                       onChange={toggleAll}
-                      className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
+                      className="w-4 h-4 rounded border-gray-300 text-[#0EA5E9] focus:ring-[#0EA5E9] cursor-pointer"
                     />
                   </th>
                   <th className="px-4 py-3 text-left">
@@ -276,7 +276,7 @@ export default function LeadsPage() {
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                  <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Activite</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -304,8 +304,8 @@ export default function LeadsPage() {
                     <tr
                       key={lead.id}
                       className={cn(
-                        "group hover:bg-[#2EC6F3]/[0.02] transition-colors cursor-pointer",
-                        selectedIds.has(lead.id) && "bg-[#2EC6F3]/[0.05]"
+                        "group hover:bg-[#0EA5E9]/[0.02] transition-colors cursor-pointer",
+                        selectedIds.has(lead.id) && "bg-[#0EA5E9]/[0.05]"
                       )}
                     >
                       <td className="w-10 px-3 py-3" onClick={e => e.stopPropagation()}>
@@ -313,7 +313,7 @@ export default function LeadsPage() {
                           type="checkbox"
                           checked={selectedIds.has(lead.id)}
                           onChange={() => toggleSelect(lead.id)}
-                          className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
+                          className="w-4 h-4 rounded border-gray-300 text-[#0EA5E9] focus:ring-[#0EA5E9] cursor-pointer"
                         />
                       </td>
                       <td className="px-4 py-3">
@@ -327,10 +327,10 @@ export default function LeadsPage() {
                             />
                           </div>
                           <div className="min-w-0">
-                            <p className="font-medium text-[#082545] truncate group-hover:text-[#2EC6F3] transition">{lead.prenom} {lead.nom}</p>
+                            <p className="font-medium text-[#0F172A] truncate group-hover:text-[#0EA5E9] transition">{lead.prenom} {lead.nom}</p>
                             <p className="text-[11px] text-gray-400 truncate">
                               {lead.statut_pro?.replace(/_/g, ' ') || '—'}
-                              {lead.financement_souhaite && <span className="ml-1 text-[#2EC6F3]" title="Financement souhaité">$</span>}
+                              {lead.financement_souhaite && <span className="ml-1 text-[#0EA5E9]" title="Financement souhaité">F</span>}
                             </p>
                           </div>
                         </Link>
@@ -388,17 +388,26 @@ export default function LeadsPage() {
                         <ScoreChip score={lead.score_chaud} />
                       </td>
                       <td className="hidden lg:table-cell px-4 py-3">
-                        <div>
-                          <span className="text-xs text-gray-500 whitespace-nowrap block">
-                            {new Date(lead.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-                          </span>
-                          <span className="text-[10px] text-gray-300">
-                            {(() => {
-                              const d = Math.floor((Date.now() - new Date(lead.created_at).getTime()) / 86400000)
-                              return d === 0 ? "Aujourd'hui" : d === 1 ? 'Hier' : `il y a ${d}j`
-                            })()}
-                          </span>
-                        </div>
+                        {(() => {
+                          // Dernier contact > date création (plus actionnable)
+                          const ref = lead.date_dernier_contact || lead.created_at
+                          const d = Math.floor((Date.now() - new Date(ref).getTime()) / 86400000)
+                          const isStale = d > 7 && ['NOUVEAU', 'CONTACTE', 'QUALIFIE'].includes(lead.statut)
+                          const label = lead.date_dernier_contact ? 'Contact' : 'Cree'
+                          return (
+                            <div>
+                              <span className={cn(
+                                'text-xs whitespace-nowrap block',
+                                isStale ? 'text-red-500 font-medium' : 'text-gray-500'
+                              )}>
+                                {d === 0 ? "Aujourd'hui" : d === 1 ? 'Hier' : `il y a ${d}j`}
+                              </span>
+                              <span className="text-[10px] text-gray-300">
+                                {label} {new Date(ref).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                              </span>
+                            </div>
+                          )
+                        })()}
                       </td>
                     </tr>
                   )
@@ -446,7 +455,7 @@ export default function LeadsPage() {
                         className={cn(
                           'w-8 h-8 rounded-md text-xs font-medium transition',
                           pageNum === page
-                            ? 'bg-[#2EC6F3] text-white shadow-sm'
+                            ? 'bg-[#0EA5E9] text-white shadow-sm'
                             : 'text-gray-500 hover:bg-gray-100'
                         )}
                       >
@@ -485,7 +494,7 @@ export default function LeadsPage() {
                 type="text"
                 value={newLead.prenom}
                 onChange={(e) => setNewLead(prev => ({ ...prev, prenom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
                 placeholder="Marie"
                 autoFocus
               />
@@ -496,7 +505,7 @@ export default function LeadsPage() {
                 type="text"
                 value={newLead.nom}
                 onChange={(e) => setNewLead(prev => ({ ...prev, nom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
                 placeholder="Dupont"
               />
             </div>
@@ -508,7 +517,7 @@ export default function LeadsPage() {
               type="email"
               value={newLead.email}
               onChange={(e) => setNewLead(prev => ({ ...prev, email: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
               placeholder="marie@exemple.fr"
             />
           </div>
@@ -519,7 +528,7 @@ export default function LeadsPage() {
               type="tel"
               value={newLead.telephone}
               onChange={(e) => setNewLead(prev => ({ ...prev, telephone: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
               placeholder="06 12 34 56 78"
             />
           </div>
@@ -529,7 +538,7 @@ export default function LeadsPage() {
             <select
               value={newLead.source}
               onChange={(e) => setNewLead(prev => ({ ...prev, source: e.target.value as typeof prev.source }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] bg-white"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9] bg-white"
             >
               <option value="formulaire">Formulaire</option>
               <option value="telephone">Téléphone</option>

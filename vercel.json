@@ -1,1 +1,8 @@
-{ "installCommand": "npm install --force", "buildCommand": "npm run build" }
+{
+  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npm run build",
+  "crons": [
+    { "path": "/api/cadence/run", "schedule": "0 8 * * 1-5" },
+    { "path": "/api/sessions/auto-transition", "schedule": "0 7 * * *" }
+  ]
+}

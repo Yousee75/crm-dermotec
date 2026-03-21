@@ -20,19 +20,10 @@ function getSupabaseUrl(): string {
   const directUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://wtbrdxijvtelluwfmgsf.supabase.co'
 
   // En production, toujours utiliser le pooler pour service role
-  if (poolerUrl && process.env.VERCEL_ENV === 'production') {
-    console.log('[Supabase] Using pooler URL for production service role')
+  if (poolerUrl && (process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production')) {
     return poolerUrl
   }
 
-  // En dev, préférer le pooler si configuré, sinon direct
-  if (poolerUrl && process.env.NODE_ENV === 'production') {
-    console.log('[Supabase] Using pooler URL for service role')
-    return poolerUrl
-  }
-
-  // Fallback sur URL directe (dev local uniquement)
-  console.log('[Supabase] Using direct URL (dev mode)')
   return directUrl
 }
 

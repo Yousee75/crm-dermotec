@@ -10,6 +10,8 @@
 - [research_features_roadmap.md](research_features_roadmap.md) — Roadmap 4 phases avec budget (37$ -> 470$/mo) et matrice differentiation vs CRM FR
 - [research_conversion_payment.md](research_conversion_payment.md) — Conversion (psychologie, FOMO, social proof) + Paiement (SEPA, Alma BNPL, Apple Pay, flow convention+paiement)
 - [research_ux_conversion_patterns.md](research_ux_conversion_patterns.md) — UX patterns prouvés : sticky CTA +25%, social proof +15%, countdown +35%, before/after +83%, multi-step forms +300%
+- [research_workflows_integrations.md](research_workflows_integrations.md) — Outils workflow (Inngest, Crisp, Cal.com, Yousign, PostHog) + séquences email/SMS + suivi commercial auto
+- [research_parcours_prospect_complet.md](research_parcours_prospect_complet.md) — 6 scénarios complets (autofinancement, OPCO, FT, CPF, alumni, réactivation) avec templates messages et timing
 
 ## Architecture & Projet
 

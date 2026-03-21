@@ -1,10 +1,16 @@
-'use client'
+import { headers } from 'next/headers'
 
-export default function InscriptionLayout({
+// Force dynamic rendering pour toutes les pages d'inscription
+export const dynamic = 'force-dynamic'
+
+export default async function InscriptionLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Force dynamic rendering
+  await headers()
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -41,33 +47,28 @@ export default function InscriptionLayout({
               <h3 className="font-semibold text-lg mb-4">Dermotec Advanced</h3>
               <p className="text-gray-300 text-sm">
                 Centre de formation esthétique certifié Qualiopi et distributeur NPM France.
-                Nous formons les professionnelles de demain.
               </p>
             </div>
-
             <div>
               <h3 className="font-semibold mb-4">Contact</h3>
               <div className="space-y-2 text-sm text-gray-300">
-                <div>📍 75 Bd Richard Lenoir, Paris 11e</div>
-                <div>📞 01 43 14 28 28</div>
-                <div>✉️ contact@dermotec-advanced.fr</div>
+                <div>75 Bd Richard Lenoir, Paris 11e</div>
+                <div>01 88 33 43 43</div>
+                <div>dermotec.fr@gmail.com</div>
               </div>
             </div>
-
             <div>
               <h3 className="font-semibold mb-4">Formations</h3>
               <ul className="space-y-1 text-sm text-gray-300">
                 <li>Dermo-Esthétique</li>
-                <li>Soins Visage & Corps</li>
-                <li>Laser & IPL</li>
-                <li>Hygiène & Sécurité</li>
+                <li>Soins Visage</li>
+                <li>Laser et IPL</li>
+                <li>Hygiène</li>
               </ul>
             </div>
           </div>
-
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-            © 2026 Dermotec Advanced. Tous droits réservés. |
-            <span className="ml-2">Organisme de formation certifié Qualiopi</span>
+            © 2026 Dermotec Advanced. Tous droits réservés. | Certifié Qualiopi
           </div>
         </div>
       </footer>

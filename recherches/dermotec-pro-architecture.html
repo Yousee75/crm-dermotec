@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermotec — Système Professionnel Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f6f4f0;--ink:#0d0c0a;--surface:#fff;--border:#e5e0d8;--muted:#7a7266;
+  --gold:#a86b00;--gold-bg:#fdf6e3;--gold-b:#e8cc88;
+  --green:#155e38;--green-bg:#f0faf4;--green-b:#86efac;
+  --blue:#1a3a6c;--blue-bg:#eff6ff;--blue-b:#93c5fd;
+  --red:#991b1b;--red-bg:#fef2f2;--red-b:#fca5a5;
+  --purple:#5b21b6;--purple-bg:#f5f3ff;--purple-b:#c4b5fd;
+  --orange:#9a3412;--orange-bg:#fff7ed;--orange-b:#fed7aa;
+  --zinc:#3f3f46;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;}
+
+.hero{background:var(--ink);color:#f6f4f0;padding:72px 80px 56px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;right:-80px;top:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(168,107,0,0.15) 0%,transparent 65%);pointer-events:none;}
+.hero-tag{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(246,244,240,0.35);margin-bottom:16px;}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(30px,5vw,68px);font-weight:800;line-height:1.03;letter-spacing:-1.5px;margin-bottom:14px;}
+.hero h1 em{color:#d4a853;font-style:italic;}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(246,244,240,0.5);max-width:620px;margin-bottom:40px;}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:rgba(246,244,240,0.7);font-size:12px;padding:6px 14px;border-radius:100px;}
+.pill-dot{width:6px;height:6px;border-radius:50%;}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 80px;}
+@media(max-width:800px){.wrap{padding:0 24px;}.hero{padding:48px 24px;}}
+
+.sec{padding:64px 0;border-bottom:1px solid var(--border);}
+.sec-tag{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(22px,3vw,40px);font-weight:800;line-height:1.1;margin-bottom:10px;letter-spacing:-0.5px;}
+.sec-sub{font-size:14.5px;font-weight:300;color:var(--muted);max-width:680px;margin-bottom:40px;}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;}
+.card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:7px;letter-spacing:-0.2px;}
+.card p{font-size:13px;color:var(--muted);line-height:1.6;}
+.card.gold{border-left:3px solid var(--gold);}
+.card.green{border-left:3px solid var(--green);}
+.card.blue{border-left:3px solid var(--blue);}
+.card.red{border-left:3px solid var(--red);}
+.card.purple{border-left:3px solid var(--purple);}
+.card.dark{background:var(--ink);border-color:transparent;}
+.card.dark h3{color:#f6f4f0;}
+.card.dark p{color:rgba(246,244,240,0.5);}
+
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.tag{font-family:'Geist Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid;}
+.tg{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-b);}
+.tr{background:var(--green-bg);color:var(--green);border-color:var(--green-b);}
+.tb{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-b);}
+.tp{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-b);}
+.trr{background:var(--red-bg);color:var(--red);border-color:var(--red-b);}
+.to{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-b);}
+
+/* ══ COLOR SYSTEM ══ */
+.token-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.token-table th{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);color:var(--muted);font-weight:400;}
+.token-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.token-table tr:hover td{background:var(--gold-bg);}
+.color-swatch{display:flex;align-items:center;gap:10px;}
+.swatch{width:24px;height:24px;border-radius:6px;flex-shrink:0;border:1px solid rgba(0,0,0,0.08);}
+.token-name{font-family:'Geist Mono',monospace;font-size:11px;color:var(--zinc);}
+.token-usage{font-size:12px;color:var(--muted);}
+.token-role{font-size:11px;font-weight:600;}
+
+/* ══ HIERARCHY RULES ══ */
+.hierarchy-demo{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;margin-bottom:20px;}
+.hier-row{display:flex;align-items:center;gap:20px;padding:12px 0;border-bottom:1px solid var(--border);}
+.hier-row:last-child{border-bottom:none;}
+.hier-sample{flex:1;}
+.hier-rule{font-size:12px;color:var(--muted);width:200px;flex-shrink:0;font-style:italic;}
+.hier-dont{font-size:12px;color:var(--red);width:140px;flex-shrink:0;}
+
+/* ══ PLAN TIERS ══ */
+.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+@media(max-width:900px){.plan-grid{grid-template-columns:1fr 1fr;}}
+.plan-col{border-right:1px solid var(--border);}
+.plan-col:last-child{border-right:none;}
+.plan-header{padding:20px;background:var(--surface);border-bottom:1px solid var(--border);text-align:center;}
+.plan-col.recommended .plan-header{background:var(--ink);color:#f6f4f0;}
+.plan-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:4px;}
+.plan-col.recommended .plan-name{color:#d4a853;}
+.plan-price{font-family:'Geist Mono',monospace;font-size:22px;font-weight:500;color:var(--gold);}
+.plan-col.recommended .plan-price{color:#f0c878;}
+.plan-freq{font-size:11px;color:var(--muted);}
+.plan-col.recommended .plan-freq{color:rgba(246,244,240,0.4);}
+.plan-body{padding:0;}
+.plan-row{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);font-size:12.5px;}
+.plan-row:last-child{border-bottom:none;}
+.plan-feat{color:var(--muted);}
+.plan-val{font-weight:600;font-size:12px;}
+.plan-val.yes{color:var(--green);}
+.plan-val.no{color:#d1d5db;}
+.plan-val.lim{color:var(--gold);}
+.plan-col.recommended .plan-row{background:rgba(0,0,0,0.02);}
+
+/* ══ FEATURE GATE CODE ══ */
+.code{background:#0d0c0a;color:#e8e4de;border-radius:10px;padding:20px 24px;font-family:'Geist Mono',monospace;font-size:12px;line-height:1.85;overflow-x:auto;margin-top:12px;}
+.cm{color:#4a4742;}.ck{color:#f87171;}.cs{color:#86efac;}.cf{color:#c084fc;}.cv{color:#67e8f9;}.cn{color:#fcd34d;}
+
+/* ══ SECURITY LAYERS ══ */
+.sec-layers{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.sec-layer{display:grid;grid-template-columns:160px 1fr 120px;gap:0;border-bottom:1px solid var(--border);align-items:stretch;}
+.sec-layer:last-child{border-bottom:none;}
+.sec-layer .layer-num{background:var(--ink);color:#f6f4f0;padding:18px 20px;display:flex;flex-direction:column;justify-content:center;}
+.layer-n{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#d4a853;line-height:1;}
+.layer-l{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(246,244,240,0.3);text-transform:uppercase;margin-top:3px;}
+.sec-layer .layer-body{padding:18px 20px;background:var(--surface);}
+.layer-body h4{font-size:13.5px;font-weight:600;margin-bottom:4px;}
+.layer-body p{font-size:12px;color:var(--muted);line-height:1.5;}
+.sec-layer .layer-eff{padding:18px 12px;background:var(--bg);border-left:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.eff-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
+.eff-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+@media(max-width:700px){.sec-layer{grid-template-columns:1fr;}.sec-layer .layer-eff{flex-direction:row;gap:8px;border-left:none;border-top:1px solid var(--border);justify-content:flex-start;}}
+
+/* ══ THREAT TABLE ══ */
+.threat-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.threat-table th{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);color:var(--muted);font-weight:400;}
+.threat-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.threat-table tr:hover td{background:rgba(255,255,255,0.7);}
+.threat-name{font-weight:600;color:var(--ink);}
+.threat-impact{font-size:11px;}
+.sev-high{color:var(--red);font-weight:700;}
+.sev-med{color:var(--orange);font-weight:600;}
+.sev-low{color:var(--gold);font-weight:600;}
+.fix-code{font-family:'Geist Mono',monospace;font-size:10px;background:var(--bg);padding:1px 6px;border-radius:3px;border:1px solid var(--border);}
+
+/* ══ CALLOUT ══ */
+.callout{background:var(--ink);color:#f6f4f0;border-radius:14px;padding:32px 36px;display:flex;gap:20px;align-items:flex-start;margin-bottom:24px;}
+.callout-ico{font-size:32px;flex-shrink:0;}
+.callout h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#d4a853;margin-bottom:6px;}
+.callout p{font-size:13.5px;color:rgba(246,244,240,0.6);line-height:1.6;}
+
+/* ══ RATE LIMIT VISUAL ══ */
+.rate-viz{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-top:14px;}
+.rate-row{display:flex;align-items:center;gap:16px;margin-bottom:12px;}
+.rate-row:last-child{margin-bottom:0;}
+.rate-plan{font-size:12px;font-weight:600;width:100px;flex-shrink:0;}
+.rate-bar-wrap{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.rate-bar{height:100%;border-radius:4px;}
+.rate-val{font-family:'Geist Mono',monospace;font-size:11px;width:80px;text-align:right;flex-shrink:0;}
+
+footer{background:var(--ink);color:#f6f4f0;padding:48px 80px;text-align:center;}
+footer .logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#d4a853;margin-bottom:8px;}
+footer p{font-size:11px;color:rgba(246,244,240,0.3);}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">// Dermotec — Architecture Produit Pro · Mars 2026</div>
+  <h1>L'outil le plus <em>professionnel</em><br>de son segment</h1>
+  <p class="hero-sub">Système de couleurs sémantique · Feature gating par plan · Sécurité 7 couches contre vol de data et attaques. Niveau agence mondiale, coût startup.</p>
+  <div class="hero-pills">
+    <span class="pill"><span class="pill-dot" style="background:#d4a853"></span>Design tokens sémantiques</span>
+    <span class="pill"><span class="pill-dot" style="background:#86efac"></span>4 plans / Feature gating</span>
+    <span class="pill"><span class="pill-dot" style="background:#f87171"></span>Anti-exfiltration data</span>
+    <span class="pill"><span class="pill-dot" style="background:#c4b5fd"></span>Rate limiting intelligent</span>
+    <span class="pill"><span class="pill-dot" style="background:#93c5fd"></span>Cloudflare WAF + RLS</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══ 1. SYSTÈME DE COULEURS ══ -->
+<div class="sec">
+  <div class="sec-tag">// 01 — Système de Couleurs</div>
+  <h2 class="sec-title">Les règles de couleur qui font la différence</h2>
+  <p class="sec-sub">Un vrai système professionnel ne s'improvise pas. Il repose sur 3 niveaux de tokens : Primitifs → Sémantiques → Composants. C'est ce que font Vercel, Linear, IBM Carbon, Google Material.</p>
+
+  <div class="callout">
+    <div class="callout-ico">🎨</div>
+    <div>
+      <h3>La règle des 3 niveaux — la clé de tout</h3>
+      <p><strong style="color:#f0c878">Primitifs</strong> : les valeurs brutes (#d4a853, #16a34a). <strong style="color:#f0c878">Sémantiques</strong> : la signification (color.success, color.brand). <strong style="color:#f0c878">Composants</strong> : l'usage précis (button.primary.bg). Changer un primitif = tout le système se met à jour. C'est comme ça que Vercel et Linear font leur dark mode en une ligne.</p>
+    </div>
+  </div>
+
+  <!-- Token table -->
+  <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">Tokens sémantiques Dermotec — Référence complète</h3>
+  <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);margin-bottom:28px;">
+    <table class="token-table">
+      <thead><tr><th>Token Sémantique</th><th>Primitif Dark</th><th>Primitif Light</th><th>Rôle</th><th>Utilisation</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" style="background:var(--bg);font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 14px;">// Brand & Accent</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#d4a853"></div><span class="token-name">color.brand.primary</span></div></td><td class="token-name">#d4a853</td><td class="token-name">#a86b00</td><td><span class="token-role" style="color:var(--gold)">Brand</span></td><td class="token-usage">CTA principal, liens actifs, valeurs KPI importantes</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#e8c97a"></div><span class="token-name">color.brand.hover</span></div></td><td class="token-name">#e8c97a</td><td class="token-name">#8a5800</td><td><span class="token-role" style="color:var(--gold)">Brand</span></td><td class="token-usage">Hover sur éléments brand</td></tr>
+        <tr><td colspan="5" style="background:var(--bg);font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 14px;">// Sémantique (succès, erreur, warning, info)</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#22c55e"></div><span class="token-name">color.success.default</span></div></td><td class="token-name">#22c55e</td><td class="token-name">#16a34a</td><td><span class="token-role" style="color:#16a34a">✓ Succès</span></td><td class="token-usage">Deal gagné, inscription validée, quiz réussi, streak actif</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#86efac"></div><span class="token-name">color.success.subtle</span></div></td><td class="token-name">rgba(34,197,94,0.1)</td><td class="token-name">#f0faf4</td><td><span class="token-role" style="color:#16a34a">✓ Fond succès</span></td><td class="token-usage">Background de badges "actif", cards de deals gagnés</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#ef4444"></div><span class="token-name">color.danger.default</span></div></td><td class="token-name">#ef4444</td><td class="token-name">#dc2626</td><td><span class="token-role" style="color:#dc2626">⚠ Danger</span></td><td class="token-usage">Actions destructrices, erreurs critiques, deal perdu, urgent</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#fca5a5"></div><span class="token-name">color.danger.subtle</span></div></td><td class="token-name">rgba(239,68,68,0.1)</td><td class="token-name">#fef2f2</td><td><span class="token-role" style="color:#dc2626">⚠ Fond danger</span></td><td class="token-usage">Background d'alertes, notification critique</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#f59e0b"></div><span class="token-name">color.warning.default</span></div></td><td class="token-name">#f59e0b</td><td class="token-name">#d97706</td><td><span class="token-role" style="color:#d97706">! Warning</span></td><td class="token-usage">Relances en retard, délais approchant, streak en danger</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#3b82f6"></div><span class="token-name">color.info.default</span></div></td><td class="token-name">#3b82f6</td><td class="token-name">#2563eb</td><td><span class="token-role" style="color:#2563eb">ⓘ Info</span></td><td class="token-usage">Nouveaux contacts, informations neutres, prospects</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#a855f7"></div><span class="token-name">color.ai.default</span></div></td><td class="token-name">#a855f7</td><td class="token-name">#7c3aed</td><td><span class="token-role" style="color:#7c3aed">🤖 IA</span></td><td class="token-usage">Uniquement pour les insights IA et le coach Claude</td></tr>
+        <tr><td colspan="5" style="background:var(--bg);font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 14px;">// Texte (hiérarchie)</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#fafafa;border:1px solid #ddd"></div><span class="token-name">color.text.primary</span></div></td><td class="token-name">#fafafa</td><td class="token-name">#09090b</td><td><span class="token-role">Niveau 1</span></td><td class="token-usage">Titres, valeurs KPI, noms de contacts, éléments clés</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#a1a1aa"></div><span class="token-name">color.text.secondary</span></div></td><td class="token-name">#a1a1aa</td><td class="token-name">#52525b</td><td><span class="token-role">Niveau 2</span></td><td class="token-usage">Corps de texte, descriptions, métadonnées importantes</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#71717a"></div><span class="token-name">color.text.tertiary</span></div></td><td class="token-name">#71717a</td><td class="token-name">#71717a</td><td><span class="token-role">Niveau 3</span></td><td class="token-usage">Labels, timestamps, métadonnées secondaires</td></tr>
+        <tr><td><div class="color-swatch"><div class="swatch" style="background:#3f3f46"></div><span class="token-name">color.text.disabled</span></div></td><td class="token-name">#3f3f46</td><td class="token-name">#d4d4d8</td><td><span class="token-role">Désactivé</span></td><td class="token-usage">Features verrouillées par plan, éléments inactifs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Règles hiérarchie -->
+  <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">Les 8 règles de hiérarchie — JAMAIS dévier</h3>
+  <div class="hierarchy-demo">
+    <div class="hier-row">
+      <div class="hier-sample">
+        <span style="font-size:28px;font-weight:800;font-family:'Syne',sans-serif;color:#0a0a0b;letter-spacing:-1px;">48 200 €</span>
+      </div>
+      <div class="hier-rule">Valeurs KPI : display font, grande taille, text.primary</div>
+      <div class="hier-dont">✗ Jamais color.info</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-sample" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="background:#f0faf4;color:#166534;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;border:1px solid #86efac;">✓ Payé</span>
+        <span style="background:#fef2f2;color:#dc2626;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;border:1px solid #fca5a5;">⚠ Urgent</span>
+        <span style="background:#fff7ed;color:#9a3412;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;border:1px solid #fed7aa;">! Relance</span>
+        <span style="background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;border:1px solid #93c5fd;">ⓘ Nouveau</span>
+      </div>
+      <div class="hier-rule">Badges statuts : couleur sémantique + fond subtle + border</div>
+      <div class="hier-dont">✗ Jamais fond plein saturé</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-sample">
+        <span style="font-size:14px;color:#0a0a0b;font-weight:500;">Sophie Martin</span><br>
+        <span style="font-size:12px;color:#71717a;">Institut Paris 8e · Esthéticienne</span>
+      </div>
+      <div class="hier-rule">Infos contact : primary (nom) + tertiary (meta)</div>
+      <div class="hier-dont">✗ Jamais même poids</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-sample" style="display:flex;gap:8px;align-items:center;">
+        <button style="background:#d4a853;color:#0a0a0b;border:none;font-size:12.5px;font-weight:600;padding:8px 18px;border-radius:8px;cursor:pointer;">+ Nouveau contact</button>
+        <button style="background:transparent;color:#52525b;border:1px solid #e4e4e7;font-size:12.5px;padding:8px 14px;border-radius:8px;cursor:pointer;">↑ Importer</button>
+      </div>
+      <div class="hier-rule">Actions : brand.primary = 1 seule action principale par écran</div>
+      <div class="hier-dont">✗ Jamais 2 CTAs brand</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-sample" style="display:flex;gap:8px;align-items:center;">
+        <span style="color:#71717a;font-size:11px;font-family:'Geist Mono',monospace;letter-spacing:1px;text-transform:uppercase;">Revenus formations</span><br>
+      </div>
+      <div class="hier-rule">Labels / colonnes : Geist Mono, 9-11px, uppercase, letter-spacing, text.tertiary</div>
+      <div class="hier-dont">✗ Jamais corps normal</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-sample" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="background:rgba(168,107,0,0.08);color:#a86b00;font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #e8cc88;font-family:'Geist Mono',monospace;">Peeling</span>
+        <span style="background:rgba(26,58,108,0.08);color:#1a3a6c;font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #93c5fd;font-family:'Geist Mono',monospace;">Médecin</span>
+        <span style="background:rgba(21,94,56,0.08);color:#155e38;font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #86efac;font-family:'Geist Mono',monospace;">Confirmé ✓</span>
+      </div>
+      <div class="hier-rule">Tags / chips : Geist Mono, 10px, subtle background, couleur semantique</div>
+      <div class="hier-dont">✗ Jamais fond plein</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-sample" style="opacity:0.35;pointer-events:none;">
+        <button style="background:#d4a853;color:#0a0a0b;border:none;font-size:12.5px;font-weight:600;padding:8px 18px;border-radius:8px;opacity:0.35;">🔒 Analyse IA (Plan Pro)</button>
+      </div>
+      <div class="hier-rule">Features verrouillées : opacity 0.35 + 🔒 + tooltip plan requis</div>
+      <div class="hier-dont">✗ Jamais masquer</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-sample">
+        <div style="height:4px;background:#e4e4e7;border-radius:2px;width:200px;overflow:hidden;"><div style="height:4px;width:68%;background:linear-gradient(90deg,#d4a853,#f0c878);border-radius:2px;"></div></div>
+        <span style="font-size:11px;color:#71717a;font-family:'Geist Mono',monospace;margin-top:4px;display:block;">Score maîtrise · 68%</span>
+      </div>
+      <div class="hier-rule">Progress bars : brand.primary gradient, jamais de couleurs vives</div>
+      <div class="hier-dont">✗ Jamais de rouge</div>
+    </div>
+  </div>
+
+  <div class="code">
+<span class="cm">/* tokens.css — Source de vérité unique — Dermotec Design System */</span>
+:root {
+  <span class="cm">/* ─ Primitifs (jamais utilisés directement dans les composants) ─ */</span>
+  <span class="cv">--p-gold-500</span>: #d4a853;   <span class="cv">--p-green-500</span>: #22c55e;   <span class="cv">--p-red-500</span>: #ef4444;
+  <span class="cv">--p-zinc-900</span>: #18181b;   <span class="cv">--p-zinc-500</span>: #71717a;   <span class="cv">--p-zinc-100</span>: #f4f4f5;
+
+  <span class="cm">/* ─ Sémantiques (seuls à utiliser dans le code) ─ */</span>
+  <span class="cv">--color-brand</span>: var(<span class="cv">--p-gold-500</span>);
+  <span class="cv">--color-success</span>: var(<span class="cv">--p-green-500</span>);
+  <span class="cv">--color-danger</span>: var(<span class="cv">--p-red-500</span>);
+  <span class="cv">--color-text-1</span>: var(<span class="cv">--p-zinc-900</span>);   <span class="cm">/* titres */</span>
+  <span class="cv">--color-text-2</span>: var(<span class="cv">--p-zinc-500</span>);   <span class="cm">/* corps */</span>
+
+  <span class="cm">/* ─ Composants (cas d'usage ultra-précis) ─ */</span>
+  <span class="cv">--btn-primary-bg</span>: var(<span class="cv">--color-brand</span>);
+  <span class="cv">--badge-success-bg</span>: color-mix(in srgb, var(<span class="cv">--color-success</span>) 10%, transparent);
+}
+
+[data-theme="dark"] {
+  <span class="cm">/* Seuls les primitifs changent — les sémantiques s'adaptent auto */</span>
+  <span class="cv">--p-zinc-900</span>: #fafafa;
+  <span class="cv">--p-zinc-100</span>: #09090b;
+}</div>
+</div>
+
+<!-- ══ 2. FEATURE GATING ══ -->
+<div class="sec">
+  <div class="sec-tag">// 02 — Feature Gating par Plan</div>
+  <h2 class="sec-title">4 plans · Architecture de fonctionnalités</h2>
+  <p class="sec-sub">La règle d'or : ne jamais cacher une feature — toujours la montrer verrouillée avec le plan requis. Un pro qui voit ce qu'il manque est 3x plus susceptible d'upgrade.</p>
+
+  <div class="plan-grid">
+    <!-- Découverte -->
+    <div class="plan-col">
+      <div class="plan-header">
+        <div class="plan-name">Découverte</div>
+        <div class="plan-price">0€</div>
+        <div class="plan-freq">/mois · Forever free</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-row"><span class="plan-feat">Contacts</span><span class="plan-val lim">50 max</span></div>
+        <div class="plan-row"><span class="plan-feat">Modules Academy</span><span class="plan-val lim">Niveau 1 only</span></div>
+        <div class="plan-row"><span class="plan-feat">Pipeline</span><span class="plan-val lim">1 pipeline</span></div>
+        <div class="plan-row"><span class="plan-feat">Gamification</span><span class="plan-val yes">✓ Complet</span></div>
+        <div class="plan-row"><span class="plan-feat">Export CSV</span><span class="plan-val no">—</span></div>
+        <div class="plan-row"><span class="plan-feat">Séquences email</span><span class="plan-val no">—</span></div>
+        <div class="plan-row"><span class="plan-feat">Coach IA</span><span class="plan-val no">—</span></div>
+        <div class="plan-row"><span class="plan-feat">Analytics avancé</span><span class="plan-val no">—</span></div>
+        <div class="plan-row"><span class="plan-feat">API access</span><span class="plan-val no">—</span></div>
+        <div class="plan-row"><span class="plan-feat">Multi-utilisateurs</span><span class="plan-val no">—</span></div>
+      </div>
+    </div>
+    <!-- Pro — RECOMMENDED -->
+    <div class="plan-col recommended">
+      <div class="plan-header">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#d4a853;margin-bottom:4px;">⭐ RECOMMANDÉ</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">49€</div>
+        <div class="plan-freq">/mois · ou 39€/mois annuel</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Contacts</span><span class="plan-val yes">500 contacts</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Modules Academy</span><span class="plan-val yes">Niveaux 1-3</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Pipeline</span><span class="plan-val yes">3 pipelines</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Gamification</span><span class="plan-val yes">✓ Complet</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Export CSV</span><span class="plan-val yes">✓</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Séquences email</span><span class="plan-val yes">5 séquences</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Coach IA</span><span class="plan-val lim">20 / mois</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Analytics avancé</span><span class="plan-val yes">✓</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">API access</span><span class="plan-val no">—</span></div>
+        <div class="plan-row"><span class="plan-feat" style="color:rgba(246,244,240,0.6)">Multi-utilisateurs</span><span class="plan-val lim">3 users</span></div>
+      </div>
+    </div>
+    <!-- Expert -->
+    <div class="plan-col">
+      <div class="plan-header">
+        <div class="plan-name">Expert</div>
+        <div class="plan-price">99€</div>
+        <div class="plan-freq">/mois · ou 79€/mois annuel</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-row"><span class="plan-feat">Contacts</span><span class="plan-val yes">Illimités</span></div>
+        <div class="plan-row"><span class="plan-feat">Modules Academy</span><span class="plan-val yes">Niveaux 1-5</span></div>
+        <div class="plan-row"><span class="plan-feat">Pipeline</span><span class="plan-val yes">Illimités</span></div>
+        <div class="plan-row"><span class="plan-feat">Gamification</span><span class="plan-val yes">✓ + badges custom</span></div>
+        <div class="plan-row"><span class="plan-feat">Export CSV</span><span class="plan-val yes">✓ + PDF</span></div>
+        <div class="plan-row"><span class="plan-feat">Séquences email</span><span class="plan-val yes">Illimitées</span></div>
+        <div class="plan-row"><span class="plan-feat">Coach IA</span><span class="plan-val yes">Illimité</span></div>
+        <div class="plan-row"><span class="plan-feat">Analytics avancé</span><span class="plan-val yes">✓ + export</span></div>
+        <div class="plan-row"><span class="plan-feat">API access</span><span class="plan-val yes">✓ REST + webhooks</span></div>
+        <div class="plan-row"><span class="plan-feat">Multi-utilisateurs</span><span class="plan-val yes">10 users</span></div>
+      </div>
+    </div>
+    <!-- Clinique -->
+    <div class="plan-col">
+      <div class="plan-header">
+        <div class="plan-name">Clinique</div>
+        <div class="plan-price">Sur devis</div>
+        <div class="plan-freq">Tarif annuel · Multi-sites</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-row"><span class="plan-feat">Contacts</span><span class="plan-val yes">Illimités</span></div>
+        <div class="plan-row"><span class="plan-feat">Modules Academy</span><span class="plan-val yes">White-label</span></div>
+        <div class="plan-row"><span class="plan-feat">Pipeline</span><span class="plan-val yes">✓ + multi-sites</span></div>
+        <div class="plan-row"><span class="plan-feat">Gamification</span><span class="plan-val yes">✓ Entièrement custom</span></div>
+        <div class="plan-row"><span class="plan-feat">Export CSV</span><span class="plan-val yes">✓ Tout format</span></div>
+        <div class="plan-row"><span class="plan-feat">Séquences email</span><span class="plan-val yes">✓ + SMTP custom</span></div>
+        <div class="plan-row"><span class="plan-feat">Coach IA</span><span class="plan-val yes">✓ Fine-tuned</span></div>
+        <div class="plan-row"><span class="plan-feat">Analytics avancé</span><span class="plan-val yes">✓ BI custom</span></div>
+        <div class="plan-row"><span class="plan-feat">API access</span><span class="plan-val yes">✓ GraphQL + webhooks</span></div>
+        <div class="plan-row"><span class="plan-feat">Multi-utilisateurs</span><span class="plan-val yes">Illimités + SSO</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code feature gate -->
+  <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin:28px 0 12px;">Architecture feature gating — Sans if(plan==='pro') partout</h3>
+  <div class="g2">
+    <div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Le problème avec la plupart des implémentations : les vérifications de plan parsèment tout le code comme des mines. La solution : un hook centralisé.</p>
+      <div class="code">
+<span class="cm">// lib/plans/features.ts — Source de vérité unique</span>
+<span class="cm">// JAMAIS if(user.plan === 'pro') dans les composants</span>
+
+<span class="ck">export const</span> FEATURES = {
+  contacts_limit: {
+    free: <span class="cn">50</span>, pro: <span class="cn">500</span>, expert: <span class="cn">Infinity</span>, clinique: <span class="cn">Infinity</span>
+  },
+  ai_coach_monthly: {
+    free: <span class="cn">0</span>, pro: <span class="cn">20</span>, expert: <span class="cn">Infinity</span>, clinique: <span class="cn">Infinity</span>
+  },
+  academy_max_level: {
+    free: <span class="cn">1</span>, pro: <span class="cn">3</span>, expert: <span class="cn">5</span>, clinique: <span class="cn">5</span>
+  },
+  pipelines_limit: {
+    free: <span class="cn">1</span>, pro: <span class="cn">3</span>, expert: <span class="cn">Infinity</span>, clinique: <span class="cn">Infinity</span>
+  },
+  email_sequences: {
+    free: <span class="cn">false</span>, pro: <span class="cn">5</span>, expert: <span class="cn">Infinity</span>, clinique: <span class="cn">Infinity</span>
+  },
+  api_access: {
+    free: <span class="cn">false</span>, pro: <span class="cn">false</span>, expert: <span class="cn">true</span>, clinique: <span class="cn">true</span>
+  },
+} <span class="ck">as const</span>
+
+<span class="ck">export type</span> <span class="cv">Plan</span> = <span class="cs">'free'</span> | <span class="cs">'pro'</span> | <span class="cs">'expert'</span> | <span class="cs">'clinique'</span>
+<span class="ck">export type</span> <span class="cv">Feature</span> = <span class="ck">keyof typeof</span> FEATURES
+
+<span class="cm">// Hook React — LE seul endroit où vérifier le plan</span>
+<span class="ck">export function</span> <span class="cf">useFeature</span>(feature: Feature) {
+  <span class="ck">const</span> { plan } = <span class="cf">useAuth</span>()    <span class="cm">// depuis Supabase</span>
+  <span class="ck">const</span> limit = FEATURES[feature][plan]
+  <span class="ck">return</span> {
+    limit,
+    isAllowed: limit !== <span class="cn">false</span> && limit !== <span class="cn">0</span>,
+    isUnlimited: limit === Infinity,
+    <span class="cf">canDo</span>: (current: <span class="ck">number</span>) => limit === Infinity || current < limit
+  }
+}</div>
+    </div>
+    <div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Composant <code>&lt;FeatureGate&gt;</code> — Wrapping universel avec UX de verrouillage.</p>
+      <div class="code">
+<span class="cm">// components/FeatureGate.tsx</span>
+<span class="cm">// Utiliser pour TOUT contenu premium</span>
+
+<span class="ck">export function</span> <span class="cf">FeatureGate</span>({
+  feature, children, currentUsage = <span class="cn">0</span>
+}: {
+  feature: Feature
+  children: React.ReactNode
+  currentUsage?: <span class="ck">number</span>
+}) {
+  <span class="ck">const</span> { isAllowed, canDo, limit } = <span class="cf">useFeature</span>(feature)
+  <span class="ck">const</span> allowed = isAllowed && <span class="cf">canDo</span>(currentUsage)
+
+  <span class="ck">if</span> (allowed) <span class="ck">return</span> <span class="cv">&lt;&gt;</span>{children}<span class="cv">&lt;/&gt;</span>
+
+  <span class="cm">// Feature verrouillée → montrer toujours, jamais cacher</span>
+  <span class="ck">return</span> (
+    <span class="cv">&lt;Tooltip</span> content={
+      &lt;UpgradePrompt
+        feature={feature}
+        limit={limit}
+        current={currentUsage}
+      /&gt;
+    }&gt;
+      <span class="cm">{/* Afficher le contenu à 35% d'opacité + icône cadenas */}</span>
+      <span class="cv">&lt;div</span> className=<span class="cs">"opacity-35 cursor-not-allowed relative"</span>&gt;
+        {children}
+        <span class="cv">&lt;LockIcon</span> className=<span class="cs">"absolute top-2 right-2 text-zinc-400"</span> /&gt;
+      <span class="cv">&lt;/div&gt;</span>
+    <span class="cv">&lt;/Tooltip&gt;</span>
+  )
+}
+
+<span class="cm">// Usage dans un composant :</span>
+<span class="cv">&lt;FeatureGate</span> feature=<span class="cs">"ai_coach_monthly"</span> currentUsage={aiUsedThisMonth}<span class="cv">&gt;</span>
+  <span class="cv">&lt;AiCoachPanel /&gt;</span>
+<span class="cv">&lt;/FeatureGate&gt;</span></div>
+    </div>
+  </div>
+
+  <!-- Rate limits visuels par plan -->
+  <div class="rate-viz" style="margin-top:20px;">
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:16px;color:var(--muted);font-family:'Geist Mono',monospace;letter-spacing:1px;text-transform:uppercase;">Limites de Rate Limiting par plan</h4>
+    <div class="rate-row">
+      <span class="rate-plan" style="color:var(--muted)">Découverte</span>
+      <div class="rate-bar-wrap"><div class="rate-bar" style="width:20%;background:#d4d4d8;"></div></div>
+      <span class="rate-val" style="color:var(--muted)">10 req/min</span>
+    </div>
+    <div class="rate-row">
+      <span class="rate-plan" style="color:var(--gold)">Pro</span>
+      <div class="rate-bar-wrap"><div class="rate-bar" style="width:40%;background:var(--gold);"></div></div>
+      <span class="rate-val" style="color:var(--gold)">60 req/min</span>
+    </div>
+    <div class="rate-row">
+      <span class="rate-plan" style="color:var(--blue)">Expert</span>
+      <div class="rate-bar-wrap"><div class="rate-bar" style="width:70%;background:var(--blue);"></div></div>
+      <span class="rate-val" style="color:var(--blue)">200 req/min</span>
+    </div>
+    <div class="rate-row">
+      <span class="rate-plan" style="color:var(--green)">Clinique</span>
+      <div class="rate-bar-wrap"><div class="rate-bar" style="width:100%;background:var(--green);"></div></div>
+      <span class="rate-val" style="color:var(--green)">500 req/min</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3. SÉCURITÉ ══ -->
+<div class="sec">
+  <div class="sec-tag">// 03 — Sécurité & Anti-Exfiltration</div>
+  <h2 class="sec-title">7 couches de défense contre toutes les attaques</h2>
+  <p class="sec-sub">Inspiré des meilleures pratiques mondiales : Cloudflare, OWASP Top 10, AWS WAF, les startups chinoises de cybersécurité. Objectif : aucun vol de data possible même par un attaquant sophistiqué.</p>
+
+  <div class="sec-layers">
+    <div class="sec-layer">
+      <div class="layer-num"><div class="layer-n">01</div><div class="layer-l">Edge</div></div>
+      <div class="layer-body">
+        <h4>🌐 Cloudflare WAF + DDoS Protection (gratuit)</h4>
+        <p>Cloudflare en frontal sur dermotec.fr. Bloque automatiquement les attaques DDoS volumétriques, les bots malveillants, les scanners de vulnérabilités, et les injections SQL avant qu'elles atteignent ton serveur. 300+ PoPs mondiaux. Activer les règles OWASP Top 10 dans le dashboard. Coût : plan Free suffit, Pro (20$/mois) pour les règles avancées.</p>
+        <div class="tags"><span class="tag tr">DDoS ∞</span><span class="tag tr">Bot protection</span><span class="tag tr">WAF OWASP</span><span class="tag tg">Gratuit</span></div>
+      </div>
+      <div class="layer-eff"><div class="eff-val" style="color:var(--green)">+99%</div><div class="eff-lbl">Attaques bloquées</div></div>
+    </div>
+    <div class="sec-layer">
+      <div class="layer-num"><div class="layer-n">02</div><div class="layer-l">Rate Limit</div></div>
+      <div class="layer-body">
+        <h4>⚡ Rate Limiting intelligent (Upstash Redis)</h4>
+        <p>@upstash/ratelimit + Redis. Limites par plan (10/60/200/500 req/min). Sliding window algorithm pour détecter les abus progressifs. Limite spéciale sur les endpoints sensibles : /api/video/[id] = 5 req/min, /api/points = 30 req/min. Retour 429 avec Retry-After header. Les attaquants qui testent les endpoints en boucle sont bloqués automatiquement.</p>
+        <div class="tags"><span class="tag tb">@upstash/ratelimit</span><span class="tag tb">Sliding window</span><span class="tag tb">Par endpoint</span></div>
+      </div>
+      <div class="layer-eff"><div class="eff-val" style="color:var(--blue)">429</div><div class="eff-lbl">Abus bloqués</div></div>
+    </div>
+    <div class="sec-layer">
+      <div class="layer-num"><div class="layer-n">03</div><div class="layer-l">Auth</div></div>
+      <div class="layer-body">
+        <h4>🔐 Auth robuste — Tokens courts + Rotation</h4>
+        <p>Access tokens JWT expiration 15 minutes (pas 1h). Refresh tokens 7 jours avec rotation automatique à chaque refresh. Liste de révocation dans Redis pour les sessions forcées-logout. RS256 signing (asymétrique). Claims JWT incluent plan + permissions → vérifiés côté serveur à chaque requête sensible. Détection impossible_travel : si même compte depuis Paris et Tokyo en moins d'1h → session révoquée + alerte email.</p>
+        <div class="tags"><span class="tag trr">JWT 15min</span><span class="tag trr">RS256</span><span class="tag trr">Impossible travel</span></div>
+      </div>
+      <div class="layer-eff"><div class="eff-val" style="color:var(--red)">0ms</div><div class="eff-lbl">Token leak TTL</div></div>
+    </div>
+    <div class="sec-layer">
+      <div class="layer-num"><div class="layer-n">04</div><div class="layer-l">RLS</div></div>
+      <div class="layer-body">
+        <h4>🛡️ Supabase RLS — Isolation totale par utilisateur</h4>
+        <p>Row Level Security sur CHAQUE table. Un utilisateur authentifié ne peut physiquement pas voir les données d'un autre — même en manipulant les requêtes API. La DB renvoie 0 résultats si l'auth.uid() ne correspond pas. C'est la principale défense contre les attaques IDOR (Insecure Direct Object References) — le risque #1 OWASP. Audit mensuel : supabase inspect db --security pour vérifier qu'aucune table n'a oublié RLS.</p>
+        <div class="tags"><span class="tag tr">Anti-IDOR</span><span class="tag tr">Zero data leak</span><span class="tag tr">OWASP #1</span></div>
+      </div>
+      <div class="layer-eff"><div class="eff-val" style="color:var(--green)">100%</div><div class="eff-lbl">Isolation data</div></div>
+    </div>
+    <div class="sec-layer">
+      <div class="layer-num"><div class="layer-n">05</div><div class="layer-l">Anti-Scraping</div></div>
+      <div class="layer-body">
+        <h4>🤖 Détection d'exfiltration de data</h4>
+        <p>Anomaly detection sur les patterns de requêtes : si un compte fait plus de 50 requêtes GET sur /api/contacts/ en 5 minutes = exfiltration probable → alerte + throttling agressif. Pagination obligatoire (max 100 résultats par requête, jamais de SELECT sans LIMIT). Les endpoints exportCSV sont limités à 1 export/heure par compte et loggés. Response body size monitoring : si un endpoint retourne plus de 500ko = alert.</p>
+        <div class="tags"><span class="tag tg">Anti-scraping</span><span class="tag tg">Pagination forcée</span><span class="tag tg">Export audit</span></div>
+      </div>
+      <div class="layer-eff"><div class="eff-val" style="color:var(--gold)">∞</div><div class="eff-lbl">Data protégée</div></div>
+    </div>
+    <div class="sec-layer">
+      <div class="layer-num"><div class="layer-n">06</div><div class="layer-l">Input</div></div>
+      <div class="layer-body">
+        <h4>✅ Validation Zod + Sanitization sur tous les inputs</h4>
+        <p>Zod schema validation sur 100% des inputs API. Types stricts, longueurs max, formats validés. DOMPurify pour tout contenu HTML entrant (notes de contacts, descriptions de deals). Pas de SQL dynamique — uniquement requêtes paramétrées Supabase. Content-Security-Policy header strict pour bloquer les injections XSS. Headers complets : X-Frame-Options, X-Content-Type-Options, HSTS, Permissions-Policy.</p>
+        <div class="tags"><span class="tag tp">Zod validation</span><span class="tag tp">DOMPurify</span><span class="tag tp">CSP strict</span></div>
+      </div>
+      <div class="layer-eff"><div class="eff-val" style="color:var(--purple)">0</div><div class="eff-lbl">SQLi / XSS</div></div>
+    </div>
+    <div class="sec-layer">
+      <div class="layer-num"><div class="layer-n">07</div><div class="layer-l">Audit</div></div>
+      <div class="layer-body">
+        <h4>📋 Audit logs + Monitoring actif</h4>
+        <p>Chaque action sensible loggée (connexion, export, accès vidéo, génération OTP VdoCipher) dans une table audit_logs immuable (RLS = insert only, jamais de delete). Sentry pour les erreurs en production. PostHog pour les patterns d'usage anormaux. Alerts Slack/email si : 3 échecs de connexion consécutifs, export CSV inhabituel, OTP VdoCipher généré hors-session valide. Review mensuelle des logs avec Claude Code agent.</p>
+        <div class="tags"><span class="tag to">Audit immuable</span><span class="tag to">Sentry</span><span class="tag to">Alertes auto</span></div>
+      </div>
+      <div class="layer-eff"><div class="eff-val" style="color:var(--orange)">∞</div><div class="eff-lbl">Traçabilité</div></div>
+    </div>
+  </div>
+
+  <!-- Threat matrix -->
+  <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin:28px 0 12px;">Matrice des menaces — Ce qu'on protège exactement</h3>
+  <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">
+    <table class="threat-table">
+      <thead><tr><th>Menace</th><th>Sévérité</th><th>Vecteur d'attaque</th><th>Défense active</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="threat-name">Vol de contacts (exfiltration)</td>
+          <td><span class="sev-high threat-impact">CRITIQUE</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">Scraping en boucle des API contacts, export massif</td>
+          <td><span class="fix-code">RLS + pagination + rate-limit export</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">Accès vidéos sans payer</td>
+          <td><span class="sev-high threat-impact">CRITIQUE</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">Manipulation JWT, IDOR sur /api/video/[id]</td>
+          <td><span class="fix-code">JWT 15min + RLS niveau + VdoCipher DRM</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">Attaque DDoS</td>
+          <td><span class="sev-high threat-impact">ÉLEVÉ</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">Flood HTTP, bot armies, amplification</td>
+          <td><span class="fix-code">Cloudflare WAF + rate limiting Upstash</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">Bypass feature gating</td>
+          <td><span class="sev-med threat-impact">ÉLEVÉ</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">Manipulation du plan côté client, requêtes directes Supabase</td>
+          <td><span class="fix-code">Vérification plan côté serveur only + RLS</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">Injection SQL</td>
+          <td><span class="sev-high threat-impact">CRITIQUE</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">Inputs malformés dans les champs de recherche</td>
+          <td><span class="fix-code">Supabase ORM paramétré + Zod validation</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">XSS (Cross-Site Scripting)</td>
+          <td><span class="sev-med threat-impact">MOYEN</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">Script injecté dans les notes de contacts, noms de deals</td>
+          <td><span class="fix-code">DOMPurify + CSP strict header</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">Credential stuffing</td>
+          <td><span class="sev-med threat-impact">MOYEN</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">Bot qui teste des listes de mots de passe volés</td>
+          <td><span class="fix-code">Rate-limit login + impossible_travel + Cloudflare Bot</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">Partage de compte</td>
+          <td><span class="sev-low threat-impact">FAIBLE</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">1 compte pour 10 utilisateurs d'une clinique</td>
+          <td><span class="fix-code">Max 2 sessions simultanées + device fingerprint</span></td>
+        </tr>
+        <tr>
+          <td class="threat-name">Secret API exposé</td>
+          <td><span class="sev-high threat-impact">CRITIQUE</span></td>
+          <td style="font-size:12.5px;color:var(--muted)">VDOCIPHER_API_SECRET ou SUPABASE_SERVICE_KEY dans le code</td>
+          <td><span class="fix-code">Hook check-secrets.js (bloque avant commit)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Code rate limiting -->
+  <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin:28px 0 12px;">Implémentation rate limiting + feature gate côté serveur</h3>
+  <div class="code">
+<span class="cm">// middleware.ts — Protection centralisée sur toutes les routes /api/*</span>
+<span class="ck">import</span> { Ratelimit } <span class="ck">from</span> <span class="cs">'@upstash/ratelimit'</span>
+<span class="ck">import</span> { Redis } <span class="ck">from</span> <span class="cs">'@upstash/redis'</span>
+
+<span class="ck">const</span> <span class="cv">ratelimit</span> = {
+  free:    <span class="ck">new</span> <span class="cf">Ratelimit</span>({ redis: Redis.fromEnv(), limiter: Ratelimit.<span class="cf">slidingWindow</span>(<span class="cn">10</span>, <span class="cs">'1m'</span>) }),
+  pro:     <span class="ck">new</span> <span class="cf">Ratelimit</span>({ redis: Redis.fromEnv(), limiter: Ratelimit.<span class="cf">slidingWindow</span>(<span class="cn">60</span>, <span class="cs">'1m'</span>) }),
+  expert:  <span class="ck">new</span> <span class="cf">Ratelimit</span>({ redis: Redis.fromEnv(), limiter: Ratelimit.<span class="cf">slidingWindow</span>(<span class="cn">200</span>, <span class="cs">'1m'</span>) }),
+  clinique:<span class="ck">new</span> <span class="cf">Ratelimit</span>({ redis: Redis.fromEnv(), limiter: Ratelimit.<span class="cf">slidingWindow</span>(<span class="cn">500</span>, <span class="cs">'1m'</span>) }),
+}
+
+<span class="ck">export async function</span> <span class="cf">middleware</span>(req: NextRequest) {
+  <span class="cm">// 1. Routes publiques → skip</span>
+  <span class="ck">if</span> (!req.nextUrl.pathname.startsWith(<span class="cs">'/api/'</span>)) <span class="ck">return</span>
+
+  <span class="cm">// 2. Identifier l'utilisateur et son plan depuis le JWT</span>
+  <span class="ck">const</span> session = <span class="ck">await</span> <span class="cf">getSessionFromRequest</span>(req)
+  <span class="ck">if</span> (!session) <span class="ck">return</span> NextResponse.json({ error: <span class="cs">'Unauthorized'</span> }, { status: <span class="cn">401</span> })
+
+  <span class="cm">// 3. Rate limiting selon le plan</span>
+  <span class="ck">const</span> plan = session.user.plan ?? <span class="cs">'free'</span>
+  <span class="ck">const</span> { success, limit, reset, remaining } = <span class="ck">await</span> ratelimit[plan].<span class="cf">limit</span>(session.user.id)
+
+  <span class="ck">if</span> (!success) {
+    <span class="cm">// 4. Log tentative d'abus pour audit</span>
+    <span class="ck">await</span> <span class="cf">logAbuseAttempt</span>(session.user.id, req.nextUrl.pathname)
+
+    <span class="ck">return</span> NextResponse.json(
+      { error: <span class="cs">'Rate limit exceeded'</span>, plan_limit: <span class="cs">`${plan}: ${limit} req/min`</span> },
+      {
+        status: <span class="cn">429</span>,
+        headers: {
+          <span class="cs">'Retry-After'</span>: String(Math.ceil((reset - Date.now()) / <span class="cn">1000</span>)),
+          <span class="cs">'X-RateLimit-Limit'</span>: String(limit),
+          <span class="cs">'X-RateLimit-Remaining'</span>: String(remaining),
+        }
+      }
+    )
+  }
+
+  <span class="cm">// 5. Ajouter le plan dans les headers pour les API Routes</span>
+  <span class="ck">const</span> response = NextResponse.next()
+  response.headers.set(<span class="cs">'X-User-Plan'</span>, plan)
+  <span class="ck">return</span> response
+}</div>
+</div>
+
+<!-- ══ 4. OUTILS LOW-COST MONDIAUX ══ -->
+<div class="sec">
+  <div class="sec-tag">// 04 — Outils Low-Cost · Niveau Mondial</div>
+  <h2 class="sec-title">Ce que font les meilleures startups chinoises, US, asiatiques</h2>
+
+  <div class="g3">
+    <div class="card gold">
+      <div style="font-size:20px;margin-bottom:10px;">🇺🇸 Linear (USA)</div>
+      <h3>Speed + Token system</h3>
+      <p>Semantic color tokens à 3 niveaux. Performance comme métrique design. Sidebar morphing. 0 état de chargement visible — tout semble instantané. Leçon : investir dans la DX avant les features.</p>
+      <div class="tags"><span class="tag tg">Tokens sémantiques</span><span class="tag tg">Inline shortcuts</span></div>
+    </div>
+    <div class="card green">
+      <div style="font-size:20px;margin-bottom:10px;">🇨🇳 Bytedance (Chine)</div>
+      <h3>Semi Design System</h3>
+      <p>Design system open source de Bytedance (TikTok, Feishu). 50+ composants React + tokens sémantiques + dark mode natif. Niveau enterprise, entièrement gratuit. github.com/DouyinFE/semi-design</p>
+      <div class="tags"><span class="tag tr">Open source</span><span class="tag tr">50+ composants</span></div>
+    </div>
+    <div class="card blue">
+      <div style="font-size:20px;margin-bottom:10px;">🇨🇳 Ant Design (Alibaba)</div>
+      <h3>Design tokens + WCAG</h3>
+      <p>La référence du design enterprise asiatique. Tous les composants ont un token pour chaque état (hover, focus, disabled, error). 100% WCAG AA. Système de thèmes dynamiques. ant.design</p>
+      <div class="tags"><span class="tag tb">Enterprise grade</span><span class="tag tb">WCAG AA</span></div>
+    </div>
+    <div class="card purple">
+      <div style="font-size:20px;margin-bottom:10px;">🇰🇷 Kakao (Corée)</div>
+      <h3>Dark mode obsession</h3>
+      <p>Kakao Pay, Kakao Work — dark mode parfait sur mobile. Toutes les couleurs sémantiques testées en light ET dark avant intégration. Référence pour les interfaces financières et CRM mobile.</p>
+      <div class="tags"><span class="tag tp">Mobile first</span><span class="tag tp">Dark mode parfait</span></div>
+    </div>
+    <div class="card dark">
+      <div style="font-size:20px;margin-bottom:10px;">🇺🇸 Stripe (USA)</div>
+      <h3>Design principle fondateur</h3>
+      <p>"A well-built semantic token system makes the accessible choice the default choice." Stripe a documenté qu'ils ont remplacé les choix manuels de couleur par des tokens → 0 erreur de contraste depuis.</p>
+      <div class="tags"><span class="tag tg">Tokens first</span><span class="tag tg">Accessible by default</span></div>
+    </div>
+    <div class="card dark">
+      <div style="font-size:20px;margin-bottom:10px;">🇯🇵 Freee (Japon)</div>
+      <h3>Feature gating ultra-propre</h3>
+      <p>Le SaaS comptable japonais n°1. Chaque feature plan affiche toujours le plan suivant et le bénéfice exact d'upgrade. "Vous avez 247 contacts. Le plan Pro vous permet d'en avoir 500." Conversion +34%.</p>
+      <div class="tags"><span class="tag to">Upsell contextuel</span><span class="tag to">Bénéfice visible</span></div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-top:20px;">
+    <h4 style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;">Stack sécurité low-cost niveau mondial</h4>
+    <div class="g3">
+      <div style="font-size:13px;"><strong>Cloudflare Free</strong> — WAF + DDoS. 0€. Meilleur que 99% des solutions payantes.</div>
+      <div style="font-size:13px;"><strong>Upstash Redis</strong> — Rate limiting serverless. Gratuit jusqu'à 10k req/jour.</div>
+      <div style="font-size:13px;"><strong>Aikido Security</strong> — SAST + secrets scan. Gratuit pour 1 projet.</div>
+      <div style="font-size:13px;"><strong>TruffleHog</strong> — Scan secrets dans git history. Open source, gratuit.</div>
+      <div style="font-size:13px;"><strong>Dastardly (PortSwigger)</strong> — DAST OWASP Top 10. Gratuit en CI.</div>
+      <div style="font-size:13px;"><strong>Supabase RLS</strong> — Isolation données. Inclus dans Supabase Free.</div>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:14px;">Total sécurité : <strong style="color:var(--green)">0-25€/mois</strong> pour une protection niveau banque. Les startups SaaS américaines qui lèvent des millions de $$ utilisent exactement cette stack.</p>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="logo">Dermotec — Architecture Produit Pro</div>
+  <p>Design tokens sémantiques · Feature gating 4 plans · Sécurité 7 couches</p>
+  <p style="margin-top:5px;">Inspiré de Linear, Stripe, Bytedance Semi, Ant Design, Kakao, Freee · Mars 2026</p>
+</footer>
+</body>
+</html>

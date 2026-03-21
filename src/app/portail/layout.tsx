@@ -1,12 +1,14 @@
-'use client'
-
+import { headers } from 'next/headers'
 import { Phone, Mail, MapPin } from 'lucide-react'
 
-export default function PortailLayout({
+export const dynamic = 'force-dynamic'
+
+export default async function PortailLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  await headers()
   return (
     <div className="min-h-screen bg-surface">
       {/* Header */}
