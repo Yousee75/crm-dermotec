@@ -4,6 +4,7 @@ import { Toaster } from 'sonner'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Providers } from './providers'
+import CookieConsent from '@/components/ui/CookieConsent'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
         </Providers>
+        <CookieConsent />
         <Analytics />
         <SpeedInsights />
       </body>

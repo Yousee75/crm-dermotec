@@ -182,6 +182,46 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
 
         if (inscription?.lead_id) {
           await supabase.from('leads').update({ statut: 'INSCRIT' }).eq('id', inscription.lead_id)
+
+          // Generer la commission pour le commercial assigne
+          try {
+            const { data: lead } = await supabase
+              .from('leads')
+              .select('prenom, nom, email, commercial_assigne_id, formation_principale_id, organisme_financement, parrain_id, financement_souhaite')
+              .eq('id', inscription.lead_id)
+              .single()
+
+            const { data: commercial } = lead?.commercial_assigne_id
+              ? await supabase.from('equipe').select('id, prenom, nom').eq('id', lead.commercial_assigne_id).single()
+              : { data: null }
+
+            const { data: formation } = lead?.formation_principale_id
+              ? await supabase.from('formations').select('nom, categorie, prix_ht, tva_rate').eq('id', lead.formation_principale_id).single()
+              : { data: null }
+
+            if (commercial && formation) {
+              const { createCommission } = await import('@/lib/commissions')
+              await createCommission({
+                commercial_id: commercial.id,
+                commercial_nom: `${commercial.prenom} ${commercial.nom}`,
+                lead_id: inscription.lead_id,
+                lead_nom: `${lead.prenom} ${lead.nom || ''}`.trim(),
+                lead_email: lead.email || undefined,
+                inscription_id: inscriptionId,
+                session_id: inscription.session_id,
+                formation_nom: formation.nom,
+                formation_categorie: formation.categorie,
+                montant_ht: formation.prix_ht,
+                montant_ttc: formation.prix_ht * (1 + (formation.tva_rate || 20) / 100),
+                mode_paiement: lead.financement_souhaite ? 'financement' : 'direct',
+                organisme_financement: lead.organisme_financement || undefined,
+                montant_finance: lead.financement_souhaite ? formation.prix_ht : 0,
+                reste_a_charge: lead.financement_souhaite ? 0 : formation.prix_ht * (1 + (formation.tva_rate || 20) / 100),
+              })
+            }
+          } catch (commErr) {
+            console.error('[Webhook] Erreur creation commission:', commErr)
+          }
         }
 
         if (inscription?.session_id && inscription?.montant_total) {

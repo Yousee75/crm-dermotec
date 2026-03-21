@@ -6,7 +6,7 @@ import {
   LayoutDashboard, Users, Calendar, GraduationCap, CreditCard,
   BarChart3, ShoppingBag, Settings, Award, Phone, LogOut,
   ChevronLeft, Menu, Zap, ChevronRight, Bell, Search,
-  Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle
+  Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle, Shield, Eye
 } from 'lucide-react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
@@ -19,6 +19,7 @@ import { CommandPalette } from '@/components/ui/CommandPalette'
 import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
 import { AgentChat } from '@/components/ui/AgentChat'
+import { usePageTracker } from '@/hooks/use-tracker'
 import { cn } from '@/lib/utils'
 
 interface NavSection {
@@ -64,6 +65,8 @@ const NAV_SECTIONS: NavSection[] = [
       { href: '/cadences', icon: Zap, label: 'Cadences' },
       { href: '/academy', icon: GraduationCap, label: 'Academy' },
       { href: '/settings', icon: Settings, label: 'Parametres' },
+      { href: '/settings/privacy', icon: Shield, label: 'Confidentialite' },
+      { href: '/audit', icon: Eye, label: 'Audit' },
     ],
   },
 ]
@@ -109,6 +112,9 @@ function SidebarLink({ item, collapsed, isActive }: { item: NavItem; collapsed: 
 }
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
+  // Auto-track navigation dans tout le CRM
+  usePageTracker()
+
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
