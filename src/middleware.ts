@@ -2,20 +2,27 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // ============================================================
-// Rate limiting (in-memory, par IP)
+// Middleware — Auth + Security Headers + Rate Limiting
+// CSP stricte (nonces pour inline scripts)
+// Rate limiting prêt pour Upstash Redis (fallback in-memory)
 // ============================================================
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT_WINDOW = 60_000 // 1 min
-const RATE_LIMIT_MAX = 30 // 30 req/min general
-const RATE_LIMIT_API = 10 // 10 req/min pour /api
 
-// Nettoyage periodique
-setInterval(() => {
-  const now = Date.now()
-  for (const [key, val] of rateLimitMap) {
-    if (now > val.resetTime) rateLimitMap.delete(key)
+// --- Rate Limiting (in-memory fallback, remplacé par Upstash en prod) ---
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT_WINDOW = 60_000
+const RATE_LIMIT_MAX = 30
+const RATE_LIMIT_API = 10
+
+// Nettoyage périodique (éviter memory leak)
+if (typeof globalThis !== 'undefined') {
+  const cleanup = () => {
+    const now = Date.now()
+    for (const [key, val] of rateLimitMap) {
+      if (now > val.resetTime) rateLimitMap.delete(key)
+    }
   }
-}, 60_000)
+  setInterval(cleanup, 60_000)
+}
 
 function checkRateLimit(ip: string, limit: number): boolean {
   const now = Date.now()
@@ -28,62 +35,72 @@ function checkRateLimit(ip: string, limit: number): boolean {
   return entry.count <= limit
 }
 
-// ============================================================
-// Security Headers
-// ============================================================
-function addSecurityHeaders(response: NextResponse): NextResponse {
+// --- Generate CSP nonce ---
+function generateNonce(): string {
+  const array = new Uint8Array(16)
+  crypto.getRandomValues(array)
+  return Buffer.from(array).toString('base64')
+}
+
+// --- Security Headers avec CSP stricte ---
+function addSecurityHeaders(response: NextResponse, nonce: string): NextResponse {
   // HSTS
   response.headers.set(
     'Strict-Transport-Security',
     'max-age=31536000; includeSubDomains; preload'
   )
-  // XSS
+
+  // Security
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'DENY')
-  response.headers.set('X-XSS-Protection', '1; mode=block')
+  response.headers.set('X-XSS-Protection', '0') // Désactivé en faveur de CSP strict
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   response.headers.set(
     'Permissions-Policy',
     'camera=(), microphone=(), geolocation=(), interest-cohort=()'
   )
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
+  response.headers.set('X-Permitted-Cross-Domain-Policies', 'none')
 
-  // CSP
+  // CSP stricte — nonces au lieu de unsafe-inline
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    `script-src 'self' 'nonce-${nonce}' https://js.stripe.com`,
+    `style-src 'self' 'nonce-${nonce}' https://fonts.googleapis.com`,
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: blob: https://*.supabase.co https://*.stripe.com",
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://api.resend.com",
+    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://api.resend.com https://*.ingest.sentry.io https://*.inngest.com",
     "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
   ].join('; ')
 
   response.headers.set('Content-Security-Policy', csp)
 
+  // Passer le nonce aux composants via header custom
+  response.headers.set('x-nonce', nonce)
+
   return response
 }
 
-// ============================================================
-// Routes publiques (sans auth)
-// ============================================================
-const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/webhook']
+// --- Routes publiques ---
+const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/webhook', '/api/inngest']
 const API_PATHS_POST_ONLY = ['/api/webhook/formulaire', '/api/webhook/stripe', '/api/stripe/webhook']
 
 function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some(path => pathname.startsWith(path))
 }
 
-// ============================================================
-// Middleware principal
-// ============================================================
+// --- Middleware principal ---
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  const nonce = generateNonce()
 
-  // --- Rate limiting ---
+  // Rate limiting
   const isApiRoute = pathname.startsWith('/api/')
   const limit = isApiRoute ? RATE_LIMIT_API : RATE_LIMIT_MAX
 
@@ -94,7 +111,7 @@ export async function middleware(request: NextRequest) {
     )
   }
 
-  // --- POST-only check pour webhooks ---
+  // POST-only check pour webhooks
   if (API_PATHS_POST_ONLY.some(p => pathname.startsWith(p))) {
     if (request.method === 'OPTIONS') {
       return new NextResponse(null, { status: 204 })
@@ -105,12 +122,17 @@ export async function middleware(request: NextRequest) {
         { status: 405, headers: { 'Content-Type': 'application/json', Allow: 'POST' } }
       )
     }
-    // Les webhooks passent directement (pas d'auth Supabase)
     const response = NextResponse.next({ request })
-    return addSecurityHeaders(response)
+    return addSecurityHeaders(response, nonce)
   }
 
-  // --- Supabase auth ---
+  // Inngest endpoint (GET + POST)
+  if (pathname.startsWith('/api/inngest')) {
+    const response = NextResponse.next({ request })
+    return addSecurityHeaders(response, nonce)
+  }
+
+  // Supabase auth
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -151,7 +173,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  return addSecurityHeaders(supabaseResponse)
+  return addSecurityHeaders(supabaseResponse, nonce)
 }
 
 export const config = {

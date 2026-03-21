@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createClient } from '@supabase/supabase-js'
+import { createServerClient } from '@supabase/ssr'
 import { isDisposableEmail } from '@/lib/disposable-emails'
+import { sanitizeString } from '@/lib/validators'
+
+// ============================================================
+// API Email — Envoi via templates
+// Sécurisé : Auth obligatoire + sanitization XSS variables
+// ============================================================
+
+export const dynamic = 'force-dynamic'
 
 function getResend(): Resend | null {
   const key = process.env.RESEND_API_KEY
@@ -12,14 +21,49 @@ function getResend(): Resend | null {
   return new Resend(key)
 }
 
-function getSupabase() {
+function getServiceSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) return null
   return createClient(url, key, { auth: { persistSession: false } })
 }
 
-export const dynamic = 'force-dynamic'
+// Vérifier l'auth via cookies Supabase
+async function getAuthUser(request: NextRequest) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !anonKey) return null
+
+  const supabase = createServerClient(url, anonKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll()
+      },
+      setAll() {
+        // Read-only dans API route
+      },
+    },
+  })
+
+  const { data: { user } } = await supabase.auth.getUser()
+  return user
+}
+
+// Sanitize les variables de template pour prévenir XSS
+function sanitizeVariables(variables: Record<string, string>): Record<string, string> {
+  const sanitized: Record<string, string> = {}
+  for (const [key, value] of Object.entries(variables)) {
+    // Échapper le HTML dans les valeurs injectées
+    sanitized[key] = String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .slice(0, 1000)
+  }
+  return sanitized
+}
 
 interface EmailRequest {
   to: string
@@ -30,10 +74,19 @@ interface EmailRequest {
 
 export async function POST(request: NextRequest) {
   try {
+    // 1. Vérifier l'authentification
+    const user = await getAuthUser(request)
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Authentification requise' },
+        { status: 401 }
+      )
+    }
+
     const body: EmailRequest = await request.json()
     const { to, template_slug, variables, lead_id } = body
 
-    // Validation
+    // 2. Validation
     if (!to || !template_slug) {
       return NextResponse.json(
         { error: 'Destinataire et template requis' },
@@ -41,7 +94,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Anti-spam : bloquer emails jetables
+    // 3. Anti-spam : bloquer emails jetables
     if (isDisposableEmail(to)) {
       return NextResponse.json(
         { error: 'Adresse email non acceptée' },
@@ -49,7 +102,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = getSupabase()
+    const supabase = getServiceSupabase()
     if (!supabase) {
       return NextResponse.json(
         { error: 'Service indisponible' },
@@ -57,7 +110,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 1. Récupérer le template
+    // 4. Récupérer le template
     const { data: template, error: templateError } = await supabase
       .from('email_templates')
       .select('*')
@@ -67,25 +120,27 @@ export async function POST(request: NextRequest) {
 
     if (templateError || !template) {
       return NextResponse.json(
-        { error: `Template '${template_slug}' non trouvé ou inactif` },
+        { error: `Template '${sanitizeString(template_slug)}' non trouvé ou inactif` },
         { status: 404 }
       )
     }
 
-    // 2. Remplacer les variables dans le contenu
+    // 5. Sanitize les variables avant injection dans le HTML
+    const safeVars = sanitizeVariables(variables || {})
+
+    // 6. Remplacer les variables dans le contenu
     let sujet = template.sujet
     let contenuHtml = template.contenu_html
     let contenuText = template.contenu_text || ''
 
-    // Remplacer {{variable}} par les valeurs
-    for (const [key, value] of Object.entries(variables)) {
+    for (const [key, value] of Object.entries(safeVars)) {
       const pattern = new RegExp(`\\{\\{${key}\\}\\}`, 'g')
       sujet = sujet.replace(pattern, value)
       contenuHtml = contenuHtml.replace(pattern, value)
       contenuText = contenuText.replace(pattern, value)
     }
 
-    // 3. Envoyer l'email via Resend
+    // 7. Envoyer l'email via Resend
     const resend = getResend()
     if (!resend) {
       return NextResponse.json(
@@ -93,13 +148,13 @@ export async function POST(request: NextRequest) {
         { status: 503 }
       )
     }
+
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: 'Dermotec Formation <formation@dermotec.fr>',
       to,
       subject: sujet,
       html: contenuHtml,
       text: contenuText || undefined,
-      // Headers pour tracking
       headers: {
         'X-Template-Slug': template_slug,
         'X-Lead-ID': lead_id || '',
@@ -107,40 +162,43 @@ export async function POST(request: NextRequest) {
     })
 
     if (emailError) {
-      console.error('Erreur Resend:', emailError)
+      console.error('[Email API] Resend error:', emailError)
       return NextResponse.json(
         { error: 'Erreur lors de l\'envoi de l\'email' },
         { status: 500 }
       )
     }
 
-    // 4. Logger dans la table activités
+    // 8. Logger dans activités (non-bloquant)
     if (lead_id) {
-      await supabase.from('activites').insert({
+      supabase.from('activites').insert({
         type: 'EMAIL',
         lead_id,
+        user_id: user.id,
         description: `Email envoyé: ${sujet}`,
         metadata: {
           template_slug,
           email_id: emailData?.id,
           destinataire: to,
-          variables,
+          sent_by: user.email,
         },
+      }).then(({ error: actErr }) => {
+        if (actErr) console.warn('[Email API] Activity log failed:', actErr.message)
       })
     }
 
-    // 5. Logger dans emails_sent (non-bloquant)
-    await supabase.from('emails_sent').insert({
+    // 9. Logger dans emails_sent (non-bloquant)
+    supabase.from('emails_sent').insert({
       template_id: template.id,
       template_slug,
       destinataire: to,
       sujet,
       lead_id: lead_id || null,
       resend_id: emailData?.id,
-      variables,
+      variables: safeVars,
       statut: 'ENVOYE',
     }).then(({ error: insertError }) => {
-      if (insertError) console.warn('[emails_sent] Insert échoué:', insertError.message)
+      if (insertError) console.warn('[Email API] emails_sent insert failed:', insertError.message)
     })
 
     return NextResponse.json({
@@ -151,7 +209,7 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Erreur API email/send:', error)
+    console.error('[Email API] Error:', error)
     return NextResponse.json(
       { error: 'Erreur interne du serveur' },
       { status: 500 }
@@ -159,13 +217,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// --- GET: Lister les templates disponibles ---
+// --- GET: Lister les templates disponibles (auth requise) ---
 export async function GET(request: NextRequest) {
   try {
+    // Vérifier l'auth
+    const user = await getAuthUser(request)
+    if (!user) {
+      return NextResponse.json({ error: 'Authentification requise' }, { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const categorie = searchParams.get('categorie')
 
-    const supabase = getSupabase()
+    const supabase = getServiceSupabase()
     if (!supabase) {
       return NextResponse.json({ error: 'Service indisponible' }, { status: 503 })
     }
@@ -182,7 +246,7 @@ export async function GET(request: NextRequest) {
     const { data: templates, error } = await query.order('nom')
 
     if (error) {
-      console.error('Erreur récupération templates:', error)
+      console.error('[Email API] Templates fetch error:', error)
       return NextResponse.json(
         { error: 'Erreur lors de la récupération des templates' },
         { status: 500 }
@@ -195,7 +259,7 @@ export async function GET(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Erreur API email/send GET:', error)
+    console.error('[Email API] GET error:', error)
     return NextResponse.json(
       { error: 'Erreur interne du serveur' },
       { status: 500 }

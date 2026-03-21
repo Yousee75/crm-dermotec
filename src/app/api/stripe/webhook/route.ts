@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 
+// ============================================================
+// Webhook Stripe — Idempotent + événements complets
+// Chaque event est stocké dans webhook_events pour déduplication
+// ============================================================
+
 export const dynamic = 'force-dynamic'
 
 function getStripe() {
@@ -19,7 +24,7 @@ function getSupabase() {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function logActivite(
-  supabase: any,
+  supabase: ReturnType<typeof createClient>,
   data: {
     type: string
     description: string
@@ -30,8 +35,7 @@ async function logActivite(
   }
 ) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase.from('activites') as any).insert({
+    await supabase.from('activites').insert({
       type: data.type,
       description: data.description,
       lead_id: data.lead_id || null,
@@ -40,8 +44,53 @@ async function logActivite(
       metadata: data.metadata || {},
     })
   } catch (err) {
-    console.error('[Activite] Log failed:', err)
+    console.error('[Stripe Webhook] Activity log failed:', err)
   }
+}
+
+// Vérifier si l'event a déjà été traité (idempotence)
+async function isEventProcessed(supabase: ReturnType<typeof createClient>, eventId: string): Promise<boolean> {
+  const { data } = await supabase
+    .from('webhook_events')
+    .select('id')
+    .eq('event_id', eventId)
+    .eq('status', 'processed')
+    .single()
+  return !!data
+}
+
+// Marquer l'event comme traité
+async function markEventProcessed(
+  supabase: ReturnType<typeof createClient>,
+  eventId: string,
+  eventType: string,
+  payload: Record<string, unknown>
+) {
+  await supabase.from('webhook_events').upsert({
+    event_id: eventId,
+    event_type: eventType,
+    source: 'stripe',
+    payload,
+    status: 'processed',
+    processed_at: new Date().toISOString(),
+  }, { onConflict: 'event_id' })
+}
+
+// Marquer l'event comme échoué
+async function markEventFailed(
+  supabase: ReturnType<typeof createClient>,
+  eventId: string,
+  eventType: string,
+  error: string
+) {
+  await supabase.from('webhook_events').upsert({
+    event_id: eventId,
+    event_type: eventType,
+    source: 'stripe',
+    status: 'failed',
+    error_message: error,
+    attempts: 1,
+  }, { onConflict: 'event_id' })
 }
 
 export async function POST(request: NextRequest) {
@@ -69,10 +118,17 @@ export async function POST(request: NextRequest) {
   const supabase = getSupabase()
   if (!supabase) {
     console.error('[Stripe Webhook] Supabase non configuré')
-    return NextResponse.json({ received: true, warning: 'DB non configurée' })
+    // Retourner 503 pour que Stripe retry
+    return NextResponse.json({ error: 'DB non configurée' }, { status: 503 })
   }
 
   console.log(`[Stripe Webhook] Event: ${event.type} (${event.id})`)
+
+  // Idempotence : vérifier si déjà traité
+  if (await isEventProcessed(supabase, event.id)) {
+    console.log(`[Stripe Webhook] Event ${event.id} déjà traité, skip`)
+    return NextResponse.json({ received: true, duplicate: true })
+  }
 
   try {
     switch (event.type) {
@@ -83,7 +139,18 @@ export async function POST(request: NextRequest) {
         const commandeId = session.metadata?.commande_id
 
         if (inscriptionId) {
-          // Paiement formation
+          // Vérifier si déjà payé (double protection)
+          const { data: existing } = await supabase
+            .from('inscriptions')
+            .select('paiement_statut')
+            .eq('id', inscriptionId)
+            .single()
+
+          if (existing?.paiement_statut === 'PAYE') {
+            console.log(`[Stripe Webhook] Inscription ${inscriptionId} déjà payée, skip`)
+            break
+          }
+
           await supabase
             .from('inscriptions')
             .update({
@@ -93,7 +160,6 @@ export async function POST(request: NextRequest) {
             })
             .eq('id', inscriptionId)
 
-          // Mettre à jour le lead → INSCRIT
           const { data: inscription } = await supabase
             .from('inscriptions')
             .select('lead_id, session_id, montant_total')
@@ -120,21 +186,19 @@ export async function POST(request: NextRequest) {
             })
           }
 
-          // Mettre à jour CA réalisé de la session
-          if (inscription?.session_id) {
-            try {
-              await supabase.rpc('increment_session_ca', {
-                p_session_id: inscription.session_id,
-                p_amount: inscription.montant_total,
-              })
-            } catch {
-              // RPC optionnelle
+          // Incrémenter CA session
+          if (inscription?.session_id && inscription?.montant_total) {
+            const { error: rpcError } = await supabase.rpc('increment_session_ca', {
+              p_session_id: inscription.session_id,
+              p_amount: inscription.montant_total,
+            })
+            if (rpcError) {
+              console.warn('[Stripe Webhook] increment_session_ca failed:', rpcError.message)
             }
           }
         }
 
         if (commandeId) {
-          // Paiement e-shop
           await supabase
             .from('commandes')
             .update({
@@ -189,6 +253,27 @@ export async function POST(request: NextRequest) {
         break
       }
 
+      // === PAIEMENT ANNULÉ ===
+      case 'payment_intent.canceled': {
+        const intent = event.data.object as Stripe.PaymentIntent
+        const inscriptionId = intent.metadata?.inscription_id
+
+        if (inscriptionId) {
+          await supabase
+            .from('inscriptions')
+            .update({ paiement_statut: 'EN_ATTENTE' })
+            .eq('id', inscriptionId)
+
+          await logActivite(supabase, {
+            type: 'PAIEMENT',
+            description: `Paiement annulé par le client`,
+            inscription_id: inscriptionId,
+            metadata: { payment_intent: intent.id },
+          })
+        }
+        break
+      }
+
       // === FACTURE PAYÉE (paiement échelonné) ===
       case 'invoice.paid': {
         const invoice = event.data.object as Stripe.Invoice
@@ -203,11 +288,54 @@ export async function POST(request: NextRequest) {
             })
             .eq('id', inscriptionId)
 
-          // Mettre à jour la facture CRM correspondante
           await supabase
             .from('factures')
             .update({ statut: 'PAYEE' })
             .eq('stripe_invoice_id', invoice.id)
+
+          await logActivite(supabase, {
+            type: 'PAIEMENT',
+            description: `Facture payée : ${((invoice.amount_paid || 0) / 100).toFixed(2)}€`,
+            inscription_id: inscriptionId,
+            metadata: { invoice_id: invoice.id },
+          })
+        }
+        break
+      }
+
+      // === FACTURE ÉCHOUÉE ===
+      case 'invoice.payment_failed': {
+        const invoice = event.data.object as Stripe.Invoice
+        const inscriptionId = invoice.metadata?.inscription_id
+
+        if (inscriptionId) {
+          await supabase
+            .from('inscriptions')
+            .update({ paiement_statut: 'LITIGE' })
+            .eq('id', inscriptionId)
+
+          await supabase
+            .from('factures')
+            .update({ statut: 'EN_RETARD' })
+            .eq('stripe_invoice_id', invoice.id)
+
+          await logActivite(supabase, {
+            type: 'PAIEMENT',
+            description: `Paiement facture échoué — relance nécessaire`,
+            inscription_id: inscriptionId,
+            metadata: { invoice_id: invoice.id },
+          })
+
+          // Créer une anomalie pour alerte admin
+          await supabase.from('anomalies').insert({
+            type: 'MONTANT_ANORMAL',
+            severite: 'WARNING',
+            titre: 'Paiement facture échoué',
+            description: `La facture ${invoice.id} n'a pas pu être prélevée. Relance manuelle nécessaire.`,
+            table_name: 'inscriptions',
+            record_id: inscriptionId,
+            metadata: { invoice_id: invoice.id, amount: (invoice.amount_due || 0) / 100 },
+          })
         }
         break
       }
@@ -224,8 +352,23 @@ export async function POST(request: NextRequest) {
             .update({ paiement_statut: 'REMBOURSE', statut: 'REMBOURSEE' })
             .eq('id', inscriptionId)
 
+          // Reverser le CA de la session
+          const { data: inscription } = await supabase
+            .from('inscriptions')
+            .select('session_id, montant_total, lead_id')
+            .eq('id', inscriptionId)
+            .single()
+
+          if (inscription?.session_id && inscription?.montant_total) {
+            await supabase.rpc('increment_session_ca', {
+              p_session_id: inscription.session_id,
+              p_amount: -inscription.montant_total, // Négatif pour reverser
+            })
+          }
+
           await logActivite(supabase, {
             type: 'PAIEMENT',
+            lead_id: inscription?.lead_id,
             inscription_id: inscriptionId,
             description: `Remboursement effectué : ${((charge.amount_refunded || 0) / 100).toFixed(2)}€`,
             metadata: { charge_id: charge.id },
@@ -246,7 +389,6 @@ export async function POST(request: NextRequest) {
         const dispute = event.data.object as Stripe.Dispute
         const charge = dispute.charge as string
 
-        // Chercher l'inscription liée
         const { data: inscription } = await supabase
           .from('inscriptions')
           .select('id, lead_id')
@@ -259,7 +401,6 @@ export async function POST(request: NextRequest) {
             .update({ paiement_statut: 'LITIGE' })
             .eq('id', inscription.id)
 
-          // Créer une anomalie
           await supabase.from('anomalies').insert({
             type: 'MONTANT_ANORMAL',
             severite: 'CRITICAL',
@@ -284,9 +425,21 @@ export async function POST(request: NextRequest) {
       default:
         console.log(`[Stripe Webhook] Event non géré: ${event.type}`)
     }
+
+    // Marquer l'event comme traité
+    await markEventProcessed(supabase, event.id, event.type, {
+      object_id: (event.data.object as { id?: string }).id,
+    })
+
   } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error'
     console.error(`[Stripe Webhook] Error processing ${event.type}:`, err)
-    // On retourne 200 pour éviter les retries Stripe
+
+    // Marquer comme échoué pour debug
+    await markEventFailed(supabase, event.id, event.type, errorMessage)
+
+    // Retourner 500 pour que Stripe retry
+    return NextResponse.json({ error: 'Processing failed' }, { status: 500 })
   }
 
   return NextResponse.json({ received: true })
