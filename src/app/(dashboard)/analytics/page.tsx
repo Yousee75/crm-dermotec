@@ -345,7 +345,7 @@ function LoadingSkeleton() {
       </div>
 
       {/* KPI cards skeleton */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
           <Skeleton key={i} className="h-24" />
         ))}
@@ -392,11 +392,11 @@ export default function AnalyticsPage() {
       />
 
       {/* Period Selector */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-1.5 sm:gap-2 flex-wrap">
         {periodOptions.map(option => (
           <Button
             key={option.key}
-            variant={period === option.key ? 'default' : 'outline'}
+            variant={period === option.key ? 'primary' : 'outline'}
             size="sm"
             onClick={() => setPeriod(option.key)}
           >
@@ -406,7 +406,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Row 1: 6 KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         <KpiCard
           icon={Euro}
           label="CA total"
@@ -551,8 +551,8 @@ export default function AnalyticsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <RechartsBarChart data={data.sessionsData}>
+            <ResponsiveContainer width="100%" height={260}>
+              <RechartsBarChart data={data.sessionsData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="nom" />
                 <YAxis />
@@ -572,8 +572,8 @@ export default function AnalyticsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <RechartsBarChart data={data.satisfactionDistribution}>
+            <ResponsiveContainer width="100%" height={260}>
+              <RechartsBarChart data={data.satisfactionDistribution} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="stars" />
                 <YAxis />
