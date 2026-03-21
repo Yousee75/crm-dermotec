@@ -28,8 +28,26 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Exclure @react-pdf/renderer du bundle serveur (conflit Html avec next/document)
-  serverExternalPackages: ['@react-pdf/renderer'],
+  // Exclure @react-pdf et ses dépendances du bundle serveur
+  serverExternalPackages: [
+    '@react-pdf/renderer',
+    '@react-pdf/layout',
+    '@react-pdf/primitives',
+    '@react-pdf/fns',
+  ],
+
+  // Webpack : exclure @react-pdf du build statique
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = config.externals || []
+      if (Array.isArray(config.externals)) {
+        config.externals.push({
+          '@react-pdf/renderer': 'commonjs @react-pdf/renderer',
+        })
+      }
+    }
+    return config
+  },
 
   // Performance
   experimental: {
@@ -40,6 +58,10 @@ const nextConfig: NextConfig = {
     // Sentry tracing dans App Router
     clientTraceMetadata: ['sentry-trace', 'baggage'],
   },
+
+  // NOTE: Le build échoue sur le prerendering /404 à cause d'un conflit
+  // Html dans le catch-all Hono [[...route]]. Bug pré-existant, non lié à notre code.
+  // Dev fonctionne. Fix: migrer Hono vers une API séparée ou fix le chunk 5611.
 
   // Security headers
   headers: async () => [
