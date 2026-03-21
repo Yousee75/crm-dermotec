@@ -13,6 +13,7 @@ import {
   Clock, MapPin, ChevronRight, DollarSign, Target, BookOpen
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { CreateMembreDialog } from '@/components/ui/CreateMembreDialog'
 
 // Role configuration avec couleurs Dermotec
 const ROLE_CONFIG: Record<RoleEquipe, {
@@ -85,6 +86,7 @@ function RoleBadge({ role }: { role: RoleEquipe }) {
 export default function EquipePage() {
   const [selectedMember, setSelectedMember] = useState<Equipe | null>(null)
   const [roleFilter, setRoleFilter] = useState<string>('all')
+  const [showCreateMembre, setShowCreateMembre] = useState(false)
 
   const supabase = createClient()
   const queryClient = useQueryClient()
@@ -182,7 +184,7 @@ export default function EquipePage() {
             {equipe?.length || 0} membres · {totalActifs} actifs
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3]/90 transition">
+        <button onClick={() => setShowCreateMembre(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3]/90 transition">
           <Plus className="w-4 h-4" />
           Ajouter un membre
         </button>
@@ -456,6 +458,8 @@ export default function EquipePage() {
           </div>
         </div>
       )}
+
+      <CreateMembreDialog open={showCreateMembre} onClose={() => setShowCreateMembre(false)} />
     </div>
   )
 }
