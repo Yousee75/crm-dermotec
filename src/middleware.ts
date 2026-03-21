@@ -13,15 +13,12 @@ const RATE_LIMIT_WINDOW = 60_000
 const RATE_LIMIT_MAX = 30
 const RATE_LIMIT_API = 10
 
-// Nettoyage périodique (éviter memory leak)
-if (typeof globalThis !== 'undefined') {
-  const cleanup = () => {
-    const now = Date.now()
-    for (const [key, val] of rateLimitMap) {
-      if (now > val.resetTime) rateLimitMap.delete(key)
-    }
+// Nettoyage inline (Edge Runtime n'a pas de setInterval persistant)
+function cleanupRateLimit() {
+  const now = Date.now()
+  for (const [key, val] of rateLimitMap) {
+    if (now > val.resetTime) rateLimitMap.delete(key)
   }
-  setInterval(cleanup, 60_000)
 }
 
 function checkRateLimit(ip: string, limit: number): boolean {
@@ -39,7 +36,8 @@ function checkRateLimit(ip: string, limit: number): boolean {
 function generateNonce(): string {
   const array = new Uint8Array(16)
   crypto.getRandomValues(array)
-  return Buffer.from(array).toString('base64')
+  // btoa works in Edge Runtime (Buffer does NOT)
+  return btoa(String.fromCharCode(...array))
 }
 
 // --- Security Headers avec CSP stricte ---
@@ -100,7 +98,8 @@ export async function middleware(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
   const nonce = generateNonce()
 
-  // Rate limiting
+  // Rate limiting (cleanup stale entries first)
+  cleanupRateLimit()
   const isApiRoute = pathname.startsWith('/api/')
   const limit = isApiRoute ? RATE_LIMIT_API : RATE_LIMIT_MAX
 

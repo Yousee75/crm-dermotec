@@ -1,34 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { aiScoreLead } from '@/lib/ai'
+import { scoreLead } from '@/lib/ai-scoring'
+import { createServerSupabase, createServiceSupabase } from '@/lib/supabase-server'
 
-export const dynamic = 'force-dynamic'
-export const maxDuration = 30
-
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) return null
-  return createClient(url, key, { auth: { persistSession: false } })
-}
-
-// POST /api/ai/score — Score un lead via IA
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const { lead_id } = await request.json()
+    const supabase = await createServerSupabase()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
+    const body = await req.json()
+    const { lead_id } = body
+
     if (!lead_id) {
       return NextResponse.json({ error: 'lead_id requis' }, { status: 400 })
     }
 
-    const supabase = getSupabase()
-    if (!supabase) {
-      return NextResponse.json({ error: 'DB non configurée' }, { status: 503 })
-    }
-
-    // Récupérer le lead complet
-    const { data: lead, error } = await supabase
+    const service = await createServiceSupabase()
+    const { data: lead, error } = await service
       .from('leads')
-      .select('*, formation_principale:formations(*)')
+      .select('*')
       .eq('id', lead_id)
       .single()
 
@@ -36,51 +26,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Lead non trouvé' }, { status: 404 })
     }
 
-    // Scorer via IA
-    const scoring = await aiScoreLead({
-      prenom: lead.prenom,
-      nom: lead.nom,
-      email: lead.email,
-      telephone: lead.telephone,
-      source: lead.source,
-      statut_pro: lead.statut_pro,
-      experience: lead.experience_esthetique,
-      formation_interessee: lead.formation_principale?.nom,
-      message: lead.message,
-      nb_contacts: lead.nb_contacts,
-      financement_souhaite: lead.financement_souhaite,
-      tags: lead.tags,
-      created_at: lead.created_at,
-    })
+    const result = await scoreLead(lead)
 
-    if (!scoring) {
-      return NextResponse.json({ error: 'Service IA indisponible' }, { status: 503 })
-    }
-
-    // Sauvegarder le score en DB
-    await supabase
+    // Mettre à jour le score du lead
+    await service
       .from('leads')
-      .update({
-        score_chaud: scoring.score,
-        metadata: {
-          ...lead.metadata,
-          ai_score: scoring,
-          ai_scored_at: new Date().toISOString(),
-        },
-      })
+      .update({ score_chaud: result.score_predictif })
       .eq('id', lead_id)
 
     // Logger
-    await supabase.from('activites').insert({
+    await service.from('activites').insert({
       type: 'SYSTEME',
       lead_id,
-      description: `Score IA : ${scoring.score}/100 — ${scoring.segment} — ${scoring.urgence}`,
-      metadata: scoring,
+      description: `Score IA mis à jour : ${result.score_predictif}/100 (${result.probabilite_conversion}% conversion)`,
+      metadata: { scoring: result },
     })
 
-    return NextResponse.json({ success: true, scoring })
+    return NextResponse.json(result)
   } catch (err) {
-    console.error('[AI Score]', err)
-    return NextResponse.json({ error: 'Erreur interne' }, { status: 500 })
+    console.error('Erreur API scoring:', err)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
