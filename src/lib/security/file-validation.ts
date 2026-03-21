@@ -118,7 +118,7 @@ export async function validateFile(
   }
 
   // 6. Hash SHA-256 pour déduplication/traçabilité
-  const hashBuffer = await crypto.subtle.digest('SHA-256', buf)
+  const hashBuffer = await crypto.subtle.digest('SHA-256', new Uint8Array(buf))
   const hash = Array.from(new Uint8Array(hashBuffer))
     .map(b => b.toString(16).padStart(2, '0'))
     .join('')

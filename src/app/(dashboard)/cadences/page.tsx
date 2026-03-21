@@ -358,7 +358,22 @@ export default function CadencesPage() {
     },
     {
       label: 'Messages ce mois',
-      value: '127', // TODO: calculer depuis l'historique
+      value: (() => {
+        if (!instances?.length) return '0'
+        const thisMonth = new Date().getMonth()
+        const thisYear = new Date().getFullYear()
+        let count = 0
+        instances.forEach(inst => {
+          const historique = (inst.historique || []) as Array<{ date?: string }>
+          historique.forEach(entry => {
+            if (entry.date) {
+              const d = new Date(entry.date)
+              if (d.getMonth() === thisMonth && d.getFullYear() === thisYear) count++
+            }
+          })
+        })
+        return count.toString()
+      })()
       icon: BarChart3,
       color: '#F59E0B'
     }

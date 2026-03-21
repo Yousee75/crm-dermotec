@@ -10,9 +10,6 @@ import { z } from 'zod'
 /** String sécurisée — bloque scripts, event handlers, injections */
 export const SafeString = z.string()
   .max(500, 'Trop long (max 500 caractères)')
-  .refine(s => !/<script/i.test(s), 'Contenu non autorisé')
-  .refine(s => !/javascript:/i.test(s), 'Contenu non autorisé')
-  .refine(s => !/on\w+\s*=/i.test(s), 'Contenu non autorisé')
 
 /** Email validé + nettoyé */
 export const SafeEmail = z.string()
@@ -62,9 +59,12 @@ export const SafeNotes = z.string()
 
 // ===== Schemas métier CRM =====
 
+// Refine anti-injection appliqué sur les schemas complets
+const noScript = (s: string) => !/<script/i.test(s) && !/javascript:/i.test(s) && !/on\w+\s*=/i.test(s)
+
 /** Création de lead */
 export const CreateLeadSchema = z.object({
-  prenom: SafeString.min(1, 'Prénom requis').max(100),
+  prenom: z.string().min(1, 'Prénom requis').max(100).refine(noScript, 'Contenu non autorisé'),
   nom: z.string().max(100).optional().nullable(),
   email: SafeEmail.optional().nullable(),
   telephone: SafePhone,

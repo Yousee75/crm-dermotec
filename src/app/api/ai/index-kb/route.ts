@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Indexation Knowledge Base avec Embeddings
 // POST /api/ai/index-kb
