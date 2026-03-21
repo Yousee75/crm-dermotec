@@ -1,0 +1,105 @@
+'use client'
+
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { createClient } from '@/lib/supabase-client'
+import type { Session } from '@/types'
+
+export function useSessions(filters: { month?: string; formation_id?: string; statut?: string } = {}) {
+  const supabase = createClient()
+
+  return useQuery({
+    queryKey: ['sessions', filters],
+    queryFn: async () => {
+      let query = supabase
+        .from('sessions')
+        .select(`
+          *,
+          formation:formations(*),
+          formatrice:equipe!formatrice_id(id, prenom, nom, avatar_color),
+          inscriptions(id, lead_id, statut, montant_total, paiement_statut)
+        `)
+        .order('date_debut', { ascending: true })
+
+      if (filters.month) {
+        const start = `${filters.month}-01`
+        const [y, m] = filters.month.split('-').map(Number)
+        const end = new Date(y, m, 0).toISOString().split('T')[0]
+        query = query.gte('date_debut', start).lte('date_debut', end)
+      }
+      if (filters.formation_id) {
+        query = query.eq('formation_id', filters.formation_id)
+      }
+      if (filters.statut) {
+        query = query.eq('statut', filters.statut)
+      }
+
+      const { data, error } = await query
+      if (error) throw error
+      return (data || []) as Session[]
+    },
+  })
+}
+
+export function useSession(id: string) {
+  const supabase = createClient()
+
+  return useQuery({
+    queryKey: ['session', id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('sessions')
+        .select(`
+          *,
+          formation:formations(*),
+          formatrice:equipe!formatrice_id(*),
+          inscriptions(*, lead:leads(id, prenom, nom, email, telephone, statut_pro)),
+          modeles(*)
+        `)
+        .eq('id', id)
+        .single()
+      if (error) throw error
+      return data as Session
+    },
+    enabled: !!id,
+  })
+}
+
+export function useCreateSession() {
+  const supabase = createClient()
+  const qc = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (session: Partial<Session>) => {
+      const { data, error } = await supabase
+        .from('sessions')
+        .insert(session)
+        .select()
+        .single()
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sessions'] }),
+  })
+}
+
+export function useUpdateSession() {
+  const supabase = createClient()
+  const qc = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ id, ...updates }: Partial<Session> & { id: string }) => {
+      const { data, error } = await supabase
+        .from('sessions')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+      if (error) throw error
+      return data
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ['sessions'] })
+      qc.invalidateQueries({ queryKey: ['session', data.id] })
+    },
+  })
+}
