@@ -6,7 +6,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { createBrowserClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/supabase-client'
 
 export interface CommercialPerformance {
   id: string
@@ -78,7 +78,7 @@ export function useCommercialPerformance(periode: Periode = 'mois') {
  * Récupère ses propres KPIs
  */
 export function useMyPerformance() {
-  const supabase = createBrowserClient()
+  const supabase = createClient()
 
   return useQuery({
     queryKey: ['my-performance'],
