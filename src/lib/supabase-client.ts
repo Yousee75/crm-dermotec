@@ -1,16 +1,33 @@
 import { createBrowserClient } from '@supabase/ssr'
 
-// Fallback URL valide pour le build SSG et demo mode
-const FALLBACK_URL = 'https://wtbrdxijvtelluwfmgsf.supabase.co'
-const FALLBACK_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0YnJkeGlqdnRlbGx1d2ZtZ3NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MjAwMDAwMDAwMH0.placeholder'
+let _warned = false
 
 export function createClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  // Use real credentials if available, otherwise fallback
-  const safeUrl = url && url.startsWith('https://') ? url : FALLBACK_URL
-  const safeKey = key && key.startsWith('eyJ') ? key : FALLBACK_KEY
+  // Vérifier que les variables sont configurées
+  const urlValid = url && url.startsWith('https://') && !url.includes('placeholder')
+  const keyValid = key && key.startsWith('eyJ') && !key.includes('placeholder') && key.length > 100
 
-  return createBrowserClient(safeUrl, safeKey)
+  if (!urlValid || !keyValid) {
+    if (!_warned && typeof window !== 'undefined') {
+      _warned = true
+      console.error(
+        '[Supabase] Variables d\'environnement non configurées.\n' +
+        'Créez un fichier .env.local avec :\n' +
+        '  NEXT_PUBLIC_SUPABASE_URL=https://votre-projet.supabase.co\n' +
+        '  NEXT_PUBLIC_SUPABASE_ANON_KEY=votre-clé-anon\n' +
+        'Les mutations (créer, modifier, supprimer) ne fonctionneront pas.'
+      )
+    }
+
+    // Fallback pour le build SSG — permet le rendu mais les mutations échoueront
+    return createBrowserClient(
+      url || 'https://placeholder.supabase.co',
+      key || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder'
+    )
+  }
+
+  return createBrowserClient(url, key)
 }

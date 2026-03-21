@@ -12,6 +12,7 @@ import { Avatar } from '@/components/ui/Avatar'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { SkeletonCard } from '@/components/ui/Skeleton'
+import { CreateSessionDialog } from '@/components/ui/CreateSessionDialog'
 import { cn } from '@/lib/utils'
 
 const statuts: Record<string, { label: string; color: string }> = {
@@ -27,6 +28,7 @@ const statuts: Record<string, { label: string; color: string }> = {
 export default function SessionsPage() {
   const now = new Date()
   const [month, setMonth] = useState(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`)
+  const [showCreate, setShowCreate] = useState(false)
   const { data: sessions, isLoading } = useSessions({ month })
 
   return (
@@ -41,7 +43,7 @@ export default function SessionsPage() {
           onChange={(e) => setMonth(e.target.value)}
           className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none"
         />
-        <Button size="sm" icon={<Plus className="w-4 h-4" />}>
+        <Button size="sm" icon={<Plus className="w-4 h-4" />} onClick={() => setShowCreate(true)}>
           Nouvelle session
         </Button>
       </PageHeader>
@@ -151,6 +153,8 @@ export default function SessionsPage() {
           )
         })}
       </div>
+
+      <CreateSessionDialog open={showCreate} onClose={() => setShowCreate(false)} />
     </div>
   )
 }

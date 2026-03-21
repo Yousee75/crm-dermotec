@@ -29,6 +29,35 @@ export default function LeadsPage() {
   const [sourceFilter, setSourceFilter] = useState<SourceLead[]>([])
   const [page, setPage] = useState(1)
   const [showCreate, setShowCreate] = useState(false)
+  const createLead = useCreateLead()
+
+  // Form state pour nouveau lead
+  const [newLead, setNewLead] = useState({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' as const })
+
+  const handleCreateLead = useCallback(async () => {
+    if (!newLead.prenom.trim()) {
+      toast.error('Le prénom est requis')
+      return
+    }
+    await createLead.mutateAsync({
+      prenom: newLead.prenom.trim(),
+      nom: newLead.nom.trim() || undefined,
+      email: newLead.email.trim() || undefined,
+      telephone: newLead.telephone.trim() || undefined,
+      source: newLead.source,
+      statut: 'NOUVEAU',
+      priorite: 'NORMALE',
+      score_chaud: 0,
+      tags: [],
+      formations_interessees: [],
+      nb_contacts: 0,
+      financement_souhaite: false,
+      data_sources: {},
+      metadata: {},
+    })
+    setNewLead({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' })
+    setShowCreate(false)
+  }, [newLead, createLead])
 
   const { data, isLoading } = useLeads({
     search: search || undefined,
@@ -345,6 +374,94 @@ export default function LeadsPage() {
           )}
         </Card>
       )}
+
+      {/* Dialog création lead */}
+      <Dialog open={showCreate} onClose={() => setShowCreate(false)} size="md">
+        <DialogHeader onClose={() => setShowCreate(false)}>
+          <DialogTitle>Nouveau Lead</DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Prénom *</label>
+              <input
+                type="text"
+                value={newLead.prenom}
+                onChange={(e) => setNewLead(prev => ({ ...prev, prenom: e.target.value }))}
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+                placeholder="Marie"
+                autoFocus
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Nom</label>
+              <input
+                type="text"
+                value={newLead.nom}
+                onChange={(e) => setNewLead(prev => ({ ...prev, nom: e.target.value }))}
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+                placeholder="Dupont"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Email</label>
+            <input
+              type="email"
+              value={newLead.email}
+              onChange={(e) => setNewLead(prev => ({ ...prev, email: e.target.value }))}
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+              placeholder="marie@exemple.fr"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Téléphone</label>
+            <input
+              type="tel"
+              value={newLead.telephone}
+              onChange={(e) => setNewLead(prev => ({ ...prev, telephone: e.target.value }))}
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+              placeholder="06 12 34 56 78"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Source</label>
+            <select
+              value={newLead.source}
+              onChange={(e) => setNewLead(prev => ({ ...prev, source: e.target.value as typeof prev.source }))}
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] bg-white"
+            >
+              <option value="formulaire">Formulaire</option>
+              <option value="telephone">Téléphone</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="instagram">Instagram</option>
+              <option value="facebook">Facebook</option>
+              <option value="google">Google</option>
+              <option value="bouche_a_oreille">Bouche à oreille</option>
+              <option value="site_web">Site web</option>
+              <option value="salon">Salon</option>
+              <option value="partenariat">Partenariat</option>
+              <option value="ancien_stagiaire">Ancien stagiaire</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button variant="ghost" onClick={() => setShowCreate(false)}>Annuler</Button>
+          <Button
+            onClick={handleCreateLead}
+            disabled={createLead.isPending || !newLead.prenom.trim()}
+            icon={<Plus className="w-4 h-4" />}
+          >
+            {createLead.isPending ? 'Création...' : 'Créer le lead'}
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </div>
   )
 }

@@ -113,8 +113,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
       await updateLead.mutateAsync({ id, ...editedLead })
       setIsEditing(false)
       setEditedLead({})
-    } catch (error) {
-      console.error('Erreur sauvegarde:', error)
+    } catch {
+      // L'erreur est gérée par le onError du hook (toast)
     }
   }
 
