@@ -1,62 +1,140 @@
 'use client'
-// @ts-nocheck
 
-import { useState } from 'react'
-import { Bot, X, Send, Sparkles, Mail, Search, Shield, Loader2 } from 'lucide-react'
-import { useAIGenerate, useAIObjection, useAIResearch } from '@/hooks/use-ai'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import {
+  Bot, X, Send, Sparkles, Mail, MessageCircle, Phone, Smartphone,
+  Target, Shield, TrendingUp, CreditCard, Zap, Copy, Check,
+  ChevronRight, Loader2, FileText, ArrowRight
+} from 'lucide-react'
 import { toast } from 'sonner'
+import type { AssistantAction } from '@/lib/ai-commercial'
 
-type AIMode = 'chat' | 'email' | 'objection' | 'research'
+interface AIAssistantProps {
+  leadId?: string
+  leadName?: string
+  onSendMessage?: (canal: string, content: string) => void
+}
 
-const QUICK_ACTIONS = [
-  { mode: 'email' as const, icon: Mail, label: 'Générer un email', color: 'bg-blue-500' },
-  { mode: 'objection' as const, icon: Shield, label: 'Gérer une objection', color: 'bg-orange-500' },
-  { mode: 'research' as const, icon: Search, label: 'Rechercher un prospect', color: 'bg-purple-500' },
+interface ActionButton {
+  action: AssistantAction
+  icon: React.ElementType
+  label: string
+  shortLabel: string
+  color: string
+  description: string
+}
+
+const ACTIONS: ActionButton[] = [
+  { action: 'suggest_next_action', icon: Target, label: 'Prochaine action', shortLabel: 'Action', color: 'bg-[#2EC6F3]', description: 'Que faire maintenant ?' },
+  { action: 'draft_email', icon: Mail, label: 'Rédiger email', shortLabel: 'Email', color: 'bg-blue-500', description: 'Email personnalisé' },
+  { action: 'draft_whatsapp', icon: MessageCircle, label: 'Message WhatsApp', shortLabel: 'WhatsApp', color: 'bg-green-500', description: 'Message court et percutant' },
+  { action: 'draft_sms', icon: Smartphone, label: 'SMS', shortLabel: 'SMS', color: 'bg-purple-500', description: 'SMS 160 caractères' },
+  { action: 'handle_objection', icon: Shield, label: 'Gérer objection', shortLabel: 'Objection', color: 'bg-orange-500', description: '"C\'est trop cher", "Je réfléchis"...' },
+  { action: 'analyze_lead', icon: TrendingUp, label: 'Analyser le lead', shortLabel: 'Analyse', color: 'bg-indigo-500', description: 'Brief commercial complet' },
+  { action: 'financement_eligibility', icon: CreditCard, label: 'Éligibilité financement', shortLabel: 'Finance', color: 'bg-emerald-500', description: 'OPCO, CPF, France Travail' },
+  { action: 'closing_script', icon: Zap, label: 'Script de closing', shortLabel: 'Closing', color: 'bg-red-500', description: 'Le lead est chaud !' },
+  { action: 'draft_relance', icon: ArrowRight, label: 'Relance', shortLabel: 'Relance', color: 'bg-amber-500', description: 'Lead silencieux depuis X jours' },
 ]
 
-export default function AIAssistant() {
+interface AIResult {
+  content: string
+  copyable_texts?: { label: string; text: string; canal?: string }[]
+  suggested_actions?: { label: string; action: AssistantAction; input?: string }[]
+}
+
+export default function AIAssistant({ leadId, leadName, onSendMessage }: AIAssistantProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [mode, setMode] = useState<AIMode>('chat')
+  const [isLoading, setIsLoading] = useState(false)
   const [input, setInput] = useState('')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [result, setResult] = useState<Record<string, any> | null>(null)
+  const [result, setResult] = useState<AIResult | null>(null)
+  const [currentAction, setCurrentAction] = useState<AssistantAction | null>(null)
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const resultRef = useRef<HTMLDivElement>(null)
 
-  const generateMutation = useAIGenerate()
-  const objectionMutation = useAIObjection()
-  const researchMutation = useAIResearch()
+  // Raccourci clavier Ctrl+J pour ouvrir
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'j') {
+        e.preventDefault()
+        setIsOpen(prev => !prev)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
 
-  const isLoading = generateMutation.isPending || objectionMutation.isPending || researchMutation.isPending
+  // Focus input à l'ouverture
+  useEffect(() => {
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 100)
+  }, [isOpen])
 
-  const handleSubmit = async () => {
-    if (!input.trim() || isLoading) return
+  // Scroll résultat en bas
+  useEffect(() => {
+    if (result) resultRef.current?.scrollTo(0, resultRef.current.scrollHeight)
+  }, [result])
+
+  const executeAction = useCallback(async (action: AssistantAction, customInput?: string) => {
+    setIsLoading(true)
+    setCurrentAction(action)
+    setResult(null)
 
     try {
-      let data
-      switch (mode) {
-        case 'email':
-          data = await generateMutation.mutateAsync({
-            type: 'premier_contact',
-            lead: { prenom: input, nb_contacts: 0 },
-          })
-          break
-        case 'objection':
-          data = await objectionMutation.mutateAsync({ objection: input })
-          break
-        case 'research':
-          data = await researchMutation.mutateAsync({ nom: input })
-          break
-        default:
-          data = await objectionMutation.mutateAsync({ objection: input })
-      }
+      const res = await fetch('/api/ai/commercial', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action,
+          lead_id: leadId,
+          input: customInput || input,
+        }),
+      })
+
+      if (!res.ok) throw new Error('Erreur API')
+      const data = await res.json()
       setResult(data)
+      setInput('')
     } catch {
       toast.error('Erreur IA — vérifiez la configuration')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [leadId, input])
+
+  const copyText = (text: string, index: number) => {
+    navigator.clipboard.writeText(text)
+    setCopiedIndex(index)
+    toast.success('Copié dans le presse-papier !')
+    setTimeout(() => setCopiedIndex(null), 2000)
+  }
+
+  const sendDirectly = (canal: string, text: string) => {
+    if (onSendMessage) {
+      onSendMessage(canal, text)
+      toast.success(`Message envoyé via ${canal}`)
+    } else {
+      copyText(text, -1)
     }
   }
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-    toast.success('Copié !')
+  const needsInput = (action: AssistantAction): boolean => {
+    return ['handle_objection', 'draft_relance', 'free_question'].includes(action)
+  }
+
+  const handleActionClick = (action: AssistantAction) => {
+    if (needsInput(action)) {
+      setCurrentAction(action)
+      setResult(null)
+      setTimeout(() => inputRef.current?.focus(), 100)
+    } else {
+      executeAction(action)
+    }
+  }
+
+  const handleSubmit = () => {
+    if (!input.trim() && !currentAction) return
+    const action = currentAction || 'free_question'
+    executeAction(action, input)
   }
 
   return (
@@ -64,59 +142,75 @@ export default function AIAssistant() {
       {/* Bouton flottant */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 group ${
           isOpen
             ? 'bg-gray-700 hover:bg-gray-800 rotate-90'
-            : 'bg-gradient-to-br from-[#2EC6F3] to-[#3B82F6] hover:shadow-xl hover:scale-105'
+            : 'bg-gradient-to-br from-[#2EC6F3] to-[#082545] hover:shadow-xl hover:scale-105'
         }`}
+        title="Assistant IA (Ctrl+J)"
       >
-        {isOpen ? <X className="w-5 h-5 text-white" /> : <Bot className="w-6 h-6 text-white" />}
+        {isOpen ? (
+          <X className="w-5 h-5 text-white" />
+        ) : (
+          <>
+            <Bot className="w-6 h-6 text-white" />
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+          </>
+        )}
       </button>
 
       {/* Panel */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[400px] max-h-[600px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden animate-scaleIn">
+        <div className="fixed bottom-24 right-6 z-50 w-[420px] max-h-[calc(100vh-120px)] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="gradient-accent px-4 py-3 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#2EC6F3]/20 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-[#2EC6F3]" />
+          <div className="bg-[#082545] px-4 py-3 flex items-center gap-3 flex-shrink-0">
+            <div className="w-9 h-9 rounded-full bg-[#2EC6F3]/20 flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-[#2EC6F3]" />
             </div>
-            <div>
-              <h3 className="text-white font-semibold text-sm">Assistant IA Dermotec</h3>
-              <p className="text-white/60 text-xs">Prospection intelligente</p>
+            <div className="flex-1">
+              <h3 className="text-white font-semibold text-sm">Copilote Commercial IA</h3>
+              <p className="text-white/50 text-xs">
+                {leadName ? `Lead : ${leadName}` : 'Sélectionne un lead pour plus de contexte'}
+              </p>
             </div>
+            <kbd className="text-white/30 text-xs bg-white/10 px-1.5 py-0.5 rounded">Ctrl+J</kbd>
           </div>
 
-          {/* Quick actions */}
-          <div className="px-4 py-3 border-b border-gray-100">
-            <div className="flex gap-2">
-              {QUICK_ACTIONS.map((action) => (
+          {/* Actions rapides */}
+          <div className="px-3 py-2 border-b border-gray-100 flex-shrink-0">
+            <div className="flex flex-wrap gap-1.5">
+              {ACTIONS.map((a) => (
                 <button
-                  key={action.mode}
-                  onClick={() => { setMode(action.mode); setResult(null) }}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition ${
-                    mode === action.mode
-                      ? `${action.color} text-white`
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  key={a.action}
+                  onClick={() => handleActionClick(a.action)}
+                  disabled={isLoading}
+                  className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all ${
+                    currentAction === a.action
+                      ? `${a.color} text-white shadow-sm`
+                      : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                   }`}
+                  title={a.description}
                 >
-                  <action.icon className="w-3 h-3" />
-                  {action.label}
+                  <a.icon className="w-3 h-3" />
+                  {a.shortLabel}
                 </button>
               ))}
             </div>
           </div>
 
           {/* Résultat */}
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+          <div ref={resultRef} className="flex-1 overflow-y-auto px-4 py-3 min-h-[200px]">
             {!result && !isLoading && (
-              <div className="text-center py-8 text-gray-400">
-                <Bot className="w-10 h-10 mx-auto mb-3 opacity-30" />
-                <p className="text-sm">
-                  {mode === 'email' && 'Entrez le prénom du lead pour générer un email personnalisé'}
-                  {mode === 'objection' && 'Entrez l\'objection du prospect (ex: "C\'est trop cher")'}
-                  {mode === 'research' && 'Entrez le nom ou l\'entreprise du prospect'}
-                  {mode === 'chat' && 'Posez votre question'}
+              <div className="text-center py-6 text-gray-400">
+                <Bot className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                <p className="text-sm font-medium mb-1">
+                  {leadId ? `Prêt à aider avec ${leadName}` : 'Ton copilote de vente IA'}
+                </p>
+                <p className="text-xs text-gray-300">
+                  {currentAction === 'handle_objection' ? 'Tape l\'objection du prospect...' :
+                   currentAction === 'draft_relance' ? 'Depuis combien de jours ? (ex: "5 jours")' :
+                   currentAction === 'free_question' ? 'Pose ta question...' :
+                   leadId ? 'Clique sur une action ci-dessus' : 'Ouvre une fiche lead pour plus de contexte'}
                 </p>
               </div>
             )}
@@ -124,126 +218,118 @@ export default function AIAssistant() {
             {isLoading && (
               <div className="text-center py-8">
                 <Loader2 className="w-8 h-8 mx-auto mb-3 text-[#2EC6F3] animate-spin" />
-                <p className="text-sm text-gray-500">L'IA réfléchit...</p>
+                <p className="text-sm text-gray-500">
+                  {currentAction === 'analyze_lead' ? 'Analyse du profil en cours...' :
+                   currentAction === 'handle_objection' ? 'Préparation de la réponse...' :
+                   currentAction === 'financement_eligibility' ? 'Vérification éligibilité...' :
+                   'L\'IA réfléchit...'}
+                </p>
               </div>
             )}
 
             {result && !isLoading && (
               <div className="space-y-3">
-                {/* Email result */}
-                {!!result.objet && (
-                  <>
-                    <div className="bg-blue-50 rounded-lg p-3">
-                      <p className="text-xs text-blue-600 font-medium mb-1">Objet :</p>
-                      <p className="text-sm font-medium">{String(result.objet)}</p>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs text-gray-500 font-medium mb-1">Corps :</p>
-                      <div className="text-sm prose prose-sm" dangerouslySetInnerHTML={{ __html: String(result.corps || '') }} />
-                    </div>
-                    {!!result.variante_whatsapp && (
-                      <div className="bg-green-50 rounded-lg p-3">
-                        <p className="text-xs text-green-600 font-medium mb-1">WhatsApp :</p>
-                        <p className="text-sm">{String(result.variante_whatsapp)}</p>
-                        <button
-                          onClick={() => copyToClipboard(String(result.variante_whatsapp))}
-                          className="mt-2 text-xs text-green-600 hover:text-green-800"
-                        >
-                          Copier
-                        </button>
+                {/* Contenu principal */}
+                <div className="bg-gray-50 rounded-xl p-3">
+                  <div className="text-sm whitespace-pre-wrap leading-relaxed">
+                    {result.content.split('\n').map((line, i) => {
+                      if (line.startsWith('**') && line.endsWith('**')) {
+                        return <p key={i} className="font-bold text-[#082545] mt-2 first:mt-0">{line.replace(/\*\*/g, '')}</p>
+                      }
+                      if (line.startsWith('**')) {
+                        const parts = line.split('**')
+                        return (
+                          <p key={i} className="mt-1">
+                            <strong className="text-[#082545]">{parts[1]}</strong>
+                            {parts[2]}
+                          </p>
+                        )
+                      }
+                      if (line.startsWith('→') || line.startsWith('•') || line.startsWith('✅')) {
+                        return <p key={i} className="ml-2 text-gray-600">{line}</p>
+                      }
+                      return line ? <p key={i} className="text-gray-700">{line}</p> : <br key={i} />
+                    })}
+                  </div>
+                </div>
+
+                {/* Textes copiables */}
+                {result.copyable_texts && result.copyable_texts.length > 0 && (
+                  <div className="space-y-2">
+                    {result.copyable_texts.map((item, i) => (
+                      <div key={i} className="border border-gray-200 rounded-xl p-3 hover:border-[#2EC6F3]/50 transition">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-xs font-medium text-gray-500">{item.label}</span>
+                          <div className="flex gap-1">
+                            {item.canal && onSendMessage && (
+                              <button
+                                onClick={() => sendDirectly(item.canal!, item.text)}
+                                className="flex items-center gap-1 text-xs px-2 py-0.5 bg-[#2EC6F3] text-white rounded-md hover:bg-[#1BA8D4] transition"
+                              >
+                                <Send className="w-3 h-3" />
+                                Envoyer
+                              </button>
+                            )}
+                            <button
+                              onClick={() => copyText(item.text, i)}
+                              className="flex items-center gap-1 text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 transition"
+                            >
+                              {copiedIndex === i ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
+                              {copiedIndex === i ? 'Copié' : 'Copier'}
+                            </button>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-700 leading-relaxed">{item.text}</p>
                       </div>
-                    )}
-                  </>
+                    ))}
+                  </div>
                 )}
 
-                {/* Objection result */}
-                {!!result.reponse_courte && (
-                  <>
-                    <div className="bg-orange-50 rounded-lg p-3">
-                      <p className="text-xs text-orange-600 font-medium mb-1">Réponse courte :</p>
-                      <p className="text-sm font-medium">{String(result.reponse_courte)}</p>
+                {/* Actions suggérées */}
+                {result.suggested_actions && result.suggested_actions.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {result.suggested_actions.map((sa, i) => (
                       <button
-                        onClick={() => copyToClipboard(String(result.reponse_courte))}
-                        className="mt-1 text-xs text-orange-600 hover:text-orange-800"
+                        key={i}
+                        onClick={() => executeAction(sa.action, sa.input)}
+                        className="flex items-center gap-1 text-xs px-3 py-1.5 bg-[#2EC6F3]/10 text-[#2EC6F3] rounded-lg hover:bg-[#2EC6F3]/20 transition font-medium"
                       >
-                        Copier
+                        <ChevronRight className="w-3 h-3" />
+                        {sa.label}
                       </button>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs text-gray-500 font-medium mb-1">Réponse détaillée :</p>
-                      <p className="text-sm">{String(result.reponse_detaillee)}</p>
-                    </div>
-                    {Array.isArray(result.questions_rebond) && (
-                      <div className="bg-blue-50 rounded-lg p-3">
-                        <p className="text-xs text-blue-600 font-medium mb-1">Questions rebond :</p>
-                        <ul className="text-sm space-y-1">
-                          {result.questions_rebond.map((q: string, i: number) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <span className="text-blue-400">→</span> {q}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {/* Research result */}
-                {result.resume && !result.objet && !result.reponse_courte && (
-                  <>
-                    <div className="bg-purple-50 rounded-lg p-3">
-                      <p className="text-xs text-purple-600 font-medium mb-1">Résumé :</p>
-                      <p className="text-sm">{String(result.resume)}</p>
-                    </div>
-                    {Array.isArray(result.talking_points) && (
-                      <div className="bg-gray-50 rounded-lg p-3">
-                        <p className="text-xs text-gray-500 font-medium mb-1">Points de conversation :</p>
-                        <ul className="text-sm space-y-1">
-                          {result.talking_points.map((p: string, i: number) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <span className="text-purple-400">💡</span> {p}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    {Array.isArray(result.opportunites) && (
-                      <div className="bg-green-50 rounded-lg p-3">
-                        <p className="text-xs text-green-600 font-medium mb-1">Opportunités :</p>
-                        <ul className="text-sm space-y-1">
-                          {result.opportunites.map((o: string, i: number) => (
-                            <li key={i}>✅ {o}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </>
+                    ))}
+                  </div>
                 )}
               </div>
             )}
           </div>
 
           {/* Input */}
-          <div className="px-4 py-3 border-t border-gray-100">
+          <div className="px-3 py-2 border-t border-gray-100 flex-shrink-0">
             <div className="flex gap-2">
               <input
+                ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault()
+                    handleSubmit()
+                  }
+                }}
                 placeholder={
-                  mode === 'email' ? 'Prénom du lead...' :
-                  mode === 'objection' ? 'L\'objection du prospect...' :
-                  mode === 'research' ? 'Nom ou entreprise...' :
-                  'Votre question...'
+                  currentAction === 'handle_objection' ? '"C\'est trop cher", "Je dois réfléchir"...' :
+                  currentAction === 'draft_relance' ? 'Depuis combien de jours ? (ex: 5 jours)' :
+                  'Question libre ou sélectionne une action...'
                 }
-                className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/20 outline-none"
+                className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/20 outline-none"
                 disabled={isLoading}
               />
               <button
                 onClick={handleSubmit}
-                disabled={isLoading || !input.trim()}
-                className="p-2 bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white rounded-lg transition disabled:opacity-50"
+                disabled={isLoading || (!input.trim() && !currentAction)}
+                className="p-2.5 bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white rounded-xl transition disabled:opacity-40"
               >
                 <Send className="w-4 h-4" />
               </button>
