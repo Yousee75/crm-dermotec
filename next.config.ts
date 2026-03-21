@@ -54,9 +54,14 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '10mb',
     },
-    optimizePackageImports: ['lucide-react', 'recharts', 'date-fns', 'framer-motion'],
+    optimizePackageImports: [
+      'lucide-react', 'recharts', 'date-fns', 'framer-motion',
+      '@tanstack/react-query', 'sonner', '@supabase/ssr', 'cmdk',
+    ],
     // Sentry tracing dans App Router
     clientTraceMetadata: ['sentry-trace', 'baggage'],
+    // PPR: envoyer le shell statique immédiatement, streamer les données
+    // ppr: 'incremental', // Requires canary Next.js
   },
 
   // NOTE: Le build échoue sur le prerendering /404 à cause d'un conflit

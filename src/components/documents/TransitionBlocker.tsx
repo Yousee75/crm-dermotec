@@ -182,7 +182,7 @@ const getTransitionBlockers = (
       // Certificat + satisfaction
       const hasCertificat = !!docsByType.certificat
       const hasSatisfaction = inscriptions.some(i =>
-        i.note_satisfaction !== null && i.note_satisfaction >= 3
+        i.note_satisfaction != null && i.note_satisfaction >= 3
       )
 
       if (!hasCertificat) {

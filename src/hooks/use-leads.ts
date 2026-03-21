@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
+import { toast } from 'sonner'
 import type { Lead, StatutLead, PrioriteLead, SourceLead } from '@/types'
 
 // --- Filtres ---
@@ -143,6 +144,11 @@ export function useCreateLead() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
+      toast.success('Lead créé avec succès')
+    },
+    onError: (error: Error) => {
+      console.error('[useCreateLead]', error)
+      toast.error(`Erreur création lead : ${error.message}`)
     },
   })
 }
@@ -166,6 +172,11 @@ export function useUpdateLead() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
       queryClient.invalidateQueries({ queryKey: ['lead', data.id] })
+      toast.success('Lead mis à jour')
+    },
+    onError: (error: Error) => {
+      console.error('[useUpdateLead]', error)
+      toast.error(`Erreur mise à jour : ${error.message}`)
     },
   })
 }
@@ -197,6 +208,11 @@ export function useChangeStatut() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
+      toast.success('Statut mis à jour')
+    },
+    onError: (error: Error) => {
+      console.error('[useChangeStatut]', error)
+      toast.error(`Erreur changement statut : ${error.message}`)
     },
   })
 }
@@ -213,6 +229,11 @@ export function useDeleteLead() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
+      toast.success('Lead supprimé')
+    },
+    onError: (error: Error) => {
+      console.error('[useDeleteLead]', error)
+      toast.error(`Erreur suppression : ${error.message}`)
     },
   })
 }

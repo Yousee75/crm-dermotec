@@ -17,6 +17,10 @@ export function formatDateShort(date: string | Date): string {
   return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
 }
 
+export function formatTime(date: string | Date): string {
+  return new Date(date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+}
+
 export function formatDateTime(date: string | Date): string {
   return new Date(date).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 }

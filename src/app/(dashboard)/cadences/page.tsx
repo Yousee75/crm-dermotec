@@ -1,5 +1,5 @@
-// @ts-nocheck
 'use client'
+// @ts-nocheck
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -15,7 +15,7 @@ import { Tooltip } from '@/components/ui/Tooltip'
 import { cn } from '@/lib/utils'
 import { useCadenceTemplates, useCadenceInstances, useStopCadence } from '@/hooks/use-cadences'
 import { CADENCES_PREDEFINES } from '@/lib/cadence-engine'
-import type { CadenceTemplate, CadenceInstance, CadenceStepType } from '@/types'
+import type { CadenceTemplate, CadenceInstance, CadenceStepType, CadenceStep } from '@/types'
 
 // Types utilitaires
 interface KPI {
@@ -67,7 +67,7 @@ function CadenceStep({
   index,
   isLast
 }: {
-  step: { type: CadenceStepType; [key: string]: unknown }
+  step: CadenceStep
   index: number
   isLast: boolean
 }) {

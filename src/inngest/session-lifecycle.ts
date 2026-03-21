@@ -15,8 +15,8 @@ export const sessionLifecycle = inngest.createFunction(
   {
     id: 'crm-session-lifecycle',
     retries: 2,
+    triggers: [{ cron: 'TZ=Europe/Paris 0 8 * * *' }],
   },
-  { cron: 'TZ=Europe/Paris 0 8 * * *' },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async ({ step }: { step: any }) => {
     const today = new Date().toISOString().split('T')[0]

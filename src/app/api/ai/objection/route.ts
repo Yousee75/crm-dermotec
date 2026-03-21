@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiHandleObjection } from '@/lib/ai'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 20
@@ -7,6 +8,9 @@ export const maxDuration = 20
 // POST /api/ai/objection — Traitement d'objection en temps réel
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth(request)
+    if (auth.error) return auth.error
+
     const { objection, contexte_lead } = await request.json()
 
     if (!objection) {

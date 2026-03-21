@@ -36,7 +36,7 @@ export function MobileBottomNav() {
             >
               <item.icon className={cn('w-5 h-5', isActive && 'drop-shadow-sm')} />
               <span className={cn(
-                'text-[10px] leading-none',
+                'text-[11px] leading-none',
                 isActive ? 'font-semibold' : 'font-medium'
               )}>
                 {item.label}

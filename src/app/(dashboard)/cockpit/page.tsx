@@ -251,9 +251,12 @@ export default function CockpitPage() {
 
       const formationsStats: Record<string, { titre: string; ca: number; count: number }> = {}
 
-      inscriptions?.forEach(i => {
-        const formationId = i.session.formation.id
-        const titre = i.session.formation.titre
+      inscriptions?.forEach((i: any) => {
+        const session = Array.isArray(i.session) ? i.session[0] : i.session
+        const formation = session ? (Array.isArray(session.formation) ? session.formation[0] : session.formation) : null
+        if (!formation) return
+        const formationId = formation.id
+        const titre = formation.titre
 
         if (!formationsStats[formationId]) {
           formationsStats[formationId] = { titre, ca: 0, count: 0 }
@@ -604,11 +607,11 @@ export default function CockpitPage() {
                         month: 'short'
                       })}
                     </span>
-                    {activite.user && (
+                    {activite.user && !Array.isArray(activite.user) && (
                       <>
                         <span className="text-xs text-gray-300">•</span>
                         <span className="text-xs text-gray-500">
-                          {activite.user.prenom} {activite.user.nom}
+                          {(activite.user as any).prenom} {(activite.user as any).nom}
                         </span>
                       </>
                     )}

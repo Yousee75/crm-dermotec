@@ -66,10 +66,11 @@ export function AddInscriptionDialog({ open, onOpenChange, sessionId, formationP
       if (error) throw error
 
       // Incrémenter places_occupees
-      await supabase.rpc('increment_places', { p_session_id: sessionId }).catch(() => {
-        // RPC optionnelle, fallback update direct
-        supabase.from('sessions').update({ places_occupees: placesRestantes > 0 ? formationPrixHt : 0 }).eq('id', sessionId)
-      })
+      try {
+        await supabase.rpc('increment_places', { p_session_id: sessionId })
+      } catch {
+        // RPC optionnelle, ignore
+      }
     },
     onSuccess: () => {
       toast.success(`${selectedLead?.prenom} inscrit(e) avec succès`)

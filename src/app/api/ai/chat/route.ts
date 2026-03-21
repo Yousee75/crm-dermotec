@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { chatWithAI } from '@/lib/ai-chatbot'
 import { createServiceSupabase } from '@/lib/supabase-server'
+import { requireAuth } from '@/lib/api-auth'
 
 export async function POST(req: NextRequest) {
   try {
+    const auth = await requireAuth(req)
+    if (auth.error) return auth.error
+
     const body = await req.json()
     const { messages, lead_id } = body
 

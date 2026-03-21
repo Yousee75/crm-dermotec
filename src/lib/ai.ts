@@ -2,6 +2,8 @@
 // CRM DERMOTEC — Moteur IA (DeepSeek / OpenAI compatible)
 // Prompts métier adaptés marché français formation esthétique
 // ============================================================
+// Note: ce module est importé côté serveur ET par playbook.ts (client)
+// Ne pas utiliser 'server-only' ici — les types/interfaces sont partagés
 
 export interface AIMessage {
   role: 'system' | 'user' | 'assistant'

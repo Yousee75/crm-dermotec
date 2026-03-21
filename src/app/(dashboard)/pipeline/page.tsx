@@ -5,7 +5,8 @@ import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOve
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye } from 'lucide-react'
+import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye, Sparkles } from 'lucide-react'
+import { toast } from 'sonner'
 import { useLeads, useChangeStatut } from '@/hooks/use-leads'
 import { PHASES_PIPELINE, STATUTS_LEAD } from '@/types'
 import type { Lead, StatutLead } from '@/types'
@@ -170,9 +171,10 @@ function PipelineColumn({ phase, leads, totalValue }: {
         {leads.length === 0 && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-2">
-              <Users className="w-5 h-5 text-gray-300" />
+              <Sparkles className="w-5 h-5 text-gray-300" />
             </div>
-            <p className="text-xs text-gray-400">Aucun lead</p>
+            <p className="text-xs text-gray-500 font-medium mb-0.5">Colonne vide</p>
+            <p className="text-[11px] text-gray-400">Glissez un lead ici</p>
           </div>
         )}
       </div>
@@ -223,10 +225,22 @@ export default function PipelinePage() {
     const currentLead = leadsData?.leads.find(l => l.id === leadId)
     if (!currentLead || currentLead.statut === newStatut) return
 
+    const previousStatut = currentLead.statut
     changeStatut.mutate({
       id: leadId,
       statut: newStatut,
       notes: `Déplacé vers ${targetPhase.label} depuis le pipeline`
+    }, {
+      onSuccess: () => {
+        toast.success(`${currentLead.prenom} ${currentLead.nom} déplacé vers ${targetPhase.label}`, {
+          description: `${STATUTS_LEAD[previousStatut]?.label || previousStatut} → ${targetPhase.label}`,
+        })
+      },
+      onError: () => {
+        toast.error('Impossible de changer le statut', {
+          description: 'Cette transition n\'est pas autorisée',
+        })
+      }
     })
   }
 

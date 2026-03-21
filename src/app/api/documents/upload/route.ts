@@ -80,6 +80,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
 
     const supabase = await createServiceSupabase()
 
+    // Authentification obligatoire — recuperer l'utilisateur connecte
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({
+        success: false,
+        error: 'Authentification requise'
+      }, { status: 401 })
+    }
+
     // Génération du chemin de stockage
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
     const safeFilename = file.name
@@ -105,12 +114,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
     }
 
     // Scan antivirus si clé API disponible
-    let scanResult = { clean: true, skipped: true }
+    let scanResult: { clean: boolean; skipped: boolean } = { clean: true, skipped: true }
     let scanStatus: 'clean' | 'suspect' | 'scanning' | 'skipped' = 'skipped'
 
     if (process.env.VIRUSTOTAL_API_KEY) {
       try {
-        scanResult = await scanWithVirusTotal(fileBuffer, process.env.VIRUSTOTAL_API_KEY)
+        const result = await scanWithVirusTotal(fileBuffer, process.env.VIRUSTOTAL_API_KEY)
+        scanResult = { clean: result.clean, skipped: result.skipped ?? false }
         scanStatus = scanResult.clean ? 'clean' : 'suspect'
       } catch (error) {
         console.error('VirusTotal scan error:', error)
@@ -139,7 +149,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
         mime_type: file.type,
         description: description,
         is_signed: false,
-        uploaded_by: null, // TODO: récupérer l'utilisateur connecté
+        uploaded_by: user.id,
         created_at: new Date().toISOString()
       })
       .select('id')

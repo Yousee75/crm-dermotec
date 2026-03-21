@@ -89,7 +89,7 @@ export default function DashboardPage() {
               label="Total Leads"
               value={totalLeads}
               color="#3B82F6"
-              trend={{ value: 12, label: 'vs mois dernier' }}
+              subtitle="Tous statuts"
             />
           </Link>
           <Link href="/leads">
@@ -171,8 +171,8 @@ export default function DashboardPage() {
             ) : (
               <EmptyState
                 icon={<Phone className="w-6 h-6" />}
-                title="Aucun rappel"
-                description="Aucun rappel prévu aujourd'hui"
+                title="Journée libre"
+                description="Aucun rappel prévu — profitez-en pour prospecter"
               />
             )}
           </CardContent>
@@ -236,13 +236,8 @@ export default function DashboardPage() {
             ) : (
               <EmptyState
                 icon={<Calendar className="w-6 h-6" />}
-                title="Aucune session"
-                description="Aucune session planifiée"
-                action={{
-                  label: 'Créer une session',
-                  onClick: () => {},
-                  icon: <Sparkles className="w-3.5 h-3.5" />,
-                }}
+                title="Prêt à planifier"
+                description="Planifiez votre prochaine session de formation"
               />
             )}
           </CardContent>
@@ -301,8 +296,8 @@ export default function DashboardPage() {
             ) : (
               <EmptyState
                 icon={<Users className="w-6 h-6" />}
-                title="Aucun lead"
-                description="Créez votre premier lead"
+                title="Prêt à démarrer"
+                description="Ajoutez votre premier prospect avec le bouton N ou ⌘K"
               />
             )}
           </CardContent>

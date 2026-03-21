@@ -157,14 +157,14 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
     )
   }
 
-  const statutSession = STATUTS_SESSION[session.statut]
+  const statutSession = STATUTS_SESSION[session.statut as StatutSession]
   const placesOccupees = inscriptions.length
   const placesRestantes = session.places_max - placesOccupees
   const tauxRemplissage = Math.round((placesOccupees / session.places_max) * 100)
   const caPrevu = placesOccupees * (formation.prix_ht || 0)
   const caRealise = inscriptions
-    .filter(i => i.paiement_statut === 'PAYE')
-    .reduce((sum, i) => sum + (i.montant_total || 0), 0)
+    .filter((i: any) => i.paiement_statut === 'PAYE')
+    .reduce((sum: number, i: any) => sum + (i.montant_total || 0), 0)
 
   const emargementUrl = `${process.env.NEXT_PUBLIC_APP_URL}/emargement/${session.id}`
 
@@ -408,10 +408,10 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                   </tr>
                 </thead>
                 <tbody>
-                  {inscriptions.map((inscription) => {
+                  {inscriptions.map((inscription: any) => {
                     const lead = inscription.lead
-                    const statutInsc = STATUTS_INSCRIPTION[inscription.statut]
-                    const statutPaiement = STATUTS_PAIEMENT[inscription.paiement_statut]
+                    const statutInsc = STATUTS_INSCRIPTION[inscription.statut as StatutInscription]
+                    const statutPaiement = STATUTS_PAIEMENT[inscription.paiement_statut as PaiementStatut]
 
                     return (
                       <tr key={inscription.id} className="border-b border-gray-50">
@@ -557,9 +557,9 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                     </tr>
                   </thead>
                   <tbody>
-                    {inscriptions.map((inscription) => {
+                    {inscriptions.map((inscription: any) => {
                       const lead = inscription.lead
-                      const presences = Array.from({ length: 5 }, (_, i) => {
+                      const presences = Array.from({ length: 5 }, (_, i: number) => {
                         const field = `presence_jour${i + 1}` as keyof typeof inscription
                         return inscription[field]
                       })
@@ -620,8 +620,8 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
             }
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {modeles.map((modele) => {
-                const statutModele = STATUTS_MODELE[modele.statut]
+              {modeles.map((modele: any) => {
+                const statutModele = STATUTS_MODELE[modele.statut as StatutModele]
 
                 return (
                   <div key={modele.id} className="border border-gray-200 rounded-lg p-4">
@@ -665,10 +665,10 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                           <span className="text-xs text-gray-600">Photos :</span>
                           <div className="flex gap-1">
                             {modele.photo_avant_url && (
-                              <Camera className="w-4 h-4 text-green-500" title="Photo avant" />
+                              <Camera className="w-4 h-4 text-green-500" aria-label="Photo avant" />
                             )}
                             {modele.photo_apres_url && (
-                              <Camera className="w-4 h-4 text-blue-500" title="Photo après" />
+                              <Camera className="w-4 h-4 text-blue-500" aria-label="Photo après" />
                             )}
                           </div>
                         </div>

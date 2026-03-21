@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
+import { Dialog, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/Dialog'
 import { STATUTS_LEAD, type StatutLead } from '@/types'
 import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users } from 'lucide-react'
 import Link from 'next/link'
@@ -16,10 +17,16 @@ import { ProgressBar } from '@/components/ui/ProgressBar'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
+import { SourceBadge, SOURCE_CONFIG } from '@/components/ui/SourceBadge'
+import { ScoreChip } from '@/components/ui/ScoreChip'
+import { FilterDropdown, FilterOption } from '@/components/ui/FilterDropdown'
+import { getScoreColor } from '@/lib/scoring'
+import type { SourceLead } from '@/types'
 
 export default function LeadsPage() {
   const [search, setSearch] = useState('')
   const [statutFilter, setStatutFilter] = useState<StatutLead[]>([])
+  const [sourceFilter, setSourceFilter] = useState<SourceLead[]>([])
   const [page, setPage] = useState(1)
   const [showCreate, setShowCreate] = useState(false)
 
@@ -50,8 +57,8 @@ export default function LeadsPage() {
       </PageHeader>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-        <div className="w-full sm:max-w-sm">
+      <div className="space-y-3">
+        <div className="w-full sm:max-w-md">
           <SearchInput
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1) }}
@@ -59,13 +66,20 @@ export default function LeadsPage() {
           />
         </div>
 
-        {/* Statut badges filter */}
-        <div className="flex flex-wrap gap-1.5">
-          {Object.entries(STATUTS_LEAD).slice(0, 7).map(([key, val]) => {
-            const isSelected = statutFilter.includes(key as StatutLead)
-            return (
-              <button
+        {/* Smart filter dropdowns */}
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Statut dropdown */}
+          <FilterDropdown
+            label="Statut"
+            icon={Filter}
+            activeCount={statutFilter.length || undefined}
+            onClear={() => { setStatutFilter([]); setPage(1) }}
+          >
+            {Object.entries(STATUTS_LEAD).map(([key, val]) => (
+              <FilterOption
                 key={key}
+                selected={statutFilter.includes(key as StatutLead)}
+                color={val.color}
                 onClick={() => {
                   setStatutFilter(prev =>
                     prev.includes(key as StatutLead)
@@ -74,25 +88,50 @@ export default function LeadsPage() {
                   )
                   setPage(1)
                 }}
-                className={cn(
-                  'px-2.5 py-1.5 rounded-full text-xs font-medium transition-all duration-150 border',
-                  'min-h-[32px]',
-                  isSelected
-                    ? 'text-white border-transparent shadow-sm'
-                    : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-                )}
-                style={isSelected ? { backgroundColor: val.color, borderColor: val.color } : {}}
               >
                 {val.label}
-              </button>
-            )
-          })}
-          {statutFilter.length > 0 && (
+              </FilterOption>
+            ))}
+          </FilterDropdown>
+
+          {/* Source dropdown */}
+          <FilterDropdown
+            label="Source"
+            icon={Users}
+            activeCount={sourceFilter.length || undefined}
+            onClear={() => { setSourceFilter([]); setPage(1) }}
+          >
+            {Object.entries(SOURCE_CONFIG).map(([key, cfg]) => {
+              const SrcIcon = cfg.icon
+              return (
+                <FilterOption
+                  key={key}
+                  selected={sourceFilter.includes(key as SourceLead)}
+                  onClick={() => {
+                    setSourceFilter(prev =>
+                      prev.includes(key as SourceLead)
+                        ? prev.filter(s => s !== key)
+                        : [...prev, key as SourceLead]
+                    )
+                    setPage(1)
+                  }}
+                >
+                  <span className="flex items-center gap-2">
+                    <SrcIcon className="w-3 h-3" style={{ color: cfg.color }} />
+                    {cfg.label}
+                  </span>
+                </FilterOption>
+              )
+            })}
+          </FilterDropdown>
+
+          {/* Clear all */}
+          {(statutFilter.length > 0 || sourceFilter.length > 0) && (
             <button
-              onClick={() => { setStatutFilter([]); setPage(1) }}
-              className="px-2.5 py-1.5 rounded-full text-xs text-gray-400 hover:text-gray-600 transition"
+              onClick={() => { setStatutFilter([]); setSourceFilter([]); setPage(1) }}
+              className="text-xs text-gray-400 hover:text-red-500 transition px-2"
             >
-              Réinitialiser
+              Tout effacer
             </button>
           )}
         </div>
@@ -114,16 +153,16 @@ export default function LeadsPage() {
                     </button>
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Contact</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Formation</th>
+                  <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Formation</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Statut</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Source</th>
-                  <th className="px-4 py-3 text-left">
+                  <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Source</th>
+                  <th className="hidden sm:table-cell px-4 py-3 text-left">
                     <button className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700 transition">
                       Score
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                  <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -132,13 +171,13 @@ export default function LeadsPage() {
                     <td colSpan={7}>
                       <EmptyState
                         icon={<Users className="w-7 h-7" />}
-                        title={search || statutFilter.length ? 'Aucun résultat' : 'Aucun lead'}
+                        title={search || statutFilter.length ? 'Aucun lead trouvé' : 'Commencez ici'}
                         description={search || statutFilter.length
-                          ? 'Essayez de modifier vos filtres'
-                          : 'Créez votre premier lead pour commencer'
+                          ? 'Modifiez vos filtres ou essayez un autre terme de recherche'
+                          : 'Ajoutez votre premier prospect pour démarrer votre pipeline commercial'
                         }
                         action={!search && !statutFilter.length ? {
-                          label: 'Nouveau Lead',
+                          label: 'Créer votre premier lead',
                           onClick: () => setShowCreate(true),
                           icon: <Plus className="w-3.5 h-3.5" />,
                         } : undefined}
@@ -154,10 +193,20 @@ export default function LeadsPage() {
                     >
                       <td className="px-4 py-3">
                         <Link href={`/lead/${lead.id}`} className="flex items-center gap-3">
-                          <Avatar name={`${lead.prenom} ${lead.nom}`} size="sm" />
+                          <div className="relative">
+                            <Avatar name={`${lead.prenom} ${lead.nom}`} size="sm" />
+                            <div
+                              className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white"
+                              style={{ backgroundColor: getScoreColor(lead.score_chaud) }}
+                              title={`Score: ${lead.score_chaud}`}
+                            />
+                          </div>
                           <div className="min-w-0">
-                            <p className="font-medium text-[#082545] truncate">{lead.prenom} {lead.nom}</p>
-                            <p className="text-xs text-gray-400 truncate">{lead.statut_pro || '—'}</p>
+                            <p className="font-medium text-[#082545] truncate group-hover:text-[#2EC6F3] transition">{lead.prenom} {lead.nom}</p>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              {lead.statut_pro?.replace(/_/g, ' ') || '—'}
+                              {lead.financement_souhaite && <span className="ml-1 text-[#2EC6F3]" title="Financement souhaité">$</span>}
+                            </p>
                           </div>
                         </Link>
                       </td>
@@ -166,7 +215,7 @@ export default function LeadsPage() {
                           {lead.telephone && (
                             <a
                               href={`tel:${lead.telephone}`}
-                              className="p-1.5 rounded-md hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
+                              className="p-2 sm:p-1.5 rounded-md hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
                               title={lead.telephone}
                               onClick={e => e.stopPropagation()}
                             >
@@ -176,7 +225,7 @@ export default function LeadsPage() {
                           {lead.email && (
                             <a
                               href={`mailto:${lead.email}`}
-                              className="p-1.5 rounded-md hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
+                              className="p-2 sm:p-1.5 rounded-md hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
                               title={lead.email}
                               onClick={e => e.stopPropagation()}
                             >
@@ -187,7 +236,7 @@ export default function LeadsPage() {
                             <a
                               href={`https://wa.me/${lead.whatsapp}`}
                               target="_blank"
-                              className="p-1.5 rounded-md hover:bg-green-50 text-gray-400 hover:text-green-500 transition"
+                              className="p-2 sm:p-1.5 rounded-md hover:bg-green-50 text-gray-400 hover:text-green-500 transition"
                               onClick={e => e.stopPropagation()}
                             >
                               <MessageCircle className="w-3.5 h-3.5" />
@@ -195,7 +244,7 @@ export default function LeadsPage() {
                           )}
                         </div>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="hidden md:table-cell px-4 py-3">
                         <span className="text-xs text-gray-600 truncate block max-w-[160px]">
                           {lead.formation_principale?.nom || '—'}
                         </span>
@@ -207,21 +256,24 @@ export default function LeadsPage() {
                           color={statut.color}
                         />
                       </td>
-                      <td className="px-4 py-3">
-                        <Badge variant="outline" size="sm">
-                          {lead.source.replace('_', ' ')}
-                        </Badge>
+                      <td className="hidden lg:table-cell px-4 py-3">
+                        <SourceBadge source={lead.source} />
                       </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2 w-20">
-                          <ProgressBar value={lead.score_chaud} size="sm" />
-                          <span className="text-xs text-gray-500 tabular-nums">{lead.score_chaud}</span>
+                      <td className="hidden sm:table-cell px-4 py-3">
+                        <ScoreChip score={lead.score_chaud} />
+                      </td>
+                      <td className="hidden lg:table-cell px-4 py-3">
+                        <div>
+                          <span className="text-xs text-gray-500 whitespace-nowrap block">
+                            {new Date(lead.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                          </span>
+                          <span className="text-[10px] text-gray-300">
+                            {(() => {
+                              const d = Math.floor((Date.now() - new Date(lead.created_at).getTime()) / 86400000)
+                              return d === 0 ? "Aujourd'hui" : d === 1 ? 'Hier' : `il y a ${d}j`
+                            })()}
+                          </span>
                         </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="text-xs text-gray-400 whitespace-nowrap">
-                          {new Date(lead.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-                        </span>
                       </td>
                     </tr>
                   )

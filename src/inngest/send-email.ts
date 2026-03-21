@@ -9,8 +9,8 @@ export const sendEmail = inngest.createFunction(
   {
     id: 'crm-send-email',
     retries: 3,
+    triggers: [{ event: 'crm/email.send' }],
   },
-  { event: 'crm/email.send' },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async ({ event, step }: { event: any; step: any }) => {
     const { to, template_slug, variables, lead_id } = event.data
@@ -75,7 +75,7 @@ export const sendEmail = inngest.createFunction(
         { auth: { persistSession: false } }
       )
 
-      const promises: Promise<unknown>[] = []
+      const promises: PromiseLike<unknown>[] = []
 
       if (lead_id) {
         promises.push(

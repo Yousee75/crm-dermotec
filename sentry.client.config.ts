@@ -10,8 +10,8 @@ Sentry.init({
   // Performance monitoring
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.2 : 1.0,
 
-  // Session replay (erreurs seulement)
-  replaysSessionSampleRate: 0,
+  // Session replay (10% sessions, 100% sur erreur)
+  replaysSessionSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0,
   replaysOnErrorSampleRate: process.env.NODE_ENV === 'production' ? 1.0 : 0,
 
   // Environment

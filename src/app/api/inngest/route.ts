@@ -27,21 +27,22 @@ async function getHandler() {
       inngestFunctions.refreshMaterializedViews,
       inngestFunctions.processQueueJob,
       inngestFunctions.businessMetricsCheck,
+      inngestFunctions.stripeWebhookProcessor,
     ],
   })
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, res: unknown) {
   const handler = await getHandler()
-  return handler.GET(req)
+  return handler.GET(req, res)
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, res: unknown) {
   const handler = await getHandler()
-  return handler.POST(req)
+  return handler.POST(req, res)
 }
 
-export async function PUT(req: NextRequest) {
+export async function PUT(req: NextRequest, res: unknown) {
   const handler = await getHandler()
-  return handler.PUT(req)
+  return handler.PUT(req, res)
 }

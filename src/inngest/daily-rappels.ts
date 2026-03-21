@@ -9,8 +9,8 @@ export const dailyRappels = inngest.createFunction(
   {
     id: 'crm-daily-rappels',
     retries: 2,
+    triggers: [{ cron: 'TZ=Europe/Paris 0 7 * * *' }],
   },
-  { cron: 'TZ=Europe/Paris 0 7 * * *' },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async ({ step }: { step: any }) => {
     // Step 1: Récupérer les rappels du jour

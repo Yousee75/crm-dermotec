@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiResearchProspect } from '@/lib/ai'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 45
@@ -7,6 +8,9 @@ export const maxDuration = 45
 // POST /api/ai/prospect-research — Recherche enrichie avant appel
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth(request)
+    if (auth.error) return auth.error
+
     const body = await request.json()
     const { nom, entreprise, ville, secteur } = body
 

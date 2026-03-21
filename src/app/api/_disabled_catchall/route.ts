@@ -26,9 +26,9 @@ async function getHandler() {
   return handle(app)
 }
 
-async function handler(req: NextRequest, ctx: { params: Promise<{ route: string[] }> }) {
+async function handler(req: NextRequest) {
   const h = await getHandler()
-  return h(req, ctx)
+  return h(req)
 }
 
 export const GET = handler

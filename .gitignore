@@ -24,9 +24,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
+# env files — JAMAIS commiter de secrets
 .env
 .env*.local
+.env.vercel
+.env.production
+.env.staging
 !.env.local.example
 
 # vercel
@@ -39,5 +42,4 @@ next-env.d.ts
 # supabase
 .supabase/
 
-.vercel
-.env*.local
+

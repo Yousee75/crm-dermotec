@@ -9,8 +9,8 @@ export const webhookRetry = inngest.createFunction(
   {
     id: 'crm-webhook-retry',
     retries: 5,
+    triggers: [{ event: 'crm/webhook.received' }],
   },
-  { event: 'crm/webhook.received' },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async ({ event, step }: { event: any; step: any }) => {
     const { source, payload, attempt } = event.data

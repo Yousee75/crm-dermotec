@@ -70,6 +70,32 @@ type Events = {
       stripe_payment_id: string
     }
   }
+  'stripe/webhook.process': {
+    data: {
+      eventId: string
+      eventType: string
+      objectId: string
+      metadata: Record<string, string>
+      amount: number
+      paymentIntent: string
+      chargeId: string
+      invoiceId: string
+    }
+  }
+  'crm/bulk.email.send': {
+    data: {
+      recipients: Array<{ to: string; template_slug: string; variables: Record<string, string>; lead_id?: string }>
+      batch_id: string
+    }
+  }
+  'crm/bulk.lead.update': {
+    data: {
+      lead_ids: string[]
+      updates: Record<string, unknown>
+      operation: string
+      user_id: string
+    }
+  }
 }
 
 export const inngest = new Inngest({

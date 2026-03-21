@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,6 +13,10 @@ function getSupabase() {
 
 // GET /api/analytics/dashboard — Toutes les métriques en un appel
 export async function GET(request: NextRequest) {
+  // Auth obligatoire — données sensibles
+  const auth = await requireAuth(request)
+  if (auth.error) return auth.error
+
   const supabase = getSupabase()
   if (!supabase) {
     return NextResponse.json({ error: 'DB non configurée' }, { status: 503 })

@@ -18,8 +18,8 @@ export const leadCadence = inngest.createFunction(
         match: 'data.lead_id',
       },
     ],
+    triggers: [{ event: 'crm/lead.cadence.start' }],
   },
-  { event: 'crm/lead.cadence.start' },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async ({ event, step }: { event: any; step: any }) => {
     const { lead_id, email, prenom, formation_nom, assigned_to } = event.data

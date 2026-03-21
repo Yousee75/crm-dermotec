@@ -7,9 +7,39 @@ import { useLeads } from '@/hooks/use-leads'
 import {
   Search, Users, Calendar, GraduationCap, CreditCard,
   BarChart3, Plus, Phone, Settings, Award, ShoppingBag,
-  Zap, ArrowRight, Hash, Mail, Gauge, LayoutDashboard,
-  FileText, Star, Clock
+  Zap, ArrowRight, Mail, Gauge, LayoutDashboard,
+  FileText, Clock, BookOpen, MessageSquare, Send
 } from 'lucide-react'
+
+// Track recently viewed leads in sessionStorage
+function getRecentLeads(): { id: string; name: string; email?: string }[] {
+  if (typeof window === 'undefined') return []
+  try {
+    return JSON.parse(sessionStorage.getItem('recentLeads') || '[]')
+  } catch {
+    return []
+  }
+}
+
+export function trackLeadView(id: string, name: string, email?: string) {
+  if (typeof window === 'undefined') return
+  const recent = getRecentLeads().filter(l => l.id !== id)
+  recent.unshift({ id, name, email })
+  sessionStorage.setItem('recentLeads', JSON.stringify(recent.slice(0, 5)))
+}
+
+// Simple fuzzy match: checks if all characters of query appear in text in order
+function fuzzyMatch(text: string, query: string): boolean {
+  const t = text.toLowerCase()
+  const q = query.toLowerCase()
+  let ti = 0
+  for (let qi = 0; qi < q.length; qi++) {
+    const idx = t.indexOf(q[qi], ti)
+    if (idx === -1) return false
+    ti = idx + 1
+  }
+  return true
+}
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false)
@@ -41,30 +71,48 @@ export function CommandPalette() {
     setQuery('')
   }, [router])
 
+  const recentLeads = useMemo(() => getRecentLeads(), [open]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const pages = useMemo(() => [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/', shortcut: 'G D' },
     { id: 'cockpit', label: 'Cockpit', icon: Zap, path: '/cockpit', shortcut: 'G C' },
     { id: 'leads', label: 'Leads', icon: Users, path: '/leads', shortcut: 'G L' },
     { id: 'pipeline', label: 'Pipeline', icon: Gauge, path: '/pipeline', shortcut: 'G P' },
     { id: 'sessions', label: 'Sessions', icon: Calendar, path: '/sessions', shortcut: 'G S' },
+    { id: 'messages', label: 'Messages', icon: MessageSquare, path: '/messages' },
+    { id: 'playbook', label: 'Playbook', icon: BookOpen, path: '/playbook' },
     { id: 'stagiaires', label: 'Stagiaires', icon: GraduationCap, path: '/stagiaires' },
-    { id: 'financement', label: 'Financement', icon: CreditCard, path: '/financement' },
+    { id: 'financement', label: 'Financement', icon: CreditCard, path: '/financement', shortcut: 'G F' },
     { id: 'commandes', label: 'E-Shop', icon: ShoppingBag, path: '/commandes' },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics' },
-    { id: 'qualite', label: 'Qualité', icon: Award, path: '/qualite' },
-    { id: 'equipe', label: 'Équipe', icon: Phone, path: '/equipe' },
-    { id: 'settings', label: 'Paramètres', icon: Settings, path: '/settings' },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics', shortcut: 'G A' },
+    { id: 'qualite', label: 'Qualité', icon: Award, path: '/qualite', shortcut: 'G Q' },
+    { id: 'equipe', label: 'Équipe', icon: Phone, path: '/equipe', shortcut: 'G E' },
+    { id: 'cadences', label: 'Cadences', icon: Zap, path: '/cadences' },
+    { id: 'settings', label: 'Paramètres', icon: Settings, path: '/settings', shortcut: 'G T' },
   ], [])
 
   const actions = useMemo(() => [
-    { id: 'new-lead', label: 'Créer un lead', icon: Plus, path: '/leads?new=1', keywords: 'nouveau ajouter créer lead prospect' },
+    { id: 'new-lead', label: 'Créer un lead', icon: Plus, path: '/leads?new=1', shortcut: 'N', keywords: 'nouveau ajouter créer lead prospect' },
     { id: 'new-session', label: 'Planifier une session', icon: Calendar, path: '/sessions?new=1', keywords: 'nouvelle session planifier formation' },
+    { id: 'send-email', label: 'Envoyer un email', icon: Send, path: '/messages', keywords: 'email envoyer message' },
     { id: 'export', label: 'Exporter les données', icon: FileText, path: '/settings#export', keywords: 'export csv json données' },
   ], [])
+
+  // Filter pages with fuzzy matching
+  const filteredPages = useMemo(() => {
+    if (!query) return pages
+    return pages.filter(p => fuzzyMatch(p.label, query))
+  }, [query, pages])
+
+  const filteredActions = useMemo(() => {
+    if (!query) return actions
+    return actions.filter(a => fuzzyMatch(a.label + ' ' + (a.keywords || ''), query))
+  }, [query, actions])
 
   if (!open) return null
 
   const hasSearchResults = query.length >= 2 && searchResults?.leads && searchResults.leads.length > 0
+  const showRecent = !query && recentLeads.length > 0
 
   return (
     <div className="fixed inset-0 z-[100]">
@@ -78,7 +126,7 @@ export function CommandPalette() {
       <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl px-4 animate-scaleIn">
         <Command
           className="bg-white rounded-2xl shadow-2xl border border-gray-200/80 overflow-hidden"
-          shouldFilter={!hasSearchResults}
+          shouldFilter={false}
         >
           {/* Input */}
           <div className="flex items-center gap-3 px-4 border-b border-gray-100">
@@ -95,7 +143,7 @@ export function CommandPalette() {
             </kbd>
           </div>
 
-          <Command.List className="max-h-[360px] overflow-y-auto p-1.5">
+          <Command.List className="max-h-[380px] overflow-y-auto p-1.5">
             <Command.Empty className="py-10 text-center">
               <Search className="w-6 h-6 text-gray-300 mx-auto mb-2" />
               <p className="text-sm text-gray-400">Aucun résultat pour &quot;{query}&quot;</p>
@@ -114,9 +162,9 @@ export function CommandPalette() {
                   >
                     <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-semibold text-white shrink-0"
-                      style={{ backgroundColor: getColor(lead.prenom + lead.nom) }}
+                      style={{ backgroundColor: getColor(lead.prenom + (lead.nom || '')) }}
                     >
-                      {lead.prenom[0]}{lead.nom[0]}
+                      {lead.prenom[0]}{(lead.nom || '')[0]}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-gray-900 truncate">{lead.prenom} {lead.nom}</p>
@@ -139,42 +187,69 @@ export function CommandPalette() {
               </Command.Group>
             )}
 
+            {/* Recently viewed leads */}
+            {showRecent && (
+              <Command.Group heading="Leads récents">
+                {recentLeads.map(lead => (
+                  <Command.Item
+                    key={`recent-${lead.id}`}
+                    value={`recent-${lead.id}-${lead.name}`}
+                    onSelect={() => go(`/lead/${lead.id}`)}
+                    className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                  >
+                    <Clock className="w-4 h-4 text-gray-300 shrink-0" />
+                    <span className="flex-1 text-gray-600 truncate">{lead.name}</span>
+                    {lead.email && <span className="text-xs text-gray-300 truncate max-w-[140px]">{lead.email}</span>}
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            )}
+
             {/* Actions rapides */}
-            <Command.Group heading="Actions rapides">
-              {actions.map(item => (
-                <Command.Item
-                  key={item.id}
-                  value={`${item.label} ${item.keywords || ''}`}
-                  onSelect={() => go(item.path)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-[#2EC6F3]/8 flex items-center justify-center shrink-0">
-                    <item.icon className="w-4 h-4 text-[#2EC6F3]" />
-                  </div>
-                  <span className="flex-1 text-gray-700">{item.label}</span>
-                </Command.Item>
-              ))}
-            </Command.Group>
+            {filteredActions.length > 0 && (
+              <Command.Group heading="Actions rapides">
+                {filteredActions.map(item => (
+                  <Command.Item
+                    key={item.id}
+                    value={`action-${item.id}-${item.label}`}
+                    onSelect={() => go(item.path)}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-[#2EC6F3]/8 flex items-center justify-center shrink-0">
+                      <item.icon className="w-4 h-4 text-[#2EC6F3]" />
+                    </div>
+                    <span className="flex-1 text-gray-700">{item.label}</span>
+                    {item.shortcut && (
+                      <kbd className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
+                        {item.shortcut}
+                      </kbd>
+                    )}
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            )}
 
             {/* Navigation */}
-            <Command.Group heading="Pages">
-              {pages.map(item => (
-                <Command.Item
-                  key={item.id}
-                  value={item.label}
-                  onSelect={() => go(item.path)}
-                  className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
-                >
-                  <item.icon className="w-4 h-4 text-gray-400 shrink-0" />
-                  <span className="flex-1 text-gray-600">{item.label}</span>
-                  {item.shortcut && (
-                    <kbd className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
-                      {item.shortcut}
-                    </kbd>
-                  )}
-                </Command.Item>
-              ))}
-            </Command.Group>
+            {filteredPages.length > 0 && (
+              <Command.Group heading="Pages">
+                {filteredPages.map(item => (
+                  <Command.Item
+                    key={item.id}
+                    value={`page-${item.id}-${item.label}`}
+                    onSelect={() => go(item.path)}
+                    className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                  >
+                    <item.icon className="w-4 h-4 text-gray-400 shrink-0" />
+                    <span className="flex-1 text-gray-600">{item.label}</span>
+                    {item.shortcut && (
+                      <kbd className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
+                        {item.shortcut}
+                      </kbd>
+                    )}
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            )}
           </Command.List>
 
           {/* Footer */}
