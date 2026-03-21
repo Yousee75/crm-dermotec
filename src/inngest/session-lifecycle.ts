@@ -166,8 +166,7 @@ export const sessionLifecycle = inngest.createFunction(
 
       if (!sessions || sessions.length === 0) return 0
 
-      const { Resend } = await import('resend')
-      const resend = new Resend(process.env.RESEND_API_KEY!)
+      const { sendConvocationJ7 } = await import('@/lib/email')
       let count = 0
 
       for (const session of sessions) {
@@ -188,43 +187,12 @@ export const sessionLifecycle = inngest.createFunction(
             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
           })
 
-          await resend.emails.send({
-            from: 'Dermotec Formation <formation@dermotec.fr>',
+          await sendConvocationJ7({
             to: lead.email,
-            subject: `Votre formation dans 7 jours — ${formationNom}`,
-            html: `
-              <!DOCTYPE html>
-              <html lang="fr">
-              <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-              <body style="margin:0;padding:0;background:#f8fafc;font-family:'DM Sans',Arial,sans-serif">
-              <div style="max-width:600px;margin:0 auto;padding:24px">
-                <div style="background:#082545;padding:20px 24px;border-radius:12px 12px 0 0;text-align:center">
-                  <h1 style="color:#2EC6F3;font-size:20px;margin:0;font-weight:600">Dermotec Advanced</h1>
-                </div>
-                <div style="background:#ffffff;padding:24px;border-radius:0 0 12px 12px;border:1px solid #e2e8f0;border-top:0">
-                  <h2 style="color:#082545;margin:0 0 12px">Plus que 7 jours, ${lead.prenom} !</h2>
-                  <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin:16px 0">
-                    <p style="margin:0 0 8px;font-weight:600;color:#082545">${formationNom}</p>
-                    <p style="margin:0 0 4px;color:#334155">Date : ${dateFormatee}</p>
-                    <p style="margin:0 0 4px;color:#334155">Horaires : ${session.horaire_debut || '09:00'} — ${session.horaire_fin || '18:00'}</p>
-                    <p style="margin:0;color:#334155">Lieu : 75 Bd Richard Lenoir, 75011 Paris</p>
-                  </div>
-                  <h3 style="color:#082545;margin:16px 0 8px">Pensez à apporter :</h3>
-                  <ul style="color:#334155;line-height:1.8;padding-left:20px">
-                    <li>Pièce d'identité</li>
-                    <li>De quoi prendre des notes</li>
-                    <li>Tenue confortable</li>
-                  </ul>
-                  <p style="color:#64748b;font-size:13px;margin-top:16px">
-                    Une question ? Appelez-nous au
-                    <a href="tel:+33188334343" style="color:#2EC6F3;text-decoration:none;font-weight:600">01 88 33 43 43</a>
-                    ou écrivez-nous sur
-                    <a href="https://wa.me/33188334343" style="color:#25D366;text-decoration:none;font-weight:600">WhatsApp</a>.
-                  </p>
-                </div>
-              </div>
-              </body></html>
-            `,
+            prenom: lead.prenom,
+            formation_nom: formationNom,
+            date_debut: dateFormatee,
+            horaire: `${session.horaire_debut || '09:00'} — ${session.horaire_fin || '18:00'}`,
           })
           count++
         }

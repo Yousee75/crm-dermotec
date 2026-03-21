@@ -1,22 +1,50 @@
 // ============================================================
 // Inngest Function: Cadence lead multi-step
-// J+0: Email bienvenue
-// J+3: Email relance
+// J+0: Email bienvenue (template pro)
+// J+1: SMS bienvenue
+// J+3: Email relance abandon
 // J+7: Rappel téléphonique (créer rappel dans CRM)
 // J+14: Dernier email
 // ============================================================
 
 import { inngest } from '@/lib/inngest'
 
+function getSupabase() {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { createClient } = require('@supabase/supabase-js')
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { persistSession: false } }
+  )
+}
+
+async function isLeadStillActive(lead_id: string): Promise<boolean> {
+  const supabase = getSupabase()
+  const { data } = await supabase
+    .from('leads')
+    .select('statut')
+    .eq('id', lead_id)
+    .single()
+  return data && ['NOUVEAU', 'CONTACTE'].includes(data.statut)
+}
+
+async function logActivity(lead_id: string, description: string, step: string, formation_nom: string) {
+  const supabase = getSupabase()
+  await supabase.from('activites').insert({
+    type: 'EMAIL',
+    lead_id,
+    description,
+    metadata: { step, formation_nom },
+  })
+}
+
 export const leadCadence = inngest.createFunction(
   {
     id: 'crm-lead-cadence',
     retries: 3,
     cancelOn: [
-      {
-        event: 'crm/lead.cadence.cancel',
-        match: 'data.lead_id',
-      },
+      { event: 'crm/lead.cadence.cancel', match: 'data.lead_id' },
     ],
     triggers: [{ event: 'crm/lead.cadence.start' }],
   },
@@ -24,110 +52,81 @@ export const leadCadence = inngest.createFunction(
   async ({ event, step }: { event: any; step: any }) => {
     const { lead_id, email, prenom, formation_nom, assigned_to } = event.data
 
-    // --- J+0 : Email bienvenue ---
+    // --- J+0 : Email bienvenue (template pro) ---
     await step.run('j0-email-bienvenue', async () => {
-      const { Resend } = await import('resend')
-      const resend = new Resend(process.env.RESEND_API_KEY!)
-
-      await resend.emails.send({
-        from: 'Dermotec Formation <formation@dermotec.fr>',
-        to: email,
-        subject: `Bienvenue chez Dermotec, ${prenom} !`,
-        html: `
-          <h2>Bonjour ${prenom},</h2>
-          <p>Merci pour votre intérêt pour <strong>${formation_nom}</strong>.</p>
-          <p>Notre équipe vous contactera sous 24h pour répondre à toutes vos questions.</p>
-          <p>En attendant, n'hésitez pas à nous écrire sur
-            <a href="https://wa.me/33188334343">WhatsApp</a>.
-          </p>
-          <p>À très vite,<br><strong>L'équipe Dermotec</strong></p>
-        `,
-      })
+      const { sendBienvenueEmail } = await import('@/lib/email')
+      await sendBienvenueEmail({ to: email, prenom, formation_nom })
     })
 
-    await step.run('j0-log-activity', async () => {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        { auth: { persistSession: false } }
-      )
-      await supabase.from('activites').insert({
-        type: 'EMAIL',
-        lead_id,
-        description: 'Cadence J+0 : Email bienvenue envoyé',
-        metadata: { step: 'cadence_j0', formation_nom },
-      })
+    await step.run('j0-log', async () => {
+      await logActivity(lead_id, `Cadence J+0 : Email bienvenue envoyé à ${email}`, 'cadence_j0', formation_nom)
     })
 
-    // --- Attendre 3 jours ---
-    await step.sleep('wait-3-days', '3d')
+    // --- J+1 : SMS bienvenue ---
+    await step.sleep('wait-1-day', '1d')
+
+    await step.run('j1-sms-bienvenue', async () => {
+      const supabase = getSupabase()
+      const { data: lead } = await supabase.from('leads').select('telephone').eq('id', lead_id).single()
+      if (!lead?.telephone) return { skipped: true, reason: 'Pas de téléphone' }
+
+      try {
+        const { sendSMS, isSMSConfigured } = await import('@/lib/sms')
+        if (!isSMSConfigured()) return { skipped: true, reason: 'SMS non configuré' }
+
+        const { SMS_TEMPLATES } = await import('@/lib/sms')
+        await sendSMS(lead.telephone, SMS_TEMPLATES.confirmation_inscription(prenom, formation_nom))
+        await logActivity(lead_id, 'Cadence J+1 : SMS bienvenue envoyé', 'cadence_j1_sms', formation_nom)
+        return { sent: true }
+      } catch {
+        return { skipped: true, reason: 'Erreur SMS' }
+      }
+    })
 
     // --- J+3 : Email relance ---
+    await step.sleep('wait-2-days', '2d')
+
     await step.run('j3-email-relance', async () => {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        { auth: { persistSession: false } }
-      )
+      if (!(await isLeadStillActive(lead_id))) return { skipped: true }
 
-      const { data: lead } = await supabase
-        .from('leads')
-        .select('statut')
-        .eq('id', lead_id)
-        .single()
+      // Chercher la prochaine session pour cette formation
+      const supabase = getSupabase()
+      const { data: lead } = await supabase.from('leads').select('formation_principale_id').eq('id', lead_id).single()
 
-      // Si le lead a déjà été qualifié ou inscrit, ne pas relancer
-      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut as string)) {
-        return { skipped: true, reason: `Statut actuel: ${lead.statut}` }
+      let prochaine_session: string | undefined
+      let places_restantes: number | undefined
+
+      if (lead?.formation_principale_id) {
+        const { data: sessions } = await supabase
+          .from('sessions')
+          .select('date_debut, places_max, places_occupees')
+          .eq('formation_id', lead.formation_principale_id)
+          .in('statut', ['PLANIFIEE', 'CONFIRMEE'])
+          .gt('date_debut', new Date().toISOString())
+          .order('date_debut', { ascending: true })
+          .limit(1)
+
+        if (sessions?.[0]) {
+          prochaine_session = new Date(sessions[0].date_debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+          places_restantes = sessions[0].places_max - sessions[0].places_occupees
+        }
       }
 
-      const { Resend } = await import('resend')
-      const resend = new Resend(process.env.RESEND_API_KEY!)
-
-      await resend.emails.send({
-        from: 'Dermotec Formation <formation@dermotec.fr>',
-        to: email,
-        subject: `${prenom}, avez-vous des questions sur ${formation_nom} ?`,
-        html: `
-          <h2>${prenom},</h2>
-          <p>Je reviens vers vous concernant la formation <strong>${formation_nom}</strong>.</p>
-          <p>Avez-vous des questions ? Je serais ravie d'y répondre.</p>
-          <ul>
-            <li>Nous appeler : <a href="tel:+33188334343">01 88 33 43 43</a></li>
-            <li>WhatsApp : <a href="https://wa.me/33188334343">Cliquez ici</a></li>
-            <li>Répondre à cet email</li>
-          </ul>
-          <p>Cordialement,<br><strong>L'équipe Dermotec</strong></p>
-        `,
+      const { sendAbandonRelanceEmail } = await import('@/lib/email')
+      await sendAbandonRelanceEmail({
+        to: email, prenom, formation_nom, prochaine_session, places_restantes,
       })
-
+      await logActivity(lead_id, 'Cadence J+3 : Email relance envoyé', 'cadence_j3', formation_nom)
       return { sent: true }
     })
 
-    // --- Attendre 4 jours (J+7 total) ---
+    // --- J+7 : Rappel téléphonique ---
     await step.sleep('wait-4-days', '4d')
 
-    // --- J+7 : Créer un rappel téléphonique ---
     await step.run('j7-creer-rappel-tel', async () => {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        { auth: { persistSession: false } }
-      )
+      if (!(await isLeadStillActive(lead_id))) return { skipped: true }
 
-      const { data: lead } = await supabase
-        .from('leads')
-        .select('statut')
-        .eq('id', lead_id)
-        .single()
-
-      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut as string)) {
-        return { skipped: true }
-      }
-
+      const supabase = getSupabase()
       await supabase.from('rappels').insert({
         lead_id,
         type: 'APPEL',
@@ -135,73 +134,37 @@ export const leadCadence = inngest.createFunction(
         description: `Cadence J+7 : Appeler ${prenom} pour ${formation_nom}`,
         user_id: assigned_to || null,
         statut: 'EN_ATTENTE',
+        priorite: 'HAUTE',
       })
-
-      await supabase.from('activites').insert({
-        type: 'RAPPEL',
-        lead_id,
-        description: 'Cadence J+7 : Rappel téléphonique créé',
-        metadata: { step: 'cadence_j7', formation_nom },
-      })
-
+      await logActivity(lead_id, 'Cadence J+7 : Rappel téléphonique créé', 'cadence_j7', formation_nom)
       return { rappel_created: true }
     })
 
-    // --- Attendre 7 jours (J+14 total) ---
+    // --- J+14 : Dernier email (dernière chance) ---
     await step.sleep('wait-7-days', '7d')
 
-    // --- J+14 : Dernier email ---
     await step.run('j14-dernier-email', async () => {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        { auth: { persistSession: false } }
-      )
+      if (!(await isLeadStillActive(lead_id))) return { skipped: true }
 
-      const { data: lead } = await supabase
-        .from('leads')
-        .select('statut')
-        .eq('id', lead_id)
-        .single()
-
-      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut as string)) {
-        return { skipped: true }
-      }
-
-      const { Resend } = await import('resend')
-      const resend = new Resend(process.env.RESEND_API_KEY!)
-
-      await resend.emails.send({
-        from: 'Dermotec Formation <formation@dermotec.fr>',
-        to: email,
-        subject: `Dernière info : ${formation_nom} — places limitées`,
-        html: `
-          <h2>${prenom},</h2>
-          <p>Je me permets de vous relancer une dernière fois concernant
-          la formation <strong>${formation_nom}</strong>.</p>
-          <p>Nos prochaines sessions se remplissent vite et les places sont limitées.</p>
-          <p>Si vous avez besoin d'aide pour le financement (OPCO, France Travail, CPF),
-          nous vous accompagnons gratuitement dans les démarches.</p>
-          <div style="text-align:center;margin:24px 0">
-            <a href="https://wa.me/33188334343?text=Bonjour, je suis intéressée par ${encodeURIComponent(formation_nom)}"
-               style="background:#2EC6F3;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600">
-              Je veux en savoir plus
-            </a>
-          </div>
-        `,
+      const { sendAbandonRelanceEmail } = await import('@/lib/email')
+      await sendAbandonRelanceEmail({
+        to: email, prenom, formation_nom,
       })
 
+      await logActivity(lead_id, 'Cadence terminée (J+14) — aucune conversion', 'cadence_j14_fin', formation_nom)
+
+      // Marquer la cadence comme terminée
+      const supabase = getSupabase()
       await supabase.from('activites').insert({
         type: 'SYSTEME',
         lead_id,
-        description: 'Cadence terminée (J+14) — aucune conversion',
-        metadata: { step: 'cadence_j14_fin', formation_nom },
+        description: `Cadence lead terminée après 14 jours sans conversion`,
+        metadata: { cadence: 'lead', resultat: 'non_converti' },
       })
 
       return { sent: true, cadence_complete: true }
     })
 
-    return { lead_id, cadence: 'complete', steps: 4 }
+    return { lead_id, cadence: 'complete', steps: 5 }
   }
 )
