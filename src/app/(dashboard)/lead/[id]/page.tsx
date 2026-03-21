@@ -8,6 +8,7 @@ import { useLead, useUpdateLead, useChangeStatut } from '@/hooks/use-leads'
 import { trackLeadView } from '@/components/ui/CommandPalette'
 import { useMessages, useSendMessage } from '@/hooks/use-messages'
 import { useCadenceInstances } from '@/hooks/use-cadences'
+import { useAIResearch } from '@/hooks/use-ai'
 import { STATUTS_LEAD, type Lead, type StatutLead, type Message, type CanalMessage, type Inscription, type Financement } from '@/types'
 import { formatEuro, formatDate, formatPhone } from '@/lib/utils'
 import { getScoreColor, getScoreLabel, scoreLead } from '@/lib/scoring'
@@ -89,6 +90,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const updateLead = useUpdateLead()
   const changeStatut = useChangeStatut()
   const sendMessage = useSendMessage()
+  const aiResearch = useAIResearch()
+  const [researchData, setResearchData] = useState<Record<string, unknown> | null>(null)
 
   const handleSave = useCallback(async () => {
     try {
@@ -314,6 +317,30 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 <span className="hidden sm:inline">WhatsApp</span>
               </a>
             )}
+            <button
+              onClick={async () => {
+                if (!lead) return
+                toast.info('Recherche en cours...')
+                try {
+                  const result = await aiResearch.mutateAsync({
+                    nom: `${lead.prenom} ${lead.nom || ''}`.trim(),
+                    entreprise: lead.entreprise_nom || undefined,
+                    ville: lead.adresse?.ville || 'Paris',
+                    secteur: 'esthetique formation beaute',
+                  })
+                  setResearchData(result)
+                  toast.success('Recherche terminee')
+                } catch {
+                  toast.error('Recherche indisponible')
+                }
+              }}
+              disabled={aiResearch.isPending}
+              className="flex items-center gap-2 px-3 py-2.5 bg-cyan-50 text-cyan-700 rounded-lg text-sm hover:bg-cyan-100 transition font-medium min-h-[44px] disabled:opacity-50"
+              title="Rechercher des informations sur ce prospect"
+            >
+              <Sparkles className={cn('w-4 h-4', aiResearch.isPending && 'animate-spin')} />
+              <span className="hidden sm:inline">{aiResearch.isPending ? 'Recherche...' : 'Enrichir'}</span>
+            </button>
             <div className="hidden sm:block w-px h-6 bg-gray-200" />
             <button onClick={() => setShowInscrire(true)} className="flex items-center gap-2 px-3 py-2.5 sm:px-4 bg-violet-50 text-violet-700 rounded-lg text-sm hover:bg-violet-100 transition font-medium min-h-[44px]">
               <GraduationCap className="w-4 h-4" />
@@ -326,6 +353,50 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           </div>
         </div>
       </div>
+
+      {/* Resultats recherche prospect IA */}
+      {researchData && (
+        <div className="bg-cyan-50/50 border border-cyan-200 rounded-xl p-4 space-y-3 animate-fadeIn">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-cyan-800 flex items-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              Recherche prospect
+            </h3>
+            <button onClick={() => setResearchData(null)} className="text-cyan-400 hover:text-cyan-600 transition">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          {researchData.resume && (
+            <p className="text-sm text-gray-700">{String(researchData.resume)}</p>
+          )}
+          {Array.isArray(researchData.talking_points) && researchData.talking_points.length > 0 && (
+            <div>
+              <p className="text-xs font-medium text-cyan-700 mb-1">Points de conversation</p>
+              <ul className="space-y-1">
+                {(researchData.talking_points as string[]).map((point: string, i: number) => (
+                  <li key={i} className="text-xs text-gray-600 flex items-start gap-1.5">
+                    <span className="text-cyan-400 mt-0.5">-</span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {Array.isArray(researchData.opportunites) && researchData.opportunites.length > 0 && (
+            <div>
+              <p className="text-xs font-medium text-green-700 mb-1">Opportunites</p>
+              <ul className="space-y-1">
+                {(researchData.opportunites as string[]).map((opp: string, i: number) => (
+                  <li key={i} className="text-xs text-gray-600 flex items-start gap-1.5">
+                    <Check className="w-3 h-3 text-green-500 mt-0.5 shrink-0" />
+                    {opp}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ===== TABS — Scrollable mobile, labels courts ===== */}
       <div className="border-b border-gray-200 -mx-4 sm:mx-0 px-4 sm:px-0">

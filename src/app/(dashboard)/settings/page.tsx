@@ -439,7 +439,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center', integration.bgColor)}>
-                          <integration.icon className={cn('w-5 h-5', integration.color)} />
+                          {(() => { const II = integration.icon; return <II className={cn('w-5 h-5', integration.color)} /> })()
                         </div>
                         <div>
                           <h4 className="font-medium text-gray-900">{integration.name}</h4>

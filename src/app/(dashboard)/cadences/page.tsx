@@ -373,7 +373,7 @@ export default function CadencesPage() {
           })
         })
         return count.toString()
-      })()
+      })(),
       icon: BarChart3,
       color: '#F59E0B'
     }
@@ -426,10 +426,7 @@ export default function CadencesPage() {
                 className="w-12 h-12 rounded-xl flex items-center justify-center"
                 style={{ backgroundColor: kpi.color + '15' }}
               >
-                <kpi.icon
-                  className="w-6 h-6"
-                  style={{ color: kpi.color }}
-                />
+                {(() => { const KpiIcon = kpi.icon; return <KpiIcon className="w-6 h-6" style={{ color: kpi.color }} /> })()}
               </div>
             </div>
           </Card>
