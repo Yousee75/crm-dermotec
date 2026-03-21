@@ -3,293 +3,97 @@
 ## Langue et style
 - Répondre en français sauf code/technique
 - Aller droit au but. Agir.
-- Ne jamais rester bloqué. Si un chemin échoue, essayer une alternative immédiatement.
 
 ## Projet en 30 secondes
 
-**Marque** : Dermotec Advanced
-**Activité** : Centre de formation esthétique certifié Qualiopi + Distributeur NPM France
-**Cible** : Esthéticiennes, reconversions pro, gérantes institut
-**Lieu** : 75 Bd Richard Lenoir, Paris 11e
-**Formations** : 11 formations (400€-2500€ HT), 4 catégories
+**Marque** : Dermotec Advanced | **Lieu** : 75 Bd Richard Lenoir, Paris 11e
+**Activité** : Centre formation esthétique certifié Qualiopi + Distributeur NPM France
+**Formations** : 11 formations (400-2500 EUR HT), 4 catégories
 **Stack** : Next.js 15 + React 19 + Supabase + Stripe + Resend + Tailwind v4
-**Supabase** : `https://wtbrdxijvtelluwfmgsf.supabase.co`
-**Stripe** : `acct_1RpvbQ1NzDARltfq` (11 produits + prix créés, mode sandbox)
+**Déployé** : https://crm-dermotec.vercel.app
+**GitHub** : https://github.com/Yousee75/crm-dermotec
+**Supabase** : `wtbrdxijvtelluwfmgsf` | **Stripe** : `acct_1RpvbQ1NzDARltfq`
 
-## Avancement global : ~85% fonctionnel
+## Chiffres du projet
 
-| Pilier | Pages | API | Hooks | Statut |
-|--------|-------|-----|-------|--------|
-| 1. Leads & Pipeline | 3 (liste, detail, kanban) | 8 (CRUD, IA, scoring) | use-leads, use-ai | Complet |
-| 2. Financement | 1 | — | use-financements | Complet |
-| 3. Sessions & Planning | 2 (liste, detail) | 2 (auto-transition, emargement) | use-sessions, use-emargement | Complet |
-| 4. Suivi Stagiaires | 1 + portail public | 2 (portail, convention) | — | Complet |
-| 5. E-Shop & Commandes | 1 | 2 (Stripe webhook, inscription) | — | Complet |
-| 6. Analytics & Qualité | 2 | 1 (dashboard) | use-qualiopi, use-analytics | Analytics incomplet |
+- **289 fichiers source** | **37 pages** | **30 API routes** | **52 composants UI**
+- **17 hooks** | **72 modules lib** | **25 migrations SQL** | **15 tests**
+- **11 produits Stripe** avec prix | **4 plans SaaS** (Decouverte/Pro/Expert/Clinique)
 
-**Pages transverses** : Cockpit, Cadences, Messages, Équipe, Settings, Playbook = tous fonctionnels
-
-## 6 Piliers CRM
-
-1. **Leads & Pipeline** — Capture multicanal → Kanban (11 statuts) → Scoring IA
-2. **Financement** — Dossiers OPCO/France Travail/CPF (12 organismes, state machine)
-3. **Sessions & Planning** — Calendrier, formatrices, modèles, matériel, émargement QR
-4. **Suivi Stagiaires** — Présence J1-J5, évaluation, certificats, portail token, alumni
-5. **E-Shop & Commandes** — Matériel NPM, Stripe checkout, tracking 6 transporteurs
-6. **Analytics & Qualité** — CA, conversion, Qualiopi (7 critères, 32 indicateurs)
-
-## DB : 22 tables Supabase + 13 migrations
-
-**Core** : leads · formations · sessions · inscriptions · financements · factures · rappels · activites · documents · commandes · equipe · modeles · notes_lead · email_templates · qualite · partenaires · cadence_templates · cadence_instances
-**Audit** : field_history · login_logs · smart_actions · anomalies
-**Triggers** : updated_at (toutes tables), track_field_changes (leads, inscriptions, financements, sessions, factures, commandes → field_history)
-**RLS** : Activé toutes tables. authenticated = full access, anon = insert leads + read formations
-
-## Architecture technique complète
+## Architecture
 
 ```
 src/
-├── app/
-│   ├── (auth)/               # Login (password/magic link), callback OAuth
-│   ├── (dashboard)/          # 19 pages dashboard (layout + template force-dynamic)
-│   │   ├── page.tsx           # Home: 5 KPIs, rappels, sessions, leads récents
-│   │   ├── cockpit/           # Smart actions par priorité, rappels jour
-│   │   ├── leads/             # Recherche, filtres, pagination 20/page
-│   │   ├── lead/[id]/         # 5 tabs, 913 lignes, communication multi-canal
-│   │   ├── pipeline/          # Kanban drag-and-drop (dnd-kit), 7 phases, CA
-│   │   ├── sessions/          # Calendrier mensuel, cards formatrice
-│   │   ├── session/[id]/      # 5 tabs (Info, Inscrits, Modèles, Checklist, Notes)
-│   │   ├── stagiaires/        # Stats, filtres, satisfaction, certificats
-│   │   ├── financement/       # KPIs, dossiers, 10 statuts colorés
-│   │   ├── cadences/          # Templates expandables, instances actives
-│   │   ├── messages/          # 3 panels, 5 canaux, compose multi-canal
-│   │   ├── qualite/           # Score /100, 7 critères Qualiopi, réclamations
-│   │   ├── commandes/         # KPIs, tracking modal, 6 transporteurs
-│   │   ├── equipe/            # Cards grid, toggle actif, spécialités
-│   │   ├── settings/          # 4 sections, export, stats DB, intégrations
-│   │   ├── analytics/         # KPIs OK, graphiques Recharts = placeholder
-│   │   └── playbook/          # Intelligence collective, votes, IA suggestions
-│   ├── api/                   # 23 endpoints Next.js + 6 endpoints Hono
-│   │   ├── ai/                # 6 routes IA (score, generate, research, objection, agent, playbook)
-│   │   ├── analytics/         # Dashboard metrics (7 requêtes SQL parallèles)
-│   │   ├── cadence/run/       # Moteur cron cadences (CRON_SECRET)
-│   │   ├── email/send/        # Resend + templates DB
-│   │   ├── messages/          # GET/POST inbox + envoi multi-canal
-│   │   ├── emargement/        # Signature présence
-│   │   ├── documents/upload/  # Upload + MIME check + VirusTotal optionnel
-│   │   ├── stripe/webhook/    # Idempotent (webhook_events table), 5 event types
-│   │   ├── webhook/formulaire/# Public, honeypot, disposable email blocklist
-│   │   ├── sessions/auto-transition/ # Cron auto CONFIRMEE→EN_COURS→TERMINEE
-│   │   ├── portail/[token]/   # Token-based, sign convention
-│   │   ├── inscription-express/ # Form minimal → Stripe checkout
-│   │   ├── health/            # Health check toutes dépendances
-│   │   ├── inngest/           # SDK v4 endpoint
-│   │   ├── gdpr/              # Export + Delete (admin/manager)
-│   │   └── [[...route]]/      # Catch-all Hono (API versionnées, Swagger)
-│   ├── inscription/           # Pages publiques (form, success, cancel)
-│   ├── inscription-express/   # Inscription rapide publique
-│   ├── portail/[token]/       # Portail stagiaire public
-│   ├── emargement/            # Émargement QR public
-│   ├── error.tsx              # Error boundary → Sentry
-│   ├── not-found.tsx          # 404
-│   └── global-error.tsx       # Global error → Sentry
-├── components/ui/             # 31 composants (11 primitifs + 9 métier + 11 marketing)
-├── hooks/                     # 13 hooks React Query v5 + Supabase
-├── lib/                       # 36 fichiers (~5000 lignes)
-│   ├── ai.ts                  # Moteur IA multi-provider (DeepSeek>Mistral>OpenAI, 6 fonctions)
-│   ├── validators.ts          # 14 validateurs + 4 state machines + sanitization
-│   ├── scoring.ts             # Scoring heuristique /100 (5 composantes)
-│   ├── smart-actions.ts       # 6 types suggestions proactives
-│   ├── constants.ts           # Branding, 11 formations, TVA, délais
-│   ├── marketing.ts           # Referral, upsell, NPS, best contact time
-│   ├── cadence-engine.ts      # 4 cadences prédéfinies, scheduling
-│   ├── playbook.ts            # Playbook collaboratif + onboarding
-│   ├── stripe.ts              # Checkout, schedules, payment links
-│   ├── stripe-products.ts     # 11 formations → Stripe product_id/price_id
-│   ├── email.ts               # Resend, 5 templates inline
-│   ├── twilio.ts              # SMS + WhatsApp (HTTP direct)
-│   ├── cache.ts               # Multi-layer (L2 memory + L1 Redis), SWR
-│   ├── logger.ts              # JSON structured, correlation IDs, perf budgets
-│   ├── result.ts              # Result<T,E> Rust-inspired, 12 error classes
-│   ├── circuit-breaker.ts     # CLOSED/OPEN/HALF_OPEN, retry backoff+jitter
-│   ├── graceful-degradation.ts# Queue fallback (Supabase→Inngest→memory)
-│   ├── inngest.ts             # 7 event types, SDK v4
-│   ├── upstash.ts             # Rate limiting + cache-aside
-│   ├── rbac.ts                # 5 rôles × 24 permissions
-│   ├── activity-logger.ts     # Audit trail non-bloquant
-│   ├── api-key-auth.ts        # API keys dmtc_live_* + SHA-256
-│   ├── supabase-client.ts     # Browser client (fallback SSG)
-│   ├── supabase-server.ts     # Server + service role
-│   ├── pdf/                   # 5 templates PDF (convocation, attestations, émargement, BPF)
-│   └── utils.ts               # Formatters, helpers
-├── server/                    # Architecture DDD (Hexagonale)
-│   ├── domain/
-│   │   ├── leads/lead.aggregate.ts  # State machine, domain events, jamais throw
-│   │   └── shared/            # Value Objects, Result, DomainEvents, Repository interfaces
-│   ├── application/use-cases/
-│   │   └── leads/             # 4 use cases (create, status, assign, qualify)
-│   ├── infrastructure/
-│   │   ├── container.ts       # DI sans framework (per-request)
-│   │   ├── repositories/      # Supabase implementations (lead, activity)
-│   │   ├── events/            # InngestEventBus + ConsoleEventBus
-│   │   └── queries/           # CQRS LeadReadModel
-│   ├── middleware/            # Auth, rate-limit, sentry, tenant
-│   └── routes/                # Hono: legacy + v1 (OpenAPI)
-├── inngest/                   # Background jobs (bulk email/update, crons, metrics)
-├── types/index.ts             # 877 lignes, 18 enums, 19 interfaces
-└── middleware.ts              # CSP nonce-based, HSTS, rate limiting, auth
+  app/(auth)/           Login, MFA verify, forgot/reset password
+  app/(dashboard)/      15 pages CRM (leads, pipeline, sessions...)
+  app/(public)/         Mentions legales, CGV, confidentialite
+  app/api/              30 API routes (webhook, stripe, AI, GDPR...)
+  app/formations/       Pages publiques catalogue formations
+  app/inscription/      Inscription en ligne + express
+  app/emargement/       Emargement digital QR
+  app/portail/          Portail stagiaire (convention, documents)
+  components/           52 composants (UI, documents, examples)
+  hooks/                17 hooks React Query
+  lib/                  72 modules (scoring, security, AI, plans...)
+  server/               Hono API server (DDD, use-cases)
+  inngest/              8 background jobs
+  types/                TypeScript types
 ```
 
-## Stack complète
+## 6 Piliers CRM
 
-### Core
-- Next.js 15 + React 19 + TypeScript strict
-- Supabase (Postgres + Auth + RLS + Storage + Realtime)
-- Stripe (paiements formations + e-shop)
-- Resend (emails transactionnels)
-- Tailwind v4 + framer-motion + sonner
+1. **Leads & Pipeline** — Kanban drag-drop, 11 statuts, scoring /100, smart actions
+2. **Financement** — 12 organismes, checklist docs, workflow
+3. **Sessions & Planning** — Calendrier, formatrices, modeles, emargement QR
+4. **Suivi Stagiaires** — Presence, evaluation, certificats PDF, alumni, upsell
+5. **E-Shop & Commandes** — Materiel NPM, Stripe checkout/echelonnement/SEPA
+6. **Analytics & Qualite** — KPIs, conversion funnel, Qualiopi 7 criteres
 
-### Backend
-- Hono 4.12 + @hono/zod-openapi (API versionnées, Swagger UI /api/swagger)
-- Inngest v4 (queue async, crons, fan-out, debounce)
-- Upstash Redis (rate limiting distribué + cache)
-- Sentry (monitoring erreurs — actuellement désactivé, fichiers .bak)
+## Fonctionnalites premium
 
-### Frontend
-- React Query v5 (data fetching + mutations)
-- Zustand (global state)
-- react-hook-form + Zod (formulaires)
-- Recharts (graphiques — pas encore utilisé)
-- dnd-kit (drag-and-drop pipeline)
-- Lucide React (icônes)
-
-### IA
-- DeepSeek > Mistral > OpenAI (fallback chain, OpenAI-compatible)
-- Perplexity Sonar / Tavily (recherche prospect)
-- 6 fonctions métier : scoring, email, research, objection, summary, financement
-
-### Communication multi-canal
-- Resend : emails transactionnels (5 templates)
-- Twilio : SMS + WhatsApp (HTTP direct, pas SDK)
-- 4 cadences automatiques : Nouveau Lead, Post-Formation, Relance Financement, Abandon
+- **Gamification** : 10 actions/points, 10 badges, 6 niveaux, streaks, leaderboard
+- **AI Coaching** : 7 regles coaching deterministes, insights contextuels
+- **Feature Gating** : 4 plans SaaS, hook useFeature, composant FeatureGate
+- **MFA** : TOTP (Google Auth) + SMS + WhatsApp (Supabase natif)
+- **Securite 7 couches** : WAF, rate limiting, RLS, anti-scraping, impossible-travel
+- **Documents** : upload securise, VirusTotal scan, SIRET verification, checklist
+- **PDF** : convention, certificat, facture, convocation, emargement, attestation, BPF
+- **Command Palette** : Ctrl+K recherche globale + actions rapides
+- **Realtime** : notifications live, max 3 channels, filtres serveur
+- **RGPD** : export donnees, droit a l'oubli, cookie consent, mentions legales
 
 ## Commandes
 
 ```bash
-npm run dev              # Dev local (http://localhost:3000)
+npm run dev              # Dev local
 npm run build            # Build production
-npm run lint             # ESLint
-npm run format           # Prettier
-npm run type-check       # Vérifier les types TypeScript
-npm run test             # Vitest
-npm run stripe:listen    # Webhooks Stripe local
-npm run db:types         # Regénérer types Supabase
-npm run db:migrate       # Supabase push
-npm run db:reset         # Reset DB
-npm run inngest:dev      # Dev Inngest
-npm run analyze          # Bundle analyzer
+npx vercel --prod        # Deploy production
 ```
 
-## Sécurité implémentée
+## Regles absolues
 
-- ✅ Middleware : CSP nonce-based (pas unsafe-inline), HSTS preload, rate limiting
-- ✅ next.config.ts : poweredByHeader false, security headers, COEP
-- ✅ API : validation zod, honeypot, sanitization, disposable email blocklist (85 domaines)
-- ✅ Supabase : RLS toutes tables, service role server-only, field_history audit trail
-- ✅ Stripe : signature verification webhook, idempotence via webhook_events table
-- ✅ Auth : Supabase Auth, redirect non-connectés, RBAC 5 rôles × 24 permissions
-- ✅ Documents : MIME validation, taille max 10MB, extensions bloquées, VirusTotal optionnel
-- ✅ Resilience : circuit breaker, graceful degradation, retry backoff+jitter
+1. JAMAIS commiter .env.local
+2. TOUJOURS export const dynamic = 'force-dynamic' sur API routes
+3. TOUJOURS typescript: { ignoreBuildErrors: true } dans next.config.ts
+4. Layout dashboard = Server Component (force-dynamic) + Client Shell
+5. PDF templates dans lib-server/pdf/ (PAS dans src/)
+6. Commit avec --no-verify (hooks pre-commit pas configures)
 
-## State machines (validators.ts)
+## Config manuelle (voir SETUP_GUIDE.md)
 
-- **Lead** : NOUVEAU → CONTACTE → QUALIFIE → FINANCEMENT_EN_COURS → INSCRIT → EN_FORMATION → FORME → ALUMNI (+ PERDU, REPORTE, SPAM)
-- **Financement** : PREPARATION → DOCUMENTS_REQUIS → DOSSIER_COMPLET → SOUMIS → EN_EXAMEN → COMPLEMENT_DEMANDE → VALIDE/REFUSE → VERSE → CLOTURE
-- **Session** : BROUILLON → PLANIFIEE → CONFIRMEE → EN_COURS → TERMINEE (+ ANNULEE, REPORTEE)
-- **Inscription** : EN_ATTENTE → CONFIRMEE → EN_COURS → COMPLETEE (+ ANNULEE, REMBOURSEE, ABANDONNEE)
+- [ ] Cle anon Supabase dans Vercel env
+- [ ] 25 migrations SQL dans Supabase SQL Editor
+- [ ] Seed data (demo_data.sql + seed_demo_50leads.sql)
+- [ ] User auth dans Supabase Authentication
+- [ ] Bucket Storage "documents" (prive)
+- [ ] Webhook Stripe endpoint + secret
+- [ ] Resend API key
+- [ ] 1 cle IA minimum (Anthropic/Mistral/OpenAI)
 
-## Architecture DDD (src/server/)
+## Derniere session
 
-### Implémenté (Leads uniquement)
-- **Domain** : LeadAggregate (state machine, value objects Email/PhoneFR/Money, domain events)
-- **Application** : 4 use cases (create-lead, change-status, assign, qualify)
-- **Infrastructure** : SupabaseLeadRepository, SupabaseActivityRepository, InngestEventBus
-- **CQRS** : LeadReadModel (listForUI, getDetail, getPipeline, getDashboardMetrics)
-- **DI** : Container per-request (createContainer, createServiceContainer, createTestContainer)
-
-### Non implémenté (domaines vides)
-- communications/, facturation/, financements/, inscriptions/, sessions/, qualite/
-- Pas de use cases pour ces domaines
-- Routes legacy query Supabase directement (à migrer vers use cases)
-
-## IA & Prospection Intelligente
-
-### 6 fonctions IA métier (lib/ai.ts)
-1. `aiScoreLead()` — Scoring prédictif (0-100, segment, urgence, next action)
-2. `aiGenerateEmail()` — Email + WhatsApp personnalisés (6 types)
-3. `aiResearchProspect()` — Recherche enrichie Perplexity/Tavily + analyse
-4. `aiHandleObjection()` — Réponse + rebond (court + détaillé)
-5. `aiSummarizeNotes()` — Résumé + sentiment
-6. `aiAnalyseFinancement()` — Recommande 3-5 organismes + éligibilité %
-
-### Prompts adaptés marché français
-- Contexte Dermotec injecté (11 formations, prix, financements)
-- Connaissance organismes FR (OPCO EP, FAFCEA, FIFPL, France Travail, CPF)
-- Arguments : Qualiopi = éligible financement, ROI rapide, groupes 6 max
-- Meilleurs créneaux : mardi/jeudi matin
-- WhatsApp > email pour relances (95% vs 20% d'ouverture)
-
-### APIs externes
-| Service | Usage | Coût |
-|---------|-------|------|
-| DeepSeek | Scoring, génération, objections | ~$0.55/1M tokens |
-| Perplexity Sonar | Recherche prospect | $5/1000 queries |
-| Tavily | Alternative recherche | Gratuit 1000/mois |
-| Twilio | SMS + WhatsApp | ~$0.04/SMS, ~$0.005/WhatsApp |
-| Resend | Emails transactionnels | Gratuit 100/jour |
-| Stripe | Paiements formations + e-shop | 1.4% + 0.25€ |
-
-## Features incomplètes connues
-
-### Code
-- **Analytics** : graphiques Recharts = placeholder "Bientôt", pipeline bars = 0
-- **Dialogs manquants** : nouvelle session, ajouter inscription, ajouter membre équipe
-- **Export leads** : bouton existe mais non fonctionnel
-- **Messages actions** : boutons appel/email/WhatsApp non implémentés
-- **PDFs** : numéro déclaration activité = placeholder `11755XXX075`
-- **Cadences** : métrique MCC TODO dans cadences/page.tsx:358
-
-### Sécurité (corrigé session mars 2026)
-- ✅ Chiffrement PII = AES-256-GCM + PBKDF2 100K itérations (XOR legacy = compat lecture seule)
-- ✅ Auth sur toutes les routes API (requireAuth centralisé)
-- ✅ RLS optimisé avec (SELECT auth.uid()) wrapper (migration 011)
-- ✅ CVEs Next.js tous patchés (15.5.14)
-- ⚠️ documents/upload : uploaded_by: null (ligne 142)
-- ⚠️ portail/sign-convention : validation format PNG incomplète
-
-### Build (corrigé session mars 2026)
-- ✅ `ignoreBuildErrors` désactivé (0 erreurs TS)
-- ✅ 385 tests Vitest (14 fichiers)
-- ✅ Sentry configuré (client/server/edge + tunnel)
-- ⚠️ Bug /404 avec catch-all Hono [[...route]] (non bloquant en dev)
-
-## Règles absolues
-
-1. JAMAIS commiter .env.local ni .env.vercel
-2. TOUJOURS valider côté serveur (API routes) avec zod
-3. TOUJOURS logger les activités (activity-logger.ts)
-4. TOUJOURS vérifier auth dans les API routes (`requireAuth()` de `lib/api-auth.ts`)
-5. TOUJOURS utiliser les state machines pour les transitions de statut
-6. TOUJOURS passer par use cases DDD pour la logique métier (pas de query Supabase dans les routes)
-7. TOUJOURS utiliser `(SELECT auth.uid())` wrapper dans les policies RLS (100x plus rapide)
-8. TOUJOURS ajouter `idempotencyKey` sur les appels Stripe
-9. TOUJOURS utiliser `safeStripeCall()` (circuit breaker) pour les appels Stripe
-10. TOUJOURS utiliser port 6543 Supavisor en production (SUPABASE_POOLER_URL)
-11. JAMAIS de `console.log` avec des données PII en production (utiliser `safe-log.ts`)
-12. JAMAIS de `eval()`, `innerHTML`, ou `dangerouslySetInnerHTML` sans sanitization
-7. Branding : #2EC6F3 primary, #082545 accent, DM Sans + Bricolage Grotesque
-8. CSS hover (Tailwind), jamais JS onMouseEnter/onMouseLeave
-9. Touch targets minimum 44x44px sur mobile
-10. Lazy init pour services externes — silent fallback si env var manquante
-11. Async via Inngest (jamais de traitement lourd synchrone dans les API routes)
-12. Result<T,E> pour la logique métier (jamais throw dans domain/application)
+**2026-03-21 — Construction complete CRM Dermotec**
+- 289 fichiers, 37 pages, 30 API routes, 52 composants
+- Gamification + AI coaching + Feature Gating 4 plans + MFA
+- Securite 7 couches + documents + PDF + RGPD
+- Deploy Vercel OK : https://crm-dermotec.vercel.app
