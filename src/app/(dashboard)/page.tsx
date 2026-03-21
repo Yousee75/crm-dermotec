@@ -37,6 +37,7 @@ interface DashboardData {
 }
 
 async function fetchDashboardData(): Promise<DashboardData> {
+  try {
   const supabase = createClient()
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
@@ -204,6 +205,23 @@ async function fetchDashboardData(): Promise<DashboardData> {
     weekSessions: weekSessions.data || [],
     recentActivities: recentActivities.data || [],
     caChart: caChartData
+  }
+  } catch (err) {
+    // Return empty data if Supabase is not configured or down
+    return {
+      leadsMonth: { count: 0, trend: 0 },
+      inscriptionsMonth: { count: 0, trend: 0 },
+      caMonth: { amount: 0, trend: 0 },
+      rappelsToday: 0,
+      rappelsOverdue: 0,
+      sessionsWeek: 0,
+      financementInProgress: 0,
+      recentLeads: [],
+      todayRappels: [],
+      weekSessions: [],
+      recentActivities: [],
+      caChart: [],
+    }
   }
 }
 
