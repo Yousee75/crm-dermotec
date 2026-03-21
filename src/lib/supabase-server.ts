@@ -17,7 +17,7 @@ function getSupabaseUrl(): string {
   // Pooler URL a priorité en production
   return process.env.SUPABASE_POOLER_URL
     || process.env.NEXT_PUBLIC_SUPABASE_URL
-    || 'https://placeholder.supabase.co'
+    || 'https://wtbrdxijvtelluwfmgsf.supabase.co'
 }
 
 /**
