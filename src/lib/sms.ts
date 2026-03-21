@@ -23,22 +23,22 @@ function getConfig(): TelnyxConfig {
 // Templates SMS prédéfinis
 export const SMS_TEMPLATES = {
   rappel_j7: (prenom: string, formation: string, date: string) =>
-    `Bonjour ${prenom}, rappel : votre formation "${formation}" commence le ${date} chez Dermotec, 75 Bd Richard Lenoir, Paris 11e. À bientôt !`,
+    `${prenom}, votre formation ${formation} c'est le ${date} ! Dermotec, 75 Bd Richard Lenoir, Paris 11e. On vous attend :) — Dermotec`,
 
   rappel_j1: (prenom: string, formation: string, horaire: string) =>
-    `${prenom}, c'est demain ! Formation "${formation}" à ${horaire}. Adresse : 75 Bd Richard Lenoir, Paris 11e. Pensez à votre pièce d'identité.`,
+    `${prenom}, c'est demain ! ${formation} à ${horaire}, 75 Bd Richard Lenoir, Paris 11e. Pensez à votre pièce d'identité. À demain ! — Dermotec`,
 
   confirmation_inscription: (prenom: string, formation: string) =>
-    `Bienvenue ${prenom} ! Votre inscription à la formation "${formation}" chez Dermotec est confirmée. Nous vous enverrons les détails prochainement.`,
+    `${prenom}, c'est confirmé ! Votre place pour ${formation} est réservée. Vous recevrez la convocation 7j avant. — Dermotec`,
 
   relance_financement: (prenom: string, organisme: string) =>
-    `Bonjour ${prenom}, avez-vous des nouvelles de votre dossier ${organisme} ? N'hésitez pas à nous appeler au 01 88 33 43 43. — Dermotec`,
+    `${prenom}, des nouvelles de votre dossier ${organisme} ? On est là si besoin : 01 88 33 43 43 — Dermotec`,
 
   satisfaction: (prenom: string, lien: string) =>
-    `${prenom}, merci pour votre formation ! Votre avis compte : ${lien} — Dermotec`,
+    `${prenom}, on espère que ça s'est bien passé ! 2 min pour nous dire ce que vous en pensez ? ${lien} — Dermotec`,
 
   avis_google: (prenom: string, lien: string) =>
-    `${prenom}, si vous avez apprécié votre formation, un avis Google nous aiderait énormément : ${lien} Merci ! — Dermotec`,
+    `${prenom}, ça nous ferait super plaisir d'avoir votre avis Google : ${lien} Merci beaucoup ! — Dermotec`,
 } as const
 
 // Envoyer un SMS

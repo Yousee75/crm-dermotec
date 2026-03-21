@@ -168,22 +168,22 @@ export function emailBienvenue(data: {
   portail_url?: string
 }) {
   return {
-    subject: `Bienvenue chez Dermotec, ${data.prenom} !`,
+    subject: `${data.prenom}, on a bien reçu votre demande !`,
     html: layout([
       heading(`Bonjour ${data.prenom} !`),
-      paragraph(`Merci pour votre intérêt pour <strong>${data.formation_nom || 'nos formations en esthétique'}</strong>. Nous sommes ravies de vous accompagner dans votre projet.`),
-      paragraph(`Une conseillère vous contactera sous <strong>24 heures</strong> pour répondre à vos questions et vous aider à trouver la formation idéale.`),
+      paragraph(`Merci de nous avoir contactées pour <strong>${data.formation_nom || 'nos formations'}</strong>. On est contentes de vous avoir !`),
+      paragraph(`Sarah, notre conseillère formation, va vous appeler <strong>demain</strong> pour répondre à toutes vos questions. Si vous préférez échanger par message, on est aussi sur WhatsApp.`),
       infoBox([
-        `<p style="margin:0 0 4px;font-weight:600;color:${COLORS.accent}" class="email-text">En attendant, découvrez :</p>`,
+        `<p style="margin:0 0 4px;font-weight:600;color:${COLORS.accent}" class="email-text">En attendant, jetez un œil :</p>`,
         iconList([
           { icon: '📋', text: 'Le programme complet de la formation' },
-          { icon: '💰', text: 'Les options de financement (OPCO, CPF, France Travail)' },
-          { icon: '⭐', text: 'Les avis de nos +500 stagiaires (4.9/5 sur Google)' },
+          { icon: '💰', text: 'Les financements possibles (OPCO, CPF, France Travail)' },
+          { icon: '⭐', text: 'Ce que disent nos stagiaires (4.9/5 sur Google)' },
         ]),
       ].join(''), 'info'),
       button('Nous écrire sur WhatsApp', 'https://wa.me/33188334343', COLORS.whatsapp),
-      signature(),
-    ].join(''), `${data.prenom}, bienvenue chez Dermotec — nous vous contactons sous 24h`),
+      signature('Sarah — Dermotec'),
+    ].join(''), `${data.prenom}, on vous rappelle demain — Dermotec`),
   }
 }
 
@@ -199,8 +199,8 @@ export function emailConfirmationInscription(data: {
   return {
     subject: `Inscription confirmée — ${data.formation_nom}`,
     html: layout([
-      heading(`Félicitations ${data.prenom} ! 🎉`),
-      paragraph(`Votre inscription à <strong>${data.formation_nom}</strong> est confirmée. Nous avons hâte de vous accueillir.`),
+      heading(`C'est officiel, ${data.prenom} !`),
+      paragraph(`Votre place pour <strong>${data.formation_nom}</strong> est réservée. On a vraiment hâte de vous accueillir !`),
       infoBox([
         iconList([
           { icon: '📚', text: `<strong>${data.formation_nom}</strong>` },
@@ -210,7 +210,7 @@ export function emailConfirmationInscription(data: {
           ...(data.montant ? [{ icon: '💳', text: data.montant }] : []),
         ]),
       ].join(''), 'success'),
-      paragraph(`Vous recevrez une <strong>convocation détaillée</strong> 7 jours avant le début de la formation avec toutes les informations pratiques.`),
+      paragraph(`On vous envoie une convocation détaillée 7 jours avant avec tout ce qu'il faut savoir.`),
       data.portail_url ? button('Accéder à mon espace stagiaire', data.portail_url) : '',
       signature(),
     ].join(''), `${data.prenom}, votre inscription à ${data.formation_nom} est confirmée`),
@@ -229,7 +229,7 @@ export function emailConvocationJ7(data: {
     subject: `J-7 — Votre formation ${data.formation_nom} approche !`,
     html: layout([
       heading(`Plus que 7 jours, ${data.prenom} !`),
-      paragraph(`Votre formation commence bientôt. Voici tout ce que vous devez savoir.`),
+      paragraph(`Le grand jour approche ! Voici les infos pratiques pour que tout se passe bien.`),
       infoBox([
         iconList([
           { icon: '📚', text: `<strong>${data.formation_nom}</strong>` },
@@ -262,8 +262,8 @@ export function emailRappelJ1(data: {
   return {
     subject: `C'est demain ! — ${data.formation_nom}`,
     html: layout([
-      heading(`C'est demain, ${data.prenom} ! 🌟`),
-      paragraph(`On a hâte de vous accueillir demain matin pour <strong>${data.formation_nom}</strong>.`),
+      heading(`C'est demain, ${data.prenom} !`),
+      paragraph(`Ça y est, c'est demain ! On vous attend avec le sourire pour <strong>${data.formation_nom}</strong>.`),
       infoBox([
         iconList([
           { icon: '⏰', text: `Arrivée à <strong>${data.horaire_debut}</strong>` },
@@ -286,9 +286,9 @@ export function emailSatisfactionNPS(data: {
   return {
     subject: `${data.prenom}, votre avis compte !`,
     html: layout([
-      heading(`Bravo ${data.prenom} ! 🎓`),
-      paragraph(`Vous venez de terminer <strong>${data.formation_nom}</strong>. Félicitations !`),
-      paragraph(`Votre avis est précieux pour nous améliorer. Cela prend <strong>2 minutes</strong>.`),
+      heading(`Bravo ${data.prenom} !`),
+      paragraph(`Vous venez de terminer <strong>${data.formation_nom}</strong> — félicitations !`),
+      paragraph(`Est-ce que vous auriez <strong>2 petites minutes</strong> pour nous dire ce que vous en avez pensé ? Ça nous aide vraiment à nous améliorer.`),
       button('Donner mon avis', data.portail_url),
       divider(),
       smallText(`Vos retours nous aident à maintenir notre certification Qualiopi et à offrir la meilleure formation possible.`),
@@ -308,8 +308,8 @@ export function emailCertificat(data: {
   return {
     subject: `Votre certificat Dermotec — ${data.formation_nom}`,
     html: layout([
-      heading(`Votre certificat est prêt ! 🏆`),
-      paragraph(`${data.prenom}, félicitations pour avoir complété avec succès <strong>${data.formation_nom}</strong>.`),
+      heading(`Votre certificat est prêt !`),
+      paragraph(`${data.prenom}, bravo pour cette formation <strong>${data.formation_nom}</strong> — vous l'avez fait !`),
       infoBox([
         iconList([
           { icon: '📜', text: `Certificat n° <strong>${data.certificat_numero}</strong>` },
@@ -321,7 +321,7 @@ export function emailCertificat(data: {
       button('Télécharger mon certificat', data.portail_url),
       divider(),
       subheading('Et maintenant ?'),
-      paragraph(`Vous êtes désormais prête à proposer cette prestation à vos clientes. Voici quelques ressources pour vous lancer :`),
+      paragraph(`Maintenant, c'est à vous de jouer ! Voici de quoi bien démarrer :`),
       iconList([
         { icon: '📖', text: 'Guide "Lancer votre activité" (dans votre espace)' },
         { icon: '🛒', text: '<a href="https://www.dermotec.fr" style="color:#2EC6F3">Matériel NPM professionnel</a> sur notre e-shop' },
@@ -343,8 +343,8 @@ export function emailUpsellJ30(data: {
     subject: `${data.prenom}, prête pour la suite ?`,
     html: layout([
       heading(`1 mois déjà, ${data.prenom} !`),
-      paragraph(`Ça fait déjà un mois que vous avez terminé <strong>${data.formation_completee}</strong>. Comment ça se passe ?`),
-      paragraph(`Beaucoup de nos stagiaires complètent leur expertise avec une formation complémentaire. Voici notre recommandation pour vous :`),
+      paragraph(`Ça fait déjà un mois que vous avez terminé <strong>${data.formation_completee}</strong>. Comment ça se passe de votre côté ?`),
+      paragraph(`Plusieurs filles de votre promo ont enchaîné avec une deuxième formation. Si ça vous tente :`),
       infoBox([
         `<p style="font-weight:700;color:${COLORS.accent};font-size:16px;margin:0 0 8px" class="email-text">${data.formation_suggeree}</p>`,
         `<p style="color:${COLORS.primary};font-size:20px;font-weight:700;margin:0 0 4px">${data.prix_suggeree}€ HT</p>`,
@@ -368,8 +368,8 @@ export function emailRelanceFinancement(data: {
     subject: `Des nouvelles de votre dossier ${data.organisme} ?`,
     html: layout([
       heading(`Suivi de votre financement`),
-      paragraph(`${data.prenom}, cela fait <strong>${data.jours_depuis} jours</strong> que votre dossier a été soumis à <strong>${data.organisme}</strong> pour <strong>${data.formation_nom}</strong>.`),
-      paragraph(`Avez-vous eu des nouvelles de votre côté ? Parfois, un petit appel à votre conseiller ou à l'OPCO peut accélérer les choses.`),
+      paragraph(`${data.prenom}, ça fait <strong>${data.jours_depuis} jours</strong> que votre dossier a été envoyé à <strong>${data.organisme}</strong> pour <strong>${data.formation_nom}</strong>.`),
+      paragraph(`Vous avez eu des nouvelles ? Parfois, un petit coup de fil à votre conseiller peut débloquer les choses.`),
       infoBox([
         `<p style="font-weight:600;color:${COLORS.accent};margin:0 0 8px" class="email-text">Ce que vous pouvez faire :</p>`,
         iconList([
@@ -395,7 +395,7 @@ export function emailAbandonRelance(data: {
     subject: `${data.prenom}, avez-vous encore des questions ?`,
     html: layout([
       heading(`On reste disponibles`),
-      paragraph(`${data.prenom}, on s'est parlé il y a quelque temps au sujet de <strong>${data.formation_nom}</strong> et nous voulions savoir si vous aviez encore des questions.`),
+      paragraph(`${data.prenom}, on s'est parlé il y a quelque temps au sujet de <strong>${data.formation_nom}</strong>. Je voulais prendre des nouvelles — vous avez encore des questions ?`),
       data.prochaine_session ? infoBox([
         iconList([
           { icon: '📅', text: `Prochaine session : <strong>${data.prochaine_session}</strong>` },
@@ -404,8 +404,8 @@ export function emailAbandonRelance(data: {
           { icon: '⭐', text: '4.9/5 sur Google — +500 stagiaires formées' },
         ]),
       ].join(''), 'info') : '',
-      paragraph(`Si le financement était un frein, sachez que nous vous accompagnons <strong>gratuitement</strong> dans le montage du dossier (OPCO, CPF, France Travail).`),
-      paragraph(`On peut en discuter sans engagement :`),
+      paragraph(`Si le budget vous freinait, sachez qu'on aide toutes nos stagiaires à monter leur dossier de financement — et c'est gratuit. 80% sont financées à 100%.`),
+      paragraph(`On peut en discuter, sans engagement :`),
       button('Discuter sur WhatsApp', 'https://wa.me/33188334343', COLORS.whatsapp),
       secondaryButton('Nous appeler : 01 88 33 43 43', 'tel:+33188334343'),
       signature(),
