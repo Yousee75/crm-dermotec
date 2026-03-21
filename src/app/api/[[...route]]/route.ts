@@ -17,6 +17,7 @@ import { handle } from 'hono/vercel'
 import app from '@/server'
 
 export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 export const runtime = 'nodejs' // 'edge' si deploye sur Vercel Edge
 
 export const GET = handle(app)
