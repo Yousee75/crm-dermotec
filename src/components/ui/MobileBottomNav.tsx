@@ -17,7 +17,7 @@ export function MobileBottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg border-t border-gray-200 safe-area-bottom">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg -webkit-backdrop-blur-lg border-t border-gray-200 safe-area-bottom" style={{ WebkitBackdropFilter: 'blur(16px)' }}>
       <div className="flex items-stretch">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href || (item.href !== '/' && (pathname ?? '').startsWith(item.href))

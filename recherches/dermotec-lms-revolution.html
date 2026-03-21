@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermotec Academy — Stratégie LMS Révolutionnaire 2025-2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a12;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --gold: #c8a84b;
+    --gold-light: #e8cc7a;
+    --red: #c23b22;
+    --green: #2a7c5a;
+    --blue: #1a3a6c;
+    --muted: #6b6560;
+    --card-bg: #ffffff;
+    --border: #d9d3c7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,168,75,0.15) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,168,75,0.15);
+    border: 1px solid rgba(200,168,75,0.3);
+    color: var(--gold-light);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 32px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(245,240,232,0.7);
+    max-width: 600px;
+    margin-bottom: 40px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat { }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: rgba(245,240,232,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+  .section { padding: 64px 0; }
+  .section + .section { border-top: 1px solid var(--border); }
+  
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+  .section-intro {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 680px;
+    margin-bottom: 40px;
+  }
+
+  /* CARDS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media(max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .hero { padding: 48px 24px 40px; }
+    .container { padding: 0 20px; }
+  }
+  
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  
+  .card.accent-gold { border-left: 4px solid var(--gold); }
+  .card.accent-red { border-left: 4px solid var(--red); }
+  .card.accent-green { border-left: 4px solid var(--green); }
+  .card.accent-blue { border-left: 4px solid var(--blue); }
+  .card.dark {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: transparent;
+  }
+  .card.dark p { color: rgba(245,240,232,0.6); }
+  .card.dark h3 { color: var(--paper); }
+
+  /* TAG CHIPS */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: var(--cream);
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .tag.gold { background: rgba(200,168,75,0.12); color: var(--gold); }
+  .tag.red { background: rgba(194,59,34,0.1); color: var(--red); }
+  .tag.green { background: rgba(42,124,90,0.1); color: var(--green); }
+  .tag.blue { background: rgba(26,58,108,0.1); color: var(--blue); }
+
+  /* STACK TABLE */
+  .stack-table { width: 100%; border-collapse: collapse; }
+  .stack-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  .stack-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .stack-table tr:hover td { background: var(--cream); }
+  .stack-table td:first-child { font-weight: 600; font-size: 13px; }
+  .badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-free { background: rgba(42,124,90,0.12); color: var(--green); }
+  .badge-paid { background: rgba(194,59,34,0.1); color: var(--red); }
+  .badge-essential { background: rgba(200,168,75,0.15); color: var(--gold); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 8px; bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 32px;
+  }
+  .tl-dot {
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .tl-phase {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tl-body { font-size: 14px; color: var(--muted); }
+  .tl-tasks {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* QUALIOPI SECTION */
+  .qualiopi-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  @media(max-width: 900px) { .qualiopi-grid { grid-template-columns: repeat(3, 1fr); } }
+  .q-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .q-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .q-label { font-size: 11px; color: var(--muted); line-height: 1.3; margin-top: 4px; }
+
+  /* COMPETITIVE TABLE */
+  .comp-table { width: 100%; border-collapse: collapse; }
+  .comp-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+  }
+  .comp-table th:first-child { text-align: left; border-radius: 10px 0 0 0; }
+  .comp-table th:last-child { background: var(--gold); color: var(--ink); border-radius: 0 10px 0 0; }
+  .comp-table td {
+    padding: 12px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    vertical-align: middle;
+  }
+  .comp-table td:first-child { text-align: left; font-weight: 600; }
+  .comp-table td:last-child { background: rgba(200,168,75,0.05); font-weight: 600; color: var(--gold); }
+  .check { color: var(--green); font-size: 16px; }
+  .cross { color: #ccc; font-size: 14px; }
+  .partial { color: var(--gold); font-size: 14px; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 16px;
+    padding: 40px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  .callout-icon { font-size: 40px; flex-shrink: 0; }
+  .callout h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--gold);
+  }
+  .callout p { font-size: 15px; color: rgba(245,240,232,0.75); }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #0d1117;
+    color: #e6edf3;
+    border-radius: 10px;
+    padding: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-x: auto;
+    margin-top: 16px;
+  }
+  .code-block .comment { color: #8b949e; }
+  .code-block .keyword { color: #ff7b72; }
+  .code-block .string { color: #a5d6ff; }
+  .code-block .func { color: #d2a8ff; }
+  .code-block .var { color: #79c0ff; }
+
+  /* RGPD */
+  .rgpd-list { list-style: none; }
+  .rgpd-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    font-size: 14px;
+  }
+  .rgpd-list li .icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .rgpd-list li strong { display: block; font-weight: 600; margin-bottom: 2px; }
+  .rgpd-list li span { color: var(--muted); }
+
+  /* AI FEATURES */
+  .ai-feature {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .ai-feature:last-child { border-bottom: none; }
+  .ai-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 50px;
+    text-align: right;
+  }
+  .ai-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .ai-content p { font-size: 14px; color: var(--muted); }
+  .ai-content .tags { margin-top: 8px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 60px;
+    text-align: center;
+  }
+  footer .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  footer p { font-size: 13px; color: rgba(245,240,232,0.4); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(200,168,75,0.08), rgba(200,168,75,0.02));
+    border: 1px solid rgba(200,168,75,0.25);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .highlight-box h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .highlight-box p { font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📋 Stratégie Produit — Mars 2026</div>
+  <h1>Révolutionner la<br><span>formation en ligne</span><br>en France</h1>
+  <p class="hero-sub">Blueprint complet pour lancer la plateforme LMS la plus innovante du marché français — stack technique, conformité Qualiopi, IA, et différenciation concurrentielle.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">23 Md$</div><div class="stat-label">Marché mondial LMS 2025</div></div>
+    <div class="stat"><div class="stat-num">+40%</div><div class="stat-label">Croissance annuelle e-learning FR</div></div>
+    <div class="stat"><div class="stat-num">32</div><div class="stat-label">Indicateurs Qualiopi à couvrir</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Mois pour MVP conforme</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. CONTEXTE MARCHÉ -->
+  <div class="section">
+    <div class="section-label">01 — Opportunité</div>
+    <h2 class="section-title">Pourquoi c'est le bon moment en France</h2>
+    <p class="section-intro">Le marché est en rupture : les plateformes historiques (Moodle, Digiforma) sont vieillissantes, les jeunes formateurs veulent une expérience Masterclass-level, et Qualiopi a créé une barrière réglementaire que personne n'a encore transformée en avantage compétitif.</p>
+    <div class="grid-3">
+      <div class="card accent-gold">
+        <div class="card-icon">💰</div>
+        <h3>CPF & OPCO = cash garanti</h3>
+        <p>Avec Qualiopi, chaque formation peut être financée par le CPF, les OPCO ou France Travail. Le client ne paie pas de sa poche — frein à l'achat quasiment nul.</p>
+        <div class="tags"><span class="tag gold">CPF</span><span class="tag gold">OPCO</span><span class="tag gold">France Travail</span></div>
+      </div>
+      <div class="card accent-red">
+        <div class="card-icon">🚪</div>
+        <h3>Barrière réglementaire = moat</h3>
+        <p>Qualiopi élimine les acteurs non sérieux. Si tu le certifies d'emblée dans ta plateforme (auto-génération des preuves), tu domines le segment des indépendants.</p>
+        <div class="tags"><span class="tag red">Qualiopi</span><span class="tag red">RNQ</span></div>
+      </div>
+      <div class="card accent-green">
+        <div class="card-icon">🎯</div>
+        <h3>Cible ignorée : les formateurs solos</h3>
+        <p>300 000 formateurs indépendants en France. Ils fuient Moodle (trop complexe) et Teachizy (trop cher). Ta plateforme peut capturer ce segment avec une UX 10x meilleure.</p>
+        <div class="tags"><span class="tag green">B2B2C</span><span class="tag green">Formateurs indépendants</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. COMPARATIF CONCURRENTS -->
+  <div class="section">
+    <div class="section-label">02 — Benchmark</div>
+    <h2 class="section-title">Ce que font les meilleurs — et ton avantage</h2>
+    <p class="section-intro">Analyse comparative des plateformes mondiales et françaises. La colonne de droite = ce que tu peux offrir que personne d'autre ne propose.</p>
+    <div style="overflow-x:auto; border-radius:12px; border:1px solid var(--border);">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Fonctionnalité</th>
+            <th>Moodle</th>
+            <th>Teachizy FR</th>
+            <th>Thinkific</th>
+            <th>Masterclass</th>
+            <th>✨ Dermotec Academy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Parcours adaptatif IA</td><td class="cross">✗</td><td class="cross">✗</td><td class="partial">〜</td><td class="cross">✗</td><td class="check">✓ Claude-powered</td></tr>
+          <tr><td>Conformité Qualiopi auto</td><td class="cross">✗</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ Native + exports</td></tr>
+          <tr><td>Vidéo sécurisée (anti-DL)</td><td class="cross">✗</td><td class="partial">〜</td><td class="check">✓</td><td class="check">✓ Mux</td><td class="check">✓ Mux signed URLs</td></tr>
+          <tr><td>Certificats auto PDF</td><td class="partial">〜</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓ Brandé + OPCO-ready</td></tr>
+          <tr><td>Interface FR + RGPD natif</td><td class="partial">〜</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ Hébergement EU</td></tr>
+          <tr><td>Gamification / streaks</td><td class="cross">✗</td><td class="cross">✗</td><td class="partial">〜</td><td class="cross">✗</td><td class="check">✓ Duolingo-style</td></tr>
+          <tr><td>Coach IA personnalisé</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ Claude intégré</td></tr>
+          <tr><td>Micro-learning + mobile</td><td class="cross">✗</td><td class="partial">〜</td><td class="partial">〜</td><td class="check">✓</td><td class="check">✓ App-first</td></tr>
+          <tr><td>Marketplace multi-formateurs</td><td class="cross">✗</td><td class="cross">✗</td><td class="partial">〜</td><td class="cross">✗</td><td class="check">✓ Réseau de formateurs</td></tr>
+          <tr><td>Prix pour formateur solo</td><td class="check">Gratuit</td><td class="partial">50€/mois</td><td class="partial">36€/mois</td><td class="cross">Non applicable</td><td class="check">0€ + commission</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. QUALIOPI DEEP DIVE -->
+  <div class="section">
+    <div class="section-label">03 — Conformité</div>
+    <h2 class="section-title">Qualiopi — Guide opérationnel complet</h2>
+    <p class="section-intro">7 critères, 32 indicateurs. Voici comment les intégrer nativement dans la plateforme pour que tes formateurs obtiennent la certification sans effort supplémentaire.</p>
+    
+    <div class="qualiopi-grid">
+      <div class="q-card"><div class="q-num">C1</div><div class="q-label">Information du public</div></div>
+      <div class="q-card"><div class="q-num">C2</div><div class="q-label">Identification des objectifs</div></div>
+      <div class="q-card"><div class="q-num">C3</div><div class="q-label">Adaptation des prestations</div></div>
+      <div class="q-card"><div class="q-num">C4</div><div class="q-label">Adéquation des moyens</div></div>
+      <div class="q-card"><div class="q-num">C5</div><div class="q-label">Qualification des formateurs</div></div>
+      <div class="q-card"><div class="q-num">C6</div><div class="q-label">Investissement et veille</div></div>
+      <div class="q-card"><div class="q-num">C7</div><div class="q-label">Prise en compte des réclamations</div></div>
+    </div>
+    
+    <div class="grid-2">
+      <div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:16px;">✅ Ce que la plateforme génère automatiquement</h3>
+        <ul class="rgpd-list">
+          <li><span class="icon">📊</span><div><strong>Tableau de bord Qualiopi</strong><span>Temps de connexion par apprenant, taux de complétion, activité par module — preuves exportables en PDF pour l'auditeur.</span></div></li>
+          <li><span class="icon">📝</span><div><strong>Documents pré-remplis</strong><span>Convention de formation, programme détaillé, règlement intérieur, feuilles d'émargement numériques — auto-générés à chaque session.</span></div></li>
+          <li><span class="icon">⭐</span><div><strong>Enquêtes de satisfaction</strong><span>Quiz de satisfaction obligatoires (indicateur 11), collecte automatique, exports statistiques pour le dossier d'audit.</span></div></li>
+          <li><span class="icon">🏆</span><div><strong>Certificats de réussite</strong><span>Générés automatiquement, avec le nom, la date, les objectifs atteints — logo Qualiopi inclus si le formateur est certifié.</span></div></li>
+          <li><span class="icon">📋</span><div><strong>Analyse des besoins</strong><span>Questionnaire de positionnement initial obligatoire (C2) intégré à l'inscription — les réponses sont archivées 3 ans.</span></div></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:16px;">⚙️ Prérequis pour la certification (formateur)</h3>
+        <div class="card accent-gold" style="margin-bottom:12px;">
+          <h3>Déclaration d'activité (DA)</h3>
+          <p>Déposer sa DA auprès de la DREETS avant toute formation. La plateforme peut pré-remplir le formulaire CERFA 10782*05 avec les données renseignées.</p>
+          <div class="tags"><span class="tag gold">DREETS</span><span class="tag gold">CERFA</span></div>
+        </div>
+        <div class="card accent-blue">
+          <h3>Organisme certificateur accrédité</h3>
+          <p>Passer l'audit avec AFNOR, Bureau Veritas, ICPF, ou ISQ. Coût : 1 500€ à 3 000€. La plateforme guide le formateur avec un checklist d'audit étape par étape.</p>
+          <div class="tags"><span class="tag blue">AFNOR</span><span class="tag blue">Bureau Veritas</span><span class="tag blue">ICPF</span></div>
+        </div>
+        <div class="highlight-box" style="margin-top:12px;">
+          <h4>⚠️ Point critique e-learning</h4>
+          <p>Une formation 100% asynchrone n'est <strong>pas compatible Qualiopi</strong>. La plateforme doit prévoir des moments synchrones : positionnement initial, point d'étape, évaluation finale.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. STACK TECHNIQUE -->
+  <div class="section">
+    <div class="section-label">04 — Stack Technique</div>
+    <h2 class="section-title">L'architecture que les meilleurs utilisent</h2>
+    <p class="section-intro">Stack production-ready, inspirée des meilleures pratiques GitHub, avec Claude Code en fil directeur pour coder 3x plus vite.</p>
+    
+    <div style="overflow-x:auto; border-radius:12px; border:1px solid var(--border); margin-bottom:32px;">
+      <table class="stack-table">
+        <thead>
+          <tr>
+            <th>Couche</th>
+            <th>Technologie</th>
+            <th>Rôle</th>
+            <th>Alternatives</th>
+            <th>Coût</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Frontend</td><td>Next.js 15 (App Router)<span class="badge badge-essential">Core</span></td><td>Site vitrine + dashboard apprenant + admin</td><td>Remix, Nuxt</td><td>Gratuit</td></tr>
+          <tr><td>Auth</td><td>Clerk<span class="badge badge-essential">Recommandé</span></td><td>Auth multifacteur, gestion de sessions, SSO</td><td>NextAuth, Supabase Auth</td><td>0€ < 10k users</td></tr>
+          <tr><td>Base de données</td><td>Supabase (PostgreSQL)<span class="badge badge-essential">Core</span></td><td>BDD, RLS, realtime, storage</td><td>PlanetScale, Neon</td><td>0€ / 25€+</td></tr>
+          <tr><td>ORM</td><td>Prisma</td><td>Schéma typé, migrations, studio visuel</td><td>Drizzle, Kysely</td><td>Gratuit</td></tr>
+          <tr><td>Vidéo sécurisée</td><td>Mux<span class="badge badge-essential">Anti-vol</span></td><td>Signed URLs, HLS, watermarking, analytics</td><td>Cloudflare Stream, Bunny.net</td><td>0.015$/min</td></tr>
+          <tr><td>Paiement</td><td>Stripe<span class="badge badge-essential">Core</span></td><td>Abonnements, one-time, webhooks, Connect</td><td>Mollie (plus FR-friendly)</td><td>1.5% + 0.25€</td></tr>
+          <tr><td>IA / Coach</td><td>Anthropic Claude API<span class="badge badge-essential">Différenciant</span></td><td>Coach IA, quiz génération, correction auto</td><td>OpenAI GPT-4</td><td>~3$/1M tokens</td></tr>
+          <tr><td>PDF / Certificats</td><td>React PDF + Puppeteer</td><td>Génération certificats brandés, conventions</td><td>PDFKit, html2pdf</td><td>Gratuit</td></tr>
+          <tr><td>Emails</td><td>Resend</td><td>Emails transactionnels, rappels, relances</td><td>Sendgrid, Postmark</td><td>0€ < 3k/mois</td></tr>
+          <tr><td>Hébergement</td><td>Vercel + Supabase EU<span class="badge badge-essential">RGPD</span></td><td>Déploiement, CDN, hébergement données FR</td><td>OVH Cloud, Railway</td><td>20€/mois</td></tr>
+          <tr><td>CI/CD</td><td>GitHub Actions + Claude Code<span class="badge badge-essential">DevOps</span></td><td>Review auto, tests, déploiement continu</td><td>GitLab CI, CircleCI</td><td>Gratuit</td></tr>
+          <tr><td>Monitoring</td><td>Sentry + PostHog</td><td>Erreurs temps réel + analytics comportement</td><td>Datadog, Mixpanel</td><td>0€ free tier</td></tr>
+          <tr><td>Gamification</td><td>Custom Supabase + Confetti.js</td><td>Badges, streaks, points, classements</td><td>Badgr (open source)</td><td>Gratuit</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">🤖</div>
+      <div>
+        <h3>Claude Code + GitHub Actions = ton super-pouvoir</h3>
+        <p>Configure <code>anthropics/claude-code-action@v1</code> dans tes workflows GitHub. Claude review automatiquement chaque PR, génère les tests manquants, et peut commiter des corrections directement dans le repo. Lance un commentaire <code>@claude fix this bug</code> sur une issue et il ouvre une PR prête à merger. Tu codes 3x plus vite, seul.</p>
+        <div class="tags" style="margin-top:12px;"><span class="tag gold">claude-code-action@v1</span><span class="tag gold">CLAUDE.md</span><span class="tag gold">Auto PR review</span><span class="tag gold">Issue → PR auto</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CLAUDE CODE WORKFLOW -->
+  <div class="section">
+    <div class="section-label">05 — DevOps IA</div>
+    <h2 class="section-title">Setup Claude Code pour ton LMS</h2>
+    <p class="section-intro">Configuration recommandée pour coder ta plateforme avec Claude Code comme copilote permanent — en local et en CI/CD.</p>
+    
+    <div class="grid-2">
+      <div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:12px;">CLAUDE.md — contexte projet</h3>
+        <div class="code-block">
+<span class="comment"># DERMOTEC ACADEMY — LMS Context</span>
+
+<span class="comment">## Stack</span>
+<span class="var">- Next.js 15 App Router + TypeScript</span>
+<span class="var">- Supabase (Postgres + Auth + Storage)</span>
+<span class="var">- Mux pour vidéos sécurisées</span>
+<span class="var">- Stripe pour paiements</span>
+<span class="var">- Claude API pour IA coach</span>
+
+<span class="comment">## Conventions</span>
+<span class="var">- RLS Supabase obligatoire sur chaque table</span>
+<span class="var">- Qualiopi: archiver tous les events users</span>
+<span class="var">- Signed URLs Mux: expiration 2h max</span>
+<span class="var">- Tests Vitest + Playwright E2E obligatoires</span>
+
+<span class="comment">## Fichiers clés</span>
+<span class="var">@docs/qualiopi-checklist.md</span>
+<span class="var">@docs/rgpd-policy.md</span>
+<span class="var">@prisma/schema.prisma</span></div>
+      </div>
+      <div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:12px;">GitHub Actions — review auto</h3>
+        <div class="code-block">
+<span class="comment"># .github/workflows/claude-review.yml</span>
+<span class="keyword">on:</span>
+  pull_request:
+    types: [opened, synchronize]
+  issue_comment:
+    types: [created]
+
+<span class="keyword">jobs:</span>
+  claude-review:
+    <span class="keyword">runs-on:</span> ubuntu-latest
+    <span class="keyword">permissions:</span>
+      contents: <span class="string">write</span>
+      pull-requests: <span class="string">write</span>
+    <span class="keyword">steps:</span>
+      - <span class="keyword">uses:</span> actions/checkout@v4
+      - <span class="keyword">uses:</span> anthropics/claude-code-action@v1
+        <span class="keyword">with:</span>
+          anthropic_api_key: ${{<span class="var">secrets.ANTHROPIC_API_KEY</span>}}
+          <span class="keyword">prompt:</span> |
+            Review ce PR pour :
+            1. Sécurité Supabase RLS
+            2. Conformité Qualiopi (archivage)
+            3. Signed URLs Mux correctement
+            4. Tests manquants
+            Poste un commentaire structuré.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. FONCTIONNALITÉS IA INNOVANTES -->
+  <div class="section">
+    <div class="section-label">06 — Innovation</div>
+    <h2 class="section-title">Les features IA qui révolutionnent la formation</h2>
+    <p class="section-intro">Ce que les meilleurs américains ont implémenté — et comment les adapter au marché français avec des éléments nouveaux que personne ne propose encore.</p>
+    
+    <div class="ai-feature">
+      <div class="ai-num">01</div>
+      <div class="ai-content">
+        <h4>🧠 Coach IA personnalisé (style Khanmigo)</h4>
+        <p>Un assistant Claude intégré dans chaque cours. Il ne donne pas les réponses — il pose des questions socratiques pour guider l'apprenant. Analyse le niveau, adapte le vocabulaire, détecte les lacunes. Disponible 24/7 sans remplacer le formateur humain.</p>
+        <div class="tags"><span class="tag gold">Claude API streaming</span><span class="tag blue">Context apprenant</span><span class="tag green">Qualiopi C3</span></div>
+      </div>
+    </div>
+    <div class="ai-feature">
+      <div class="ai-num">02</div>
+      <div class="ai-content">
+        <h4>🎮 Gamification adaptive (style Duolingo)</h4>
+        <p>Streaks quotidiens, points XP, badges de compétences, classement entre pairs. L'IA ajuste la difficulté en temps réel : si l'apprenant maîtrise un module, le suivant est débloqué plus tôt. Si il stagne, du contenu de renforcement est injecté automatiquement.</p>
+        <div class="tags"><span class="tag gold">Duolingo-inspired</span><span class="tag blue">Adaptive difficulty</span><span class="tag green">Rétention +60%</span></div>
+      </div>
+    </div>
+    <div class="ai-feature">
+      <div class="ai-num">03</div>
+      <div class="ai-content">
+        <h4>📹 Génération de cours par IA (style CYPHER Agent)</h4>
+        <p>Le formateur décrit son expertise en 5 minutes → l'IA génère un plan de cours structuré, des quiz, des exercices pratiques, et des fiches de synthèse. Il ne reste plus qu'à valider et enregistrer les vidéos. Temps de création : semaines → heures.</p>
+        <div class="tags"><span class="tag gold">Course outline generator</span><span class="tag blue">Quiz auto-generator</span><span class="tag red">Time to market x10</span></div>
+      </div>
+    </div>
+    <div class="ai-feature">
+      <div class="ai-num">04</div>
+      <div class="ai-content">
+        <h4>📊 Analytics prédictives (style Absorb LMS)</h4>
+        <p>Prédire qui va décrocher avant qu'il décroche. L'IA analyse les patterns de connexion, les scores des quiz, le temps passé par module. Alerte automatique au formateur si un apprenant est en danger. Taux de complétion ciblé : 80%+ vs 15% moyenne du marché.</p>
+        <div class="tags"><span class="tag gold">Predictive analytics</span><span class="tag blue">Churn prevention</span><span class="tag green">Qualiopi C7</span></div>
+      </div>
+    </div>
+    <div class="ai-feature">
+      <div class="ai-num">05</div>
+      <div class="ai-content">
+        <h4>🎯 Parcours adaptatifs multi-niveaux</h4>
+        <p>Quiz de positionnement initial → le parcours se reconfigure pour sauter ce que l'apprenant sait déjà et approfondir ses lacunes. Chaque apprenant suit un chemin unique. Inspiré de CYPHER Agent, adapté à la réglementation Qualiopi (positionnement obligatoire).</p>
+        <div class="tags"><span class="tag gold">Adaptive learning</span><span class="tag blue">Personnalisation</span><span class="tag green">Qualiopi C2</span></div>
+      </div>
+    </div>
+    <div class="ai-feature">
+      <div class="ai-num">06</div>
+      <div class="ai-content">
+        <h4>🇫🇷 Marketplace formateurs certifiés (NOUVEAU)</h4>
+        <p>Un réseau de formateurs indépendants certifiés Qualiopi qui vendent leurs cours sur ta plateforme. Tu prends 20% de commission. Les apprenants CPF peuvent financer directement. Aucune plateforme française ne propose ce modèle marketplace + Qualiopi natif.</p>
+        <div class="tags"><span class="tag red">Exclusif FR</span><span class="tag gold">Stripe Connect</span><span class="tag blue">CPF-ready</span></div>
+      </div>
+    </div>
+    <div class="ai-feature">
+      <div class="ai-num">07</div>
+      <div class="ai-content">
+        <h4>📱 Micro-learning mobile-first (style LinkedIn Learning)</h4>
+        <p>Cours découpés en modules de 5-10 minutes, optimisés pour mobile. Notifications push intelligentes aux moments où l'utilisateur est le plus réceptif (analyse comportementale). Format vidéo vertical disponible pour la Gen Z.</p>
+        <div class="tags"><span class="tag gold">PWA mobile</span><span class="tag blue">Push notifications</span><span class="tag green">Gen Z ready</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. RGPD -->
+  <div class="section">
+    <div class="section-label">07 — Conformité RGPD</div>
+    <h2 class="section-title">Protection des données — obligations légales</h2>
+    <p class="section-intro">En France, Qualiopi + RGPD + CNIL font partie du même dispositif. Voici ce que la plateforme doit implémenter dès le départ pour ne pas avoir de problèmes.</p>
+    <div class="grid-2">
+      <ul class="rgpd-list">
+        <li><span class="icon">🇪🇺</span><div><strong>Hébergement données EU uniquement</strong><span>Supabase EU (Frankfurt), Mux EU, Vercel EU — aucune donnée transférée hors EEE. Mention obligatoire dans la politique de confidentialité.</span></div></li>
+        <li><span class="icon">📋</span><div><strong>Registre de traitement (RGPD Art. 30)</strong><span>Documenter tous les traitements : nom apprenant, progression, données de paiement. Modèle téléchargeable CNIL.</span></div></li>
+        <li><span class="icon">🔒</span><div><strong>Chiffrement en transit et au repos</strong><span>TLS 1.3 obligatoire, chiffrement Supabase des données sensibles (Numéro CPF, données de santé si formations médecine).</span></div></li>
+        <li><span class="icon">⏱️</span><div><strong>Durée de conservation limitée</strong><span>Données de formation : 3 ans (Qualiopi). Données paiement : 5 ans (légal). Données comportementales : 13 mois max (CNIL).</span></div></li>
+      </ul>
+      <ul class="rgpd-list">
+        <li><span class="icon">👤</span><div><strong>Droits des utilisateurs (Art. 15-22)</strong><span>Interface d'export/suppression des données accessible depuis le compte apprenant. Délai de réponse : 30 jours max.</span></div></li>
+        <li><span class="icon">🍪</span><div><strong>Gestion des cookies conforme</strong><span>Bannière CNIL compliant (Axeptio ou Didomi). Pas de tracking analytics sans consentement explicite. Google Analytics → Matomo auto-hébergé.</span></div></li>
+        <li><span class="icon">📧</span><div><strong>Consentement marketing opt-in</strong><span>Case à cocher non pré-cochée lors de l'inscription. Désabonnement en 1 clic. Log de consentement horodaté archivé.</span></div></li>
+        <li><span class="icon">🔔</span><div><strong>Notification de violation (Art. 33)</strong><span>Procédure en place pour notifier la CNIL sous 72h en cas de fuite de données. Contrat DPA avec tous les sous-traitants (Supabase, Mux, Stripe).</span></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 8. ROADMAP -->
+  <div class="section">
+    <div class="section-label">08 — Roadmap</div>
+    <h2 class="section-title">Plan de lancement sur 6 mois</h2>
+    <p class="section-intro">Une progression réaliste pour aller de ton site Dermotec actuel à une plateforme complète, certifiée Qualiopi, avec IA intégrée.</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 1 — Semaines 1–4</div>
+        <div class="tl-title">MVP sécurisé : vidéo + paiement + auth</div>
+        <div class="tl-body">Base technique irréprochable avant toute fonctionnalité avancée.</div>
+        <div class="tl-tasks">
+          <span class="tag blue">Supabase schema</span>
+          <span class="tag blue">Clerk auth</span>
+          <span class="tag gold">Mux vidéo sécurisée</span>
+          <span class="tag gold">Stripe one-time</span>
+          <span class="tag green">Dashboard apprenant</span>
+          <span class="tag green">Claude Code GitHub Action</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 2 — Semaines 5–8</div>
+        <div class="tl-title">Conformité Qualiopi native</div>
+        <div class="tl-body">Transformer les obligations Qualiopi en fonctionnalités produit différenciantes.</div>
+        <div class="tl-tasks">
+          <span class="tag red">Quiz positionnement</span>
+          <span class="tag red">Tracking temps apprenants</span>
+          <span class="tag gold">Certificats PDF auto</span>
+          <span class="tag gold">Enquêtes satisfaction</span>
+          <span class="tag green">Dashboard Qualiopi formateur</span>
+          <span class="tag blue">Export preuves audit PDF</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 3 — Semaines 9–14</div>
+        <div class="tl-title">IA + Gamification</div>
+        <div class="tl-body">Les features qui te différencient de tout le marché français.</div>
+        <div class="tl-tasks">
+          <span class="tag gold">Claude API coach intégré</span>
+          <span class="tag gold">Quiz generator IA</span>
+          <span class="tag red">Streaks + badges</span>
+          <span class="tag red">Parcours adaptatifs</span>
+          <span class="tag blue">Analytics prédictives</span>
+          <span class="tag green">Notifications mobile</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 4 — Semaines 15–24</div>
+        <div class="tl-title">Marketplace + Scaling</div>
+        <div class="tl-body">Passer du produit solo à la marketplace multi-formateurs.</div>
+        <div class="tl-tasks">
+          <span class="tag gold">Stripe Connect formateurs</span>
+          <span class="tag gold">CPF / OPCO intégration</span>
+          <span class="tag red">Multi-tenant architecture</span>
+          <span class="tag blue">App mobile PWA</span>
+          <span class="tag green">Landing pages IA-generated</span>
+          <span class="tag blue">Programme d'affiliation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. BUSINESS MODEL -->
+  <div class="section">
+    <div class="section-label">09 — Modèle Économique</div>
+    <h2 class="section-title">Comment monétiser sans tuer la croissance</h2>
+    <div class="grid-3">
+      <div class="card dark">
+        <div class="card-icon">🎓</div>
+        <h3>Formateur Solo</h3>
+        <p>Gratuit jusqu'à 50 apprenants + 5% de commission sur les ventes. Inclut Qualiopi assist + certificats.</p>
+        <div class="tags" style="margin-top:12px;"><span class="tag gold">0€/mois</span><span class="tag gold">5% commission</span></div>
+      </div>
+      <div class="card dark">
+        <div class="card-icon">🏢</div>
+        <h3>Organisme Pro</h3>
+        <p>99€/mois, apprenants illimités, IA coach inclus, tableau de bord Qualiopi avancé, support prioritaire.</p>
+        <div class="tags" style="margin-top:12px;"><span class="tag gold">99€/mois</span><span class="tag gold">2.5% commission</span></div>
+      </div>
+      <div class="card dark">
+        <div class="card-icon">🌐</div>
+        <h3>Marketplace</h3>
+        <p>Formateurs indépendants vendent sur la marketplace Dermotec. Commission 20%. Visibilité CPF et France Travail.</p>
+        <div class="tags" style="margin-top:12px;"><span class="tag gold">20% commission</span><span class="tag gold">CPF-ready</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="logo">Dermotec Academy</div>
+  <p>Stratégie LMS révolutionnaire — Généré avec Claude · Mars 2026</p>
+  <p style="margin-top:8px;">Stack : Next.js 15 · Supabase · Mux · Stripe · Claude API · GitHub Actions</p>
+</footer>
+
+</body>
+</html>

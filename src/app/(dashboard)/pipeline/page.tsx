@@ -162,7 +162,7 @@ function PipelineColumn({ phase, leads, totalValue }: {
       </div>
 
       {/* Cards */}
-      <div className="flex-1 space-y-2 overflow-y-auto max-h-[calc(100vh-320px)] pr-1">
+      <div className="flex-1 space-y-2 overflow-y-auto max-h-[calc(100dvh-320px)] pr-1">
         <SortableContext items={leads.map(l => l.id)} strategy={verticalListSortingStrategy}>
           {leads.map(lead => (
             <div key={lead.id} className="group">

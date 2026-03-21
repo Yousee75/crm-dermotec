@@ -103,7 +103,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         <input
           ref={ref}
           type="text"
-          value={formatDate(selected)}
+          value={formatDate(selected ?? null)}
           onChange={handleInputChange}
           placeholder={placeholder}
           disabled={disabled}

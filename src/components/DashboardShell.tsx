@@ -6,7 +6,8 @@ import {
   LayoutDashboard, Users, Calendar, GraduationCap, CreditCard,
   BarChart3, ShoppingBag, Settings, Award, Phone, LogOut,
   ChevronLeft, Menu, Zap, ChevronRight, Bell, Search,
-  Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle, Shield, Eye
+  Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle, Shield, Eye,
+  Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart
 } from 'lucide-react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
@@ -35,39 +36,62 @@ interface NavItem {
   badgeVariant?: 'primary' | 'error' | 'warning'
 }
 
+// Sidebar fusionnée : CRM prospection + gestion OF
+// Raconte le parcours complet : Prospection → Conversion → Formation → Fidélisation
 const NAV_SECTIONS: NavSection[] = [
   {
-    // Mon travail — visible par tous, usage quotidien
+    label: 'PILOTAGE',
     items: [
-      { href: '/cockpit', icon: Zap, label: 'Aujourd\'hui' },
-      { href: '/leads', icon: Users, label: 'Leads' },
-      { href: '/pipeline', icon: Gauge, label: 'Pipeline' },
+      { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
+      { href: '/cockpit', icon: Zap, label: 'Ma journée' },
+    ]
+  },
+  {
+    label: 'PROSPECTION',
+    items: [
+      { href: '/leads', icon: UserPlus, label: 'Prospects' },
+      { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
+    ]
+  },
+  {
+    label: 'FORMATIONS',
+    items: [
+      { href: '/catalogue', icon: BookOpen, label: 'Catalogue' },
       { href: '/sessions', icon: Calendar, label: 'Sessions' },
-    ],
+      { href: '/inscriptions', icon: UserCheck, label: 'Inscriptions' },
+    ]
   },
   {
-    label: 'Outils',
+    label: 'CONTACTS',
     items: [
-      { href: '/messages', icon: MessageSquare, label: 'Messages' },
+      { href: '/clients', icon: Building2, label: 'Clients' },
+      { href: '/apprenants', icon: GraduationCap, label: 'Apprenants' },
+      { href: '/stagiaires', icon: BookOpen, label: 'En formation' },
+    ]
+  },
+  {
+    label: 'GESTION',
+    items: [
       { href: '/financement', icon: CreditCard, label: 'Financement' },
-      { href: '/playbook', icon: BookOpen, label: 'Playbook' },
-    ],
+      { href: '/facturation', icon: Receipt, label: 'Facturation' },
+      { href: '/commandes', icon: ShoppingBag, label: 'E-Shop' },
+    ]
   },
   {
-    label: 'Gestion',
+    label: 'QUALITÉ & ANALYTICS',
     items: [
-      { href: '/', icon: LayoutDashboard, label: 'Tableau de bord' },
-      { href: '/stagiaires', icon: GraduationCap, label: 'Stagiaires' },
-      { href: '/commandes', icon: ShoppingBag, label: 'Commandes' },
+      { href: '/qualite', icon: Award, label: 'Qualiopi' },
+      { href: '/bpf', icon: FileBarChart, label: 'BPF' },
       { href: '/analytics', icon: BarChart3, label: 'Analytics' },
-      { href: '/qualite', icon: Award, label: 'Qualite' },
-      { href: '/equipe', icon: Phone, label: 'Equipe' },
-      { href: '/cadences', icon: Zap, label: 'Cadences' },
-      { href: '/academy', icon: GraduationCap, label: 'Academy' },
-      { href: '/settings', icon: Settings, label: 'Parametres' },
-      { href: '/settings/privacy', icon: Shield, label: 'Confidentialite' },
+    ]
+  },
+  {
+    label: 'ADMIN',
+    items: [
+      { href: '/equipe', icon: Users, label: 'Équipe' },
       { href: '/audit', icon: Eye, label: 'Audit' },
-    ],
+      { href: '/settings', icon: Settings, label: 'Paramètres' },
+    ]
   },
 ]
 
@@ -157,7 +181,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     pathname === href || (href !== '/' && href !== '/cockpit' && (pathname ?? '').startsWith(href))
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden" style={{ height: '100dvh' }}>
       {/* Sidebar */}
       <aside
         className={cn(
@@ -510,20 +534,23 @@ function ShortcutRow({ keys, label }: { keys: string[]; label: string }) {
 function getCurrentPageTitle(pathname: string): string {
   const titles: Record<string, string> = {
     '/': 'Dashboard',
-    '/leads': 'Leads',
-    '/pipeline': 'Pipeline',
+    '/cockpit': 'Ma journée',
+    '/catalogue': 'Catalogue de formations',
     '/sessions': 'Sessions',
-    '/stagiaires': 'Stagiaires',
+    '/inscriptions': 'Inscriptions',
+    '/clients': 'Clients',
+    '/apprenants': 'Apprenants',
+    '/leads': 'Prospects',
+    '/pipeline': 'Pipeline',
     '/financement': 'Financement',
-    '/commandes': 'E-Shop',
+    '/facturation': 'Facturation',
+    '/qualite': 'Qualiopi',
+    '/bpf': 'BPF',
     '/analytics': 'Analytics',
-    '/qualite': 'Qualité',
+    '/commandes': 'E-Shop',
     '/equipe': 'Équipe',
-    '/cadences': 'Cadences',
+    '/audit': 'Audit',
     '/settings': 'Paramètres',
-    '/cockpit': 'Aujourd\'hui',
-    '/playbook': 'Playbook',
-    '/messages': 'Messages',
   }
 
   for (const [path, title] of Object.entries(titles)) {

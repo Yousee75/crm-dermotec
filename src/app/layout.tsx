@@ -22,7 +22,28 @@ const bricolage = Bricolage_Grotesque({
 export const metadata: Metadata = {
   title: 'CRM Dermotec — Gestion Centre de Formation',
   description: 'CRM complet pour centre de formation esthétique. Gestion leads, inscriptions, financement, sessions, facturation.',
-  icons: { icon: '/favicon.ico' },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,         // Permettre le zoom accessibilité (WCAG)
+    viewportFit: 'cover',    // Utiliser tout l'écran (encoche iPhone)
+  },
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
+    { media: '(prefers-color-scheme: dark)', color: '#0F172A' },
+  ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Dermotec CRM',
+  },
+  formatDetection: {
+    telephone: false,        // Empêche iOS de transformer les numéros en liens
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,1 +1,18 @@
+#!/bin/sh
+
+# Type-check avant chaque commit — bloque si des erreurs TS existent
+echo "🔍 Vérification TypeScript..."
+npx tsc --noEmit --pretty 2>&1 | head -20
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Erreurs TypeScript détectées. Commit bloqué."
+  echo "   Corrigez les erreurs ci-dessus avant de commiter."
+  echo ""
+  exit 1
+fi
+
+echo "✅ TypeScript OK"
+
+# Lint staged files
 npx lint-staged

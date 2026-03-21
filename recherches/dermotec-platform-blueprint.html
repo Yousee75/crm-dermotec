@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermotec — Blueprint Plateforme Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c10;
+  --surface: #13131a;
+  --surface2: #1a1a24;
+  --border: #2a2a38;
+  --text: #e8e4f0;
+  --muted: #7a7590;
+  --gold: #d4a853;
+  --gold2: #f0c97a;
+  --rose: #c4607a;
+  --sage: #5a9e7a;
+  --blue: #4a7cc4;
+  --purple: #8a6cc4;
+  --accent-glow: rgba(212,168,83,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+}
+
+/* HERO */
+.hero{
+  min-height: 100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:80px 64px;
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 30%, rgba(212,168,83,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(90,158,122,0.05) 0%, transparent 50%);
+  pointer-events:none;
+}
+.hero-grid{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:24px;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(42px,6vw,88px);
+  font-weight:900;
+  line-height:1.02;
+  letter-spacing:-1.5px;
+  margin-bottom:24px;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--gold);
+}
+.hero-desc{
+  font-size:18px;
+  font-weight:300;
+  color:var(--muted);
+  max-width:580px;
+  margin-bottom:48px;
+}
+.hero-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:60px;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-size:13px;
+  font-weight:500;
+  padding:8px 16px;
+  border-radius:100px;
+}
+.pill .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.dot-gold{background:var(--gold);}
+.dot-sage{background:var(--sage);}
+.dot-rose{background:var(--rose);}
+.dot-blue{background:var(--blue);}
+.dot-purple{background:var(--purple);}
+
+.hero-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  max-width:700px;
+}
+.hstat{
+  background:var(--surface);
+  padding:24px;
+  text-align:center;
+}
+.hstat-n{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  font-weight:700;
+  color:var(--gold);
+}
+.hstat-l{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.3;}
+
+/* LAYOUT */
+.wrap{max-width:1120px;margin:0 auto;padding:0 64px;}
+@media(max-width:768px){.wrap{padding:0 24px;}.hero{padding:64px 24px;}.hero-stats{grid-template-columns:1fr 1fr;}}
+
+/* SECTIONS */
+.sec{padding:80px 0;border-bottom:1px solid var(--border);}
+.sec-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+.sec-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,4vw,48px);
+  font-weight:700;
+  line-height:1.1;
+  margin-bottom:12px;
+}
+.sec-sub{
+  font-size:16px;
+  font-weight:300;
+  color:var(--muted);
+  max-width:640px;
+  margin-bottom:48px;
+}
+
+/* CARDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr;}}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  transition:border-color .2s;
+}
+.card:hover{border-color:rgba(212,168,83,0.3);}
+.card-ico{font-size:32px;margin-bottom:16px;}
+.card h3{
+  font-family:'Outfit',sans-serif;
+  font-size:17px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+.card p{font-size:14px;color:var(--muted);line-height:1.65;}
+.card.gold-border{border-color:rgba(212,168,83,0.4);}
+.card.rose-border{border-color:rgba(196,96,122,0.4);}
+.card.sage-border{border-color:rgba(90,158,122,0.4);}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  padding:3px 9px;
+  border-radius:4px;
+  letter-spacing:.3px;
+}
+.tg{background:rgba(212,168,83,0.1);color:var(--gold);}
+.tr{background:rgba(196,96,122,0.1);color:var(--rose);}
+.ts{background:rgba(90,158,122,0.1);color:var(--sage);}
+.tb{background:rgba(74,124,196,0.1);color:var(--blue);}
+.tp{background:rgba(138,108,196,0.1);color:var(--purple);}
+
+/* SECURITY SECTION */
+.sec-shield{
+  background:linear-gradient(135deg,rgba(196,96,122,0.08),rgba(196,96,122,0.02));
+  border:1px solid rgba(196,96,122,0.2);
+  border-radius:20px;
+  padding:40px;
+  margin-bottom:32px;
+}
+.sec-shield h3{
+  font-family:'Playfair Display',serif;
+  font-size:24px;
+  font-weight:700;
+  color:var(--rose);
+  margin-bottom:20px;
+}
+.shield-list{list-style:none;}
+.shield-list li{
+  display:flex;
+  gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+  align-items:flex-start;
+}
+.shield-list li:last-child{border-bottom:none;}
+.shield-list li .ico{font-size:20px;flex-shrink:0;margin-top:2px;}
+.shield-list li strong{display:block;font-weight:600;color:var(--text);margin-bottom:3px;}
+.shield-list li span{color:var(--muted);}
+
+/* GAMIFICATION */
+.game-arc{
+  background:linear-gradient(135deg,rgba(212,168,83,0.08),rgba(212,168,83,0.02));
+  border:1px solid rgba(212,168,83,0.25);
+  border-radius:20px;
+  padding:40px;
+  margin-bottom:24px;
+}
+.game-arc h3{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--gold);
+  margin-bottom:6px;
+}
+.game-arc p{font-size:15px;color:var(--muted);margin-bottom:24px;}
+
+.levels{display:flex;flex-direction:column;gap:12px;}
+.level{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px 20px;
+}
+.lv-badge{
+  width:52px;height:52px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  flex-shrink:0;
+  border:2px solid;
+}
+.lv1{border-color:#c0c0c0;background:rgba(192,192,192,0.08);}
+.lv2{border-color:#cd7f32;background:rgba(205,127,50,0.08);}
+.lv3{border-color:var(--gold);background:rgba(212,168,83,0.1);}
+.lv4{border-color:var(--rose);background:rgba(196,96,122,0.1);}
+.lv5{border-color:var(--purple);background:rgba(138,108,196,0.1);}
+.lv-info{flex:1;}
+.lv-name{font-weight:600;font-size:15px;margin-bottom:2px;}
+.lv-pts{font-size:12px;color:var(--muted);}
+.lv-reward{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:6px;
+  background:var(--accent-glow);
+  color:var(--gold);
+  border:1px solid rgba(212,168,83,0.2);
+  text-align:right;
+}
+
+/* POINTS SYSTEM */
+.points-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;}
+@media(max-width:700px){.points-grid{grid-template-columns:1fr;}}
+.points-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;}
+.points-box h4{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.points-box h4.earn{color:var(--sage);}
+.points-box h4.spend{color:var(--gold);}
+.pt-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+.pt-row:last-child{border-bottom:none;}
+.pt-val{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  font-weight:600;
+}
+.earn-val{color:var(--sage);}
+.spend-val{color:var(--gold);}
+
+/* STACK */
+.stack-row{
+  display:flex;
+  align-items:flex-start;
+  gap:20px;
+  padding:20px 0;
+  border-bottom:1px solid var(--border);
+}
+.stack-row:last-child{border-bottom:none;}
+.stack-layer{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  width:100px;
+  flex-shrink:0;
+  padding-top:3px;
+}
+.stack-content h4{
+  font-size:15px;
+  font-weight:600;
+  margin-bottom:4px;
+}
+.stack-content p{font-size:13px;color:var(--muted);}
+.stack-content .tags{margin-top:8px;}
+
+/* FLOW */
+.flow{display:flex;align-items:center;gap:0;overflow-x:auto;margin:32px 0;padding:4px 0;}
+.flow-step{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px 20px;
+  min-width:140px;
+  text-align:center;
+  flex-shrink:0;
+}
+.flow-step .ico{font-size:24px;margin-bottom:8px;}
+.flow-step .lbl{font-size:12px;font-weight:600;color:var(--text);}
+.flow-step .sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.flow-arrow{
+  font-size:20px;
+  color:var(--gold);
+  padding:0 8px;
+  flex-shrink:0;
+}
+.flow-step.highlight{
+  background:linear-gradient(135deg,rgba(212,168,83,0.12),rgba(212,168,83,0.04));
+  border-color:rgba(212,168,83,0.3);
+}
+
+/* CONTENT TYPES */
+.content-map{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:700px){.content-map{grid-template-columns:1fr;}}
+.ctype{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:24px;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+.ctype-num{
+  font-family:'Playfair Display',serif;
+  font-size:42px;
+  font-weight:900;
+  color:var(--border);
+  line-height:1;
+  flex-shrink:0;
+  width:48px;
+}
+.ctype h4{font-size:15px;font-weight:600;margin-bottom:6px;}
+.ctype p{font-size:13px;color:var(--muted);}
+
+/* CODE */
+.code{
+  background:#080810;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:24px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  line-height:1.9;
+  overflow-x:auto;
+  margin-top:16px;
+}
+.c1{color:#f472b6;}/* keyword */
+.c2{color:#67e8f9;}/* var */
+.c3{color:#86efac;}/* string */
+.c4{color:#fbbf24;}/* fn */
+.c5{color:#94a3b8;}/* comment */
+
+/* CTA BAR */
+.cta-bar{
+  background:linear-gradient(135deg,var(--surface),var(--surface2));
+  border:1px solid rgba(212,168,83,0.2);
+  border-radius:20px;
+  padding:48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  flex-wrap:wrap;
+}
+.cta-bar h3{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  font-weight:700;
+}
+.cta-bar p{font-size:15px;color:var(--muted);margin-top:6px;}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--gold);
+  color:#0c0c10;
+  font-weight:700;
+  font-size:14px;
+  padding:14px 28px;
+  border-radius:12px;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+/* COMP TABLE */
+.ctable{width:100%;border-collapse:collapse;}
+.ctable th{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:14px 16px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  color:var(--muted);
+}
+.ctable th:last-child{color:var(--gold);}
+.ctable td{
+  padding:13px 16px;
+  font-size:13px;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  vertical-align:middle;
+}
+.ctable tr:hover td{background:rgba(255,255,255,0.01);}
+.ctable td:first-child{color:var(--muted);}
+.ck{color:var(--sage);}
+.cx{color:#3a3a4a;}
+.cw{color:var(--gold);font-weight:600;}
+
+/* HIGHLIGHT */
+.hl{
+  background:var(--surface2);
+  border-left:3px solid var(--gold);
+  border-radius:0 12px 12px 0;
+  padding:20px 24px;
+  margin:16px 0;
+}
+.hl h4{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:6px;}
+.hl p{font-size:13px;color:var(--muted);}
+
+footer{
+  padding:48px 64px;
+  text-align:center;
+  border-top:1px solid var(--border);
+}
+footer .logo{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+footer p{font-size:12px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <div class="hero-eyebrow">// Dermotec Academy — Blueprint Produit v2.0</div>
+    <h1>La plateforme de contenu<br>pro la plus <em>sérieuse</em><br>du marché français</h1>
+    <p class="hero-desc">Contenu verrouillé, non-téléchargeable, gamifié — avec un système de points qui convertit les pros actifs en clients de formations physiques.</p>
+    <div class="hero-pills">
+      <span class="pill"><span class="dot dot-rose"></span>Contenu 100% sécurisé</span>
+      <span class="pill"><span class="dot dot-gold"></span>Gamification Pro</span>
+      <span class="pill"><span class="dot dot-sage"></span>Quiz & Exercices</span>
+      <span class="pill"><span class="dot dot-blue"></span>Promo → Formation physique</span>
+      <span class="pill"><span class="dot dot-purple"></span>Next.js + Supabase</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">90%</div><div class="hstat-l">taux de complétion avec gamification</div></div>
+      <div class="hstat"><div class="hstat-n">+45%</div><div class="hstat-l">rétention des connaissances</div></div>
+      <div class="hstat"><div class="hstat-n">3×</div><div class="hstat-l">conversion formations physiques</div></div>
+      <div class="hstat"><div class="hstat-n">0€</div><div class="hstat-l">coût contenu pour l'utilisateur</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 1. VISION ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 01 — Vision Stratégique</div>
+    <h2 class="sec-title">La logique du système</h2>
+    <p class="sec-sub">Pas un LMS. Pas une formation certifiante. Une académie de contenu pro gratuite qui crée de la dépendance positive et convertit naturellement vers tes formations physiques.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="ico">🎯</div>
+        <div class="lbl">Découverte</div>
+        <div class="sub">SEO / réseau</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="ico">📧</div>
+        <div class="lbl">Inscription</div>
+        <div class="sub">Email professionnel</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight">
+        <div class="ico">🎮</div>
+        <div class="lbl">Contenu gamifié</div>
+        <div class="sub">Vidéos + Quiz + Points</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="ico">⭐</div>
+        <div class="lbl">Progression</div>
+        <div class="sub">Niveaux + Badges</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight">
+        <div class="ico">🎁</div>
+        <div class="lbl">Récompenses</div>
+        <div class="sub">Codes promo formations</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="ico">🏆</div>
+        <div class="lbl">Formation physique</div>
+        <div class="sub">Revenus Dermotec</div>
+      </div>
+    </div>
+
+    <div class="hl">
+      <h4>💡 La clé différenciante vs la concurrence</h4>
+      <p>Elegance Académies, YouSchool, Academee — tous proposent du contenu en ligne <em>payant</em> et font du diplôme leur produit. Toi tu offres du contenu pro <em>gratuit</em> mais gamifié, et tu vends des formations physiques premium à des pros déjà engagés avec toi. Aucun acteur ne fait ça dans l'esthétique en France.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 2. CONTENU ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 02 — Architecture du Contenu</div>
+    <h2 class="sec-title">5 thèmes, 3 niveaux par thème</h2>
+    <p class="sec-sub">Chaque thème est structuré en 3 niveaux progressifs. Le niveau 1 est librement visible après inscription. Les niveaux 2 et 3 se débloquent via les points accumulés — ce qui crée la progression et la rétention.</p>
+
+    <div class="content-map">
+      <div class="ctype">
+        <div class="ctype-num">01</div>
+        <div>
+          <h4>🧴 Soins du visage & Peelings</h4>
+          <p>Protocoles complets, types d'actifs (glycolique, mandélique, TCA), indications par phototype, gestion des complications. Niveau 3 : peelings profonds réservés aux médecins.</p>
+          <div class="tags">
+            <span class="tag tg">Initiation</span><span class="tag tb">Intermédiaire</span><span class="tag tr">Expert médical</span>
+          </div>
+        </div>
+      </div>
+      <div class="ctype">
+        <div class="ctype-num">02</div>
+        <div>
+          <h4>✨ Épilation — Laser & Lumière pulsée</h4>
+          <p>Principes physiques, réglages par type de peau (Fitzpatrick), contre-indications absolues, protocoles de sécurité, entretien des machines.</p>
+          <div class="tags">
+            <span class="tag tg">Théorie</span><span class="tag tb">Pratique machine</span><span class="tag tr">Cas complexes</span>
+          </div>
+        </div>
+      </div>
+      <div class="ctype">
+        <div class="ctype-num">03</div>
+        <div>
+          <h4>💉 Mésothérapie & Médecine esthétique</h4>
+          <p>Anatomie des zones injectables, cocktails de méso, dosages, techniques d'injection. Niveau 3 réservé aux médecins et infirmiers diplômés (accès vérifié).</p>
+          <div class="tags">
+            <span class="tag tg">Anatomie</span><span class="tag tb">Protocoles</span><span class="tag tp">Médecins only</span>
+          </div>
+        </div>
+      </div>
+      <div class="ctype">
+        <div class="ctype-num">04</div>
+        <div>
+          <h4>🎨 Maquillage permanent & Dermographie</h4>
+          <p>Morphologie et harmonisation, pigments et oxydation, techniques par zone (sourcils, lèvres, eye-liner), gestion des corrections.</p>
+          <div class="tags">
+            <span class="tag tg">Bases</span><span class="tag tb">Techniques</span><span class="tag tr">Corrections avancées</span>
+          </div>
+        </div>
+      </div>
+      <div class="ctype">
+        <div class="ctype-num">05</div>
+        <div>
+          <h4>🔬 Analyse de peau & Diagnostic cutané</h4>
+          <p>Types et sous-types de peau, dermatoscope et caméra UV, cartographie des imperfections, préconisations de soins adaptées.</p>
+          <div class="tags">
+            <span class="tag tg">Diagnostic</span><span class="tag tb">Outils tech</span><span class="tag ts">Protocoles</span>
+          </div>
+        </div>
+      </div>
+      <div class="ctype">
+        <div class="ctype-num">06</div>
+        <div>
+          <h4>📋 Bonus : Réglementation & Législation</h4>
+          <p>Décrets d'actes, responsabilité professionnelle, RGPD client, assurances métier. Module rare et très recherché des pros — différenciant fort pour Dermotec.</p>
+          <div class="tags">
+            <span class="tag tp">Exclusif</span><span class="tag tg">Gratuit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 3. SÉCURITÉ ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 03 — Sécurisation du Contenu</div>
+    <h2 class="sec-title">Contenu non-téléchargeable,<br>visible sur le site uniquement</h2>
+    <p class="sec-sub">Chaque couche de protection est implémentée. Le contenu ne peut pas être extrait, même par un développeur.</p>
+
+    <div class="sec-shield">
+      <h3>🔒 Les 6 couches de protection</h3>
+      <ul class="shield-list">
+        <li>
+          <span class="ico">🎬</span>
+          <div>
+            <strong>Mux — Signed URLs (expiration 2h)</strong>
+            <span>Les vidéos ne sont jamais servies directement. Mux génère une URL signée côté serveur qui expire après 2h. Même si quelqu'un copie le lien, il ne fonctionnera plus. Impossible de télécharger via youtube-dl ou équivalent.</span>
+          </div>
+        </li>
+        <li>
+          <span class="ico">🚫</span>
+          <div>
+            <strong>Désactivation click-droit & sélection de texte</strong>
+            <span>CSS + JS léger désactivent le clic droit sur les vidéos et les guides, et bloquent la sélection de texte sur le contenu premium. Simple mais efficace pour 99% des utilisateurs.</span>
+          </div>
+        </li>
+        <li>
+          <span class="ico">🔐</span>
+          <div>
+            <strong>Supabase Row Level Security (RLS)</strong>
+            <span>Chaque ressource en base est protégée par des policies RLS. Un utilisateur non-authentifié, ou sans le niveau requis, reçoit littéralement un résultat vide — même s'il inspecte les requêtes API.</span>
+          </div>
+        </li>
+        <li>
+          <span class="ico">💧</span>
+          <div>
+            <strong>Watermarking dynamique (email en overlay)</strong>
+            <span>L'email de l'utilisateur connecté s'affiche en transparence en filigrane sur les vidéos. Ça dissuade totalement le screen-recording : si la vidéo fuite, elle est tracée. C'est ce que fait Masterclass.</span>
+          </div>
+        </li>
+        <li>
+          <span class="ico">📄</span>
+          <div>
+            <strong>PDF viewers sécurisés (aucun téléchargement)</strong>
+            <span>Les guides PDF sont rendus via un viewer intégré (React-PDF ou PDF.js). Le bouton de téléchargement natif est masqué. Le fichier n'est jamais exposé à l'URL publique — il passe par une API route Next.js qui vérifie la session.</span>
+          </div>
+        </li>
+        <li>
+          <span class="ico">🛡️</span>
+          <div>
+            <strong>Rate limiting & détection de session partagée</strong>
+            <span>Si un compte se connecte depuis plus de 2 appareils différents en 24h, il reçoit une alerte. Un compte partagé entre 10 esthéticiennes d'un salon est détecté et bloqué après 3 appareils simultanés.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="code">
+<span class="c5">// API Route Next.js — Génération de Signed URL Mux sécurisée</span>
+<span class="c5">// app/api/video/[id]/route.ts</span>
+
+<span class="c1">export async function</span> <span class="c4">GET</span>(req: Request, { params }) {
+  <span class="c5">// 1. Vérifier la session Supabase</span>
+  <span class="c1">const</span> <span class="c2">session</span> = <span class="c1">await</span> <span class="c4">getServerSession</span>(req)
+  <span class="c1">if</span> (!session) <span class="c1">return</span> <span class="c4">Response</span>.json({ error: <span class="c3">'Unauthorized'</span> }, { status: 401 })
+
+  <span class="c5">// 2. Vérifier que l'utilisateur a le niveau requis (RLS)</span>
+  <span class="c1">const</span> { data: video } = <span class="c1">await</span> supabase
+    .from(<span class="c3">'videos'</span>)
+    .select(<span class="c3">'mux_asset_id, required_level'</span>)
+    .eq(<span class="c3">'id'</span>, params.id)
+    .single()
+
+  <span class="c1">if</span> (session.user.level < video.required_level)
+    <span class="c1">return</span> <span class="c4">Response</span>.json({ error: <span class="c3">'Niveau insuffisant'</span> }, { status: 403 })
+
+  <span class="c5">// 3. Générer une Signed URL Mux (expire dans 2h)</span>
+  <span class="c1">const</span> <span class="c2">token</span> = <span class="c1">await</span> <span class="c4">signMuxPlaybackId</span>(video.mux_asset_id, {
+    expiration: <span class="c3">'2h'</span>,
+    params: { sub: session.user.email } <span class="c5">// pour watermark</span>
+  })
+
+  <span class="c1">return</span> <span class="c4">Response</span>.json({ playback_url: <span class="c3">`https://stream.mux.com/${token}.m3u8`</span> })
+}
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 4. GAMIFICATION ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 04 — Système de Gamification</div>
+    <h2 class="sec-title">Points → Niveaux → Récompenses</h2>
+    <p class="sec-sub">Un système de progression sérieux, pensé pour des professionnels. Pas de personnages cartoons — de la reconnaissance professionnelle et des avantages concrets sur les formations physiques.</p>
+
+    <div class="game-arc">
+      <h3>🏆 Les 5 niveaux du cursus Dermotec</h3>
+      <p>Chaque niveau débloque de nouveaux contenus et des récompenses croissantes sur les formations physiques.</p>
+      <div class="levels">
+        <div class="level">
+          <div class="lv-badge lv1">🥈</div>
+          <div class="lv-info">
+            <div class="lv-name">Niveau 1 — Découverte</div>
+            <div class="lv-pts">0 – 199 pts · Accès : Initiation de tous les thèmes</div>
+          </div>
+          <div class="lv-reward">Accès gratuit<br>sans reward</div>
+        </div>
+        <div class="level">
+          <div class="lv-badge lv2">🥉</div>
+          <div class="lv-info">
+            <div class="lv-name">Niveau 2 — Praticien</div>
+            <div class="lv-pts">200 – 599 pts · Accès : Modules intermédiaires + Quiz avancés</div>
+          </div>
+          <div class="lv-reward">-5% sur<br>formations physiques</div>
+        </div>
+        <div class="level">
+          <div class="lv-badge lv3">🥇</div>
+          <div class="lv-info">
+            <div class="lv-name">Niveau 3 — Expert</div>
+            <div class="lv-pts">600 – 1 499 pts · Accès : Modules avancés + Fiches techniques</div>
+          </div>
+          <div class="lv-reward">-10% + accès<br>contenus exclusifs</div>
+        </div>
+        <div class="level">
+          <div class="lv-badge lv4">💎</div>
+          <div class="lv-info">
+            <div class="lv-name">Niveau 4 — Spécialiste</div>
+            <div class="lv-pts">1 500 – 3 999 pts · Accès : Tous modules + cas cliniques</div>
+          </div>
+          <div class="lv-reward">-15% + session<br>Q&A mensuelle</div>
+        </div>
+        <div class="level">
+          <div class="lv-badge lv5">👑</div>
+          <div class="lv-info">
+            <div class="lv-name">Niveau 5 — Maître Dermotec</div>
+            <div class="lv-pts">4 000+ pts · Accès : Tout le catalogue + contenus "Médecin only"</div>
+          </div>
+          <div class="lv-reward">-20% + priorité<br>inscriptions formations</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="points-grid">
+      <div class="points-box">
+        <h4 class="earn">// Gagner des points ✦</h4>
+        <div class="pt-row"><span>Regarder une vidéo complète (>80%)</span><span class="pt-val earn-val">+20 pts</span></div>
+        <div class="pt-row"><span>Réussir un quiz (≥70%)</span><span class="pt-val earn-val">+30 pts</span></div>
+        <div class="pt-row"><span>Quiz parfait (100%)</span><span class="pt-val earn-val">+50 pts</span></div>
+        <div class="pt-row"><span>Compléter un module entier</span><span class="pt-val earn-val">+80 pts</span></div>
+        <div class="pt-row"><span>Connexion quotidienne (streak)</span><span class="pt-val earn-val">+5 pts/j</span></div>
+        <div class="pt-row"><span>Streak 7 jours consécutifs</span><span class="pt-val earn-val">+50 pts bonus</span></div>
+        <div class="pt-row"><span>Compléter un thème entier</span><span class="pt-val earn-val">+200 pts</span></div>
+        <div class="pt-row"><span>Partager un contenu (LinkedIn)</span><span class="pt-val earn-val">+15 pts</span></div>
+        <div class="pt-row"><span>Parrainer un collègue inscrit</span><span class="pt-val earn-val">+100 pts</span></div>
+      </div>
+      <div class="points-box">
+        <h4 class="spend">// Utiliser des points ◆</h4>
+        <div class="pt-row"><span>Code promo -5% formation physique</span><span class="pt-val spend-val">200 pts</span></div>
+        <div class="pt-row"><span>Code promo -10% formation physique</span><span class="pt-val spend-val">450 pts</span></div>
+        <div class="pt-row"><span>Code promo -20% formation physique</span><span class="pt-val spend-val">900 pts</span></div>
+        <div class="pt-row"><span>Débloquer 1 module avancé</span><span class="pt-val spend-val">150 pts</span></div>
+        <div class="pt-row"><span>Fiche technique PDF téléchargeable</span><span class="pt-val spend-val">80 pts</span></div>
+        <div class="pt-row"><span>Accès session live Q&A</span><span class="pt-val spend-val">300 pts</span></div>
+        <div class="pt-row"><span>Badge "Expert Certifié Dermotec"</span><span class="pt-val spend-val">1 000 pts</span></div>
+        <div class="pt-row"><span>Place prioritaire liste d'attente</span><span class="pt-val spend-val">500 pts</span></div>
+      </div>
+    </div>
+
+    <div class="hl">
+      <h4>🎯 Le badge "Expert Certifié Dermotec" — ton actif différenciant</h4>
+      <p>Un badge numérique partageable sur LinkedIn, à 1 000 pts (environ 3 semaines d'usage actif). Ce n'est pas Qualiopi, mais c'est de la reconnaissance professionnelle réelle — et ça crée une communauté visible sur le réseau de tes clients cibles.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 5. QUIZ ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 05 — Système de Quiz & Exercices</div>
+    <h2 class="sec-title">S'exercer pour maîtriser,<br>pas juste regarder</h2>
+    <p class="sec-sub">Les quiz sont au cœur de la rétention et de la gamification. Chaque vidéo est suivie d'un quiz. Chaque module se conclut par un cas pratique.</p>
+
+    <div class="g3">
+      <div class="card gold-border">
+        <div class="card-ico">⚡</div>
+        <h3>Quiz Flash post-vidéo</h3>
+        <p>3-5 questions QCM qui apparaissent immédiatement après la vidéo. Obligatoires pour valider le module et recevoir les points. Format rapide, mémorisation maximale.</p>
+        <div class="tags"><span class="tag tg">+30 pts réussi</span><span class="tag tr">Obligatoire</span></div>
+      </div>
+      <div class="card sage-border">
+        <div class="card-ico">📋</div>
+        <h3>Cas clinique interactif</h3>
+        <p>En fin de module : une situation réelle (photo + description de cliente). Le professionnel choisit le protocole adapté, les contre-indications, les produits. Feedback détaillé sur chaque réponse.</p>
+        <div class="tags"><span class="tag ts">+80 pts</span><span class="tag tb">Réaliste</span></div>
+      </div>
+      <div class="card rose-border">
+        <div class="card-ico">🔄</div>
+        <h3>Révision espacée (flashcards)</h3>
+        <p>Système inspiré d'Anki : les concepts mal maîtrisés reviennent plus souvent. Les actifs cosmétiques, les réglages laser, les dosages — mémorisés durablement. 5 minutes par jour.</p>
+        <div class="tags"><span class="tag tr">Streak bonus</span><span class="tag tg">Science</span></div>
+      </div>
+      <div class="card">
+        <div class="card-ico">🏅</div>
+        <h3>Challenge mensuel</h3>
+        <p>Un défi thématique chaque mois (ex: "Maîtrise des peelings en novembre"). Les 3 premiers au classement reçoivent un code promo spécial pour une formation physique.</p>
+        <div class="tags"><span class="tag tp">Classement</span><span class="tag tg">Community</span></div>
+      </div>
+      <div class="card">
+        <div class="card-ico">💬</div>
+        <h3>Analyse de cas soumis</h3>
+        <p>Le pro envoie une description de cas client problématique. L'IA (Claude) génère une analyse pédagogique + recommandations. Limité à 2/mois niveau 3, illimité niveau 5.</p>
+        <div class="tags"><span class="tag tb">Claude API</span><span class="tag tp">Premium</span></div>
+      </div>
+      <div class="card">
+        <div class="card-ico">📊</div>
+        <h3>Score de maîtrise par thème</h3>
+        <p>Un dashboard visuel montre le % de maîtrise de chaque thème. On voit clairement ses lacunes. C'est un outil de progression pro, pas juste un jeu — ça résonne pour des adultes.</p>
+        <div class="tags"><span class="tag ts">Analytics</span><span class="tag tg">Dashboard</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 6. STACK ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 06 — Stack Technique</div>
+    <h2 class="sec-title">Architecture de la plateforme</h2>
+    <p class="sec-sub">Stack Next.js + Supabase que tu maîtrises déjà. On ajoute uniquement ce qui est nécessaire, sans sur-ingénierie.</p>
+
+    <div class="card" style="margin-bottom:24px;">
+      <div class="stack-row">
+        <div class="stack-layer">Frontend</div>
+        <div class="stack-content">
+          <h4>Next.js 15 (App Router) + TypeScript</h4>
+          <p>Ton site Dermotec existant. On ajoute une section /academy avec ses propres layouts et middleware d'auth.</p>
+          <div class="tags"><span class="tag tg">Déjà en place</span><span class="tag tb">App Router</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">Auth</div>
+        <div class="stack-content">
+          <h4>Supabase Auth (email + Google)</h4>
+          <p>Inscription avec vérification email professionnelle obligatoire. Pas de gmail.com sans validation manuelle. Profil pro enrichi (spécialité, diplôme).</p>
+          <div class="tags"><span class="tag tg">Déjà connu</span><span class="tag ts">Email pro</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">Vidéo</div>
+        <div class="stack-content">
+          <h4>Mux — Signed URLs + HLS Player</h4>
+          <p>Uploader tes vidéos sur Mux. Elles ne sont jamais accessibles directement. Le player custom affiche le watermark email. ~0.015$/min de stockage.</p>
+          <div class="tags"><span class="tag tr">Anti-piratage</span><span class="tag tg">0.015$/min</span><span class="tag tb">HLS</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">PDF</div>
+        <div class="stack-content">
+          <h4>PDF.js via API Route Next.js</h4>
+          <p>Les PDF sont stockés dans Supabase Storage (bucket privé). Une API route les sert à travers PDF.js. Pas de bouton télécharger. Le PDF est watermarqué côté serveur avec Puppeteer.</p>
+          <div class="tags"><span class="tag tr">Sécurisé</span><span class="tag tp">Watermark auto</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">Gamif.</div>
+        <div class="stack-content">
+          <h4>Table Supabase points + Edge Functions</h4>
+          <p>Table user_points, badges, streaks. Une Edge Function Supabase attribue les points à chaque action (webhook). Temps réel via Supabase Realtime pour l'UI des points.</p>
+          <div class="tags"><span class="tag tg">Supabase Edge</span><span class="tag tb">Realtime</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">Quiz</div>
+        <div class="stack-content">
+          <h4>Questions en BDD Supabase + composant React</h4>
+          <p>Table questions avec options, bonne réponse, explication. Composant Quiz React réutilisable. Les réponses sont archivées pour le score de maîtrise.</p>
+          <div class="tags"><span class="tag ts">Custom</span><span class="tag tg">0€</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">IA Coach</div>
+        <div class="stack-content">
+          <h4>Claude API — Analyse de cas (niveaux 3-5)</h4>
+          <p>Prompt système avec contexte esthétique. L'utilisateur décrit un cas client, Claude répond comme un expert Dermotec. Crédits limités par niveau pour maîtriser les coûts.</p>
+          <div class="tags"><span class="tag tp">claude-sonnet-4-6</span><span class="tag tg">~0.01€/cas</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">Emails</div>
+        <div class="stack-content">
+          <h4>Resend — Notifications + Newsletter</h4>
+          <p>Email de bienvenue, notification de level-up, rappel streak, newsletter mensuelle. Templates React Email.</p>
+          <div class="tags"><span class="tag tg">0€ < 3k/mois</span><span class="tag tb">React Email</span></div>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-layer">Analytics</div>
+        <div class="stack-content">
+          <h4>PostHog (auto-hébergé) + Supabase queries</h4>
+          <p>Tracking comportement anonymisé (RGPD). On voit quelles vidéos sont les plus vues, où les gens abandonnent, quels quiz font le plus échouer.</p>
+          <div class="tags"><span class="tag ts">RGPD</span><span class="tag tg">Self-hosted</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hl">
+      <h4>📦 Coût mensuel estimé pour 500 utilisateurs actifs</h4>
+      <p>Supabase Pro : 25€ · Mux (100h vidéo) : ~90€ · Resend : 0€ · Claude API (analyses) : ~15€ · Vercel Pro : 20€ → <strong style="color:var(--gold)">Total : ~150€/mois</strong> pour une infrastructure production-grade.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 7. CONCURRENCE ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 07 — Positionnement Marché</div>
+    <h2 class="sec-title">Ce que fait la concurrence<br>— et pourquoi tu gagnes</h2>
+    <div style="overflow-x:auto;border-radius:16px;border:1px solid var(--border);">
+      <table class="ctable">
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>Elegance / Cned</th>
+            <th>YouSchool</th>
+            <th>Academee</th>
+            <th>✦ Dermotec Academy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Cible</td><td>Grand public</td><td>Reconversion</td><td>Débutants</td><td class="cw">Pros en exercice</td></tr>
+          <tr><td>Contenu gratuit</td><td class="cx">✗</td><td class="cx">✗</td><td class="cx">✗</td><td class="ck cw">✓ 100%</td></tr>
+          <tr><td>Gamification</td><td class="cx">✗</td><td class="cx">✗</td><td class="cx">✗</td><td class="ck cw">✓ Système complet</td></tr>
+          <tr><td>Contenu sécurisé (non-DL)</td><td class="cx">✗</td><td class="cx">✗</td><td class="cx">✗</td><td class="ck cw">✓ Mux + RLS</td></tr>
+          <tr><td>Coach IA</td><td class="cx">✗</td><td class="cx">✗</td><td class="cx">✗</td><td class="ck cw">✓ Claude intégré</td></tr>
+          <tr><td>Cas cliniques interactifs</td><td class="cx">Rares</td><td class="cx">✗</td><td class="cx">✗</td><td class="ck cw">✓ Par module</td></tr>
+          <tr><td>Promo → formation physique</td><td class="cx">✗</td><td class="cx">✗</td><td class="cx">✗</td><td class="ck cw">✓ Via points</td></tr>
+          <tr><td>Prix pour l'utilisateur</td><td>1 990€+</td><td>1 200€+</td><td>~800€/an</td><td class="cw">0€</td></tr>
+          <tr><td>Niveau de contenu</td><td>CAP / Débutant</td><td>CAP</td><td>Initiation</td><td class="cw">Pro avancé</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 8. LANCEMENT ═══════════ -->
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-tag">// 08 — Plan de Lancement</div>
+    <h2 class="sec-title">4 semaines pour aller en ligne</h2>
+    <div class="g2">
+      <div class="card gold-border">
+        <div class="card-ico">🏗️</div>
+        <h3>Semaine 1 — Infrastructure</h3>
+        <p>Supabase schema (users, videos, quizzes, points, badges). Auth + profil pro. Middleware protection routes /academy. Intégration Mux + premier upload test.</p>
+        <div class="tags"><span class="tag tg">Supabase</span><span class="tag tb">Mux</span><span class="tag tr">Auth</span></div>
+      </div>
+      <div class="card">
+        <div class="card-ico">🎬</div>
+        <h3>Semaine 2 — Contenu & Sécurité</h3>
+        <p>Composant VideoPlayer avec watermark + Signed URLs. PDF viewer sécurisé. 2-3 vidéos de chaque thème (niveau 1). Quiz Flash basique opérationnel.</p>
+        <div class="tags"><span class="tag tr">Security</span><span class="tag ts">Watermark</span><span class="tag tg">Quiz</span></div>
+      </div>
+      <div class="card">
+        <div class="card-ico">🎮</div>
+        <h3>Semaine 3 — Gamification</h3>
+        <p>Système de points (Edge Functions). Dashboard utilisateur : score, niveau, badges, streak. Notification de level-up via Resend. Page classement mensuel.</p>
+        <div class="tags"><span class="tag tg">Points</span><span class="tag tb">Badges</span><span class="tag tp">Realtime</span></div>
+      </div>
+      <div class="card sage-border">
+        <div class="card-ico">🚀</div>
+        <h3>Semaine 4 — Promo & Launch</h3>
+        <p>Génération automatique de codes promo Stripe depuis les points. Email d'invitation à 100 esthéticiennes ciblées LinkedIn. Formulaire parrainage. Go live.</p>
+        <div class="tags"><span class="tag ts">Stripe Coupons</span><span class="tag tg">Launch</span><span class="tag tr">100 bêtas</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="sec">
+  <div class="wrap">
+    <div class="cta-bar">
+      <div>
+        <h3>Par où on commence ?</h3>
+        <p>Le schéma Supabase complet, le composant vidéo sécurisé, ou le système de points — dis-moi ce que tu veux coder en premier.</p>
+      </div>
+      <div class="btn">→ Coder le MVP maintenant</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">Dermotec Academy</div>
+  <p>Blueprint v2.0 — Plateforme contenu pro sécurisé + gamification · Mars 2026</p>
+  <p style="margin-top:6px;">Next.js 15 · Supabase · Mux · Claude API · Resend · PostHog</p>
+</footer>
+
+</body>
+</html>

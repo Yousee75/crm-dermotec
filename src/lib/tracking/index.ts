@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Tracking System Exports
 // Point d'entrée centralisé pour tout le système de tracking

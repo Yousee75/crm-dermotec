@@ -280,7 +280,7 @@ export default function MessagesPage() {
       />
 
       <div className={cn(
-        'grid gap-4 h-[calc(100vh-200px)]',
+        'grid gap-4 h-[calc(100dvh-200px)]',
         isMobileView ? 'grid-cols-1' : 'grid-cols-[300px_1fr_250px]'
       )}>
         {/* Panel 1: Liste des conversations */}
