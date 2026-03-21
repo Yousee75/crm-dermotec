@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { AnimatedCounter } from './AnimatedCounter'
 
 interface KpiCardProps {
   icon: React.ElementType
@@ -44,8 +45,8 @@ function KpiCard({ icon: Icon, label, value, color, subtitle, trend, className, 
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <p className="text-sm text-gray-500 font-medium">{label}</p>
-          <p className="text-xl md:text-2xl font-bold tracking-tight" style={{ color, animationName: 'countUp', animationDuration: '0.5s' }}>
-            {value}
+          <p className="text-xl md:text-2xl font-bold tracking-tight" style={{ color }}>
+            {typeof value === 'number' ? <AnimatedCounter value={value} /> : value}
           </p>
           {subtitle && (
             <p className="text-xs text-gray-400">{subtitle}</p>

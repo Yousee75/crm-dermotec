@@ -52,6 +52,7 @@ interface CollapsibleSection {
 const TOP_ITEMS: NavItem[] = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/sessions', icon: Calendar, label: 'Sessions' },
+  { href: '/analytics', icon: BarChart3, label: 'Analytics' },
 ]
 
 const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = [
@@ -77,7 +78,6 @@ const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = [
     children: [
       { href: '/qualite', icon: Award, label: 'Qualiopi' },
       { href: '/bpf', icon: FileBarChart, label: 'BPF' },
-      { href: '/analytics', icon: BarChart3, label: 'Analytics' },
     ]
   },
   {

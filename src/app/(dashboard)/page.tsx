@@ -8,7 +8,7 @@ import {
   Users, UserCheck, Calendar, TrendingUp, DollarSign, FileText,
   AlertTriangle, Phone, Clock, GraduationCap, Plus,
   MessageSquare, TrendingDown, Activity, LayoutGrid,
-  Mail, ChevronRight, Sparkles, Euro
+  Mail, ChevronRight, Sparkles, Euro, Target
 } from 'lucide-react'
 import Link from 'next/link'
 import { KpiCard } from '@/components/ui/KpiCard'
@@ -314,7 +314,29 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 pb-6">
-      {/* Row 1: Welcome + Quick Actions */}
+      {/* Row 1: Gamification Bar (streak, points, badges - compact) */}
+      <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl px-4 py-3 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-yellow-300" />
+              <span className="text-sm font-medium">Série : 5 jours</span>
+            </div>
+            <div className="text-sm text-purple-200">•</div>
+            <div className="text-sm">125 points aujourd'hui</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+              <span className="text-xs font-bold text-yellow-900">🏆</span>
+            </div>
+            <div className="w-6 h-6 bg-blue-400 rounded-full flex items-center justify-center">
+              <span className="text-xs font-bold text-blue-900">⭐</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Row 2: Welcome + Quick Actions */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#2EC6F3] to-[#082545] px-6 py-5 text-white">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-white/20" />
@@ -360,7 +382,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Row 2: 6 KPI Cards */}
+      {/* Row 3: 6 KPI Cards */}
       {isLoading ? (
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -422,9 +444,174 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Row 3: 2 columns - Leads récents + Rappels du jour */}
+      {/* Row 4: 2 colonnes - Actions du jour + Sessions à venir */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left: Leads récents */}
+        {/* Left: Actions du jour (Smart actions du cockpit) */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle icon={<Target className="w-4 h-4" />}>
+              Actions du jour
+            </CardTitle>
+            <Link href="/cockpit">
+              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600">
+                Voir cockpit
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </Link>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <SkeletonList items={4} />
+            ) : data?.todayRappels && data.todayRappels.length > 0 ? (
+              <div className="space-y-3">
+                {data.todayRappels.slice(0, 4).map((rappel) => {
+                  const isOverdue = new Date(rappel.date_rappel) < new Date()
+                  return (
+                    <div
+                      key={rappel.id}
+                      className={cn(
+                        "flex items-center gap-3 p-3 rounded-lg transition-colors",
+                        isOverdue ? "bg-red-50 border border-red-200" : "bg-gray-50"
+                      )}
+                    >
+                      <div className={cn(
+                        'p-2 rounded-lg',
+                        rappel.type === 'APPEL' ? 'bg-blue-100 text-blue-600' :
+                        rappel.type === 'EMAIL' ? 'bg-purple-100 text-purple-600' :
+                        'bg-green-100 text-green-600'
+                      )}>
+                        {rappel.type === 'APPEL' ? <Phone className="w-4 h-4" /> :
+                         rappel.type === 'EMAIL' ? <Mail className="w-4 h-4" /> :
+                         <Clock className="w-4 h-4" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-gray-900 truncate">
+                          {rappel.titre || rappel.type}
+                        </p>
+                        <p className="text-sm text-gray-500 truncate">
+                          {rappel.lead?.prenom} {rappel.lead?.nom} • {new Date(rappel.date_rappel).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </div>
+                      <Button size="sm" variant="outline">
+                        Action
+                      </Button>
+                    </div>
+                  )
+                })}
+                {/* Suggestions IA */}
+                <div className="border-t pt-3 mt-3">
+                  <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-blue-900">Suggestion IA</p>
+                      <p className="text-xs text-blue-700">3 leads qualifiés n'ont pas de rappel planifié</p>
+                    </div>
+                    <Button size="sm" variant="outline" className="text-blue-600 border-blue-200">
+                      Planifier
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <EmptyState
+                icon={<Target className="w-6 h-6" />}
+                title="Aucune action prévue"
+                description="Votre journée est bien organisée !"
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Right: Sessions à venir */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle icon={<Calendar className="w-4 h-4" />}>
+              Sessions à venir
+            </CardTitle>
+            <Link href="/sessions">
+              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600">
+                Voir toutes les sessions
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </Link>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <SkeletonList items={3} />
+            ) : data?.weekSessions && data.weekSessions.length > 0 ? (
+              <div className="space-y-3">
+                {data.weekSessions.slice(0, 3).map((session) => {
+                  const placesLeft = session.places_max - session.places_occupees
+                  const occupancyRate = (session.places_occupees / session.places_max) * 100
+
+                  return (
+                    <Link
+                      key={session.id}
+                      href={`/session/${session.id}`}
+                      className="flex items-center gap-3 p-2 -m-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="w-12 h-12 rounded-lg bg-purple-100 flex flex-col items-center justify-center text-purple-700">
+                        <span className="text-[10px] font-medium uppercase leading-tight">
+                          {new Date(session.date_debut).toLocaleDateString('fr-FR', { month: 'short' })}
+                        </span>
+                        <span className="text-sm font-bold leading-tight">
+                          {new Date(session.date_debut).getDate()}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-gray-900 truncate">
+                          {session.formation?.nom}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {session.formatrice?.prenom} {session.formatrice?.nom}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-500"
+                              style={{
+                                width: `${occupancyRate}%`,
+                                backgroundColor: occupancyRate >= 90 ? '#EF4444' : occupancyRate >= 70 ? '#F59E0B' : '#10B981'
+                              }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-500">
+                            {session.places_occupees}/{session.places_max}
+                          </span>
+                        </div>
+                      </div>
+                      <Badge
+                        variant={
+                          placesLeft === 0 ? 'error' :
+                          placesLeft <= 2 ? 'warning' : 'success'
+                        }
+                        size="sm"
+                      >
+                        {placesLeft === 0 ? 'Complet' : `${placesLeft} places`}
+                      </Badge>
+                    </Link>
+                  )
+                })}
+              </div>
+            ) : (
+              <EmptyState
+                icon={<Calendar className="w-6 h-6" />}
+                title="Aucune session planifiée"
+                description="Planifiez vos prochaines formations"
+              />
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Row 5: 2 columns - Leads récents + Rappels du jour */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      {/* Row 6: 2 columns - Sessions cette semaine + Activités récentes */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Left: Derniers leads */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle icon={<Users className="w-4 h-4" />}>
@@ -502,170 +689,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Right: Rappels du jour */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle icon={<Phone className="w-4 h-4" />}>
-              Rappels du jour
-            </CardTitle>
-            <Link href="/reminders">
-              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600">
-                Voir tous les rappels
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
-            </Link>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <SkeletonList items={5} />
-            ) : data?.todayRappels && data.todayRappels.length > 0 ? (
-              <div className="space-y-3">
-                {data.todayRappels.map((rappel) => {
-                  const isOverdue = new Date(rappel.date_rappel) < new Date()
-                  return (
-                    <div
-                      key={rappel.id}
-                      className={cn(
-                        "flex items-center gap-3 p-2 -m-2 rounded-lg transition-colors",
-                        isOverdue ? "bg-red-50 border border-red-200" : "hover:bg-gray-50"
-                      )}
-                    >
-                      <div className={cn(
-                        'p-2 rounded-lg',
-                        rappel.type === 'APPEL' ? 'bg-blue-100 text-blue-600' :
-                        rappel.type === 'EMAIL' ? 'bg-purple-100 text-purple-600' :
-                        'bg-green-100 text-green-600'
-                      )}>
-                        {rappel.type === 'APPEL' ? <Phone className="w-4 h-4" /> :
-                         rappel.type === 'EMAIL' ? <Mail className="w-4 h-4" /> :
-                         <Clock className="w-4 h-4" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-900 truncate">
-                          {rappel.titre || rappel.type}
-                        </p>
-                        <p className="text-sm text-gray-500 truncate">
-                          {rappel.lead?.prenom} {rappel.lead?.nom}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-xs text-gray-500">
-                          {new Date(rappel.date_rappel).toLocaleTimeString('fr-FR', {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </p>
-                        {rappel.priorite && (
-                          <Badge
-                            variant={
-                              rappel.priorite === 'URGENTE' ? 'error' :
-                              rappel.priorite === 'HAUTE' ? 'warning' : 'default'
-                            }
-                            size="sm"
-                            className="mt-1"
-                          >
-                            {rappel.priorite}
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            ) : (
-              <EmptyState
-                icon={<Phone className="w-6 h-6" />}
-                title="Aucun rappel aujourd'hui"
-                description="Votre planning est libre pour de nouvelles actions"
-              />
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Row 4: 2 columns - Sessions cette semaine + Activités récentes */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left: Sessions cette semaine */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle icon={<Calendar className="w-4 h-4" />}>
-              Sessions cette semaine
-            </CardTitle>
-            <Link href="/sessions">
-              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600">
-                Voir toutes les sessions
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
-            </Link>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <SkeletonList items={3} />
-            ) : data?.weekSessions && data.weekSessions.length > 0 ? (
-              <div className="space-y-3">
-                {data.weekSessions.map((session) => {
-                  const placesLeft = session.places_max - session.places_occupees
-                  const occupancyRate = (session.places_occupees / session.places_max) * 100
-
-                  return (
-                    <Link
-                      key={session.id}
-                      href={`/session/${session.id}`}
-                      className="flex items-center gap-3 p-2 -m-2 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="w-12 h-12 rounded-lg bg-purple-100 flex flex-col items-center justify-center text-purple-700">
-                        <span className="text-[10px] font-medium uppercase leading-tight">
-                          {new Date(session.date_debut).toLocaleDateString('fr-FR', { month: 'short' })}
-                        </span>
-                        <span className="text-sm font-bold leading-tight">
-                          {new Date(session.date_debut).getDate()}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-900 truncate">
-                          {session.formation?.nom}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {session.formatrice?.prenom} {session.formatrice?.nom}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className="h-full rounded-full transition-all duration-500"
-                              style={{
-                                width: `${occupancyRate}%`,
-                                backgroundColor: occupancyRate >= 90 ? '#EF4444' : occupancyRate >= 70 ? '#F59E0B' : '#10B981'
-                              }}
-                            />
-                          </div>
-                          <span className="text-xs text-gray-500">
-                            {session.places_occupees}/{session.places_max}
-                          </span>
-                        </div>
-                      </div>
-                      <Badge
-                        variant={
-                          placesLeft === 0 ? 'error' :
-                          placesLeft <= 2 ? 'warning' : 'success'
-                        }
-                        size="sm"
-                      >
-                        {placesLeft === 0 ? 'Complet' : `${placesLeft} places`}
-                      </Badge>
-                    </Link>
-                  )
-                })}
-              </div>
-            ) : (
-              <EmptyState
-                icon={<Calendar className="w-6 h-6" />}
-                title="Aucune session planifiée"
-                description="Planifiez vos prochaines formations"
-              />
-            )}
-          </CardContent>
-        </Card>
-
         {/* Right: Activités récentes */}
         <Card>
           <CardHeader>
@@ -715,7 +738,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Row 5: Mini chart - CA des 30 derniers jours */}
+      {/* Row 7: Mini chart - CA des 30 derniers jours */}
       <Card>
         <CardHeader>
           <CardTitle icon={<TrendingUp className="w-4 h-4" />}>
