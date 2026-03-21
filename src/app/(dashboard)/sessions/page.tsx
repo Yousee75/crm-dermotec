@@ -10,17 +10,17 @@ import { CreateSessionDialog } from '@/components/ui/CreateSessionDialog'
 import { Calendar, Users, QrCode } from 'lucide-react'
 
 // Lazy imports pour les onglets
-import dynamic from 'next/dynamic'
+import nextDynamic from 'next/dynamic'
 
-const PlanningTab = dynamic(() => import('./tabs/PlanningTab'), {
+const PlanningTab = nextDynamic(() => import('./tabs/PlanningTab'), {
   loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
 })
 
-const InscriptionsTab = dynamic(() => import('./tabs/InscriptionsTab'), {
+const InscriptionsTab = nextDynamic(() => import('./tabs/InscriptionsTab'), {
   loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
 })
 
-const EmargementTab = dynamic(() => import('./tabs/EmargementTab'), {
+const EmargementTab = nextDynamic(() => import('./tabs/EmargementTab'), {
   loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
 })
 
