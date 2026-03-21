@@ -3,20 +3,28 @@
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
 import { ORGANISMES_FINANCEMENT, type Financement } from '@/types'
-import { CreditCard, Clock, CheckCircle, XCircle, AlertTriangle, FileText } from 'lucide-react'
+import { CreditCard, Clock, CheckCircle, FileText } from 'lucide-react'
 import { formatEuro, formatDate } from '@/lib/utils'
+import Link from 'next/link'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { KpiCard } from '@/components/ui/KpiCard'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Avatar } from '@/components/ui/Avatar'
+import { EmptyState } from '@/components/ui/EmptyState'
+import { SkeletonTable } from '@/components/ui/Skeleton'
 
-const STATUT_COLORS: Record<string, { bg: string; text: string; label: string }> = {
-  PREPARATION: { bg: 'bg-gray-100', text: 'text-gray-600', label: 'Préparation' },
-  DOCUMENTS_REQUIS: { bg: 'bg-yellow-50', text: 'text-yellow-700', label: 'Docs requis' },
-  DOSSIER_COMPLET: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'Complet' },
-  SOUMIS: { bg: 'bg-purple-50', text: 'text-purple-700', label: 'Soumis' },
-  EN_EXAMEN: { bg: 'bg-orange-50', text: 'text-orange-700', label: 'En examen' },
-  COMPLEMENT_DEMANDE: { bg: 'bg-amber-50', text: 'text-amber-700', label: 'Complément' },
-  VALIDE: { bg: 'bg-green-50', text: 'text-green-700', label: 'Validé' },
-  REFUSE: { bg: 'bg-red-50', text: 'text-red-700', label: 'Refusé' },
-  VERSE: { bg: 'bg-emerald-50', text: 'text-emerald-700', label: 'Versé' },
-  CLOTURE: { bg: 'bg-gray-100', text: 'text-gray-500', label: 'Clôturé' },
+const STATUT_COLORS: Record<string, { label: string; variant: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info' }> = {
+  PREPARATION: { label: 'Préparation', variant: 'default' },
+  DOCUMENTS_REQUIS: { label: 'Docs requis', variant: 'warning' },
+  DOSSIER_COMPLET: { label: 'Complet', variant: 'info' },
+  SOUMIS: { label: 'Soumis', variant: 'primary' },
+  EN_EXAMEN: { label: 'En examen', variant: 'warning' },
+  COMPLEMENT_DEMANDE: { label: 'Complément', variant: 'warning' },
+  VALIDE: { label: 'Validé', variant: 'success' },
+  REFUSE: { label: 'Refusé', variant: 'error' },
+  VERSE: { label: 'Versé', variant: 'success' },
+  CLOTURE: { label: 'Clôturé', variant: 'default' },
 }
 
 export default function FinancementPage() {
@@ -39,79 +47,84 @@ export default function FinancementPage() {
   const montantTotal = dossiers?.reduce((sum, d) => sum + (d.montant_accorde || 0), 0) || 0
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
-          Dossiers de financement
-        </h1>
-        <p className="text-sm text-gray-500">{dossiers?.length || 0} dossiers · {enCours} en cours · {valides} validés</p>
-      </div>
+    <div className="space-y-5">
+      <PageHeader
+        title="Dossiers de financement"
+        description={`${dossiers?.length || 0} dossiers · ${enCours} en cours · ${valides} validés`}
+      />
 
       {/* KPIs */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-white rounded-xl border p-4 flex items-center gap-3">
-          <Clock className="w-8 h-8 text-orange-500" />
-          <div>
-            <p className="text-xs text-gray-500">En cours</p>
-            <p className="text-xl font-bold text-orange-500">{enCours}</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl border p-4 flex items-center gap-3">
-          <CheckCircle className="w-8 h-8 text-green-500" />
-          <div>
-            <p className="text-xs text-gray-500">Validés</p>
-            <p className="text-xl font-bold text-green-500">{valides}</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl border p-4 flex items-center gap-3">
-          <CreditCard className="w-8 h-8 text-blue-500" />
-          <div>
-            <p className="text-xs text-gray-500">Montant accordé</p>
-            <p className="text-xl font-bold text-blue-500">{formatEuro(montantTotal)}</p>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-children">
+        <KpiCard icon={Clock} label="En cours" value={enCours} color="#F59E0B" />
+        <KpiCard icon={CheckCircle} label="Validés" value={valides} color="#22C55E" />
+        <KpiCard icon={CreditCard} label="Montant accordé" value={formatEuro(montantTotal)} color="#3B82F6" />
       </div>
 
-      {/* Liste dossiers */}
-      <div className="bg-white rounded-xl border overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="bg-gray-50">
-              <th className="px-4 py-3 text-left font-medium text-gray-500">Lead</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-500">Organisme</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-500">N° dossier</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-500">Montant</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-500">Statut</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-500">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr><td colSpan={6} className="px-4 py-12 text-center text-gray-400">Chargement...</td></tr>
-            ) : !dossiers?.length ? (
-              <tr><td colSpan={6} className="px-4 py-12 text-center text-gray-400">Aucun dossier de financement</td></tr>
-            ) : dossiers.map((d) => {
-              const s = STATUT_COLORS[d.statut] || STATUT_COLORS.PREPARATION
-              const org = ORGANISMES_FINANCEMENT[d.organisme]
-              return (
-                <tr key={d.id} className="border-t border-gray-50 hover:bg-gray-50/50">
-                  <td className="px-4 py-3 font-medium">{d.lead?.prenom} {d.lead?.nom}</td>
-                  <td className="px-4 py-3 text-gray-600">{org?.label || d.organisme}</td>
-                  <td className="px-4 py-3 text-gray-500 font-mono text-xs">{d.numero_dossier || '—'}</td>
-                  <td className="px-4 py-3">
-                    {d.montant_demande ? formatEuro(d.montant_demande) : '—'}
-                    {d.montant_accorde && <span className="text-green-600 ml-1">(accordé: {formatEuro(d.montant_accorde)})</span>}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${s.bg} ${s.text}`}>{s.label}</span>
-                  </td>
-                  <td className="px-4 py-3 text-xs text-gray-400">{formatDate(d.created_at)}</td>
+      {/* Table */}
+      {isLoading ? (
+        <SkeletonTable rows={6} cols={6} />
+      ) : (
+        <Card padding="none">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50/80 border-b border-gray-100">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Lead</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Organisme</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">N° dossier</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Montant</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Statut</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
                 </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {!dossiers?.length ? (
+                  <tr>
+                    <td colSpan={6}>
+                      <EmptyState
+                        icon={<FileText className="w-7 h-7" />}
+                        title="Aucun dossier"
+                        description="Les dossiers de financement apparaîtront ici"
+                      />
+                    </td>
+                  </tr>
+                ) : dossiers.map((d) => {
+                  const s = STATUT_COLORS[d.statut] || STATUT_COLORS.PREPARATION
+                  const org = ORGANISMES_FINANCEMENT[d.organisme]
+                  return (
+                    <tr key={d.id} className="group hover:bg-[#2EC6F3]/[0.02] transition-colors">
+                      <td className="px-4 py-3">
+                        <Link href={`/lead/${d.lead?.id}`} className="flex items-center gap-3">
+                          <Avatar name={`${d.lead?.prenom} ${d.lead?.nom}`} size="sm" />
+                          <span className="font-medium text-[#082545]">{d.lead?.prenom} {d.lead?.nom}</span>
+                        </Link>
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge variant="outline" size="md">{org?.label || d.organisme}</Badge>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="font-mono text-xs text-gray-500">{d.numero_dossier || '—'}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div>
+                          <p className="font-medium text-gray-700">{d.montant_demande ? formatEuro(d.montant_demande) : '—'}</p>
+                          {d.montant_accorde && d.montant_accorde > 0 && (
+                            <p className="text-xs text-green-600 font-medium">Accordé : {formatEuro(d.montant_accorde)}</p>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge variant={s.variant} size="md" dot>{s.label}</Badge>
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-400">{formatDate(d.created_at)}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
     </div>
   )
 }

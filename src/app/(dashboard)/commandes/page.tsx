@@ -7,36 +7,39 @@ import { type Commande, type StatutCommande } from '@/types'
 import { formatEuro, formatDate } from '@/lib/utils'
 import {
   ShoppingBag, Package, Truck, CheckCircle, RotateCcw, XCircle,
-  Filter, Search, Edit2, Eye, Euro, Calendar, User
+  Eye, Euro, Hash
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { KpiCard } from '@/components/ui/KpiCard'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
+import { SearchInput, Input } from '@/components/ui/Input'
+import { Avatar } from '@/components/ui/Avatar'
+import { EmptyState } from '@/components/ui/EmptyState'
+import { SkeletonTable } from '@/components/ui/Skeleton'
+import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/Dialog'
+import { cn } from '@/lib/utils'
 
-const STATUT_COLORS: Record<StatutCommande, { bg: string; text: string; label: string; icon: any }> = {
-  NOUVELLE: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'Nouvelle', icon: ShoppingBag },
-  PREPAREE: { bg: 'bg-yellow-50', text: 'text-yellow-700', label: 'Préparée', icon: Package },
-  EXPEDIEE: { bg: 'bg-purple-50', text: 'text-purple-700', label: 'Expédiée', icon: Truck },
-  LIVREE: { bg: 'bg-green-50', text: 'text-green-700', label: 'Livrée', icon: CheckCircle },
-  RETOURNEE: { bg: 'bg-orange-50', text: 'text-orange-700', label: 'Retournée', icon: RotateCcw },
-  ANNULEE: { bg: 'bg-red-50', text: 'text-red-700', label: 'Annulée', icon: XCircle },
-}
-
-const PAIEMENT_COLORS: Record<string, { bg: string; text: string }> = {
-  EN_ATTENTE: { bg: 'bg-gray-100', text: 'text-gray-600' },
-  PAYE: { bg: 'bg-green-100', text: 'text-green-600' },
-  REMBOURSE: { bg: 'bg-blue-100', text: 'text-blue-600' },
-  ECHOUE: { bg: 'bg-red-100', text: 'text-red-600' },
+const STATUT_CONFIG: Record<StatutCommande, { label: string; variant: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'; icon: React.ElementType }> = {
+  NOUVELLE: { label: 'Nouvelle', variant: 'info', icon: ShoppingBag },
+  PREPAREE: { label: 'Préparée', variant: 'warning', icon: Package },
+  EXPEDIEE: { label: 'Expédiée', variant: 'primary', icon: Truck },
+  LIVREE: { label: 'Livrée', variant: 'success', icon: CheckCircle },
+  RETOURNEE: { label: 'Retournée', variant: 'warning', icon: RotateCcw },
+  ANNULEE: { label: 'Annulée', variant: 'error', icon: XCircle },
 }
 
 export default function CommandesPage() {
   const [search, setSearch] = useState('')
   const [statutFilter, setStatutFilter] = useState<StatutCommande | ''>('')
-  const [paiementFilter, setPaiementFilter] = useState<string>('')
-  const [showTrackingModal, setShowTrackingModal] = useState<{ commandeId: string; numero?: string } | null>(null)
+  const [paiementFilter, setPaiementFilter] = useState('')
+  const [trackingModal, setTrackingModal] = useState<{ id: string; numero?: string } | null>(null)
 
   const supabase = createClient()
   const queryClient = useQueryClient()
 
-  // Fetch commandes
   const { data: commandes, isLoading } = useQuery({
     queryKey: ['commandes', search, statutFilter, paiementFilter],
     queryFn: async () => {
@@ -44,149 +47,73 @@ export default function CommandesPage() {
         .from('commandes')
         .select('*, lead:leads(id, prenom, nom)')
         .order('created_at', { ascending: false })
-
-      if (search) {
-        query = query.or(`numero_commande.ilike.%${search}%,client_nom.ilike.%${search}%,client_email.ilike.%${search}%`)
-      }
-      if (statutFilter) {
-        query = query.eq('statut', statutFilter)
-      }
-      if (paiementFilter) {
-        query = query.eq('paiement_statut', paiementFilter)
-      }
-
+      if (search) query = query.or(`numero_commande.ilike.%${search}%,client_nom.ilike.%${search}%,client_email.ilike.%${search}%`)
+      if (statutFilter) query = query.eq('statut', statutFilter)
+      if (paiementFilter) query = query.eq('paiement_statut', paiementFilter)
       const { data, error } = await query
       if (error) throw error
       return data as (Commande & { lead?: { id: string; prenom: string; nom: string } })[]
     },
   })
 
-  // Change statut
-  const changeStatutMutation = useMutation({
+  const changeStatut = useMutation({
     mutationFn: async ({ id, statut }: { id: string; statut: StatutCommande }) => {
-      const updates: any = { statut, updated_at: new Date().toISOString() }
-
-      if (statut === 'EXPEDIEE' && !commandes?.find(c => c.id === id)?.date_expedition) {
-        updates.date_expedition = new Date().toISOString()
-      }
-      if (statut === 'LIVREE' && !commandes?.find(c => c.id === id)?.date_livraison) {
-        updates.date_livraison = new Date().toISOString()
-      }
-
-      const { error } = await supabase
-        .from('commandes')
-        .update(updates)
-        .eq('id', id)
+      const updates: Record<string, unknown> = { statut, updated_at: new Date().toISOString() }
+      if (statut === 'EXPEDIEE') updates.date_expedition = new Date().toISOString()
+      if (statut === 'LIVREE') updates.date_livraison = new Date().toISOString()
+      const { error } = await supabase.from('commandes').update(updates).eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['commandes'] })
-      toast.success('Statut mis à jour')
-    },
-    onError: () => toast.error('Erreur lors de la mise à jour'),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['commandes'] }); toast.success('Statut mis à jour') },
+    onError: () => toast.error('Erreur'),
   })
 
-  // Add tracking
-  const addTrackingMutation = useMutation({
+  const addTracking = useMutation({
     mutationFn: async ({ id, tracking_number, transporteur }: { id: string; tracking_number: string; transporteur?: string }) => {
-      const { error } = await supabase
-        .from('commandes')
-        .update({
-          tracking_number,
-          transporteur,
-          statut: 'EXPEDIEE',
-          date_expedition: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', id)
+      const { error } = await supabase.from('commandes').update({
+        tracking_number, transporteur, statut: 'EXPEDIEE' as StatutCommande,
+        date_expedition: new Date().toISOString(), updated_at: new Date().toISOString(),
+      }).eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['commandes'] })
-      setShowTrackingModal(null)
-      toast.success('Numéro de suivi ajouté')
-    },
-    onError: () => toast.error('Erreur lors de l\'ajout'),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['commandes'] }); setTrackingModal(null); toast.success('Suivi ajouté') },
+    onError: () => toast.error('Erreur'),
   })
 
-  // Stats
-  const totalCommandes = commandes?.length || 0
-  const caEshop = commandes?.reduce((sum, c) => sum + c.montant_ttc, 0) || 0
-  const enAttenteExpedition = commandes?.filter(c => c.statut === 'PREPAREE').length || 0
+  const total = commandes?.length || 0
+  const ca = commandes?.reduce((sum, c) => sum + c.montant_ttc, 0) || 0
+  const aExpedier = commandes?.filter(c => c.statut === 'PREPAREE').length || 0
   const nouvelles = commandes?.filter(c => c.statut === 'NOUVELLE').length || 0
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
-            Commandes E-Shop
-          </h1>
-          <p className="text-sm text-gray-500">{totalCommandes} commandes · {formatEuro(caEshop)} de CA</p>
-        </div>
+    <div className="space-y-5">
+      <PageHeader title="Commandes E-Shop" description={`${total} commandes · ${formatEuro(ca)} de CA`} />
+
+      {/* KPIs — 4 métriques essentielles, pas plus */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-children">
+        <KpiCard icon={ShoppingBag} label="Total" value={total} color="#3B82F6" />
+        <KpiCard icon={Euro} label="CA E-shop" value={formatEuro(ca)} color="#22C55E" />
+        <KpiCard icon={Package} label="À expédier" value={aExpedier} color={aExpedier > 0 ? '#F59E0B' : '#22C55E'} />
+        <KpiCard icon={Hash} label="Nouvelles" value={nouvelles} color="#8B5CF6" />
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border p-4 flex items-center gap-3">
-          <ShoppingBag className="w-8 h-8 text-blue-500" />
-          <div>
-            <p className="text-xs text-gray-500">Total commandes</p>
-            <p className="text-xl font-bold text-blue-500">{totalCommandes}</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl border p-4 flex items-center gap-3">
-          <Euro className="w-8 h-8 text-green-500" />
-          <div>
-            <p className="text-xs text-gray-500">CA E-shop</p>
-            <p className="text-xl font-bold text-green-500">{formatEuro(caEshop)}</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl border p-4 flex items-center gap-3">
-          <Package className="w-8 h-8 text-yellow-500" />
-          <div>
-            <p className="text-xs text-gray-500">À expédier</p>
-            <p className="text-xl font-bold text-yellow-500">{enAttenteExpedition}</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl border p-4 flex items-center gap-3">
-          <Calendar className="w-8 h-8 text-purple-500" />
-          <div>
-            <p className="text-xs text-gray-500">Nouvelles</p>
-            <p className="text-xl font-bold text-purple-500">{nouvelles}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Filtres */}
+      {/* Filtres — inline, pas de panneau dédié */}
       <div className="flex flex-wrap gap-3 items-center">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Rechercher (n° commande, nom, email...)"
-            className="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/20 outline-none"
-          />
+        <div className="w-full sm:max-w-sm">
+          <SearchInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="N° commande, nom, email..." />
         </div>
-
         <select
           value={statutFilter}
           onChange={(e) => setStatutFilter(e.target.value as StatutCommande | '')}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] outline-none"
+          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
         >
           <option value="">Tous les statuts</option>
-          {Object.entries(STATUT_COLORS).map(([key, val]) => (
-            <option key={key} value={key}>{val.label}</option>
-          ))}
+          {Object.entries(STATUT_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
         </select>
-
         <select
           value={paiementFilter}
           onChange={(e) => setPaiementFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] outline-none"
+          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
         >
           <option value="">Tous les paiements</option>
           <option value="EN_ATTENTE">En attente</option>
@@ -196,194 +123,123 @@ export default function CommandesPage() {
         </select>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-gray-50 text-left">
-                <th className="px-4 py-3 font-medium text-gray-500">N° Commande</th>
-                <th className="px-4 py-3 font-medium text-gray-500">Client</th>
-                <th className="px-4 py-3 font-medium text-gray-500">Produits</th>
-                <th className="px-4 py-3 font-medium text-gray-500">Montant</th>
-                <th className="px-4 py-3 font-medium text-gray-500">Paiement</th>
-                <th className="px-4 py-3 font-medium text-gray-500">Statut</th>
-                <th className="px-4 py-3 font-medium text-gray-500">Date</th>
-                <th className="px-4 py-3 font-medium text-gray-500">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <tr><td colSpan={8} className="px-4 py-12 text-center text-gray-400">Chargement...</td></tr>
-              ) : !commandes?.length ? (
-                <tr><td colSpan={8} className="px-4 py-12 text-center text-gray-400">
-                  {search || statutFilter || paiementFilter ? 'Aucun résultat pour ces filtres' : 'Aucune commande'}
-                </td></tr>
-              ) : commandes.map((commande) => {
-                const statutInfo = STATUT_COLORS[commande.statut]
-                const StatutIcon = statutInfo.icon
-                const paiementInfo = PAIEMENT_COLORS[commande.paiement_statut] || PAIEMENT_COLORS.EN_ATTENTE
-
-                return (
-                  <tr key={commande.id} className="border-t border-gray-50 hover:bg-gray-50/50 transition">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs">{commande.numero_commande || commande.id.slice(0, 8)}</span>
-                        {commande.tracking_number && (
-                          <span className="px-1.5 py-0.5 bg-purple-100 text-purple-600 text-xs rounded">Suivi</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div>
-                        <p className="font-medium text-[#082545]">{commande.client_nom || commande.lead?.prenom + ' ' + commande.lead?.nom}</p>
-                        <p className="text-xs text-gray-500">{commande.client_email}</p>
-                        {commande.client_telephone && (
-                          <p className="text-xs text-gray-500">{commande.client_telephone}</p>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="space-y-1">
-                        {commande.produits.slice(0, 2).map((produit, idx) => (
-                          <div key={idx} className="text-xs">
-                            <span className="font-medium">{produit.quantite}x</span> {produit.nom}
+      {/* Table — focus sur l'essentiel, actions en hover */}
+      {isLoading ? <SkeletonTable rows={6} cols={7} /> : (
+        <Card padding="none">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50/80 border-b border-gray-100">
+                  {['Commande', 'Client', 'Produits', 'Montant', 'Paiement', 'Statut', 'Date'].map(h => (
+                    <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {!commandes?.length ? (
+                  <tr><td colSpan={7}>
+                    <EmptyState icon={<ShoppingBag className="w-7 h-7" />} title="Aucune commande" description={search ? 'Modifiez vos filtres' : 'Les commandes apparaîtront ici'} />
+                  </td></tr>
+                ) : commandes.map((c) => {
+                  const cfg = STATUT_CONFIG[c.statut]
+                  return (
+                    <tr key={c.id} className="group hover:bg-[#2EC6F3]/[0.02] transition-colors">
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs text-gray-600">{c.numero_commande || c.id.slice(0, 8)}</span>
+                          {c.tracking_number && <Badge variant="primary" size="sm">Suivi</Badge>}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2.5">
+                          <Avatar name={c.client_nom || `${c.lead?.prenom} ${c.lead?.nom}`} size="sm" />
+                          <div className="min-w-0">
+                            <p className="font-medium text-[#082545] truncate">{c.client_nom || `${c.lead?.prenom} ${c.lead?.nom}`}</p>
+                            <p className="text-xs text-gray-400 truncate">{c.client_email}</p>
                           </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        {c.produits.slice(0, 2).map((p, i) => (
+                          <p key={i} className="text-xs text-gray-600"><span className="font-medium">{p.quantite}×</span> {p.nom}</p>
                         ))}
-                        {commande.produits.length > 2 && (
-                          <p className="text-xs text-gray-400">+{commande.produits.length - 2} autres</p>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div>
-                        <p className="font-bold text-[#082545]">{formatEuro(commande.montant_ttc)}</p>
-                        {commande.frais_port > 0 && (
-                          <p className="text-xs text-gray-500">+{formatEuro(commande.frais_port)} port</p>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${paiementInfo.bg} ${paiementInfo.text}`}>
-                        {commande.paiement_statut.replace('_', ' ')}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <StatutIcon className="w-4 h-4" style={{ color: statutInfo.text.replace('text-', '').replace('-700', '-600') }} />
+                        {c.produits.length > 2 && <p className="text-[10px] text-gray-400">+{c.produits.length - 2} autres</p>}
+                      </td>
+                      <td className="px-4 py-3">
+                        <p className="font-semibold text-[#082545]">{formatEuro(c.montant_ttc)}</p>
+                        {c.frais_port > 0 && <p className="text-[10px] text-gray-400">+{formatEuro(c.frais_port)} port</p>}
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge variant={c.paiement_statut === 'PAYE' ? 'success' : c.paiement_statut === 'ECHOUE' ? 'error' : 'default'} size="sm" dot>
+                          {c.paiement_statut.replace('_', ' ').toLowerCase()}
+                        </Badge>
+                      </td>
+                      <td className="px-4 py-3">
+                        {/* Statut avec changement inline — pas de page séparée */}
                         <select
-                          value={commande.statut}
-                          onChange={(e) => changeStatutMutation.mutate({
-                            id: commande.id,
-                            statut: e.target.value as StatutCommande
-                          })}
-                          className={`px-2 py-0.5 rounded text-xs font-medium border-0 outline-none cursor-pointer ${statutInfo.bg} ${statutInfo.text}`}
-                          style={{ backgroundColor: statutInfo.bg.replace('bg-', '').replace('-50', '-100') }}
+                          value={c.statut}
+                          onChange={(e) => changeStatut.mutate({ id: c.id, statut: e.target.value as StatutCommande })}
+                          className={cn(
+                            'px-2 py-1 rounded-lg text-xs font-medium border-0 outline-none cursor-pointer bg-transparent',
+                            'hover:bg-gray-100 transition'
+                          )}
                         >
-                          {Object.entries(STATUT_COLORS).map(([key, val]) => (
-                            <option key={key} value={key}>{val.label}</option>
-                          ))}
+                          {Object.entries(STATUT_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                         </select>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="text-xs text-gray-500">
-                        <p>{formatDate(commande.created_at)}</p>
-                        {commande.date_expedition && (
-                          <p>Expédiée: {formatDate(commande.date_expedition)}</p>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => setShowTrackingModal({
-                            commandeId: commande.id,
-                            numero: commande.tracking_number
-                          })}
-                          className="p-1.5 hover:bg-purple-50 text-purple-600 rounded transition"
-                          title="Numéro de suivi"
-                        >
-                          <Truck className="w-3.5 h-3.5" />
-                        </button>
-                        <button className="p-1.5 hover:bg-blue-50 text-blue-600 rounded transition" title="Voir détails">
-                          <Eye className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Modal Tracking */}
-      {showTrackingModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowTrackingModal(null)}>
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
-            <h3 className="text-lg font-bold mb-4">Numéro de suivi</h3>
-            <form onSubmit={(e) => {
-              e.preventDefault()
-              const formData = new FormData(e.target as HTMLFormElement)
-              const tracking_number = formData.get('tracking_number') as string
-              const transporteur = formData.get('transporteur') as string
-
-              addTrackingMutation.mutate({
-                id: showTrackingModal.commandeId,
-                tracking_number,
-                transporteur: transporteur || undefined,
-              })
-            }}>
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Numéro de suivi</label>
-                  <input
-                    name="tracking_number"
-                    type="text"
-                    defaultValue={showTrackingModal.numero || ''}
-                    placeholder="Ex: 1Z999AA1234567890"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#2EC6F3] outline-none"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Transporteur (optionnel)</label>
-                  <select
-                    name="transporteur"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#2EC6F3] outline-none"
-                  >
-                    <option value="">Sélectionner...</option>
-                    <option value="La Poste">La Poste</option>
-                    <option value="Chronopost">Chronopost</option>
-                    <option value="UPS">UPS</option>
-                    <option value="FedEx">FedEx</option>
-                    <option value="DHL">DHL</option>
-                    <option value="Mondial Relay">Mondial Relay</option>
-                  </select>
-                </div>
-              </div>
-              <div className="flex gap-2 mt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowTrackingModal(null)}
-                  className="flex-1 py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
-                >
-                  Annuler
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 py-2 px-4 bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white rounded-lg transition"
-                  disabled={addTrackingMutation.isPending}
-                >
-                  {addTrackingMutation.isPending ? 'Ajout...' : 'Ajouter'}
-                </button>
-              </div>
-            </form>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-400">{formatDate(c.created_at)}</span>
+                          {/* Action en hover — pas un bouton permanent qui encombre */}
+                          <button
+                            onClick={() => setTrackingModal({ id: c.id, numero: c.tracking_number })}
+                            className="p-1.5 rounded-lg text-gray-300 hover:text-[#2EC6F3] hover:bg-[#2EC6F3]/5 transition opacity-0 group-hover:opacity-100"
+                            title="Suivi expédition"
+                          >
+                            <Truck className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
           </div>
-        </div>
+        </Card>
       )}
+
+      {/* Modal tracking — Dialog propre au lieu de div bricolée */}
+      <Dialog open={!!trackingModal} onClose={() => setTrackingModal(null)} size="sm">
+        <DialogHeader onClose={() => setTrackingModal(null)}>
+          <DialogTitle>Suivi d&apos;expédition</DialogTitle>
+          <DialogDescription>Ajoutez un numéro de suivi pour informer le client</DialogDescription>
+        </DialogHeader>
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          const fd = new FormData(e.target as HTMLFormElement)
+          addTracking.mutate({
+            id: trackingModal!.id,
+            tracking_number: fd.get('tracking') as string,
+            transporteur: (fd.get('transporteur') as string) || undefined,
+          })
+        }}>
+          <div className="space-y-3">
+            <Input name="tracking" label="Numéro de suivi" defaultValue={trackingModal?.numero || ''} placeholder="1Z999AA1234567890" required />
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-gray-700">Transporteur</label>
+              <select name="transporteur" className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white">
+                <option value="">Sélectionner...</option>
+                {['La Poste', 'Chronopost', 'UPS', 'FedEx', 'DHL', 'Mondial Relay'].map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" type="button" onClick={() => setTrackingModal(null)}>Annuler</Button>
+            <Button type="submit" loading={addTracking.isPending}>Ajouter</Button>
+          </DialogFooter>
+        </form>
+      </Dialog>
     </div>
   )
 }

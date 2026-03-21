@@ -14,6 +14,10 @@ import { useRouter } from 'next/navigation'
 import { Avatar } from '@/components/ui/Avatar'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { Badge } from '@/components/ui/Badge'
+import { CommandPalette } from '@/components/ui/CommandPalette'
+import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
+import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
+import AIAssistant from '@/components/ui/AIAssistant'
 import { cn } from '@/lib/utils'
 
 interface NavSection {
@@ -303,10 +307,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </header>
 
         {/* Page content */}
-        <div className="p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto animate-fadeIn">
+        <div className="p-4 md:p-6 lg:p-8 pb-20 md:pb-8 max-w-[1600px] mx-auto animate-fadeIn">
           {children}
         </div>
       </main>
+
+      {/* Global components */}
+      <CommandPalette />
+      <KeyboardShortcuts />
+      <MobileBottomNav />
+      <AIAssistant />
     </div>
   )
 }

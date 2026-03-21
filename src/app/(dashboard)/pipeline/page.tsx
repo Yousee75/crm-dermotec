@@ -5,19 +5,21 @@ import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOve
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Search, Users, Euro, TrendingUp } from 'lucide-react'
+import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye } from 'lucide-react'
 import { useLeads, useChangeStatut } from '@/hooks/use-leads'
 import { PHASES_PIPELINE, STATUTS_LEAD } from '@/types'
 import type { Lead, StatutLead } from '@/types'
 import { formatEuro, formatDateShort, daysBetween, getInitials } from '@/lib/utils'
 import { cn } from '@/lib/utils'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { SearchInput } from '@/components/ui/Input'
+import { Badge } from '@/components/ui/Badge'
+import { Avatar } from '@/components/ui/Avatar'
+import { ProgressBar } from '@/components/ui/ProgressBar'
+import Link from 'next/link'
 
 // --- Component: Lead Card (Draggable) ---
-interface DraggableLeadCardProps {
-  lead: Lead
-}
-
-function DraggableLeadCard({ lead }: DraggableLeadCardProps) {
+function DraggableLeadCard({ lead }: { lead: Lead }) {
   const {
     attributes,
     listeners,
@@ -39,9 +41,10 @@ function DraggableLeadCard({ lead }: DraggableLeadCardProps) {
       {...attributes}
       {...listeners}
       className={cn(
-        "bg-white p-3 rounded-lg shadow-sm border border-gray-200 cursor-grab",
-        "hover:shadow-md transition-shadow",
-        isDragging && "opacity-50"
+        "bg-white p-3 rounded-xl border border-gray-100 shadow-card cursor-grab",
+        "hover:shadow-md hover:border-gray-200 transition-all duration-150",
+        "active:cursor-grabbing active:shadow-lg active:scale-[1.02]",
+        isDragging && "opacity-40 shadow-none"
       )}
     >
       <LeadCard lead={lead} />
@@ -52,96 +55,124 @@ function DraggableLeadCard({ lead }: DraggableLeadCardProps) {
 // --- Component: Lead Card Content ---
 function LeadCard({ lead }: { lead: Lead }) {
   const daysSinceCreated = daysBetween(lead.created_at, new Date())
-  const scoreColor = lead.score_chaud >= 80 ? 'bg-green-100 text-green-800'
-                   : lead.score_chaud >= 60 ? 'bg-yellow-100 text-yellow-800'
-                   : 'bg-red-100 text-red-800'
 
   return (
-    <div className="space-y-2">
-      {/* Header: nom + score */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          {lead.commercial_assigne ? (
-            <div
-              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-medium text-white"
-              style={{ backgroundColor: lead.commercial_assigne.avatar_color }}
-            >
-              {getInitials(lead.commercial_assigne.prenom, lead.commercial_assigne.nom)}
-            </div>
-          ) : (
-            <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-          )}
-          <span className="font-medium text-gray-900 text-sm">
+    <div className="space-y-2.5">
+      {/* Header: avatar + nom + score */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <Avatar
+            name={lead.commercial_assigne ? `${lead.commercial_assigne.prenom} ${lead.commercial_assigne.nom}` : '?'}
+            size="xs"
+            color={lead.commercial_assigne?.avatar_color}
+          />
+          <Link
+            href={`/lead/${lead.id}`}
+            className="font-medium text-gray-900 text-sm truncate hover:text-[#2EC6F3] transition"
+            onClick={e => e.stopPropagation()}
+          >
             {lead.prenom} {lead.nom}
-          </span>
+          </Link>
         </div>
-        <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", scoreColor)}>
-          {lead.score_chaud}
-        </span>
+        <div className="shrink-0">
+          <Badge
+            variant={lead.score_chaud >= 70 ? 'success' : lead.score_chaud >= 40 ? 'warning' : 'default'}
+            size="sm"
+          >
+            {lead.score_chaud}
+          </Badge>
+        </div>
       </div>
 
-      {/* Formation souhaitée */}
+      {/* Formation */}
       {lead.formation_principale && (
-        <div className="text-xs text-gray-600 truncate">
+        <p className="text-xs text-gray-500 truncate pl-8">
           {lead.formation_principale.nom}
-        </div>
+        </p>
       )}
 
-      {/* Footer: source + jours */}
-      <div className="flex items-center justify-between text-xs text-gray-500">
-        <span className="capitalize">{lead.source.replace('_', ' ')}</span>
-        <span>{daysSinceCreated}j</span>
+      {/* Footer: source + jours + quick actions */}
+      <div className="flex items-center justify-between text-xs">
+        <div className="flex items-center gap-2 text-gray-400">
+          <span className="capitalize">{lead.source.replace('_', ' ')}</span>
+          <span className="text-gray-300">·</span>
+          <span>{daysSinceCreated}j</span>
+        </div>
+        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition">
+          {lead.telephone && (
+            <a
+              href={`tel:${lead.telephone}`}
+              className="p-1 rounded hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <Phone className="w-3 h-3" />
+            </a>
+          )}
+          {lead.email && (
+            <a
+              href={`mailto:${lead.email}`}
+              className="p-1 rounded hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <Mail className="w-3 h-3" />
+            </a>
+          )}
+        </div>
       </div>
     </div>
   )
 }
 
 // --- Component: Pipeline Column ---
-interface PipelineColumnProps {
+function PipelineColumn({ phase, leads, totalValue }: {
   phase: typeof PHASES_PIPELINE[0]
   leads: Lead[]
   totalValue: number
-}
-
-function PipelineColumn({ phase, leads, totalValue }: PipelineColumnProps) {
+}) {
   const primaryStatut = phase.statuts[0]
   const statutConfig = STATUTS_LEAD[primaryStatut]
 
   return (
-    <div className="flex-shrink-0 w-72 bg-gray-50 rounded-lg">
+    <div className="flex-shrink-0 w-[280px] flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="bg-white rounded-xl border border-gray-100 shadow-card p-3.5 mb-2">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold text-gray-900">{phase.label}</h3>
-          <div
-            className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: statutConfig.color }}
-          />
+          <div className="flex items-center gap-2">
+            <div
+              className="w-2.5 h-2.5 rounded-full"
+              style={{ backgroundColor: statutConfig.color }}
+            />
+            <h3 className="font-semibold text-gray-900 text-sm">{phase.label}</h3>
+          </div>
+          <Badge variant="default" size="sm">{leads.length}</Badge>
         </div>
-        <div className="flex items-center justify-between text-sm text-gray-600">
-          <span className="flex items-center">
-            <Users className="w-4 h-4 mr-1" />
-            {leads.length}
-          </span>
-          {totalValue > 0 && (
-            <span className="flex items-center">
-              <Euro className="w-4 h-4 mr-1" />
-              {formatEuro(totalValue)}
-            </span>
-          )}
+        {totalValue > 0 && (
+          <div className="flex items-center gap-1 text-xs text-gray-400">
+            <Euro className="w-3 h-3" />
+            {formatEuro(totalValue)}
+          </div>
+        )}
+        {/* Progress indicator */}
+        <div className="mt-2">
+          <ProgressBar value={leads.length} max={Math.max(leads.length, 10)} size="sm" color={statutConfig.color} />
         </div>
       </div>
 
-      {/* Lead Cards */}
-      <div className="p-3 space-y-2 max-h-96 overflow-y-auto">
+      {/* Cards */}
+      <div className="flex-1 space-y-2 overflow-y-auto max-h-[calc(100vh-320px)] pr-1">
         <SortableContext items={leads.map(l => l.id)} strategy={verticalListSortingStrategy}>
           {leads.map(lead => (
-            <DraggableLeadCard key={lead.id} lead={lead} />
+            <div key={lead.id} className="group">
+              <DraggableLeadCard lead={lead} />
+            </div>
           ))}
         </SortableContext>
         {leads.length === 0 && (
-          <div className="text-center py-8 text-gray-400 text-sm">
-            Aucun lead
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-2">
+              <Users className="w-5 h-5 text-gray-300" />
+            </div>
+            <p className="text-xs text-gray-400">Aucun lead</p>
           </div>
         )}
       </div>
@@ -149,43 +180,28 @@ function PipelineColumn({ phase, leads, totalValue }: PipelineColumnProps) {
   )
 }
 
-// --- Main Page Component ---
+// --- Main Page ---
 export default function PipelinePage() {
   const [search, setSearch] = useState('')
   const [draggedLead, setDraggedLead] = useState<Lead | null>(null)
 
-  const { data: leadsData } = useLeads({
-    search,
-    per_page: 1000 // Get all leads for pipeline view
-  })
+  const { data: leadsData } = useLeads({ search, per_page: 1000 })
   const changeStatut = useChangeStatut()
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    })
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
   )
 
-  // Group leads by phases
   const leadsByPhase = PHASES_PIPELINE.map(phase => {
     const phaseLeads = leadsData?.leads.filter(lead =>
       phase.statuts.includes(lead.statut)
     ) || []
-
-    // Calculate total value from inscriptions
     const totalValue = phaseLeads.reduce((sum, lead) => {
       const inscriptionValue = lead.inscriptions?.reduce((inscSum, insc) =>
         inscSum + insc.montant_total, 0) || 0
       return sum + inscriptionValue
     }, 0)
-
-    return {
-      phase,
-      leads: phaseLeads,
-      totalValue
-    }
+    return { phase, leads: phaseLeads, totalValue }
   })
 
   const handleDragStart = (event: any) => {
@@ -196,19 +212,15 @@ export default function PipelinePage() {
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     setDraggedLead(null)
-
     if (!over) return
 
     const leadId = active.id as string
     const newPhaseId = over.id as string
-
-    // Find the target phase and its primary status
     const targetPhase = PHASES_PIPELINE.find(p => p.id === newPhaseId)
     if (!targetPhase) return
 
     const newStatut = targetPhase.statuts[0] as StatutLead
     const currentLead = leadsData?.leads.find(l => l.id === leadId)
-
     if (!currentLead || currentLead.statut === newStatut) return
 
     changeStatut.mutate({
@@ -222,39 +234,31 @@ export default function PipelinePage() {
   const totalValue = leadsByPhase.reduce((sum, { totalValue }) => sum + totalValue, 0)
 
   return (
-    <div className="p-6">
+    <div className="space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Pipeline Commercial</h1>
-          <p className="text-gray-600 mt-1">
-            Vue d'ensemble du parcours leads → clients
-          </p>
-        </div>
-        <div className="flex items-center space-x-4 text-sm">
-          <div className="flex items-center text-gray-600">
-            <Users className="w-4 h-4 mr-1" />
-            {totalLeads} leads
+      <PageHeader
+        title="Pipeline Commercial"
+        description="Vue d'ensemble du parcours leads → clients"
+      >
+        <div className="flex items-center gap-4 text-sm text-gray-500">
+          <div className="flex items-center gap-1.5">
+            <Users className="w-4 h-4" />
+            <span className="font-medium text-gray-700">{totalLeads}</span> leads
           </div>
-          <div className="flex items-center text-gray-600">
-            <TrendingUp className="w-4 h-4 mr-1" />
-            {formatEuro(totalValue)} CA
+          <div className="flex items-center gap-1.5">
+            <TrendingUp className="w-4 h-4" />
+            <span className="font-medium text-gray-700">{formatEuro(totalValue)}</span> CA
           </div>
         </div>
-      </div>
+      </PageHeader>
 
-      {/* Search Bar */}
-      <div className="mb-6">
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Rechercher un lead..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
-          />
-        </div>
+      {/* Search */}
+      <div className="max-w-sm">
+        <SearchInput
+          placeholder="Rechercher un lead..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       {/* Pipeline Columns */}
@@ -263,7 +267,7 @@ export default function PipelinePage() {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex space-x-4 overflow-x-auto pb-4">
+        <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
           {leadsByPhase.map(({ phase, leads, totalValue }) => (
             <div key={phase.id} id={phase.id} className="droppable">
               <PipelineColumn
@@ -275,20 +279,19 @@ export default function PipelinePage() {
           ))}
         </div>
 
-        {/* Drag Overlay */}
         <DragOverlay>
           {draggedLead && (
-            <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200 opacity-90">
+            <div className="bg-white p-3 rounded-xl shadow-xl border border-[#2EC6F3]/20 opacity-95 w-[280px]">
               <LeadCard lead={draggedLead} />
             </div>
           )}
         </DragOverlay>
       </DndContext>
 
-      {/* Mobile Warning */}
-      <div className="md:hidden mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <p className="text-sm text-yellow-800">
-          Pour une meilleure expérience du pipeline, utilisez un écran plus large.
+      {/* Mobile tip */}
+      <div className="md:hidden p-3 bg-amber-50 border border-amber-200 rounded-xl">
+        <p className="text-xs text-amber-700">
+          💡 Utilisez un écran plus large pour glisser-déposer les leads.
         </p>
       </div>
     </div>

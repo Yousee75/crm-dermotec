@@ -3,449 +3,269 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
-import { type Formation, type CategorieFormation } from '@/types'
-import { BRAND, COLORS, FORMATIONS_SEED } from '@/lib/constants'
+import { type Formation } from '@/types'
+import { BRAND } from '@/lib/constants'
 import { formatEuro } from '@/lib/utils'
 import {
-  Settings, Building2, GraduationCap, Download, Database,
-  CreditCard, CheckCircle, XCircle, AlertTriangle, Power, PowerOff,
-  ChevronDown, ChevronRight, ExternalLink, Copy, Zap
+  Building2, GraduationCap, Download, Database,
+  CreditCard, CheckCircle, AlertTriangle, Power, PowerOff,
+  ChevronDown, ChevronRight, ExternalLink, Copy
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/utils'
 
-interface SettingsSection {
+interface SectionProps {
   id: string
   title: string
-  icon: any
+  description: string
+  icon: React.ReactNode
+  iconColor: string
   expanded: boolean
+  onToggle: () => void
+  badge?: React.ReactNode
+  children: React.ReactNode
+}
+
+function Section({ title, description, icon, iconColor, expanded, onToggle, badge, children }: SectionProps) {
+  return (
+    <Card padding="none">
+      <button onClick={onToggle} className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50/50 transition">
+        <div className="flex items-center gap-3">
+          <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center', iconColor)}>
+            {icon}
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-[#082545] text-sm">{title}</h3>
+              {badge}
+            </div>
+            <p className="text-xs text-gray-400">{description}</p>
+          </div>
+        </div>
+        {expanded ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
+      </button>
+      {expanded && (
+        <div className="px-4 pb-4 border-t border-gray-100 pt-4 animate-fadeIn">
+          {children}
+        </div>
+      )}
+    </Card>
+  )
 }
 
 export default function SettingsPage() {
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    centre: true,
-    formations: true,
-    export: false,
-    backup: false,
-    supabase: false,
-    stripe: false,
+  const [sections, setSections] = useState<Record<string, boolean>>({
+    centre: true, formations: false, export: false, integrations: false,
   })
+  const toggle = (id: string) => setSections(p => ({ ...p, [id]: !p[id] }))
 
   const supabase = createClient()
   const queryClient = useQueryClient()
 
-  // Fetch formations
   const { data: formations, isLoading: formationsLoading } = useQuery({
     queryKey: ['formations'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('formations')
-        .select('*')
-        .order('sort_order', { ascending: true })
-        .order('nom', { ascending: true })
+      const { data, error } = await supabase.from('formations').select('*').order('sort_order').order('nom')
       if (error) throw error
       return data as Formation[]
     },
   })
 
-  // Fetch stats Supabase
-  const { data: supabaseStats } = useQuery({
-    queryKey: ['supabase-stats'],
+  const { data: stats } = useQuery({
+    queryKey: ['db-stats'],
     queryFn: async () => {
-      const [leads, sessions, inscriptions, financements, commandes, equipe] = await Promise.all([
-        supabase.from('leads').select('*', { count: 'exact', head: true }),
-        supabase.from('sessions').select('*', { count: 'exact', head: true }),
-        supabase.from('inscriptions').select('*', { count: 'exact', head: true }),
-        supabase.from('financements').select('*', { count: 'exact', head: true }),
-        supabase.from('commandes').select('*', { count: 'exact', head: true }),
-        supabase.from('equipe').select('*', { count: 'exact', head: true }),
-      ])
-      return {
-        leads: leads.count || 0,
-        sessions: sessions.count || 0,
-        inscriptions: inscriptions.count || 0,
-        financements: financements.count || 0,
-        commandes: commandes.count || 0,
-        equipe: equipe.count || 0,
-      }
+      const tables = ['leads', 'sessions', 'inscriptions', 'financements', 'commandes', 'equipe'] as const
+      const results = await Promise.all(tables.map(t => supabase.from(t).select('*', { count: 'exact', head: true })))
+      return Object.fromEntries(tables.map((t, i) => [t, results[i].count || 0]))
     },
   })
 
-  // Toggle formation active
-  const toggleFormationMutation = useMutation({
+  const toggleFormation = useMutation({
     mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
-      const { error } = await supabase
-        .from('formations')
-        .update({ is_active, updated_at: new Date().toISOString() })
-        .eq('id', id)
+      const { error } = await supabase.from('formations').update({ is_active, updated_at: new Date().toISOString() }).eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['formations'] })
-      toast.success('Formation mise à jour')
-    },
-    onError: () => toast.error('Erreur lors de la mise à jour'),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['formations'] }); toast.success('Mis à jour') },
+    onError: () => toast.error('Erreur'),
   })
-
-  const toggleSection = (sectionId: string) => {
-    setExpandedSections(prev => ({ ...prev, [sectionId]: !prev[sectionId] }))
-  }
 
   const exportLeads = async (format: 'csv' | 'json') => {
     try {
       const { data, error } = await supabase.from('leads').select('*')
       if (error) throw error
-
-      let content: string
-      let filename: string
-      let mimeType: string
-
+      let content: string, filename: string, mimeType: string
       if (format === 'csv') {
         const headers = Object.keys(data[0] || {}).join(',')
         const rows = data.map(row => Object.values(row).map(v => `"${v}"`).join(','))
-        content = [headers, ...rows].join('\n')
-        filename = `leads-${new Date().toISOString().split('T')[0]}.csv`
-        mimeType = 'text/csv'
+        content = [headers, ...rows].join('\n'); filename = `leads-${new Date().toISOString().split('T')[0]}.csv`; mimeType = 'text/csv'
       } else {
-        content = JSON.stringify(data, null, 2)
-        filename = `leads-${new Date().toISOString().split('T')[0]}.json`
-        mimeType = 'application/json'
+        content = JSON.stringify(data, null, 2); filename = `leads-${new Date().toISOString().split('T')[0]}.json`; mimeType = 'application/json'
       }
-
       const blob = new Blob([content], { type: mimeType })
       const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = filename
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-
+      const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url)
       toast.success(`Export ${format.toUpperCase()} téléchargé`)
-    } catch (error) {
-      toast.error('Erreur lors de l\'export')
-    }
+    } catch { toast.error("Erreur lors de l'export") }
   }
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-    toast.success('Copié !')
-  }
+  const copy = (text: string) => { navigator.clipboard.writeText(text); toast.success('Copié') }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
-          Paramètres
-        </h1>
-        <p className="text-sm text-gray-500">Configuration du centre et du système</p>
-      </div>
+    <div className="space-y-5 max-w-3xl">
+      <PageHeader title="Paramètres" description="Configuration du centre et du système" />
 
-      {/* Sections */}
-      <div className="space-y-4">
-
-        {/* 1. Informations Centre */}
-        <div className="bg-white rounded-xl border">
-          <button
-            onClick={() => toggleSection('centre')}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center gap-3">
-              <Building2 className="w-5 h-5 text-blue-500" />
-              <div>
-                <h3 className="font-semibold text-[#082545]">Informations Centre</h3>
-                <p className="text-xs text-gray-500">Données de l'organisme de formation</p>
+      <div className="space-y-3">
+        {/* Centre */}
+        <Section
+          id="centre" title="Informations Centre" description="Données de l'organisme"
+          icon={<Building2 className="w-4 h-4 text-blue-500" />} iconColor="bg-blue-50"
+          expanded={sections.centre} onToggle={() => toggle('centre')}
+          badge={BRAND.qualiopi ? <Badge variant="success" size="sm"><CheckCircle className="w-3 h-3" /> Qualiopi</Badge> : undefined}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { label: 'Nom', value: BRAND.name },
+              { label: 'Slogan', value: BRAND.tagline },
+              { label: 'Téléphone', value: BRAND.phone, copy: true },
+              { label: 'Email', value: BRAND.email, copy: true },
+              { label: 'Adresse', value: `${BRAND.address}, ${BRAND.zipCode} ${BRAND.city}` },
+            ].map(item => (
+              <div key={item.label}>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{item.label}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-sm font-medium text-gray-800">{item.value}</p>
+                  {item.copy && (
+                    <button onClick={() => copy(item.value)} className="p-0.5 hover:bg-gray-100 rounded text-gray-300 hover:text-gray-500 transition">
+                      <Copy className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-            {expandedSections.centre ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-          </button>
+            ))}
+          </div>
+        </Section>
 
-          {expandedSections.centre && (
-            <div className="p-4 pt-0 border-t border-gray-100">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs text-gray-500">Nom</label>
-                  <p className="font-medium">{BRAND.name}</p>
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500">Slogan</label>
-                  <p className="font-medium">{BRAND.tagline}</p>
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500">Téléphone</label>
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium">{BRAND.phone}</p>
-                    <button onClick={() => copyToClipboard(BRAND.phone)} className="p-1 hover:bg-gray-100 rounded">
-                      <Copy className="w-3 h-3" />
-                    </button>
+        {/* Formations */}
+        <Section
+          id="formations" title="Catalogue Formations" description={`${formations?.length || 0} formations`}
+          icon={<GraduationCap className="w-4 h-4 text-pink-500" />} iconColor="bg-pink-50"
+          expanded={sections.formations} onToggle={() => toggle('formations')}
+          badge={<Badge variant="default" size="sm">{formations?.filter(f => f.is_active).length || 0} actives</Badge>}
+        >
+          {formationsLoading ? (
+            <p className="text-sm text-gray-400 text-center py-4">Chargement...</p>
+          ) : (
+            <div className="space-y-2">
+              {formations?.map(f => (
+                <div key={f.id} className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100/80 transition group">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-sm font-medium text-[#082545] truncate">{f.nom}</h4>
+                      <Badge variant="default" size="sm">{f.categorie}</Badge>
+                    </div>
+                    <div className="flex gap-3 mt-0.5 text-[11px] text-gray-400">
+                      <span>{f.duree_jours}j ({f.duree_heures}h)</span>
+                      <span>{formatEuro(f.prix_ht)} HT</span>
+                      <span>Niv. {f.niveau}</span>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500">Email</label>
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium">{BRAND.email}</p>
-                    <button onClick={() => copyToClipboard(BRAND.email)} className="p-1 hover:bg-gray-100 rounded">
-                      <Copy className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500">Adresse</label>
-                  <p className="font-medium">{BRAND.address}, {BRAND.zipCode} {BRAND.city}</p>
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500">Certification</label>
-                  <div className="flex items-center gap-2">
-                    {BRAND.qualiopi ? (
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                    ) : (
-                      <XCircle className="w-4 h-4 text-red-500" />
+                  <button
+                    onClick={() => toggleFormation.mutate({ id: f.id, is_active: !f.is_active })}
+                    className={cn(
+                      'p-1.5 rounded-lg transition',
+                      f.is_active ? 'text-green-500 hover:bg-green-100' : 'text-gray-300 hover:bg-gray-200'
                     )}
-                    <span className={BRAND.qualiopi ? 'text-green-600' : 'text-red-600'}>
-                      Qualiopi {BRAND.qualiopi ? 'certifié' : 'non certifié'}
-                    </span>
-                  </div>
+                  >
+                    {f.is_active ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
+                  </button>
                 </div>
-              </div>
+              ))}
             </div>
           )}
-        </div>
+        </Section>
 
-        {/* 2. Catalogue Formations */}
-        <div className="bg-white rounded-xl border">
-          <button
-            onClick={() => toggleSection('formations')}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center gap-3">
-              <GraduationCap className="w-5 h-5 text-pink-500" />
+        {/* Export */}
+        <Section
+          id="export" title="Export & Données" description="Télécharger ou sauvegarder"
+          icon={<Download className="w-4 h-4 text-green-500" />} iconColor="bg-green-50"
+          expanded={sections.export} onToggle={() => toggle('export')}
+        >
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
               <div>
-                <h3 className="font-semibold text-[#082545]">Catalogue Formations</h3>
-                <p className="text-xs text-gray-500">{formations?.length || 0} formations disponibles</p>
+                <p className="text-sm font-medium text-gray-800">Export Leads</p>
+                <p className="text-xs text-gray-400">Toutes les données leads</p>
+              </div>
+              <div className="flex gap-1.5">
+                <Button variant="outline" size="sm" onClick={() => exportLeads('csv')}>CSV</Button>
+                <Button variant="outline" size="sm" onClick={() => exportLeads('json')}>JSON</Button>
               </div>
             </div>
-            {expandedSections.formations ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-          </button>
 
-          {expandedSections.formations && (
-            <div className="p-4 pt-0 border-t border-gray-100">
-              {formationsLoading ? (
-                <p className="text-center py-4 text-gray-400">Chargement...</p>
-              ) : !formations?.length ? (
-                <p className="text-center py-4 text-gray-400">Aucune formation</p>
-              ) : (
-                <div className="space-y-3">
-                  {formations.map(formation => (
-                    <div key={formation.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3">
-                          <h4 className="font-medium text-[#082545]">{formation.nom}</h4>
-                          <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
-                            {formation.categorie}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
-                          <span>{formation.duree_jours}j ({formation.duree_heures}h)</span>
-                          <span>{formatEuro(formation.prix_ht)} HT</span>
-                          <span>Niveau: {formation.niveau}</span>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => toggleFormationMutation.mutate({
-                          id: formation.id,
-                          is_active: !formation.is_active
-                        })}
-                        className={`p-2 rounded-lg transition ${
-                          formation.is_active
-                            ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                            : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                        }`}
-                        title={formation.is_active ? 'Désactiver' : 'Activer'}
-                      >
-                        {formation.is_active ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
-                      </button>
+            {/* DB stats — info utile, pas de bruit */}
+            {stats && (
+              <div>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-2">Base de données</p>
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                  {Object.entries(stats).map(([table, count]) => (
+                    <div key={table} className="text-center p-2 bg-gray-50 rounded-lg">
+                      <p className="text-lg font-bold text-[#082545]">{count}</p>
+                      <p className="text-[10px] text-gray-400 capitalize">{table}</p>
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* 3. Export */}
-        <div className="bg-white rounded-xl border">
-          <button
-            onClick={() => toggleSection('export')}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center gap-3">
-              <Download className="w-5 h-5 text-green-500" />
-              <div>
-                <h3 className="font-semibold text-[#082545]">Export Données</h3>
-                <p className="text-xs text-gray-500">Télécharger les leads et autres données</p>
               </div>
-            </div>
-            {expandedSections.export ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-          </button>
+            )}
+          </div>
+        </Section>
 
-          {expandedSections.export && (
-            <div className="p-4 pt-0 border-t border-gray-100">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Export Leads</h4>
-                    <p className="text-xs text-gray-500">Tous les leads avec leurs informations complètes</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => exportLeads('csv')}
-                      className="px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg text-sm transition"
-                    >
-                      CSV
-                    </button>
-                    <button
-                      onClick={() => exportLeads('json')}
-                      className="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg text-sm transition"
-                    >
-                      JSON
-                    </button>
-                  </div>
+        {/* Intégrations — Supabase + Stripe en un seul bloc */}
+        <Section
+          id="integrations" title="Intégrations" description="Supabase & Stripe"
+          icon={<Database className="w-4 h-4 text-violet-500" />} iconColor="bg-violet-50"
+          expanded={sections.integrations} onToggle={() => toggle('integrations')}
+          badge={<Badge variant="success" size="sm" dot>Connecté</Badge>}
+        >
+          <div className="space-y-4">
+            {/* Supabase */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center">
+                  <Database className="w-4 h-4 text-green-500" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Supabase</p>
+                  <p className="text-xs text-gray-400">Base de données PostgreSQL</p>
                 </div>
               </div>
+              <Badge variant="success" size="sm" dot>Actif</Badge>
             </div>
-          )}
-        </div>
 
-        {/* 4. Backup */}
-        <div className="bg-white rounded-xl border">
-          <button
-            onClick={() => toggleSection('backup')}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center gap-3">
-              <Database className="w-5 h-5 text-purple-500" />
-              <div>
-                <h3 className="font-semibold text-[#082545]">Sauvegarde</h3>
-                <p className="text-xs text-gray-500">Backup complet des données</p>
-              </div>
-            </div>
-            {expandedSections.backup ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-          </button>
-
-          {expandedSections.backup && (
-            <div className="p-4 pt-0 border-t border-gray-100">
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
-                <div className="flex gap-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5" />
-                  <div className="text-sm">
-                    <p className="font-medium text-amber-800">Attention</p>
-                    <p className="text-amber-700">Cette fonctionnalité nécessite des permissions admin et peut prendre du temps.</p>
-                  </div>
+            {/* Stripe */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
+                  <CreditCard className="w-4 h-4 text-indigo-500" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Stripe</p>
+                  <p className="text-xs text-gray-400">Paiements & facturation</p>
                 </div>
               </div>
-              <button className="w-full py-2 px-4 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg transition">
-                <Download className="w-4 h-4 inline mr-2" />
-                Télécharger backup complet
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* 5. Statut Supabase */}
-        <div className="bg-white rounded-xl border">
-          <button
-            onClick={() => toggleSection('supabase')}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center gap-3">
-              <Database className="w-5 h-5 text-green-500" />
-              <div>
-                <h3 className="font-semibold text-[#082545]">Statut Supabase</h3>
-                <p className="text-xs text-gray-500">Connexion base de données</p>
-              </div>
-            </div>
-            {expandedSections.supabase ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-          </button>
-
-          {expandedSections.supabase && (
-            <div className="p-4 pt-0 border-t border-gray-100">
-              <div className="flex items-center gap-2 mb-4">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm font-medium text-green-600">Connexion active</span>
-              </div>
-
-              {supabaseStats && (
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-gray-50 rounded p-2 text-center">
-                    <p className="text-xl font-bold text-blue-600">{supabaseStats.leads}</p>
-                    <p className="text-xs text-gray-500">Leads</p>
-                  </div>
-                  <div className="bg-gray-50 rounded p-2 text-center">
-                    <p className="text-xl font-bold text-purple-600">{supabaseStats.sessions}</p>
-                    <p className="text-xs text-gray-500">Sessions</p>
-                  </div>
-                  <div className="bg-gray-50 rounded p-2 text-center">
-                    <p className="text-xl font-bold text-green-600">{supabaseStats.inscriptions}</p>
-                    <p className="text-xs text-gray-500">Inscriptions</p>
-                  </div>
-                  <div className="bg-gray-50 rounded p-2 text-center">
-                    <p className="text-xl font-bold text-orange-600">{supabaseStats.financements}</p>
-                    <p className="text-xs text-gray-500">Financements</p>
-                  </div>
-                  <div className="bg-gray-50 rounded p-2 text-center">
-                    <p className="text-xl font-bold text-pink-600">{supabaseStats.commandes}</p>
-                    <p className="text-xs text-gray-500">Commandes</p>
-                  </div>
-                  <div className="bg-gray-50 rounded p-2 text-center">
-                    <p className="text-xl font-bold text-indigo-600">{supabaseStats.equipe}</p>
-                    <p className="text-xs text-gray-500">Équipe</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* 6. Statut Stripe */}
-        <div className="bg-white rounded-xl border">
-          <button
-            onClick={() => toggleSection('stripe')}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-indigo-500" />
-              <div>
-                <h3 className="font-semibold text-[#082545]">Statut Stripe</h3>
-                <p className="text-xs text-gray-500">Intégration paiements</p>
-              </div>
-            </div>
-            {expandedSections.stripe ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-          </button>
-
-          {expandedSections.stripe && (
-            <div className="p-4 pt-0 border-t border-gray-100">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Mode</span>
-                  <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full">Test</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Webhook</span>
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                </div>
-                <a
-                  href="https://dashboard.stripe.com"
-                  target="_blank"
-                  className="flex items-center gap-2 text-sm text-[#2EC6F3] hover:text-[#1BA8D4]"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Dashboard Stripe
+              <div className="flex items-center gap-2">
+                <Badge variant="warning" size="sm">Mode test</Badge>
+                <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer"
+                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition">
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        </Section>
       </div>
     </div>
   )

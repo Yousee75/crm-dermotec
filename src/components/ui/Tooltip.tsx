@@ -13,7 +13,7 @@ interface TooltipProps {
 
 function Tooltip({ content, children, side = 'top', className, delay = 200 }: TooltipProps) {
   const [visible, setVisible] = useState(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   const show = () => {
     timeoutRef.current = setTimeout(() => setVisible(true), delay)
