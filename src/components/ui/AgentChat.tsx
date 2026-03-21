@@ -260,7 +260,7 @@ export function AgentChat() {
   const currentLeadId = leadIdMatch ? leadIdMatch[1] : undefined
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const chatHelpers = useChat({
+  const chatHelpers = (useChat as any)({
     api: '/api/ai/agent-v2',
     body: { leadId: currentLeadId },
     initialMessages: [{
@@ -270,10 +270,10 @@ export function AgentChat() {
         ? 'Je suis sur la fiche de ce lead. Que veux-tu savoir ?'
         : 'Pose-moi une question sur un lead, une objection, un financement.',
     }],
-    onError: (err) => {
+    onError: (err: any) => {
       console.error('[AgentChat] Error:', err.message)
     },
-  }) as any // AI SDK v6 types changed — cast helpers
+  }) // AI SDK v6 types changed — cast helpers
   const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages, reload } = chatHelpers
 
   useEffect(() => {

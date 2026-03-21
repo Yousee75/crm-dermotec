@@ -62,21 +62,16 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={5} />
+    return <SkeletonTable rows={5} cols={5} />
   }
 
   if (clients.length === 0 && !search) {
     return (
       <EmptyState
-        icon={Building2}
+        icon={<Building2 className="w-4 h-4" />}
         title="Aucun client"
         description="Les prospects convertis apparaîtront ici en tant que clients actifs."
-        action={
-          <Button onClick={onCreateClient} className="mt-4" variant="outline">
-            <Plus className="w-4 h-4 mr-2" />
-            Ajouter un client
-          </Button>
-        }
+        action={{ label: 'Ajouter un client', onClick: () => onCreateClient?.(), icon: <Plus className="w-4 h-4" /> }}
       />
     )
   }
@@ -87,7 +82,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
       <div className="flex justify-between items-center">
         <SearchInput
           value={search}
-          onChange={setSearch}
+          onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
           placeholder="Rechercher un client..."
           className="w-80"
         />
@@ -100,7 +95,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
       {/* Liste des clients */}
       {clients.length === 0 ? (
         <EmptyState
-          icon={Building2}
+          icon={<Building2 className="w-4 h-4" />}
           title="Aucun résultat"
           description="Aucun client ne correspond à votre recherche."
         />
@@ -141,7 +136,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
                               {client.nom}
                             </p>
                             <div className="flex items-center gap-2 mt-1">
-                              <Badge variant="outline" size="xs">
+                              <Badge variant="outline" size="sm">
                                 {client.secteur || 'Esthétique'}
                               </Badge>
                             </div>

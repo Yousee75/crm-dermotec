@@ -25,7 +25,7 @@ const EShopTab = dynamic(() => import('./tabs/EShopTab'), {
 export default function GestionPage() {
   const t = useTranslations('gestion')
   const searchParams = useSearchParams()
-  const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'financement')
+  const [activeTab, setActiveTab] = useState(searchParams?.get('tab') || 'financement')
 
   // Sync URL avec l'onglet actif
   useEffect(() => {
@@ -67,7 +67,6 @@ export default function GestionPage() {
       <PageHeader
         title="Gestion"
         description="Pilotez le financement, la facturation et les ventes de votre centre de formation."
-        icon={CreditCard}
       />
 
       <TabBar

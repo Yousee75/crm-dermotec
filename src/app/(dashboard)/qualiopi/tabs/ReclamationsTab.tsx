@@ -116,7 +116,7 @@ export default function ReclamationsTab() {
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={7} />
+    return <SkeletonTable rows={5} cols={7} />
   }
 
   // Calculs de stats
@@ -197,7 +197,7 @@ export default function ReclamationsTab() {
         <div className="flex gap-3">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
             placeholder="Rechercher une réclamation..."
             className="w-80"
           />
@@ -234,7 +234,7 @@ export default function ReclamationsTab() {
       {/* Table des réclamations */}
       {reclamations.length === 0 ? (
         <EmptyState
-          icon={MessageSquare}
+          icon={<MessageSquare className="w-4 h-4" />}
           title={search || typeFilter || statutFilter ? "Aucune réclamation trouvée" : "Aucune réclamation"}
           description={search || typeFilter || statutFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Les réclamations d'apprenants apparaîtront ici."}
         />
@@ -314,7 +314,7 @@ export default function ReclamationsTab() {
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <Button size="xs" variant="outline">
+                        <Button size="sm" variant="outline">
                           Voir détail
                         </Button>
                       </td>

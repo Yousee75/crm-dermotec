@@ -29,7 +29,7 @@ const ReclamationsTab = dynamic(() => import('./tabs/ReclamationsTab'), {
 export default function QualiopiPage() {
   const t = useTranslations('qualiopi')
   const searchParams = useSearchParams()
-  const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'indicateurs')
+  const [activeTab, setActiveTab] = useState(searchParams?.get('tab') || 'indicateurs')
 
   // Sync URL avec l'onglet actif
   useEffect(() => {
@@ -75,7 +75,6 @@ export default function QualiopiPage() {
       <PageHeader
         title="Qualiopi"
         description="Suivez vos 32 indicateurs qualité, gérez le BPF et les réclamations pour maintenir votre certification."
-        icon={Award}
       />
 
       <TabBar

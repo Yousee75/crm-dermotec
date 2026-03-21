@@ -109,7 +109,7 @@ export default function FacturationTab() {
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={7} />
+    return <SkeletonTable rows={5} cols={7} />
   }
 
   // Calculs de stats
@@ -170,7 +170,7 @@ export default function FacturationTab() {
         <div className="flex gap-3">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
             placeholder="Rechercher une facture..."
             className="w-80"
           />
@@ -201,7 +201,7 @@ export default function FacturationTab() {
       {/* Table des factures */}
       {factures.length === 0 ? (
         <EmptyState
-          icon={Receipt}
+          icon={<Receipt className="w-4 h-4" />}
           title="Aucune facture"
           description="Les factures de formation apparaîtront ici une fois émises."
         />
@@ -281,11 +281,11 @@ export default function FacturationTab() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <Button size="xs" variant="outline">
+                          <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
                             Voir
                           </Button>
-                          <Button size="xs" variant="outline">
+                          <Button size="sm" variant="outline">
                             <Download className="w-3 h-3 mr-1" />
                             PDF
                           </Button>

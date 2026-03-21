@@ -41,15 +41,15 @@ export default function PipelineTab() {
   })
 
   if (isLoading) {
-    return <SkeletonTable rows={4} columns={2} />
+    return <SkeletonTable rows={4} cols={2} />
   }
 
-  const leads = data?.data || []
+  const leads = data?.leads || []
 
   if (leads.length === 0) {
     return (
       <EmptyState
-        icon={Kanban}
+        icon={<Kanban className="w-4 h-4" />}
         title="Pipeline vide"
         description="Aucun prospect dans le pipeline pour le moment."
       />
@@ -57,17 +57,17 @@ export default function PipelineTab() {
   }
 
   // Grouper par statut
-  const leadsByStatut = leads.reduce((acc, lead) => {
+  const leadsByStatut = leads.reduce((acc: any, lead: any) => {
     const statut = lead.statut || 'nouveau'
     if (!acc[statut]) acc[statut] = []
     acc[statut].push(lead)
     return acc
-  }, {} as Record<string, typeof leads>)
+  }, {} as Record<string, any[]>)
 
   // Calculer le CA potentiel
   const caPotentiel = leads
-    .filter(l => l.statut && ['qualifie', 'devis_envoye', 'financement'].includes(l.statut))
-    .reduce((sum, l) => sum + (l.ca_potentiel || 2500), 0) // 2500 = prix moyen formation
+    .filter((l: any) => l.statut && ['qualifie', 'devis_envoye', 'financement'].includes(l.statut))
+    .reduce((sum: any, l: any) => sum + (l.ca_potentiel || 2500), 0) // 2500 = prix moyen formation
 
   return (
     <div className="space-y-6">
@@ -114,7 +114,7 @@ export default function PipelineTab() {
 
       {/* Statuts du pipeline */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-        {STATUTS_LEAD.map(statut => {
+        {(Object.keys(STATUT_LABELS) as Array<keyof typeof STATUT_LABELS>).map((statut) => {
           const leads = leadsByStatut[statut] || []
           const count = leads.length
 
@@ -135,7 +135,7 @@ export default function PipelineTab() {
               </div>
 
               <div className="space-y-2 max-h-48 overflow-y-auto">
-                {leads.slice(0, 5).map(lead => (
+                {leads.slice(0, 5).map((lead: any) => (
                   <Link
                     key={lead.id}
                     href={`/lead/${lead.id}`}

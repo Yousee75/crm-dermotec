@@ -84,7 +84,6 @@ export default function ContactsPage() {
       <PageHeader
         title="Contacts"
         description="Gérez vos prospects, clients et apprenants depuis une vue unifiée."
-        icon={Users}
       />
 
       <TabBar

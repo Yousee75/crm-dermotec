@@ -90,7 +90,7 @@ export default function FinancementTab() {
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={6} />
+    return <SkeletonTable rows={5} cols={6} />
   }
 
   // Calculs de stats
@@ -151,7 +151,7 @@ export default function FinancementTab() {
         <div className="flex gap-3">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
             placeholder="Rechercher un dossier..."
             className="w-80"
           />
@@ -176,7 +176,7 @@ export default function FinancementTab() {
       {/* Table des financements */}
       {financements.length === 0 ? (
         <EmptyState
-          icon={CreditCard}
+          icon={<CreditCard className="w-4 h-4" />}
           title="Aucun dossier de financement"
           description="Les demandes de financement OPCO, CPF et Pôle Emploi apparaîtront ici."
         />

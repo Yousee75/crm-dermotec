@@ -32,34 +32,29 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
     per_page: 10, // Limité pour la tab
   })
 
-  const statutOptions: FilterOption[] = STATUTS_LEAD.map(s => ({
+  const statutOptions = Object.keys(STATUTS_LEAD).map(s => ({
     value: s,
     label: t(`statut.${s}`)
   }))
 
-  const sourceOptions: FilterOption[] = ['formulaire', 'linkedin', 'telephone', 'referral', 'publicite'].map(s => ({
+  const sourceOptions = ['formulaire', 'linkedin', 'telephone', 'referral', 'publicite'].map(s => ({
     value: s,
     label: t(`source.${s}`)
   }))
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={5} />
+    return <SkeletonTable rows={5} cols={5} />
   }
 
-  const leads = data?.data || []
+  const leads = data?.leads || []
 
   if (leads.length === 0 && !search && statutFilter.length === 0) {
     return (
       <EmptyState
-        icon={Users}
+        icon={<Users className="w-4 h-4" />}
         title="Aucun prospect"
         description="Commencez par créer votre premier prospect pour développer votre portefeuille client."
-        action={
-          <Button onClick={onCreateLead} className="mt-4">
-            <Plus className="w-4 h-4 mr-2" />
-            Créer un prospect
-          </Button>
-        }
+        action={{ label: 'Créer un prospect', onClick: () => onCreateLead?.(), icon: <Plus className="w-4 h-4" /> }}
       />
     )
   }
@@ -71,25 +66,27 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
         <div className="flex flex-col sm:flex-row gap-3">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
             placeholder="Rechercher un prospect..."
             className="w-full sm:w-80"
           />
           <div className="flex gap-2">
-            <FilterDropdown
-              label="Statut"
-              options={statutOptions}
-              selectedValues={statutFilter}
-              onChange={setStatutFilter}
-              multiSelect
-            />
-            <FilterDropdown
-              label="Source"
-              options={sourceOptions}
-              selectedValues={sourceFilter}
-              onChange={setSourceFilter}
-              multiSelect
-            />
+            <select
+              value={statutFilter[0] || ''}
+              onChange={(e) => setStatutFilter(e.target.value ? [e.target.value as StatutLead] : [])}
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            >
+              <option value="">Tous les statuts</option>
+              {statutOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+            <select
+              value={sourceFilter[0] || ''}
+              onChange={(e) => setSourceFilter(e.target.value ? [e.target.value as SourceLead] : [])}
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            >
+              <option value="">Toutes les sources</option>
+              {sourceOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
           </div>
         </div>
         <div className="flex gap-2">
@@ -128,7 +125,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {leads.map((lead) => (
+              {leads.map((lead: any) => (
                 <tr key={lead.id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4">
                     <Link href={`/lead/${lead.id}`} className="group block">
@@ -146,13 +143,13 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
                     </Link>
                   </td>
                   <td className="px-6 py-4">
-                    <ScoreChip score={lead.score || 0} size="sm" />
+                    <ScoreChip score={lead.score || 0} />
                   </td>
                   <td className="px-6 py-4">
-                    <StatusBadge status={lead.statut} size="sm" />
+                    <StatusBadge status={lead.statut} label={lead.statut} color="" />
                   </td>
                   <td className="px-6 py-4">
-                    <SourceBadge source={lead.source} size="sm" />
+                    <SourceBadge source={lead.source} />
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500">
                     {new Date(lead.created_at).toLocaleDateString('fr-FR')}

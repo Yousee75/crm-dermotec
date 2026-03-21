@@ -119,7 +119,7 @@ export default function EquipeTab() {
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={6} />
+    return <SkeletonTable rows={5} cols={6} />
   }
 
   // Calculs de stats
@@ -206,7 +206,7 @@ export default function EquipeTab() {
         <div className="flex gap-3">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
             placeholder="Rechercher un membre..."
             className="w-80"
           />
@@ -231,7 +231,7 @@ export default function EquipeTab() {
       {/* Liste de l'équipe */}
       {equipe.length === 0 ? (
         <EmptyState
-          icon={Users}
+          icon={<Users className="w-4 h-4" />}
           title={search || roleFilter ? "Aucun membre trouvé" : "Aucun membre d'équipe"}
           description={search || roleFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Commencez par inviter des membres à rejoindre votre équipe."}
         />
@@ -324,12 +324,12 @@ export default function EquipeTab() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <Button size="xs" variant="outline">
+                          <Button size="sm" variant="outline">
                             <Settings className="w-3 h-3 mr-1" />
                             Modifier
                           </Button>
                           {membre.statut === 'invite_pending' && (
-                            <Button size="xs" variant="outline">
+                            <Button size="sm" variant="outline">
                               <Mail className="w-3 h-3 mr-1" />
                               Renvoyer
                             </Button>

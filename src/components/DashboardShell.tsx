@@ -7,7 +7,7 @@ import {
   BarChart3, ShoppingBag, Settings, Award, Phone, LogOut,
   ChevronLeft, Menu, Zap, ChevronRight, Bell, Search,
   Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle, Shield, Eye,
-  Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart
+  Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart, ChevronDown
 } from 'lucide-react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
@@ -37,21 +37,61 @@ interface NavItem {
   badgeVariant?: 'primary' | 'error' | 'warning'
 }
 
-// Sidebar simplifiée : 7 entrées, chaque page a des onglets internes
-// Un OF de 3-5 personnes n'a pas besoin de 20 pages
-const NAV_SECTIONS: NavSection[] = [
+// Sidebar : items principaux toujours visibles + sections dépliables
+// Dashboard et Sessions = quotidien, toujours visible
+// Le reste se déplie/replie, état mémorisé en localStorage
+
+interface CollapsibleSection {
+  id: string
+  label: string
+  icon: React.ElementType
+  href: string // page principale de la section
+  children: NavItem[]
+}
+
+const TOP_ITEMS: NavItem[] = [
+  { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/sessions', icon: Calendar, label: 'Sessions' },
+]
+
+const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = [
   {
-    items: [
-      { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
-      { href: '/sessions', icon: Calendar, label: 'Sessions' },
-      { href: '/contacts', icon: Users, label: 'Contacts' },
-      { href: '/gestion', icon: CreditCard, label: 'Gestion' },
-      { href: '/qualiopi', icon: Award, label: 'Qualiopi' },
+    id: 'contacts', label: 'Contacts', icon: Users, href: '/contacts',
+    children: [
+      { href: '/leads', icon: UserPlus, label: 'Prospects' },
+      { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
+      { href: '/clients', icon: Building2, label: 'Clients' },
+      { href: '/apprenants', icon: GraduationCap, label: 'Apprenants' },
+    ]
+  },
+  {
+    id: 'gestion', label: 'Gestion', icon: CreditCard, href: '/gestion',
+    children: [
+      { href: '/financement', icon: CreditCard, label: 'Financement' },
+      { href: '/facturation', icon: Receipt, label: 'Facturation' },
+      { href: '/commandes', icon: ShoppingBag, label: 'E-Shop' },
+    ]
+  },
+  {
+    id: 'qualite', label: 'Qualité', icon: Award, href: '/qualiopi',
+    children: [
+      { href: '/qualite', icon: Award, label: 'Qualiopi' },
+      { href: '/bpf', icon: FileBarChart, label: 'BPF' },
       { href: '/analytics', icon: BarChart3, label: 'Analytics' },
-      { href: '/parametres', icon: Settings, label: 'Paramètres' },
+    ]
+  },
+  {
+    id: 'admin', label: 'Admin', icon: Settings, href: '/parametres',
+    children: [
+      { href: '/equipe', icon: Users, label: 'Équipe' },
+      { href: '/audit', icon: Eye, label: 'Audit' },
+      { href: '/settings', icon: Settings, label: 'Paramètres' },
     ]
   },
 ]
+
+// Backward compat : garder NAV_SECTIONS pour le code existant
+const NAV_SECTIONS: NavSection[] = [{ items: TOP_ITEMS }]
 
 function SidebarLink({ item, collapsed, isActive }: { item: NavItem; collapsed: boolean; isActive: boolean }) {
   const content = (
@@ -102,6 +142,15 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showShortcuts, setShowShortcuts] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
+
+  // Sections dépliables — état persisté en localStorage
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(() => {
+    if (typeof window === 'undefined') return new Set<string>()
+    try {
+      const saved = localStorage.getItem('sidebar-expanded')
+      return saved ? new Set(JSON.parse(saved)) : new Set<string>()
+    } catch { return new Set<string>() }
+  })
   const router = useRouter()
   const supabase = createClient()
 
@@ -135,38 +184,40 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     router.push('/login')
   }
 
-  const isActive = (href: string) => {
+  const isActive = (href: string): boolean => {
     if (pathname === href) return true
     if (href === '/') return false
 
+    const p = pathname ?? ''
+
     // Gestion des sous-routes pour les pages à onglets
     if (href === '/contacts') {
-      return pathname?.startsWith('/leads') ||
-             pathname?.startsWith('/clients') ||
-             pathname?.startsWith('/apprenants') ||
-             pathname?.startsWith('/pipeline') ||
-             pathname?.startsWith('/lead/') ||
-             pathname?.startsWith('/contacts')
+      return p.startsWith('/leads') ||
+             p.startsWith('/clients') ||
+             p.startsWith('/apprenants') ||
+             p.startsWith('/pipeline') ||
+             p.startsWith('/lead/') ||
+             p.startsWith('/contacts')
     }
     if (href === '/gestion') {
-      return pathname?.startsWith('/financement') ||
-             pathname?.startsWith('/facturation') ||
-             pathname?.startsWith('/commandes') ||
-             pathname?.startsWith('/gestion')
+      return p.startsWith('/financement') ||
+             p.startsWith('/facturation') ||
+             p.startsWith('/commandes') ||
+             p.startsWith('/gestion')
     }
     if (href === '/qualiopi') {
-      return pathname?.startsWith('/qualite') ||
-             pathname?.startsWith('/bpf') ||
-             pathname?.startsWith('/qualiopi')
+      return p.startsWith('/qualite') ||
+             p.startsWith('/bpf') ||
+             p.startsWith('/qualiopi')
     }
     if (href === '/parametres') {
-      return pathname?.startsWith('/settings') ||
-             pathname?.startsWith('/equipe') ||
-             pathname?.startsWith('/audit') ||
-             pathname?.startsWith('/parametres')
+      return p.startsWith('/settings') ||
+             p.startsWith('/equipe') ||
+             p.startsWith('/audit') ||
+             p.startsWith('/parametres')
     }
 
-    return (pathname ?? '').startsWith(href)
+    return p.startsWith(href)
   }
 
   return (
@@ -214,30 +265,63 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           )}
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 py-3 overflow-y-auto space-y-4">
-          {NAV_SECTIONS.map((section, i) => (
-            <div key={i}>
-              {section.label && !collapsed && (
-                <p className="px-5 mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
-                  {section.label}
-                </p>
-              )}
-              {collapsed && section.label && (
-                <div className="mx-auto w-6 h-px bg-white/10 my-2" />
-              )}
-              <div className="space-y-0.5">
-                {section.items.map((item) => (
-                  <SidebarLink
-                    key={item.href}
-                    item={item}
-                    collapsed={collapsed}
-                    isActive={isActive(item.href)}
-                  />
-                ))}
+        {/* Navigation — items fixes + sections dépliables */}
+        <nav className="flex-1 py-3 overflow-y-auto space-y-1">
+          {/* Items toujours visibles (Dashboard, Sessions) */}
+          <div className="space-y-0.5">
+            {TOP_ITEMS.map((item) => (
+              <SidebarLink key={item.href} item={item} collapsed={collapsed} isActive={isActive(item.href)} />
+            ))}
+          </div>
+
+          {/* Séparateur */}
+          <div className="mx-3 h-px bg-white/[0.06] my-2" />
+
+          {/* Sections dépliables */}
+          {COLLAPSIBLE_SECTIONS.map((section) => {
+            const sectionActive = section.children.some(c => isActive(c.href)) || isActive(section.href)
+            const isOpen = expandedSections.has(section.id) || sectionActive
+
+            return (
+              <div key={section.id}>
+                {/* Header de section (cliquable pour déplier) */}
+                <button
+                  onClick={() => {
+                    setExpandedSections(prev => {
+                      const next = new Set(prev)
+                      if (next.has(section.id)) next.delete(section.id)
+                      else next.add(section.id)
+                      // Sauvegarder en localStorage
+                      try { localStorage.setItem('sidebar-expanded', JSON.stringify([...next])) } catch {}
+                      return next
+                    })
+                  }}
+                  className={cn(
+                    'flex items-center gap-3 mx-2 px-3 py-2 rounded-lg text-[13px] transition-all duration-150 w-[calc(100%-16px)]',
+                    sectionActive ? 'text-white' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200',
+                    collapsed && 'justify-center px-2 mx-1'
+                  )}
+                >
+                  <section.icon className={cn('w-[18px] h-[18px] shrink-0', sectionActive && 'text-[#2EC6F3]')} />
+                  {!collapsed && (
+                    <>
+                      <span className="flex-1 text-left truncate">{section.label}</span>
+                      <ChevronDown className={cn('w-3.5 h-3.5 text-slate-500 transition-transform duration-200', isOpen && 'rotate-180')} />
+                    </>
+                  )}
+                </button>
+
+                {/* Children (dépliables) */}
+                {isOpen && !collapsed && (
+                  <div className="ml-4 mt-0.5 space-y-0.5 animate-fadeIn">
+                    {section.children.map((item) => (
+                      <SidebarLink key={item.href} item={item} collapsed={collapsed} isActive={isActive(item.href)} />
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            )
+          })}
         </nav>
 
         {/* Footer */}

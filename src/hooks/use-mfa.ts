@@ -72,7 +72,7 @@ export function useMFA() {
         return null
       }
 
-      return data
+      return data as unknown as AssuranceLevel
     } catch (error) {
       console.error('Exception getting assurance level:', error)
       return null

@@ -96,12 +96,12 @@ export default function SecuritySettingsPage() {
       }
 
       setEnrollmentData({
-        id: result.data.id,
+        id: result.data!.id,
         type: 'totp',
         totp: {
-          qr_code: result.data.totp?.qr_code || generateQRCodeSVG(result.data.totp?.uri || ''),
-          secret: result.data.totp?.secret || '',
-          uri: result.data.totp?.uri || ''
+          qr_code: result.data!.totp?.qr_code || generateQRCodeSVG(result.data!.totp?.uri || ''),
+          secret: result.data!.totp?.secret || '',
+          uri: result.data!.totp?.uri || ''
         }
       })
       setActiveMethod('totp-verify')
@@ -135,17 +135,17 @@ export default function SecuritySettingsPage() {
       }
 
       // Créer un challenge pour envoyer le code
-      const challengeResult = await challenge(result.data.id, channel)
+      const challengeResult = await challenge(result.data!.id, channel)
       if (challengeResult.error) {
         throw new Error(challengeResult.error.message)
       }
 
       setEnrollmentData({
-        id: result.data.id,
+        id: result.data!.id,
         type: 'phone',
         phone: phoneNumber
       })
-      setChallengeId(challengeResult.data.id)
+      setChallengeId(challengeResult.data!.id)
       setActiveMethod(`phone-verify-${channel}`)
       toast.success(`Code ${channel === 'sms' ? 'SMS' : 'WhatsApp'} envoyé`)
     } catch (error: any) {
@@ -175,7 +175,7 @@ export default function SecuritySettingsPage() {
         if (challengeResult.error) {
           throw new Error(challengeResult.error.message)
         }
-        challengeIdToUse = challengeResult.data.id
+        challengeIdToUse = challengeResult.data!.id
       }
 
       const result = await verify(enrollmentData.id, challengeIdToUse, verificationCode)

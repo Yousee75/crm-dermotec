@@ -80,21 +80,16 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={5} />
+    return <SkeletonTable rows={5} cols={5} />
   }
 
   if (apprenants.length === 0 && !search) {
     return (
       <EmptyState
-        icon={GraduationCap}
+        icon={<GraduationCap className="w-4 h-4" />}
         title="Aucun apprenant"
         description="Les personnes inscrites aux formations apparaîtront ici."
-        action={
-          <Button onClick={onCreateApprenant} className="mt-4" variant="outline">
-            <Plus className="w-4 h-4 mr-2" />
-            Ajouter un apprenant
-          </Button>
-        }
+        action={{ label: 'Ajouter un apprenant', onClick: () => onCreateApprenant?.(), icon: <Plus className="w-4 h-4" /> }}
       />
     )
   }
@@ -105,7 +100,7 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
       <div className="flex justify-between items-center">
         <SearchInput
           value={search}
-          onChange={setSearch}
+          onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
           placeholder="Rechercher un apprenant..."
           className="w-80"
         />
@@ -118,7 +113,7 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
       {/* Liste des apprenants */}
       {apprenants.length === 0 ? (
         <EmptyState
-          icon={GraduationCap}
+          icon={<GraduationCap className="w-4 h-4" />}
           title="Aucun résultat"
           description="Aucun apprenant ne correspond à votre recherche."
         />

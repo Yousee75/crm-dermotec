@@ -105,7 +105,7 @@ export default function EShopTab() {
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={6} />
+    return <SkeletonTable rows={5} cols={6} />
   }
 
   // Calculs de stats
@@ -166,7 +166,7 @@ export default function EShopTab() {
         <div className="flex gap-3">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
             placeholder="Rechercher une commande..."
             className="w-80"
           />
@@ -197,7 +197,7 @@ export default function EShopTab() {
       {/* Table des commandes */}
       {commandes.length === 0 ? (
         <EmptyState
-          icon={ShoppingBag}
+          icon={<ShoppingBag className="w-4 h-4" />}
           title="Aucune commande"
           description="Les commandes de produits et formations en ligne apparaîtront ici."
         />
@@ -288,7 +288,7 @@ export default function EShopTab() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <Button size="xs" variant="outline">
+                        <Button size="sm" variant="outline">
                           Détails
                         </Button>
                       </td>

@@ -133,7 +133,7 @@ export default function CatalogueTab() {
   )
 
   if (isLoading) {
-    return <SkeletonTable rows={5} columns={8} />
+    return <SkeletonTable rows={5} cols={8} />
   }
 
   // Calculs de stats
@@ -214,7 +214,7 @@ export default function CatalogueTab() {
         <div className="flex gap-3">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={(e: any) => setSearch(e.target ? e.target.value : e)}
             placeholder="Rechercher une formation..."
             className="w-80"
           />
@@ -249,7 +249,7 @@ export default function CatalogueTab() {
       {/* Table des formations */}
       {formations.length === 0 ? (
         <EmptyState
-          icon={BookOpen}
+          icon={<BookOpen className="w-4 h-4" />}
           title={search || categorieFilter || statutFilter ? "Aucune formation trouvée" : "Aucune formation"}
           description={search || categorieFilter || statutFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Créez votre première formation pour commencer."}
         />
@@ -301,7 +301,7 @@ export default function CatalogueTab() {
                           <p className="text-sm font-medium text-gray-900">{formation.titre}</p>
                           <div className="flex items-center gap-2 mt-1">
                             {formation.certifiante && (
-                              <Badge variant="outline" size="xs">Certifiante</Badge>
+                              <Badge variant="outline" size="sm">Certifiante</Badge>
                             )}
                           </div>
                         </div>
@@ -346,11 +346,11 @@ export default function CatalogueTab() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <Button size="xs" variant="outline">
+                          <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
                             Voir
                           </Button>
-                          <Button size="xs" variant="outline">
+                          <Button size="sm" variant="outline">
                             <Edit className="w-3 h-3 mr-1" />
                             Modifier
                           </Button>
