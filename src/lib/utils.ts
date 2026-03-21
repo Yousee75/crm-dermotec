@@ -21,6 +21,24 @@ export function formatDateTime(date: string | Date): string {
   return new Date(date).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 }
 
+export function formatRelativeDate(date: string | Date): string {
+  const now = new Date()
+  const target = new Date(date)
+  const diffMs = now.getTime() - target.getTime()
+  const diffMinutes = Math.floor(diffMs / (1000 * 60))
+  const diffHours = Math.floor(diffMinutes / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  if (diffMinutes < 1) return "à l'instant"
+  if (diffMinutes < 60) return `il y a ${diffMinutes}min`
+  if (diffHours < 24) return `il y a ${diffHours}h`
+  if (diffDays === 1) return "hier"
+  if (diffDays < 7) return `il y a ${diffDays}j`
+  if (diffDays < 30) return `il y a ${Math.floor(diffDays / 7)}sem`
+  if (diffDays < 365) return `il y a ${Math.floor(diffDays / 30)}mois`
+  return `il y a ${Math.floor(diffDays / 365)}ans`
+}
+
 export function formatPhone(phone: string): string {
   const cleaned = phone.replace(/\D/g, '')
   if (cleaned.length === 10) {

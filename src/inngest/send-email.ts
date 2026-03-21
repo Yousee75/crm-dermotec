@@ -11,7 +11,8 @@ export const sendEmail = inngest.createFunction(
     retries: 3,
   },
   { event: 'crm/email.send' },
-  async ({ event, step }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async ({ event, step }: { event: any; step: any }) => {
     const { to, template_slug, variables, lead_id } = event.data
 
     // Step 1: Récupérer le template depuis Supabase
@@ -33,7 +34,7 @@ export const sendEmail = inngest.createFunction(
       if (error || !data) {
         throw new Error(`Template '${template_slug}' non trouvé`)
       }
-      return data
+      return data as { id: string; sujet: string; contenu_html: string; contenu_text?: string }
     })
 
     // Step 2: Remplir les variables et envoyer via Resend
@@ -41,10 +42,10 @@ export const sendEmail = inngest.createFunction(
       const { Resend } = await import('resend')
       const resend = new Resend(process.env.RESEND_API_KEY!)
 
-      let sujet = template.sujet as string
-      let contenuHtml = template.contenu_html as string
+      let sujet = template.sujet
+      let contenuHtml = template.contenu_html
 
-      for (const [key, value] of Object.entries(variables)) {
+      for (const [key, value] of Object.entries(variables as Record<string, string>)) {
         const pattern = new RegExp(`\\{\\{${key}\\}\\}`, 'g')
         sujet = sujet.replace(pattern, value)
         contenuHtml = contenuHtml.replace(pattern, value)

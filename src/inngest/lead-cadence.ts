@@ -20,7 +20,8 @@ export const leadCadence = inngest.createFunction(
     ],
   },
   { event: 'crm/lead.cadence.start' },
-  async ({ event, step }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async ({ event, step }: { event: any; step: any }) => {
     const { lead_id, email, prenom, formation_nom, assigned_to } = event.data
 
     // --- J+0 : Email bienvenue ---
@@ -64,7 +65,6 @@ export const leadCadence = inngest.createFunction(
 
     // --- J+3 : Email relance ---
     await step.run('j3-email-relance', async () => {
-      // Vérifier que le lead n'a pas avancé dans le pipeline
       const { createClient } = await import('@supabase/supabase-js')
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -79,7 +79,7 @@ export const leadCadence = inngest.createFunction(
         .single()
 
       // Si le lead a déjà été qualifié ou inscrit, ne pas relancer
-      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut)) {
+      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut as string)) {
         return { skipped: true, reason: `Statut actuel: ${lead.statut}` }
       }
 
@@ -95,9 +95,9 @@ export const leadCadence = inngest.createFunction(
           <p>Je reviens vers vous concernant la formation <strong>${formation_nom}</strong>.</p>
           <p>Avez-vous des questions ? Je serais ravie d'y répondre.</p>
           <ul>
-            <li>📞 Nous appeler : <a href="tel:+33188334343">01 88 33 43 43</a></li>
-            <li>💬 WhatsApp : <a href="https://wa.me/33188334343">Cliquez ici</a></li>
-            <li>📧 Répondre à cet email</li>
+            <li>Nous appeler : <a href="tel:+33188334343">01 88 33 43 43</a></li>
+            <li>WhatsApp : <a href="https://wa.me/33188334343">Cliquez ici</a></li>
+            <li>Répondre à cet email</li>
           </ul>
           <p>Cordialement,<br><strong>L'équipe Dermotec</strong></p>
         `,
@@ -124,21 +124,19 @@ export const leadCadence = inngest.createFunction(
         .eq('id', lead_id)
         .single()
 
-      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut)) {
+      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut as string)) {
         return { skipped: true }
       }
 
-      // Créer le rappel
       await supabase.from('rappels').insert({
         lead_id,
-        type_rappel: 'APPEL',
+        type: 'APPEL',
         date_rappel: new Date().toISOString(),
         description: `Cadence J+7 : Appeler ${prenom} pour ${formation_nom}`,
-        assigned_to: assigned_to || null,
+        user_id: assigned_to || null,
         statut: 'EN_ATTENTE',
       })
 
-      // Logger
       await supabase.from('activites').insert({
         type: 'RAPPEL',
         lead_id,
@@ -167,7 +165,7 @@ export const leadCadence = inngest.createFunction(
         .eq('id', lead_id)
         .single()
 
-      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut)) {
+      if (lead && !['NOUVEAU', 'CONTACTE'].includes(lead.statut as string)) {
         return { skipped: true }
       }
 
@@ -194,7 +192,6 @@ export const leadCadence = inngest.createFunction(
         `,
       })
 
-      // Marquer la cadence comme terminée
       await supabase.from('activites').insert({
         type: 'SYSTEME',
         lead_id,

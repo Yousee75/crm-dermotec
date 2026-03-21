@@ -37,19 +37,39 @@ src/
 ├── app/
 │   ├── (auth)/          # Login, callback
 │   ├── (dashboard)/     # 13 pages dashboard
-│   ├── api/             # 3 API routes (webhook, stripe, email)
+│   ├── api/
+│   │   ├── ai/score/         # Scoring IA prédictif (DeepSeek)
+│   │   ├── ai/generate/      # Génération emails/messages IA
+│   │   ├── ai/prospect-research/ # Recherche prospect (Perplexity/Tavily)
+│   │   ├── ai/objection/     # Objection handling temps réel
+│   │   ├── analytics/dashboard/ # Métriques temps réel (6 vues SQL)
+│   │   ├── cadence/run/      # Moteur cadences automatiques (cron)
+│   │   ├── email/send/       # Email transactionnel (Resend + templates DB)
+│   │   ├── stripe/webhook/   # Webhook Stripe (paiements, litiges, remboursements)
+│   │   └── webhook/formulaire/ # Webhook formulaire site public
 │   ├── error.tsx        # Error boundary
 │   ├── not-found.tsx    # 404
 │   └── global-error.tsx # Global error
-├── components/ui/       # Composants réutilisables
-├── hooks/               # React Query hooks (6 hooks)
+├── components/ui/
+│   ├── AIAssistant.tsx  # Sidebar IA flottante (email, objection, recherche)
+│   ├── ActivityTimeline.tsx # Timeline activités
+│   └── CommandPalette.tsx # Cmd+K palette
+├── hooks/
+│   ├── use-leads.ts     # CRUD leads + filtres
+│   ├── use-sessions.ts  # CRUD sessions
+│   ├── use-reminders.ts # Rappels + overdue
+│   ├── use-financements.ts # Dossiers financement
+│   ├── use-realtime.ts  # Subscriptions Supabase
+│   └── use-ai.ts        # Hooks IA (score, generate, research, objection)
 ├── lib/
+│   ├── ai.ts            # Moteur IA (DeepSeek/Mistral/OpenAI, 6 fonctions métier)
+│   ├── twilio.ts        # SMS + WhatsApp (lazy init, rappels, notifs)
+│   ├── email.ts         # Service Resend (5 templates inline)
 │   ├── constants.ts     # Branding, formations, config
-│   ├── validators.ts    # 11 validateurs + 4 state machines
-│   ├── scoring.ts       # Algorithme scoring lead (/100)
-│   ├── smart-actions.ts # Moteur suggestions proactives
+│   ├── validators.ts    # 11 validateurs + 4 state machines + sanitization
+│   ├── scoring.ts       # Algorithme scoring heuristique (/100)
+│   ├── smart-actions.ts # Moteur suggestions proactives (6 types)
 │   ├── rbac.ts          # Matrice permissions (5 rôles × 30 permissions)
-│   ├── email.ts         # Service Resend (lazy init, templates inline)
 │   ├── activity-logger.ts # Logger centralisé (non-bloquant)
 │   ├── disposable-emails.ts # Blocklist 85 domaines
 │   ├── marketing.ts     # NPS, referral, upsell, best contact time
@@ -88,6 +108,41 @@ npm run type-check       # Vérifier les types TypeScript
 - **Financement** : PREPARATION → DOCUMENTS → COMPLET → SOUMIS → EN_EXAMEN → VALIDE/REFUSE → VERSE → CLOTURE
 - **Session** : BROUILLON → PLANIFIEE → CONFIRMEE → EN_COURS → TERMINEE
 - **Inscription** : EN_ATTENTE → CONFIRMEE → EN_COURS → COMPLETEE
+
+## IA & Prospection Intelligente
+
+### Architecture IA
+- **lib/ai.ts** : Moteur multi-provider (DeepSeek > Mistral > OpenAI, OpenAI-compatible)
+- **Coût estimé** : ~0.001€/scoring, ~0.003€/email, ~0.005€/recherche prospect
+- **6 fonctions IA métier** :
+  1. `aiScoreLead()` — Scoring prédictif (segment, probabilité, urgence, next action)
+  2. `aiGenerateEmail()` — Génération email + variante WhatsApp personnalisés
+  3. `aiResearchProspect()` — Recherche enrichie via Perplexity/Tavily + analyse IA
+  4. `aiHandleObjection()` — Traitement objections en temps réel (réponse + rebond)
+  5. `aiSummarizeNotes()` — Résumé intelligent des notes d'un dossier
+  6. `aiAnalyseFinancement()` — Analyse options financement (OPCO, France Travail, CPF...)
+
+### Prompts adaptés marché français
+- Contexte Dermotec (11 formations, prix, financements) injecté dans chaque prompt
+- Connaissance des organismes FR (OPCO EP, FAFCEA, FIFPL, France Travail, CPF)
+- Arguments adaptés (Qualiopi = éligible financement, ROI rapide, groupes 6 max)
+- Meilleurs créneaux d'appel : mardi/jeudi matin
+- WhatsApp > email pour relances (95% vs 20% d'ouverture)
+
+### Automatisation cadences
+- **3 cadences pré-configurées** : Nouveau Lead (5 étapes), Post-Formation (4 étapes), Relance Financement (5 étapes)
+- **Moteur cron** : `/api/cadence/run` exécute les étapes automatiquement (email, SMS, WhatsApp, création rappel)
+- **Multi-canal** : Email (Resend) + SMS (Twilio) + WhatsApp (Twilio) + Rappels internes
+
+### APIs externes
+| Service | Usage | Coût |
+|---------|-------|------|
+| DeepSeek | Scoring, génération, objections | ~$0.55/1M tokens |
+| Perplexity Sonar | Recherche prospect | $5/1000 queries |
+| Tavily | Alternative recherche | Gratuit 1000/mois |
+| Twilio | SMS + WhatsApp | ~$0.04/SMS, ~$0.005/WhatsApp |
+| Resend | Emails transactionnels | Gratuit 100/jour |
+| Stripe | Paiements formations + e-shop | 1.4% + 0.25€ |
 
 ## Règles absolues
 

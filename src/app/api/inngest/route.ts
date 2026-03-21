@@ -5,7 +5,14 @@
 
 import { serve } from 'inngest/next'
 import { inngest } from '@/lib/inngest'
-import { sendEmail, dailyRappels, leadCadence, webhookRetry } from '@/inngest'
+import {
+  sendEmail,
+  dailyRappels,
+  leadCadence,
+  webhookRetry,
+  postFormationCadence,
+  sessionLifecycle,
+} from '@/inngest'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,5 +23,7 @@ export const { GET, POST, PUT } = serve({
     dailyRappels,
     leadCadence,
     webhookRetry,
+    postFormationCadence,
+    sessionLifecycle,
   ],
 })

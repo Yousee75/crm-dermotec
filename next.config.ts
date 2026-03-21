@@ -1,4 +1,10 @@
 import type { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs'
+import bundleAnalyzer from '@next/bundle-analyzer'
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 const nextConfig: NextConfig = {
   // Security
@@ -21,6 +27,8 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '10mb',
     },
     optimizePackageImports: ['lucide-react', 'recharts', 'date-fns', 'framer-motion'],
+    // Sentry tracing dans App Router
+    clientTraceMetadata: ['sentry-trace', 'baggage'],
   },
 
   // Security headers
@@ -31,12 +39,14 @@ const nextConfig: NextConfig = {
         { key: 'X-DNS-Prefetch-Control', value: 'on' },
         { key: 'X-Frame-Options', value: 'DENY' },
         { key: 'X-Content-Type-Options', value: 'nosniff' },
-        { key: 'X-XSS-Protection', value: '1; mode=block' },
+        { key: 'X-XSS-Protection', value: '0' }, // Désactivé en faveur de CSP nonce
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         {
           key: 'Strict-Transport-Security',
           value: 'max-age=31536000; includeSubDomains; preload',
         },
+        { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+        { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
       ],
     },
     // Cache static assets
@@ -49,4 +59,24 @@ const nextConfig: NextConfig = {
   ],
 }
 
-export default nextConfig
+// Sentry wrapping — ne rien faire si pas de DSN configuré
+const sentryConfig = {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  silent: !process.env.SENTRY_AUTH_TOKEN, // Silencieux si pas configuré
+  widenClientFileUpload: true,
+  disableLogger: true,
+  automaticVercelMonitors: true,
+  // Route Sentry via le serveur pour contourner les ad-blockers
+  tunnelRoute: '/monitoring',
+  // Supprimer les source maps après upload
+  sourcemaps: {
+    deleteSourcemapsAfterUpload: true,
+  },
+}
+
+const configWithAnalyzer = withBundleAnalyzer(nextConfig)
+
+export default process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
+  ? withSentryConfig(configWithAnalyzer, sentryConfig)
+  : configWithAnalyzer

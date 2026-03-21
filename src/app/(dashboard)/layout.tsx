@@ -45,6 +45,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { href: '/leads', icon: Users, label: 'Leads' },
       { href: '/pipeline', icon: Gauge, label: 'Pipeline' },
+      { href: '/messages', icon: PanelLeft, label: 'Messages' },
       { href: '/financement', icon: CreditCard, label: 'Financement' },
     ],
   },
@@ -62,6 +63,7 @@ const NAV_SECTIONS: NavSection[] = [
       { href: '/commandes', icon: ShoppingBag, label: 'E-Shop' },
       { href: '/analytics', icon: BarChart3, label: 'Analytics' },
       { href: '/equipe', icon: Phone, label: 'Équipe' },
+      { href: '/cadences', icon: Zap, label: 'Cadences' },
     ],
   },
 ]
@@ -333,6 +335,7 @@ function getCurrentPageTitle(pathname: string): string {
     '/analytics': 'Analytics',
     '/qualite': 'Qualité',
     '/equipe': 'Équipe',
+    '/cadences': 'Cadences',
     '/settings': 'Paramètres',
     '/cockpit': 'Cockpit',
   }

@@ -22,9 +22,9 @@ function getSupabase() {
   return createClient(url, key, { auth: { persistSession: false } })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 async function logActivite(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   data: {
     type: string
     description: string
@@ -49,7 +49,7 @@ async function logActivite(
 }
 
 // Vérifier si l'event a déjà été traité (idempotence)
-async function isEventProcessed(supabase: ReturnType<typeof createClient>, eventId: string): Promise<boolean> {
+async function isEventProcessed(supabase: any, eventId: string): Promise<boolean> {
   const { data } = await supabase
     .from('webhook_events')
     .select('id')
@@ -61,7 +61,7 @@ async function isEventProcessed(supabase: ReturnType<typeof createClient>, event
 
 // Marquer l'event comme traité
 async function markEventProcessed(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   eventId: string,
   eventType: string,
   payload: Record<string, unknown>
@@ -78,7 +78,7 @@ async function markEventProcessed(
 
 // Marquer l'event comme échoué
 async function markEventFailed(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   eventId: string,
   eventType: string,
   error: string
@@ -92,6 +92,7 @@ async function markEventFailed(
     attempts: 1,
   }, { onConflict: 'event_id' })
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export async function POST(request: NextRequest) {
   const body = await request.text()

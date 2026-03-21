@@ -242,6 +242,7 @@ export interface Inscription {
   lead?: Lead // joined
   session_id: string
   session?: Session // joined
+  portail_token?: string
   // Financier
   montant_total: number
   montant_finance: number
@@ -544,6 +545,202 @@ export interface EmailTemplate {
   categorie: 'confirmation' | 'relance' | 'financement' | 'rappel' | 'certificat' | 'bienvenue' | 'eshop' | 'convocation' | 'satisfaction' | 'autre'
   is_active: boolean
   created_at: string
+}
+
+// --- Émargement ---
+
+export type CreneauEmargement = 'matin' | 'apres_midi' | 'journee'
+
+export interface Emargement {
+  id: string
+  session_id: string
+  inscription_id: string
+  date: string
+  creneau: CreneauEmargement
+  // Signature stagiaire
+  signature_data: string | null
+  signed_at: string | null
+  ip_address: string | null
+  user_agent: string | null
+  // Signature formateur (obligatoire Qualiopi)
+  formateur_signature_data: string | null
+  formateur_signed_at: string | null
+  formateur_ip: string | null
+  // Intégrité & conformité (Décret 2017-382, eIDAS SES)
+  integrity_hash: string | null
+  consent_text: string | null
+  metadata: Record<string, unknown>
+  created_at: string
+  updated_at: string
+  // Relations
+  inscription?: Inscription
+  session?: Session
+}
+
+// --- Qualiopi Indicateurs (calculés dynamiquement) ---
+
+export type StatutIndicateur = 'conforme' | 'a_surveiller' | 'non_conforme'
+
+export interface QualiopiIndicateur {
+  critere: number
+  indicateur: number
+  label: string
+  description: string
+  statut: StatutIndicateur
+  score: number
+  preuves: string[]
+  actions_requises: string[]
+}
+
+export interface QualiopiCritere {
+  numero: number
+  label: string
+  description: string
+  indicateurs: QualiopiIndicateur[]
+  score_global: number
+}
+
+// --- Portail Stagiaire ---
+
+export interface PortailData {
+  inscription: Inscription
+  lead: Lead
+  formation: Formation
+  session: Session
+  emargements: Emargement[]
+  documents: Document[]
+  factures: Facture[]
+}
+
+// --- Formulaire Inscription Publique ---
+
+export type TypeFinancementInscription = 'personnel' | 'opco' | 'cpf' | 'france_travail' | 'employeur' | 'autre'
+
+export interface InscriptionPubliqueData {
+  // Identité
+  civilite: string
+  prenom: string
+  nom: string
+  email: string
+  telephone: string
+  date_naissance?: string
+  // Adresse
+  adresse_rue?: string
+  adresse_cp?: string
+  adresse_ville?: string
+  // Profil
+  statut_pro: string
+  experience_esthetique: string
+  objectif_pro?: string
+  // Formation
+  formation_id: string
+  session_id?: string
+  // Financement
+  type_financement: TypeFinancementInscription
+  // Champs conditionnels OPCO
+  opco_employeur_nom?: string
+  opco_employeur_siret?: string
+  opco_organisme?: string
+  opco_contact_rh_email?: string
+  // Champs conditionnels CPF
+  cpf_numero?: string
+  // Champs conditionnels France Travail
+  ft_identifiant?: string
+  ft_agence?: string
+  ft_conseiller?: string
+  // Champs conditionnels Employeur
+  emp_nom?: string
+  emp_siret?: string
+  emp_contact?: string
+  // Consentement
+  rgpd_consent: boolean
+  reglement_interieur_accepte: boolean
+}
+
+// --- Messages & Communication ---
+
+export type CanalMessage = 'email' | 'whatsapp' | 'sms' | 'appel' | 'note_interne'
+export type DirectionMessage = 'inbound' | 'outbound'
+export type StatutMessage = 'brouillon' | 'envoye' | 'delivre' | 'lu' | 'erreur' | 'recu'
+
+export interface Message {
+  id: string
+  lead_id: string
+  lead?: Lead
+  direction: DirectionMessage
+  canal: CanalMessage
+  sujet: string | null
+  contenu: string
+  contenu_html: string | null
+  de: string | null
+  a: string | null
+  statut: StatutMessage
+  external_id: string | null
+  template_id: string | null
+  cadence_instance_id: string | null
+  metadata: Record<string, unknown>
+  pieces_jointes: { nom: string; url: string; type: string }[]
+  lu_at: string | null
+  delivre_at: string | null
+  erreur_detail: string | null
+  user_id: string | null
+  user?: Equipe
+  created_at: string
+}
+
+export interface InboxConversation {
+  lead_id: string
+  lead_prenom: string
+  lead_nom: string
+  lead_email: string | null
+  lead_telephone: string | null
+  lead_photo_url: string | null
+  dernier_message: string
+  dernier_canal: CanalMessage
+  dernier_date: string
+  non_lus: number
+  statut_lead: StatutLead
+}
+
+// --- Cadences ---
+
+export type CadenceStepType = 'email' | 'sms' | 'whatsapp' | 'appel' | 'rappel' | 'attente'
+export type CadenceTrigger = 'nouveau_lead' | 'post_formation' | 'relance_financement' | 'abandon' | 'alumni' | 'custom'
+
+export interface CadenceStep {
+  ordre: number
+  type: CadenceStepType
+  delai_jours: number
+  delai_heures: number
+  template_id?: string
+  contenu?: string
+  sujet?: string
+  condition_arret?: string // ex: "lead.statut === 'INSCRIT'"
+}
+
+export interface CadenceTemplate {
+  id: string
+  nom: string
+  description: string
+  declencheur: CadenceTrigger
+  etapes: CadenceStep[]
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface CadenceInstance {
+  id: string
+  template_id: string
+  template?: CadenceTemplate
+  lead_id: string
+  lead?: Lead
+  etape_courante: number
+  statut: 'active' | 'terminee' | 'arretee' | 'en_pause'
+  prochaine_execution: string | null
+  historique: { etape: number; date: string; resultat: string }[]
+  created_at: string
+  updated_at: string
 }
 
 // --- Dashboard KPIs ---

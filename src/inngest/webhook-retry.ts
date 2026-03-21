@@ -9,11 +9,11 @@ export const webhookRetry = inngest.createFunction(
   {
     id: 'crm-webhook-retry',
     retries: 5,
-    // Backoff exponentiel custom via onFailure
   },
   { event: 'crm/webhook.received' },
-  async ({ event, step, attempt }) => {
-    const { source, payload } = event.data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async ({ event, step }: { event: any; step: any }) => {
+    const { source, payload, attempt } = event.data
 
     // Step 1: Valider le payload
     const validated = await step.run('validate-payload', async () => {
@@ -41,7 +41,6 @@ export const webhookRetry = inngest.createFunction(
 
       switch (validated.source) {
         case 'typeform': {
-          // Créer un lead depuis Typeform
           const answers = payload.answers as Record<string, string>[] | undefined
           if (!answers) throw new Error('Typeform: answers manquantes')
 
@@ -58,21 +57,18 @@ export const webhookRetry = inngest.createFunction(
         }
 
         case 'calendly': {
-          // Créer un rappel RDV
           const eventData = payload as Record<string, unknown>
           const { error } = await supabase.from('rappels').insert({
-            type_rappel: 'RDV',
+            type: 'RDV',
             date_rappel: eventData.start_time as string,
             description: `RDV Calendly: ${eventData.name || 'RDV'}`,
             statut: 'EN_ATTENTE',
-            metadata: { webhook_source: 'calendly', raw: payload },
           })
           if (error) throw new Error(`Supabase insert error: ${error.message}`)
           return { action: 'rappel_created', source: 'calendly' }
         }
 
         default: {
-          // Stocker le webhook brut pour traitement manuel
           await supabase.from('activites').insert({
             type: 'SYSTEME',
             description: `Webhook reçu de ${validated.source}`,
@@ -94,7 +90,7 @@ export const webhookRetry = inngest.createFunction(
 
       await supabase.from('activites').insert({
         type: 'SYSTEME',
-        description: `Webhook ${source} traité avec succès (attempt ${attempt + 1})`,
+        description: `Webhook ${source} traité avec succès`,
         metadata: { result, attempt },
       })
     })

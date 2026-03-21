@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { isDisposableEmail } from '@/lib/disposable-emails'
 import { sanitizeString } from '@/lib/validators'
+import { inngest } from '@/lib/inngest'
 
 // ============================================================
 // Webhook public — réception leads formulaire site
@@ -178,6 +179,23 @@ export async function POST(request: NextRequest) {
       description: `Lead créé via formulaire site — ${prenom} ${nom} (${sujet || 'non précisé'})`,
       metadata: { source: 'formulaire', sujet },
     })
+
+    // 10. Déclencher la cadence automatique (Inngest)
+    // Email bienvenue immédiat → J+3 relance → J+7 rappel tel → J+14 dernier email
+    try {
+      await inngest.send({
+        name: 'crm/lead.cadence.start',
+        data: {
+          lead_id: data.id,
+          email: lead.email,
+          prenom,
+          formation_nom: sujet === 'formation' ? 'nos formations' : 'Dermotec',
+        },
+      })
+    } catch (inngestErr) {
+      // Non-bloquant : le lead est créé même si Inngest échoue
+      console.error('[Webhook Formulaire] Inngest cadence error:', inngestErr)
+    }
 
     return NextResponse.json({ success: true, action: 'created', lead_id: data.id })
   } catch (error) {

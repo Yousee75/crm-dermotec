@@ -1,0 +1,10 @@
+# Memory Index - CRM Dermotec
+
+## Research (Mars 2026)
+
+- [research_fr_eu_crm_formation.md](research_fr_eu_crm_formation.md) — Benchmark CRM formation FR (Digiforma, Dendreo, SmartOF...) et esthetique EU (Pabau, Zenoti...)
+- [research_asian_crm.md](research_asian_crm.md) — CRM disruptifs Asie : SCRM WeChat, Private Traffic, Wukong OS, SleekFlow, Zoho 40 agents IA
+- [research_us_disruptive_crm.md](research_us_disruptive_crm.md) — Startups CRM US : Day.ai (Sequoia), Rox ($1.2B), Attio, Clarify, Octolane, voice AI
+- [research_open_source_tools.md](research_open_source_tools.md) — Projets open source : Atomic CRM (Supabase), NextCRM, Cal.com, Documenso, Evolution API WhatsApp
+- [research_saas_apis_pricing.md](research_saas_apis_pricing.md) — Pricing APIs : WhatsApp, SMS (Telnyx 0.004$), Voice AI (Bland 0.14$/min), Alma BNPL, LLMs, n8n
+- [research_features_roadmap.md](research_features_roadmap.md) — Roadmap 4 phases avec budget (37$ -> 470$/mo) et matrice differentiation vs CRM FR
