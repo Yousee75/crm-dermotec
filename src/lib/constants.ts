@@ -21,16 +21,21 @@ export const BRAND = {
   googleMaps: 'https://maps.google.com/?q=75+Boulevard+Richard+Lenoir+75011+Paris',
 } as const
 
-// Couleurs branding
+// Couleurs branding (v2 — optimisées contraste + action)
 export const COLORS = {
-  primary: '#2EC6F3',
-  accent: '#082545',
-  background: '#FFFFFF',
-  text: '#0F172A',
-  success: '#22C55E',
-  warning: '#F59E0B',
-  error: '#EF4444',
-  info: '#3B82F6',
+  primary: '#0EA5E9',      // sky-500 : meilleur contraste que #2EC6F3
+  primaryDark: '#0284C7',  // sky-600 : hover
+  action: '#6366F1',       // indigo-500 : CTAs distinctes
+  accent: '#0F172A',       // slate-900 : sidebar
+  background: '#F8FAFC',   // slate-50
+  text: '#0F172A',         // slate-900
+  textSecondary: '#475569', // slate-600
+  success: '#10B981',      // emerald-500
+  warning: '#F59E0B',      // amber-500
+  error: '#EF4444',        // red-500
+  info: '#3B82F6',         // blue-500
+  // Brand legacy (pour emails, PDF, éléments marketing)
+  brand: '#2EC6F3',
 } as const
 
 // Horaires

@@ -18,7 +18,7 @@ import { Badge } from '@/components/ui/Badge'
 import { CommandPalette } from '@/components/ui/CommandPalette'
 import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
-import AIAssistant from '@/components/ui/AIAssistant'
+import { AgentChat } from '@/components/ui/AgentChat'
 import { cn } from '@/lib/utils'
 
 interface NavSection {
@@ -437,7 +437,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       <CommandPalette />
       <KeyboardShortcuts />
       <MobileBottomNav />
-      <AIAssistant />
+      <AgentChat />
 
       {/* Keyboard shortcuts modal */}
       {showShortcuts && (

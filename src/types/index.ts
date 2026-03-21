@@ -767,18 +767,19 @@ export interface DashboardKPIs {
 
 // --- Constantes ---
 
+// Pipeline : 5 groupes couleur (froid/actif/chaud/gagné/perdu)
 export const STATUTS_LEAD: Record<StatutLead, { label: string; color: string; order: number }> = {
-  NOUVEAU: { label: 'Nouveau', color: '#3B82F6', order: 0 },
-  CONTACTE: { label: 'Contacté', color: '#8B5CF6', order: 1 },
-  QUALIFIE: { label: 'Qualifié', color: '#F59E0B', order: 2 },
-  FINANCEMENT_EN_COURS: { label: 'Financement', color: '#F97316', order: 3 },
-  INSCRIT: { label: 'Inscrit', color: '#10B981', order: 4 },
-  EN_FORMATION: { label: 'En formation', color: '#06B6D4', order: 5 },
-  FORME: { label: 'Formé(e)', color: '#22C55E', order: 6 },
-  ALUMNI: { label: 'Alumni', color: '#6366F1', order: 7 },
+  NOUVEAU: { label: 'Nouveau', color: '#94A3B8', order: 0 },
+  CONTACTE: { label: 'Contacté', color: '#94A3B8', order: 1 },
+  QUALIFIE: { label: 'Qualifié', color: '#0EA5E9', order: 2 },
+  FINANCEMENT_EN_COURS: { label: 'Financement', color: '#0EA5E9', order: 3 },
+  INSCRIT: { label: 'Inscrit', color: '#F59E0B', order: 4 },
+  EN_FORMATION: { label: 'En formation', color: '#F59E0B', order: 5 },
+  FORME: { label: 'Formé(e)', color: '#10B981', order: 6 },
+  ALUMNI: { label: 'Alumni', color: '#10B981', order: 7 },
   PERDU: { label: 'Perdu', color: '#EF4444', order: 8 },
-  REPORTE: { label: 'Reporté', color: '#9CA3AF', order: 9 },
-  SPAM: { label: 'Spam', color: '#6B7280', order: 10 },
+  REPORTE: { label: 'Reporté', color: '#94A3B8', order: 9 },
+  SPAM: { label: 'Spam', color: '#94A3B8', order: 10 },
 }
 
 export const PHASES_PIPELINE: { id: string; label: string; statuts: StatutLead[] }[] = [
