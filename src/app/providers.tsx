@@ -7,9 +7,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 30 * 1000, // 30s
+        staleTime: 30 * 1000,
         refetchOnWindowFocus: false,
-        retry: 1,
+        retry: false, // Don't retry failed queries (Supabase errors are not transient)
+        throwOnError: false, // Never crash the component — show empty state instead
+      },
+      mutations: {
+        throwOnError: false,
       },
     },
   }))
