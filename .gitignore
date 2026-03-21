@@ -47,3 +47,8 @@ pnpm-lock.yaml
 
 # playwright MCP logs
 .playwright-mcp/
+
+# MCP server node_modules (installé séparément)
+mcp/node_modules
+mcp/dist
+mcp/node_modules/

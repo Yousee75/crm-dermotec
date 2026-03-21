@@ -75,10 +75,15 @@ server.tool(
   },
   async ({ query, statut, limit }) => {
     const db = getSupabase()
+    // Sanitize query pour éviter injection dans ilike
+    const q_safe = query.replace(/[%_\\]/g, '').trim().slice(0, 100)
     let q = db
       .from('leads')
-      .select('id, prenom, nom, email, telephone, statut, source, score_chaud, priorite, created_at, date_dernier_contact')
-      .or(`prenom.ilike.%${query}%,nom.ilike.%${query}%,email.ilike.%${query}%,telephone.ilike.%${query}%`)
+      .select(`id, prenom, nom, email, telephone, statut, source, score_chaud, priorite, nb_contacts,
+        statut_pro, financement_souhaite, created_at, date_dernier_contact,
+        formation_principale:formations!formation_principale_id(id, nom, categorie, prix_ht),
+        commercial_assigne:equipe!commercial_assigne_id(id, prenom, nom)`)
+      .or(`prenom.ilike.%${q_safe}%,nom.ilike.%${q_safe}%,email.ilike.%${q_safe}%,telephone.ilike.%${q_safe}%`)
       .order('score_chaud', { ascending: false })
       .limit(limit ?? 10)
 
@@ -438,6 +443,388 @@ server.tool(
   }
 )
 
+// 11. Calculer le score d'un lead (algorithme /100)
+server.tool(
+  'calculate_lead_score',
+  'Calculer le score de probabilité d\'inscription d\'un lead (0-100) avec détail par dimension',
+  {
+    lead_id: z.string().uuid().describe('ID du lead'),
+  },
+  async ({ lead_id }) => {
+    const db = getSupabase()
+    const { data: lead, error } = await db.from('leads').select('*').eq('id', lead_id).single()
+    if (error || !lead) return { content: [{ type: 'text' as const, text: 'Lead non trouvé' }] }
+
+    // Scoring inline (reproduit scoring.ts pour éviter les imports cross-project)
+    let completude = 0, engagement = 0, financement = 0, profil = 0, urgence = 0
+    const details: string[] = []
+
+    // Complétude /30
+    if (lead.email) completude += 5
+    if (lead.telephone) completude += 5
+    if (lead.prenom && lead.nom) completude += 3
+    if (lead.statut_pro) completude += 4
+    if (lead.formation_principale_id) completude += 5
+    if (lead.experience_esthetique) completude += 3
+    if (lead.objectif_pro) completude += 3
+    if (lead.adresse?.code_postal) completude += 2
+
+    // Engagement /25
+    if (lead.nb_contacts >= 3) { engagement += 10; details.push('+10: 3+ contacts') }
+    else if (lead.nb_contacts >= 1) engagement += 5
+    if (lead.date_dernier_contact) {
+      const jours = Math.floor((Date.now() - new Date(lead.date_dernier_contact).getTime()) / 86400000)
+      if (jours <= 3) { engagement += 8; details.push('+8: contact < 3 jours') }
+      else if (jours <= 7) engagement += 5
+      else if (jours <= 14) engagement += 2
+    }
+    if (lead.source === 'formulaire' || lead.source === 'telephone') engagement += 4
+    if (lead.source === 'whatsapp') engagement += 5
+    if (lead.source === 'ancien_stagiaire') engagement += 3
+
+    // Financement /20
+    if (lead.financement_souhaite) { financement += 10; details.push('+10: financement souhaité') }
+    if (lead.statut_pro === 'salariee') { financement += 8; details.push('+8: salariée (OPCO)') }
+    else if (lead.statut_pro === 'demandeur_emploi') { financement += 7; details.push('+7: demandeur emploi') }
+    else if (lead.statut_pro === 'reconversion') { financement += 6; details.push('+6: reconversion') }
+    else if (lead.statut_pro === 'independante' || lead.statut_pro === 'auto_entrepreneur') financement += 5
+
+    // Profil /15
+    if (lead.experience_esthetique === 'intermediaire') { profil += 8; details.push('+8: profil intermédiaire') }
+    else if (lead.experience_esthetique === 'aucune' || lead.experience_esthetique === 'debutante') profil += 5
+    if (lead.objectif_pro) profil += 4
+    if (lead.formations_interessees?.length >= 2) { profil += 3; details.push('+3: 2+ formations') }
+
+    // Urgence /10
+    if (lead.statut === 'QUALIFIE') urgence += 5
+    if (lead.statut === 'FINANCEMENT_EN_COURS') urgence += 8
+    if (lead.priorite === 'URGENTE') urgence += 5
+    if (lead.priorite === 'HAUTE') urgence += 3
+    if (lead.tags?.includes('urgent')) { urgence += 4; details.push('+4: tag urgent') }
+
+    const total = Math.min(100, completude + engagement + financement + profil + urgence)
+    const color = total >= 80 ? '#22C55E' : total >= 60 ? '#F59E0B' : total >= 40 ? '#3B82F6' : '#9CA3AF'
+    const label = total >= 80 ? 'Chaud' : total >= 60 ? 'Tiède' : total >= 40 ? 'À qualifier' : 'Froid'
+
+    return {
+      content: [{
+        type: 'text' as const,
+        text: JSON.stringify({
+          lead: `${lead.prenom} ${lead.nom ?? ''}`,
+          score: total, label, color,
+          breakdown: { completude, engagement, financement, profil, urgence },
+          details,
+        }, null, 2)
+      }]
+    }
+  }
+)
+
+// 12. Smart Actions — suggestions proactives
+server.tool(
+  'get_smart_actions',
+  'Obtenir les actions prioritaires : rappels en retard, leads stagnants, sessions à remplir, upsell alumni, financements bloqués',
+  {
+    limit: z.number().optional().default(20).describe('Nombre max d\'actions'),
+  },
+  async ({ limit }) => {
+    const db = getSupabase()
+    const now = new Date()
+    const today = now.toISOString().split('T')[0]
+    const actions: Array<{ type: string; priorite: string; titre: string; description: string; lead_id?: string }> = []
+
+    // 1. Rappels en retard
+    const { data: rappels } = await db
+      .from('rappels')
+      .select('*, lead:leads(prenom, nom)')
+      .eq('statut', 'EN_ATTENTE')
+      .lt('date_rappel', today)
+      .limit(10)
+
+    for (const r of rappels ?? []) {
+      const jours = Math.floor((now.getTime() - new Date(r.date_rappel).getTime()) / 86400000)
+      const lead = Array.isArray(r.lead) ? r.lead[0] : r.lead
+      actions.push({
+        type: 'RAPPEL_OVERDUE',
+        priorite: jours > 3 ? 'CRITIQUE' : 'HAUTE',
+        titre: `Rappel en retard ${jours}j — ${lead?.prenom} ${lead?.nom}`,
+        description: `${r.type}: ${r.titre || 'Sans titre'}`,
+        lead_id: r.lead_id,
+      })
+    }
+
+    // 2. Leads qualifiés stagnants (5+ jours sans contact)
+    const fiveDaysAgo = new Date(now.getTime() - 5 * 86400000).toISOString()
+    const { data: stagnants } = await db
+      .from('leads')
+      .select('id, prenom, nom, statut, date_dernier_contact')
+      .in('statut', ['QUALIFIE', 'FINANCEMENT_EN_COURS'])
+      .lt('date_dernier_contact', fiveDaysAgo)
+      .limit(10)
+
+    for (const l of stagnants ?? []) {
+      const jours = Math.floor((now.getTime() - new Date(l.date_dernier_contact).getTime()) / 86400000)
+      actions.push({
+        type: 'LEAD_STAGNANT',
+        priorite: jours >= 14 ? 'HAUTE' : 'NORMALE',
+        titre: `${l.statut} sans contact ${jours}j — ${l.prenom} ${l.nom}`,
+        description: `Relancer ce lead qualifié`,
+        lead_id: l.id,
+      })
+    }
+
+    // 3. Nouveaux leads non contactés
+    const { data: newLeads } = await db
+      .from('leads')
+      .select('id, prenom, nom, source, created_at')
+      .eq('statut', 'NOUVEAU')
+      .eq('nb_contacts', 0)
+      .limit(10)
+
+    for (const l of newLeads ?? []) {
+      const jours = Math.floor((now.getTime() - new Date(l.created_at).getTime()) / 86400000)
+      if (jours >= 1) {
+        actions.push({
+          type: 'APPELER_LEAD',
+          priorite: jours >= 3 ? 'HAUTE' : 'NORMALE',
+          titre: `Nouveau lead non contacté ${jours}j — ${l.prenom} ${l.nom}`,
+          description: `Source: ${l.source}`,
+          lead_id: l.id,
+        })
+      }
+    }
+
+    // 4. Financements en attente > 15 jours
+    const { data: fins } = await db
+      .from('financements')
+      .select('id, lead_id, organisme, numero_dossier, date_soumission, lead:leads(prenom, nom)')
+      .in('statut', ['SOUMIS', 'EN_EXAMEN'])
+      .limit(10)
+
+    for (const f of fins ?? []) {
+      if (!f.date_soumission) continue
+      const jours = Math.floor((now.getTime() - new Date(f.date_soumission).getTime()) / 86400000)
+      if (jours >= 15) {
+        const lead = Array.isArray(f.lead) ? f.lead[0] : f.lead
+        actions.push({
+          type: 'RELANCER_FINANCEMENT',
+          priorite: jours >= 30 ? 'HAUTE' : 'NORMALE',
+          titre: `Dossier ${f.organisme} sans réponse ${jours}j`,
+          description: `${f.numero_dossier || ''} pour ${lead?.prenom} ${lead?.nom}`,
+          lead_id: f.lead_id,
+        })
+      }
+    }
+
+    // Trier par priorité
+    const order: Record<string, number> = { CRITIQUE: 0, HAUTE: 1, NORMALE: 2, BASSE: 3 }
+    actions.sort((a, b) => (order[a.priorite] ?? 9) - (order[b.priorite] ?? 9))
+
+    return {
+      content: [{
+        type: 'text' as const,
+        text: actions.length === 0
+          ? 'Aucune action prioritaire. Tout est à jour !'
+          : `${actions.length} action(s) prioritaire(s):\n${JSON.stringify(actions.slice(0, limit ?? 20), null, 2)}`
+      }]
+    }
+  }
+)
+
+// 13. Changer le statut d'un financement (state machine)
+server.tool(
+  'update_financement_status',
+  'Changer le statut d\'un dossier de financement (state machine : PREPARATION → SOUMIS → VALIDE/REFUSE → VERSE → CLOTURE)',
+  {
+    financement_id: z.string().uuid(),
+    new_status: z.string().describe('Nouveau statut'),
+    notes: z.string().optional(),
+  },
+  async ({ financement_id, new_status, notes }) => {
+    const db = getSupabase()
+    const transitions: Record<string, string[]> = {
+      PREPARATION: ['DOCUMENTS_REQUIS', 'DOSSIER_COMPLET'],
+      DOCUMENTS_REQUIS: ['DOSSIER_COMPLET', 'PREPARATION'],
+      DOSSIER_COMPLET: ['SOUMIS'],
+      SOUMIS: ['EN_EXAMEN', 'VALIDE', 'REFUSE'],
+      EN_EXAMEN: ['COMPLEMENT_DEMANDE', 'VALIDE', 'REFUSE'],
+      COMPLEMENT_DEMANDE: ['EN_EXAMEN', 'DOSSIER_COMPLET', 'REFUSE'],
+      VALIDE: ['VERSE', 'CLOTURE'],
+      REFUSE: ['PREPARATION', 'CLOTURE'],
+      VERSE: ['CLOTURE'],
+      CLOTURE: [],
+    }
+
+    const { data: fin, error } = await db.from('financements').select('statut, lead_id').eq('id', financement_id).single()
+    if (error || !fin) return { content: [{ type: 'text' as const, text: 'Financement non trouvé' }] }
+
+    const allowed = transitions[fin.statut] ?? []
+    if (!allowed.includes(new_status)) {
+      return { content: [{ type: 'text' as const, text: `Transition invalide: ${fin.statut} → ${new_status}. Autorisés: ${allowed.join(', ') || 'aucune'}` }] }
+    }
+
+    await db.from('financements').update({ statut: new_status, updated_at: new Date().toISOString() }).eq('id', financement_id)
+    await db.from('activites').insert({ type: 'FINANCEMENT', lead_id: fin.lead_id, description: `Financement ${fin.statut} → ${new_status}${notes ? ` (${notes})` : ''} — via MCP` })
+
+    return { content: [{ type: 'text' as const, text: `Financement ${financement_id}: ${fin.statut} → ${new_status} ✓` }] }
+  }
+)
+
+// 14. Changer le statut d'une session (state machine)
+server.tool(
+  'update_session_status',
+  'Changer le statut d\'une session (BROUILLON → PLANIFIEE → CONFIRMEE → EN_COURS → TERMINEE)',
+  {
+    session_id: z.string().uuid(),
+    new_status: z.string(),
+  },
+  async ({ session_id, new_status }) => {
+    const db = getSupabase()
+    const transitions: Record<string, string[]> = {
+      BROUILLON: ['PLANIFIEE', 'ANNULEE'],
+      PLANIFIEE: ['CONFIRMEE', 'ANNULEE', 'REPORTEE'],
+      CONFIRMEE: ['EN_COURS', 'ANNULEE', 'REPORTEE'],
+      EN_COURS: ['TERMINEE', 'ANNULEE'],
+      TERMINEE: [],
+      ANNULEE: ['BROUILLON'],
+      REPORTEE: ['PLANIFIEE', 'ANNULEE'],
+    }
+
+    const { data: session, error } = await db.from('sessions').select('statut').eq('id', session_id).single()
+    if (error || !session) return { content: [{ type: 'text' as const, text: 'Session non trouvée' }] }
+
+    const allowed = transitions[session.statut] ?? []
+    if (!allowed.includes(new_status)) {
+      return { content: [{ type: 'text' as const, text: `Transition invalide: ${session.statut} → ${new_status}. Autorisés: ${allowed.join(', ') || 'aucune'}` }] }
+    }
+
+    await db.from('sessions').update({ statut: new_status, updated_at: new Date().toISOString() }).eq('id', session_id)
+    return { content: [{ type: 'text' as const, text: `Session ${session_id}: ${session.statut} → ${new_status} ✓` }] }
+  }
+)
+
+// 15. Changer le statut d'une inscription (state machine)
+server.tool(
+  'update_inscription_status',
+  'Changer le statut d\'une inscription (EN_ATTENTE → CONFIRMEE → EN_COURS → COMPLETEE)',
+  {
+    inscription_id: z.string().uuid(),
+    new_status: z.string(),
+  },
+  async ({ inscription_id, new_status }) => {
+    const db = getSupabase()
+    const transitions: Record<string, string[]> = {
+      EN_ATTENTE: ['CONFIRMEE', 'ANNULEE'],
+      CONFIRMEE: ['EN_COURS', 'ANNULEE'],
+      EN_COURS: ['COMPLETEE', 'ANNULEE', 'NO_SHOW'],
+      COMPLETEE: ['REMBOURSEE'],
+      ANNULEE: ['EN_ATTENTE'],
+      REMBOURSEE: [],
+      NO_SHOW: ['ANNULEE'],
+    }
+
+    const { data: insc, error } = await db.from('inscriptions').select('statut, lead_id').eq('id', inscription_id).single()
+    if (error || !insc) return { content: [{ type: 'text' as const, text: 'Inscription non trouvée' }] }
+
+    const allowed = transitions[insc.statut] ?? []
+    if (!allowed.includes(new_status)) {
+      return { content: [{ type: 'text' as const, text: `Transition invalide: ${insc.statut} → ${new_status}. Autorisés: ${allowed.join(', ') || 'aucune'}` }] }
+    }
+
+    await db.from('inscriptions').update({ statut: new_status, updated_at: new Date().toISOString() }).eq('id', inscription_id)
+    await db.from('activites').insert({ type: 'INSCRIPTION', lead_id: insc.lead_id, description: `Inscription ${insc.statut} → ${new_status} — via MCP` })
+
+    return { content: [{ type: 'text' as const, text: `Inscription ${inscription_id}: ${insc.statut} → ${new_status} ✓` }] }
+  }
+)
+
+// 16. Éligibilité financement par statut professionnel
+server.tool(
+  'get_financing_eligibility',
+  'Identifier les organismes de financement éligibles selon le statut professionnel du lead',
+  {
+    statut_pro: z.enum(['salariee', 'independante', 'auto_entrepreneur', 'demandeur_emploi', 'reconversion', 'etudiante', 'gerant_institut', 'autre']),
+  },
+  async ({ statut_pro }) => {
+    const eligibility: Record<string, { organismes: string[]; documents: string[] }> = {
+      salariee: {
+        organismes: ['OPCO_EP', 'CPF', 'EMPLOYEUR', 'TRANSITIONS_PRO'],
+        documents: ['piece_identite', 'attestation_employeur', 'bulletin_salaire', 'devis'],
+      },
+      independante: {
+        organismes: ['FIFPL', 'FAFCEA', 'CPF'],
+        documents: ['piece_identite', 'attestation_urssaf', 'kbis', 'devis'],
+      },
+      auto_entrepreneur: {
+        organismes: ['FAFCEA', 'CPF', 'AKTO'],
+        documents: ['piece_identite', 'attestation_urssaf', 'devis'],
+      },
+      demandeur_emploi: {
+        organismes: ['FRANCE_TRAVAIL', 'CPF', 'REGION', 'MISSIONS_LOCALES'],
+        documents: ['piece_identite', 'attestation_pole_emploi', 'cv', 'devis'],
+      },
+      reconversion: {
+        organismes: ['TRANSITIONS_PRO', 'CPF', 'FRANCE_TRAVAIL', 'REGION'],
+        documents: ['piece_identite', 'attestation_employeur', 'projet_reconversion', 'devis'],
+      },
+      etudiante: {
+        organismes: ['MISSIONS_LOCALES', 'REGION'],
+        documents: ['piece_identite', 'certificat_scolarite', 'devis'],
+      },
+      gerant_institut: {
+        organismes: ['OPCO_EP', 'FAFCEA', 'AKTO', 'CPF'],
+        documents: ['piece_identite', 'kbis', 'attestation_urssaf', 'devis'],
+      },
+      autre: {
+        organismes: ['CPF'],
+        documents: ['piece_identite', 'devis'],
+      },
+    }
+
+    const result = eligibility[statut_pro] ?? eligibility.autre
+    return {
+      content: [{
+        type: 'text' as const,
+        text: `Éligibilité financement pour "${statut_pro}":\n` +
+          `Organismes: ${result.organismes.join(', ')}\n` +
+          `Documents requis: ${result.documents.join(', ')}`
+      }]
+    }
+  }
+)
+
+// 17. Meilleur créneau de contact
+server.tool(
+  'get_best_contact_time',
+  'Identifier le meilleur moment pour contacter un lead (basé sur les statistiques Dermotec)',
+  {},
+  async () => {
+    return {
+      content: [{
+        type: 'text' as const,
+        text: JSON.stringify({
+          meilleurs_jours: ['mardi', 'jeudi'],
+          meilleurs_creneaux: [
+            { debut: '08:00', fin: '12:00', qualite: 'excellent', raison: 'Esthéticiennes souvent dispo le matin avant les RDV' },
+            { debut: '14:00', fin: '17:00', qualite: 'bon', raison: 'Créneau après-midi OK mais moins réactif' },
+          ],
+          a_eviter: [
+            { jour: 'lundi', raison: 'Début de semaine chargé (planification)' },
+            { jour: 'vendredi après-midi', raison: 'Fermeture anticipée fréquente' },
+            { heure: 'avant 8h et après 19h', raison: 'Hors horaires professionnels' },
+          ],
+          canal_prefere: {
+            premier_contact: 'telephone',
+            relance: 'whatsapp',
+            nurturing: 'email',
+            raison: 'WhatsApp = 95% taux ouverture vs 20% email',
+          },
+        }, null, 2)
+      }]
+    }
+  }
+)
+
 // ==================== RESOURCES ====================
 
 // Resource : État du pipeline en temps réel
@@ -501,15 +888,18 @@ server.prompt(
         type: 'text' as const,
         text: `Génère le rapport quotidien CRM Dermotec :
 1. Utilise get_dashboard_metrics (période 1 jour) pour les KPIs du jour
-2. Utilise get_rappels pour les rappels en retard + du jour
+2. Utilise get_smart_actions pour les actions prioritaires triées
 3. Utilise get_pipeline pour la vue pipeline
 4. Utilise list_sessions pour les prochaines sessions
+5. Utilise get_best_contact_time pour rappeler les créneaux optimaux
 
 Produis un rapport structuré avec :
 - Chiffres clés du jour
-- Actions urgentes (rappels en retard)
+- Actions urgentes triées par priorité (CRITIQUE → HAUTE → NORMALE)
 - Sessions à venir et taux de remplissage
-- Recommandations`
+- Leads chauds à contacter (score > 60)
+- Meilleur créneau de contact pour aujourd'hui
+- Recommandations concrètes`
       }
     }]
   })
@@ -519,7 +909,7 @@ Produis un rapport structuré avec :
 
 async function main() {
   console.error('[MCP Dermotec] Démarrage du serveur CRM...')
-  console.error('[MCP Dermotec] 10 tools, 1 resource, 2 prompts')
+  console.error('[MCP Dermotec] 17 tools, 1 resource, 2 prompts')
 
   const transport = new StdioServerTransport()
   await server.connect(transport)

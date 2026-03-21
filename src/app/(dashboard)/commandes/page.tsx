@@ -385,7 +385,7 @@ export default function CommandesPage() {
                             className="gap-1.5"
                             style={{ backgroundColor: `${config.color}15`, color: config.color }}
                           >
-                            {(() => { const CI = config.icon; return <CI className="w-3 h-3" /> })()
+                            {(() => { const CI = config.icon; return <CI className="w-3 h-3" /> })()}
                             {config.label}
                           </Badge>
                         </td>

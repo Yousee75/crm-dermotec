@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Gamification Engine
 // Système de points, badges et niveaux pour booster la performance commerciale

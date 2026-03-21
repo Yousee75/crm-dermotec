@@ -189,7 +189,7 @@ export default function MessagesPage() {
                     )}
                   >
                     <div className="flex items-center gap-2">
-                      {(() => { const CI = canal.icon; return <CI className="w-3 h-3 opacity-70" /> })()
+                      {(() => { const CI = canal.icon; return <CI className="w-3 h-3 opacity-70" /> })()}
                       <span className="text-xs opacity-70">
                         {formatRelativeDate(message.created_at)}
                       </span>
@@ -225,7 +225,7 @@ export default function MessagesPage() {
                       : 'bg-white border text-gray-600'
                   )}
                 >
-                  {(() => { const CI = canal.icon; return <CI className="w-4 h-4" /> })()
+                  {(() => { const CI = canal.icon; return <CI className="w-4 h-4" /> })()}
                   {canal.label}
                 </button>
               ))}
@@ -309,7 +309,7 @@ export default function MessagesPage() {
                   key={canal.id}
                   className="px-2 py-1 text-xs border rounded text-gray-600 hover:bg-gray-50 whitespace-nowrap"
                 >
-                  {(() => { const CI = canal.icon; return <CI className="w-3 h-3 inline mr-1" /> })()
+                  {(() => { const CI = canal.icon; return <CI className="w-3 h-3 inline mr-1" /> })()}
                   {canal.label}
                 </button>
               ))}
@@ -353,7 +353,7 @@ export default function MessagesPage() {
                           className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
                           style={{ backgroundColor: canal.color }}
                         >
-                          {(() => { const CI = canal.icon; return <CI className="w-2 h-2 text-white" /> })()
+                          {(() => { const CI = canal.icon; return <CI className="w-2 h-2 text-white" /> })()}
                         </div>
                       </div>
 
@@ -459,7 +459,7 @@ export default function MessagesPage() {
                             )}
                           >
                             <div className="flex items-center gap-2 text-xs opacity-70">
-                              {(() => { const CI = canal.icon; return <CI className="w-3 h-3" /> })()
+                              {(() => { const CI = canal.icon; return <CI className="w-3 h-3" /> })()}
                               <span>{formatRelativeDate(message.created_at)}</span>
                               {isOutbound && <StatusIcon statut={message.statut} />}
                             </div>
@@ -493,7 +493,7 @@ export default function MessagesPage() {
                               : 'bg-white border text-gray-600 hover:bg-gray-50'
                           )}
                         >
-                          {(() => { const CI = canal.icon; return <CI className="w-4 h-4" /> })()
+                          {(() => { const CI = canal.icon; return <CI className="w-4 h-4" /> })()}
                           {canal.label}
                         </button>
                       ))}
