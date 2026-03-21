@@ -3,13 +3,15 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
-import { type Formation } from '@/types'
+import { type EmailTemplate, type Partenaire } from '@/types'
 import { BRAND } from '@/lib/constants'
 import { formatEuro } from '@/lib/utils'
 import {
-  Building2, GraduationCap, Download, Database,
-  CreditCard, CheckCircle, AlertTriangle, Power, PowerOff,
-  ChevronDown, ChevronRight, ExternalLink, Copy
+  Settings, Building2, Mail, Link2, Users2, Database,
+  CheckCircle2, XCircle, Upload, Download, Plus, Eye,
+  ToggleLeft, ToggleRight, Edit2, Save, Trash2, Copy,
+  CreditCard, MessageSquare, Smartphone, Send, Globe,
+  Shield, Clock
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -18,255 +20,611 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 
-interface SectionProps {
-  id: string
-  title: string
-  description: string
-  icon: React.ReactNode
-  iconColor: string
-  expanded: boolean
-  onToggle: () => void
-  badge?: React.ReactNode
-  children: React.ReactNode
-}
+// Types pour les onglets
+type Tab = 'general' | 'templates' | 'integrations' | 'partenaires' | 'import-export'
 
-function Section({ title, description, icon, iconColor, expanded, onToggle, badge, children }: SectionProps) {
-  return (
-    <Card padding="none">
-      <button onClick={onToggle} className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50/50 transition">
-        <div className="flex items-center gap-3">
-          <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center', iconColor)}>
-            {icon}
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-[#082545] text-sm">{title}</h3>
-              {badge}
-            </div>
-            <p className="text-xs text-gray-400">{description}</p>
-          </div>
-        </div>
-        {expanded ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
-      </button>
-      {expanded && (
-        <div className="px-4 pb-4 border-t border-gray-100 pt-4 animate-fadeIn">
-          {children}
-        </div>
-      )}
-    </Card>
-  )
+// Constantes pour les intégrations
+const INTEGRATIONS = [
+  {
+    id: 'stripe',
+    name: 'Stripe',
+    description: 'Paiements & facturation',
+    icon: CreditCard,
+    color: 'text-indigo-500',
+    bgColor: 'bg-indigo-50',
+    envVars: ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY'],
+    status: process.env.NODE_ENV === 'production' ? 'test' : 'configured',
+    accountId: 'acct_1RpvbQ1NzDARltfq'
+  },
+  {
+    id: 'whatsapp',
+    name: 'WhatsApp',
+    description: 'Messagerie instantanée',
+    icon: MessageSquare,
+    color: 'text-green-500',
+    bgColor: 'bg-green-50',
+    envVars: ['WHATSAPP_API_TOKEN'],
+    status: 'not_configured'
+  },
+  {
+    id: 'sms',
+    name: 'SMS (Telnyx)',
+    description: 'SMS transactionnels',
+    icon: Smartphone,
+    color: 'text-blue-500',
+    bgColor: 'bg-blue-50',
+    envVars: ['TELNYX_API_KEY', 'TELNYX_PHONE_NUMBER'],
+    status: 'not_configured'
+  },
+  {
+    id: 'resend',
+    name: 'Resend',
+    description: 'Emails transactionnels',
+    icon: Send,
+    color: 'text-purple-500',
+    bgColor: 'bg-purple-50',
+    envVars: ['RESEND_API_KEY'],
+    status: 'configured'
+  },
+  {
+    id: 'supabase',
+    name: 'Supabase',
+    description: 'Base de données PostgreSQL',
+    icon: Database,
+    color: 'text-emerald-500',
+    bgColor: 'bg-emerald-50',
+    envVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
+    status: 'configured',
+    projectUrl: 'https://wtbrdxijvtelluwfmgsf.supabase.co'
+  }
+] as const
+
+// Fonction pour copier dans le presse-papiers
+const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text)
+  toast.success('Copié dans le presse-papiers')
 }
 
 export default function SettingsPage() {
-  const [sections, setSections] = useState<Record<string, boolean>>({
-    centre: true, formations: false, export: false, integrations: false,
+  const [activeTab, setActiveTab] = useState<Tab>('general')
+  const [editingTemplate, setEditingTemplate] = useState<string | null>(null)
+  const [templateForm, setTemplateForm] = useState({
+    nom: '',
+    sujet: '',
+    contenu_html: '',
+    categorie: 'autre' as EmailTemplate['categorie']
   })
-  const toggle = (id: string) => setSections(p => ({ ...p, [id]: !p[id] }))
 
   const supabase = createClient()
   const queryClient = useQueryClient()
 
-  const { data: formations, isLoading: formationsLoading } = useQuery({
-    queryKey: ['formations'],
+  // Queries
+  const { data: emailTemplates, isLoading: templatesLoading } = useQuery({
+    queryKey: ['email-templates'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('formations').select('*').order('sort_order').order('nom')
+      const { data, error } = await supabase
+        .from('email_templates')
+        .select('*')
+        .order('categorie')
+        .order('nom')
       if (error) throw error
-      return data as Formation[]
+      return data as EmailTemplate[]
     },
   })
 
-  const { data: stats } = useQuery({
+  const { data: partenaires, isLoading: partenairesLoading } = useQuery({
+    queryKey: ['partenaires'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('partenaires')
+        .select('*')
+        .order('nom')
+      if (error) throw error
+      return data as Partenaire[]
+    },
+  })
+
+  const { data: dbStats } = useQuery({
     queryKey: ['db-stats'],
     queryFn: async () => {
       const tables = ['leads', 'sessions', 'inscriptions', 'financements', 'commandes', 'equipe'] as const
-      const results = await Promise.all(tables.map(t => supabase.from(t).select('*', { count: 'exact', head: true })))
+      const results = await Promise.all(
+        tables.map(t => supabase.from(t).select('*', { count: 'exact', head: true }))
+      )
       return Object.fromEntries(tables.map((t, i) => [t, results[i].count || 0]))
     },
   })
 
-  const toggleFormation = useMutation({
+  // Mutations
+  const toggleTemplate = useMutation({
     mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
-      const { error } = await supabase.from('formations').update({ is_active, updated_at: new Date().toISOString() }).eq('id', id)
+      const { error } = await supabase
+        .from('email_templates')
+        .update({ is_active, updated_at: new Date().toISOString() })
+        .eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['formations'] }); toast.success('Mis à jour') },
-    onError: () => toast.error('Erreur'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['email-templates'] })
+      toast.success('Template mis à jour')
+    },
+    onError: () => toast.error('Erreur lors de la mise à jour'),
   })
 
-  const exportLeads = async (format: 'csv' | 'json') => {
-    try {
-      const { data, error } = await supabase.from('leads').select('*')
+  const togglePartenaire = useMutation({
+    mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
+      const { error } = await supabase
+        .from('partenaires')
+        .update({ is_active, updated_at: new Date().toISOString() })
+        .eq('id', id)
       if (error) throw error
-      let content: string, filename: string, mimeType: string
-      if (format === 'csv') {
-        const headers = Object.keys(data[0] || {}).join(',')
-        const rows = data.map(row => Object.values(row).map(v => `"${v}"`).join(','))
-        content = [headers, ...rows].join('\n'); filename = `leads-${new Date().toISOString().split('T')[0]}.csv`; mimeType = 'text/csv'
-      } else {
-        content = JSON.stringify(data, null, 2); filename = `leads-${new Date().toISOString().split('T')[0]}.json`; mimeType = 'application/json'
-      }
-      const blob = new Blob([content], { type: mimeType })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['partenaires'] })
+      toast.success('Partenaire mis à jour')
+    },
+    onError: () => toast.error('Erreur lors de la mise à jour'),
+  })
+
+  // Export functions
+  const exportData = async (table: string) => {
+    try {
+      const { data, error } = await supabase.from(table).select('*')
+      if (error) throw error
+
+      const headers = Object.keys(data[0] || {}).join(',')
+      const rows = data.map(row =>
+        Object.values(row).map(v => `"${v}"`).join(',')
+      )
+      const content = [headers, ...rows].join('\n')
+
+      const blob = new Blob([content], { type: 'text/csv' })
       const url = URL.createObjectURL(blob)
-      const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url)
-      toast.success(`Export ${format.toUpperCase()} téléchargé`)
-    } catch { toast.error("Erreur lors de l'export") }
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${table}-${new Date().toISOString().split('T')[0]}.csv`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+
+      toast.success(`Export ${table} téléchargé`)
+    } catch {
+      toast.error("Erreur lors de l'export")
+    }
   }
 
-  const copy = (text: string) => { navigator.clipboard.writeText(text); toast.success('Copié') }
+  // Badge pour statut intégration
+  const getIntegrationStatusBadge = (status: string) => {
+    switch (status) {
+      case 'configured':
+        return <Badge variant="success" size="sm"><CheckCircle2 className="w-3 h-3" /> Configuré</Badge>
+      case 'test':
+        return <Badge variant="warning" size="sm">Mode test</Badge>
+      default:
+        return <Badge variant="destructive" size="sm"><XCircle className="w-3 h-3" /> Non configuré</Badge>
+    }
+  }
+
+  // Rendu des onglets
+  const TabButton = ({ id, icon: Icon, label, isActive, onClick }: {
+    id: Tab
+    icon: any
+    label: string
+    isActive: boolean
+    onClick: () => void
+  }) => (
+    <button
+      onClick={onClick}
+      className={cn(
+        'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+        isActive
+          ? 'bg-blue-50 text-blue-600 border border-blue-200'
+          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+      )}
+    >
+      <Icon className="w-4 h-4" />
+      <span className="hidden sm:inline">{label}</span>
+    </button>
+  )
 
   return (
-    <div className="space-y-5 max-w-3xl">
-      <PageHeader title="Paramètres" description="Configuration du centre et du système" />
+    <div className="space-y-6">
+      <PageHeader
+        title="Paramètres"
+        description="Configuration du centre et du système"
+        icon={Settings}
+      />
 
-      <div className="space-y-3">
-        {/* Centre */}
-        <Section
-          id="centre" title="Informations Centre" description="Données de l'organisme"
-          icon={<Building2 className="w-4 h-4 text-blue-500" />} iconColor="bg-blue-50"
-          expanded={sections.centre} onToggle={() => toggle('centre')}
-          badge={BRAND.qualiopi ? <Badge variant="success" size="sm"><CheckCircle className="w-3 h-3" /> Qualiopi</Badge> : undefined}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { label: 'Nom', value: BRAND.name },
-              { label: 'Slogan', value: BRAND.tagline },
-              { label: 'Téléphone', value: BRAND.phone, copy: true },
-              { label: 'Email', value: BRAND.email, copy: true },
-              { label: 'Adresse', value: `${BRAND.address}, ${BRAND.zipCode} ${BRAND.city}` },
-            ].map(item => (
-              <div key={item.label}>
-                <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{item.label}</p>
-                <div className="flex items-center gap-1.5">
-                  <p className="text-sm font-medium text-gray-800">{item.value}</p>
-                  {item.copy && (
-                    <button onClick={() => copy(item.value)} className="p-0.5 hover:bg-gray-100 rounded text-gray-300 hover:text-gray-500 transition">
-                      <Copy className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+      {/* Navigation onglets */}
+      <Card>
+        <div className="p-4 border-b border-gray-100">
+          <div className="flex flex-wrap gap-2">
+            <TabButton
+              id="general"
+              icon={Building2}
+              label="Général"
+              isActive={activeTab === 'general'}
+              onClick={() => setActiveTab('general')}
+            />
+            <TabButton
+              id="templates"
+              icon={Mail}
+              label="Templates Email"
+              isActive={activeTab === 'templates'}
+              onClick={() => setActiveTab('templates')}
+            />
+            <TabButton
+              id="integrations"
+              icon={Link2}
+              label="Intégrations"
+              isActive={activeTab === 'integrations'}
+              onClick={() => setActiveTab('integrations')}
+            />
+            <TabButton
+              id="partenaires"
+              icon={Users2}
+              label="Partenaires"
+              isActive={activeTab === 'partenaires'}
+              onClick={() => setActiveTab('partenaires')}
+            />
+            <TabButton
+              id="import-export"
+              icon={Database}
+              label="Import/Export"
+              isActive={activeTab === 'import-export'}
+              onClick={() => setActiveTab('import-export')}
+            />
           </div>
-        </Section>
+        </div>
 
-        {/* Formations */}
-        <Section
-          id="formations" title="Catalogue Formations" description={`${formations?.length || 0} formations`}
-          icon={<GraduationCap className="w-4 h-4 text-pink-500" />} iconColor="bg-pink-50"
-          expanded={sections.formations} onToggle={() => toggle('formations')}
-          badge={<Badge variant="default" size="sm">{formations?.filter(f => f.is_active).length || 0} actives</Badge>}
-        >
-          {formationsLoading ? (
-            <p className="text-sm text-gray-400 text-center py-4">Chargement...</p>
-          ) : (
-            <div className="space-y-2">
-              {formations?.map(f => (
-                <div key={f.id} className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100/80 transition group">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h4 className="text-sm font-medium text-[#082545] truncate">{f.nom}</h4>
-                      <Badge variant="default" size="sm">{f.categorie}</Badge>
-                    </div>
-                    <div className="flex gap-3 mt-0.5 text-[11px] text-gray-400">
-                      <span>{f.duree_jours}j ({f.duree_heures}h)</span>
-                      <span>{formatEuro(f.prix_ht)} HT</span>
-                      <span>Niv. {f.niveau}</span>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => toggleFormation.mutate({ id: f.id, is_active: !f.is_active })}
-                    className={cn(
-                      'p-1.5 rounded-lg transition',
-                      f.is_active ? 'text-green-500 hover:bg-green-100' : 'text-gray-300 hover:bg-gray-200'
-                    )}
-                  >
-                    {f.is_active ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </Section>
-
-        {/* Export */}
-        <Section
-          id="export" title="Export & Données" description="Télécharger ou sauvegarder"
-          icon={<Download className="w-4 h-4 text-green-500" />} iconColor="bg-green-50"
-          expanded={sections.export} onToggle={() => toggle('export')}
-        >
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+        <div className="p-6">
+          {/* Tab 1: Général */}
+          {activeTab === 'general' && (
+            <div className="space-y-6">
               <div>
-                <p className="text-sm font-medium text-gray-800">Export Leads</p>
-                <p className="text-xs text-gray-400">Toutes les données leads</p>
-              </div>
-              <div className="flex gap-1.5">
-                <Button variant="outline" size="sm" onClick={() => exportLeads('csv')}>CSV</Button>
-                <Button variant="outline" size="sm" onClick={() => exportLeads('json')}>JSON</Button>
-              </div>
-            </div>
-
-            {/* DB stats — info utile, pas de bruit */}
-            {stats && (
-              <div>
-                <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-2">Base de données</p>
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                  {Object.entries(stats).map(([table, count]) => (
-                    <div key={table} className="text-center p-2 bg-gray-50 rounded-lg">
-                      <p className="text-lg font-bold text-[#082545]">{count}</p>
-                      <p className="text-[10px] text-gray-400 capitalize">{table}</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Informations générales</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {[
+                    { label: 'Nom organisme', value: BRAND.name },
+                    { label: 'Adresse', value: `${BRAND.address}, ${BRAND.zipCode} ${BRAND.city}` },
+                    { label: 'Téléphone', value: BRAND.phone, copyable: true },
+                    { label: 'Email', value: BRAND.email, copyable: true },
+                    { label: 'SIRET', value: BRAND.siret || 'Non renseigné' },
+                    { label: 'NDA', value: BRAND.nda || 'Non renseigné' }
+                  ].map(item => (
+                    <div key={item.label}>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {item.label}
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-900">{item.value}</span>
+                        {item.copyable && (
+                          <button
+                            onClick={() => copyToClipboard(item.value)}
+                            className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-600 transition"
+                          >
+                            <Copy className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
-            )}
-          </div>
-        </Section>
 
-        {/* Intégrations — Supabase + Stripe en un seul bloc */}
-        <Section
-          id="integrations" title="Intégrations" description="Supabase & Stripe"
-          icon={<Database className="w-4 h-4 text-violet-500" />} iconColor="bg-violet-50"
-          expanded={sections.integrations} onToggle={() => toggle('integrations')}
-          badge={<Badge variant="success" size="sm" dot>Connecté</Badge>}
-        >
-          <div className="space-y-4">
-            {/* Supabase */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center">
-                  <Database className="w-4 h-4 text-green-500" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Supabase</p>
-                  <p className="text-xs text-gray-400">Base de données PostgreSQL</p>
+              <div>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Logo</h4>
+                <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center">
+                  <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                  <p className="text-sm text-gray-500">Glisser-déposer ou cliquer pour uploader</p>
+                  <p className="text-xs text-gray-400 mt-1">PNG, JPG jusqu'à 2MB</p>
                 </div>
               </div>
-              <Badge variant="success" size="sm" dot>Actif</Badge>
-            </div>
 
-            {/* Stripe */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
-                  <CreditCard className="w-4 h-4 text-indigo-500" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Stripe</p>
-                  <p className="text-xs text-gray-400">Paiements & facturation</p>
+              <div>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Horaires d'ouverture</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">Ouverture</label>
+                    <input
+                      type="time"
+                      defaultValue="09:00"
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">Fermeture</label>
+                    <input
+                      type="time"
+                      defaultValue="18:00"
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="warning" size="sm">Mode test</Badge>
-                <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer"
-                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition">
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+
+              <div className="flex justify-end">
+                <Button variant="primary">
+                  <Save className="w-4 h-4 mr-2" />
+                  Sauvegarder
+                </Button>
               </div>
             </div>
-          </div>
-        </Section>
-      </div>
+          )}
+
+          {/* Tab 2: Templates Email */}
+          {activeTab === 'templates' && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Templates Email</h3>
+                <Button variant="primary">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Nouveau template
+                </Button>
+              </div>
+
+              {templatesLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
+                  <p className="text-sm text-gray-500 mt-2">Chargement des templates...</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {emailTemplates?.map(template => (
+                    <div key={template.id} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h4 className="font-medium text-gray-900">{template.nom}</h4>
+                            <Badge variant="default" size="sm">
+                              {template.categorie}
+                            </Badge>
+                            <button
+                              onClick={() => toggleTemplate.mutate({
+                                id: template.id,
+                                is_active: !template.is_active
+                              })}
+                              className={cn(
+                                'transition',
+                                template.is_active ? 'text-green-500' : 'text-gray-300'
+                              )}
+                            >
+                              {template.is_active ? (
+                                <ToggleRight className="w-5 h-5" />
+                              ) : (
+                                <ToggleLeft className="w-5 h-5" />
+                              )}
+                            </button>
+                          </div>
+                          <p className="text-sm text-gray-600 mb-2">{template.sujet}</p>
+                          {template.variables.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {template.variables.map(variable => (
+                                <code
+                                  key={variable}
+                                  className="px-2 py-1 bg-gray-100 text-xs rounded text-gray-700"
+                                >
+                                  {variable}
+                                </code>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex gap-2 ml-4">
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          <Button variant="outline" size="sm">
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Tab 3: Intégrations */}
+          {activeTab === 'integrations' && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-semibold text-gray-900">Intégrations</h3>
+
+              <div className="space-y-4">
+                {INTEGRATIONS.map(integration => (
+                  <div key={integration.id} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center', integration.bgColor)}>
+                          <integration.icon className={cn('w-5 h-5', integration.color)} />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-900">{integration.name}</h4>
+                          <p className="text-sm text-gray-500">{integration.description}</p>
+                          {integration.accountId && (
+                            <p className="text-xs text-gray-400 mt-1">ID: {integration.accountId}</p>
+                          )}
+                          {integration.projectUrl && (
+                            <p className="text-xs text-gray-400 mt-1">{integration.projectUrl}</p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {getIntegrationStatusBadge(integration.status)}
+                        {integration.id === 'stripe' && integration.status !== 'not_configured' && (
+                          <a
+                            href="https://dashboard.stripe.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 hover:bg-gray-100 rounded-lg transition"
+                          >
+                            <Globe className="w-4 h-4 text-gray-400" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Tab 4: Partenaires */}
+          {activeTab === 'partenaires' && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Partenaires</h3>
+                <Button variant="primary">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Ajouter partenaire
+                </Button>
+              </div>
+
+              {partenairesLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
+                  <p className="text-sm text-gray-500 mt-2">Chargement des partenaires...</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Nom</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Type</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Contact</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Commission</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Leads</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">CA généré</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Statut</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {partenaires?.map(partenaire => (
+                        <tr key={partenaire.id} className="border-b border-gray-100">
+                          <td className="py-3 px-4 font-medium text-gray-900">{partenaire.nom}</td>
+                          <td className="py-3 px-4">
+                            <Badge variant="outline" size="sm">
+                              {partenaire.type}
+                            </Badge>
+                          </td>
+                          <td className="py-3 px-4 text-sm text-gray-600">
+                            {partenaire.contact_email}
+                          </td>
+                          <td className="py-3 px-4 text-sm text-gray-600">
+                            {partenaire.commission_taux}%
+                          </td>
+                          <td className="py-3 px-4 text-sm text-gray-600">
+                            {partenaire.leads_envoyes}
+                          </td>
+                          <td className="py-3 px-4 text-sm text-gray-600">
+                            {formatEuro(partenaire.ca_genere)}
+                          </td>
+                          <td className="py-3 px-4">
+                            <button
+                              onClick={() => togglePartenaire.mutate({
+                                id: partenaire.id,
+                                is_active: !partenaire.is_active
+                              })}
+                              className={cn(
+                                'transition',
+                                partenaire.is_active ? 'text-green-500' : 'text-gray-300'
+                              )}
+                            >
+                              {partenaire.is_active ? (
+                                <ToggleRight className="w-5 h-5" />
+                              ) : (
+                                <ToggleLeft className="w-5 h-5" />
+                              )}
+                            </button>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex gap-2">
+                              <Button variant="outline" size="sm">
+                                <Edit2 className="w-4 h-4" />
+                              </Button>
+                              <Button variant="outline" size="sm">
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Tab 5: Import/Export */}
+          {activeTab === 'import-export' && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-semibold text-gray-900">Import/Export</h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Export */}
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-4">Exporter les données</h4>
+                  <div className="space-y-3">
+                    {[
+                      { label: 'Leads', table: 'leads' },
+                      { label: 'Inscriptions', table: 'inscriptions' },
+                      { label: 'Financements', table: 'financements' }
+                    ].map(item => (
+                      <div key={item.table} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900">{item.label}</p>
+                          <p className="text-sm text-gray-500">Export CSV</p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => exportData(item.table)}
+                        >
+                          <Download className="w-4 h-4 mr-2" />
+                          Télécharger
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Import */}
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-4">Importer des données</h4>
+                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center">
+                    <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                    <p className="text-sm text-gray-500 mb-1">Glisser-déposer un fichier CSV</p>
+                    <p className="text-xs text-gray-400">Format leads uniquement</p>
+                    <Button variant="outline" size="sm" className="mt-3">
+                      Choisir un fichier
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats DB */}
+              {dbStats && (
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-4">Statistiques base de données</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    {Object.entries(dbStats).map(([table, count]) => (
+                      <div key={table} className="text-center p-4 bg-gray-50 rounded-lg">
+                        <p className="text-2xl font-bold text-blue-600">{count}</p>
+                        <p className="text-sm text-gray-500 capitalize">{table}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </Card>
     </div>
   )
 }

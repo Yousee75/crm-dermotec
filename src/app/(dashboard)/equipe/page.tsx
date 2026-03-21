@@ -3,186 +3,457 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
-import { type Equipe, type RoleEquipe } from '@/types'
-import { getInitials, formatEuro } from '@/lib/utils'
+import { type Equipe, type RoleEquipe, type Formation, type Session } from '@/types'
+import { formatEuro, cn } from '@/lib/utils'
 import {
-  Plus, Users, Mail, Phone, Edit2,
-  Power, PowerOff, Star, Award, GraduationCap, Heart
+  Plus, Users, Mail, Phone, Edit2, Calendar, FileText, ExternalLink,
+  Power, PowerOff, Star, Award, GraduationCap, Heart, Shield, Filter,
+  Clock, MapPin, ChevronRight, DollarSign, Target, BookOpen
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { PageHeader } from '@/components/ui/PageHeader'
-import { KpiCard } from '@/components/ui/KpiCard'
-import { Card } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
-import { Avatar } from '@/components/ui/Avatar'
-import { EmptyState } from '@/components/ui/EmptyState'
-import { SkeletonCard } from '@/components/ui/Skeleton'
-import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/Dialog'
-import { cn } from '@/lib/utils'
 
-const ROLE_CONFIG: Record<RoleEquipe, { label: string; variant: 'primary' | 'success' | 'warning' | 'error' | 'info'; icon: React.ElementType }> = {
-  admin: { label: 'Admin', variant: 'primary', icon: Star },
-  commercial: { label: 'Commercial', variant: 'info', icon: Phone },
-  formatrice: { label: 'Formatrice', variant: 'error', icon: GraduationCap },
-  assistante: { label: 'Assistante', variant: 'success', icon: Heart },
-  manager: { label: 'Manager', variant: 'warning', icon: Award },
+// Role configuration avec couleurs Dermotec
+const ROLE_CONFIG: Record<RoleEquipe, {
+  label: string;
+  variant: 'purple' | 'blue' | 'pink' | 'green' | 'orange';
+  color: string;
+  icon: React.ElementType
+}> = {
+  admin: { label: 'Admin', variant: 'purple', color: '#8B5CF6', icon: Shield },
+  commercial: { label: 'Commercial', variant: 'blue', color: '#2EC6F3', icon: Phone },
+  formatrice: { label: 'Formatrice', variant: 'pink', color: '#EC4899', icon: GraduationCap },
+  assistante: { label: 'Assistante', variant: 'green', color: '#10B981', icon: Heart },
+  manager: { label: 'Manager', variant: 'orange', color: '#F59E0B', icon: Award },
+}
+
+const ROLE_FILTERS = [
+  { value: 'all', label: 'Tous', icon: Users },
+  { value: 'admin', label: 'Admin', icon: Shield },
+  { value: 'commercial', label: 'Commercial', icon: Phone },
+  { value: 'formatrice', label: 'Formatrice', icon: GraduationCap },
+  { value: 'assistante', label: 'Assistante', icon: Heart },
+  { value: 'manager', label: 'Manager', icon: Award },
+]
+
+// Avatar avec initiales
+function TeamAvatar({ membre, size = 'md' }: { membre: Equipe; size?: 'sm' | 'md' | 'lg' }) {
+  const roleConfig = ROLE_CONFIG[membre.role]
+  const initials = `${membre.prenom.charAt(0)}${membre.nom.charAt(0)}`.toUpperCase()
+
+  const sizeClass = {
+    sm: 'w-8 h-8 text-xs',
+    md: 'w-10 h-10 text-sm',
+    lg: 'w-12 h-12 text-base'
+  }[size]
+
+  return (
+    <div className="relative">
+      <div
+        className={cn(
+          'rounded-full flex items-center justify-center font-semibold text-white',
+          sizeClass
+        )}
+        style={{ backgroundColor: roleConfig.color }}
+      >
+        {initials}
+      </div>
+      {membre.is_active && (
+        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+      )}
+    </div>
+  )
+}
+
+// Badge rôle coloré
+function RoleBadge({ role }: { role: RoleEquipe }) {
+  const config = ROLE_CONFIG[role]
+  const Icon = config.icon
+
+  return (
+    <span
+      className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-white"
+      style={{ backgroundColor: config.color }}
+    >
+      <Icon className="w-3 h-3" />
+      {config.label}
+    </span>
+  )
 }
 
 export default function EquipePage() {
-  const [showCreate, setShowCreate] = useState(false)
+  const [selectedMember, setSelectedMember] = useState<Equipe | null>(null)
+  const [roleFilter, setRoleFilter] = useState<string>('all')
+
   const supabase = createClient()
   const queryClient = useQueryClient()
 
-  const { data: equipe, isLoading } = useQuery({
+  // Fetch équipe
+  const { data: equipe, isLoading: loadingEquipe } = useQuery({
     queryKey: ['equipe'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('equipe').select('*').order('role').order('nom')
+      const { data, error } = await supabase
+        .from('equipe')
+        .select('*')
+        .order('is_active', { ascending: false })
+        .order('role')
+        .order('nom')
       if (error) throw error
       return data as Equipe[]
     },
   })
 
+  // Fetch sessions ce mois pour KPI
+  const { data: sessionsThisMonth } = useQuery({
+    queryKey: ['sessions-this-month'],
+    queryFn: async () => {
+      const now = new Date()
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0]
+
+      const { data, error } = await supabase
+        .from('sessions')
+        .select('id, formatrice_id')
+        .gte('date_debut', startOfMonth)
+        .lte('date_debut', endOfMonth)
+        .not('formatrice_id', 'is', null)
+
+      if (error) throw error
+      return data as Pick<Session, 'id' | 'formatrice_id'>[]
+    },
+  })
+
+  // Fetch formations pour détails formatrices
   const { data: formations } = useQuery({
     queryKey: ['formations'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('formations').select('id, nom, categorie').eq('is_active', true).order('nom')
+      const { data, error } = await supabase
+        .from('formations')
+        .select('id, nom, categorie')
+        .eq('is_active', true)
+        .order('nom')
       if (error) throw error
-      return data
+      return data as Pick<Formation, 'id' | 'nom' | 'categorie'>[]
     },
   })
 
+  // Toggle actif/inactif
   const toggleActive = useMutation({
     mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
-      const { error } = await supabase.from('equipe').update({ is_active, updated_at: new Date().toISOString() }).eq('id', id)
+      const { error } = await supabase
+        .from('equipe')
+        .update({ is_active, updated_at: new Date().toISOString() })
+        .eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['equipe'] }); toast.success('Statut mis à jour') },
-    onError: () => toast.error('Erreur'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['equipe'] })
+      toast.success('Statut mis à jour')
+    },
+    onError: () => toast.error('Erreur lors de la mise à jour'),
   })
 
-  const actifs = equipe?.filter(e => e.is_active).length || 0
+  // Calculs KPI
+  const totalActifs = equipe?.filter(e => e.is_active).length || 0
+  const totalFormatrices = equipe?.filter(e => e.role === 'formatrice' && e.is_active).length || 0
+  const totalCommerciaux = equipe?.filter(e => e.role === 'commercial' && e.is_active).length || 0
+  const sessionsAssignees = sessionsThisMonth?.length || 0
+
+  // Filtrage par rôle
+  const filteredEquipe = equipe?.filter(membre =>
+    roleFilter === 'all' || membre.role === roleFilter
+  ) || []
+
+  // Formations par formatrice
+  const getFormationsFormatrice = (formatriceId: string) => {
+    return formations?.filter(f =>
+      equipe?.find(e => e.id === formatriceId)?.competences_formations?.includes(f.id)
+    ) || []
+  }
 
   return (
-    <div className="space-y-5">
-      <PageHeader title="Équipe" description={`${equipe?.length || 0} membres · ${actifs} actifs`}>
-        <Button size="sm" icon={<Plus className="w-4 h-4" />} onClick={() => setShowCreate(true)}>
-          Ajouter
-        </Button>
-      </PageHeader>
-
-      {/* KPIs — les 3 métriques qui comptent */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-children">
-        <KpiCard icon={Users} label="Membres actifs" value={actifs} color="#3B82F6" />
-        <KpiCard icon={Star} label="Objectif total" value={formatEuro(equipe?.reduce((s, e) => s + e.objectif_mensuel, 0) || 0)} color="#F59E0B" />
-        <KpiCard icon={GraduationCap} label="Formatrices" value={equipe?.filter(e => e.role === 'formatrice').length || 0} color="#EC4899" />
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-[#082545]">Équipe</h1>
+          <p className="text-gray-500 mt-1">
+            {equipe?.length || 0} membres · {totalActifs} actifs
+          </p>
+        </div>
+        <button className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3]/90 transition">
+          <Plus className="w-4 h-4" />
+          Ajouter un membre
+        </button>
       </div>
 
-      {/* Grille équipe — cards, pas de table (c'est des gens, pas des données) */}
-      {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
-          {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Membres actifs</p>
+              <p className="text-2xl font-bold text-[#082545] mt-1">{totalActifs}</p>
+            </div>
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 text-blue-600" />
+            </div>
+          </div>
         </div>
-      ) : !equipe?.length ? (
-        <Card>
-          <EmptyState
-            icon={<Users className="w-7 h-7" />}
-            title="Aucun membre"
-            description="Ajoutez votre premier membre d'équipe"
-            action={{ label: 'Ajouter', onClick: () => setShowCreate(true), icon: <Plus className="w-3.5 h-3.5" /> }}
-          />
-        </Card>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Formatrices</p>
+              <p className="text-2xl font-bold text-[#082545] mt-1">{totalFormatrices}</p>
+            </div>
+            <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center">
+              <GraduationCap className="w-5 h-5 text-pink-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Commerciaux</p>
+              <p className="text-2xl font-bold text-[#082545] mt-1">{totalCommerciaux}</p>
+            </div>
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Phone className="w-5 h-5 text-blue-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Sessions ce mois</p>
+              <p className="text-2xl font-bold text-[#082545] mt-1">{sessionsAssignees}</p>
+            </div>
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-green-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Filtres par rôle */}
+      <div className="flex flex-wrap gap-2">
+        {ROLE_FILTERS.map((filter) => {
+          const Icon = filter.icon
+          const isActive = roleFilter === filter.value
+          return (
+            <button
+              key={filter.value}
+              onClick={() => setRoleFilter(filter.value)}
+              className={cn(
+                'inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition',
+                isActive
+                  ? 'bg-[#2EC6F3] text-white border-[#2EC6F3]'
+                  : 'bg-white text-gray-700 border-gray-200 hover:border-[#2EC6F3]/50'
+              )}
+            >
+              <Icon className="w-4 h-4" />
+              {filter.label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Grid des membres */}
+      {loadingEquipe ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gray-200 rounded-full" />
+                <div className="space-y-2">
+                  <div className="w-24 h-4 bg-gray-200 rounded" />
+                  <div className="w-16 h-3 bg-gray-200 rounded" />
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="w-full h-3 bg-gray-200 rounded" />
+                <div className="w-3/4 h-3 bg-gray-200 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : filteredEquipe.length === 0 ? (
+        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+          <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            {roleFilter === 'all' ? 'Aucun membre' : `Aucun ${ROLE_FILTERS.find(f => f.value === roleFilter)?.label.toLowerCase()}`}
+          </h3>
+          <p className="text-gray-500 mb-6">
+            {roleFilter === 'all'
+              ? 'Commencez par ajouter votre premier membre d\'équipe'
+              : 'Aucun membre trouvé pour ce rôle'
+            }
+          </p>
+          {roleFilter === 'all' && (
+            <button className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3]/90 transition">
+              <Plus className="w-4 h-4" />
+              Ajouter un membre
+            </button>
+          )}
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
-          {equipe.map((membre) => {
-            const role = ROLE_CONFIG[membre.role]
-            return (
-              <Card key={membre.id} hover className={cn(!membre.is_active && 'opacity-60')}>
-                {/* Header — avatar + nom + rôle + toggle */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <Avatar
-                      name={`${membre.prenom} ${membre.nom}`}
-                      size="md"
-                      color={membre.avatar_color}
-                      status={membre.is_active ? 'online' : 'offline'}
-                    />
-                    <div>
-                      <h3 className="font-semibold text-[#082545]">{membre.prenom} {membre.nom}</h3>
-                      <Badge variant={role.variant} size="sm">
-                        <role.icon className="w-3 h-3" /> {role.label}
-                      </Badge>
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredEquipe.map((membre) => (
+            <div
+              key={membre.id}
+              className={cn(
+                'bg-white rounded-lg border border-gray-200 p-6 cursor-pointer hover:border-[#2EC6F3]/50 transition',
+                !membre.is_active && 'opacity-60'
+              )}
+              onClick={() => setSelectedMember(membre)}
+            >
+              {/* Header avec avatar et statut */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <TeamAvatar membre={membre} />
+                  <div>
+                    <h3 className="font-semibold text-[#082545]">
+                      {membre.prenom} {membre.nom}
+                    </h3>
+                    <RoleBadge role={membre.role} />
                   </div>
-                  <button
-                    onClick={() => toggleActive.mutate({ id: membre.id, is_active: !membre.is_active })}
-                    className={cn(
-                      'p-1.5 rounded-lg transition',
-                      membre.is_active ? 'text-green-500 hover:bg-green-50' : 'text-gray-300 hover:bg-gray-100'
-                    )}
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    toggleActive.mutate({ id: membre.id, is_active: !membre.is_active })
+                  }}
+                  className={cn(
+                    'p-1.5 rounded-lg transition',
+                    membre.is_active
+                      ? 'text-green-500 hover:bg-green-50'
+                      : 'text-gray-400 hover:bg-gray-50'
+                  )}
+                >
+                  {membre.is_active ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
+                </button>
+              </div>
+
+              {/* Contact */}
+              <div className="space-y-2 mb-4">
+                <a
+                  href={`mailto:${membre.email}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#2EC6F3] transition"
+                >
+                  <Mail className="w-4 h-4" />
+                  {membre.email}
+                </a>
+                {membre.telephone && (
+                  <a
+                    href={`tel:${membre.telephone}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#2EC6F3] transition"
                   >
-                    {membre.is_active ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
-                  </button>
-                </div>
+                    <Phone className="w-4 h-4" />
+                    {membre.telephone}
+                  </a>
+                )}
+              </div>
 
-                {/* Contact — compact, cliquable */}
-                <div className="space-y-1.5 mb-3">
-                  {membre.email && (
-                    <a href={`mailto:${membre.email}`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-[#2EC6F3] transition truncate">
-                      <Mail className="w-3.5 h-3.5 shrink-0" /> {membre.email}
-                    </a>
-                  )}
-                  {membre.telephone && (
-                    <a href={`tel:${membre.telephone}`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-[#2EC6F3] transition">
-                      <Phone className="w-3.5 h-3.5 shrink-0" /> {membre.telephone}
-                    </a>
-                  )}
-                </div>
-
-                {/* Objectif — le chiffre qui compte */}
-                <div className="bg-gray-50 rounded-lg px-3 py-2 mb-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-gray-400 uppercase tracking-wider">Objectif mensuel</span>
-                    <span className="font-bold text-sm text-[#082545]">{formatEuro(membre.objectif_mensuel)}</span>
-                  </div>
-                </div>
-
-                {/* Spécialités — tags discrets */}
-                {membre.specialites.length > 0 && (
+              {/* Spécialités */}
+              {membre.specialites.length > 0 && (
+                <div className="mb-4">
                   <div className="flex flex-wrap gap-1">
-                    {membre.specialites.slice(0, 3).map(spec => (
-                      <Badge key={spec} variant="default" size="sm">{spec}</Badge>
+                    {membre.specialites.slice(0, 3).map((spec) => (
+                      <span
+                        key={spec}
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-700"
+                      >
+                        {spec}
+                      </span>
                     ))}
                     {membre.specialites.length > 3 && (
-                      <span className="text-[10px] text-gray-400 self-center">+{membre.specialites.length - 3}</span>
+                      <span className="text-xs text-gray-500">
+                        +{membre.specialites.length - 3}
+                      </span>
                     )}
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* Formatrice extras — seulement si pertinent */}
-                {membre.role === 'formatrice' && membre.taux_horaire && (
-                  <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                    <span className="text-xs text-gray-400">Taux horaire</span>
-                    <span className="text-sm font-semibold text-green-600">{formatEuro(membre.taux_horaire)}/h</span>
-                  </div>
-                )}
-              </Card>
-            )
-          })}
+              {/* Formatrice extras */}
+              {membre.role === 'formatrice' && (
+                <div className="space-y-3 pt-3 border-t border-gray-100">
+                  {membre.cv_url && (
+                    <a
+                      href={membre.cv_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 text-sm text-[#2EC6F3] hover:underline"
+                    >
+                      <FileText className="w-4 h-4" />
+                      CV
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
+                  {membre.certifications && membre.certifications.length > 0 && (
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Award className="w-4 h-4" />
+                      {membre.certifications.length} certification{membre.certifications.length > 1 ? 's' : ''}
+                    </div>
+                  )}
+                  {membre.taux_horaire && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Taux horaire</span>
+                      <span className="font-semibold text-green-600">
+                        {formatEuro(membre.taux_horaire)}/h
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Action */}
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                <span className="text-sm text-gray-500">Voir le profil</span>
+                <ChevronRight className="w-4 h-4 text-gray-400" />
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
-      {/* Modal création */}
-      <Dialog open={showCreate} onClose={() => setShowCreate(false)} size="md">
-        <DialogHeader onClose={() => setShowCreate(false)}>
-          <DialogTitle>Ajouter un membre</DialogTitle>
-          <DialogDescription>Formulaire complet à implémenter</DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => setShowCreate(false)}>Annuler</Button>
-          <Button>Créer</Button>
-        </DialogFooter>
-      </Dialog>
+      {/* Panel de détail (simplified pour l'exemple) */}
+      {selectedMember && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <TeamAvatar membre={selectedMember} size="lg" />
+                  <div>
+                    <h2 className="text-xl font-bold text-[#082545]">
+                      {selectedMember.prenom} {selectedMember.nom}
+                    </h2>
+                    <RoleBadge role={selectedMember.role} />
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedMember(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              <p className="text-center text-gray-500">
+                Détail du profil à implémenter
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
