@@ -1,8 +1,15 @@
 import Stripe from 'stripe'
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-04-30.basil',
-})
+let _stripe: Stripe | null = null
+
+function getStripe(): Stripe {
+  if (!_stripe) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+      apiVersion: '2025-08-27.basil',
+    })
+  }
+  return _stripe
+}
 
 // Créer une session Checkout pour une inscription
 export async function createCheckoutSession({
@@ -22,6 +29,7 @@ export async function createCheckoutSession({
   successUrl: string
   cancelUrl: string
 }) {
+  const stripe = getStripe()
   return stripe.checkout.sessions.create({
     mode: 'payment',
     customer_email: leadEmail,
@@ -33,7 +41,7 @@ export async function createCheckoutSession({
             name: `Formation ${formationNom}`,
             description: `Inscription — ${leadNom}`,
           },
-          unit_amount: Math.round(montant * 100), // centimes
+          unit_amount: Math.round(montant * 100),
         },
         quantity: 1,
       },
@@ -66,13 +74,12 @@ export async function createPaymentSchedule({
   nbEcheances: number
   inscriptionId: string
 }) {
-  // Créer le customer Stripe
+  const stripe = getStripe()
   const customer = await stripe.customers.create({
     email: leadEmail,
     metadata: { inscription_id: inscriptionId },
   })
 
-  // Créer une facture avec échéancier
   const invoice = await stripe.invoices.create({
     customer: customer.id,
     collection_method: 'send_invoice',
@@ -80,7 +87,6 @@ export async function createPaymentSchedule({
     metadata: { inscription_id: inscriptionId },
   })
 
-  // Ajouter la ligne
   await stripe.invoiceItems.create({
     customer: customer.id,
     invoice: invoice.id,
@@ -102,6 +108,7 @@ export async function createPaymentLink({
   montant: number
   inscriptionId: string
 }) {
+  const stripe = getStripe()
   const product = await stripe.products.create({
     name: `Formation ${formationNom}`,
   })

@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createClient } from '@/lib/supabase-client'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+function getResend() {
+  if (!process.env.RESEND_API_KEY) throw new Error('RESEND_API_KEY non configurée')
+  return new Resend(process.env.RESEND_API_KEY)
+}
+
+export const dynamic = 'force-dynamic'
 
 interface EmailRequest {
   to: string
@@ -55,6 +60,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. Envoyer l'email via Resend
+    const resend = getResend()
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: 'Dermotec Formation <formation@dermotec.fr>',
       to,
@@ -101,10 +107,8 @@ export async function POST(request: NextRequest) {
       resend_id: emailData?.id,
       variables,
       statut: 'ENVOYE',
-    }).catch(error => {
-      // Table optionnelle, on ne fait pas échouer l'envoi
-      console.warn('Impossible de logger dans emails_sent:', error)
     })
+    // Table optionnelle, on ne fait pas échouer l'envoi
 
     return NextResponse.json({
       success: true,

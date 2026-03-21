@@ -157,22 +157,22 @@ export function useFinancementStats(filters?: Pick<FinancementFilters, 'organism
       const { data, error } = await query
       if (error) throw error
 
+      const parStatut: Record<string, number> = {}
+      const parOrganisme: Record<string, number> = {}
       const stats = {
         total_dossiers: data?.length || 0,
-        par_statut: {} as Record<StatutFinancement, number>,
-        par_organisme: {} as Record<OrganismeFinancement, number>,
+        par_statut: parStatut,
+        par_organisme: parOrganisme,
         montant_total_demande: 0,
         montant_total_accorde: 0,
         montant_total_verse: 0,
         taux_acceptation: 0,
       }
 
-      data?.forEach(f => {
-        // Compteurs par statut
-        stats.par_statut[f.statut] = (stats.par_statut[f.statut] || 0) + 1
-
-        // Compteurs par organisme
-        stats.par_organisme[f.organisme] = (stats.par_organisme[f.organisme] || 0) + 1
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data?.forEach((f: any) => {
+        parStatut[f.statut] = (parStatut[f.statut] || 0) + 1
+        parOrganisme[f.organisme] = (parOrganisme[f.organisme] || 0) + 1
 
         // Montants
         stats.montant_total_demande += f.montant_demande || 0
@@ -181,8 +181,8 @@ export function useFinancementStats(filters?: Pick<FinancementFilters, 'organism
       })
 
       // Taux d'acceptation
-      const acceptes = (stats.par_statut.VALIDE || 0) + (stats.par_statut.VERSE || 0)
-      const refuses = stats.par_statut.REFUSE || 0
+      const acceptes = (parStatut['VALIDE'] || 0) + (parStatut['VERSE'] || 0)
+      const refuses = parStatut['REFUSE'] || 0
       stats.taux_acceptation = acceptes + refuses > 0
         ? Math.round((acceptes / (acceptes + refuses)) * 100)
         : 0

@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useState } from 'react'
+import React, { use, useState } from 'react'
 import { useSession, useUpdateSession } from '@/hooks/use-sessions'
 import {
   ArrowLeft, Calendar, Clock, MapPin, Users, GraduationCap,
@@ -436,10 +436,10 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                         <td className="px-4 py-3">
                           <div className="flex gap-1">
                             {modele.photo_avant_url && (
-                              <Camera className="w-4 h-4 text-green-500" title="Photo avant" />
+                              <span title="Photo avant"><Camera className="w-4 h-4 text-green-500" /></span>
                             )}
                             {modele.photo_apres_url && (
-                              <Camera className="w-4 h-4 text-blue-500" title="Photo après" />
+                              <span title="Photo après"><Camera className="w-4 h-4 text-blue-500" /></span>
                             )}
                           </div>
                         </td>
