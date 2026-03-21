@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { createClient } from '@/lib/supabase-client'
@@ -115,7 +114,7 @@ export function useMFA() {
         return { data: null, error }
       }
 
-      return { data: data as EnrollResponse, error: null }
+      return { data: data as unknown as EnrollResponse, error: null }
     } catch (error) {
       return { data: null, error: error as Error }
     }
@@ -142,7 +141,7 @@ export function useMFA() {
         return { data: null, error }
       }
 
-      return { data: data as EnrollResponse, error: null }
+      return { data: data as unknown as EnrollResponse, error: null }
     } catch (error) {
       return { data: null, error: error as Error }
     }
@@ -172,7 +171,7 @@ export function useMFA() {
         return { data: null, error }
       }
 
-      return { data: data as ChallengeResponse, error: null }
+      return { data: data as unknown as ChallengeResponse, error: null }
     } catch (error) {
       return { data: null, error: error as Error }
     }
@@ -201,7 +200,7 @@ export function useMFA() {
         return { data: null, error }
       }
 
-      return { data: data as VerifyResponse, error: null }
+      return { data: data as unknown as VerifyResponse, error: null }
     } catch (error) {
       return { data: null, error: error as Error }
     }

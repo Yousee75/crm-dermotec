@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServiceSupabase } from '@/lib/supabase-server'
@@ -28,7 +27,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createServiceSupabase()
 
     // 1. Récupérer formation et session
-    const { data: formation, error: formationError } = await supabase
+    const { data: formation, error: formationError } = await (supabase as any)
       .from('formations')
       .select('*')
       .eq('id', validatedData.formation_id)
@@ -44,7 +43,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { data: session, error: sessionError } = await supabase
+    const { data: session, error: sessionError } = await (supabase as any)
       .from('sessions')
       .select('*')
       .eq('id', validatedData.session_id)
@@ -74,7 +73,7 @@ export async function POST(request: NextRequest) {
     // 2. Créer ou trouver le lead
     let leadId: string
 
-    const { data: existingLead } = await supabase
+    const { data: existingLead } = await (supabase as any)
       .from('leads')
       .select('id')
       .eq('email', validatedData.email)
@@ -84,7 +83,7 @@ export async function POST(request: NextRequest) {
       leadId = existingLead.id
 
       // Mettre à jour le lead existant
-      await supabase
+      await (supabase as any)
         .from('leads')
         .update({
           prenom: validatedData.prenom,
@@ -97,7 +96,7 @@ export async function POST(request: NextRequest) {
         .eq('id', leadId)
     } else {
       // Créer nouveau lead
-      const { data: newLead, error: leadError } = await supabase
+      const { data: newLead, error: leadError } = await (supabase as any)
         .from('leads')
         .insert({
           prenom: validatedData.prenom,
@@ -143,7 +142,7 @@ export async function POST(request: NextRequest) {
     const montantFinal = Math.round(montantTTC * 100) / 100
 
     // 4. Créer l'inscription
-    const { data: inscription, error: inscriptionError } = await supabase
+    const { data: inscription, error: inscriptionError } = await (supabase as any)
       .from('inscriptions')
       .insert({
         lead_id: leadId,
@@ -171,7 +170,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 5. Mettre à jour le compteur de places
-    await supabase
+    await (supabase as any)
       .from('sessions')
       .update({
         places_occupees: session.places_occupees + 1,
@@ -179,7 +178,7 @@ export async function POST(request: NextRequest) {
       .eq('id', validatedData.session_id)
 
     // 6. Logger l'activité
-    await supabase
+    await (supabase as any)
       .from('activites')
       .insert({
         type: 'INSCRIPTION' as const,
@@ -211,7 +210,7 @@ export async function POST(request: NextRequest) {
     })
 
     // 8. Mettre à jour l'inscription avec l'ID Stripe
-    await supabase
+    await (supabase as any)
       .from('inscriptions')
       .update({
         stripe_payment_id: stripeSession.id,

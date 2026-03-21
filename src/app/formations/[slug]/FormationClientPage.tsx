@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
@@ -770,7 +769,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
         formationNom={formation.nom}
         prix={formation.prix_ht}
         onCtaClick={handleCTA}
-        heroRef={heroCta}
+        heroRef={heroCta as any}
       />
       <WhatsAppButton message={`Bonjour ! Je suis intéressée par la formation ${formation.nom}. Pouvez-vous me donner plus d'informations ?`} />
       <ChatWidget />

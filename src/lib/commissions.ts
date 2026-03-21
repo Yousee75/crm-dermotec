@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Moteur de commissionnement
 // Calcul automatique des commissions sur leads concretises
@@ -135,7 +134,7 @@ export function calculateCommission(
 export async function createCommission(input: CommissionInput): Promise<void> {
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Charger la config active
     const { data: configData } = await supabase
@@ -229,7 +228,7 @@ export async function createCommission(input: CommissionInput): Promise<void> {
 export async function annulerCommission(inscriptionId: string, raison: string): Promise<void> {
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     await supabase
       .from('commissions')

@@ -1,4 +1,3 @@
-// @ts-nocheck — AI SDK v6 tool() inference conflicts, non-blocking
 // ============================================================
 // CRM DERMOTEC — AI Agent Tools (v2)
 // 10 tools CRM exécutables par l'agent
@@ -6,13 +5,16 @@
 // ============================================================
 import 'server-only'
 
-import { tool } from 'ai'
+import { tool, type Tool } from 'ai'
 import { z } from 'zod'
 import { createServiceSupabase } from './supabase-server'
 import { hybridSearchKB } from './hybrid-search'
 
+// Helper to bypass strict overload matching on tool()
+const defineTool = (config: { description: string; parameters: z.ZodObject<any>; execute: (...args: any[]) => Promise<any> }): Tool => tool(config as any)
+
 // --- TOOL 1: Recherche de leads ---
-export const searchLeadsTool = tool({
+export const searchLeadsTool = defineTool({
   description: `Recherche des leads dans le CRM par nom, email, téléphone ou statut.
 QUAND L'UTILISER : quand le commercial mentionne un prospect par son nom, veut voir ses leads chauds, ou cherche un contact.
 EXEMPLE : "Cherche Marie Dupont" → searchLeads({ query: "Marie Dupont" })
@@ -23,8 +25,8 @@ EXEMPLE : "Leads à rappeler" → searchLeads({ statut: "CONTACTE", limit: 10 })
     statut: z.string().optional().describe('NOUVEAU | CONTACTE | QUALIFIE | FINANCEMENT_EN_COURS | INSCRIT | EN_FORMATION | FORME | ALUMNI'),
     limit: z.number().optional().default(5).describe('Nombre max de résultats (défaut 5)'),
   }),
-  execute: async ({ query, statut, limit }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ query, statut, limit }: { query?: string; statut?: string; limit?: number }) => {
+    const supabase = await createServiceSupabase() as any
     let q = supabase
       .from('leads')
       .select('id, prenom, nom, email, telephone, statut, score_chaud, source, statut_pro, created_at, formation_principale:formations!leads_formation_principale_id_fkey(nom, prix_ht)')
@@ -45,15 +47,15 @@ EXEMPLE : "Leads à rappeler" → searchLeads({ statut: "CONTACTE", limit: 10 })
 })
 
 // --- TOOL 2: Fiche lead complète ---
-export const getLeadDetailsTool = tool({
+export const getLeadDetailsTool = defineTool({
   description: `Charge la fiche complète d'un lead : profil, formation, financement, inscriptions, rappels, notes.
 QUAND L'UTILISER : quand tu as besoin du contexte complet d'un lead pour conseiller le commercial.
 EXEMPLE : "Dis-moi tout sur cette lead" → getLeadDetails({ lead_id: "uuid" })`,
   parameters: z.object({
     lead_id: z.string().describe('ID UUID du lead'),
   }),
-  execute: async ({ lead_id }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ lead_id }: { lead_id: string }) => {
+    const supabase = await createServiceSupabase() as any
     const { data: lead, error } = await supabase
       .from('leads')
       .select(`
@@ -76,7 +78,7 @@ EXEMPLE : "Dis-moi tout sur cette lead" → getLeadDetails({ lead_id: "uuid" })`
 })
 
 // --- TOOL 3: Créer un rappel ---
-export const createReminderTool = tool({
+export const createReminderTool = defineTool({
   description: `Crée un rappel pour relancer un lead. L'agent DOIT confirmer au commercial que le rappel a été créé.
 QUAND L'UTILISER : quand le commercial dit "rappelle-moi de contacter...", "planifie un suivi", "crée un rappel".
 EXEMPLE : "Rappelle-moi d'appeler Marie mardi" → createReminder({ lead_id: "uuid", date_rappel: "2026-03-25T10:00:00", type: "APPEL", titre: "Rappeler Marie" })`,
@@ -87,8 +89,8 @@ EXEMPLE : "Rappelle-moi d'appeler Marie mardi" → createReminder({ lead_id: "uu
     titre: z.string().describe('Titre court du rappel'),
     description: z.string().optional().describe('Description optionnelle'),
   }),
-  execute: async ({ lead_id, date_rappel, type, titre, description }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ lead_id, date_rappel, type, titre, description }: { lead_id: string; date_rappel: string; type: string; titre: string; description?: string }) => {
+    const supabase = await createServiceSupabase() as any
     const { data, error } = await supabase
       .from('rappels')
       .insert({ lead_id, date_rappel, type, titre, description, statut: 'EN_ATTENTE', priorite: 'NORMALE' })
@@ -97,7 +99,7 @@ EXEMPLE : "Rappelle-moi d'appeler Marie mardi" → createReminder({ lead_id: "uu
 
     if (error) return { error: error.message }
 
-    await supabase.from('activites').insert({
+    await (supabase as any).from('activites').insert({
       type: 'RAPPEL',
       lead_id,
       description: `Rappel créé par l'agent IA : ${titre} (${type}) — ${new Date(date_rappel).toLocaleDateString('fr-FR')}`,
@@ -108,7 +110,7 @@ EXEMPLE : "Rappelle-moi d'appeler Marie mardi" → createReminder({ lead_id: "uu
 })
 
 // --- TOOL 4: Sessions disponibles ---
-export const getNextSessionsTool = tool({
+export const getNextSessionsTool = defineTool({
   description: `Liste les prochaines sessions de formation avec places restantes.
 QUAND L'UTILISER : quand le commercial veut proposer une date au prospect, vérifier les disponibilités.
 EXEMPLE : "Prochaines sessions microblading ?" → getNextSessions({ formation_slug: "microblading" })
@@ -116,8 +118,8 @@ EXEMPLE : "Qu'est-ce qui est dispo ?" → getNextSessions({})`,
   parameters: z.object({
     formation_slug: z.string().optional().describe('Slug formation (maquillage-permanent, microblading, full-lips, tricopigmentation, areole-cicatrices, nanoneedling, soin-allin1, peeling-dermaplaning, detatouage, epilation-definitive, hygiene-salubrite)'),
   }),
-  execute: async ({ formation_slug }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ formation_slug }: { formation_slug?: string }) => {
+    const supabase = await createServiceSupabase() as any
     let q = supabase
       .from('sessions')
       .select('id, date_debut, date_fin, horaire_debut, horaire_fin, salle, places_max, places_occupees, statut, formation:formations(nom, slug, prix_ht, duree_jours)')
@@ -151,7 +153,7 @@ EXEMPLE : "Qu'est-ce qui est dispo ?" → getNextSessions({})`,
 })
 
 // --- TOOL 5: Analyse financement ---
-export const analyzeFinancementTool = tool({
+export const analyzeFinancementTool = defineTool({
   description: `Analyse les options de financement pour un prospect selon son statut professionnel.
 Retourne les organismes éligibles, les montants, les délais et un SCRIPT TÉLÉPHONIQUE prêt à lire.
 QUAND L'UTILISER : quand le commercial parle de financement, de prix, ou que le prospect demande comment payer.
@@ -161,7 +163,7 @@ EXEMPLE : "Comment financer le microblading pour une salariée ?" → analyzeFin
     formation_prix: z.number().describe('Prix HT en euros'),
     formation_nom: z.string().describe('Nom de la formation'),
   }),
-  execute: async ({ statut_pro, formation_prix, formation_nom }) => {
+  execute: async ({ statut_pro, formation_prix, formation_nom }: { statut_pro: string; formation_prix: number; formation_nom: string }) => {
     const mapping: Record<string, Array<{ org: string; taux: string; rac: string; delai: string; conseil: string }>> = {
       salariee: [
         { org: 'OPCO EP', taux: '100%', rac: '0€', delai: '3-6 semaines', conseil: 'Demander au RH le code OPCO.' },
@@ -205,7 +207,7 @@ EXEMPLE : "Comment financer le microblading pour une salariée ?" → analyzeFin
 })
 
 // --- TOOL 6: Knowledge base ---
-export const searchKnowledgeBaseTool = tool({
+export const searchKnowledgeBaseTool = defineTool({
   description: `Recherche dans la base de connaissances Dermotec : scripts de vente, réponses objections, fiches formation, processus financement, FAQ, témoignages.
 QUAND L'UTILISER : quand le commercial a besoin d'un script, d'arguments, ou d'informations métier.
 EXEMPLE : "Script premier appel" → searchKnowledgeBase({ query: "premier appel", categorie: "script_vente" })
@@ -214,7 +216,7 @@ EXEMPLE : "Comment fonctionne le CPF ?" → searchKnowledgeBase({ query: "CPF pr
     query: z.string().describe('Termes de recherche'),
     categorie: z.enum(['script_vente', 'objection', 'fiche_formation', 'financement', 'process', 'faq', 'temoignage', 'argument_cle']).optional(),
   }),
-  execute: async ({ query, categorie }) => {
+  execute: async ({ query, categorie }: { query: string; categorie?: string }) => {
     // Hybrid search : BM25 (full-text) + Vector (sémantique) — -67% échecs retrieval
     try {
       const results = await hybridSearchKB(query, { limit: 5, categorie })
@@ -226,7 +228,7 @@ EXEMPLE : "Comment fonctionne le CPF ?" → searchKnowledgeBase({ query: "CPF pr
     }
 
     // Fallback : FTS seul
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
     const searchTerms = query.replace(/['"]/g, '').split(/\s+/).filter((w: string) => w.length > 2).join(' & ')
     const { data } = await supabase.from('knowledge_base').select('categorie, titre, contenu, formation_slug, statut_pro_cible').eq('is_active', true).textSearch('fts', searchTerms || query, { config: 'french' }).limit(5)
     if (data?.length) return { articles: data, source: 'fts' }
@@ -238,15 +240,15 @@ EXEMPLE : "Comment fonctionne le CPF ?" → searchKnowledgeBase({ query: "CPF pr
 })
 
 // --- TOOL 7: Playbook réponse ---
-export const getPlaybookResponseTool = tool({
+export const getPlaybookResponseTool = defineTool({
   description: `Trouve la MEILLEURE réponse validée par l'équipe pour une objection. Chaque réponse a un taux de succès mesuré en conditions réelles.
 QUAND L'UTILISER : quand le commercial fait face à une objection (trop cher, pas le temps, peur, conjoint, etc.)
 EXEMPLE : "La lead dit que c'est trop cher" → getPlaybookResponse({ objection: "trop cher" })`,
   parameters: z.object({
     objection: z.string().describe('L\'objection du prospect'),
   }),
-  execute: async ({ objection }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ objection }: { objection: string }) => {
+    const supabase = await createServiceSupabase() as any
     const searchTerms = objection.replace(/['"]/g, '').split(/\s+/).filter((w: string) => w.length > 2).join(' & ')
 
     const { data: entries } = await supabase
@@ -276,13 +278,13 @@ EXEMPLE : "La lead dit que c'est trop cher" → getPlaybookResponse({ objection:
 })
 
 // --- TOOL 8: Statistiques pipeline ---
-export const getPipelineStatsTool = tool({
+export const getPipelineStatsTool = defineTool({
   description: `Donne les statistiques du pipeline commercial : nombre de leads par statut, CA prévisionnel, taux de conversion.
 QUAND L'UTILISER : quand le commercial ou manager demande "où on en est", "combien de leads", "quel est le CA".
 EXEMPLE : "Combien de leads en pipeline ?" → getPipelineStats({})`,
   parameters: z.object({}),
   execute: async () => {
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
     const { data: leads } = await supabase
       .from('leads')
       .select('statut, score_chaud')
@@ -311,14 +313,14 @@ EXEMPLE : "Combien de leads en pipeline ?" → getPipelineStats({})`,
       par_statut: statuts,
       score_moyen: leads?.length ? Math.round(totalScore / leads.length) : 0,
       sessions_planifiees: sessions?.length || 0,
-      places_dispo_total: sessions?.reduce((sum, s) => sum + (s.places_max - s.places_occupees), 0) || 0,
+      places_dispo_total: sessions?.reduce((sum: number, s: any) => sum + (s.places_max - s.places_occupees), 0) || 0,
       rappels_en_retard: rappels?.length || 0,
     }
   },
 })
 
 // --- TOOL 9: Changer statut lead ---
-export const updateLeadStatusTool = tool({
+export const updateLeadStatusTool = defineTool({
   description: `Change le statut d'un lead dans le pipeline. ATTENTION : vérifie que la transition est valide (state machine).
 QUAND L'UTILISER : quand le commercial dit "passe ce lead en qualifié", "ce lead est inscrit", etc.
 TRANSITIONS VALIDES :
@@ -332,8 +334,8 @@ EXEMPLE : "Marie est qualifiée" → updateLeadStatus({ lead_id: "uuid", nouveau
     nouveau_statut: z.string().describe('NOUVEAU | CONTACTE | QUALIFIE | FINANCEMENT_EN_COURS | INSCRIT | EN_FORMATION | FORME | ALUMNI | PERDU'),
     raison: z.string().describe('Raison du changement de statut'),
   }),
-  execute: async ({ lead_id, nouveau_statut, raison }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ lead_id, nouveau_statut, raison }: { lead_id: string; nouveau_statut: string; raison: string }) => {
+    const supabase = await createServiceSupabase() as any
 
     // Charger le statut actuel
     const { data: lead } = await supabase.from('leads').select('statut, prenom, nom').eq('id', lead_id).single()
@@ -365,7 +367,7 @@ EXEMPLE : "Marie est qualifiée" → updateLeadStatus({ lead_id: "uuid", nouveau
 })
 
 // --- TOOL 10: Envoyer un email ---
-export const sendEmailTool = tool({
+export const sendEmailTool = defineTool({
   description: `Envoie un email à un lead via le système Resend de Dermotec.
 QUAND L'UTILISER : quand le commercial veut envoyer un email de relance, de confirmation, ou de financement.
 IMPORTANT : toujours confirmer au commercial avant d'envoyer (résumer le contenu).
@@ -376,7 +378,7 @@ EXEMPLE : "Envoie un email de relance à Marie" → D'ABORD getLeadDetails pour 
     body: z.string().describe('Contenu de l\'email (texte simple)'),
     lead_id: z.string().optional().describe('ID du lead pour le tracking'),
   }),
-  execute: async ({ to, subject, body, lead_id }) => {
+  execute: async ({ to, subject, body, lead_id }: { to: string; subject: string; body: string; lead_id?: string }) => {
     // Envoyer via l'API interne
     try {
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
@@ -393,7 +395,7 @@ EXEMPLE : "Envoie un email de relance à Marie" → D'ABORD getLeadDetails pour 
       if (!res.ok) {
         // Fallback : log l'email comme brouillon
         if (lead_id) {
-          const supabase = await createServiceSupabase()
+          const supabase = await createServiceSupabase() as any
           await supabase.from('messages').insert({
             lead_id,
             direction: 'outbound',
@@ -416,7 +418,7 @@ EXEMPLE : "Envoie un email de relance à Marie" → D'ABORD getLeadDetails pour 
 
 // --- TOOL 11: Think (raisonnement privé) ---
 // Best practice Anthropic : https://www.anthropic.com/engineering/claude-think-tool
-export const thinkTool = tool({
+export const thinkTool = defineTool({
   description: `Espace de réflexion PRIVÉ. Utilise cet outil pour RAISONNER avant de répondre à une question complexe.
 Le contenu de ta réflexion n'est PAS montré au commercial — c'est ton brouillon interne.
 QUAND L'UTILISER :
@@ -429,7 +431,7 @@ EXEMPLE : "Je dois réfléchir... Marie est gérante, formation microblading 140
   parameters: z.object({
     reasoning: z.string().describe('Ta réflexion interne — analyse, vérification de données, planification'),
   }),
-  execute: async ({ reasoning }) => {
+  execute: async ({ reasoning }: { reasoning: string }) => {
     // Le think tool ne fait rien côté serveur — c'est juste un espace de réflexion pour le LLM
     // Le résultat n'est pas affiché dans l'UI (filtré dans AgentChat.tsx)
     return { thought: reasoning, _private: true }
@@ -437,15 +439,15 @@ EXEMPLE : "Je dois réfléchir... Marie est gérante, formation microblading 140
 })
 
 // --- TOOL 12: Proactive Insights (alertes automatiques) ---
-export const getProactiveInsightsTool = tool({
+export const getProactiveInsightsTool = defineTool({
   description: `Analyse un lead et retourne les ALERTES et OPPORTUNITÉS urgentes.
 QUAND L'UTILISER : AUTOMATIQUEMENT quand tu as un lead_id en contexte. Appelle cet outil en PREMIER avant toute autre chose.
 Retourne : rappels en retard, jours sans contact, dossiers financement en attente, sessions bientôt complètes.`,
   parameters: z.object({
     lead_id: z.string().describe('ID du lead'),
   }),
-  execute: async ({ lead_id }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ lead_id }: { lead_id: string }) => {
+    const supabase = await createServiceSupabase() as any
     const insights: string[] = []
     const urgences: string[] = []
 
@@ -476,7 +478,7 @@ Retourne : rappels en retard, jours sans contact, dossiers financement en attent
       .lte('date_rappel', new Date().toISOString())
 
     if (rappels?.length) {
-      urgences.push(`🔴 ${rappels.length} rappel(s) en retard : ${rappels.map(r => r.titre || r.type).join(', ')}`)
+      urgences.push(`🔴 ${rappels.length} rappel(s) en retard : ${rappels.map((r: any) => r.titre || r.type).join(', ')}`)
     }
 
     // 4. Financement en attente
@@ -489,8 +491,8 @@ Retourne : rappels en retard, jours sans contact, dossiers financement en attent
       if (!financements?.length) {
         insights.push('💡 Financement souhaité mais aucun dossier ouvert')
       } else {
-        const enCours = financements.filter(f => ['SOUMIS', 'EN_EXAMEN', 'COMPLEMENT_DEMANDE'].includes(f.statut))
-        if (enCours.length) insights.push(`📋 ${enCours.length} dossier(s) financement en cours : ${enCours.map(f => f.organisme).join(', ')}`)
+        const enCours = financements.filter((f: any) => ['SOUMIS', 'EN_EXAMEN', 'COMPLEMENT_DEMANDE'].includes(f.statut))
+        if (enCours.length) insights.push(`📋 ${enCours.length} dossier(s) financement en cours : ${enCours.map((f: any) => f.organisme).join(', ')}`)
       }
     }
 
@@ -528,7 +530,7 @@ Retourne : rappels en retard, jours sans contact, dossiers financement en attent
 })
 
 // --- TOOL 13: Find Similar Success Leads ---
-export const findSimilarSuccessTool = tool({
+export const findSimilarSuccessTool = defineTool({
   description: `Trouve des leads avec un profil SIMILAIRE qui ont RÉUSSI (statut FORME ou ALUMNI).
 Retourne les patterns de succès : nombre de contacts moyen, financement utilisé, délai de conversion.
 QUAND L'UTILISER : quand tu veux donner des insights data-driven au commercial.
@@ -538,8 +540,8 @@ EXEMPLE : "Comment les gérantes d'institut comme Marie ont converti ?" → find
     formation_slug: z.string().optional().describe('Slug de la formation'),
     source: z.string().optional().describe('Source du lead'),
   }),
-  execute: async ({ statut_pro, formation_slug, source }) => {
-    const supabase = await createServiceSupabase()
+  execute: async ({ statut_pro, formation_slug, source }: { statut_pro?: string; formation_slug?: string; source?: string }) => {
+    const supabase = await createServiceSupabase() as any
 
     let q = supabase
       .from('leads')

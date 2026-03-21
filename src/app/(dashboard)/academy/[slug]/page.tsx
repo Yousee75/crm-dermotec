@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useParams, useRouter } from 'next/navigation'
@@ -65,7 +64,7 @@ export default function ModuleDetailPage() {
   const params = useParams()
   const router = useRouter()
   const user = useUser()
-  const slug = params.slug as string
+  const slug = params?.slug as string
 
   // Récupérer les données utilisateur depuis la table equipe
   const { data: currentUser } = useQuery({
@@ -100,12 +99,12 @@ export default function ModuleDetailPage() {
   if (moduleLoading || !module) {
     return (
       <div className="space-y-6">
-        <SkeletonCard className="h-32" />
+        <div className="h-32"><SkeletonCard /></div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4">
             <SkeletonList items={8} />
           </div>
-          <SkeletonCard className="h-64" />
+          <div className="h-64"><SkeletonCard /></div>
         </div>
       </div>
     )

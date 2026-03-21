@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 // ============================================================
@@ -51,7 +50,7 @@ export function useCurrentPlan(): Plan {
   // En production : 'pro' (toutes les fonctionnalites actives)
   // Override possible via env var pour demo/test
   if (typeof window !== 'undefined') {
-    const override = (window as Record<string, unknown>).__DERMOTEC_PLAN as Plan | undefined
+    const override = (window as unknown as Record<string, unknown>).__DERMOTEC_PLAN as Plan | undefined
     if (override) return override
   }
   return (process.env.NEXT_PUBLIC_PLAN as Plan) || 'pro'

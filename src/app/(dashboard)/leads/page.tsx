@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useState, useCallback, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
 import { Dialog, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/Dialog'
 import { STATUTS_LEAD, type StatutLead } from '@/types'
@@ -27,6 +28,8 @@ import { getScoreColor } from '@/lib/scoring'
 import type { SourceLead } from '@/types'
 
 export default function LeadsPage() {
+  const t = useTranslations('leads')
+  const tc = useTranslations('common')
   const [search, setSearch] = useState('')
   const [statutFilter, setStatutFilter] = useState<StatutLead[]>([])
   const [sourceFilter, setSourceFilter] = useState<SourceLead[]>([])

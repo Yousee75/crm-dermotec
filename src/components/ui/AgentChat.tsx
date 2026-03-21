@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useChat } from '@ai-sdk/react'
@@ -257,10 +256,11 @@ export function AgentChat() {
   const inputRef = useRef<HTMLInputElement>(null)
   const pathname = usePathname()
 
-  const leadIdMatch = pathname.match(/\/lead\/([a-f0-9-]+)/)
+  const leadIdMatch = (pathname ?? '').match(/\/lead\/([a-f0-9-]+)/)
   const currentLeadId = leadIdMatch ? leadIdMatch[1] : undefined
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages, reload } = useChat({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const chatHelpers = useChat({
     api: '/api/ai/agent-v2',
     body: { leadId: currentLeadId },
     initialMessages: [{
@@ -273,7 +273,8 @@ export function AgentChat() {
     onError: (err) => {
       console.error('[AgentChat] Error:', err.message)
     },
-  })
+  }) as any // AI SDK v6 types changed — cast helpers
+  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages, reload } = chatHelpers
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -363,7 +364,7 @@ export function AgentChat() {
             <>
               {/* Messages */}
               <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-[200px]">
-                {messages.map((message) => (
+                {messages.map((message: any) => (
                   <div key={message.id} className={cn('flex gap-2', message.role === 'user' ? 'justify-end' : 'justify-start')}>
                     {message.role === 'assistant' && (
                       <div className="w-6 h-6 rounded-full bg-[#2EC6F3]/10 flex items-center justify-center shrink-0 mt-0.5">
@@ -377,7 +378,7 @@ export function AgentChat() {
                         : 'bg-gray-50 text-gray-800 rounded-bl-sm'
                     )}>
                       {/* Tool invocations with visual results */}
-                      {message.toolInvocations?.map((toolInvocation, i) => {
+                      {message.toolInvocations?.map((toolInvocation: any, i: number) => {
                         const toolInfo = TOOL_LABELS[toolInvocation.toolName] || { label: toolInvocation.toolName, icon: Wrench }
                         const ToolIcon = toolInfo.icon
 
@@ -413,7 +414,7 @@ export function AgentChat() {
                   </div>
                 ))}
 
-                {isLoading && !messages.some(m => m.toolInvocations?.some(t => t.state !== 'result')) && (
+                {isLoading && !messages.some((m: any) => m.toolInvocations?.some((t: any) => t.state !== 'result')) && (
                   <div className="flex gap-2">
                     <div className="w-6 h-6 rounded-full bg-[#2EC6F3]/10 flex items-center justify-center shrink-0">
                       <Bot className="w-3 h-3 text-[#2EC6F3]" />

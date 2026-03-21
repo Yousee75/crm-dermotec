@@ -1,11 +1,11 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Tracking System Exports
 // Point d'entrée centralisé pour tout le système de tracking
 // ============================================================
 
 // Core tracking
-export { tracker, trackingHelpers, type TrackEvent } from '@/lib/user-tracker'
+import { tracker, trackingHelpers, type TrackEvent } from '@/lib/user-tracker'
+export { tracker, trackingHelpers, type TrackEvent }
 
 // React hooks
 export {
@@ -17,7 +17,6 @@ export {
   usePerformanceTracker,
   useErrorTracker,
   useEngagementTracker,
-  useTrackingStatus
 } from '@/hooks/use-tracker'
 
 // Providers et composants
@@ -94,7 +93,7 @@ export const trackingUtils = {
   trackLeadView: (leadId: string, source?: string) => {
     trackingHelpers.leadView(leadId)
     if (source) {
-      trackingHelpers.track(TRACKING_EVENTS.CLICK, {
+      tracker.track(TRACKING_EVENTS.CLICK, {
         target: 'lead_navigation',
         source,
         lead_id: leadId
@@ -108,7 +107,7 @@ export const trackingUtils = {
   trackExport: (format: 'csv' | 'pdf', entity: string, count: number, filters?: any) => {
     trackingHelpers.export(format, entity, count)
     if (filters) {
-      trackingHelpers.track(TRACKING_EVENTS.CLICK, {
+      tracker.track(TRACKING_EVENTS.CLICK, {
         target: 'export_with_filters',
         format,
         entity,
@@ -124,7 +123,7 @@ export const trackingUtils = {
   trackAIUsage: (feature: string, promptLength?: number, resultQuality?: 'good' | 'bad') => {
     trackingHelpers.aiUsage(feature, promptLength ? 'a'.repeat(promptLength) : undefined)
     if (resultQuality) {
-      trackingHelpers.track(TRACKING_EVENTS.CLICK, {
+      tracker.track(TRACKING_EVENTS.CLICK, {
         target: 'ai_feedback',
         feature,
         quality: resultQuality
@@ -136,7 +135,7 @@ export const trackingUtils = {
    * Track une erreur avec contexte complet
    */
   trackError: (error: Error, context?: string) => {
-    trackingHelpers.track(TRACKING_EVENTS.CLICK, {
+    tracker.track(TRACKING_EVENTS.CLICK, {
       target: 'error',
       error_message: error.message,
       error_stack: error.stack?.slice(0, 500),

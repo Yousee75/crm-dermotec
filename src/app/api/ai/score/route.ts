@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { scoreLead } from '@/lib/ai-scoring'
 import { createServerSupabase, createServiceSupabase } from '@/lib/supabase-server'
@@ -17,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const service = await createServiceSupabase()
-    const { data: lead, error } = await service
+    const { data: lead, error } = await (service as any)
       .from('leads')
       .select('*')
       .eq('id', lead_id)
@@ -30,13 +29,13 @@ export async function POST(req: NextRequest) {
     const result = await scoreLead(lead)
 
     // Mettre à jour le score du lead
-    await service
+    await (service as any)
       .from('leads')
       .update({ score_chaud: result.score_predictif })
       .eq('id', lead_id)
 
     // Logger
-    await service.from('activites').insert({
+    await (service as any).from('activites').insert({
       type: 'SYSTEME',
       lead_id,
       description: `Score IA mis à jour : ${result.score_predictif}/100 (${result.probabilite_conversion}% conversion)`,

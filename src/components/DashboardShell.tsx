@@ -21,6 +21,7 @@ import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
 import { AgentChat } from '@/components/ui/AgentChat'
 import { usePageTracker } from '@/hooks/use-tracker'
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { cn } from '@/lib/utils'
 
 interface NavSection {
@@ -36,61 +37,18 @@ interface NavItem {
   badgeVariant?: 'primary' | 'error' | 'warning'
 }
 
-// Sidebar fusionnée : CRM prospection + gestion OF
-// Raconte le parcours complet : Prospection → Conversion → Formation → Fidélisation
+// Sidebar simplifiée : 7 entrées, chaque page a des onglets internes
+// Un OF de 3-5 personnes n'a pas besoin de 20 pages
 const NAV_SECTIONS: NavSection[] = [
   {
-    label: 'PILOTAGE',
     items: [
       { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
-      { href: '/cockpit', icon: Zap, label: 'Ma journée' },
-    ]
-  },
-  {
-    label: 'PROSPECTION',
-    items: [
-      { href: '/leads', icon: UserPlus, label: 'Prospects' },
-      { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
-    ]
-  },
-  {
-    label: 'FORMATIONS',
-    items: [
-      { href: '/catalogue', icon: BookOpen, label: 'Catalogue' },
       { href: '/sessions', icon: Calendar, label: 'Sessions' },
-      { href: '/inscriptions', icon: UserCheck, label: 'Inscriptions' },
-    ]
-  },
-  {
-    label: 'CONTACTS',
-    items: [
-      { href: '/clients', icon: Building2, label: 'Clients' },
-      { href: '/apprenants', icon: GraduationCap, label: 'Apprenants' },
-      { href: '/stagiaires', icon: BookOpen, label: 'En formation' },
-    ]
-  },
-  {
-    label: 'GESTION',
-    items: [
-      { href: '/financement', icon: CreditCard, label: 'Financement' },
-      { href: '/facturation', icon: Receipt, label: 'Facturation' },
-      { href: '/commandes', icon: ShoppingBag, label: 'E-Shop' },
-    ]
-  },
-  {
-    label: 'QUALITÉ & ANALYTICS',
-    items: [
-      { href: '/qualite', icon: Award, label: 'Qualiopi' },
-      { href: '/bpf', icon: FileBarChart, label: 'BPF' },
+      { href: '/contacts', icon: Users, label: 'Contacts' },
+      { href: '/gestion', icon: CreditCard, label: 'Gestion' },
+      { href: '/qualiopi', icon: Award, label: 'Qualiopi' },
       { href: '/analytics', icon: BarChart3, label: 'Analytics' },
-    ]
-  },
-  {
-    label: 'ADMIN',
-    items: [
-      { href: '/equipe', icon: Users, label: 'Équipe' },
-      { href: '/audit', icon: Eye, label: 'Audit' },
-      { href: '/settings', icon: Settings, label: 'Paramètres' },
+      { href: '/parametres', icon: Settings, label: 'Paramètres' },
     ]
   },
 ]
@@ -177,8 +135,39 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     router.push('/login')
   }
 
-  const isActive = (href: string) =>
-    pathname === href || (href !== '/' && href !== '/cockpit' && (pathname ?? '').startsWith(href))
+  const isActive = (href: string) => {
+    if (pathname === href) return true
+    if (href === '/') return false
+
+    // Gestion des sous-routes pour les pages à onglets
+    if (href === '/contacts') {
+      return pathname?.startsWith('/leads') ||
+             pathname?.startsWith('/clients') ||
+             pathname?.startsWith('/apprenants') ||
+             pathname?.startsWith('/pipeline') ||
+             pathname?.startsWith('/lead/') ||
+             pathname?.startsWith('/contacts')
+    }
+    if (href === '/gestion') {
+      return pathname?.startsWith('/financement') ||
+             pathname?.startsWith('/facturation') ||
+             pathname?.startsWith('/commandes') ||
+             pathname?.startsWith('/gestion')
+    }
+    if (href === '/qualiopi') {
+      return pathname?.startsWith('/qualite') ||
+             pathname?.startsWith('/bpf') ||
+             pathname?.startsWith('/qualiopi')
+    }
+    if (href === '/parametres') {
+      return pathname?.startsWith('/settings') ||
+             pathname?.startsWith('/equipe') ||
+             pathname?.startsWith('/audit') ||
+             pathname?.startsWith('/parametres')
+    }
+
+    return (pathname ?? '').startsWith(href)
+  }
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ height: '100dvh' }}>
@@ -373,6 +362,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                 </kbd>
               </button>
 
+              {/* Language Switcher */}
+              <LocaleSwitcher compact />
+
               {/* Notifications */}
               <div className="relative">
                 <button
@@ -551,6 +543,11 @@ function getCurrentPageTitle(pathname: string): string {
     '/equipe': 'Équipe',
     '/audit': 'Audit',
     '/settings': 'Paramètres',
+    // Nouvelles pages à onglets
+    '/contacts': 'Contacts',
+    '/gestion': 'Gestion',
+    '/qualiopi': 'Qualiopi',
+    '/parametres': 'Paramètres',
   }
 
   for (const [path, title] of Object.entries(titles)) {

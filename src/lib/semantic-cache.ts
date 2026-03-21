@@ -1,4 +1,3 @@
-// @ts-nocheck
 import 'server-only'
 import { createServiceSupabase } from './supabase-server'
 import { generateEmbedding } from './embeddings'
@@ -18,7 +17,7 @@ export async function semanticCacheGet(query: string): Promise<CacheEntry | null
     const embedding = await generateEmbedding(query)
     if (!embedding.length) return null
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
     const { data } = await supabase.rpc('semantic_cache_lookup', {
       p_query_embedding: JSON.stringify(embedding),
       p_threshold: 0.95,
@@ -57,7 +56,7 @@ export async function semanticCacheSet(
     const embedding = await generateEmbedding(query)
     if (!embedding.length) return
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
     await supabase.from('semantic_cache').insert({
       query,
       query_embedding: JSON.stringify(embedding),

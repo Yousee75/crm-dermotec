@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
 
@@ -16,7 +15,7 @@ export async function GET(
     const supabase = await createServiceSupabase()
 
     // Récupérer l'inscription via le token portail
-    const { data: inscription, error: inscError } = await supabase
+    const { data: inscription, error: inscError } = await (supabase as any)
       .from('inscriptions')
       .select(`
         *,
@@ -35,7 +34,7 @@ export async function GET(
     }
 
     // Récupérer les émargements
-    const { data: emargements } = await supabase
+    const { data: emargements } = await (supabase as any)
       .from('emargements')
       .select('*')
       .eq('inscription_id', inscription.id)
@@ -43,14 +42,14 @@ export async function GET(
 
     // Récupérer les documents liés (requêtes séparées pour éviter injection)
     const [docsByInsc, docsByLead] = await Promise.all([
-      supabase.from('documents').select('*').eq('inscription_id', inscription.id),
-      supabase.from('documents').select('*').eq('lead_id', inscription.lead_id),
+      (supabase as any).from('documents').select('*').eq('inscription_id', inscription.id),
+      (supabase as any).from('documents').select('*').eq('lead_id', inscription.lead_id),
     ])
     const documents = [...(docsByInsc.data || []), ...(docsByLead.data || [])]
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
 
     // Récupérer les factures liées
-    const { data: factures } = await supabase
+    const { data: factures } = await (supabase as any)
       .from('factures')
       .select('*')
       .eq('inscription_id', inscription.id)

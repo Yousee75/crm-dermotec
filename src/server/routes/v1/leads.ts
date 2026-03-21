@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // Routes v1 — /api/v1/leads
 // Thin HTTP layer: parse request → call use case → return result.
@@ -205,7 +204,7 @@ function sendResult(c: { json: (data: unknown, status: number) => unknown }, res
 }
 
 // GET /api/v1/leads
-leads.openapi(listRoute, async (c) => {
+leads.openapi(listRoute, (async (c: any) => {
   const { page, limit, statut, source, commercial_id, search, score_min, score_max } = c.req.valid('query')
   const container = containerFrom(c)
   const pagination = Pagination.create(page, limit)
@@ -223,30 +222,30 @@ leads.openapi(listRoute, async (c) => {
     page,
     pages: pagination.totalPages(result.data.total),
   }, 200)
-})
+}) as any)
 
 // GET /api/v1/leads/:id
-leads.openapi(getRoute, async (c) => {
+leads.openapi(getRoute, (async (c: any) => {
   const { id } = c.req.valid('param')
   const container = containerFrom(c)
 
   const result = await container.leadRepo.findById(id)
   if (!result.ok) return c.json({ error: result.error }, result.status)
   return c.json(result.data, 200)
-})
+}) as any)
 
 // POST /api/v1/leads
-leads.openapi(createRoute_, async (c) => {
+leads.openapi(createRoute_, (async (c: any) => {
   const body = c.req.valid('json')
   const container = containerFrom(c)
 
   const result = await createLead(body, container)
   if (!result.ok) return c.json({ error: result.error }, result.status)
   return c.json(result.data, 201)
-})
+}) as any)
 
 // PATCH /api/v1/leads/:id/status
-leads.openapi(statusRoute, async (c) => {
+leads.openapi(statusRoute, (async (c: any) => {
   const { id } = c.req.valid('param')
   const { status, reason } = c.req.valid('json')
   const container = containerFrom(c)
@@ -257,10 +256,10 @@ leads.openapi(statusRoute, async (c) => {
   )
   if (!result.ok) return c.json({ error: result.error }, result.status)
   return c.json(result.data, 200)
-})
+}) as any)
 
 // PATCH /api/v1/leads/:id/qualify
-leads.openapi(qualifyRoute, async (c) => {
+leads.openapi(qualifyRoute, (async (c: any) => {
   const { id } = c.req.valid('param')
   const body = c.req.valid('json')
   const container = containerFrom(c)
@@ -268,10 +267,10 @@ leads.openapi(qualifyRoute, async (c) => {
   const result = await qualifyLead({ lead_id: id, ...body }, container)
   if (!result.ok) return c.json({ error: result.error }, result.status)
   return c.json(result.data, 200)
-})
+}) as any)
 
 // PATCH /api/v1/leads/:id/assign
-leads.openapi(assignRoute, async (c) => {
+leads.openapi(assignRoute, (async (c: any) => {
   const { id } = c.req.valid('param')
   const { commercial_id } = c.req.valid('json')
   const container = containerFrom(c)
@@ -279,6 +278,6 @@ leads.openapi(assignRoute, async (c) => {
   const result = await assignLead({ lead_id: id, commercial_id }, container)
   if (!result.ok) return c.json({ error: result.error }, result.status)
   return c.json(result.data, 200)
-})
+}) as any)
 
 export default leads

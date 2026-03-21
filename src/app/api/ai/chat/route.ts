@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { chatWithAI } from '@/lib/ai-chatbot'
 import { createServiceSupabase } from '@/lib/supabase-server'
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest) {
     const supabase = await createServiceSupabase()
 
     // Charger les formations pour le contexte
-    const { data: formations } = await supabase
+    const { data: formations } = await (supabase as any)
       .from('formations')
       .select('nom, prix_ht, duree_jours, duree_heures, categorie, prerequis, description_commerciale, objectifs, niveau')
       .eq('is_active', true)
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest) {
     // Charger le contexte du lead si disponible
     let leadContext: { prenom?: string; statut_pro?: string; experience?: string } | undefined
     if (lead_id) {
-      const { data: lead } = await supabase
+      const { data: lead } = await (supabase as any)
         .from('leads')
         .select('prenom, statut_pro, experience_esthetique')
         .eq('id', lead_id)
@@ -49,7 +48,7 @@ export async function POST(req: NextRequest) {
 
     // Logger l'interaction si c'est un lead connu
     if (lead_id) {
-      await supabase.from('activites').insert({
+      await (supabase as any).from('activites').insert({
         type: 'CONTACT',
         lead_id,
         description: `Chatbot IA — ${messages[messages.length - 1]?.content?.slice(0, 80)}...`,

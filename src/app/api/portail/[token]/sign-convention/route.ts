@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
 
@@ -44,7 +43,7 @@ export async function POST(
     const supabase = await createServiceSupabase()
 
     // Récupérer l'inscription via le token portail
-    const { data: inscription, error: inscError } = await supabase
+    const { data: inscription, error: inscError } = await (supabase as any)
       .from('inscriptions')
       .select(`
         *,
@@ -67,7 +66,7 @@ export async function POST(
     }
 
     // Mettre à jour l'inscription
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('inscriptions')
       .update({
         convention_signee: true,
@@ -93,7 +92,7 @@ export async function POST(
       is_signed: true
     }
 
-    const { error: docError } = await supabase
+    const { error: docError } = await (supabase as any)
       .from('documents')
       .insert([documentData])
 
@@ -117,7 +116,7 @@ export async function POST(
       }
     }
 
-    const { error: actError } = await supabase
+    const { error: actError } = await (supabase as any)
       .from('activites')
       .insert([activiteData])
 

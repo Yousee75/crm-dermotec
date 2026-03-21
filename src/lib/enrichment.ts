@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Service d'enrichissement multi-API
 // BLINDÉ : cache DB + Redis, déduplication, rate limit provider,
@@ -101,14 +100,14 @@ async function getFromCache(key: string): Promise<unknown | null> {
   // L2: DB (fallback si Redis down)
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
     const { data } = await supabase
       .from('enrichment_cache')
       .select('data')
       .eq('cache_key', key)
       .gt('expires_at', new Date().toISOString())
       .single()
-    return data?.data || null
+    return (data as any)?.data || null
   } catch { return null }
 }
 
@@ -125,7 +124,7 @@ async function setInCache(key: string, value: unknown, provider: string): Promis
   // L2: DB (backup persistent)
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
     await supabase.from('enrichment_cache').upsert({
       cache_key: key,
       provider,
@@ -145,7 +144,7 @@ async function checkProviderRateLimit(provider: string): Promise<boolean> {
     if (!limits) return true // Pas de limite connue
 
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Vérifier le compteur horaire
     const { count: hourCount } = await supabase
@@ -191,7 +190,7 @@ async function logEnrichment(params: {
 }): Promise<void> {
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
     await supabase.from('enrichment_log').insert({
       lead_id: params.lead_id || null,
       user_id: params.user_id || null,
@@ -457,9 +456,9 @@ export async function enrichLead(params: {
   // 1. SIRENE (gratuit)
   if (params.siret) {
     try {
-      const { verifySiret } = await import('./sirene-api')
-      const sireneData = await verifySiret(params.siret)
-      if (sireneData) { result.sirene = sireneData; result.sources_used.push('sirene') }
+      const { verifySIRET } = await import('./sirene-api')
+      const sireneResult = await verifySIRET(params.siret)
+      if (sireneResult.valid && sireneResult.entreprise) { result.sirene = sireneResult.entreprise; result.sources_used.push('sirene') }
     } catch (err) { result.errors.push(`SIRENE: ${err instanceof Error ? err.message : 'erreur'}`) }
   }
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Gamification Engine
 // Système de points, badges et niveaux pour booster la performance commerciale
@@ -130,8 +129,8 @@ export const LEVELS = [
 ] as const
 
 // Calculer le niveau actuel basé sur les points
-export function calculateLevel(points: number): typeof LEVELS[0] {
-  let currentLevel = LEVELS[0]
+export function calculateLevel(points: number): typeof LEVELS[number] {
+  let currentLevel: typeof LEVELS[number] = LEVELS[0]
 
   for (const level of LEVELS) {
     if (points >= level.minPoints) {
@@ -176,7 +175,7 @@ export function getProgressToNextLevel(points: number): {
 }
 
 // Obtenir les badges débloqués
-export function getUnlockedBadges(stats: CommercialStats): typeof BADGES[0][] {
+export function getUnlockedBadges(stats: CommercialStats): typeof BADGES[number][] {
   return BADGES.filter(badge => badge.condition(stats))
 }
 
@@ -243,9 +242,9 @@ export function calculateTotalPoints(activities: Activite[]): number {
 // Interface pour les données de gamification d'un commercial
 export interface GamificationData {
   points: number
-  level: typeof LEVELS[0]
+  level: typeof LEVELS[number]
   progress: ReturnType<typeof getProgressToNextLevel>
-  badges: typeof BADGES[0][]
+  badges: typeof BADGES[number][]
   streak: number
   todayPoints: number
   stats: CommercialStats

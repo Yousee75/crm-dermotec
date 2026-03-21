@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/api-auth'
 import { enrichLead, enrichWithPappers, enrichWithGooglePlaces } from '@/lib/enrichment'
@@ -26,7 +25,7 @@ export async function POST(request: NextRequest) {
     // Récupérer le profil utilisateur
     const { createServiceSupabase } = await import('@/lib/supabase-server')
     const supabase = await createServiceSupabase()
-    const { data: equipe } = await supabase
+    const { data: equipe } = await (supabase as any)
       .from('equipe')
       .select('id, org_id')
       .eq('auth_user_id', auth.user.id)
@@ -95,8 +94,8 @@ export async function POST(request: NextRequest) {
         }
       }
       if (Object.keys(updates).length > 0) {
-        await supabase.from('leads').update(updates).eq('id', lead_id)
-        await supabase.from('activites').insert({
+        await (supabase as any).from('leads').update(updates).eq('id', lead_id)
+        await (supabase as any).from('activites').insert({
           type: 'SYSTEME', lead_id, user_id: equipe.id,
           description: `Lead enrichi (${result.sources_used.join(', ')}) — ${creditCheck.credits_consumed} crédits`,
         })
@@ -121,7 +120,7 @@ export async function GET(request: NextRequest) {
   try {
     const { createServiceSupabase } = await import('@/lib/supabase-server')
     const supabase = await createServiceSupabase()
-    const { data: equipe } = await supabase.from('equipe').select('org_id').eq('auth_user_id', auth.user.id).single()
+    const { data: equipe } = await (supabase as any).from('equipe').select('org_id').eq('auth_user_id', auth.user.id).single()
 
     const status = await getCreditStatus(equipe?.org_id)
     return NextResponse.json(status)

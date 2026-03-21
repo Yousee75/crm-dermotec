@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 // ============================================================
@@ -11,7 +10,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { useTrack, useTrackingStatus } from '@/hooks/use-tracker'
+import { useTrack } from '@/hooks/use-tracker'
 import { tracker, trackingHelpers } from '@/lib/user-tracker'
 import { Bug, Zap, Play, Eye, AlertTriangle } from 'lucide-react'
 
@@ -19,7 +18,7 @@ export function TrackingDebugger() {
   const [events, setEvents] = useState<any[]>([])
   const [isVisible, setIsVisible] = useState(false)
   const { track } = useTrack()
-  const { isActive } = useTrackingStatus()
+  const isActive = true // useTrackingStatus not exported from use-tracker
 
   // Intercepter les events pour debug (monkey patch)
   useEffect(() => {

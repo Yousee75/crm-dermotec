@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
 
@@ -44,7 +43,7 @@ export async function POST(req: NextRequest) {
     const ua = req.headers.get('user-agent') || 'unknown'
 
     // Vérifier inscription + token de sécurité
-    const inscriptionQuery = supabase
+    const inscriptionQuery = (supabase as any)
       .from('inscriptions')
       .select('id, session_id, portail_token')
       .eq('id', inscription_id)
@@ -61,7 +60,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Vérifier immutabilité — si déjà signé par le stagiaire, refuser
-    const { data: existing } = await supabase
+    const { data: existing } = await (supabase as any)
       .from('emargements')
       .select('id, signed_at, formateur_signed_at')
       .eq('session_id', session_id)
@@ -83,7 +82,7 @@ export async function POST(req: NextRequest) {
       }
 
       if (existing) {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('emargements')
           .update(updateData)
           .eq('id', existing.id)
@@ -111,7 +110,7 @@ export async function POST(req: NextRequest) {
 
     if (existing && !is_formateur) {
       // Mettre à jour l'émargement existant (créé par le formateur avant le stagiaire)
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('emargements')
         .update({
           signature_data,
@@ -156,7 +155,7 @@ export async function POST(req: NextRequest) {
       insertData.user_agent = ua
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('emargements')
       .insert(insertData)
       .select()
@@ -183,7 +182,7 @@ async function logActivity(
   creneau: string,
   emargement_id: string
 ) {
-  await supabase.from('activites').insert({
+  await (supabase as any).from('activites').insert({
     type: 'DOCUMENT',
     inscription_id,
     session_id,
@@ -203,7 +202,7 @@ export async function GET(req: NextRequest) {
 
     const supabase = await createServiceSupabase()
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('emargements')
       .select('*, inscription:inscriptions(id, lead:leads(prenom, nom))')
       .eq('session_id', session_id)

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { askCommercialAssistant } from '@/lib/ai-commercial'
 import type { AssistantAction } from '@/lib/ai-commercial'
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest) {
     // Charger le lead si ID fourni
     let lead = undefined
     if (lead_id) {
-      const { data } = await service
+      const { data } = await (service as any)
         .from('leads')
         .select('*, formation_principale:formations(nom)')
         .eq('id', lead_id)
@@ -54,7 +53,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Charger les formations pour le contexte
-    const { data: formations } = await service
+    const { data: formations } = await (service as any)
       .from('formations')
       .select('nom, prix_ht, duree_jours')
       .eq('is_active', true)
@@ -67,7 +66,7 @@ export async function POST(req: NextRequest) {
     })
 
     // Logger l'utilisation de l'IA
-    await service.from('activites').insert({
+    await (service as any).from('activites').insert({
       type: 'SYSTEME',
       lead_id: lead_id || null,
       description: `Assistant IA — ${action}${lead ? ` pour ${lead.prenom}` : ''}`,

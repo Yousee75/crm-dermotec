@@ -65,7 +65,7 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
   }
 
   // Curiosity gap, bold claim, story opening
-  const icons = {
+  const icons: Record<string, string> = {
     curiosity_gap: '🔍',
     bold_claim: '💡',
     story_opening: '📖',

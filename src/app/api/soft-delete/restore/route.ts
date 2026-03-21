@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
@@ -61,12 +60,16 @@ export async function POST(request: NextRequest) {
       .eq('id', corbeille_id)
 
     // 4. Logger
-    await supabase.from('activites').insert({
-      type: 'SYSTEME',
-      lead_id: entry.table_name === 'leads' ? entry.record_id : null,
-      description: `${entry.table_name} restauré depuis la corbeille`,
-      metadata: { table: entry.table_name, record_id: entry.record_id },
-    }).catch(() => {})
+    try {
+      await (supabase as any).from('activites').insert({
+        type: 'SYSTEME',
+        lead_id: entry.table_name === 'leads' ? entry.record_id : null,
+        description: `${entry.table_name} restauré depuis la corbeille`,
+        metadata: { table: entry.table_name, record_id: entry.record_id },
+      })
+    } catch {
+      // Ignore logging errors
+    }
 
     return NextResponse.json({ success: true, message: 'Restauré avec succès' })
   } catch (error) {

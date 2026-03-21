@@ -1,4 +1,3 @@
-// @ts-nocheck
 import 'server-only'
 import { createServiceSupabase } from './supabase-server'
 import { generateEmbedding } from './embeddings'
@@ -25,7 +24,7 @@ export async function hybridSearchKB(
     categorie?: string
   }
 ): Promise<SearchResult[]> {
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   // Générer l'embedding de la requête
   const embedding = await generateEmbedding(query)
@@ -40,7 +39,7 @@ export async function hybridSearchKB(
       .textSearch('fts', searchTerms || query, { config: 'french' })
       .limit(options?.limit || 10)
 
-    return (data || []).map((d, i) => ({
+    return (data || []).map((d: any, i: number) => ({
       ...d,
       bm25_score: 1 - i * 0.1,
       vector_score: 0,
@@ -68,7 +67,7 @@ export async function hybridSearchKB(
       .textSearch('fts', searchTerms || query, { config: 'french' })
       .limit(options?.limit || 10)
 
-    return (fallback || []).map((d, i) => ({
+    return (fallback || []).map((d: any, i: number) => ({
       ...d,
       bm25_score: 1 - i * 0.1,
       vector_score: 0,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
@@ -81,12 +80,16 @@ export async function POST(request: NextRequest) {
     }
 
     // 4. Logger l'activité
-    await supabase.from('activites').insert({
-      type: 'SYSTEME',
-      lead_id: table === 'leads' ? id : (record.lead_id || null),
-      description: `${table} supprimé (soft delete) — ${reason || 'sans raison'}`,
-      metadata: { table, record_id: id, reason },
-    }).catch(() => {})
+    try {
+      await (supabase as any).from('activites').insert({
+        type: 'SYSTEME',
+        lead_id: table === 'leads' ? id : (record.lead_id || null),
+        description: `${table} supprimé (soft delete) — ${reason || 'sans raison'}`,
+        metadata: { table, record_id: id, reason },
+      })
+    } catch {
+      // Ignore logging errors
+    }
 
     return NextResponse.json({
       success: true,

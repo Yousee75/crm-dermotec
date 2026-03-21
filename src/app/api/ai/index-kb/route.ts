@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Indexation Knowledge Base avec Embeddings
 // POST /api/ai/index-kb
@@ -29,7 +28,7 @@ export async function POST(request: Request) {
   const results = { kb_indexed: 0, kb_errors: 0, playbook_indexed: 0, playbook_errors: 0 }
 
   // 1. Indexer knowledge_base
-  const { data: kbArticles } = await supabase
+  const { data: kbArticles } = await (supabase as any)
     .from('knowledge_base')
     .select('id, titre, contenu, categorie')
     .eq('is_active', true)
@@ -41,7 +40,7 @@ export async function POST(request: Request) {
         const text = `${article.categorie}: ${article.titre}\n${article.contenu}`
         const embedding = await generateEmbedding(text)
         if (embedding.length) {
-          await supabase
+          await (supabase as any)
             .from('knowledge_base')
             .update({ embedding: JSON.stringify(embedding) })
             .eq('id', article.id)
@@ -56,7 +55,7 @@ export async function POST(request: Request) {
   }
 
   // 2. Indexer playbook_entries
-  const { data: playbookEntries } = await supabase
+  const { data: playbookEntries } = await (supabase as any)
     .from('playbook_entries')
     .select('id, titre, contexte, categorie')
     .eq('is_active', true)
@@ -68,7 +67,7 @@ export async function POST(request: Request) {
         const text = `${entry.categorie}: ${entry.titre}${entry.contexte ? ` — ${entry.contexte}` : ''}`
         const embedding = await generateEmbedding(text)
         if (embedding.length) {
-          await supabase
+          await (supabase as any)
             .from('playbook_entries')
             .update({ embedding: JSON.stringify(embedding) })
             .eq('id', entry.id)

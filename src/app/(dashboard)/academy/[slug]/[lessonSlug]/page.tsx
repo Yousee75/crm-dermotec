@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -415,18 +414,18 @@ function PdfContent({ contenu }: { contenu: any }) {
             {contenu.title || 'Document de formation'}
           </p>
           <div className="flex gap-2 justify-center">
-            <Button variant="outline" size="sm" asChild>
-              <a href={contenu.url} target="_blank" rel="noopener noreferrer">
+            <a href={contenu.url} target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" size="sm">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Ouvrir
-              </a>
-            </Button>
-            <Button variant="outline" size="sm" asChild>
-              <a href={contenu.url} download>
+              </Button>
+            </a>
+            <a href={contenu.url} download>
+              <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-2" />
                 Télécharger
-              </a>
-            </Button>
+              </Button>
+            </a>
           </div>
         </div>
       ) : (
@@ -492,8 +491,8 @@ export default function LessonPage() {
   const user = useUser()
   const queryClient = useQueryClient()
 
-  const slug = params.slug as string
-  const lessonSlug = params.lessonSlug as string
+  const slug = params?.slug as string
+  const lessonSlug = params?.lessonSlug as string
 
   // Récupérer les données utilisateur depuis la table equipe
   const { data: currentUser } = useQuery({
@@ -561,8 +560,8 @@ export default function LessonPage() {
   if (moduleLoading || !module) {
     return (
       <div className="space-y-6">
-        <SkeletonCard className="h-20" />
-        <SkeletonCard className="h-96" />
+        <div className="h-20"><SkeletonCard /></div>
+        <div className="h-96"><SkeletonCard /></div>
       </div>
     )
   }

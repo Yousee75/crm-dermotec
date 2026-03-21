@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
@@ -222,7 +221,7 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
                     {entry.prenom} {entry.nom}
                   </span>
                   {entry.isCurrentUser && (
-                    <Badge size="xs" variant="primary">
+                    <Badge size="sm" variant="primary">
                       Toi
                     </Badge>
                   )}
@@ -230,7 +229,7 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
                 <div className="flex items-center gap-3 mt-0.5">
                   <div className="flex items-center gap-1">
                     <Badge
-                      size="xs"
+                      size="sm"
                       style={{
                         backgroundColor: `${entry.level.color}15`,
                         color: entry.level.color,

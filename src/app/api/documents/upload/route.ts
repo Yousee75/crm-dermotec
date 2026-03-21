@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — API Upload sécurisé de documents
 // ============================================================
@@ -138,7 +137,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
     })
 
     // Insertion en base de données
-    const { data: documentData, error: dbError } = await supabase
+    const { data: documentData, error: dbError } = await (supabase as any)
       .from('documents')
       .insert({
         lead_id: leadId,
@@ -172,7 +171,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
 
     // Log de l'activité
     try {
-      await supabase
+      await (supabase as any)
         .from('activites')
         .insert({
           type: 'DOCUMENT',
@@ -196,7 +195,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
     if (financementId) {
       try {
         // Récupérer le financement actuel
-        const { data: financement } = await supabase
+        const { data: financement } = await (supabase as any)
           .from('financements')
           .select('checklist, documents')
           .eq('id', financementId)
@@ -225,7 +224,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
             })
           }
 
-          await supabase
+          await (supabase as any)
             .from('financements')
             .update({ documents: updatedDocuments })
             .eq('id', financementId)

@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
@@ -168,15 +167,15 @@ export default function AcademyPage() {
   if (isLoading) {
     return (
       <div className="space-y-6 pb-6">
-        <SkeletonCard className="h-32" />
+        <div className="h-32"><SkeletonCard /></div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <SkeletonCard className="h-40" />
-          <SkeletonCard className="h-40" />
-          <SkeletonCard className="h-40" />
+          <div className="h-40"><SkeletonCard /></div>
+          <div className="h-40"><SkeletonCard /></div>
+          <div className="h-40"><SkeletonCard /></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <SkeletonCard key={i} className="h-48" />
+            <div key={i} className="h-48"><SkeletonCard /></div>
           ))}
         </div>
       </div>

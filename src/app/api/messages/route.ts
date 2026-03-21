@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase, createServerSupabase } from '@/lib/supabase-server'
 
@@ -36,7 +35,7 @@ export async function GET(req: NextRequest) {
     let data: unknown = null
     let error: unknown = null
     try {
-      const result = await service.rpc('get_inbox_conversations', {
+      const result = await (service as any).rpc('get_inbox_conversations', {
         p_limit: per_page,
         p_offset: (page - 1) * per_page,
       })
@@ -82,7 +81,7 @@ export async function POST(req: NextRequest) {
     const service = await createServiceSupabase()
 
     // Récupérer le lead
-    const { data: lead } = await service
+    const { data: lead } = await (service as any)
       .from('leads')
       .select('email, telephone, whatsapp, prenom, nom')
       .eq('id', lead_id)
@@ -141,14 +140,14 @@ export async function POST(req: NextRequest) {
     }
 
     // Récupérer user_id depuis equipe
-    const { data: equipeUser } = await service
+    const { data: equipeUser } = await (service as any)
       .from('equipe')
       .select('id')
       .eq('auth_user_id', user.id)
       .maybeSingle()
 
     // Enregistrer le message
-    const { data: message, error } = await service
+    const { data: message, error } = await (service as any)
       .from('messages')
       .insert({
         lead_id,
@@ -172,7 +171,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Logger l'activité
-    await service.from('activites').insert({
+    await (service as any).from('activites').insert({
       type: 'CONTACT',
       lead_id,
       user_id: equipeUser?.id,
@@ -181,7 +180,7 @@ export async function POST(req: NextRequest) {
     })
 
     // Mettre à jour le lead
-    await service
+    await (service as any)
       .from('leads')
       .update({
         date_dernier_contact: new Date().toISOString(),

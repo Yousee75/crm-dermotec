@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Credit Guard (anti-abus)
 // Vérifie et consomme les crédits AVANT chaque appel API
@@ -35,7 +34,7 @@ export async function checkAndConsumeCredits(params: {
 }): Promise<CreditCheckResult> {
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Appel atomique à la fonction SQL
     const { data, error } = await supabase.rpc('safe_consume_credits', {
@@ -81,7 +80,7 @@ export async function getCreditStatus(org_id?: string): Promise<{
 }> {
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     const [creditsRes, limitsRes, todayRes, hourRes, abuseRes] = await Promise.all([
       supabase.from('credits').select('*').eq('org_id', org_id).single(),
@@ -98,8 +97,8 @@ export async function getCreditStatus(org_id?: string): Promise<{
         .eq('resolved', false),
     ])
 
-    const credits = creditsRes.data
-    const limits = limitsRes.data
+    const credits = creditsRes.data as any
+    const limits = limitsRes.data as any
 
     return {
       remaining: credits ? (credits.credits_total - credits.credits_used + credits.credits_bonus) : 0,
