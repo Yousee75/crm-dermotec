@@ -195,7 +195,7 @@ export default function CockpitPage() {
         .lte('date_debut', in7Days.toISOString())
 
       const sessionsPeuRemplies = sessionsVides?.filter(s => {
-        const confirmed = s.inscriptions?.filter(i => ['CONFIRMEE', 'EN_COURS'].includes(i.statut)).length || 0
+        const confirmed = s.inscriptions?.filter((i: { statut: string }) => ['CONFIRMEE', 'EN_COURS'].includes(i.statut)).length || 0
         return (confirmed / s.places_max) < 0.5
       }) || []
 
@@ -309,14 +309,14 @@ export default function CockpitPage() {
 
   return (
     <div className="space-y-6">
-      {/* Row 1: 4 Big KPI cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Row 1: 4 KPI cards — 2x2 sur mobile */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">CA du mois</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-lg md:text-2xl font-bold text-gray-900">
                   {formatEuro(caData?.current || 0)}
                 </p>
                 <div className="flex items-center gap-1 mt-1">
@@ -330,24 +330,24 @@ export default function CockpitPage() {
                   </span>
                 </div>
               </div>
-              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-[#2EC6F3]" />
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-[#0EA5E9]" />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Leads ce mois</p>
-                <p className="text-2xl font-bold text-gray-900">{leadsData?.count || 0}</p>
+                <p className="text-lg md:text-2xl font-bold text-gray-900">{leadsData?.count || 0}</p>
                 <p className="text-sm text-gray-500 mt-1">
                   {leadsData?.conversionRate?.toFixed(1) || 0}% conversion
                 </p>
               </div>
-              <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-50 rounded-lg flex items-center justify-center">
                 <Users className="w-6 h-6 text-purple-500" />
               </div>
             </div>
@@ -355,16 +355,16 @@ export default function CockpitPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Sessions à venir</p>
-                <p className="text-2xl font-bold text-gray-900">{sessionsData?.count || 0}</p>
+                <p className="text-lg md:text-2xl font-bold text-gray-900">{sessionsData?.count || 0}</p>
                 <p className="text-sm text-gray-500 mt-1">
                   {sessionsData?.fillRate?.toFixed(1) || 0}% remplissage
                 </p>
               </div>
-              <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-50 rounded-lg flex items-center justify-center">
                 <Calendar className="w-6 h-6 text-orange-500" />
               </div>
             </div>
@@ -372,11 +372,11 @@ export default function CockpitPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">NPS Score</p>
-                <p className="text-2xl font-bold text-gray-900">{npsData?.score || 0}</p>
+                <p className="text-lg md:text-2xl font-bold text-gray-900">{npsData?.score || 0}</p>
                 <div className="flex items-center gap-1 mt-1">
                   <TrendingUp className="w-4 h-4 text-green-500" />
                   <span className="text-sm font-medium text-green-500">
@@ -384,7 +384,7 @@ export default function CockpitPage() {
                   </span>
                 </div>
               </div>
-              <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-green-50 rounded-lg flex items-center justify-center">
                 <Star className="w-6 h-6 text-green-500" />
               </div>
             </div>
@@ -392,8 +392,8 @@ export default function CockpitPage() {
         </Card>
       </div>
 
-      {/* Row 2: 2 Charts side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Row 2: Charts — empilés mobile, côte à côte desktop */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
           <CardHeader>
             <CardTitle icon={<BarChart3 className="w-4 h-4" />}>
@@ -401,12 +401,12 @@ export default function CockpitPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={220}>
               <BarChart data={caMonthlyData}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200" />
                 <XAxis dataKey="month" className="text-gray-600" />
                 <YAxis tickFormatter={(value) => formatEuro(value)} className="text-gray-600" />
-                <Bar dataKey="ca" fill="#2EC6F3" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="ca" fill="#0EA5E9" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -426,7 +426,7 @@ export default function CockpitPage() {
                   <div className="flex-1">
                     <div className="bg-gray-100 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-[#2EC6F3] h-full transition-all duration-300"
+                        className="h-full transition-all duration-300 bg-[#0EA5E9]"
                         style={{ width: `${stage.percentage}%` }}
                       />
                     </div>
@@ -442,8 +442,8 @@ export default function CockpitPage() {
         </Card>
       </div>
 
-      {/* Row 3: 3 sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Row 3: Alertes (prioritaire mobile) + Pipeline + Top formations */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Alertes & Anomalies */}
         <Card>
           <CardHeader>
@@ -457,7 +457,7 @@ export default function CockpitPage() {
                 {
                   label: 'Leads stagnants > 7j',
                   count: alertesData?.leadsStagnants || 0,
-                  href: '/leads?filter=stagnant',
+                  href: '/leads',
                   color: 'text-orange-600'
                 },
                 {
@@ -556,7 +556,7 @@ export default function CockpitPage() {
             <div className="space-y-3">
               {topFormationsData?.map((formation, index) => (
                 <div key={formation.titre} className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-[#2EC6F3] text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
+                  <div className="w-6 h-6 bg-[#0EA5E9] text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
                     {index + 1}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -586,7 +586,7 @@ export default function CockpitPage() {
             <CardTitle icon={<Activity className="w-4 h-4" />}>
               Activité récente
             </CardTitle>
-            <Link href="/activites" className="text-sm text-[#2EC6F3] hover:text-[#082545] transition flex items-center gap-1">
+            <Link href="/activites" className="text-sm text-[#0EA5E9] hover:text-[#082545] transition flex items-center gap-1">
               Voir tout <ArrowRight className="w-3 h-3" />
             </Link>
           </div>

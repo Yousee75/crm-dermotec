@@ -1,16 +1,1 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
-  "installCommand": "pnpm install --no-frozen-lockfile",
-  "git": {
-    "deploymentEnabled": {
-      "main": true
-    }
-  },
-  "crons": [
-    {
-      "path": "/api/cadence/run",
-      "schedule": "0 8 * * *"
-    }
-  ]
-}
+{ "installCommand": "npm install --force", "buildCommand": "npm run build" }

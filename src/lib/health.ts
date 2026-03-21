@@ -49,15 +49,17 @@ async function checkSupabaseHealth(): Promise<HealthCheck> {
       }
     }
 
-    // Test plus approfondi: connexion DB
-    const { data: dbTest, error: dbError } = await supabase.rpc('get_random_uuid')
+    // Test plus approfondi: fonction SQL simple
+    const { data: dbTest, error: dbError } = await supabase
+      .rpc('gen_random_uuid')
+      .single()
 
     if (dbError) {
       return {
         service: 'supabase',
         status: 'degraded',
         response_time_ms: responseTime,
-        error: `Database test failed: ${dbError.message}`,
+        error: `Database function test failed: ${dbError.message}`,
         details: { db_test: false }
       }
     }

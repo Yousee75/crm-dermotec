@@ -1,156 +1,136 @@
 // ============================================================
-// CRM DERMOTEC — Health Check Endpoint
-// GET /api/health — checks all dependencies
+// CRM DERMOTEC — Health Check API Route (Production Ready)
+// Endpoint de monitoring pour production (Vercel, DataDog, etc.)
 // ============================================================
 
-import { NextResponse } from 'next/server'
-import { getAllCircuitStates } from '@/lib/circuit-breaker'
-import { getQueueStats } from '@/lib/graceful-degradation'
+import { NextRequest, NextResponse } from 'next/server'
+import { performHealthChecks, quickHealthCheck, formatHealthForLogs } from '@/lib/health'
 
 export const dynamic = 'force-dynamic'
 
-interface DependencyCheck {
-  name: string
-  status: 'healthy' | 'degraded' | 'unhealthy'
-  latencyMs?: number
-  error?: string
-  details?: Record<string, unknown>
-}
-
-async function checkSupabase(): Promise<DependencyCheck> {
+/**
+ * GET /api/health
+ *
+ * Query params:
+ * - ?quick=true : Check rapide (Supabase uniquement)
+ * - ?format=text : Format texte pour monitoring simple
+ *
+ * Statuses:
+ * - 200: healthy
+ * - 503: degraded ou down
+ */
+export async function GET(request: NextRequest) {
   const start = Date.now()
+  const { searchParams } = new URL(request.url)
+
+  const isQuick = searchParams.get('quick') === 'true'
+  const format = searchParams.get('format') || 'json'
+
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-    if (!url || !key) {
-      return { name: 'supabase', status: 'unhealthy', error: 'Not configured' }
+    if (isQuick) {
+      // Health check rapide (Supabase uniquement)
+      const health = await quickHealthCheck()
+      const duration = Date.now() - start
+
+      const status = health.overall_status === 'healthy' ? 200 : 503
+
+      if (format === 'text') {
+        return new Response(
+          `Status: ${health.overall_status}\nSupabase: ${health.supabase_ok ? 'OK' : 'DOWN'}\nDuration: ${duration}ms\nTime: ${health.timestamp}`,
+          {
+            status,
+            headers: { 'Content-Type': 'text/plain' }
+          }
+        )
+      }
+
+      return NextResponse.json(
+        { ...health, duration_ms: duration },
+        { status }
+      )
     }
 
-    const { createClient } = await import('@supabase/supabase-js')
-    const supabase = createClient(url, key, { auth: { persistSession: false } })
+    // Health check complet
+    const health = await performHealthChecks()
+    const duration = Date.now() - start
 
-    const { data, error } = await supabase.from('formations').select('id', { count: 'exact', head: true })
-    const latency = Date.now() - start
+    // Log des résultats pour monitoring
+    console.log(formatHealthForLogs(health))
 
-    if (error) {
-      return { name: 'supabase', status: 'unhealthy', latencyMs: latency, error: error.message }
+    const status = health.overall_status === 'healthy' ? 200 : 503
+
+    if (format === 'text') {
+      const summary = health.checks
+        .map(c => `${c.service}: ${c.status} (${c.response_time_ms}ms)`)
+        .join('\n')
+
+      return new Response(
+        `Status: ${health.overall_status}\nDuration: ${duration}ms\nTime: ${health.timestamp}\n\nServices:\n${summary}`,
+        {
+          status,
+          headers: { 'Content-Type': 'text/plain' }
+        }
+      )
     }
 
-    return {
-      name: 'supabase',
-      status: latency > 2000 ? 'degraded' : 'healthy',
-      latencyMs: latency,
-      details: { count: data },
+    // Réponse JSON complète
+    return NextResponse.json(
+      { ...health, duration_ms: duration },
+      { status }
+    )
+
+  } catch (error) {
+    const duration = Date.now() - start
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+
+    console.error('[Health API] Health check failed:', error)
+
+    if (format === 'text') {
+      return new Response(
+        `Status: down\nError: ${errorMessage}\nDuration: ${duration}ms\nTime: ${new Date().toISOString()}`,
+        {
+          status: 503,
+          headers: { 'Content-Type': 'text/plain' }
+        }
+      )
     }
-  } catch (err) {
-    return { name: 'supabase', status: 'unhealthy', latencyMs: Date.now() - start, error: (err as Error).message }
+
+    return NextResponse.json(
+      {
+        overall_status: 'down',
+        timestamp: new Date().toISOString(),
+        duration_ms: duration,
+        error: errorMessage,
+        checks: []
+      },
+      { status: 503 }
+    )
   }
 }
 
-async function checkRedis(): Promise<DependencyCheck> {
-  const start = Date.now()
+/**
+ * HEAD /api/health
+ * Health check ultra rapide pour load balancers
+ */
+export async function HEAD() {
   try {
-    const { cacheSet, cacheGet, cacheDelete } = await import('@/lib/upstash')
-    const testKey = '_health_check_ping'
-    await cacheSet(testKey, 'pong', 10)
-    const result = await cacheGet<string>(testKey)
-    await cacheDelete(testKey)
-    const latency = Date.now() - start
+    const health = await quickHealthCheck()
+    const status = health.supabase_ok ? 200 : 503
 
-    if (result !== 'pong') {
-      return { name: 'redis', status: 'degraded', latencyMs: latency, error: 'Read/write mismatch' }
-    }
-
-    return {
-      name: 'redis',
-      status: latency > 500 ? 'degraded' : 'healthy',
-      latencyMs: latency,
-    }
-  } catch (err) {
-    return { name: 'redis', status: 'unhealthy', latencyMs: Date.now() - start, error: (err as Error).message }
-  }
-}
-
-async function checkStripe(): Promise<DependencyCheck> {
-  const start = Date.now()
-  try {
-    if (!process.env.STRIPE_SECRET_KEY) {
-      return { name: 'stripe', status: 'unhealthy', error: 'Not configured' }
-    }
-
-    const Stripe = (await import('stripe')).default
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-08-27.basil' })
-
-    await stripe.balance.retrieve()
-    const latency = Date.now() - start
-
-    return {
-      name: 'stripe',
-      status: latency > 3000 ? 'degraded' : 'healthy',
-      latencyMs: latency,
-    }
-  } catch (err) {
-    return { name: 'stripe', status: 'unhealthy', latencyMs: Date.now() - start, error: (err as Error).message }
-  }
-}
-
-async function checkResend(): Promise<DependencyCheck> {
-  try {
-    if (!process.env.RESEND_API_KEY) {
-      return { name: 'resend', status: 'degraded', error: 'Not configured (emails disabled)' }
-    }
-    // On ne fait pas d'appel reel a Resend — juste vérifier que la cle existe
-    return { name: 'resend', status: 'healthy' }
+    return new Response(null, {
+      status,
+      headers: {
+        'X-Health-Status': health.overall_status,
+        'X-Health-Timestamp': health.timestamp
+      }
+    })
   } catch {
-    return { name: 'resend', status: 'unhealthy', error: 'Check failed' }
+    return new Response(null, {
+      status: 503,
+      headers: {
+        'X-Health-Status': 'down',
+        'X-Health-Timestamp': new Date().toISOString()
+      }
+    })
   }
-}
-
-export async function GET() {
-  const startTime = Date.now()
-
-  // Run all checks in parallel
-  const [supabase, redis, stripe, resend] = await Promise.all([
-    checkSupabase(),
-    checkRedis(),
-    checkStripe(),
-    checkResend(),
-  ])
-
-  const dependencies = [supabase, redis, stripe, resend]
-
-  // Circuit breaker states
-  const circuits = getAllCircuitStates()
-
-  // Queue stats
-  const queue = getQueueStats()
-
-  // Overall status
-  const hasUnhealthy = dependencies.some(d => d.status === 'unhealthy')
-  const hasDegraded = dependencies.some(d => d.status === 'degraded')
-  const overallStatus = hasUnhealthy ? 'unhealthy' : hasDegraded ? 'degraded' : 'healthy'
-
-  const response = {
-    status: overallStatus,
-    version: process.env.npm_package_version || '1.0.0',
-    environment: process.env.NODE_ENV,
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime?.() || 0,
-    totalLatencyMs: Date.now() - startTime,
-
-    dependencies,
-
-    circuits: circuits.map(c => ({
-      name: c.name,
-      state: c.state,
-      failures: c.failures,
-      lastFailure: c.lastFailure ? new Date(c.lastFailure).toISOString() : null,
-    })),
-
-    queue,
-  }
-
-  const statusCode = overallStatus === 'healthy' ? 200 : overallStatus === 'degraded' ? 200 : 503
-
-  return NextResponse.json(response, { status: statusCode })
 }

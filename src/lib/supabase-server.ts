@@ -84,15 +84,13 @@ export async function createServiceSupabase() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
       auth: { autoRefreshToken: false, persistSession: false },
-      // Optimisations pour serverless + pooler
-      db: {
-        schema: 'public',
-      },
+      // Schema public est le defaut — pas besoin de le specifier
+      // (le type TS de @supabase/supabase-js n'accepte pas 'public' comme string)
       // Pool de connexions pour Supavisor (si pooler URL)
       global: {
-        headers: supabaseUrl.includes(':6543') ? {
-          'X-Client-Info': 'crm-dermotec-service@1.0.0'
-        } : undefined
+        headers: {
+          'X-Client-Info': 'crm-dermotec-service@1.0.0',
+        },
       }
     }
   )
