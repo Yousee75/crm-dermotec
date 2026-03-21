@@ -743,6 +743,85 @@ export interface CadenceInstance {
   updated_at: string
 }
 
+// --- Academy (formation interne équipe) ---
+
+export type AcademyCategorie = 'onboarding' | 'vente' | 'produit' | 'financement' | 'crm' | 'qualite'
+export type AcademyLessonType = 'texte' | 'video' | 'quiz' | 'checklist' | 'script' | 'pdf' | 'exercice'
+export type AcademyProgressStatus = 'non_commence' | 'en_cours' | 'complete'
+
+export interface AcademyModule {
+  id: string
+  slug: string
+  titre: string
+  description: string | null
+  icone: string
+  couleur: string
+  categorie: AcademyCategorie
+  ordre: number
+  duree_minutes: number
+  is_published: boolean
+  prerequis_module_id: string | null
+  created_at: string
+  // Relations
+  lessons?: AcademyLesson[]
+  progress_count?: number
+  total_lessons?: number
+}
+
+export interface AcademyLesson {
+  id: string
+  module_id: string
+  slug: string
+  titre: string
+  type: AcademyLessonType
+  contenu: Record<string, unknown>
+  ordre: number
+  duree_minutes: number
+  points: number
+  is_published: boolean
+  created_at: string
+  // Relations
+  progress?: AcademyProgress
+}
+
+export interface AcademyProgress {
+  id: string
+  user_id: string
+  lesson_id: string
+  statut: AcademyProgressStatus
+  score_quiz: number | null
+  temps_passe_secondes: number
+  completed_at: string | null
+  metadata: Record<string, unknown>
+  created_at: string
+}
+
+export interface AcademyBadge {
+  id: string
+  slug: string
+  nom: string
+  description: string | null
+  icone: string
+  condition_type: string
+  condition_value: Record<string, unknown>
+  points_bonus: number
+  created_at: string
+  // Relation
+  earned?: boolean
+  earned_at?: string
+}
+
+export interface AcademyUserStats {
+  total_points: number
+  lessons_completed: number
+  lessons_total: number
+  modules_completed: number
+  modules_total: number
+  badges_earned: number
+  streak_days: number
+  completion_percent: number
+}
+
 // --- Dashboard KPIs ---
 
 export interface DashboardKPIs {

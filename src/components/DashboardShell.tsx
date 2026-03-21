@@ -62,6 +62,7 @@ const NAV_SECTIONS: NavSection[] = [
       { href: '/qualite', icon: Award, label: 'Qualite' },
       { href: '/equipe', icon: Phone, label: 'Equipe' },
       { href: '/cadences', icon: Zap, label: 'Cadences' },
+      { href: '/academy', icon: GraduationCap, label: 'Academy' },
       { href: '/settings', icon: Settings, label: 'Parametres' },
     ],
   },
