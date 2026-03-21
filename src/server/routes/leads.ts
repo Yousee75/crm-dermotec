@@ -183,4 +183,87 @@ leads.openapi(createLead, async (c) => {
   return c.json(data, 201)
 })
 
+// PUT /api/leads/:id — Mettre à jour un lead
+leads.put('/:id', async (c) => {
+  const id = c.req.param('id')
+  const body = await c.req.json()
+  const supabase = c.var.supabase
+
+  const { data, error } = await supabase
+    .from('leads')
+    .update({ ...body, updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) return c.json({ error: error.message }, 422)
+
+  return c.json(data, 200)
+})
+
+// PATCH /api/leads/:id/status — Changer le statut (avec state machine)
+leads.patch('/:id/status', async (c) => {
+  const id = c.req.param('id')
+  const { statut, notes } = await c.req.json()
+  const supabase = c.var.supabase
+  const userId = c.var.userId
+
+  // Vérifier le lead actuel
+  const { data: current, error: fetchErr } = await supabase
+    .from('leads')
+    .select('statut')
+    .eq('id', id)
+    .single()
+
+  if (fetchErr || !current) return c.json({ error: 'Lead non trouvé' }, 404)
+
+  // Valider la transition via state machine
+  const { validateLeadTransition } = await import('@/lib/validators')
+  const transitionError = validateLeadTransition(current.statut as never, statut as never)
+  if (transitionError) return c.json({ error: transitionError }, 422)
+
+  // Appliquer
+  const { error: updateErr } = await supabase
+    .from('leads')
+    .update({ statut, updated_at: new Date().toISOString() })
+    .eq('id', id)
+
+  if (updateErr) return c.json({ error: updateErr.message }, 500)
+
+  // Logger (non-bloquant)
+  supabase.from('activites').insert({
+    type: 'STATUT_CHANGE',
+    lead_id: id,
+    user_id: userId,
+    description: `Statut changé : ${current.statut} → ${statut}${notes ? ` — ${notes}` : ''}`,
+    ancien_statut: current.statut,
+    nouveau_statut: statut,
+  }).then(() => {})
+
+  return c.json({ success: true, id, statut }, 200)
+})
+
+// DELETE /api/leads/:id — Soft delete (statut SPAM)
+leads.delete('/:id', async (c) => {
+  const id = c.req.param('id')
+  const supabase = c.var.supabase
+
+  const { error } = await supabase
+    .from('leads')
+    .update({ statut: 'SPAM', updated_at: new Date().toISOString() })
+    .eq('id', id)
+
+  if (error) return c.json({ error: error.message }, 500)
+
+  supabase.from('activites').insert({
+    type: 'STATUT_CHANGE',
+    lead_id: id,
+    user_id: c.var.userId,
+    description: 'Lead supprimé (soft delete → SPAM)',
+    nouveau_statut: 'SPAM',
+  }).then(() => {})
+
+  return c.json({ success: true }, 200)
+})
+
 export default leads

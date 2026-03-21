@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
@@ -32,8 +33,24 @@ export default function LoginPage() {
         : error.message
       )
     } else {
-      router.push('/')
-      router.refresh()
+      // Vérifier si MFA est requis
+      try {
+        const { data: mfaData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+
+        // Si MFA est configuré et requis, rediriger vers la page de vérification
+        if (mfaData?.nextLevel === 'aal2' && mfaData?.currentLevel !== 'aal2') {
+          router.push('/mfa-verify')
+        } else {
+          // Sinon, redirection normale vers le dashboard
+          router.push('/')
+          router.refresh()
+        }
+      } catch (mfaError) {
+        // En cas d'erreur MFA, continuer vers le dashboard
+        console.warn('MFA check failed:', mfaError)
+        router.push('/')
+        router.refresh()
+      }
     }
 
     setLoading(false)
@@ -165,12 +182,12 @@ export default function LoginPage() {
 
           {/* Forgot Password */}
           <div className="mt-6 text-center">
-            <button
-              type="button"
+            <Link
+              href="/forgot-password"
               className="text-[#2EC6F3] hover:text-[#1BA8D4] text-sm font-medium transition"
             >
               Mot de passe oublié ?
-            </button>
+            </Link>
           </div>
 
           {/* Footer */}

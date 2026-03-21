@@ -25,7 +25,7 @@ import {
   type AuthEnv,
 } from './middleware'
 
-import { leadsRoutes, sessionsRoutes, emailRoutes } from './routes'
+import { leadsRoutes, sessionsRoutes, emailRoutes, financementsRoutes } from './routes'
 
 // --- Init Sentry (une seule fois) ---
 initSentry()
@@ -78,6 +78,7 @@ app.use('/api/*', supabaseAuth())
 app.route('/api/leads', leadsRoutes)
 app.route('/api/sessions', sessionsRoutes)
 app.route('/api/email', emailRoutes)
+app.route('/api/financements', financementsRoutes)
 
 // --- OpenAPI doc endpoint ---
 app.doc('/api/doc', {

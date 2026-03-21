@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  const next = searchParams.get('next') || '/'
 
   if (code) {
     const cookieStore = await cookies()
@@ -25,8 +26,15 @@ export async function GET(request: Request) {
       }
     )
 
-    await supabase.auth.exchangeCodeForSession(code)
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+
+    if (!error) {
+      // Rediriger vers la page demandée (ex: /reset-password après un password reset)
+      const redirectTo = next.startsWith('/') ? `${origin}${next}` : `${origin}/`
+      return NextResponse.redirect(redirectTo)
+    }
   }
 
-  return NextResponse.redirect(`${origin}/`)
+  // En cas d'erreur, retour au login
+  return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`)
 }

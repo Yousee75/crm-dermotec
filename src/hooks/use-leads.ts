@@ -153,21 +153,22 @@ export function useCreateLead() {
   })
 }
 
-// --- Mutation: update lead ---
+// --- Mutation: update lead (via API Hono) ---
 export function useUpdateLead() {
-  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Lead> & { id: string }) => {
-      const { data, error } = await supabase
-        .from('leads')
-        .update(updates)
-        .eq('id', id)
-        .select()
-        .single()
-      if (error) throw error
-      return data
+      const res = await fetch(`/api/leads/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
+        throw new Error(err.error || `HTTP ${res.status}`)
+      }
+      return res.json()
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
@@ -175,57 +176,49 @@ export function useUpdateLead() {
       toast.success('Lead mis à jour')
     },
     onError: (error: Error) => {
-      console.error('[useUpdateLead]', error)
       toast.error(`Erreur mise à jour : ${error.message}`)
     },
   })
 }
 
-// --- Mutation: changer statut ---
+// --- Mutation: changer statut (via API Hono — state machine validée côté serveur) ---
 export function useChangeStatut() {
-  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, statut, notes }: { id: string; statut: StatutLead; notes?: string }) => {
-      // Update lead
-      const { error: leadError } = await supabase
-        .from('leads')
-        .update({
-          statut,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', id)
-      if (leadError) throw leadError
-
-      // Log activité
-      await supabase.from('activites').insert({
-        type: 'STATUT_CHANGE',
-        lead_id: id,
-        description: `Statut changé vers ${statut}${notes ? ` — ${notes}` : ''}`,
-        nouveau_statut: statut,
+      const res = await fetch(`/api/leads/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ statut, notes }),
       })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
+        throw new Error(err.error || `HTTP ${res.status}`)
+      }
+      return res.json()
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
       toast.success('Statut mis à jour')
     },
     onError: (error: Error) => {
-      console.error('[useChangeStatut]', error)
       toast.error(`Erreur changement statut : ${error.message}`)
     },
   })
 }
 
-// --- Mutation: supprimer lead ---
+// --- Mutation: supprimer lead (via API Hono — soft delete RGPD) ---
 export function useDeleteLead() {
-  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('leads').delete().eq('id', id)
-      if (error) throw error
+      const res = await fetch(`/api/leads/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
+        throw new Error(err.error || `HTTP ${res.status}`)
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })

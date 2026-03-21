@@ -192,40 +192,22 @@ export function useFinancementStats(filters?: Pick<FinancementFilters, 'organism
   })
 }
 
-// --- Mutation: créer financement ---
+// --- Mutation: créer financement (via API Hono) ---
 export function useCreateFinancement() {
-  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (financement: Partial<Financement>) => {
-      const { data, error } = await supabase
-        .from('financements')
-        .insert({
-          ...financement,
-          historique: [
-            {
-              date: new Date().toISOString(),
-              action: 'Dossier créé',
-              detail: `Organisme: ${financement.organisme}`,
-            }
-          ]
-        })
-        .select()
-        .single()
-      if (error) throw error
-
-      // Log activité
-      if (financement.lead_id) {
-        await supabase.from('activites').insert({
-          type: 'FINANCEMENT',
-          lead_id: financement.lead_id,
-          description: `Nouveau dossier de financement ${financement.organisme}`,
-          metadata: { organisme: financement.organisme, montant: financement.montant_demande },
-        })
+      const res = await fetch('/api/financements', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(financement),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
+        throw new Error(err.error || `HTTP ${res.status}`)
       }
-
-      return data
+      return res.json()
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financements'] })
@@ -234,9 +216,8 @@ export function useCreateFinancement() {
   })
 }
 
-// --- Mutation: update financement ---
+// --- Mutation: update financement (via API Hono — state machine + historique côté serveur) ---
 export function useUpdateFinancement() {
-  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -248,66 +229,37 @@ export function useUpdateFinancement() {
       id: string
       historique_entry?: { action: string; detail?: string; user?: string }
     }) => {
-      // Si on a un nouvel historique, l'ajouter
-      if (historique_entry) {
-        const { data: current } = await supabase
-          .from('financements')
-          .select('historique')
-          .eq('id', id)
-          .single()
-
-        const newHistorique = [
-          ...(current?.historique || []),
-          {
-            date: new Date().toISOString(),
-            ...historique_entry
-          }
-        ]
-
-        updates.historique = newHistorique
+      const res = await fetch(`/api/financements/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...updates, historique_entry }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
+        throw new Error(err.error || `HTTP ${res.status}`)
       }
-
-      const { data, error } = await supabase
-        .from('financements')
-        .update(updates)
-        .eq('id', id)
-        .select()
-        .single()
-      if (error) throw error
-
-      // Log activité si changement de statut
-      if (updates.statut && updates.lead_id) {
-        await supabase.from('activites').insert({
-          type: 'FINANCEMENT',
-          lead_id: updates.lead_id,
-          description: `Financement ${updates.statut.toLowerCase().replace('_', ' ')}`,
-          metadata: {
-            nouveau_statut: updates.statut,
-            action: historique_entry?.action
-          },
-        })
-      }
-
-      return data
+      return res.json()
     },
-    onSuccess: (data) => {
+    onSuccess: (data: { id: string }) => {
       queryClient.invalidateQueries({ queryKey: ['financements'] })
       queryClient.invalidateQueries({ queryKey: ['financement', data.id] })
       queryClient.invalidateQueries({ queryKey: ['financement-stats'] })
-      queryClient.invalidateQueries({ queryKey: ['leads'] }) // Au cas où le statut lead change
+      queryClient.invalidateQueries({ queryKey: ['leads'] })
     },
   })
 }
 
-// --- Mutation: supprimer financement ---
+// --- Mutation: supprimer financement (via API Hono) ---
 export function useDeleteFinancement() {
-  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('financements').delete().eq('id', id)
-      if (error) throw error
+      const res = await fetch(`/api/financements/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
+        throw new Error(err.error || `HTTP ${res.status}`)
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financements'] })
