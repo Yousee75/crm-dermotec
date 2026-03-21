@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase-client'
 import {
   Users, UserCheck, Calendar, TrendingUp, DollarSign, FileText,
   AlertTriangle, Phone, Clock, GraduationCap, Plus,
-  MessageSquare, PipeIcon, TrendingDown, Activity,
+  MessageSquare, TrendingDown, Activity, LayoutGrid,
   Mail, ChevronRight, Sparkles, Euro
 } from 'lucide-react'
 import Link from 'next/link'
@@ -168,8 +168,8 @@ async function fetchDashboardData(): Promise<DashboardData> {
     ? Math.round(((inscriptionsThisMonthCount - inscriptionsLastMonthCount) / inscriptionsLastMonthCount) * 100)
     : 0
 
-  const caThisMonthAmount = caThisMonth.data?.reduce((sum, f) => sum + f.montant_ht, 0) || 0
-  const caLastMonthAmount = caLastMonth.data?.reduce((sum, f) => sum + f.montant_ht, 0) || 0
+  const caThisMonthAmount = caThisMonth.data?.reduce((sum: number, f: any) => sum + f.montant_ht, 0) || 0
+  const caLastMonthAmount = caLastMonth.data?.reduce((sum: number, f: any) => sum + f.montant_ht, 0) || 0
   const caTrend = caLastMonthAmount > 0
     ? Math.round(((caThisMonthAmount - caLastMonthAmount) / caLastMonthAmount) * 100)
     : 0
@@ -183,7 +183,7 @@ async function fetchDashboardData(): Promise<DashboardData> {
 
     const dayAmount = caChart30Days.data
       ?.filter(f => new Date(f.created_at) >= dayStart && new Date(f.created_at) < dayEnd)
-      ?.reduce((sum, f) => sum + f.montant_ht, 0) || 0
+      ?.reduce((sum: number, f: any) => sum + f.montant_ht, 0) || 0
 
     caChartData.push({
       date: date.toISOString().split('T')[0],
@@ -327,7 +327,7 @@ export default function DashboardPage() {
               </Link>
               <Link href="/pipeline">
                 <Button size="sm" variant="ghost" className="text-white/90 hover:text-white hover:bg-white/10">
-                  <PipeIcon className="w-4 h-4 mr-2" />
+                  <LayoutGrid className="w-4 h-4 mr-2" />
                   Pipeline
                 </Button>
               </Link>
@@ -446,7 +446,7 @@ export default function DashboardPage() {
                           variant={
                             lead.statut === 'NOUVEAU' ? 'default' :
                             lead.statut === 'QUALIFIE' ? 'info' :
-                            lead.statut === 'INSCRIT' ? 'success' : 'secondary'
+                            lead.statut === 'INSCRIT' ? 'success' : 'default'
                           }
                           size="sm"
                         >
@@ -540,8 +540,8 @@ export default function DashboardPage() {
                         {rappel.priorite && (
                           <Badge
                             variant={
-                              rappel.priorite === 'URGENTE' ? 'destructive' :
-                              rappel.priorite === 'HAUTE' ? 'warning' : 'secondary'
+                              rappel.priorite === 'URGENTE' ? 'error' :
+                              rappel.priorite === 'HAUTE' ? 'warning' : 'default'
                             }
                             size="sm"
                             className="mt-1"
@@ -627,7 +627,7 @@ export default function DashboardPage() {
                       </div>
                       <Badge
                         variant={
-                          placesLeft === 0 ? 'destructive' :
+                          placesLeft === 0 ? 'error' :
                           placesLeft <= 2 ? 'warning' : 'success'
                         }
                         size="sm"

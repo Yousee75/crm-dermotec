@@ -366,7 +366,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
               <X className="w-4 h-4" />
             </button>
           </div>
-          {researchData.resume && (
+          {!!researchData.resume && (
             <p className="text-sm text-gray-700">{String(researchData.resume)}</p>
           )}
           {Array.isArray(researchData.talking_points) && researchData.talking_points.length > 0 && (
