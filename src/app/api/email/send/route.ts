@@ -129,18 +129,19 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // 5. Optionnel: logger dans une table emails_sent
+    // 5. Logger dans emails_sent (non-bloquant)
     await supabase.from('emails_sent').insert({
       template_id: template.id,
       template_slug,
       destinataire: to,
       sujet,
-      lead_id,
+      lead_id: lead_id || null,
       resend_id: emailData?.id,
       variables,
       statut: 'ENVOYE',
+    }).then(({ error: insertError }) => {
+      if (insertError) console.warn('[emails_sent] Insert échoué:', insertError.message)
     })
-    // Table optionnelle, on ne fait pas échouer l'envoi
 
     return NextResponse.json({
       success: true,
