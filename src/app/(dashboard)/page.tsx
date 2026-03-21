@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase-client'
 import {
   Users, UserCheck, Calendar, TrendingUp, DollarSign, FileText,
   AlertTriangle, Phone, Clock, GraduationCap, Plus,
