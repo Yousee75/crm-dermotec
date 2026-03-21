@@ -43,7 +43,7 @@ const tabs: TabOption[] = [
 
 export default function PortailPage() {
   const params = useParams()
-  const token = params.token as string
+  const token = params?.token as string
 
   const [data, setData] = useState<PortailData | null>(null)
   const [loading, setLoading] = useState(true)

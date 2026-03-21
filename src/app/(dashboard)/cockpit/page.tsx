@@ -91,7 +91,7 @@ export default function CockpitPage() {
       const totalSessions = sessions?.length || 0
       const totalPlaces = sessions?.reduce((sum, s) => sum + s.places_max, 0) || 1
       const occupiedPlaces = sessions?.reduce((sum, s) =>
-        sum + (s.inscriptions?.filter(i => ['CONFIRMEE', 'EN_COURS', 'COMPLETEE'].includes(i.statut)).length || 0), 0) || 0
+        sum + (s.inscriptions?.filter((i: { statut: string }) => ['CONFIRMEE', 'EN_COURS', 'COMPLETEE'].includes(i.statut)).length || 0), 0) || 0
 
       const fillRate = (occupiedPlaces / totalPlaces) * 100
 

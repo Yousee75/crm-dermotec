@@ -20,7 +20,7 @@ export function MobileBottomNav() {
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg border-t border-gray-200 safe-area-bottom">
       <div className="flex items-stretch">
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+          const isActive = pathname === item.href || (item.href !== '/' && (pathname ?? '').startsWith(item.href))
           return (
             <Link
               key={item.href}
@@ -30,7 +30,7 @@ export function MobileBottomNav() {
                 'min-h-[52px]',
                 'active:scale-95',
                 isActive
-                  ? 'text-[#2EC6F3]'
+                  ? 'text-[#0EA5E9]'
                   : 'text-gray-400'
               )}
             >

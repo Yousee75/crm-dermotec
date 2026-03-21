@@ -42,35 +42,30 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Hero header */}
-      <div className="relative overflow-hidden rounded-2xl gradient-accent p-6 md:p-8 text-white">
-        <div className="absolute inset-0 opacity-[0.07]">
-          <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-[#2EC6F3]" />
-          <div className="absolute -left-10 -bottom-10 w-48 h-48 rounded-full bg-[#3B82F6]" />
+      {/* Hero header — compact sur mobile, expressif sur desktop */}
+      <div className="relative overflow-hidden rounded-2xl gradient-accent px-5 py-4 md:p-8 text-white">
+        <div className="absolute inset-0 opacity-[0.07] hidden md:block">
+          <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-[#0EA5E9]" />
+          <div className="absolute -left-10 -bottom-10 w-48 h-48 rounded-full bg-[#6366F1]" />
         </div>
         <div className="relative z-10">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
-                {greeting} 👋
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <h1 className="text-lg md:text-3xl font-bold tracking-tight truncate" style={{ fontFamily: 'var(--font-heading)' }}>
+                {greeting}
               </h1>
-              <p className="text-blue-200 mt-1 text-sm md:text-base">
+              <p className="text-blue-200 mt-0.5 text-xs md:text-base">
                 {overdueCount > 0
-                  ? <span className="text-amber-300">{overdueCount} rappel{overdueCount > 1 ? 's' : ''} en retard</span>
+                  ? <span className="text-amber-300 font-medium">{overdueCount} rappel{overdueCount > 1 ? 's' : ''} en retard</span>
                   : <span>Tout est à jour</span>
                 }
-                {todayCount > 0 && <span> · {todayCount} rappel{todayCount > 1 ? 's' : ''} aujourd&apos;hui</span>}
+                {todayCount > 0 && <span> · {todayCount} aujourd&apos;hui</span>}
               </p>
             </div>
-            <div className="flex gap-2">
-              <Link href="/leads">
-                <Button variant="primary" size="sm" icon={<Users className="w-4 h-4" />}>
-                  Voir les leads
-                </Button>
-              </Link>
+            <div className="flex gap-2 shrink-0">
               <Link href="/cockpit">
                 <Button variant="ghost" size="sm" className="text-white/80 hover:text-white hover:bg-white/10" icon={<Zap className="w-4 h-4" />}>
-                  Cockpit
+                  <span className="hidden sm:inline">Cockpit</span>
                 </Button>
               </Link>
             </div>
@@ -78,61 +73,58 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* KPIs */}
+      {/* KPIs — 4 cards, ordonnées par urgence d'action */}
       {leadsLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 stagger-children">
-          {Array.from({ length: 5 }).map((_, i) => <SkeletonCard key={i} />)}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 stagger-children">
+          {Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 stagger-children">
-          <Link href="/leads">
-            <KpiCard
-              icon={Users}
-              label="Total Leads"
-              value={totalLeads}
-              color="#3B82F6"
-              subtitle="Tous statuts"
-            />
-          </Link>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 stagger-children">
+          {/* 1. Rappels en retard = le plus urgent */}
+          <KpiCard
+            icon={AlertTriangle}
+            label="En retard"
+            value={overdueCount}
+            color={overdueCount > 0 ? '#EF4444' : '#10B981'}
+            subtitle={overdueCount > 0 ? 'À traiter maintenant' : 'Tout est à jour'}
+          />
+          {/* 2. Nouveaux leads = à contacter aujourd'hui */}
           <Link href="/leads">
             <KpiCard
               icon={UserCheck}
               label="Nouveaux"
               value={nouveaux}
-              color="#22C55E"
+              color="#0EA5E9"
               subtitle="À contacter"
             />
           </Link>
+          {/* 3. En pipeline = en cours de conversion */}
           <Link href="/pipeline">
             <KpiCard
               icon={TrendingUp}
-              label="En Pipeline"
+              label="En pipeline"
               value={enPipeline}
               color="#F59E0B"
-              subtitle="Qualifiés → Inscrits"
+              subtitle="En conversion"
             />
           </Link>
+          {/* 4. Sessions à venir */}
           <Link href="/sessions">
             <KpiCard
               icon={Calendar}
-              label="Sessions à venir"
+              label="Sessions"
               value={sessionsAVenir}
-              color="#8B5CF6"
+              color="#6366F1"
+              subtitle="À venir"
             />
           </Link>
-          <KpiCard
-            icon={AlertTriangle}
-            label="Rappels en retard"
-            value={overdueCount}
-            color={overdueCount > 0 ? '#EF4444' : '#22C55E'}
-          />
         </div>
       )}
 
-      {/* Main grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main grid — Rappels FIRST (c'est ce que le commercial doit faire maintenant) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Rappels aujourd'hui - 1 col */}
-        <Card padding="none" className="lg:col-span-1">
+        <Card padding="none" className="lg:col-span-1 order-1">
           <CardHeader className="px-5 pt-5 pb-0">
             <CardTitle icon={<Phone className="w-4 h-4" />}>
               Rappels ({todayCount})
@@ -181,7 +173,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Sessions à venir - 1 col */}
-        <Card padding="none" className="lg:col-span-1">
+        <Card padding="none" className="lg:col-span-1 order-3 lg:order-2">
           <CardHeader className="px-5 pt-5 pb-0">
             <CardTitle icon={<GraduationCap className="w-4 h-4" />}>
               Prochaines sessions
@@ -246,7 +238,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Derniers leads - 1 col */}
-        <Card padding="none" className="lg:col-span-1">
+        <Card padding="none" className="lg:col-span-1 order-2 lg:order-3">
           <CardHeader className="px-5 pt-5 pb-0">
             <CardTitle icon={<Users className="w-4 h-4" />}>
               Derniers leads
@@ -286,7 +278,7 @@ export default function DashboardPage() {
                           className="h-full rounded-full"
                           style={{
                             width: `${lead.score_chaud}%`,
-                            backgroundColor: lead.score_chaud >= 70 ? '#22C55E' : lead.score_chaud >= 40 ? '#F59E0B' : '#9CA3AF',
+                            backgroundColor: lead.score_chaud >= 70 ? '#10B981' : lead.score_chaud >= 40 ? '#F59E0B' : '#94A3B8',
                           }}
                         />
                       </div>
@@ -306,11 +298,11 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Quick actions */}
-      <Card padding="lg" className="gradient-mesh">
+      {/* Quick actions — masqué sur mobile (le bottom nav suffit) */}
+      <Card padding="lg" className="gradient-mesh hidden md:block">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-md shadow-[#2EC6F3]/20">
+            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-md shadow-primary/20">
               <Zap className="w-5 h-5 text-white" />
             </div>
             <div>

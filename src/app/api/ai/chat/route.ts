@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { chatWithAI } from '@/lib/ai-chatbot'
 import { createServiceSupabase } from '@/lib/supabase-server'

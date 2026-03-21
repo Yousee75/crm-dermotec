@@ -263,7 +263,7 @@ export default function StagiairesPage() {
           title="Stagiaires"
           description={`${total} inscriptions ${activeTab === 'alumni' ? 'complétées' : 'au total'}`}
         />
-        <Button variant="outline" icon={Download}>
+        <Button variant="outline" icon={<Download className="w-4 h-4" />}>
           Exporter
         </Button>
       </div>
@@ -366,7 +366,7 @@ export default function StagiairesPage() {
           <option value="">Toutes les sessions</option>
           {sessions.map(session => (
             <option key={session.id} value={session.id}>
-              {formatDate(session.date_debut, { day: 'numeric', month: 'short' })} - {session.formation?.nom}
+              {formatDate(session.date_debut, { day: 'numeric', month: 'short' })} - {(session.formation as unknown as {nom?: string})?.nom}
             </option>
           ))}
         </select>
@@ -480,13 +480,12 @@ export default function StagiairesPage() {
                             status={inscription.paiement_statut}
                             label={paiementStatut.label}
                             color={paiementStatut.color}
-                            size="sm"
                           />
                         </div>
                       </td>
 
                       <td className="px-4 py-3">
-                        {renderPresenceBar(inscription.taux_presence)}
+                        {renderPresenceBar(inscription.taux_presence ?? null)}
                       </td>
 
                       <td className="px-4 py-3">
@@ -514,7 +513,7 @@ export default function StagiairesPage() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            icon={Eye}
+                            icon={<Eye className="w-4 h-4" />}
                             onClick={(e) => {
                               e.stopPropagation()
                               window.open(`/lead/${lead?.id}`, '_blank')
@@ -524,7 +523,7 @@ export default function StagiairesPage() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              icon={FileText}
+                              icon={<FileText className="w-4 h-4" />}
                               onClick={(e) => {
                                 e.stopPropagation()
                                 // Action pour télécharger le certificat
@@ -534,7 +533,7 @@ export default function StagiairesPage() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            icon={ExternalLink}
+                            icon={<ExternalLink className="w-4 h-4" />}
                             onClick={(e) => {
                               e.stopPropagation()
                               // Action pour ouvrir le portail
@@ -561,14 +560,14 @@ export default function StagiairesPage() {
             <Button
               variant="outline"
               size="sm"
-              icon={ChevronLeft}
+              icon={<ChevronLeft className="w-4 h-4" />}
               disabled={page === 1}
               onClick={() => setPage(page - 1)}
             />
             <Button
               variant="outline"
               size="sm"
-              icon={ChevronRight}
+              icon={<ChevronRight className="w-4 h-4" />}
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
             />

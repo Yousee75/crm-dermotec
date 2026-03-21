@@ -26,10 +26,10 @@ export default function EmargementPage() {
   const params = useParams()
   const searchParams = useSearchParams()
 
-  const sessionId = params.sessionId as string
-  const date = searchParams.get('date')
-  const inscriptionId = searchParams.get('inscription')
-  const token = searchParams.get('token')
+  const sessionId = params?.sessionId as string
+  const date = searchParams?.get('date') ?? null
+  const inscriptionId = searchParams?.get('inscription') ?? null
+  const token = searchParams?.get('token') ?? null
 
   const [data, setData] = useState<EmargementPageData | null>(null)
   const [loading, setLoading] = useState(true)

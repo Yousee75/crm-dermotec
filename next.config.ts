@@ -1,12 +1,14 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Skip ESLint & TS during builds (run separately in CI)
+  // Skip ESLint during builds (run separately, plugin @typescript-eslint not installed)
   eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
 
   // Security
   poweredByHeader: false,
+
+  // Exclure react-pdf du bundle serveur (conflit Html avec next/document en SSG)
+  serverExternalPackages: ['@react-pdf/renderer'],
 
   // Images
   images: {
@@ -24,6 +26,7 @@ const nextConfig: NextConfig = {
       '@tanstack/react-query', 'sonner', '@supabase/ssr', 'cmdk',
     ],
   },
+
 
   // Security headers
   headers: async () => [

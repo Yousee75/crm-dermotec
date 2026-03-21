@@ -33,7 +33,7 @@ function KpiCard({ icon: Icon, label, value, color, subtitle, trend, className, 
   return (
     <div
       className={cn(
-        'group bg-white rounded-xl border border-gray-100 p-5',
+        'group bg-white rounded-xl border border-gray-100 p-4 md:p-5',
         'hover:shadow-md hover:border-gray-200 transition-all duration-200',
         'animate-fadeIn',
         onClick && 'cursor-pointer',
@@ -44,7 +44,7 @@ function KpiCard({ icon: Icon, label, value, color, subtitle, trend, className, 
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <p className="text-sm text-gray-500 font-medium">{label}</p>
-          <p className="text-2xl font-bold tracking-tight" style={{ color, animationName: 'countUp', animationDuration: '0.5s' }}>
+          <p className="text-xl md:text-2xl font-bold tracking-tight" style={{ color, animationName: 'countUp', animationDuration: '0.5s' }}>
             {value}
           </p>
           {subtitle && (

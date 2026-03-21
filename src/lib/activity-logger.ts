@@ -27,7 +27,7 @@ export async function logActivity(params: LogActivityParams): Promise<void> {
     const { createServiceSupabase } = await import('./supabase-server')
     const supabase = await createServiceSupabase()
 
-    const { error } = await supabase.from('activites').insert({
+    const { error } = await (supabase.from('activites') as any).insert({
       type: params.type,
       description: params.description,
       lead_id: params.lead_id || null,

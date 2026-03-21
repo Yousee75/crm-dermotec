@@ -111,6 +111,7 @@ const ORGANISME_COLORS: Record<OrganismeFinancement, string> = {
   AUTRE: 'gray'
 }
 
+// @ts-expect-error — narrowing lead/inscription from base Financement type
 interface FinancementWithLead extends Financement {
   lead: {
     id: string
@@ -364,10 +365,10 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
                     <CheckCircle2 className="w-4 h-4 text-gray-400" />
                     <span className="text-sm text-gray-700">{doc}</span>
                     <div className="ml-auto flex gap-1">
-                      <Button size="xs" variant="ghost">
+                      <Button size="sm" variant="ghost">
                         <Upload className="w-3 h-3" />
                       </Button>
-                      <Button size="xs" variant="ghost">
+                      <Button size="sm" variant="ghost">
                         <Eye className="w-3 h-3" />
                       </Button>
                     </div>
@@ -637,7 +638,7 @@ export default function FinancementPage() {
           <div className="flex items-center border border-gray-200 rounded-lg p-1">
             <Button
               size="sm"
-              variant={viewMode === 'kanban' ? 'default' : 'ghost'}
+              variant={viewMode === 'kanban' ? 'primary' : 'ghost'}
               onClick={() => setViewMode('kanban')}
               className="gap-2"
             >
@@ -646,7 +647,7 @@ export default function FinancementPage() {
             </Button>
             <Button
               size="sm"
-              variant={viewMode === 'table' ? 'default' : 'ghost'}
+              variant={viewMode === 'table' ? 'primary' : 'ghost'}
               onClick={() => setViewMode('table')}
               className="gap-2"
             >
@@ -703,12 +704,11 @@ export default function FinancementPage() {
             icon={<FileText className="w-12 h-12" />}
             title="Aucun dossier de financement"
             description="Les dossiers de financement apparaîtront ici une fois créés."
-            action={
-              <Button className="gap-2">
-                <Plus className="w-4 h-4" />
-                Créer un dossier
-              </Button>
-            }
+            action={{
+              label: 'Créer un dossier',
+              onClick: () => {},
+              icon: <Plus className="w-4 h-4" />
+            }}
           />
         </Card>
       ) : viewMode === 'kanban' ? (

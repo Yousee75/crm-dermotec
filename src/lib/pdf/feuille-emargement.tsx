@@ -192,6 +192,7 @@ export function FeuilleEmargementPDF({
 
   return (
     <Document>
+      {/* @ts-expect-error — react-pdf Page orientation prop typing */}
       <Page size="A4" orientation="landscape" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>

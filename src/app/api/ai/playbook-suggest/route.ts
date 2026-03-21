@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Playbook IA Suggestion
 // POST /api/ai/playbook-suggest

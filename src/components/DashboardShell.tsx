@@ -36,36 +36,33 @@ interface NavItem {
 
 const NAV_SECTIONS: NavSection[] = [
   {
+    // Mon travail — visible par tous, usage quotidien
     items: [
-      { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
-      { href: '/cockpit', icon: Zap, label: 'Cockpit' },
-    ],
-  },
-  {
-    label: 'Commercial',
-    items: [
+      { href: '/cockpit', icon: Zap, label: 'Aujourd\'hui' },
       { href: '/leads', icon: Users, label: 'Leads' },
       { href: '/pipeline', icon: Gauge, label: 'Pipeline' },
-      { href: '/messages', icon: MessageSquare, label: 'Messages' },
-      { href: '/playbook', icon: BookOpen, label: 'Playbook' },
-      { href: '/financement', icon: CreditCard, label: 'Financement' },
-    ],
-  },
-  {
-    label: 'Formation',
-    items: [
       { href: '/sessions', icon: Calendar, label: 'Sessions' },
-      { href: '/stagiaires', icon: GraduationCap, label: 'Stagiaires' },
-      { href: '/qualite', icon: Award, label: 'Qualité' },
     ],
   },
   {
     label: 'Outils',
     items: [
-      { href: '/commandes', icon: ShoppingBag, label: 'E-Shop' },
+      { href: '/messages', icon: MessageSquare, label: 'Messages' },
+      { href: '/financement', icon: CreditCard, label: 'Financement' },
+      { href: '/playbook', icon: BookOpen, label: 'Playbook' },
+    ],
+  },
+  {
+    label: 'Gestion',
+    items: [
+      { href: '/', icon: LayoutDashboard, label: 'Tableau de bord' },
+      { href: '/stagiaires', icon: GraduationCap, label: 'Stagiaires' },
+      { href: '/commandes', icon: ShoppingBag, label: 'Commandes' },
       { href: '/analytics', icon: BarChart3, label: 'Analytics' },
-      { href: '/equipe', icon: Phone, label: 'Équipe' },
+      { href: '/qualite', icon: Award, label: 'Qualite' },
+      { href: '/equipe', icon: Phone, label: 'Equipe' },
       { href: '/cadences', icon: Zap, label: 'Cadences' },
+      { href: '/settings', icon: Settings, label: 'Parametres' },
     ],
   },
 ]
@@ -150,7 +147,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   }
 
   const isActive = (href: string) =>
-    pathname === href || (href !== '/' && href !== '/cockpit' && pathname.startsWith(href))
+    pathname === href || (href !== '/' && href !== '/cockpit' && (pathname ?? '').startsWith(href))
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -329,7 +326,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               {/* Current page title */}
               <div className="hidden sm:block">
                 <p className="text-sm font-medium text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
-                  {getCurrentPageTitle(pathname)}
+                  {getCurrentPageTitle(pathname ?? '/')}
                 </p>
               </div>
             </div>
@@ -517,7 +514,7 @@ function getCurrentPageTitle(pathname: string): string {
     '/equipe': 'Équipe',
     '/cadences': 'Cadences',
     '/settings': 'Paramètres',
-    '/cockpit': 'Cockpit',
+    '/cockpit': 'Aujourd\'hui',
     '/playbook': 'Playbook',
     '/messages': 'Messages',
   }

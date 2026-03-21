@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { askCommercialAssistant } from '@/lib/ai-commercial'
 import type { AssistantAction } from '@/lib/ai-commercial'

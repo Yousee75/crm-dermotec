@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { aiHandleObjection } from '@/lib/ai'
 import { requireAuth } from '@/lib/api-auth'

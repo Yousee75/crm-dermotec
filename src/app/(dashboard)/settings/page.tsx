@@ -204,7 +204,7 @@ export default function SettingsPage() {
       case 'test':
         return <Badge variant="warning" size="sm">Mode test</Badge>
       default:
-        return <Badge variant="destructive" size="sm"><XCircle className="w-3 h-3" /> Non configuré</Badge>
+        return <Badge variant="error" size="sm"><XCircle className="w-3 h-3" /> Non configuré</Badge>
     }
   }
 
@@ -235,7 +235,6 @@ export default function SettingsPage() {
       <PageHeader
         title="Paramètres"
         description="Configuration du centre et du système"
-        icon={Settings}
       />
 
       {/* Navigation onglets */}
@@ -445,17 +444,17 @@ export default function SettingsPage() {
                         <div>
                           <h4 className="font-medium text-gray-900">{integration.name}</h4>
                           <p className="text-sm text-gray-500">{integration.description}</p>
-                          {integration.accountId && (
+                          {'accountId' in integration && integration.accountId && (
                             <p className="text-xs text-gray-400 mt-1">ID: {integration.accountId}</p>
                           )}
-                          {integration.projectUrl && (
+                          {'projectUrl' in integration && integration.projectUrl && (
                             <p className="text-xs text-gray-400 mt-1">{integration.projectUrl}</p>
                           )}
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         {getIntegrationStatusBadge(integration.status)}
-                        {integration.id === 'stripe' && integration.status !== 'not_configured' && (
+                        {integration.id === 'stripe' && (integration.status as string) !== 'not_configured' && (
                           <a
                             href="https://dashboard.stripe.com"
                             target="_blank"

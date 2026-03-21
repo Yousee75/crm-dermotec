@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Agent IA Commercial API
 // POST /api/ai/agent

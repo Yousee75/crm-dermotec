@@ -53,25 +53,37 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'DB non configurée' }, { status: 503 })
   }
 
-  // 2. Idempotence check (rapide, ~50ms)
+  // 2. Idempotence check amélioré (rapide, ~50ms)
   const { data: existing } = await supabase
     .from('webhook_events')
-    .select('id')
+    .select('id, status, attempts')
     .eq('event_id', event.id)
-    .eq('status', 'processed')
     .single()
 
   if (existing) {
-    return NextResponse.json({ received: true, duplicate: true })
+    if (existing.status === 'processed') {
+      return NextResponse.json({ received: true, duplicate: true })
+    }
+    if (existing.status === 'pending' && existing.attempts > 0) {
+      // Déjà en cours de traitement, éviter la duplication
+      return NextResponse.json({ received: true, already_processing: true })
+    }
   }
 
-  // 3. Marquer comme "pending" immédiatement
+  // 3. Marquer comme "pending" avec signature vérifiée
+  const startTime = Date.now()
   await supabase.from('webhook_events').upsert({
     event_id: event.id,
     event_type: event.type,
     source: 'stripe',
     status: 'pending',
-    payload: { object_id: (event.data.object as { id?: string }).id },
+    signature_verified: true,
+    payload: {
+      object_id: (event.data.object as { id?: string }).id,
+      amount: (event.data.object as { amount?: number; amount_total?: number }).amount
+        || (event.data.object as { amount_total?: number }).amount_total,
+      metadata: (event.data.object as { metadata?: Record<string, string> }).metadata
+    },
   }, { onConflict: 'event_id' })
 
   console.log(`[Stripe Webhook] Event: ${event.type} (${event.id})`)
@@ -106,21 +118,29 @@ export async function POST(request: NextRequest) {
     try {
       await processStripeEventInline(supabase, event)
 
-      await supabase.from('webhook_events').update({
-        status: 'processed',
-        processed_at: new Date().toISOString(),
-      }).eq('event_id', event.id)
+      // Utiliser la fonction optimisée pour marquer comme processed
+      const processingDuration = Date.now() - startTime
+      await supabase.rpc('mark_webhook_processed', {
+        p_event_id: event.id,
+        p_processing_duration_ms: processingDuration
+      })
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
       console.error(`[Stripe Webhook] Inline processing failed:`, err)
 
-      await supabase.from('webhook_events').update({
-        status: 'failed',
-        error_message: errorMessage,
-      }).eq('event_id', event.id)
+      // Utiliser la fonction avec retry logic
+      const processingDuration = Date.now() - startTime
+      const shouldRetry = await supabase.rpc('mark_webhook_failed', {
+        p_event_id: event.id,
+        p_error_message: errorMessage,
+        p_processing_duration_ms: processingDuration
+      })
 
-      return NextResponse.json({ error: 'Processing failed' }, { status: 500 })
+      return NextResponse.json({
+        error: 'Processing failed',
+        will_retry: shouldRetry.data
+      }, { status: 500 })
     }
 
     return NextResponse.json({ received: true, inline: true })

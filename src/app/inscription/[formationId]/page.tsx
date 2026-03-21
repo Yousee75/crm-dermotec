@@ -78,7 +78,7 @@ const OPCO_OPTIONS = [
 export default function InscriptionPage() {
   const router = useRouter()
   const params = useParams()
-  const formationId = params.formationId as string
+  const formationId = params?.formationId as string
   const [currentStep, setCurrentStep] = useState(1)
   const [formation, setFormation] = useState<Formation | null>(null)
   const [sessions, setSessions] = useState<Session[]>([])

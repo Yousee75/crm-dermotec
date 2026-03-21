@@ -10,14 +10,30 @@ import { cookies } from 'next/headers'
 
 /**
  * URL Supabase pour le client serveur.
- * En production, préférer le pooler Supavisor (port 6543)
- * pour éviter la saturation des connexions en serverless.
+ * En production Vercel serverless, utiliser OBLIGATOIREMENT le pooler Supavisor (port 6543)
+ * pour éviter la saturation des connexions PostgreSQL (chaque function = 1 connexion).
+ * Le pooler gère jusqu'à 1000+ connexions concurrentes vs 200 max en direct.
  */
 function getSupabaseUrl(): string {
-  // Pooler URL a priorité en production
-  return process.env.SUPABASE_POOLER_URL
-    || process.env.NEXT_PUBLIC_SUPABASE_URL
-    || 'https://wtbrdxijvtelluwfmgsf.supabase.co'
+  // PRIORITE: Pooler URL pour service role (production)
+  const poolerUrl = process.env.SUPABASE_POOLER_URL
+  const directUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://wtbrdxijvtelluwfmgsf.supabase.co'
+
+  // En production, toujours utiliser le pooler pour service role
+  if (poolerUrl && process.env.VERCEL_ENV === 'production') {
+    console.log('[Supabase] Using pooler URL for production service role')
+    return poolerUrl
+  }
+
+  // En dev, préférer le pooler si configuré, sinon direct
+  if (poolerUrl && process.env.NODE_ENV === 'production') {
+    console.log('[Supabase] Using pooler URL for service role')
+    return poolerUrl
+  }
+
+  // Fallback sur URL directe (dev local uniquement)
+  console.log('[Supabase] Using direct URL (dev mode)')
+  return directUrl
 }
 
 /**
@@ -53,6 +69,7 @@ export async function createServerSupabase() {
  * Client Supabase Service Role — pour API routes, webhooks, crons
  * Bypass RLS — UNIQUEMENT côté serveur
  * Singleton par process pour éviter les créations excessives
+ * UTILISE LE POOLER en production pour éviter connection saturation
  */
 let _serviceClient: Awaited<ReturnType<typeof import('@supabase/supabase-js').createClient>> | null = null
 
@@ -60,13 +77,30 @@ export async function createServiceSupabase() {
   if (_serviceClient) return _serviceClient
 
   const { createClient } = await import('@supabase/supabase-js')
+  const supabaseUrl = getSupabaseUrl()
+
   _serviceClient = createClient(
-    getSupabaseUrl(),
+    supabaseUrl,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
       auth: { autoRefreshToken: false, persistSession: false },
-      db: { schema: 'public' },
+      // Optimisations pour serverless + pooler
+      db: {
+        schema: 'public',
+      },
+      // Pool de connexions pour Supavisor (si pooler URL)
+      global: {
+        headers: supabaseUrl.includes(':6543') ? {
+          'X-Client-Info': 'crm-dermotec-service@1.0.0'
+        } : undefined
+      }
     }
   )
+
+  // Log de debug en dev
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[Supabase Service] Initialized with ${supabaseUrl.includes(':6543') ? 'POOLER' : 'DIRECT'} connection`)
+  }
+
   return _serviceClient
 }

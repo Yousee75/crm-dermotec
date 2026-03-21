@@ -429,7 +429,7 @@ export default function CommandesPage() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => window.open(`https://dashboard.stripe.com/payments/${commande.stripe_payment_id}`, '_blank')}
+                              onClick={() => window.open(`https://dashboard.stripe.com/payments/${commande.stripe_payment_intent}`, '_blank')}
                               className="h-8 w-8 p-0"
                             >
                               <Eye className="w-4 h-4" />
@@ -453,7 +453,7 @@ export default function CommandesPage() {
                                         <span className="font-medium">{produit.nom}</span>
                                         <span className="text-gray-500 ml-2">×{produit.quantite}</span>
                                       </div>
-                                      <span className="font-medium">{formatEuro(produit.prix_unitaire * produit.quantite)}</span>
+                                      <span className="font-medium">{formatEuro(produit.prix_unitaire_ht * produit.quantite)}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -466,13 +466,16 @@ export default function CommandesPage() {
                                   Adresse de livraison
                                 </h4>
                                 <div className="text-sm text-gray-600 space-y-1">
-                                  <p className="font-medium">{commande.livraison_nom}</p>
-                                  <p>{commande.livraison_adresse}</p>
-                                  <p>{commande.livraison_code_postal} {commande.livraison_ville}</p>
-                                  <p>{commande.livraison_pays}</p>
-                                  {commande.livraison_telephone && (
-                                    <p className="text-xs">Tél: {commande.livraison_telephone}</p>
-                                  )}
+                                  {(() => {
+                                    const addr = commande.adresse_livraison as {rue?: string, code_postal?: string, ville?: string, pays?: string} | null
+                                    return (
+                                      <>
+                                        <p>{addr?.rue}</p>
+                                        <p>{addr?.code_postal} {addr?.ville}</p>
+                                        <p>{addr?.pays}</p>
+                                      </>
+                                    )
+                                  })()}
                                 </div>
                               </div>
 
@@ -496,10 +499,10 @@ export default function CommandesPage() {
                                       <span className="font-mono text-xs">{commande.tracking_number}</span>
                                     </div>
                                   )}
-                                  {commande.notes_commande && (
+                                  {commande.notes && (
                                     <div>
                                       <span className="text-gray-600">Notes:</span>
-                                      <p className="text-gray-800 mt-1">{commande.notes_commande}</p>
+                                      <p className="text-gray-800 mt-1">{commande.notes}</p>
                                     </div>
                                   )}
                                 </div>

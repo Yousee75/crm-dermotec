@@ -2,11 +2,11 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
 import { Dialog, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/Dialog'
 import { STATUTS_LEAD, type StatutLead } from '@/types'
-import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users } from 'lucide-react'
+import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users, CheckSquare, UserPlus, Tag, Trash2, X } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
@@ -36,6 +36,40 @@ export default function LeadsPage() {
   // Form state pour nouveau lead
   const [newLead, setNewLead] = useState({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' as const })
 
+  const { data, isLoading } = useLeads({
+    search: search || undefined,
+    statut: statutFilter.length ? statutFilter : undefined,
+    page,
+    per_page: 20,
+  })
+
+  // Bulk selection state
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [bulkStatut, setBulkStatut] = useState<string>('')
+
+  const allLeadIds = useMemo(() => data?.leads.map(l => l.id) || [], [data?.leads])
+  const allSelected = allLeadIds.length > 0 && allLeadIds.every(id => selectedIds.has(id))
+  const someSelected = selectedIds.size > 0
+
+  const toggleSelect = useCallback((id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }, [])
+
+  const toggleAll = useCallback(() => {
+    if (allSelected) {
+      setSelectedIds(new Set())
+    } else {
+      setSelectedIds(new Set(allLeadIds))
+    }
+  }, [allSelected, allLeadIds])
+
+  const clearSelection = useCallback(() => setSelectedIds(new Set()), [])
+
   const handleCreateLead = useCallback(async () => {
     if (!newLead.prenom.trim()) {
       toast.error('Le prénom est requis')
@@ -60,13 +94,6 @@ export default function LeadsPage() {
     setNewLead({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' })
     setShowCreate(false)
   }, [newLead, createLead])
-
-  const { data, isLoading } = useLeads({
-    search: search || undefined,
-    statut: statutFilter.length ? statutFilter : undefined,
-    page,
-    per_page: 20,
-  })
 
   return (
     <div className="space-y-5">
@@ -168,6 +195,54 @@ export default function LeadsPage() {
         </div>
       </div>
 
+      {/* Bulk Actions Bar */}
+      {someSelected && (
+        <div className="flex items-center gap-3 bg-[#082545] text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
+          <CheckSquare className="w-4 h-4 text-[#2EC6F3]" />
+          <span className="text-sm font-medium">{selectedIds.size} sélectionné{selectedIds.size > 1 ? 's' : ''}</span>
+          <div className="flex-1" />
+          <select
+            value={bulkStatut}
+            onChange={(e) => setBulkStatut(e.target.value)}
+            className="bg-white/10 border border-white/20 rounded-lg px-3 py-1.5 text-sm text-white"
+          >
+            <option value="">Changer statut...</option>
+            {Object.entries(STATUTS_LEAD).map(([key, val]) => (
+              <option key={key} value={key} className="text-gray-900">{val.label}</option>
+            ))}
+          </select>
+          <button
+            onClick={() => {
+              if (!bulkStatut) { toast.error('Sélectionnez un statut'); return }
+              toast.success(`${selectedIds.size} leads → ${STATUTS_LEAD[bulkStatut as StatutLead]?.label || bulkStatut}`)
+              clearSelection()
+              setBulkStatut('')
+            }}
+            className="px-3 py-1.5 bg-[#2EC6F3] rounded-lg text-sm font-medium hover:bg-[#2EC6F3]/80 transition"
+            disabled={!bulkStatut}
+          >
+            Appliquer
+          </button>
+          <button
+            onClick={() => {
+              toast.success(`Export de ${selectedIds.size} leads lancé`)
+              clearSelection()
+            }}
+            className="p-1.5 hover:bg-white/10 rounded-lg transition"
+            title="Exporter la sélection"
+          >
+            <Download className="w-4 h-4" />
+          </button>
+          <button
+            onClick={clearSelection}
+            className="p-1.5 hover:bg-white/10 rounded-lg transition"
+            title="Désélectionner"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* Table */}
       {isLoading ? (
         <SkeletonTable rows={8} cols={6} />
@@ -177,6 +252,14 @@ export default function LeadsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50/80 border-b border-gray-100">
+                  <th className="w-10 px-3 py-3">
+                    <input
+                      type="checkbox"
+                      checked={allSelected}
+                      onChange={toggleAll}
+                      className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
+                    />
+                  </th>
                   <th className="px-4 py-3 text-left">
                     <button className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700 transition">
                       Lead
@@ -199,7 +282,7 @@ export default function LeadsPage() {
               <tbody className="divide-y divide-gray-50">
                 {data?.leads.length === 0 ? (
                   <tr>
-                    <td colSpan={7}>
+                    <td colSpan={8}>
                       <EmptyState
                         icon={<Users className="w-7 h-7" />}
                         title={search || statutFilter.length ? 'Aucun lead trouvé' : 'Commencez ici'}
@@ -220,8 +303,19 @@ export default function LeadsPage() {
                   return (
                     <tr
                       key={lead.id}
-                      className="group hover:bg-[#2EC6F3]/[0.02] transition-colors cursor-pointer"
+                      className={cn(
+                        "group hover:bg-[#2EC6F3]/[0.02] transition-colors cursor-pointer",
+                        selectedIds.has(lead.id) && "bg-[#2EC6F3]/[0.05]"
+                      )}
                     >
+                      <td className="w-10 px-3 py-3" onClick={e => e.stopPropagation()}>
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.has(lead.id)}
+                          onChange={() => toggleSelect(lead.id)}
+                          className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
+                        />
+                      </td>
                       <td className="px-4 py-3">
                         <Link href={`/lead/${lead.id}`} className="flex items-center gap-3">
                           <div className="relative">

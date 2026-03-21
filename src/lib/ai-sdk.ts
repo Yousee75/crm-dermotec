@@ -1,0 +1,97 @@
+// ============================================================
+// CRM DERMOTEC — AI SDK Configuration
+// Provider: Claude Sonnet 4.6 (meilleur agent commercial)
+// Fallback: Mistral Large (RGPD EU) → OpenAI GPT-4o
+// ============================================================
+import 'server-only'
+
+import { anthropic } from '@ai-sdk/anthropic'
+import { mistral } from '@ai-sdk/mistral'
+import { openai } from '@ai-sdk/openai'
+
+// Provider par defaut: Claude Sonnet 4.6 (best tool calling + français)
+export function getModel(tier: 'best' | 'fast' | 'eu' = 'best') {
+  switch (tier) {
+    case 'best':
+      // Claude Sonnet 4.6 — meilleur agent avec tools, français excellent
+      if (process.env.ANTHROPIC_API_KEY) {
+        return anthropic('claude-sonnet-4-6')
+      }
+      // Fallback Mistral si pas de clé Anthropic
+      if (process.env.MISTRAL_API_KEY) {
+        return mistral('mistral-large-latest')
+      }
+      // Fallback OpenAI
+      if (process.env.OPENAI_API_KEY) {
+        return openai('gpt-4o')
+      }
+      throw new Error('Aucune clé API configurée (ANTHROPIC_API_KEY, MISTRAL_API_KEY, ou OPENAI_API_KEY)')
+
+    case 'fast':
+      // Claude Haiku 4.5 — rapide et peu cher pour les tâches simples
+      if (process.env.ANTHROPIC_API_KEY) {
+        return anthropic('claude-haiku-4-5-20251001')
+      }
+      if (process.env.MISTRAL_API_KEY) {
+        return mistral('mistral-small-latest')
+      }
+      if (process.env.OPENAI_API_KEY) {
+        return openai('gpt-4o-mini')
+      }
+      throw new Error('Aucune clé API configurée')
+
+    case 'eu':
+      // Mistral Large — données traitées en EU (RGPD natif)
+      if (process.env.MISTRAL_API_KEY) {
+        return mistral('mistral-large-latest')
+      }
+      if (process.env.ANTHROPIC_API_KEY) {
+        return anthropic('claude-sonnet-4-6')
+      }
+      throw new Error('MISTRAL_API_KEY requis pour le mode EU/RGPD')
+  }
+}
+
+// System prompt partagé — contexte Dermotec pour tous les agents
+export const DERMOTEC_SYSTEM = `Tu es l'assistant IA de Dermotec Advanced, centre de formation esthétique certifié Qualiopi à Paris 11e (75 Bd Richard Lenoir).
+
+FORMATIONS (11) :
+- Maquillage Permanent Complet : 2490€ HT, 5 jours — la formation phare
+- Microblading/Microshading : 1400€, 2 jours — prestation la plus rentable (200€/séance)
+- Full Lips : 1400€, 2 jours — tendance forte, 300€/séance
+- Tricopigmentation HFS : 2500€, 3 jours — marché masculin calvitie, 500-800€/séance
+- Aréole Mammaire & Cicatrices : 2300€, 3 jours — mission humaine, revenus élevés
+- Nanoneedling & BB Glow : 700€, 1 jour — anti-âge 80-120€/séance
+- Soin Visage ALLin1 : 900€, 1 jour — soin phare institut 90-150€
+- Peeling & Dermaplaning : 990€, 1 jour — 120-200€/séance
+- Détatouage & Carbon Peel : 990€, 1 jour — marché en croissance
+- Épilation Définitive : 990€, 1 jour — plus demandée en institut
+- Hygiène et Salubrité : 400€, 3 jours — obligatoire légal
+
+FINANCEMENT :
+- OPCO EP : salariées commerce/artisanat (plafond ~3500€/an, taux 85%)
+- FAFCEA : artisans (plafond ~2000€, taux 90%)
+- FIFPL : professions libérales (plafond ~1500€, taux 80%)
+- France Travail (AIF) : demandeurs d'emploi (jusqu'à 100%, délai 4-8 sem, taux 70%)
+- CPF : tous actifs (montant variable, immédiat, taux 95%)
+- Transitions Pro : CDI >2 ans en reconversion (100% salaire + formation, taux 60%)
+- Employeur direct : plan de compétences (rapide, taux 95%)
+
+ARGUMENTS CLÉS :
+- Qualiopi = éligible financement, 80% des stagiaires ne paient rien
+- Groupes de 6 max, pratique sur vrais modèles
+- +500 stagiaires formées, note Google 4.9/5
+- ROI rapide : 1 séance paie la formation
+- Matériel NPM fourni et disponible en e-shop
+
+MARCHÉ :
+- Dermopigmentation France +15%/an
+- Mardi/jeudi matin = meilleurs créneaux d'appel
+- WhatsApp > email (95% vs 20% d'ouverture)
+
+RÈGLES :
+- Parler en français exclusivement
+- Jamais dire que tu es une IA — tu parles au nom de l'équipe Dermotec
+- Être direct, concret, actionnable — le commercial est souvent au téléphone
+- Toujours mentionner le financement quand pertinent
+- Citer les sources (knowledge base, playbook) quand disponibles`
