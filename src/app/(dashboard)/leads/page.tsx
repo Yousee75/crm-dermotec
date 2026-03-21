@@ -19,6 +19,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
+import { exportToCSV } from '@/lib/export-csv'
 import { SourceBadge, SOURCE_CONFIG } from '@/components/ui/SourceBadge'
 import { ScoreChip } from '@/components/ui/ScoreChip'
 import { FilterDropdown, FilterOption } from '@/components/ui/FilterDropdown'
@@ -102,7 +103,26 @@ export default function LeadsPage() {
         title="Leads"
         description={`${data?.total || 0} leads au total`}
       >
-        <Button variant="outline" size="sm" icon={<Download className="w-3.5 h-3.5" />}>
+        <Button
+          variant="outline"
+          size="sm"
+          icon={<Download className="w-3.5 h-3.5" />}
+          onClick={() => {
+            if (!data?.leads.length) return toast.error('Aucun lead à exporter')
+            exportToCSV(data.leads.map(l => ({
+              prenom: l.prenom,
+              nom: l.nom,
+              email: l.email || '',
+              telephone: l.telephone || '',
+              statut: l.statut,
+              source: l.source,
+              score: l.score_chaud,
+              formation: l.formation_principale?.nom || '',
+              date: l.created_at,
+            })), 'leads')
+            toast.success(`${data.leads.length} leads exportés`)
+          }}
+        >
           Export
         </Button>
         <Button

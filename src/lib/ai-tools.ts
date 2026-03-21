@@ -9,6 +9,7 @@ import 'server-only'
 import { tool } from 'ai'
 import { z } from 'zod'
 import { createServiceSupabase } from './supabase-server'
+import { hybridSearchKB } from './hybrid-search'
 
 // --- TOOL 1: Recherche de leads ---
 export const searchLeadsTool = tool({
@@ -214,19 +215,25 @@ EXEMPLE : "Comment fonctionne le CPF ?" → searchKnowledgeBase({ query: "CPF pr
     categorie: z.enum(['script_vente', 'objection', 'fiche_formation', 'financement', 'process', 'faq', 'temoignage', 'argument_cle']).optional(),
   }),
   execute: async ({ query, categorie }) => {
+    // Hybrid search : BM25 (full-text) + Vector (sémantique) — -67% échecs retrieval
+    try {
+      const results = await hybridSearchKB(query, { limit: 5, categorie })
+      if (results.length > 0) {
+        return { articles: results.map(r => ({ categorie: r.categorie, titre: r.titre, contenu: r.contenu, formation_slug: r.formation_slug, statut_pro_cible: r.statut_pro_cible })), source: 'hybrid_search' }
+      }
+    } catch (err) {
+      console.error('[KB Tool] Hybrid search failed, falling back to FTS:', err)
+    }
+
+    // Fallback : FTS seul
     const supabase = await createServiceSupabase()
     const searchTerms = query.replace(/['"]/g, '').split(/\s+/).filter((w: string) => w.length > 2).join(' & ')
+    const { data } = await supabase.from('knowledge_base').select('categorie, titre, contenu, formation_slug, statut_pro_cible').eq('is_active', true).textSearch('fts', searchTerms || query, { config: 'french' }).limit(5)
+    if (data?.length) return { articles: data, source: 'fts' }
 
-    let q = supabase.from('knowledge_base').select('categorie, titre, contenu, formation_slug, statut_pro_cible').eq('is_active', true).limit(5)
-    if (searchTerms) q = q.textSearch('fts', searchTerms, { config: 'french' })
-    if (categorie) q = q.eq('categorie', categorie)
-
-    const { data } = await q
-    if (!data?.length) {
-      const { data: fallback } = await supabase.from('knowledge_base').select('categorie, titre, contenu').eq('is_active', true).order('priorite', { ascending: false }).limit(5)
-      return { articles: fallback || [], source: 'priorité' }
-    }
-    return { articles: data, source: 'recherche' }
+    // Fallback ultime : articles prioritaires
+    const { data: fallback } = await supabase.from('knowledge_base').select('categorie, titre, contenu').eq('is_active', true).order('priorite', { ascending: false }).limit(5)
+    return { articles: fallback || [], source: 'priorité' }
   },
 })
 

@@ -14,6 +14,7 @@ import { getScoreColor, getScoreLabel, scoreLead } from '@/lib/scoring'
 import { ActivityTimeline } from '@/components/ui/ActivityTimeline'
 import { InscrireLeadDialog } from '@/components/ui/InscrireLeadDialog'
 import { AssignCommercialDialog } from '@/components/ui/AssignCommercialDialog'
+import { PaymentLinkButton } from '@/components/ui/PaymentLinkButton'
 import { SkeletonCard } from '@/components/ui/Skeleton'
 import { toast } from 'sonner'
 import {
@@ -523,6 +524,45 @@ function InformationsTab({
               </div>
             </div>
           </Section>
+
+          {/* Inscriptions — affiche les inscriptions existantes + lien paiement */}
+          {lead.inscriptions && lead.inscriptions.length > 0 && (
+            <Section title={`Inscriptions (${lead.inscriptions.length})`} icon={<GraduationCap className="w-4 h-4" />}>
+              <div className="space-y-3">
+                {lead.inscriptions.map((insc: Inscription) => {
+                  const formation = insc.session?.formation
+                  return (
+                    <div key={insc.id} className="border border-gray-200 rounded-lg p-3 hover:border-gray-300 transition">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <h4 className="font-medium text-[#082545] text-sm truncate">{formation?.nom || 'Formation'}</h4>
+                          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1 text-xs text-gray-500">
+                            {insc.session && (
+                              <Link href={`/session/${insc.session.id}`} className="text-[#2EC6F3] hover:underline">
+                                {formatDate(insc.session.date_debut, { day: 'numeric', month: 'short' })}
+                              </Link>
+                            )}
+                            <span>{formatEuro(insc.montant_total)}</span>
+                            <span className={cn(
+                              'px-1.5 py-0.5 rounded-full text-[10px] font-medium',
+                              insc.paiement_statut === 'PAYE' ? 'bg-green-100 text-green-700' :
+                              insc.paiement_statut === 'EN_ATTENTE' ? 'bg-amber-100 text-amber-700' :
+                              'bg-gray-100 text-gray-600'
+                            )}>
+                              {insc.paiement_statut.replace(/_/g, ' ').toLowerCase()}
+                            </span>
+                          </div>
+                        </div>
+                        {insc.paiement_statut !== 'PAYE' && (
+                          <PaymentLinkButton lead={lead} inscription={insc} />
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </Section>
+          )}
 
           {/* Tags — inline edit, pas besoin de mode édition */}
           <Section title="Tags" icon={<Tag className="w-4 h-4" />}>

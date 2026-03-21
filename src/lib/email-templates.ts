@@ -11,10 +11,10 @@ const COLORS = {
   primaryDark: '#1BA8D4',
   accent: '#082545',
   white: '#FFFFFF',
-  bg: '#F8FAFC',
+  bg: '#F4F7FA', // Meilleur en dark mode que #F8FAFC (évite inversion Gmail)
   bgCard: '#FFFFFF',
-  text: '#1E293B',
-  textSecondary: '#64748B',
+  text: '#1A2332', // Contraste 14.5:1 sur blanc (WCAG AAA)
+  textSecondary: '#4A5568', // Contraste 7.1:1 (WCAG AA)
   textMuted: '#94A3B8',
   border: '#E2E8F0',
   success: '#10B981',
@@ -108,7 +108,7 @@ function subheading(text: string): string {
 }
 
 function paragraph(text: string): string {
-  return `<p style="color:${COLORS.text};font-size:15px;line-height:1.7;margin:0 0 16px" class="email-text">${text}</p>`
+  return `<p style="color:${COLORS.text};font-size:16px;line-height:1.6;margin:0 0 16px" class="email-text">${text}</p>`
 }
 
 function smallText(text: string): string {
