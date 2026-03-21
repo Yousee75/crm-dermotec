@@ -1,4 +1,6 @@
 'use client'
+
+export const dynamic = 'force-dynamic'
 // @ts-nocheck
 
 import { useState } from 'react'

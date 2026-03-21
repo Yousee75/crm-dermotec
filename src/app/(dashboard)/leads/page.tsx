@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState, useCallback } from 'react'
 import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
 import { Dialog, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/Dialog'

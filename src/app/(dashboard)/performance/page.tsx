@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { useCommercialPerformance, type Periode } from '@/hooks/use-commercial-performance'
 import { formatEuro } from '@/lib/utils'

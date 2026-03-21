@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useLeads } from '@/hooks/use-leads'
 import { useSessions } from '@/hooks/use-sessions'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'

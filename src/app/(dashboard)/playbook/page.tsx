@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { usePlaybookEntries, useVotePlaybookResponse, useRecordPlaybookResult, useCreatePlaybookEntry, useAddPlaybookResponse, useSuggestResponse } from '@/hooks/use-playbook'
 import { PLAYBOOK_CATEGORIES } from '@/lib/playbook'

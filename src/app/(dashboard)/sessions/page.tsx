@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { useSessions } from '@/hooks/use-sessions'
 import { Calendar, Plus, Users, Clock, MapPin } from 'lucide-react'
