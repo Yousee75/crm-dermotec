@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Exclure @react-pdf/renderer du bundle serveur (conflit Html avec next/document)
+  serverExternalPackages: ['@react-pdf/renderer'],
+
   // Performance
   experimental: {
     serverActions: {
