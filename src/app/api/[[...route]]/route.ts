@@ -13,16 +13,27 @@
 // continuent de fonctionner sans conflit.
 // ============================================================
 
-import { handle } from 'hono/vercel'
-import app from '@/server'
+import { type NextRequest } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
-export const runtime = 'nodejs' // 'edge' si deploye sur Vercel Edge
+export const runtime = 'nodejs'
 
-export const GET = handle(app)
-export const POST = handle(app)
-export const PUT = handle(app)
-export const PATCH = handle(app)
-export const DELETE = handle(app)
-export const OPTIONS = handle(app)
+// Lazy import to prevent zod-openapi crash during SSG page collection
+async function getHandler() {
+  const { handle } = await import('hono/vercel')
+  const { default: app } = await import('@/server')
+  return handle(app)
+}
+
+async function handler(req: NextRequest, ctx: { params: Promise<{ route: string[] }> }) {
+  const h = await getHandler()
+  return h(req, ctx)
+}
+
+export const GET = handler
+export const POST = handler
+export const PUT = handler
+export const PATCH = handler
+export const DELETE = handler
+export const OPTIONS = handler
