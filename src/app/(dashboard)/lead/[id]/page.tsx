@@ -10,6 +10,8 @@ import { STATUTS_LEAD, type Lead, type Message, type CanalMessage, type Inscript
 import { formatEuro, formatDate, formatPhone } from '@/lib/utils'
 import { getScoreColor, getScoreLabel } from '@/lib/scoring'
 import { ActivityTimeline } from '@/components/ui/ActivityTimeline'
+import { InscrireLeadDialog } from '@/components/ui/InscrireLeadDialog'
+import { AssignCommercialDialog } from '@/components/ui/AssignCommercialDialog'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { SkeletonCard, SkeletonList } from '@/components/ui/Skeleton'
 import {
@@ -58,6 +60,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const [messageCanal, setMessageCanal] = useState<CanalMessage>('email')
   const [messageContent, setMessageContent] = useState('')
   const [messageSubject, setMessageSubject] = useState('')
+  const [showInscrire, setShowInscrire] = useState(false)
+  const [showAssign, setShowAssign] = useState(false)
 
   const { data: lead, isLoading } = useLead(id)
   const { data: messages = [] } = useMessages(id)
@@ -234,6 +238,23 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             <MessageSquare className="w-4 h-4" />
             SMS
           </button>
+
+          <div className="w-px h-6 bg-gray-200 mx-1" />
+
+          <button
+            onClick={() => setShowInscrire(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-violet-50 text-violet-700 rounded-lg text-sm hover:bg-violet-100 transition font-medium"
+          >
+            <GraduationCap className="w-4 h-4" />
+            Inscrire
+          </button>
+          <button
+            onClick={() => setShowAssign(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-50 text-gray-600 rounded-lg text-sm hover:bg-gray-100 transition"
+          >
+            <Target className="w-4 h-4" />
+            {lead.commercial_assigne ? `${lead.commercial_assigne.prenom}` : 'Assigner'}
+          </button>
         </div>
       </div>
 
@@ -306,6 +327,10 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           <HistoriqueTab leadId={lead.id} />
         )}
       </div>
+
+      {/* Dialogs */}
+      <InscrireLeadDialog open={showInscrire} onClose={() => setShowInscrire(false)} lead={lead} />
+      <AssignCommercialDialog open={showAssign} onClose={() => setShowAssign(false)} lead={lead} />
     </div>
   )
 }
