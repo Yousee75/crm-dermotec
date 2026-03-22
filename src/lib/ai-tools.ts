@@ -5,22 +5,17 @@
 // ============================================================
 import 'server-only'
 
-import { tool, type Tool, zodSchema, jsonSchema } from 'ai'
+import { tool, type Tool } from 'ai'
 import { z } from 'zod'
 import { createServiceSupabase } from './supabase-server'
 import { hybridSearchKB } from './hybrid-search'
 
-// AI SDK v6 — tool() direct avec le Zod schema
-// Le SDK DEVRAIT transformer automatiquement via asSchema()
-// On utilise l'overload avec parameters: ZodSchema directement
-function defineTool(config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }): any {
-  return {
-    type: 'function' as const,
-    description: config.description,
-    parameters: config.parameters, // Zod schema — le SDK le convertira via asSchema()
-    execute: config.execute,
-  }
-}
+// AI SDK v6 — utilise tool() du SDK directement
+// Le SDK convertit le Zod schema en JSON Schema au moment de l'appel API
+// IMPORTANT : ne PAS wrapper le résultat, retourner tel quel
+const defineTool = (config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }) =>
+  // @ts-ignore — overload TS strict, mais tool() avec Zod fonctionne (vérifié)
+  tool({ description: config.description, parameters: config.parameters, execute: config.execute })
 
 // --- TOOL 1: Recherche de leads ---
 export const searchLeadsTool = defineTool({
