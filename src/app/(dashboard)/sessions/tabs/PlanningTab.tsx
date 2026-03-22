@@ -143,7 +143,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
                       value={session.places_occupees}
                       max={session.places_max}
                       size="md"
-                      color={placesRestantes <= 0 ? '#EF4444' : placesRestantes <= 2 ? '#F59E0B' : '#2EC6F3'}
+                      color={placesRestantes <= 0 ? '#EF4444' : placesRestantes <= 2 ? '#F59E0B' : 'var(--color-primary)'}
                     />
                     <p className="text-[10px] text-gray-400 mt-1">
                       {placesRestantes <= 0 ? 'Complet' : `${placesRestantes} place${placesRestantes > 1 ? 's' : ''} dispo`}

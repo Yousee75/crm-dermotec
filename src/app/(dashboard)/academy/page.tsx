@@ -64,7 +64,7 @@ function CircularProgress({ value, size = 80, strokeWidth = 6 }: { value: number
           cx={center}
           cy={center}
           r={radius}
-          stroke="#2EC6F3"
+          stroke="var(--color-primary)"
           strokeWidth={strokeWidth}
           fill="none"
           strokeDasharray={strokeDasharray}

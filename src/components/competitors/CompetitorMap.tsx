@@ -65,9 +65,9 @@ export function CompetitorMap({ center, competitors, prospectName, onMarkerClick
         icon={{
           path: google.maps.SymbolPath.CIRCLE,
           scale: 12,
-          fillColor: '#2EC6F3',
+          fillColor: 'var(--color-primary)',
           fillOpacity: 1,
-          strokeColor: '#082545',
+          strokeColor: 'var(--color-accent)',
           strokeWeight: 3,
         }}
         title={prospectName || 'Dermotec'}

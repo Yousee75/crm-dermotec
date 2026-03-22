@@ -276,7 +276,7 @@ export default function EquipeTab() {
                           <Avatar
                             name={`${membre.prenom} ${membre.nom}`}
                             size="md"
-                            color="#2EC6F3"
+                            color="var(--color-primary)"
                           />
                           <div>
                             <p className="text-sm font-medium text-gray-900">

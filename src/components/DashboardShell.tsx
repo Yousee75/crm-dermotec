@@ -428,7 +428,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             'flex items-center gap-2.5 rounded-lg p-2 hover:bg-white/5 transition cursor-pointer group',
             collapsed && 'justify-center'
           )}>
-            <Avatar name="Admin" size="sm" color="#2EC6F3" status="online" />
+            <Avatar name="Admin" size="sm" color="var(--color-primary)" status="online" />
             {!collapsed && (
               <div className="flex-1 min-w-0">
                 <p className="text-[12px] font-medium text-slate-300 truncate">Admin</p>

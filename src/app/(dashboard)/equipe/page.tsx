@@ -23,7 +23,7 @@ const ROLE_CONFIG: Record<RoleEquipe, {
   icon: React.ElementType
 }> = {
   admin: { label: 'Admin', variant: 'purple', color: '#8B5CF6', icon: Shield },
-  commercial: { label: 'Commercial', variant: 'blue', color: '#2EC6F3', icon: Phone },
+  commercial: { label: 'Commercial', variant: 'blue', color: 'var(--color-primary)', icon: Phone },
   formatrice: { label: 'Formatrice', variant: 'pink', color: '#EC4899', icon: GraduationCap },
   assistante: { label: 'Assistante', variant: 'green', color: '#10B981', icon: Heart },
   manager: { label: 'Manager', variant: 'orange', color: '#F59E0B', icon: Award },

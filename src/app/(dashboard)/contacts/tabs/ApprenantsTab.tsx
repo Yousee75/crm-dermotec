@@ -152,7 +152,7 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
                           <Avatar
                             name={`${apprenant.prenom} ${apprenant.nom}`}
                             size="md"
-                            color="#2EC6F3"
+                            color="var(--color-primary)"
                           />
                           <div>
                             <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">

@@ -313,7 +313,7 @@ export default function DashboardPage() {
         <div className="flex items-center gap-1">
           {[
             { label: 'Nouveau', count: leadsData?.leads?.filter(l => l.statut === 'NOUVEAU').length || 0, color: '#94A3B8' },
-            { label: 'Qualifié', count: leadsData?.leads?.filter(l => l.statut === 'QUALIFIE').length || 0, color: '#2EC6F3' },
+            { label: 'Qualifié', count: leadsData?.leads?.filter(l => l.statut === 'QUALIFIE').length || 0, color: 'var(--color-primary)' },
             { label: 'Financement', count: leadsData?.leads?.filter(l => l.statut === 'FINANCEMENT_EN_COURS').length || 0, color: '#F59E0B' },
             { label: 'Inscrit', count: leadsData?.leads?.filter(l => l.statut === 'INSCRIT').length || 0, color: '#8B5CF6' },
             { label: 'Formé', count: leadsData?.leads?.filter(l => l.statut === 'FORME' || l.statut === 'ALUMNI').length || 0, color: '#22C55E' },
@@ -479,7 +479,7 @@ export default function DashboardPage() {
           icon={(p: any) => <UsersThree weight="duotone" {...p} />}
           label="Total prospects"
           value={totalLeads.toLocaleString()}
-          color="#2EC6F3"
+          color="var(--color-primary)"
         />
         <KpiCard
           icon={(p: any) => <Lightning weight="duotone" {...p} />}
@@ -498,7 +498,7 @@ export default function DashboardPage() {
           icon={(p: any) => <CurrencyEur weight="duotone" {...p} />}
           label="CA realise"
           value={formatEuro(caRealise)}
-          color="#2EC6F3"
+          color="var(--color-primary)"
           subtitle="Ce mois"
         />
         <KpiCard

@@ -16,7 +16,7 @@ const ROLES: { value: RoleEquipe; label: string; color: string }[] = [
   { value: 'assistante', label: 'Assistante', color: '#22C55E' },
 ]
 
-const AVATAR_COLORS = ['#2EC6F3', '#8B5CF6', '#E11D48', '#F59E0B', '#22C55E', '#F97316', '#6366F1', '#14B8A6', '#082545']
+const AVATAR_COLORS = ['var(--color-primary)', '#8B5CF6', '#E11D48', '#F59E0B', '#22C55E', '#F97316', '#6366F1', '#14B8A6', 'var(--color-accent)']
 
 interface Props {
   open: boolean
@@ -31,7 +31,7 @@ export function AddTeamMemberDialog({ open, onOpenChange }: Props) {
     prenom: '', nom: '', email: '', telephone: '',
     role: 'commercial' as RoleEquipe,
     specialites: '', objectif_mensuel: 0, taux_horaire: 0,
-    avatar_color: '#2EC6F3',
+    avatar_color: 'var(--color-primary)',
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -68,7 +68,7 @@ export function AddTeamMemberDialog({ open, onOpenChange }: Props) {
       toast.success(`${form.prenom} ${form.nom} ajouté(e) à l'équipe`)
       qc.invalidateQueries({ queryKey: ['equipe'] })
       onOpenChange(false)
-      setForm({ prenom: '', nom: '', email: '', telephone: '', role: 'commercial', specialites: '', objectif_mensuel: 0, taux_horaire: 0, avatar_color: '#2EC6F3' })
+      setForm({ prenom: '', nom: '', email: '', telephone: '', role: 'commercial', specialites: '', objectif_mensuel: 0, taux_horaire: 0, avatar_color: 'var(--color-primary)' })
     },
     onError: (err) => {
       if (err.message !== 'Validation') toast.error('Erreur lors de l\'ajout')

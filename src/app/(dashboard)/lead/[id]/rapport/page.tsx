@@ -80,12 +80,12 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
         <div className="h-full grid grid-rows-[auto_1fr_auto] p-4 print:p-6 gap-2.5">
 
           {/* ═══ HEADER ═══ */}
-          <div className="flex items-center justify-between pb-2.5 border-b-[3px]" style={{ borderColor: '#2EC6F3' }}>
+          <div className="flex items-center justify-between pb-2.5 border-b-[3px]" style={{ borderColor: 'var(--color-primary)' }}>
             <div className="flex items-center gap-3">
-              <span className="text-lg font-extrabold tracking-[2px]" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: '#2EC6F3' }}>SATOREA</span>
+              <span className="text-lg font-extrabold tracking-[2px]" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: 'var(--color-primary)' }}>SATOREA</span>
               <div className="w-px h-7 bg-gray-200" />
               <div>
-                <div className="text-lg font-bold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: '#082545' }}>{nom}{lead.entreprise_nom ? ` — ${lead.entreprise_nom}` : ''}</div>
+                <div className="text-lg font-bold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: 'var(--color-accent)' }}>{nom}{lead.entreprise_nom ? ` — ${lead.entreprise_nom}` : ''}</div>
                 <div className="text-[11px] text-gray-500">
                   {lead.adresse?.ville || 'Paris'} {lead.telephone && `\u00b7 ${formatPhone(lead.telephone)}`} {lead.email && `\u00b7 ${lead.email}`}
                 </div>
@@ -159,7 +159,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                 </div>
                 <div className="space-y-1.5">
                   {[
-                    { n: 1, l: 'Accroche', t: `Bonjour ${lead.prenom}, je suis [Prenom] de Dermotec Advanced, centre certifie Qualiopi a Paris 11e.`, c: '#2EC6F3' },
+                    { n: 1, l: 'Accroche', t: `Bonjour ${lead.prenom}, je suis [Prenom] de Dermotec Advanced, centre certifie Qualiopi a Paris 11e.`, c: 'var(--color-primary)' },
                     { n: 2, l: 'Transition', t: formation ? `On forme des professionnelles au ${formation.nom} — une prestation tres demandee.` : 'On propose des formations courtes certifiees en esthetique.', c: '#6366F1' },
                     { n: 3, l: 'Proposition', t: formation ? `En ${formation.duree_jours || 2} jours, vous maitrisez la technique. ${formation.prix_ht}\u20acHT, financable OPCO/CPF.` : 'Nos formations durent 1 a 5 jours et sont financables OPCO/CPF.', c: '#8B5CF6' },
                     { n: 4, l: 'Closing', t: 'Est-ce qu\'on pourrait se voir 15 min cette semaine ? Je vous montre les chiffres concrets.', c: '#059669' },
@@ -215,7 +215,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                     {/* Average */}
                     <polygon points={avgPoints} fill="none" stroke="#EF4444" strokeWidth="1" strokeDasharray="4 3" opacity="0.4" />
                     {/* Data */}
-                    {scores && <polygon points={radarPoints} fill="#2EC6F3" fillOpacity="0.15" stroke="#2EC6F3" strokeWidth="2" />}
+                    {scores && <polygon points={radarPoints} fill="var(--color-primary)" fillOpacity="0.15" stroke="var(--color-primary)" strokeWidth="2" />}
                     {/* Points */}
                     {scores && (() => {
                       const vals = [scores.reputation, scores.presence, scores.activity, scores.financial, scores.neighborhood]
@@ -231,7 +231,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                     <text x="48" y="140" textAnchor="end" fontSize="8" fill="#475569" fontWeight="600">Financier</text>
                     <text x="22" y="54" textAnchor="end" fontSize="8" fill="#475569" fontWeight="600">Quartier</text>
                     {/* Legend */}
-                    <line x1="18" y1="178" x2="33" y2="178" stroke="#2EC6F3" strokeWidth="2" />
+                    <line x1="18" y1="178" x2="33" y2="178" stroke="var(--color-primary)" strokeWidth="2" />
                     <text x="36" y="181" fontSize="7" fill="#94A3B8">Prospect</text>
                     <line x1="88" y1="178" x2="103" y2="178" stroke="#EF4444" strokeWidth="1" strokeDasharray="4 3" />
                     <text x="106" y="181" fontSize="7" fill="#94A3B8">Moy. secteur</text>
@@ -322,7 +322,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
             </div>
             <div className="flex items-center gap-1.5">
               {[
-                { n: '1', t: 'Appeler', c: '#2EC6F3' },
+                { n: '1', t: 'Appeler', c: 'var(--color-primary)' },
                 { n: '2', t: 'SMS si absent', c: '#6366F1' },
                 { n: '3', t: 'Envoyer programme', c: '#8B5CF6' },
               ].map(s => (

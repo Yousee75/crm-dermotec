@@ -443,7 +443,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                     className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center gap-2">
-                      <Sparkles className="text-[#A855F7]" size={18} />
+                      <Sparkles className="text-action" size={18} />
                       <span className="font-medium">Analyse IA</span>
                     </div>
                     {openSections.analyse ? <ChevronUp size={18} /> : <ChevronDown size={18} />}

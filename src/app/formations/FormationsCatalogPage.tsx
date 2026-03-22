@@ -265,11 +265,11 @@ export default function FormationsCatalogPage() {
                     >
                       {/* Badge catégorie */}
                       <div className="relative">
-                        <div className="h-2" style={{ backgroundColor: categoryInfo?.color || '#2EC6F3' }}></div>
+                        <div className="h-2" style={{ backgroundColor: categoryInfo?.color || 'var(--color-primary)' }}></div>
                         <div className="absolute top-3 left-4">
                           <div
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-lg"
-                            style={{ backgroundColor: categoryInfo?.color || '#2EC6F3' }}
+                            style={{ backgroundColor: categoryInfo?.color || 'var(--color-primary)' }}
                           >
                             {IconComponent && <IconComponent size={12} />}
                             {formation.categorie}

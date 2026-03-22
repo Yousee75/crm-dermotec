@@ -59,7 +59,7 @@ export function TextReformulator() {
             onClick={() => setTone(t.id)}
             className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
               tone === t.id
-                ? 'bg-[#A855F7] text-white'
+                ? 'bg-action text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
@@ -73,14 +73,14 @@ export function TextReformulator() {
         value={input}
         onChange={e => setInput(e.target.value)}
         placeholder="Collez le texte à reformuler..."
-        className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm min-h-[100px] resize-y focus:outline-none focus:border-[#A855F7] focus:ring-1 focus:ring-[#A855F7]/30"
+        className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm min-h-[100px] resize-y focus:outline-none focus:border-action focus:ring-1 focus:ring-action/30"
       />
 
       {/* Button */}
       <button
         onClick={reformulate}
         disabled={loading || !input.trim()}
-        className="w-full bg-[#A855F7] hover:bg-[#9333EA] disabled:opacity-50 text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+        className="w-full bg-action hover:bg-[#9333EA] disabled:opacity-50 text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
       >
         <Wand2 size={16} />
         {loading ? 'Reformulation...' : 'Reformuler avec l\'IA'}

@@ -50,7 +50,7 @@ export const PLAYBOOK_CATEGORIES = {
   script: { label: 'Script', icon: 'FileText', color: '#3B82F6' },
   argument: { label: 'Argument', icon: 'Lightbulb', color: '#22C55E' },
   temoignage: { label: 'Temoignage', icon: 'Star', color: '#8B5CF6' },
-  astuce: { label: 'Astuce', icon: 'Zap', color: '#2EC6F3' },
+  astuce: { label: 'Astuce', icon: 'Zap', color: 'var(--color-primary)' },
 } as const
 
 // --- IA : Suggérer une réponse à une objection ---

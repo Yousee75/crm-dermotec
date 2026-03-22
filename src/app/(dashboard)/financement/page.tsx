@@ -701,7 +701,7 @@ export default function FinancementPage() {
           icon={CreditCard}
           label="Montant total versé"
           value={formatEuro(kpis.montantVerse)}
-          color="#2EC6F3"
+          color="var(--color-primary)"
         />
       </div>
 

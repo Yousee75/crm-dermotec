@@ -7,9 +7,9 @@
 // --- Design tokens ---
 
 const COLORS = {
-  primary: '#2EC6F3',
+  primary: 'var(--color-primary)',
   primaryDark: '#1BA8D4',
-  accent: '#082545',
+  accent: 'var(--color-accent)',
   white: '#FFFFFF',
   bg: '#F4F7FA', // Meilleur en dark mode que #F8FAFC (évite inversion Gmail)
   bgCard: '#FFFFFF',

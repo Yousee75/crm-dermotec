@@ -33,7 +33,7 @@ function getInitialsFromName(name: string): string {
 
 function getColorFromName(name: string): string {
   const colors = [
-    '#2EC6F3', '#8B5CF6', '#F59E0B', '#22C55E', '#EF4444',
+    'var(--color-primary)', '#8B5CF6', '#F59E0B', '#22C55E', '#EF4444',
     '#EC4899', '#6366F1', '#14B8A6', '#F97316', '#3B82F6',
   ]
   let hash = 0

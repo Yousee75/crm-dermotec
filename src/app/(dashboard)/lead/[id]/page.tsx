@@ -36,6 +36,7 @@ import { IllustrationEmptyDossier, IllustrationEmptyDocuments, IllustrationEmpty
 
 // Briques CRM intelligentes
 import LeadActionHub from '@/components/crm/LeadActionHub'
+import { GenerateDevisButton } from '@/components/leads/GenerateDevisButton'
 import FormationSuggester from '@/components/crm/FormationSuggester'
 import FinancementExpress from '@/components/crm/FinancementExpress'
 const WizardInscription = lazy(() => import('@/components/crm/WizardInscription'))
@@ -258,6 +259,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             {lead.email && <a href={`mailto:${lead.email}`} className="flex items-center justify-center w-9 h-9 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition spring-hover" title="Email"><Mail className="w-4 h-4" /></a>}
             {lead.telephone && <a href={`https://wa.me/${lead.telephone.replace(/[^\d]/g, '').replace(/^0/, '33')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-9 h-9 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition spring-hover" title="WhatsApp"><MessageCircle className="w-4 h-4" /></a>}
             {process.env.NEXT_PUBLIC_CALCOM_URL && <a href={`${process.env.NEXT_PUBLIC_CALCOM_URL}?name=${encodeURIComponent(`${lead.prenom} ${lead.nom || ''}`.trim())}&email=${encodeURIComponent(lead.email || '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-9 h-9 bg-teal-50 text-teal-700 rounded-lg hover:bg-teal-100 transition spring-hover" title="RDV"><Calendar className="w-4 h-4" /></a>}
+            <GenerateDevisButton leadId={lead.id} leadNom={lead.nom || ''} leadPrenom={lead.prenom} leadEmail={lead.email} formationPrincipaleNom={lead.formation_principale?.nom} variant="compact" />
           </div>
           {/* Micro-stepper — caché sur très petit mobile */}
           <div className="hidden sm:flex items-center gap-0.5">

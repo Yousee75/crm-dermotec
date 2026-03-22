@@ -639,7 +639,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                   <h3 className="font-medium text-accent mb-1">Import en cours...</h3>
                   <p className="text-sm text-gray-500">Envoi des leads vers le serveur</p>
                 </div>
-                <ProgressBar value={importProgress} size="md" color="#2EC6F3" />
+                <ProgressBar value={importProgress} size="md" color="var(--color-primary)" />
               </>
             ) : importResult ? (
               <>

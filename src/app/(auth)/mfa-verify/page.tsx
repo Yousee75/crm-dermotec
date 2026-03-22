@@ -217,7 +217,7 @@ export default function MFAVerifyPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-accent to-[#0F3460]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-accent to-accent-light">
       {/* Background decorations */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-primary/8 blur-3xl" />

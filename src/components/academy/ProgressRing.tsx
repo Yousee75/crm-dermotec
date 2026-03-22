@@ -14,7 +14,7 @@ export function ProgressRing({
   percent,
   size = 120,
   strokeWidth = 10,
-  color = '#2EC6F3',
+  color = 'var(--color-primary)',
   bgColor = '#E2E8F0',
   showLabel = true,
   label,

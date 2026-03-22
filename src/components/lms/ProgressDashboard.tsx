@@ -90,7 +90,7 @@ export default function ProgressDashboard({
               <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
               <circle
                 cx="50" cy="50" r="42" fill="none"
-                stroke={isComplete ? '#34d399' : '#2EC6F3'}
+                stroke={isComplete ? '#34d399' : 'var(--color-primary)'}
                 strokeWidth="8"
                 strokeLinecap="round"
                 strokeDasharray={`${progressionGlobale * 2.64} 264`}

@@ -225,7 +225,7 @@ export default function SubscriptionPage() {
                 value={sub.leadsUsed}
                 max={currentPlan.maxLeads ?? sub.leadsUsed}
                 size="md"
-                color="#2EC6F3"
+                color="var(--color-primary)"
               />
             </div>
             {/* Users */}
@@ -240,7 +240,7 @@ export default function SubscriptionPage() {
                 value={sub.usersUsed}
                 max={currentPlan.maxUsers ?? sub.usersUsed}
                 size="md"
-                color="#2EC6F3"
+                color="var(--color-primary)"
               />
             </div>
             {/* Storage */}

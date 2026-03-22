@@ -23,8 +23,8 @@ import {
 // ---------------------------------------------------------------------------
 // Couleurs branding
 // ---------------------------------------------------------------------------
-const PRIMARY = '#2EC6F3'
-const ACCENT = '#082545'
+const PRIMARY = 'var(--color-primary)'
+const ACCENT = 'var(--color-accent)'
 const SUCCESS = '#22C55E'
 const WARNING = '#F59E0B'
 const ERROR = '#EF4444'

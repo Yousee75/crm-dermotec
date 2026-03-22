@@ -86,7 +86,7 @@ export default function PerformancePage() {
               value={`${data.totaux.taux_conversion_moyen}%`}
               subvalue={`${data.totaux.conversions_total} / ${data.totaux.leads_total} leads`}
               icon={<TrendingUp className="w-5 h-5" />}
-              color="#2EC6F3"
+              color="var(--color-primary)"
             />
             <KpiCard
               label="Pipeline Actif"
@@ -121,7 +121,7 @@ export default function PerformancePage() {
                 style={{
                   width: `${Math.min(100, data.totaux.progression_objectif_global)}%`,
                   backgroundColor: data.totaux.progression_objectif_global >= 100 ? '#22C55E'
-                    : data.totaux.progression_objectif_global >= 70 ? '#2EC6F3'
+                    : data.totaux.progression_objectif_global >= 70 ? 'var(--color-primary)'
                     : data.totaux.progression_objectif_global >= 40 ? '#F59E0B'
                     : '#EF4444',
                 }}
@@ -159,7 +159,7 @@ export default function PerformancePage() {
                     <div className="flex items-center gap-3 min-w-[180px]">
                       <div
                         className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm"
-                        style={{ backgroundColor: commercial.avatar_color || '#082545' }}
+                        style={{ backgroundColor: commercial.avatar_color || 'var(--color-accent)' }}
                       >
                         {commercial.prenom[0]}{commercial.nom[0]}
                       </div>
@@ -190,7 +190,7 @@ export default function PerformancePage() {
                               style={{
                                 width: `${Math.min(100, commercial.progression_objectif)}%`,
                                 backgroundColor: commercial.progression_objectif >= 100 ? '#22C55E'
-                                  : commercial.progression_objectif >= 70 ? '#2EC6F3' : '#F59E0B',
+                                  : commercial.progression_objectif >= 70 ? 'var(--color-primary)' : '#F59E0B',
                               }}
                             />
                           </div>
@@ -242,7 +242,7 @@ export default function PerformancePage() {
                 <div className="flex items-center gap-3">
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
-                    style={{ backgroundColor: c.avatar_color || '#082545' }}
+                    style={{ backgroundColor: c.avatar_color || 'var(--color-accent)' }}
                   >
                     {c.prenom[0]}{c.nom[0]}
                   </div>
@@ -266,7 +266,7 @@ export default function PerformancePage() {
                       className="h-full rounded-full transition-all"
                       style={{
                         width: `${Math.min(100, c.progression_objectif)}%`,
-                        backgroundColor: c.progression_objectif >= 100 ? '#22C55E' : '#2EC6F3',
+                        backgroundColor: c.progression_objectif >= 100 ? '#22C55E' : 'var(--color-primary)',
                       }}
                     />
                   </div>

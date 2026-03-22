@@ -15,7 +15,7 @@ const NAV_ITEMS = [
 ]
 
 const QUICK_ACTIONS = [
-  { href: '/leads?action=create', label: 'Nouveau prospect', icon: Users, color: '#2EC6F3' },
+  { href: '/leads?action=create', label: 'Nouveau prospect', icon: Users, color: 'var(--color-primary)' },
   { href: '/sessions?action=create', label: 'Nouvelle formation', icon: Calendar, color: '#10B981' },
   { href: '/financement', label: 'Financement', icon: CreditCard, color: '#F59E0B' },
 ]

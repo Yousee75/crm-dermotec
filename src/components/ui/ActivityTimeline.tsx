@@ -34,7 +34,7 @@ const CANAL_ICON: Record<string, { icon: React.ElementType; color: string; label
   sms: { icon: Smartphone, color: '#22C55E', label: 'SMS' },
   whatsapp: { icon: MessageCircle, color: '#25D366', label: 'WhatsApp' },
   cadence: { icon: Cog, color: '#8B5CF6', label: 'Cadence auto' },
-  agent_ia: { icon: Bot, color: '#2EC6F3', label: 'Agent IA' },
+  agent_ia: { icon: Bot, color: 'var(--color-primary)', label: 'Agent IA' },
   portail: { icon: PenTool, color: '#F59E0B', label: 'Portail stagiaire' },
   formation: { icon: GraduationCap, color: '#6366F1', label: 'Formation' },
 }

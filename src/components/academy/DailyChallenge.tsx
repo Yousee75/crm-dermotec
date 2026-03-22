@@ -50,7 +50,7 @@ export function DailyChallenge({
   }
 
   return (
-    <div className="bg-gradient-to-r from-accent to-[#0F3460] rounded-2xl p-6 text-white relative overflow-hidden">
+    <div className="bg-gradient-to-r from-accent to-accent-light rounded-2xl p-6 text-white relative overflow-hidden">
       {/* Glow effect */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
 

@@ -62,7 +62,7 @@ const TOOLS = [
     icon: Hash,
     title: 'Compteur caractères',
     description: 'Caractères, mots, segments SMS',
-    color: '#2EC6F3',
+    color: 'var(--color-primary)',
     component: CharacterCounter,
   },
   {
@@ -86,7 +86,7 @@ const TOOLS = [
     icon: Mail,
     title: 'Signature email',
     description: 'Créer une signature email pro Dermotec',
-    color: '#082545',
+    color: 'var(--color-accent)',
     component: EmailSignatureGenerator,
   },
   {

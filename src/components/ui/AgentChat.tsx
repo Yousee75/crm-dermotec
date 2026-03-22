@@ -439,7 +439,7 @@ const MODE_CONFIG: Record<AgentMode, {
     label: 'Commercial',
     sublabel: 'Pipeline, leads, conversion',
     icon: TrendingUp,
-    color: '#2EC6F3',
+    color: 'var(--color-primary)',
     suggestions: [
       'Leads chauds à rappeler',
       'Forecast pipeline',

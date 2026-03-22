@@ -84,7 +84,7 @@ export function EmailSignatureGenerator() {
 
       <button
         onClick={copySignature}
-        className="w-full bg-accent hover:bg-[#0F3460] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+        className="w-full bg-accent hover:bg-accent-light text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
       >
         {copied ? <Check size={16} /> : <Copy size={16} />}
         {copied ? 'Copié !' : 'Copier la signature HTML'}

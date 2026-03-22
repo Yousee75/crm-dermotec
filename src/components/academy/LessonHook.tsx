@@ -72,7 +72,7 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
   }
 
   return (
-    <div className="bg-gradient-to-r from-accent to-[#0F3460] rounded-2xl p-6 text-white relative overflow-hidden">
+    <div className="bg-gradient-to-r from-accent to-accent-light rounded-2xl p-6 text-white relative overflow-hidden">
       <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
       <div className="relative">
         <span className="text-3xl mb-3 block">{icons[type]}</span>

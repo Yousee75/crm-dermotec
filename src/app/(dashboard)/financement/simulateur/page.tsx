@@ -117,7 +117,7 @@ function SimulateurCompact() {
                   />
                   <motion.circle
                     cx="24" cy="24" r="20"
-                    stroke={resultat.resteACharge === 0 ? "#22C55E" : "#2EC6F3"}
+                    stroke={resultat.resteACharge === 0 ? "#22C55E" : "var(--color-primary)"}
                     strokeWidth="4"
                     fill="none"
                     strokeDasharray={circumference}

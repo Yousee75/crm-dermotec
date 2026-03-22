@@ -45,8 +45,8 @@ export function ScoreRadar({ scores, compareTo, size = 300 }: ScoreRadarProps) {
           <Radar
             name="Score"
             dataKey="score"
-            stroke="#2EC6F3"
-            fill="#2EC6F3"
+            stroke="var(--color-primary)"
+            fill="var(--color-primary)"
             fillOpacity={0.3}
             strokeWidth={2}
           />
@@ -63,7 +63,7 @@ export function ScoreRadar({ scores, compareTo, size = 300 }: ScoreRadarProps) {
           )}
           <Tooltip
             contentStyle={{
-              backgroundColor: '#082545',
+              backgroundColor: 'var(--color-accent)',
               border: 'none',
               borderRadius: '8px',
               color: 'white',

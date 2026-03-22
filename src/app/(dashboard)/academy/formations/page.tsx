@@ -52,7 +52,7 @@ function getNiveauColor(niveau: string): string {
 function getCategorieColor(categorie: string): string {
   switch (categorie) {
     case 'commercial':
-      return '#2EC6F3'
+      return 'var(--color-primary)'
     case 'technique':
       return '#8B5CF6'
     case 'relation-client':

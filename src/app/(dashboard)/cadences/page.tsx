@@ -346,7 +346,7 @@ export default function CadencesPage() {
         return i.statut === 'terminee' && instanceMonth === thisMonth
       }).length.toString() || '0',
       icon: CheckCircle,
-      color: '#2EC6F3'
+      color: 'var(--color-primary)'
     },
     {
       label: 'Taux complétion',

@@ -75,7 +75,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
                 className="absolute w-2 h-2 rounded-full animate-confetti"
                 style={{
                   left: `${Math.random() * 100}%`,
-                  backgroundColor: ['#2EC6F3', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'][i % 6],
+                  backgroundColor: ['var(--color-primary)', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'][i % 6],
                   animationDelay: `${Math.random() * 0.5}s`,
                   animationDuration: `${1 + Math.random() * 2}s`,
                 }}

@@ -94,11 +94,11 @@ export const HERO_IMAGES = {
  */
 export const DERMOTEC_BRANDING = {
   colors: {
-    primary: '#082545',     // Bleu nuit (confirmé par le site)
-    accent: '#2EC6F3',      // Bleu Dermotec (confirmé)
+    primary: 'var(--color-accent)',     // Bleu nuit (confirmé par le site)
+    accent: 'var(--color-primary)',      // Bleu Dermotec (confirmé)
     background: '#FFFFFF',
     textPrimary: '#000000',
-    link: '#2EC6F3',
+    link: 'var(--color-primary)',
   },
   fonts: {
     heading: 'Montserrat',  // Sur le site : Montserrat pour les headings

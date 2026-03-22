@@ -195,9 +195,9 @@ export default function ConcurrentsPage() {
           {/* KPIs */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {[
-              { icon: Users, label: 'Concurrents', value: data.kpis.totalCompetitors, color: '#082545' },
+              { icon: Users, label: 'Concurrents', value: data.kpis.totalCompetitors, color: 'var(--color-accent)' },
               { icon: Star, label: 'Note moyenne', value: data.kpis.avgGoogleRating ? `${data.kpis.avgGoogleRating}/5` : 'N/A', color: '#F59E0B' },
-              { icon: TrendingUp, label: 'Avis moyen', value: data.kpis.avgReviewsCount, color: '#2EC6F3' },
+              { icon: TrendingUp, label: 'Avis moyen', value: data.kpis.avgReviewsCount, color: 'var(--color-primary)' },
               { icon: Euro, label: 'CA moyen', value: data.kpis.avgCA ? `${(data.kpis.avgCA / 1000).toFixed(0)}K€` : 'N/A', color: '#22C55E' },
               { icon: Target, label: 'Score moyen', value: `${data.kpis.avgReputationScore}/100`, color: '#A855F7' },
             ].map(kpi => {

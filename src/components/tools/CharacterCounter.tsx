@@ -27,7 +27,7 @@ export function CharacterCounter() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Caractères', value: chars, color: '#2EC6F3' },
+          { label: 'Caractères', value: chars, color: 'var(--color-primary)' },
           { label: 'Mots', value: words, color: '#22C55E' },
           { label: 'Lignes', value: lines, color: '#F59E0B' },
           { label: 'Segments SMS', value: smsSegments, color: '#A855F7' },

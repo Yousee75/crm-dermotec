@@ -273,7 +273,7 @@ export default function StagiairesPage() {
           icon={Users}
           label="Total inscrits"
           value={totalInscrits}
-          color="#2EC6F3"
+          color="var(--color-primary)"
         />
         <KpiCard
           icon={Clock}

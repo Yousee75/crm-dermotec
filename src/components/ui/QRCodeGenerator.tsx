@@ -46,7 +46,7 @@ export function QRCodeGenerator({
         const dataUrl = await QRCode.toDataURL(currentUrl, {
           width: size,
           margin: 2,
-          color: { dark: '#082545', light: '#FFFFFF' },
+          color: { dark: 'var(--color-accent)', light: '#FFFFFF' },
           errorCorrectionLevel: 'H',
         })
         setQrDataUrl(dataUrl)

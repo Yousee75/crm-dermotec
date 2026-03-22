@@ -851,8 +851,8 @@ export interface DashboardKPIs {
 export const STATUTS_LEAD: Record<StatutLead, { label: string; color: string; order: number }> = {
   NOUVEAU: { label: 'Nouveau', color: '#94A3B8', order: 0 },
   CONTACTE: { label: 'Contacté', color: '#94A3B8', order: 1 },
-  QUALIFIE: { label: 'Qualifié', color: '#2EC6F3', order: 2 },
-  FINANCEMENT_EN_COURS: { label: 'Financement', color: '#2EC6F3', order: 3 },
+  QUALIFIE: { label: 'Qualifié', color: 'var(--color-primary)', order: 2 },
+  FINANCEMENT_EN_COURS: { label: 'Financement', color: 'var(--color-primary)', order: 3 },
   INSCRIT: { label: 'Inscrit', color: '#F59E0B', order: 4 },
   EN_FORMATION: { label: 'En formation', color: '#F59E0B', order: 5 },
   FORME: { label: 'Formé(e)', color: '#10B981', order: 6 },

@@ -30,7 +30,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
       {/* Chat Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-20 right-6 z-50 bg-accent hover:bg-[#0F3460] text-white rounded-full p-4 shadow-lg transition-all duration-300 ${className}`}
+        className={`fixed bottom-20 right-6 z-50 bg-accent hover:bg-accent-light text-white rounded-full p-4 shadow-lg transition-all duration-300 ${className}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ scale: 0, opacity: 0 }}

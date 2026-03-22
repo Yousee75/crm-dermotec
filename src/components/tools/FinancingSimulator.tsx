@@ -88,7 +88,7 @@ export function FinancingSimulator() {
       )}
 
       {/* Résultat */}
-      <div className="bg-gradient-to-br from-accent to-[#0F3460] text-white rounded-xl p-5 space-y-3">
+      <div className="bg-gradient-to-br from-accent to-accent-light text-white rounded-xl p-5 space-y-3">
         <div className="flex justify-between text-sm">
           <span className="text-white/70">Prix TTC</span>
           <span className="font-mono">{prixTTC.toFixed(0)}€</span>
