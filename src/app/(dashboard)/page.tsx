@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useLeads } from '@/hooks/use-leads'
 import { useSessions } from '@/hooks/use-sessions'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
@@ -14,15 +15,105 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCurrentUser } from '@/hooks/use-current-user'
+import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
+
+// Composant skeleton pour le dashboard
+function DashboardSkeleton() {
+  return (
+    <div className="min-h-screen bg-slate-50 space-y-6 animate-pulse">
+      {/* Header skeleton */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-8 w-32" />
+          <div className="space-y-2">
+            <Skeleton className="h-6 w-48" />
+            <Skeleton className="h-4 w-32" />
+          </div>
+        </div>
+      </div>
+
+      {/* Focus message skeleton */}
+      <div className="h-16 bg-gray-100 rounded-xl" />
+
+      {/* Pipeline mini skeleton */}
+      <div className="bg-white rounded-xl border border-gray-100 p-4">
+        <div className="flex items-center justify-between mb-3">
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-3 w-20" />
+        </div>
+        <div className="flex gap-1">
+          {[1,2,3,4,5].map(i => (
+            <div key={i} className="flex-1">
+              <div className="h-2 bg-gray-100 rounded-full mb-1.5" />
+              <Skeleton className="h-3 w-4 mx-auto mb-1" />
+              <Skeleton className="h-2 w-8 mx-auto" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 2 colonnes skeleton */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Actions du jour */}
+        <div className="bg-white rounded-2xl border border-gray-100">
+          <div className="px-5 py-3 border-b border-gray-100">
+            <Skeleton className="h-4 w-32" />
+          </div>
+          <div className="space-y-3 p-5">
+            {[1,2,3].map(i => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-gray-200" />
+                <div className="flex-1 space-y-1">
+                  <Skeleton className="h-3 w-32" />
+                  <Skeleton className="h-2 w-24" />
+                </div>
+                <div className="flex gap-1">
+                  <Skeleton className="h-6 w-6 rounded" />
+                  <Skeleton className="h-6 w-6 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Derniers prospects */}
+        <div className="bg-white rounded-2xl border border-gray-100">
+          <div className="px-5 py-3 border-b border-gray-100">
+            <Skeleton className="h-4 w-32" />
+          </div>
+          <div className="space-y-3 p-5">
+            {[1,2,3,4,5].map(i => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-gray-100" />
+                <div className="flex-1 space-y-1">
+                  <Skeleton className="h-3 w-28" />
+                  <Skeleton className="h-2 w-16" />
+                </div>
+                <Skeleton className="h-1.5 w-8" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* KPI cards skeleton */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {[1,2,3,4,5,6].map(i => (
+          <SkeletonCard key={i} />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export default function DashboardPage() {
   const supabase = createClient()
   const { data: currentUser } = useCurrentUser()
 
   // Données existantes
-  const { data: leadsData } = useLeads({ per_page: 5 })
-  const { data: sessions } = useSessions()
-  const { data: overdueRappels } = useOverdueRappels()
+  const { data: leadsData, isLoading: leadsLoading } = useLeads({ per_page: 5 })
+  const { data: sessions, isLoading: sessionsLoading } = useSessions()
+  const { data: overdueRappels, isLoading: rappelsLoading } = useOverdueRappels()
   const { data: todayRappels } = useTodayRappels()
 
   // Nouveaux leads du mois avec variation
@@ -44,7 +135,7 @@ export default function DashboardPage() {
   })
 
   // CA réalisé ce mois
-  const { data: caData } = useQuery({
+  const { data: caData, isLoading: caLoading } = useQuery({
     queryKey: ['ca-ce-mois'],
     queryFn: async () => {
       const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
@@ -90,6 +181,14 @@ export default function DashboardPage() {
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir'
+
+  // Loading state global
+  const isLoading = leadsLoading || sessionsLoading || rappelsLoading || caLoading
+
+  // Afficher le skeleton pendant le chargement
+  if (isLoading) {
+    return <DashboardSkeleton />
+  }
 
   const formatEuro = (amount: number) => {
     return new Intl.NumberFormat('fr-FR', {

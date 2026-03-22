@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 // @ts-nocheck
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, Suspense } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
 import {
@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
-import { Skeleton } from '@/components/ui/Skeleton'
+import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
 import { Button } from '@/components/ui/Button'
 import { formatEuro } from '@/lib/utils'
 import {
@@ -350,7 +350,7 @@ function LoadingSkeleton() {
       {/* KPI cards skeleton */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton key={i} className="h-24" />
+          <SkeletonCard key={i} />
         ))}
       </div>
 

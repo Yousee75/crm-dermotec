@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOverlay, DragOverEvent, useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useSortable } from '@dnd-kit/sortable'
@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Avatar } from '@/components/ui/Avatar'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { useCurrentUser } from '@/hooks/use-current-user'
+import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
 import Link from 'next/link'
 
 // --- Component: Lead Card (Draggable) ---
@@ -460,6 +461,73 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
 }
 
 // --- Main Page ---
+// Skeleton pour le pipeline Kanban
+function PipelineSkeleton() {
+  return (
+    <div className="space-y-4 animate-pulse">
+      {/* Header skeleton */}
+      <div className="flex items-center justify-between">
+        <div className="space-y-1">
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-4 w-48" />
+        </div>
+        <Skeleton className="h-9 w-24" />
+      </div>
+
+      {/* Search et stats skeleton */}
+      <div className="flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+        <Skeleton className="h-9 w-64" />
+        <div className="flex gap-4">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="flex items-center gap-1.5">
+              <Skeleton className="h-3 w-3 rounded" />
+              <Skeleton className="h-3 w-12" />
+              <Skeleton className="h-3 w-8" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Kanban columns skeleton */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 min-h-[600px]">
+        {[1,2,3,4,5].map(colIndex => (
+          <div key={colIndex} className="bg-gray-50 rounded-xl p-3">
+            {/* Column header */}
+            <div className="flex items-center justify-between mb-3">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-5 w-8 rounded-full" />
+            </div>
+            <Skeleton className="h-3 w-16 mb-4" />
+
+            {/* Cards skeleton */}
+            <div className="space-y-2">
+              {Array.from({ length: Math.floor(Math.random() * 4) + 1 }).map((_, cardIndex) => (
+                <div key={cardIndex} className="bg-white p-3 rounded-xl border border-gray-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-5 w-5 rounded-full" />
+                      <Skeleton className="h-3 w-20" />
+                    </div>
+                    <Skeleton className="h-5 w-5 rounded-full" />
+                  </div>
+                  <Skeleton className="h-2 w-full mb-2" />
+                  <div className="flex justify-between items-center">
+                    <Skeleton className="h-2 w-12" />
+                    <div className="flex gap-1">
+                      <Skeleton className="h-4 w-4" />
+                      <Skeleton className="h-4 w-4" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function PipelinePage() {
   const [search, setSearch] = useState('')
   const [draggedLead, setDraggedLead] = useState<Lead | null>(null)
@@ -475,7 +543,7 @@ export default function PipelinePage() {
     ? currentUser.equipe_id
     : undefined
 
-  const { data: leadsData } = useLeads({ search, per_page: 1000, commercial_id: commercialFilter })
+  const { data: leadsData, isLoading } = useLeads({ search, per_page: 1000, commercial_id: commercialFilter })
   const changeStatut = useChangeStatut()
 
   const sensors = useSensors(
@@ -553,6 +621,11 @@ export default function PipelinePage() {
 
   const totalLeads = leadsData?.leads.length || 0
   const totalValue = leadsByPhase.reduce((sum, { totalValue }) => sum + totalValue, 0)
+
+  // Loading state
+  if (isLoading) {
+    return <PipelineSkeleton />
+  }
 
   return (
     <div className="space-y-5">

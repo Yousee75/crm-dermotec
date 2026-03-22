@@ -2,27 +2,59 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { TabBar } from '@/components/ui/TabBar'
 import { CreateSessionDialog } from '@/components/ui/CreateSessionDialog'
 import { Calendar, Users, QrCode } from 'lucide-react'
 import { useSessions } from '@/hooks/use-sessions'
+import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
 
 // Lazy imports pour les onglets
 import nextDynamic from 'next/dynamic'
 
+// Skeleton amélioré pour les onglets sessions
+function SessionTabSkeleton() {
+  return (
+    <div className="space-y-4 animate-pulse">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+      <div className="bg-white rounded-xl border border-gray-100 p-4">
+        <div className="flex items-center justify-between mb-4">
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-8 w-24" />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+          {[1,2,3,4,5,6].map(i => (
+            <div key={i} className="border border-gray-100 rounded-lg p-3">
+              <Skeleton className="h-4 w-3/4 mb-2" />
+              <Skeleton className="h-3 w-1/2 mb-2" />
+              <div className="flex justify-between items-center">
+                <Skeleton className="h-3 w-16" />
+                <Skeleton className="h-5 w-12" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const PlanningTab = nextDynamic(() => import('./tabs/PlanningTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <SessionTabSkeleton />
 })
 
 const InscriptionsTab = nextDynamic(() => import('./tabs/InscriptionsTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <SessionTabSkeleton />
 })
 
 const EmargementTab = nextDynamic(() => import('./tabs/EmargementTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <SessionTabSkeleton />
 })
 
 export default function SessionsPage() {
@@ -41,7 +73,7 @@ export default function SessionsPage() {
     window.history.replaceState({}, '', url.toString())
   }, [activeTab])
 
-  const { data: allSessions } = useSessions()
+  const { data: allSessions, isLoading } = useSessions()
   const sessionsCount = allSessions?.length || 0
   const inscriptionsCount = allSessions?.reduce((sum, s) => sum + (s.inscriptions?.length || 0), 0) || 0
   const emargementCount = allSessions?.filter(s => s.statut === 'EN_COURS' || s.statut === 'TERMINEE').length || 0
@@ -63,6 +95,24 @@ export default function SessionsPage() {
       default:
         return <PlanningTab onCreateSession={() => setShowCreate(true)} />
     }
+  }
+
+  // Loading state pour la page entière
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-6 w-48" />
+          <Skeleton className="h-4 w-96" />
+        </div>
+        <div className="flex gap-4 border-b border-gray-200">
+          {[1,2,3].map(i => (
+            <Skeleton key={i} className="h-8 w-24" />
+          ))}
+        </div>
+        <SessionTabSkeleton />
+      </div>
+    )
   }
 
   return (

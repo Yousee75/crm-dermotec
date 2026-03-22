@@ -124,7 +124,7 @@ export function FieldWithSource({
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 text-xs border border-[#2EC6F3] rounded px-2 py-1 focus:outline-none bg-white"
+              className="flex-1 text-xs border border-primary rounded px-2 py-1 focus:outline-none bg-white"
             >
               <option value="">— Sélectionner —</option>
               {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -135,7 +135,7 @@ export function FieldWithSource({
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 text-xs border border-[#2EC6F3] rounded px-2 py-1 focus:outline-none resize-none min-h-[48px]"
+              className="flex-1 text-xs border border-primary rounded px-2 py-1 focus:outline-none resize-none min-h-[48px]"
               placeholder={placeholder}
             />
           ) : (
@@ -145,7 +145,7 @@ export function FieldWithSource({
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 text-xs border border-[#2EC6F3] rounded px-2 py-1 focus:outline-none"
+              className="flex-1 text-xs border border-primary rounded px-2 py-1 focus:outline-none"
               placeholder={placeholder}
             />
           )}

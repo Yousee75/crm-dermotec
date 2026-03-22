@@ -99,7 +99,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         <button
           onClick={() => generateMutation.mutate()}
           disabled={generateMutation.isPending}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-[#0284C7] transition disabled:opacity-50 shadow-sm shadow-[#2EC6F3]/20"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary-dark transition disabled:opacity-50 shadow-sm shadow-primary/20"
         >
           {generateMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           {generateMutation.isPending ? 'Analyse en cours...' : 'Générer le briefing'}

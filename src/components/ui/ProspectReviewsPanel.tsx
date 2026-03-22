@@ -86,7 +86,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MessageSquare className="w-4 h-4 text-[#2EC6F3]" />
+            <MessageSquare className="w-4 h-4 text-primary" />
             <h3 className="text-sm font-semibold text-gray-900">{totalReviews} Avis Clients</h3>
             <div className="flex items-center gap-0.5">
               {[1, 2, 3, 4, 5].map(s => (
@@ -120,7 +120,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
               onClick={() => setFilterStars(filterStars === d.stars ? null : d.stars)}
               className={cn(
                 'flex-1 rounded-lg p-1.5 text-center transition border',
-                filterStars === d.stars ? 'border-[#2EC6F3] bg-sky-50' : 'border-transparent hover:bg-gray-50'
+                filterStars === d.stars ? 'border-primary bg-sky-50' : 'border-transparent hover:bg-gray-50'
               )}
             >
               <div className="flex items-center justify-center gap-0.5 mb-1">
@@ -141,7 +141,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
           ))}
         </div>
         {filterStars && (
-          <button onClick={() => setFilterStars(null)} className="text-[10px] text-[#2EC6F3] mt-1 hover:underline">
+          <button onClick={() => setFilterStars(null)} className="text-[10px] text-primary mt-1 hover:underline">
             Afficher tous les avis
           </button>
         )}
@@ -209,8 +209,8 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
 
             {/* Réponse propriétaire */}
             {review.metadata?.owner_answer && (
-              <div className="bg-sky-50 rounded-lg p-2.5 mt-1.5 border-l-2 border-[#2EC6F3]">
-                <p className="text-[10px] font-semibold text-[#082545] mb-0.5">Réponse du propriétaire</p>
+              <div className="bg-sky-50 rounded-lg p-2.5 mt-1.5 border-l-2 border-primary">
+                <p className="text-[10px] font-semibold text-accent mb-0.5">Réponse du propriétaire</p>
                 <p className="text-[11px] text-gray-700 leading-relaxed">{review.metadata.owner_answer}</p>
                 {review.metadata.owner_answer_date && (
                   <p className="text-[10px] text-gray-400 mt-0.5">
@@ -227,7 +227,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       {filtered.length > 5 && (
         <button
           onClick={() => setShowAll(!showAll)}
-          className="w-full px-4 py-2.5 text-xs text-[#2EC6F3] font-medium hover:bg-gray-50 transition border-t border-gray-100 flex items-center justify-center gap-1"
+          className="w-full px-4 py-2.5 text-xs text-primary font-medium hover:bg-gray-50 transition border-t border-gray-100 flex items-center justify-center gap-1"
         >
           {showAll ? <><ChevronUp className="w-3 h-3" /> Réduire</> : <><ChevronDown className="w-3 h-3" /> Voir les {filtered.length - 5} autres avis</>}
         </button>

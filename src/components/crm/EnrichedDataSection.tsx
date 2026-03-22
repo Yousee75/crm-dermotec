@@ -24,8 +24,8 @@ function CollapsibleBlock({ icon, title, children, defaultOpen = false, badge }:
     <div className="border border-gray-100 rounded-lg overflow-hidden">
       <button onClick={() => setOpen(!open)} className="flex items-center justify-between w-full px-3 py-2 hover:bg-gray-50 transition">
         <div className="flex items-center gap-2">
-          <span className="text-[#2EC6F3] [&>svg]:w-3.5 [&>svg]:h-3.5">{icon}</span>
-          <span className="text-xs font-semibold text-[#082545]">{title}</span>
+          <span className="text-primary [&>svg]:w-3.5 [&>svg]:h-3.5">{icon}</span>
+          <span className="text-xs font-semibold text-accent">{title}</span>
           {badge && <span className="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full font-medium">{badge}</span>}
         </div>
         {open ? <ChevronUp className="w-3 h-3 text-gray-400" /> : <ChevronDown className="w-3 h-3 text-gray-400" />}
@@ -79,8 +79,8 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-[#2EC6F3]" />
-          <h3 className="text-sm font-semibold text-[#082545]">Données Enrichies</h3>
+          <Sparkles className="w-4 h-4 text-primary" />
+          <h3 className="text-sm font-semibold text-accent">Données Enrichies</h3>
           <span className="text-[10px] bg-sky-100 text-sky-700 px-1.5 py-0.5 rounded-full font-medium">{totalSources} sources</span>
         </div>
       </div>
@@ -226,7 +226,7 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
             ].map((item, i) => (
               <div key={i} className="text-center bg-gray-50 rounded-lg p-2">
                 <span className="text-sm">{item.icon}</span>
-                <p className="text-xs font-bold text-[#082545]">{item.value}</p>
+                <p className="text-xs font-bold text-accent">{item.value}</p>
                 <p className="text-[9px] text-gray-400">{item.label}</p>
               </div>
             ))}

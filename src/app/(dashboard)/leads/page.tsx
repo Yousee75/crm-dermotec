@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, Suspense } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
 import { useCurrentUser } from '@/hooks/use-current-user'

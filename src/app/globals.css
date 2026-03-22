@@ -83,6 +83,22 @@
   --font-heading: 'Bricolage Grotesque', serif;
   --font-body: 'DM Sans', sans-serif;
 
+  /* ── TYPOGRAPHIE : échelle de tailles (grille Teams 4px) ── */
+  --font-size-3xs: 9px;   /* micro-labels, badges compacts */
+  --font-size-2xs: 10px;  /* timestamps, hints, sources */
+  --font-size-xs: 12px;   /* labels, descriptions courtes */
+  --font-size-sm: 14px;   /* body text, inputs */
+  --font-size-base: 16px; /* titres de section */
+  --font-size-lg: 18px;   /* sous-titres */
+  --font-size-xl: 20px;   /* titres de page */
+  --font-size-2xl: 24px;  /* heading H2 */
+  --font-size-3xl: 30px;  /* heading H1 */
+
+  /* ── DENSITÉ : espacement compact vs comfortable ── */
+  --density-compact-padding: 4px 8px;
+  --density-normal-padding: 8px 16px;
+  --density-spacious-padding: 12px 24px;
+
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
