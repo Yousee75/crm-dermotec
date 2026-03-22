@@ -68,6 +68,10 @@ const EmargementTab = nextDynamic(() => import('./tabs/EmargementTab'), {
   loading: () => <SessionTabSkeleton />
 })
 
+const CalendarTab = nextDynamic(() => import('./tabs/CalendarTab'), {
+  loading: () => <SessionTabSkeleton />
+})
+
 export default function SessionsPage() {
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState(searchParams?.get('tab') || 'planning')
@@ -91,6 +95,7 @@ export default function SessionsPage() {
 
   const tabs = [
     { id: 'planning', label: 'Planning' },
+    { id: 'calendrier', label: 'Calendrier' },
     { id: 'inscriptions', label: 'Inscriptions', count: inscriptionsCount },
     { id: 'emargement', label: 'Émargement' },
   ]
@@ -99,6 +104,8 @@ export default function SessionsPage() {
     switch (activeTab) {
       case 'planning':
         return <PlanningTab onCreateSession={() => setShowCreate(true)} />
+      case 'calendrier':
+        return <CalendarTab />
       case 'inscriptions':
         return <InscriptionsTab />
       case 'emargement':

@@ -44,7 +44,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const fontClasses = `${dmSans.variable} ${bricolage.variable} ${heebo.variable} ${notoSansSC.variable}`
 
   return (
-    <html lang={locale} dir={dir} className={fontClasses}>
+    <html lang={locale} dir={dir} className={fontClasses} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}` }} />
+      </head>
       <body className="antialiased" style={{ fontFamily: locale === 'he' ? 'var(--font-hebrew)' : locale === 'zh' ? 'var(--font-chinese)' : 'var(--font-body)' }}>
         <NextIntlClientProvider messages={messages}>
           <Providers>

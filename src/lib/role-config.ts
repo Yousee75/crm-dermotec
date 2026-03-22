@@ -87,7 +87,7 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   },
 
   formatrice: {
-    topItems: ['/', '/sessions'],
+    topItems: ['/', '/formatrice', '/sessions'],
     sections: ['formation'],   // Seulement formation
     hiddenPages: [
       '/leads', '/pipeline', '/contacts', '/clients',

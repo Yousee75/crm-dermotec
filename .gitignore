@@ -45,7 +45,11 @@ next-env.d.ts
 # pnpm (ce projet utilise npm, pas pnpm)
 pnpm-lock.yaml
 
-# playwright MCP logs
+# playwright
+e2e/.auth/
+/playwright-report/
+/blob-report/
+/test-results/
 .playwright-mcp/
 
 # MCP server node_modules (installé séparément)

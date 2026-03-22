@@ -4,10 +4,9 @@ export const dynamic = 'force-dynamic'
 
 import { useState, useCallback, useMemo, Suspense } from 'react'
 import { useTranslations } from 'next-intl'
-import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
+import { useLeads, useChangeStatut } from '@/hooks/use-leads'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { useQueryClient } from '@tanstack/react-query'
-import { Dialog, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/Dialog'
 import { STATUTS_LEAD, type StatutLead } from '@/types'
 import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users, CheckSquare, UserPlus, Tag, Trash2, X, Upload, Flame, Clock, Calendar, Wallet, AlertTriangle, UserCheck, GraduationCap, SortAsc, SortDesc, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
@@ -33,6 +32,7 @@ import { getScoreColor } from '@/lib/scoring'
 import { FORMATIONS_SEED } from '@/lib/constants'
 import type { SourceLead } from '@/types'
 import { ImportCSVDialog } from '@/components/leads/ImportCSVDialog'
+import { CreateLeadDialog } from '@/components/leads/CreateLeadDialog'
 
 // Smart filter presets — scénarios les plus fréquents d'un commercial
 type SmartFilter = 'chauds' | 'aujourdhui' | 'stagnants' | 'financement' | 'priorite'
@@ -84,14 +84,12 @@ export default function LeadsPage() {
   const [showCreate, setShowCreate] = useState(false)
   const [showCsvImport, setShowCsvImport] = useState(false)
   const [showSortMenu, setShowSortMenu] = useState(false)
-  const createLead = useCreateLead()
   const changeStatut = useChangeStatut()
   const queryClient = useQueryClient()
   const { data: currentUser } = useCurrentUser()
   const isAdminOrManager = currentUser?.isAdmin || currentUser?.role === 'manager'
 
-  // Form state pour nouveau lead
-  const [newLead, setNewLead] = useState({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' as const })
+  // Form state pour nouveau lead — géré par CreateLeadDialog
 
   // Construire les filtres à partir du smart filter actif + filtres avancés
   const [sort_field, sort_dir] = sortBy.split(':') as [string, 'asc' | 'desc']
@@ -177,30 +175,7 @@ export default function LeadsPage() {
 
   const clearSelection = useCallback(() => setSelectedIds(new Set()), [])
 
-  const handleCreateLead = useCallback(async () => {
-    if (!newLead.prenom.trim()) {
-      toast.error('Le prénom est requis')
-      return
-    }
-    await createLead.mutateAsync({
-      prenom: newLead.prenom.trim(),
-      nom: newLead.nom.trim() || undefined,
-      email: newLead.email.trim() || undefined,
-      telephone: newLead.telephone.trim() || undefined,
-      source: newLead.source,
-      statut: 'NOUVEAU',
-      priorite: 'NORMALE',
-      score_chaud: 0,
-      tags: [],
-      formations_interessees: [],
-      nb_contacts: 0,
-      financement_souhaite: false,
-      data_sources: {},
-      metadata: {},
-    })
-    setNewLead({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' })
-    setShowCreate(false)
-  }, [newLead, createLead])
+  // handleCreateLead est désormais dans CreateLeadDialog
 
   return (
     <div className="space-y-5">
@@ -810,92 +785,7 @@ export default function LeadsPage() {
       />
 
       {/* Dialog création lead */}
-      <Dialog open={showCreate} onClose={() => setShowCreate(false)} size="md">
-        <DialogHeader onClose={() => setShowCreate(false)}>
-          <DialogTitle>Nouveau prospect</DialogTitle>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Prénom *</label>
-              <input
-                type="text"
-                value={newLead.prenom}
-                onChange={(e) => setNewLead(prev => ({ ...prev, prenom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                placeholder="Marie"
-                autoFocus
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Nom</label>
-              <input
-                type="text"
-                value={newLead.nom}
-                onChange={(e) => setNewLead(prev => ({ ...prev, nom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                placeholder="Dupont"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Email</label>
-            <input
-              type="email"
-              value={newLead.email}
-              onChange={(e) => setNewLead(prev => ({ ...prev, email: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-              placeholder="marie@exemple.fr"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Téléphone</label>
-            <input
-              type="tel"
-              value={newLead.telephone}
-              onChange={(e) => setNewLead(prev => ({ ...prev, telephone: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-              placeholder="06 12 34 56 78"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Source</label>
-            <select
-              value={newLead.source}
-              onChange={(e) => setNewLead(prev => ({ ...prev, source: e.target.value as typeof prev.source }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white"
-            >
-              <option value="formulaire">Formulaire</option>
-              <option value="telephone">Téléphone</option>
-              <option value="whatsapp">WhatsApp</option>
-              <option value="instagram">Instagram</option>
-              <option value="facebook">Facebook</option>
-              <option value="google">Google</option>
-              <option value="bouche_a_oreille">Bouche à oreille</option>
-              <option value="site_web">Site web</option>
-              <option value="salon">Salon</option>
-              <option value="partenariat">Partenariat</option>
-              <option value="ancien_stagiaire">Ancien stagiaire</option>
-              <option value="autre">Autre</option>
-            </select>
-          </div>
-        </div>
-
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => setShowCreate(false)}>Annuler</Button>
-          <Button
-            onClick={handleCreateLead}
-            disabled={createLead.isPending || !newLead.prenom.trim()}
-            icon={<Plus className="w-4 h-4" />}
-          >
-            {createLead.isPending ? 'Création...' : 'Créer le lead'}
-          </Button>
-        </DialogFooter>
-      </Dialog>
+      <CreateLeadDialog open={showCreate} onClose={() => setShowCreate(false)} />
     </div>
   )
 }

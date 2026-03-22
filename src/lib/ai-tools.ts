@@ -34,11 +34,15 @@ function zodToJsonSchema(schema: z.ZodObject<any>): Record<string, unknown> {
 }
 
 function defineTool(config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }): any {
-  return {
+  // Utiliser tool() du SDK avec le JSON schema wrappé dans jsonSchema()
+  // C'est la SEULE façon qui fonctionne avec @ai-sdk/anthropic
+  const schema = zodToJsonSchema(config.parameters)
+  return tool({
     description: config.description,
-    parameters: aiJsonSchema(zodToJsonSchema(config.parameters)),
+    // @ts-ignore
+    parameters: aiJsonSchema(schema),
     execute: config.execute,
-  }
+  })
 }
 
 // --- TOOL 1: Recherche de leads ---

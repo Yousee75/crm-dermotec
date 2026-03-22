@@ -1,0 +1,60 @@
+{
+  "prospect_name": "Latitude Zen — Valerie Araujo Aires",
+  "classification": "CHAUD",
+  "scores": {
+    "global": 64,
+    "reputation": 82,
+    "presence": 68,
+    "activity": 45,
+    "financial": 42,
+    "neighborhood": 72
+  },
+  "avg_scores": [
+    50,
+    50,
+    50,
+    50,
+    50
+  ],
+  "avis": {
+    "total": 284,
+    "moyenne": 4.8,
+    "distribution": [
+      {
+        "stars": 5,
+        "count": 200,
+        "pct": 71
+      },
+      {
+        "stars": 4,
+        "count": 52,
+        "pct": 18
+      },
+      {
+        "stars": 3,
+        "count": 18,
+        "pct": 6
+      },
+      {
+        "stars": 2,
+        "count": 8,
+        "pct": 3
+      },
+      {
+        "stars": 1,
+        "count": 6,
+        "pct": 2
+      }
+    ]
+  },
+  "quartier": {
+    "metros": 3,
+    "restaurants": 50,
+    "concurrentsBeaute": 15,
+    "pharmacies": 6,
+    "footTrafficScore": 72
+  },
+  "formation_prix": 1400,
+  "seance_prix": 200,
+  "clientes_semaine": 4
+}
