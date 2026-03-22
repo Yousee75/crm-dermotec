@@ -34,11 +34,16 @@ function zodToJsonSchema(schema: z.ZodObject<any>): Record<string, unknown> {
 }
 
 function defineTool(config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }): any {
-  // SANS tool() — objet Tool brut avec jsonSchema() pour le provider Anthropic
-  // tool() a un bug de conversion Zod → JSON Schema avec @ai-sdk/anthropic 3.0.63
+  // Objet Tool brut — le JSON Schema est passé TEL QUEL au provider
+  const schema = zodToJsonSchema(config.parameters)
   return {
+    type: 'function' as const,
     description: config.description,
-    parameters: aiJsonSchema(zodToJsonSchema(config.parameters)),
+    parameters: {
+      jsonSchema: schema,
+      validate: undefined,
+      _type: undefined,
+    },
     execute: config.execute,
   }
 }
