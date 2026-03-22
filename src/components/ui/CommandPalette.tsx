@@ -93,12 +93,22 @@ export function CommandPalette() {
     { id: 'concurrents', label: 'Concurrents', icon: Users, path: '/concurrents' },
   ], [])
 
+  // Détecter si on est sur une fiche lead
+  const isLeadPage = typeof window !== 'undefined' && window.location.pathname.startsWith('/lead/')
+  const currentLeadId = isLeadPage ? window.location.pathname.split('/lead/')[1]?.split('/')[0] : null
+
   const actions = useMemo(() => [
     { id: 'new-lead', label: 'Nouveau prospect', icon: Plus, path: '/leads?new=1', shortcut: 'N', keywords: 'nouveau ajouter créer lead prospect' },
     { id: 'new-session', label: 'Planifier une formation', icon: Calendar, path: '/sessions?new=1', keywords: 'nouvelle session planifier formation' },
     { id: 'send-email', label: 'Envoyer un email', icon: Send, path: '/messages', keywords: 'email envoyer message' },
     { id: 'export', label: 'Exporter les données', icon: FileText, path: '/parametres', keywords: 'export csv json données' },
-  ], [])
+    // Actions contextuelles fiche lead
+    ...(currentLeadId ? [
+      { id: 'enrich-lead', label: 'Enrichir ce prospect (IA)', icon: Zap, path: '', shortcut: 'E', keywords: 'enrichir briefing analyse intelligence pipeline scraping', action: () => { const btn = document.querySelector('[data-action="enrich"]') as HTMLButtonElement; if (btn) btn.click() } },
+      { id: 'pdf-lead', label: 'Rapport PDF', icon: FileText, path: '', shortcut: 'R', keywords: 'pdf rapport télécharger imprimer', action: () => window.open(`/api/enrichment/report/pdf?leadId=${currentLeadId}`, '_blank') },
+      { id: 'word-lead', label: 'Rapport Word', icon: FileText, path: '', shortcut: 'W', keywords: 'word docx rapport télécharger briefing', action: () => window.open(`/api/enrichment/report/word?leadId=${currentLeadId}`, '_blank') },
+    ] : []),
+  ], [currentLeadId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Filter pages with fuzzy matching
   const filteredPages = useMemo(() => {
@@ -214,7 +224,7 @@ export function CommandPalette() {
                   <Command.Item
                     key={item.id}
                     value={`action-${item.id}-${item.label}`}
-                    onSelect={() => go(item.path)}
+                    onSelect={() => { if ((item as any).action) { (item as any).action(); setOpen(false); setQuery('') } else { go(item.path) } }}
                     className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
                     <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center shrink-0">

@@ -133,10 +133,32 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   usePageTracker()
 
   const pathname = usePathname()
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return localStorage.getItem('sidebar-collapsed') === 'true'
+  })
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showShortcuts, setShowShortcuts] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
+  const [compactMode, setCompactMode] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return localStorage.getItem('density-compact') === 'true'
+  })
+
+  // Persister sidebar collapsed
+  useEffect(() => {
+    localStorage.setItem('sidebar-collapsed', String(collapsed))
+  }, [collapsed])
+
+  // Persister et appliquer le mode compact
+  useEffect(() => {
+    localStorage.setItem('density-compact', String(compactMode))
+    if (compactMode) {
+      document.documentElement.classList.add('density-compact')
+    } else {
+      document.documentElement.classList.remove('density-compact')
+    }
+  }, [compactMode])
 
   // Rôle utilisateur — détermine la vue (commercial ne voit que ses leads)
   const { data: currentUser } = useCurrentUser()
@@ -489,6 +511,24 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                 <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-gray-100 rounded text-[10px] font-medium text-gray-400 border border-gray-200">
                   ⌘K
                 </kbd>
+              </button>
+
+              {/* Density toggle */}
+              <button
+                onClick={() => setCompactMode(!compactMode)}
+                className={cn(
+                  'hidden md:flex p-2 rounded-lg transition',
+                  compactMode ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'
+                )}
+                title={compactMode ? 'Mode confortable' : 'Mode compact'}
+              >
+                <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  {compactMode ? (
+                    <>{/* Spacious icon */}<line x1="2" y1="3" x2="14" y2="3" /><line x1="2" y1="8" x2="14" y2="8" /><line x1="2" y1="13" x2="14" y2="13" /></>
+                  ) : (
+                    <>{/* Compact icon */}<line x1="2" y1="4" x2="14" y2="4" /><line x1="2" y1="8" x2="14" y2="8" /><line x1="2" y1="12" x2="14" y2="12" /></>
+                  )}
+                </svg>
               </button>
 
               {/* Language Switcher */}

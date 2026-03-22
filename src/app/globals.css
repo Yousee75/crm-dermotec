@@ -720,3 +720,33 @@ html {
   animation: slideInRight 0.3s ease-out;
   z-index: 51;
 }
+
+/* ============================================================
+   Mode Compact — Teams-inspired density toggle
+   Active via html.density-compact (set par JS)
+   Réduit paddings, margins, font-sizes de ~25%
+   ============================================================ */
+html.density-compact {
+  /* Cards & sections */
+  & .p-4 { padding: 0.625rem !important; }  /* 10px au lieu de 16px */
+  & .p-5 { padding: 0.75rem !important; }   /* 12px au lieu de 20px */
+  & .p-6 { padding: 1rem !important; }      /* 16px au lieu de 24px */
+
+  /* Gaps */
+  & .gap-4 { gap: 0.5rem !important; }      /* 8px au lieu de 16px */
+  & .gap-3 { gap: 0.375rem !important; }    /* 6px au lieu de 12px */
+  & .space-y-4 > * + * { margin-top: 0.5rem !important; }
+  & .space-y-3 > * + * { margin-top: 0.375rem !important; }
+
+  /* Typography */
+  & .text-sm { font-size: 0.8125rem !important; }  /* 13px au lieu de 14px */
+  & .text-xs { font-size: 0.6875rem !important; }  /* 11px au lieu de 12px */
+  & .text-lg { font-size: 1rem !important; }       /* 16px au lieu de 18px */
+
+  /* Heights — sidebar, header */
+  & [class*="h-[56px]"] { height: 44px !important; }
+
+  /* Borders more subtle */
+  & .border { border-width: 0.5px !important; }
+  & .rounded-xl { border-radius: 0.625rem !important; }
+}
