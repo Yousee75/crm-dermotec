@@ -34,16 +34,13 @@ function zodToJsonSchema(schema: z.ZodObject<any>): Record<string, unknown> {
 }
 
 function defineTool(config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }): any {
-  // Objet Tool brut — le JSON Schema est passé TEL QUEL au provider
-  const schema = zodToJsonSchema(config.parameters)
+  // FIX CRITIQUE : streamText() utilise tool.inputSchema (PAS tool.parameters)
+  // tool() du SDK crée {inputSchema: ...}, pas {parameters: ...}
+  // Notre objet brut DOIT avoir inputSchema pour que prepareToolsAndToolChoice() le trouve
   return {
     type: 'function' as const,
     description: config.description,
-    parameters: {
-      jsonSchema: schema,
-      validate: undefined,
-      _type: undefined,
-    },
+    inputSchema: aiJsonSchema(zodToJsonSchema(config.parameters)),
     execute: config.execute,
   }
 }
