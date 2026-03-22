@@ -90,32 +90,52 @@ function mean(values: number[]): number {
   return Math.round(values.reduce((sum, v) => sum + v, 0) / values.length)
 }
 
-// --- Fetch mutations DVF ---
+// --- Fetch mutations DVF (avec fallback multi-API) ---
 
 async function fetchMutations(
   codeCommune: string,
   annee?: number,
 ): Promise<MutationDVF[]> {
-  try {
-    const params = new URLSearchParams({
-      code_commune: codeCommune,
-      nature_mutation: 'Vente',
-    })
+  // Essayer chaque API dans l'ordre jusqu'à ce qu'une fonctionne
+  for (const apiUrl of DVF_APIS) {
+    try {
+      const params = new URLSearchParams({
+        code_commune: codeCommune,
+        nature_mutation: 'Vente',
+      })
 
-    if (annee) {
-      params.set('date_mutation_min', `${annee}-01-01`)
-      params.set('date_mutation_max', `${annee}-12-31`)
-    }
+      if (annee) {
+        params.set('date_mutation_min', `${annee}-01-01`)
+        params.set('date_mutation_max', `${annee}-12-31`)
+      }
 
-    const res = await fetch(`${DVF_APIS[0]}?${params}`, {
-      headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(TIMEOUT_MS),
-    })
+      // Adapter les params selon l'API
+      const isCerema = apiUrl.includes('cerema')
+      if (isCerema) {
+        // API Cerema utilise des params différents
+        params.delete('nature_mutation')
+        params.delete('date_mutation_min')
+        params.delete('date_mutation_max')
+        params.set('code_commune', codeCommune)
+        if (annee) params.set('annee_max', String(annee))
+        params.set('page_size', '100')
+      }
 
-    if (!res.ok) {
-      console.error(TAG, `API DVF ${res.status} pour commune ${codeCommune}`)
-      return []
-    }
+      const res = await fetch(`${apiUrl}?${params}`, {
+        headers: { Accept: 'application/json' },
+        signal: AbortSignal.timeout(TIMEOUT_MS),
+      })
+
+      if (!res.ok) {
+        console.warn(TAG, `API ${apiUrl.slice(0, 30)} returned ${res.status}, trying next...`)
+        continue // Essayer l'API suivante
+      }
+
+      const contentType = res.headers.get('content-type') || ''
+      if (!contentType.includes('json')) {
+        console.warn(TAG, `API ${apiUrl.slice(0, 30)} returned non-JSON, trying next...`)
+        continue
+      }
 
     const json = await res.json()
     const resultats = json.resultats || json.features || json.results || []
@@ -143,10 +163,15 @@ async function fetchMutations(
     }
 
     return []
-  } catch (err) {
-    console.error(TAG, 'Erreur fetch DVF:', err)
-    return []
+    } catch (err) {
+      console.warn(TAG, `API ${apiUrl.slice(0, 30)} error:`, err instanceof Error ? err.message : err)
+      continue // Essayer l'API suivante
+    }
   }
+
+  // Toutes les APIs ont échoué
+  console.error(TAG, `Toutes les APIs DVF ont échoué pour commune ${codeCommune}`)
+  return []
 }
 
 // --- Calcul prix m² ---
