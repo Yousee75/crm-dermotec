@@ -5,17 +5,41 @@
 // ============================================================
 import 'server-only'
 
-import { tool, type Tool } from 'ai'
+import { tool, type Tool, jsonSchema as aiJsonSchema } from 'ai'
 import { z } from 'zod'
 import { createServiceSupabase } from './supabase-server'
 import { hybridSearchKB } from './hybrid-search'
 
-// AI SDK v6 — utilise tool() du SDK directement
-// Le SDK convertit le Zod schema en JSON Schema au moment de l'appel API
-// IMPORTANT : ne PAS wrapper le résultat, retourner tel quel
-const defineTool = (config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }) =>
-  // @ts-ignore — overload TS strict, mais tool() avec Zod fonctionne (vérifié)
-  tool({ description: config.description, parameters: config.parameters, execute: config.execute })
+// AI SDK v6 + Anthropic : la combinaison tool() + Zod produit un schema sans type:"object"
+// FIX : convertir Zod → JSON Schema MANUELLEMENT puis utiliser jsonSchema()
+function zodToJsonSchema(schema: z.ZodObject<any>): Record<string, unknown> {
+  const properties: Record<string, any> = {}
+  const required: string[] = []
+  const shape = schema.shape || {}
+
+  for (const [key, val] of Object.entries(shape)) {
+    const zf = val as z.ZodTypeAny
+    const unwrapped = zf.isOptional() ? (zf as any)._def?.innerType || zf : zf
+    let type = 'string'
+    if (unwrapped instanceof z.ZodNumber) type = 'number'
+    else if (unwrapped instanceof z.ZodBoolean) type = 'boolean'
+    else if (unwrapped instanceof z.ZodArray) type = 'array'
+    properties[key] = { type, ...(zf.description ? { description: zf.description } : {}) }
+    if (!zf.isOptional()) required.push(key)
+  }
+
+  const result: Record<string, unknown> = { type: 'object', properties }
+  if (required.length > 0) result.required = required
+  return result
+}
+
+function defineTool(config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }): any {
+  return {
+    description: config.description,
+    parameters: aiJsonSchema(zodToJsonSchema(config.parameters)),
+    execute: config.execute,
+  }
+}
 
 // --- TOOL 1: Recherche de leads ---
 export const searchLeadsTool = defineTool({
