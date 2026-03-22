@@ -45,7 +45,7 @@ const STATUT_CONFIG: Record<StatutCommande, {
   NOUVELLE: { label: 'Nouvelle', variant: 'info', color: '#3B82F6', icon: ShoppingBag },
   PREPAREE: { label: 'Préparée', variant: 'warning', color: '#F59E0B', icon: Package },
   EXPEDIEE: { label: 'Expédiée', variant: 'primary', color: 'var(--color-primary)', icon: Truck },
-  LIVREE: { label: 'Livrée', variant: 'success', color: '#22C55E', icon: CheckCircle },
+  LIVREE: { label: 'Livrée', variant: 'success', color: 'var(--color-success)', icon: CheckCircle },
   RETOURNEE: { label: 'Retournée', variant: 'error', color: '#EF4444', icon: RotateCcw },
   ANNULEE: { label: 'Annulée', variant: 'default', color: '#6B7280', icon: XCircle },
 }
@@ -218,7 +218,7 @@ export default function CommandesPage() {
           icon={Euro}
           label="CA e-shop mois"
           value={formatEuro(kpis.caMois)}
-          color="#22C55E"
+          color="var(--color-success)"
         />
         <KpiCard
           icon={Package}

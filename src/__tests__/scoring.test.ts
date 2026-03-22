@@ -53,7 +53,7 @@ describe('scoreLead', () => {
 
 describe('getScoreColor', () => {
   it('retourne la bonne couleur selon le score', () => {
-    expect(getScoreColor(90)).toBe('#22C55E')  // Vert (hot)
+    expect(getScoreColor(90)).toBe('var(--color-success)')  // Vert (hot)
     expect(getScoreColor(50)).toBe('#3B82F6')  // Bleu (à qualifier: 40-59)
     expect(getScoreColor(20)).toBe('#9CA3AF')  // Gris (froid: <40)
   })

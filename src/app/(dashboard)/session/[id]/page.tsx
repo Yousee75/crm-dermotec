@@ -31,7 +31,7 @@ const STATUTS_PAIEMENT = PAIEMENT_STATUS as Record<PaiementStatut, { label: stri
 
 const STATUTS_MODELE: Record<StatutModele, { label: string; color: string }> = {
   INSCRIT: { label: 'Inscrit', color: '#3B82F6' },
-  CONFIRME: { label: 'Confirmé', color: '#22C55E' },
+  CONFIRME: { label: 'Confirmé', color: 'var(--color-success)' },
   PRESENT: { label: 'Présent', color: '#10B981' },
   ABSENT: { label: 'Absent', color: '#EF4444' },
   ANNULE: { label: 'Annulé', color: '#9CA3AF' },

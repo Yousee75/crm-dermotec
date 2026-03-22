@@ -689,7 +689,7 @@ export default function FinancementPage() {
           icon={CheckCircle}
           label="Validés ce mois"
           value={kpis.validesCeMois}
-          color="#22C55E"
+          color="var(--color-success)"
         />
         <KpiCard
           icon={XCircle}

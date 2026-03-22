@@ -130,7 +130,7 @@ export function renderDigestHTML(data: DigestData): string {
       <td style="padding:6px 12px;font-size:13px">${s.places_restantes} place${s.places_restantes > 1 ? 's' : ''}</td>
       <td style="padding:6px 12px">
         <div style="background:#f1f5f9;border-radius:4px;height:8px;width:80px">
-          <div style="background:${s.taux_remplissage >= 80 ? '#22C55E' : s.taux_remplissage >= 50 ? '#F59E0B' : '#EF4444'};border-radius:4px;height:8px;width:${s.taux_remplissage}%"></div>
+          <div style="background:${s.taux_remplissage >= 80 ? 'var(--color-success)' : s.taux_remplissage >= 50 ? '#F59E0B' : '#EF4444'};border-radius:4px;height:8px;width:${s.taux_remplissage}%"></div>
         </div>
       </td>
     </tr>
@@ -152,7 +152,7 @@ export function renderDigestHTML(data: DigestData): string {
             <div style="font-size:11px;color:#64748b;text-transform:uppercase">Nouveaux leads</div>
           </div>
           <div style="flex:1;background:#F8FAFC;padding:12px;border-radius:8px;text-align:center">
-            <div style="font-size:24px;font-weight:700;color:${data.kpis.rappels_en_retard > 0 ? '#EF4444' : '#22C55E'}">${data.kpis.rappels_en_retard}</div>
+            <div style="font-size:24px;font-weight:700;color:${data.kpis.rappels_en_retard > 0 ? '#EF4444' : 'var(--color-success)'}">${data.kpis.rappels_en_retard}</div>
             <div style="font-size:11px;color:#64748b;text-transform:uppercase">Rappels en retard</div>
           </div>
           <div style="flex:1;background:#F8FAFC;padding:12px;border-radius:8px;text-align:center">

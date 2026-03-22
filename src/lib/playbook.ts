@@ -48,7 +48,7 @@ export interface PlaybookResponse {
 export const PLAYBOOK_CATEGORIES = {
   objection: { label: 'Objection', icon: 'Shield', color: '#F59E0B' },
   script: { label: 'Script', icon: 'FileText', color: '#3B82F6' },
-  argument: { label: 'Argument', icon: 'Lightbulb', color: '#22C55E' },
+  argument: { label: 'Argument', icon: 'Lightbulb', color: 'var(--color-success)' },
   temoignage: { label: 'Temoignage', icon: 'Star', color: '#8B5CF6' },
   astuce: { label: 'Astuce', icon: 'Zap', color: 'var(--color-primary)' },
 } as const

@@ -301,13 +301,13 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
           <div className="mt-1.5 space-y-1.5">
             {/* Score 360° header */}
             {s360 && (
-              <div className="rounded-lg px-2.5 py-2 border" style={{ borderColor: `${s360.label === 'Champion' ? '#22C55E' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444'}30`, backgroundColor: `${s360.label === 'Champion' ? '#22C55E' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444'}08` }}>
+              <div className="rounded-lg px-2.5 py-2 border" style={{ borderColor: `${s360.label === 'Champion' ? 'var(--color-success)' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444'}30`, backgroundColor: `${s360.label === 'Champion' ? 'var(--color-success)' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444'}08` }}>
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-1.5">
-                    <Target className="w-3.5 h-3.5" style={{ color: s360.label === 'Champion' ? '#22C55E' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444' }} />
+                    <Target className="w-3.5 h-3.5" style={{ color: s360.label === 'Champion' ? 'var(--color-success)' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444' }} />
                     <span className="text-xs font-semibold text-gray-900">Score 360° : {s360.global}/100</span>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: s360.label === 'Champion' ? '#22C55E' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444' }}>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: s360.label === 'Champion' ? 'var(--color-success)' : s360.label === 'Prometteur' ? '#3B82F6' : s360.label === 'À surveiller' ? '#F59E0B' : '#EF4444' }}>
                     {s360.label}
                   </span>
                 </div>
@@ -315,7 +315,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
                 <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                   {[
                     { label: 'Engagement', value: s360.engagement, color: '#3B82F6' },
-                    { label: 'Lifetime Value', value: s360.lifetime_value, color: '#22C55E' },
+                    { label: 'Lifetime Value', value: s360.lifetime_value, color: 'var(--color-success)' },
                     { label: 'Santé', value: s360.health, color: '#8B5CF6' },
                     { label: 'Risque churn', value: s360.churn_risk, color: '#EF4444' },
                   ].map((axis) => (

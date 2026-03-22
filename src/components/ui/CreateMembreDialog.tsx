@@ -10,7 +10,7 @@ import { Button } from './Button'
 import { Input } from './Input'
 import { User, Mail, Phone } from 'lucide-react'
 
-const AVATAR_COLORS = ['var(--color-primary)', '#8B5CF6', '#F59E0B', '#22C55E', '#EF4444', '#EC4899', '#6366F1', '#14B8A6']
+const AVATAR_COLORS = ['var(--color-primary)', '#8B5CF6', '#F59E0B', 'var(--color-success)', '#EF4444', '#EC4899', '#6366F1', '#14B8A6']
 
 interface Props {
   open: boolean

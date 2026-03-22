@@ -28,7 +28,7 @@ export const BRAND = {
 // Couleurs branding (v2 — optimisées contraste + action)
 export const COLORS = {
   primary: '#2EC6F3',      // Bleu Dermotec officiel
-  primaryDark: '#0284C7',  // sky-600 : hover
+  primaryDark: 'var(--color-primary-dark)',  // sky-600 : hover
   action: '#6366F1',       // indigo-500 : CTAs distinctes
   accent: '#0F172A',       // slate-900 : sidebar
   background: '#F8FAFC',   // slate-50

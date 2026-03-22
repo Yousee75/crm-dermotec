@@ -47,7 +47,7 @@ const WizardInscription = lazy(() => import('@/components/crm/WizardInscription'
 
 const CANAUX_MESSAGE: { id: CanalMessage; label: string; icon: React.ElementType; color: string; hint: string }[] = [
   { id: 'email', label: 'Email', icon: Mail, color: '#3B82F6', hint: 'Envoi via Resend' },
-  { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle, color: '#22C55E', hint: 'Ouvre WhatsApp' },
+  { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle, color: 'var(--color-success)', hint: 'Ouvre WhatsApp' },
   { id: 'sms', label: 'SMS', icon: MessageSquare, color: '#8B5CF6', hint: 'Envoi SMS' },
   { id: 'appel', label: 'Appel', icon: Phone, color: '#F59E0B', hint: 'Logger un appel' },
   { id: 'note_interne', label: 'Note', icon: Edit3, color: '#6B7280', hint: 'Note interne' },
@@ -366,7 +366,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           {/* Complétion + Source */}
           <div className="px-4 py-2 bg-white rounded-xl border border-gray-100">
             <div className="flex items-center justify-between mb-1"><span className="text-[10px] text-gray-400">Complétion</span><span className={cn('text-[11px] font-bold', completionPct >= 80 ? 'text-emerald-600' : completionPct >= 50 ? 'text-amber-600' : 'text-gray-400')}>{completionPct}%</span></div>
-            <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden"><div className="h-full rounded-full transition-all" style={{ width: `${completionPct}%`, backgroundColor: completionPct >= 80 ? '#22C55E' : completionPct >= 50 ? '#F59E0B' : '#94A3B8' }} /></div>
+            <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden"><div className="h-full rounded-full transition-all" style={{ width: `${completionPct}%`, backgroundColor: completionPct >= 80 ? 'var(--color-success)' : completionPct >= 50 ? '#F59E0B' : '#94A3B8' }} /></div>
             <div className="flex justify-between text-[9px] text-gray-400 mt-1.5"><span>{lead.source.replace(/_/g, ' ')}</span><span>{formatDate(lead.created_at)}</span></div>
           </div>
         </div>
@@ -448,7 +448,7 @@ function ResumeTab({ lead, isEditing, editedLead, setEditedLead, setIsEditing, h
       <div className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2">
         <div className="flex items-center gap-2">
           <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-            <div className="h-full rounded-full transition-all duration-500" style={{ width: `${completionPct}%`, backgroundColor: completionPct >= 80 ? '#22C55E' : completionPct >= 50 ? '#F59E0B' : '#94A3B8' }} />
+            <div className="h-full rounded-full transition-all duration-500" style={{ width: `${completionPct}%`, backgroundColor: completionPct >= 80 ? 'var(--color-success)' : completionPct >= 50 ? '#F59E0B' : '#94A3B8' }} />
           </div>
           <span className="text-[10px] text-gray-400">{completionPct}%</span>
         </div>

@@ -79,7 +79,7 @@ export default function PerformancePage() {
               subvalue={`Objectif: ${formatEuro(data.totaux.objectif_total)}`}
               progress={data.totaux.progression_objectif_global}
               icon={<Target className="w-5 h-5" />}
-              color="#22C55E"
+              color="var(--color-success)"
             />
             <KpiCard
               label="Taux Conversion"
@@ -100,7 +100,7 @@ export default function PerformancePage() {
               value={String(data.totaux.rappels_overdue_total)}
               subvalue="à traiter"
               icon={<AlertTriangle className="w-5 h-5" />}
-              color={data.totaux.rappels_overdue_total > 0 ? '#EF4444' : '#22C55E'}
+              color={data.totaux.rappels_overdue_total > 0 ? '#EF4444' : 'var(--color-success)'}
               alert={data.totaux.rappels_overdue_total > 5}
             />
           </div>
@@ -120,7 +120,7 @@ export default function PerformancePage() {
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${Math.min(100, data.totaux.progression_objectif_global)}%`,
-                  backgroundColor: data.totaux.progression_objectif_global >= 100 ? '#22C55E'
+                  backgroundColor: data.totaux.progression_objectif_global >= 100 ? 'var(--color-success)'
                     : data.totaux.progression_objectif_global >= 70 ? 'var(--color-primary)'
                     : data.totaux.progression_objectif_global >= 40 ? '#F59E0B'
                     : '#EF4444',
@@ -189,7 +189,7 @@ export default function PerformancePage() {
                               className="h-full rounded-full"
                               style={{
                                 width: `${Math.min(100, commercial.progression_objectif)}%`,
-                                backgroundColor: commercial.progression_objectif >= 100 ? '#22C55E'
+                                backgroundColor: commercial.progression_objectif >= 100 ? 'var(--color-success)'
                                   : commercial.progression_objectif >= 70 ? 'var(--color-primary)' : '#F59E0B',
                               }}
                             />
@@ -266,7 +266,7 @@ export default function PerformancePage() {
                       className="h-full rounded-full transition-all"
                       style={{
                         width: `${Math.min(100, c.progression_objectif)}%`,
-                        backgroundColor: c.progression_objectif >= 100 ? '#22C55E' : 'var(--color-primary)',
+                        backgroundColor: c.progression_objectif >= 100 ? 'var(--color-success)' : 'var(--color-primary)',
                       }}
                     />
                   </div>
@@ -279,7 +279,7 @@ export default function PerformancePage() {
                     <p className="text-[10px] text-gray-500">Leads</p>
                   </div>
                   <div className="bg-gray-50 rounded-lg p-2">
-                    <p className="text-lg font-bold" style={{ color: c.taux_conversion >= 20 ? '#22C55E' : '#F59E0B' }}>
+                    <p className="text-lg font-bold" style={{ color: c.taux_conversion >= 20 ? 'var(--color-success)' : '#F59E0B' }}>
                       {c.taux_conversion}%
                     </p>
                     <p className="text-[10px] text-gray-500">Conversion</p>

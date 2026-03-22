@@ -38,7 +38,7 @@ const staggerContainer = {
 function getNiveauColor(niveau: string): string {
   switch (niveau) {
     case 'debutant':
-      return '#22C55E'
+      return 'var(--color-success)'
     case 'intermediaire':
       return '#F59E0B'
     case 'avance':

@@ -201,7 +201,7 @@ export default function IndicateursTab() {
                 <ProgressBar
                   value={pourcentage}
                   className="h-2"
-                  color={pourcentage === 100 ? '#22C55E' : pourcentage >= 75 ? '#F59E0B' : '#EF4444'}
+                  color={pourcentage === 100 ? 'var(--color-success)' : pourcentage >= 75 ? '#F59E0B' : '#EF4444'}
                 />
 
                 {/* Détail des indicateurs si sélectionné */}

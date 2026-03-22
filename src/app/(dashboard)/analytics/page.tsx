@@ -25,11 +25,11 @@ import {
 // ---------------------------------------------------------------------------
 const PRIMARY = 'var(--color-primary)'
 const ACCENT = 'var(--color-accent)'
-const SUCCESS = '#22C55E'
+const SUCCESS = 'var(--color-success)'
 const WARNING = '#F59E0B'
 const ERROR = '#EF4444'
 
-const FUNNEL_COLORS = ['#6B7280', '#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', '#22C55E']
+const FUNNEL_COLORS = ['#6B7280', '#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', 'var(--color-success)']
 const PIE_COLORS = [PRIMARY, '#8B5CF6', '#F59E0B', '#EF4444', '#10B981', '#EC4899', '#6366F1', '#F97316']
 
 const SOURCE_LABELS: Record<string, string> = {

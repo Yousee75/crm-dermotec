@@ -157,7 +157,7 @@ export function getPipelineStageInfo(statut: StatutLead) {
     QUALIFIE: { label: 'Qualifié', color: '#8B5CF6', emoji: '✅' },
     FINANCEMENT_EN_COURS: { label: 'Financement', color: '#F59E0B', emoji: '💰' },
     INSCRIT: { label: 'Inscrit', color: '#10B981', emoji: '📋' },
-    EN_FORMATION: { label: 'En formation', color: '#22C55E', emoji: '🎓' },
+    EN_FORMATION: { label: 'En formation', color: 'var(--color-success)', emoji: '🎓' },
     FORME: { label: 'Formé', color: '#059669', emoji: '🏆' },
     ALUMNI: { label: 'Alumni', color: '#047857', emoji: '⭐' },
     REPORTE: { label: 'Reporté', color: '#F97316', emoji: '⏸️' },

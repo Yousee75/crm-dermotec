@@ -27,7 +27,7 @@ export const LEAD_STATUS: Record<StatutLead, StatusConfig> = {
   FINANCEMENT_EN_COURS: { label: 'Financement',       color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 3 },
   INSCRIT:              { label: 'Inscrit',           color: '#10B981', bgColor: '#ECFDF5', dotColor: '#10B981', order: 4 },
   EN_FORMATION:         { label: 'En formation',      color: '#06B6D4', bgColor: '#ECFEFF', dotColor: '#06B6D4', order: 5 },
-  FORME:                { label: 'Formé(e)',          color: '#22C55E', bgColor: '#F0FDF4', dotColor: '#22C55E', order: 6 },
+  FORME:                { label: 'Formé(e)',          color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 6 },
   ALUMNI:               { label: 'Alumni',            color: '#059669', bgColor: '#ECFDF5', dotColor: '#059669', order: 7 },
   PERDU:                { label: 'Perdu',             color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 8 },
   REPORTE:              { label: 'Reporté',           color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 9 },
@@ -40,7 +40,7 @@ export const LEAD_STATUS: Record<StatutLead, StatusConfig> = {
 export const SESSION_STATUS: Record<StatutSession, StatusConfig> = {
   BROUILLON:  { label: 'Brouillon',  color: '#9CA3AF', bgColor: '#F3F4F6', dotColor: '#9CA3AF', order: 0 },
   PLANIFIEE:  { label: 'Planifiée',  color: '#3B82F6', bgColor: '#EFF6FF', dotColor: '#3B82F6', order: 1 },
-  CONFIRMEE:  { label: 'Confirmée',  color: '#22C55E', bgColor: '#F0FDF4', dotColor: '#22C55E', order: 2 },
+  CONFIRMEE:  { label: 'Confirmée',  color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 2 },
   EN_COURS:   { label: 'En cours',   color: '#06B6D4', bgColor: '#ECFEFF', dotColor: '#06B6D4', order: 3 },
   TERMINEE:   { label: 'Terminée',   color: '#8B5CF6', bgColor: '#F5F3FF', dotColor: '#8B5CF6', order: 4 },
   ANNULEE:    { label: 'Annulée',    color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 5 },
@@ -52,7 +52,7 @@ export const SESSION_STATUS: Record<StatutSession, StatusConfig> = {
 // ============================================
 export const INSCRIPTION_STATUS: Record<StatutInscription, StatusConfig> = {
   EN_ATTENTE:  { label: 'En attente',  color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 0 },
-  CONFIRMEE:   { label: 'Confirmée',   color: '#22C55E', bgColor: '#F0FDF4', dotColor: '#22C55E', order: 1 },
+  CONFIRMEE:   { label: 'Confirmée',   color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 1 },
   EN_COURS:    { label: 'En cours',    color: '#06B6D4', bgColor: '#ECFEFF', dotColor: '#06B6D4', order: 2 },
   COMPLETEE:   { label: 'Complétée',   color: '#8B5CF6', bgColor: '#F5F3FF', dotColor: '#8B5CF6', order: 3 },
   ANNULEE:     { label: 'Annulée',     color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 4 },
@@ -70,7 +70,7 @@ export const FINANCEMENT_STATUS: Record<StatutFinancement, StatusConfig> = {
   SOUMIS:              { label: 'Soumis',             color: '#3B82F6', bgColor: '#EFF6FF', dotColor: '#3B82F6', order: 3 },
   EN_EXAMEN:           { label: 'En examen',          color: '#8B5CF6', bgColor: '#F5F3FF', dotColor: '#8B5CF6', order: 4 },
   COMPLEMENT_DEMANDE:  { label: 'Complément demandé', color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 5 },
-  VALIDE:              { label: 'Validé',             color: '#22C55E', bgColor: '#F0FDF4', dotColor: '#22C55E', order: 6 },
+  VALIDE:              { label: 'Validé',             color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 6 },
   REFUSE:              { label: 'Refusé',             color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 7 },
   VERSE:               { label: 'Versé',              color: '#059669', bgColor: '#ECFDF5', dotColor: '#059669', order: 8 },
   CLOTURE:             { label: 'Clôturé',            color: '#6B7280', bgColor: '#F3F4F6', dotColor: '#6B7280', order: 9 },
@@ -93,7 +93,7 @@ export const PAIEMENT_STATUS: Record<PaiementStatut, StatusConfig> = {
   EN_ATTENTE:          { label: 'En attente',    color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 0 },
   ACOMPTE:             { label: 'Acompte',       color: '#3B82F6', bgColor: '#EFF6FF', dotColor: '#3B82F6', order: 1 },
   PARTIEL:             { label: 'Partiel',       color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 2 },
-  PAYE:                { label: 'Payé',          color: '#22C55E', bgColor: '#F0FDF4', dotColor: '#22C55E', order: 3 },
+  PAYE:                { label: 'Payé',          color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 3 },
   REMBOURSE:           { label: 'Remboursé',     color: '#9CA3AF', bgColor: '#F3F4F6', dotColor: '#9CA3AF', order: 4 },
   LITIGE:              { label: 'Litige',        color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 5 },
 }
@@ -103,11 +103,11 @@ export const PAIEMENT_STATUS: Record<PaiementStatut, StatusConfig> = {
 // ============================================
 export const BRAND = {
   primary: '#2EC6F3',
-  primaryHover: '#1BA8D4',
-  primaryDark: '#0284C7',
+  primaryHover: 'var(--color-primary-dark)',
+  primaryDark: 'var(--color-primary-dark)',
   accent: '#082545',
   accentLight: '#0F3A6E',
-  success: '#22C55E',
+  success: 'var(--color-success)',
   warning: '#F59E0B',
   error: '#EF4444',
   info: '#3B82F6',

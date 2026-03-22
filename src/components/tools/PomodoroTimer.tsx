@@ -5,7 +5,7 @@ import { Play, Pause, RotateCcw } from 'lucide-react'
 
 const PRESETS = [
   { label: 'Pomodoro', minutes: 25, color: '#EF4444' },
-  { label: 'Pause courte', minutes: 5, color: '#22C55E' },
+  { label: 'Pause courte', minutes: 5, color: 'var(--color-success)' },
   { label: 'Pause longue', minutes: 15, color: '#3B82F6' },
   { label: 'Appel commercial', minutes: 10, color: '#F59E0B' },
 ]

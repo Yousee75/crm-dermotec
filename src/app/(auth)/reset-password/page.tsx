@@ -172,6 +172,6 @@ function getPasswordStrength(password: string) {
 
   if (score <= 1) return { level: 1, label: 'Faible', color: '#EF4444' }
   if (score <= 2) return { level: 2, label: 'Moyen', color: '#F59E0B' }
-  if (score <= 3) return { level: 3, label: 'Bon', color: '#22C55E' }
+  if (score <= 3) return { level: 3, label: 'Bon', color: 'var(--color-success)' }
   return { level: 4, label: 'Excellent', color: '#10B981' }
 }

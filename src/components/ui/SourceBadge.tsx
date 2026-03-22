@@ -15,7 +15,7 @@ const SOURCE_CONFIG: Record<string, { label: string; icon: React.ElementType; co
   google: { label: 'Google', icon: FaGoogle, color: '#4285F4' },
   bouche_a_oreille: { label: 'Bouche-à-oreille', icon: Megaphone, color: '#8B5CF6' },
   partenariat: { label: 'Partenariat', icon: UserPlus, color: '#06B6D4' },
-  ancien_stagiaire: { label: 'Ancien stagiaire', icon: UserPlus, color: '#22C55E' },
+  ancien_stagiaire: { label: 'Ancien stagiaire', icon: UserPlus, color: 'var(--color-success)' },
   site_web: { label: 'Site web', icon: Globe, color: 'var(--color-primary)' },
   salon: { label: 'Salon', icon: Users, color: '#EC4899' },
   simulateur: { label: 'Simulateur', icon: Calculator, color: 'var(--color-primary)' },

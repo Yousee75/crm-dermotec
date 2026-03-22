@@ -11,7 +11,7 @@ const STAT_CONFIG = [
   { key: 'metros', icon: Train, label: 'Métros', color: '#3B82F6' },
   { key: 'restaurants', icon: UtensilsCrossed, label: 'Restaurants', color: '#F59E0B' },
   { key: 'cafes', icon: Coffee, label: 'Cafés', color: '#92400E' },
-  { key: 'pharmacies', icon: Pill, label: 'Pharmacies', color: '#22C55E' },
+  { key: 'pharmacies', icon: Pill, label: 'Pharmacies', color: 'var(--color-success)' },
   { key: 'supermarkets', icon: ShoppingCart, label: 'Supermarchés', color: '#EF4444' },
   { key: 'ecoles', icon: GraduationCap, label: 'Écoles', color: '#8B5CF6' },
   { key: 'banks', icon: Building2, label: 'Banques', color: '#6B7280' },

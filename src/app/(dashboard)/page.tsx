@@ -316,7 +316,7 @@ export default function DashboardPage() {
             { label: 'Qualifié', count: leadsData?.leads?.filter(l => l.statut === 'QUALIFIE').length || 0, color: 'var(--color-primary)' },
             { label: 'Financement', count: leadsData?.leads?.filter(l => l.statut === 'FINANCEMENT_EN_COURS').length || 0, color: '#F59E0B' },
             { label: 'Inscrit', count: leadsData?.leads?.filter(l => l.statut === 'INSCRIT').length || 0, color: '#8B5CF6' },
-            { label: 'Formé', count: leadsData?.leads?.filter(l => l.statut === 'FORME' || l.statut === 'ALUMNI').length || 0, color: '#22C55E' },
+            { label: 'Formé', count: leadsData?.leads?.filter(l => l.statut === 'FORME' || l.statut === 'ALUMNI').length || 0, color: 'var(--color-success)' },
           ].map((stage) => (
             <Link
               key={stage.label}
@@ -454,7 +454,7 @@ export default function DashboardPage() {
                   <div className="w-8 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                     <div className="h-full rounded-full" style={{
                       width: `${lead.score_chaud || 0}%`,
-                      backgroundColor: (lead.score_chaud || 0) >= 80 ? '#22C55E' : (lead.score_chaud || 0) >= 60 ? '#F59E0B' : '#9CA3AF'
+                      backgroundColor: (lead.score_chaud || 0) >= 80 ? 'var(--color-success)' : (lead.score_chaud || 0) >= 60 ? '#F59E0B' : '#9CA3AF'
                     }} />
                   </div>
                   <span className="text-[10px] text-gray-400 w-5">{lead.score_chaud || 0}</span>
@@ -485,7 +485,7 @@ export default function DashboardPage() {
           icon={(p: any) => <Lightning weight="duotone" {...p} />}
           label="Nouveaux ce mois"
           value={nouveauxCeMois.toLocaleString()}
-          color="#22C55E"
+          color="var(--color-success)"
           variation={variationNouveaux}
         />
         <KpiCard
@@ -511,7 +511,7 @@ export default function DashboardPage() {
           icon={(p: any) => <Crosshair weight="duotone" {...p} />}
           label="Taux conversion"
           value={`${tauxConversion.toFixed(1)}%`}
-          color="#22C55E"
+          color="var(--color-success)"
         />
       </div>
 

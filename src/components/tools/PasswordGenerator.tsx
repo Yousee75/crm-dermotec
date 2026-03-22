@@ -48,7 +48,7 @@ export function PasswordGenerator() {
     const percent = Math.min(100, score)
     return {
       label: percent >= 80 ? 'Fort' : percent >= 50 ? 'Moyen' : 'Faible',
-      color: percent >= 80 ? '#22C55E' : percent >= 50 ? '#F59E0B' : '#EF4444',
+      color: percent >= 80 ? 'var(--color-success)' : percent >= 50 ? '#F59E0B' : '#EF4444',
       percent,
     }
   })()

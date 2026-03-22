@@ -15,7 +15,7 @@ interface CompetitorMapProps {
 const mapContainerStyle = { width: '100%', height: '400px', borderRadius: '12px' }
 
 function getMarkerColor(score: number): string {
-  if (score >= 70) return '#22C55E'
+  if (score >= 70) return 'var(--color-success)'
   if (score >= 40) return '#F59E0B'
   return '#EF4444'
 }

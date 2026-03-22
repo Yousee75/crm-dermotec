@@ -153,8 +153,8 @@ describe('scoreLead', () => {
 
 describe('getScoreColor', () => {
   it('vert pour score >= 80', () => {
-    expect(getScoreColor(80)).toBe('#22C55E')
-    expect(getScoreColor(100)).toBe('#22C55E')
+    expect(getScoreColor(80)).toBe('var(--color-success)')
+    expect(getScoreColor(100)).toBe('var(--color-success)')
   })
 
   it('orange pour score 60-79', () => {

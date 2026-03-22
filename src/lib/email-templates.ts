@@ -8,7 +8,7 @@
 
 const COLORS = {
   primary: 'var(--color-primary)',
-  primaryDark: '#1BA8D4',
+  primaryDark: 'var(--color-primary-dark)',
   accent: 'var(--color-accent)',
   white: '#FFFFFF',
   bg: '#F4F7FA', // Meilleur en dark mode que #F8FAFC (évite inversion Gmail)

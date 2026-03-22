@@ -6,7 +6,7 @@ interface ReputationScoreProps {
 }
 
 export function ReputationScore({ score, size = 'md' }: ReputationScoreProps) {
-  const color = score >= 70 ? '#22C55E' : score >= 40 ? '#F59E0B' : '#EF4444'
+  const color = score >= 70 ? 'var(--color-success)' : score >= 40 ? '#F59E0B' : '#EF4444'
   const label = score >= 70 ? 'Excellent' : score >= 40 ? 'Moyen' : 'Faible'
 
   const sizeClasses = {

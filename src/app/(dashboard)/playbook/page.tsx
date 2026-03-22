@@ -71,7 +71,7 @@ export default function PlaybookPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <KpiCard icon={Shield} label="Entrées" value={totalEntries} color="#F59E0B" />
         <KpiCard icon={MessageCircle} label="Réponses" value={totalResponses} color="#3B82F6" />
-        <KpiCard icon={TrendingUp} label="Taux succès moy." value={`${avgRate}%`} color="#22C55E" />
+        <KpiCard icon={TrendingUp} label="Taux succès moy." value={`${avgRate}%`} color="var(--color-success)" />
         <KpiCard icon={Trophy} label="Promues en KB" value={entries?.reduce((acc, e) => acc + (e.responses?.filter(r => r.promoted_to_kb).length || 0), 0) || 0} color="#8B5CF6" />
       </div>
 

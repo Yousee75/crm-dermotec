@@ -12,7 +12,7 @@ interface ProgressBarProps {
 function ProgressBar({ value, max = 100, size = 'sm', color, showLabel, className }: ProgressBarProps) {
   const percent = Math.min(Math.max((value / max) * 100, 0), 100)
 
-  const autoColor = percent >= 70 ? '#22C55E' : percent >= 40 ? '#F59E0B' : '#94A3B8'
+  const autoColor = percent >= 70 ? 'var(--color-success)' : percent >= 40 ? '#F59E0B' : '#94A3B8'
   const barColor = color || autoColor
 
   const heights = { sm: 'h-1.5', md: 'h-2', lg: 'h-3' }

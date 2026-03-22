@@ -130,7 +130,7 @@ export function scoreLead(lead: Lead): ScoreBreakdown {
 }
 
 export function getScoreColor(score: number): string {
-  if (score >= 80) return '#22C55E' // vert — chaud
+  if (score >= 80) return 'var(--color-success)' // vert — chaud
   if (score >= 60) return '#F59E0B' // orange — tiède
   if (score >= 40) return '#3B82F6' // bleu — à qualifier
   return '#9CA3AF' // gris — froid

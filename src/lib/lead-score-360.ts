@@ -198,7 +198,7 @@ export function calculateScore360(data: RevenueGraphData): Score360 {
 
   if (global >= 80) {
     label = 'Champion'
-    color = '#22C55E'
+    color = 'var(--color-success)'
     action = 'Proposer upsell ou parrainage'
   } else if (global >= 60) {
     label = 'Prometteur'

@@ -282,7 +282,7 @@ export function CommandPalette() {
 }
 
 function getColor(name: string): string {
-  const colors = ['var(--color-primary)', '#8B5CF6', '#F59E0B', '#22C55E', '#EF4444', '#EC4899', '#6366F1', '#14B8A6']
+  const colors = ['var(--color-primary)', '#8B5CF6', '#F59E0B', 'var(--color-success)', '#EF4444', '#EC4899', '#6366F1', '#14B8A6']
   let hash = 0
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash)
   return colors[Math.abs(hash) % colors.length]

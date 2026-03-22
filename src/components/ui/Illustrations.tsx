@@ -100,8 +100,8 @@ export function IllustrationEmptyDossier({ className, size = 160 }: Illustration
       <rect x="103" y="71" width="30" height="2" rx="1" fill="var(--color-accent)" opacity="0.1" transform="rotate(3 118 72)" />
 
       {/* Check vert */}
-      <circle cx="150" cy="58" r="12" fill="#22C55E" opacity="0.15" />
-      <path d="M144 58 L148 62 L156 54" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="150" cy="58" r="12" fill="var(--color-success)" opacity="0.15" />
+      <path d="M144 58 L148 62 L156 54" stroke="var(--color-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
 
       {/* Ligne de progression */}
       <rect x="60" y="130" width="80" height="4" rx="2" fill="#E5E7EB" />
@@ -135,8 +135,8 @@ export function IllustrationEmptyPipeline({ className, size = 160 }: Illustratio
 
       {/* Colonne 3 */}
       <rect x="131" y="50" width="45" height="100" rx="6" fill="white" stroke="#E5E7EB" strokeWidth="1.5" />
-      <rect x="136" y="55" width="35" height="4" rx="2" fill="#22C55E" opacity="0.3" />
-      <rect x="136" y="65" width="35" height="25" rx="4" fill="#22C55E" opacity="0.06" stroke="#22C55E" strokeWidth="1" strokeDasharray="3 3" />
+      <rect x="136" y="55" width="35" height="4" rx="2" fill="var(--color-success)" opacity="0.3" />
+      <rect x="136" y="65" width="35" height="25" rx="4" fill="var(--color-success)" opacity="0.06" stroke="var(--color-success)" strokeWidth="1" strokeDasharray="3 3" />
 
       {/* Flèche de progression */}
       <path d="M72 100 L76 96 L76 104 Z" fill="var(--color-primary)" opacity="0.4" />
@@ -153,12 +153,12 @@ export function IllustrationEmptyPipeline({ className, size = 160 }: Illustratio
 export function IllustrationSuccess({ className, size = 160 }: IllustrationProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <circle cx="100" cy="100" r="90" fill="#22C55E" opacity="0.06" />
+      <circle cx="100" cy="100" r="90" fill="var(--color-success)" opacity="0.06" />
 
       {/* Grand cercle check */}
-      <circle cx="100" cy="90" r="35" fill="white" stroke="#22C55E" strokeWidth="3" />
-      <circle cx="100" cy="90" r="28" fill="#22C55E" opacity="0.1" />
-      <path d="M85 90 L95 100 L115 80" stroke="#22C55E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="100" cy="90" r="35" fill="white" stroke="var(--color-success)" strokeWidth="3" />
+      <circle cx="100" cy="90" r="28" fill="var(--color-success)" opacity="0.1" />
+      <path d="M85 90 L95 100 L115 80" stroke="var(--color-success)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
 
       {/* Confetti */}
       <rect x="50" y="45" width="6" height="3" rx="1.5" fill="var(--color-primary)" opacity="0.6" transform="rotate(-20 53 46)" />
@@ -168,15 +168,15 @@ export function IllustrationSuccess({ className, size = 160 }: IllustrationProps
       <circle cx="45" cy="80" r="3" fill="#F59E0B" opacity="0.4" />
       <circle cx="155" cy="85" r="2.5" fill="var(--color-primary)" opacity="0.4" />
       <circle cx="80" cy="40" r="2" fill="#EC4899" opacity="0.4" />
-      <circle cx="125" cy="140" r="2" fill="#22C55E" opacity="0.3" />
+      <circle cx="125" cy="140" r="2" fill="var(--color-success)" opacity="0.3" />
 
       {/* Étoiles */}
       <path d="M40 110 L42 105 L44 110 L39 107 L45 107 Z" fill="#F59E0B" opacity="0.4" />
       <path d="M158 70 L160 66 L162 70 L157 68 L163 68 Z" fill="var(--color-primary)" opacity="0.3" />
 
       {/* Texte "Bravo" suggestion */}
-      <rect x="70" y="138" width="60" height="20" rx="10" fill="#22C55E" opacity="0.1" />
-      <rect x="83" y="146" width="34" height="4" rx="2" fill="#22C55E" opacity="0.3" />
+      <rect x="70" y="138" width="60" height="20" rx="10" fill="var(--color-success)" opacity="0.1" />
+      <rect x="83" y="146" width="34" height="4" rx="2" fill="var(--color-success)" opacity="0.3" />
     </svg>
   )
 }
@@ -192,11 +192,11 @@ export function IllustrationWelcome({ className, size = 160 }: IllustrationProps
       <rect x="45" y="45" width="110" height="15" rx="8" fill="var(--color-accent)" />
       <circle cx="55" cy="52.5" r="2" fill="#EF4444" opacity="0.8" />
       <circle cx="62" cy="52.5" r="2" fill="#F59E0B" opacity="0.8" />
-      <circle cx="69" cy="52.5" r="2" fill="#22C55E" opacity="0.8" />
+      <circle cx="69" cy="52.5" r="2" fill="var(--color-success)" opacity="0.8" />
 
       {/* Contenu dashboard */}
       <rect x="52" y="67" width="25" height="15" rx="3" fill="var(--color-primary)" opacity="0.15" />
-      <rect x="82" y="67" width="25" height="15" rx="3" fill="#22C55E" opacity="0.15" />
+      <rect x="82" y="67" width="25" height="15" rx="3" fill="var(--color-success)" opacity="0.15" />
       <rect x="112" y="67" width="25" height="15" rx="3" fill="#F59E0B" opacity="0.15" />
       <rect x="52" y="88" width="85" height="4" rx="2" fill="#E5E7EB" />
       <rect x="52" y="88" width="50" height="4" rx="2" fill="var(--color-primary)" opacity="0.4" />
@@ -410,7 +410,7 @@ export function IllustrationEmptyStagiaires({ className, size = 160 }: Illustrat
       <rect x="65" y="60" width="70" height="10" rx="5" fill="var(--color-accent)" opacity="0.06" />
       {/* Contenu écran */}
       <rect x="72" y="76" width="20" height="12" rx="2" fill="var(--color-primary)" opacity="0.1" />
-      <rect x="96" y="76" width="20" height="12" rx="2" fill="#22C55E" opacity="0.1" />
+      <rect x="96" y="76" width="20" height="12" rx="2" fill="var(--color-success)" opacity="0.1" />
       <rect x="120" y="76" width="8" height="12" rx="2" fill="#F59E0B" opacity="0.1" />
       <rect x="72" y="92" width="56" height="3" rx="1.5" fill="var(--color-accent)" opacity="0.06" />
       <rect x="72" y="98" width="40" height="3" rx="1.5" fill="var(--color-accent)" opacity="0.04" />
@@ -455,8 +455,8 @@ export function IllustrationEmptyFinancement({ className, size = 160 }: Illustra
       <rect x="117" y="72" width="30" height="2" rx="1" fill="var(--color-accent)" opacity="0.1" />
       <rect x="117" y="78" width="33" height="2" rx="1" fill="var(--color-accent)" opacity="0.08" />
       {/* Check validé */}
-      <circle cx="135" cy="96" r="8" fill="#22C55E" opacity="0.12" />
-      <path d="M130 96 L133.5 99.5 L140 93" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="135" cy="96" r="8" fill="var(--color-success)" opacity="0.12" />
+      <path d="M130 96 L133.5 99.5 L140 93" stroke="var(--color-success)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       {/* Pièces euro en bas */}
       <circle cx="75" cy="145" r="10" fill="#F59E0B" stroke="#F59E0B" strokeWidth="1" opacity="0.2" />
       <text x="75" y="149" fontSize="10" fill="#F59E0B" textAnchor="middle" fontFamily="sans-serif" opacity="0.4">€</text>

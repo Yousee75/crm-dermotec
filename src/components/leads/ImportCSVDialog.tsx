@@ -681,7 +681,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                   </div>
                 </div>
 
-                <ProgressBar value={100} size="md" color={importResult.imported > 0 ? '#22C55E' : '#EF4444'} />
+                <ProgressBar value={100} size="md" color={importResult.imported > 0 ? 'var(--color-success)' : '#EF4444'} />
               </>
             ) : null}
           </div>

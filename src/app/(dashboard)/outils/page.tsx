@@ -30,7 +30,7 @@ const TOOLS = [
     icon: Calculator,
     title: 'Calculateur TVA',
     description: 'Convertir HT ↔ TTC (20%)',
-    color: '#22C55E',
+    color: 'var(--color-success)',
     component: TvaCalculator,
   },
   {

@@ -47,7 +47,7 @@ import { cn } from '@/lib/utils'
 // Statuts d'inscription avec couleurs
 const STATUTS_INSCRIPTION: Record<StatutInscription, { label: string; color: string }> = {
   EN_ATTENTE: { label: 'En attente', color: '#F59E0B' },
-  CONFIRMEE: { label: 'Confirmée', color: '#22C55E' },
+  CONFIRMEE: { label: 'Confirmée', color: 'var(--color-success)' },
   EN_COURS: { label: 'En cours', color: '#3B82F6' },
   COMPLETEE: { label: 'Complétée', color: '#10B981' },
   ANNULEE: { label: 'Annulée', color: '#EF4444' },
@@ -60,7 +60,7 @@ const PAIEMENT_STATUTS: Record<PaiementStatut, { label: string; color: string }>
   EN_ATTENTE: { label: 'En attente', color: '#F59E0B' },
   ACOMPTE: { label: 'Acompte', color: '#8B5CF6' },
   PARTIEL: { label: 'Partiel', color: '#F59E0B' },
-  PAYE: { label: 'Payé', color: '#22C55E' },
+  PAYE: { label: 'Payé', color: 'var(--color-success)' },
   REMBOURSE: { label: 'Remboursé', color: '#6B7280' },
   LITIGE: { label: 'Litige', color: '#EF4444' },
 }
@@ -241,7 +241,7 @@ export default function StagiairesPage() {
   const renderPresenceBar = (taux: number | null) => {
     if (!taux) return <span className="text-xs text-gray-300">—</span>
 
-    const color = taux >= 80 ? '#22C55E' : taux >= 50 ? '#F59E0B' : '#EF4444'
+    const color = taux >= 80 ? 'var(--color-success)' : taux >= 50 ? '#F59E0B' : '#EF4444'
     return (
       <div className="w-20">
         <ProgressBar
@@ -285,7 +285,7 @@ export default function StagiairesPage() {
           icon={Trophy}
           label="Complétées"
           value={completees}
-          color="#22C55E"
+          color="var(--color-success)"
         />
         <KpiCard
           icon={BookOpen}
