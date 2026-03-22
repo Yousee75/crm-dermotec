@@ -74,8 +74,10 @@ function addSecurityHeaders(response: NextResponse, nonce: string): NextResponse
 // --- Public paths ---
 const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/', '/inscription/', '/monitoring']
 
+const PUBLIC_EXACT_PATHS = ['/', '/accueil', '/pricing', '/aide', '/changelog', '/formations', '/conditions-generales', '/mentions-legales', '/politique-confidentialite', '/dpa']
+
 function isPublicPath(pathname: string): boolean {
-  return PUBLIC_PATHS.some(path => pathname.startsWith(path))
+  return PUBLIC_EXACT_PATHS.includes(pathname) || PUBLIC_PATHS.some(path => pathname.startsWith(path))
 }
 
 // --- Honeypot endpoints (pièges pour les intrus) ---
@@ -132,7 +134,7 @@ export async function middleware(request: NextRequest) {
   // Gain : -300ms TTFB sur les pages normales
   // ============================================================
   const isStaticAsset = pathname.startsWith('/_next/') || pathname.startsWith('/images/') || pathname.startsWith('/fonts/')
-  const isPublicPage = pathname === '/login' || pathname === '/formations' || pathname.startsWith('/inscription') || pathname === '/pricing' || pathname === '/aide'
+  const isPublicPage = pathname === '/' || pathname === '/login' || pathname === '/accueil' || pathname === '/formations' || pathname.startsWith('/inscription') || pathname === '/pricing' || pathname === '/aide' || pathname === '/changelog'
 
   // Assets statiques : juste les headers, rien d'autre
   if (isStaticAsset) {

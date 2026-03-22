@@ -10,8 +10,9 @@ function Card({ className, hover, padding = 'md', children, ...props }: CardProp
   return (
     <div
       className={cn(
-        'bg-white rounded-xl border border-gray-100 shadow-card',
-        hover && 'hover-lift cursor-pointer',
+        'bg-white rounded-xl border border-gray-100 shadow-card transition-all duration-200',
+        'focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/30',
+        hover && 'hover-lift hover:border-gray-200 cursor-pointer',
         paddings[padding],
         className
       )}

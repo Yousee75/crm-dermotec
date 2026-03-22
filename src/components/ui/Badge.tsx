@@ -8,6 +8,7 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: BadgeSize
   dot?: boolean
   pulse?: boolean
+  bounce?: boolean
   color?: string
   bgColor?: string
 }
@@ -32,20 +33,30 @@ const sizeStyles: Record<BadgeSize, string> = {
   lg: 'px-2.5 py-1 text-xs',
 }
 
-function Badge({ className, variant = 'default', size = 'md', dot, pulse, color, bgColor, children, style, ...props }: BadgeProps) {
+function Badge({ className, variant = 'default', size = 'md', dot, pulse, bounce, color, bgColor, children, style, ...props }: BadgeProps) {
   const customStyle = variant === 'custom' ? { color, backgroundColor: bgColor, ...style } : style
+  const isUrgent = variant === 'error' || variant === 'destructive' || variant === 'warning'
 
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 font-medium rounded-full whitespace-nowrap',
+        'inline-flex items-center gap-1 font-medium rounded-full whitespace-nowrap transition-all duration-200',
         variantStyles[variant],
         sizeStyles[size],
+        bounce && 'animate-bounceIn',
+        isUrgent && pulse && 'relative',
         className
       )}
       style={customStyle}
       {...props}
     >
+      {isUrgent && pulse && (
+        <span
+          className="absolute inset-0 rounded-full animate-pulse-ring opacity-30"
+          style={{ backgroundColor: color || 'currentColor' }}
+          aria-hidden="true"
+        />
+      )}
       {dot && (
         <span className={cn(
           'w-1.5 h-1.5 rounded-full shrink-0',
