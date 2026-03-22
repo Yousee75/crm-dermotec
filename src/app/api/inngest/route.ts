@@ -31,6 +31,8 @@ async function getHandler() {
       inngestFunctions.proactiveAgent,
       inngestFunctions.monthlySnapshot,
       inngestFunctions.weeklyReport,
+      inngestFunctions.smartRelance,
+      inngestFunctions.autoEnrichLead,
     ],
   })
 }

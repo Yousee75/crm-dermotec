@@ -1,111 +1,275 @@
 import type { Metadata } from 'next'
+import { Badge } from '@/components/ui/Badge'
+import { Building, MapPin, Phone, Mail, Shield, Globe, Users, HelpCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Mentions légales — Dermotec Advanced',
-  description: 'Mentions légales du site Dermotec Advanced, centre de formation esthétique à Paris.',
+  description: 'Transparence totale sur qui nous sommes et comment nous fonctionnons. Centre de formation esthétique certifié Qualiopi à Paris.',
 }
 
 export default function MentionsLegalesPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-8">
-        Mentions légales
-      </h1>
-
-      <div className="space-y-8 text-gray-700 leading-relaxed">
-        {/* Éditeur */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">1. Éditeur du site</h2>
-          <div className="space-y-1">
-            <p><strong>Raison sociale :</strong> Dermotec Advanced</p>
-            <p><strong>Forme juridique :</strong> [À compléter]</p>
-            <p><strong>SIRET :</strong> [À compléter]</p>
-            <p><strong>Capital social :</strong> [À compléter]</p>
-            <p><strong>RCS :</strong> [À compléter]</p>
-            <p><strong>Numéro de déclaration d&apos;activité (formation) :</strong> [À compléter]</p>
-            <p><strong>Adresse :</strong> 75 Boulevard Richard Lenoir, 75011 Paris, France</p>
-            <p><strong>Téléphone :</strong> 01 88 33 43 43</p>
-            <p><strong>Email :</strong> dermotec.fr@gmail.com</p>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        {/* En-tête */}
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-4">
+            <Badge variant="secondary" className="bg-[#2EC6F3]/10 text-[#2EC6F3] hover:bg-[#2EC6F3]/20">
+              Mis à jour mars 2026
+            </Badge>
           </div>
-        </section>
+          <h1 className="text-4xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-4">
+            Mentions légales
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Transparence, c&apos;est notre engagement. Voici tout ce que vous devez savoir sur qui nous sommes et comment nous fonctionnons.
+          </p>
+        </div>
 
-        {/* Directeur de publication */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">2. Directeur de la publication</h2>
-          <p>[Nom et prénom du directeur de la publication — à compléter]</p>
-        </section>
+        <div className="grid gap-8">
+          {/* Qui sommes-nous */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
+                <Building className="w-6 h-6 text-[#2EC6F3]" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+                Qui sommes-nous
+              </h2>
+            </div>
 
-        {/* Hébergeur */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">3. Hébergeur</h2>
-          <div className="space-y-1">
-            <p><strong>Raison sociale :</strong> Vercel Inc.</p>
-            <p><strong>Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis</p>
-            <p><strong>Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-[#2EC6F3] hover:underline">https://vercel.com</a></p>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">Raison sociale</p>
+                  <p className="text-gray-900 font-medium">SAS Dermotec</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">SIRET</p>
+                  <p className="text-gray-900 font-mono">851 306 860 00012</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">Capital social</p>
+                  <p className="text-gray-900">1 000 €</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">TVA intracommunautaire</p>
+                  <p className="text-gray-900 font-mono">FR26851306860</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">Code APE</p>
+                  <p className="text-gray-900">4775Z (Commerce de parfumerie et cosmétiques)</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">NDA formation</p>
+                  <p className="text-gray-900 font-mono">11755959875</p>
+                  <p className="text-xs text-gray-500">Ne vaut pas agrément de l&apos;État</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">Certification</p>
+                  <p className="text-gray-900 font-medium text-[#2EC6F3]">Qualiopi</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-500">Directeur de publication</p>
+                  <p className="text-gray-900">M. Bryan Houri</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact */}
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-[#2EC6F3]" />
+                  <div>
+                    <p className="text-gray-900 font-medium">75 Boulevard Richard Lenoir</p>
+                    <p className="text-gray-600">75011 Paris</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-[#2EC6F3]" />
+                  <p className="text-gray-900 font-medium">01 88 33 43 43</p>
+                </div>
+                <div className="flex items-center gap-3 md:col-span-2">
+                  <Mail className="w-5 h-5 text-[#2EC6F3]" />
+                  <a href="mailto:dermotec.fr@gmail.com" className="text-[#2EC6F3] hover:underline font-medium">
+                    dermotec.fr@gmail.com
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
 
-        {/* Propriété intellectuelle */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">4. Propriété intellectuelle</h2>
-          <p>
-            L&apos;ensemble des contenus présents sur ce site (textes, images, logos, graphismes, icônes, logiciels,
-            base de données) est protégé par les dispositions du Code de la propriété intellectuelle et appartient
-            à Dermotec Advanced ou fait l&apos;objet d&apos;une autorisation d&apos;utilisation.
-          </p>
-          <p className="mt-2">
-            Toute reproduction, représentation, modification, publication ou adaptation de tout ou partie des
-            éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite sans autorisation
-            écrite préalable de Dermotec Advanced.
-          </p>
-        </section>
+          {/* Hébergement & Données */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
+                <Globe className="w-6 h-6 text-[#2EC6F3]" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+                Hébergement & Données
+              </h2>
+            </div>
 
-        {/* Données personnelles */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">5. Données personnelles</h2>
-          <p>
-            Les informations relatives à la collecte et au traitement des données personnelles sont détaillées
-            dans notre{' '}
-            <a href="/politique-confidentialite" className="text-[#2EC6F3] hover:underline">
-              Politique de confidentialité
-            </a>.
-          </p>
-        </section>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Application web</h3>
+                <div className="space-y-2">
+                  <p className="text-gray-600"><strong>Hébergeur :</strong> Vercel Inc.</p>
+                  <p className="text-gray-600">440 N Barranca Ave #4133</p>
+                  <p className="text-gray-600">Covina, CA 91723, USA</p>
+                  <a href="https://vercel.com" target="_blank" rel="noopener noreferrer"
+                     className="text-[#2EC6F3] hover:underline text-sm">
+                    vercel.com ↗
+                  </a>
+                </div>
+              </div>
 
-        {/* Cookies */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">6. Cookies</h2>
-          <p>
-            Ce site utilise des cookies essentiels au fonctionnement du service (authentification, session)
-            et des cookies analytiques (Vercel Analytics). Pour en savoir plus, consultez notre{' '}
-            <a href="/politique-confidentialite" className="text-[#2EC6F3] hover:underline">
-              Politique de confidentialité
-            </a>.
-          </p>
-        </section>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Base de données</h3>
+                <div className="space-y-2">
+                  <p className="text-gray-600"><strong>Hébergeur :</strong> Supabase Inc.</p>
+                  <p className="text-gray-600"><strong>Localisation :</strong> Union Européenne (Francfort)</p>
+                  <p className="text-gray-600"><strong>Conformité :</strong> RGPD</p>
+                  <a href="https://supabase.com" target="_blank" rel="noopener noreferrer"
+                     className="text-[#2EC6F3] hover:underline text-sm">
+                    supabase.com ↗
+                  </a>
+                </div>
+              </div>
+            </div>
 
-        {/* Limitation de responsabilité */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">7. Limitation de responsabilité</h2>
-          <p>
-            Dermotec Advanced s&apos;efforce de fournir des informations aussi précises que possible. Toutefois,
-            elle ne pourra être tenue responsable des omissions, inexactitudes ou carences dans la mise à jour
-            de ces informations, qu&apos;elles soient de son fait ou du fait de tiers partenaires.
-          </p>
-        </section>
+            <div className="mt-6 p-4 bg-[#2EC6F3]/5 rounded-lg border border-[#2EC6F3]/20">
+              <p className="text-sm text-gray-700">
+                <Shield className="w-4 h-4 text-[#2EC6F3] inline mr-2" />
+                Vos données personnelles sont stockées exclusivement dans l&apos;Union Européenne et protégées par le RGPD.
+              </p>
+            </div>
+          </div>
 
-        {/* Droit applicable */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">8. Droit applicable</h2>
-          <p>
-            Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux
-            de Paris seront seuls compétents.
-          </p>
-        </section>
+          {/* Propriété intellectuelle */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
+                <Shield className="w-6 h-6 text-[#2EC6F3]" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+                Propriété intellectuelle
+              </h2>
+            </div>
 
-        {/* Dernière mise à jour */}
-        <div className="pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-400">Dernière mise à jour : mars 2026</p>
+            <div className="space-y-4 text-gray-600">
+              <p>
+                Tous les contenus de ce site sont protégés par le Code de la propriété intellectuelle.
+                Cela inclut les textes, images, logos, design et fonctionnalités.
+              </p>
+              <p>
+                Toute reproduction sans autorisation écrite préalable est interdite.
+                Pour toute demande d&apos;utilisation, contactez-nous.
+              </p>
+            </div>
+          </div>
+
+          {/* Données personnelles */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
+                <Users className="w-6 h-6 text-[#2EC6F3]" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+                Données personnelles
+              </h2>
+            </div>
+
+            <div className="space-y-4 text-gray-600">
+              <p>
+                Nous prenons la protection de vos données très au sérieux.
+                Toutes les informations sur la collecte et le traitement sont détaillées dans notre politique dédiée.
+              </p>
+              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                <Shield className="w-5 h-5 text-[#2EC6F3]" />
+                <span className="text-gray-700">Pour tout savoir sur vos droits et nos pratiques : </span>
+                <a href="/politique-confidentialite" className="text-[#2EC6F3] hover:underline font-medium">
+                  Politique de confidentialité →
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Cookies */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
+                <Shield className="w-6 h-6 text-[#2EC6F3]" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+                Cookies
+              </h2>
+            </div>
+
+            <div className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <h3 className="font-semibold text-green-800 mb-2">Cookies essentiels</h3>
+                  <p className="text-green-700 text-sm">
+                    Nécessaires au fonctionnement : authentification, session, sécurité.
+                    Pas besoin de consentement.
+                  </p>
+                </div>
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h3 className="font-semibold text-blue-800 mb-2">Cookies analytiques</h3>
+                  <p className="text-blue-700 text-sm">
+                    Vercel Analytics pour améliorer l&apos;expérience.
+                    Données anonymisées, pas de tracking personnel.
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-600 text-sm">
+                Nous n&apos;utilisons aucun cookie publicitaire ou de tracking personnel.
+                Plus de détails dans notre{' '}
+                <a href="/politique-confidentialite" className="text-[#2EC6F3] hover:underline">
+                  politique de confidentialité
+                </a>.
+              </p>
+            </div>
+          </div>
+
+          {/* Footer Une question ? */}
+          <div className="bg-gradient-to-r from-[#2EC6F3] to-[#082545] rounded-2xl text-white p-8 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <HelpCircle className="w-6 h-6" />
+              <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)]">
+                Une question ?
+              </h2>
+            </div>
+            <p className="text-white/90 mb-6 max-w-2xl mx-auto">
+              Notre équipe est là pour répondre à toutes vos questions juridiques ou techniques.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a href="mailto:dermotec.fr@gmail.com"
+                 className="flex items-center gap-2 bg-white text-[#082545] px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors">
+                <Mail className="w-4 h-4" />
+                Nous contacter
+              </a>
+              <a href="tel:0188334343"
+                 className="flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/10 transition-colors">
+                <Phone className="w-4 h-4" />
+                01 88 33 43 43
+              </a>
+            </div>
+          </div>
+
+          {/* Droit applicable */}
+          <div className="text-center text-gray-500 text-sm">
+            <p>
+              Mentions légales régies par le droit français •
+              Tribunaux de Paris compétents en cas de litige •
+              Dernière mise à jour : mars 2026
+            </p>
+          </div>
         </div>
       </div>
     </div>

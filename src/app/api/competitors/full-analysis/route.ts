@@ -6,6 +6,7 @@ import { scrapeCompetitorFull } from '@/lib/competitor-scraper'
 import { fetchNeighborhoodData } from '@/lib/neighborhood-data'
 import { computeMultiScore } from '@/lib/competitor-scoring'
 import { validateWithAI } from '@/lib/competitor-ai-validator'
+import { saveCompetitorProfile } from '@/lib/competitor-persistence'
 
 export const dynamic = 'force-dynamic'
 
@@ -105,12 +106,28 @@ export async function POST(request: NextRequest) {
         console.warn(`[FullAnalysis] AI validation failed for ${comp.nom}`)
       }
 
+      // 3e. Sauvegarder dans Supabase
+      let savedId = null
+      try {
+        savedId = await saveCompetitorProfile({
+          competitor: comp,
+          scraped,
+          social: social as Record<string, unknown> | undefined,
+          scores,
+          aiValidation,
+          neighborhood,
+        })
+      } catch {
+        console.warn(`[FullAnalysis] Save failed for ${comp.nom}`)
+      }
+
       enrichedCompetitors.push({
         ...comp,
         scraped,
         social,
         scores,
         aiValidation,
+        savedId,
       })
     }
 

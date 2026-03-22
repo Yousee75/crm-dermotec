@@ -9,7 +9,7 @@ import {
   Users, UserCheck, TrendingUp, Euro,
   Calendar, Target, AlertTriangle, Clock,
   Phone, Plus, PieChart, ChevronRight, Zap,
-  MessageCircle, Mail
+  MessageCircle, Mail, BarChart3, Search
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -146,6 +146,193 @@ export default function DashboardPage() {
           </p>
         </div>
       )}
+
+      {/* MA JOURNÉE — Ce que le commercial doit faire aujourd'hui */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
+        <h2 className="font-bold text-lg text-[#082545] mb-4 flex items-center gap-2">
+          <Zap className="text-[#2EC6F3]" size={20} />
+          Ma journée
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Colonne 1: Rappels à faire */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-1">
+              <Phone size={14} />
+              À rappeler ({(overdueCount + todayCount)})
+            </h3>
+
+            <div className="space-y-2">
+              {/* Rappels en retard d'abord */}
+              {overdueRappels && overdueRappels.slice(0, 3).map((r) => (
+                <div key={r.id} className="p-3 rounded-lg border border-red-200 bg-red-50/50 hover:bg-red-50 transition">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {r.lead?.prenom} {r.lead?.nom}
+                      </p>
+                      {r.lead?.telephone && (
+                        <a href={`tel:${r.lead.telephone}`} className="text-xs text-blue-600 hover:underline block">
+                          {r.lead.telephone}
+                        </a>
+                      )}
+                      <p className="text-xs text-gray-500 mt-1">
+                        {r.lead?.formation_interesse || 'Formation non précisée'}
+                      </p>
+                      {r.date_rappel && (
+                        <p className="text-xs text-gray-400">
+                          Prévu: {new Date(r.date_rappel).toLocaleString('fr-FR', {
+                            day: 'numeric',
+                            month: 'short',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      )}
+                    </div>
+                    <span className="text-[10px] px-2 py-1 rounded-full bg-[#EF4444] text-white font-medium shrink-0">
+                      En retard
+                    </span>
+                  </div>
+                </div>
+              ))}
+
+              {/* Rappels du jour ensuite */}
+              {todayRappels && todayRappels.slice(0, Math.max(0, 5 - (overdueRappels?.length || 0))).map((r) => (
+                <div key={r.id} className="p-3 rounded-lg border border-amber-200 bg-amber-50/50 hover:bg-amber-50 transition">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {r.lead?.prenom} {r.lead?.nom}
+                      </p>
+                      {r.lead?.telephone && (
+                        <a href={`tel:${r.lead.telephone}`} className="text-xs text-blue-600 hover:underline block">
+                          {r.lead.telephone}
+                        </a>
+                      )}
+                      <p className="text-xs text-gray-500 mt-1">
+                        {r.lead?.formation_interesse || 'Formation non précisée'}
+                      </p>
+                      {r.date_rappel && (
+                        <p className="text-xs text-gray-400">
+                          Prévu: {new Date(r.date_rappel).toLocaleString('fr-FR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      )}
+                    </div>
+                    <span className="text-[10px] px-2 py-1 rounded-full bg-[#F59E0B] text-white font-medium shrink-0">
+                      Aujourd'hui
+                    </span>
+                  </div>
+                </div>
+              ))}
+
+              {(!overdueRappels?.length && !todayRappels?.length) && (
+                <div className="text-center py-4 text-gray-400">
+                  <Phone className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-xs">Aucun rappel</p>
+                  <p className="text-xs">Vous êtes à jour ! 🎉</p>
+                </div>
+              )}
+
+              {(overdueCount + todayCount > 5) && (
+                <Link href="/leads" className="text-xs text-[#2EC6F3] hover:underline flex items-center gap-1 mt-2">
+                  Voir tous les rappels ({overdueCount + todayCount})
+                  <ChevronRight className="w-3 h-3" />
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Colonne 2: Actions rapides */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-500 mb-3">Actions rapides</h3>
+            <div className="space-y-2">
+              <Link
+                href="/leads"
+                className="flex items-center gap-3 p-3 bg-[#2EC6F3] text-white rounded-lg font-medium hover:bg-[#2EC6F3]/90 transition min-h-[44px]"
+              >
+                <Plus className="w-4 h-4 shrink-0" />
+                <span className="text-sm">Nouveau lead</span>
+              </Link>
+              <Link
+                href="/pipeline"
+                className="flex items-center gap-3 p-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition min-h-[44px]"
+              >
+                <BarChart3 className="w-4 h-4 shrink-0" />
+                <span className="text-sm">Voir le pipeline</span>
+              </Link>
+              <Link
+                href="/concurrents"
+                className="flex items-center gap-3 p-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition min-h-[44px]"
+              >
+                <Search className="w-4 h-4 shrink-0" />
+                <span className="text-sm">Analyser concurrents</span>
+              </Link>
+              <Link
+                href="/outils"
+                className="flex items-center gap-3 p-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition min-h-[44px]"
+              >
+                <Mail className="w-4 h-4 shrink-0" />
+                <span className="text-sm">Envoyer un email</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Colonne 3: Prochaines sessions */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-500 mb-3">Sessions à venir</h3>
+            <div className="space-y-2">
+              {sessions?.filter(s => s.statut === 'PLANIFIEE' || s.statut === 'CONFIRMEE')
+                .sort((a, b) => new Date(a.date_debut).getTime() - new Date(b.date_debut).getTime())
+                .slice(0, 3)
+                .map((s) => (
+                <Link
+                  key={s.id}
+                  href={`/session/${s.id}`}
+                  className="block p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {s.formation?.nom}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {new Date(s.date_debut).toLocaleDateString('fr-FR', {
+                          weekday: 'short',
+                          day: 'numeric',
+                          month: 'short'
+                        })}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-1">
+                        {s.places_occupees}/{s.places_max} inscrits
+                      </p>
+                    </div>
+                    <Calendar className="w-4 h-4 text-[#2EC6F3] shrink-0" />
+                  </div>
+                </Link>
+              ))}
+
+              {!sessions?.filter(s => s.statut === 'PLANIFIEE' || s.statut === 'CONFIRMEE').length && (
+                <div className="text-center py-4 text-gray-400">
+                  <Calendar className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-xs">Aucune session</p>
+                  <p className="text-xs">planifiée</p>
+                </div>
+              )}
+
+              {sessions?.filter(s => s.statut === 'PLANIFIEE' || s.statut === 'CONFIRMEE').length > 3 && (
+                <Link href="/sessions" className="text-xs text-[#2EC6F3] hover:underline flex items-center gap-1 mt-2">
+                  Voir toutes les sessions
+                  <ChevronRight className="w-3 h-3" />
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Actions rapides en haut */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">

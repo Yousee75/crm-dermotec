@@ -1,529 +1,450 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Conditions Generales d\'Utilisation — Dermotec CRM',
-  description: 'Conditions generales d\'utilisation et de vente du logiciel SaaS Dermotec CRM, edite par Satorea.',
+  title: 'Conditions Générales — Dermotec CRM',
+  description: 'Nos conditions générales expliquées simplement : ce que vous pouvez attendre de nous, et ce que nous attendons de vous.',
 }
 
 export default function ConditionsGeneralesPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-2">
-        Conditions g&eacute;n&eacute;rales d&apos;utilisation et de vente
-      </h1>
-      <p className="text-sm text-gray-400 mb-10">
-        Version en vigueur au 1er mars 2026
-      </p>
-
-      <div className="space-y-10 text-gray-700 leading-relaxed text-[15px]">
-
-        {/* ─── Article 1 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 1 &mdash; Objet</h2>
-          <p>
-            La soci&eacute;t&eacute; <strong>Satorea</strong> (ci-apr&egrave;s &laquo;&nbsp;le Prestataire&nbsp;&raquo;),
-            soci&eacute;t&eacute; par actions simplifi&eacute;e au capital de [&agrave; compl&eacute;ter]&nbsp;&euro;,
-            immatricul&eacute;e au RCS de Paris sous le num&eacute;ro [&agrave; compl&eacute;ter],
-            dont le si&egrave;ge social est situ&eacute; au 75&nbsp;Boulevard Richard Lenoir, 75011&nbsp;Paris,
-            &eacute;dite et exploite le logiciel en mode SaaS d&eacute;nomm&eacute; <strong>&laquo;&nbsp;Dermotec CRM&nbsp;&raquo;</strong>
-            (ci-apr&egrave;s &laquo;&nbsp;la Solution&nbsp;&raquo;), destin&eacute; &agrave; la gestion de la relation client
-            des centres de formation esth&eacute;tique.
-          </p>
-          <p className="mt-2">
-            Les pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&apos;Utilisation et de Vente
-            (ci-apr&egrave;s &laquo;&nbsp;CGU/CGV&nbsp;&raquo;) r&eacute;gissent l&apos;acc&egrave;s et
-            l&apos;utilisation de la Solution. Toute inscription ou utilisation vaut acceptation sans
-            r&eacute;serve des pr&eacute;sentes.
-          </p>
-        </section>
-
-        {/* ─── Article 2 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 2 &mdash; D&eacute;finitions</h2>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>&laquo;&nbsp;Client&nbsp;&raquo;</strong>&nbsp;: toute personne morale ou physique agissant
-              &agrave; titre professionnel souscrivant &agrave; un Plan d&apos;acc&egrave;s &agrave; la Solution.
-            </li>
-            <li>
-              <strong>&laquo;&nbsp;Utilisateur&nbsp;&raquo;</strong>&nbsp;: toute personne physique disposant
-              d&apos;un compte d&apos;acc&egrave;s &agrave; la Solution, rattach&eacute;e &agrave; un Client.
-            </li>
-            <li>
-              <strong>&laquo;&nbsp;Donn&eacute;es Client&nbsp;&raquo;</strong>&nbsp;: l&apos;ensemble des
-              donn&eacute;es &agrave; caract&egrave;re personnel ou non saisies, import&eacute;es ou
-              g&eacute;n&eacute;r&eacute;es par le Client dans la Solution (leads, stagiaires, inscriptions,
-              documents, etc.).
-            </li>
-            <li>
-              <strong>&laquo;&nbsp;Donn&eacute;es d&apos;Usage&nbsp;&raquo;</strong>&nbsp;: donn&eacute;es
-              techniques et comportementales collect&eacute;es automatiquement par la Solution (logs de
-              connexion, actions effectu&eacute;es, performances, m&eacute;triques d&apos;utilisation).
-            </li>
-            <li>
-              <strong>&laquo;&nbsp;Donn&eacute;es D&eacute;riv&eacute;es&nbsp;&raquo;</strong>&nbsp;: scores,
-              indicateurs statistiques, analyses, benchmarks et toute information g&eacute;n&eacute;r&eacute;e
-              par les algorithmes de la Solution &agrave; partir des Donn&eacute;es Client ou des
-              Donn&eacute;es d&apos;Usage.
-            </li>
-            <li>
-              <strong>&laquo;&nbsp;Solution&nbsp;&raquo;</strong>&nbsp;: le logiciel SaaS Dermotec CRM,
-              incluant l&apos;ensemble de ses fonctionnalit&eacute;s, interfaces, API et documentation.
-            </li>
-          </ul>
-        </section>
-
-        {/* ─── Article 3 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 3 &mdash; Inscription et Compte</h2>
-          <p>
-            L&apos;acc&egrave;s &agrave; la Solution n&eacute;cessite la cr&eacute;ation d&apos;un compte
-            avec une adresse email v&eacute;rifi&eacute;e. L&apos;activation de l&apos;authentification
-            multi-facteurs (MFA) est fortement recommand&eacute;e et pourra &ecirc;tre rendue obligatoire
-            pour certains Plans.
-          </p>
-          <p className="mt-2">
-            Le Client est responsable de la confidentialit&eacute; de ses identifiants et de toute activit&eacute;
-            r&eacute;alis&eacute;e depuis les comptes qui lui sont rattach&eacute;s. En cas de suspicion
-            d&apos;acc&egrave;s non autoris&eacute;, le Client en informe imm&eacute;diatement le Prestataire
-            &agrave; l&apos;adresse{' '}
-            <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">
-              support@satorea.fr
-            </a>.
-          </p>
-          <p className="mt-2">
-            Le Prestataire se r&eacute;serve le droit de suspendre tout compte pr&eacute;sentant
-            un risque de s&eacute;curit&eacute; ou une utilisation contraire aux pr&eacute;sentes.
-          </p>
-        </section>
-
-        {/* ─── Article 4 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 4 &mdash; Plans et Tarification</h2>
-          <p className="mb-4">La Solution est propos&eacute;e selon les plans suivants&nbsp;:</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200">
-              <thead>
-                <tr className="bg-[#082545] text-white">
-                  <th className="text-left py-3 px-4 font-semibold">Plan</th>
-                  <th className="text-left py-3 px-4 font-semibold">Tarif</th>
-                  <th className="text-left py-3 px-4 font-semibold">Utilisateurs</th>
-                  <th className="text-left py-3 px-4 font-semibold">Fonctionnalit&eacute;s</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr>
-                  <td className="py-3 px-4 font-medium">D&eacute;couverte</td>
-                  <td className="py-3 px-4">Gratuit</td>
-                  <td className="py-3 px-4">1</td>
-                  <td className="py-3 px-4">CRM de base, 50 leads, pipeline simple</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Pro</td>
-                  <td className="py-3 px-4">49&nbsp;&euro;&nbsp;HT&nbsp;/&nbsp;mois</td>
-                  <td className="py-3 px-4">3</td>
-                  <td className="py-3 px-4">CRM complet, pipeline avanc&eacute;, financement, sessions, facturation, emails</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-medium">Expert</td>
-                  <td className="py-3 px-4">99&nbsp;&euro;&nbsp;HT&nbsp;/&nbsp;mois</td>
-                  <td className="py-3 px-4">10</td>
-                  <td className="py-3 px-4">Toutes fonctionnalit&eacute;s, analytics avanc&eacute;s, Qualiopi, support prioritaire, API</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Clinique</td>
-                  <td className="py-3 px-4">Sur devis</td>
-                  <td className="py-3 px-4">Illimit&eacute;</td>
-                  <td className="py-3 px-4">Multi-sites, int&eacute;grations sur mesure, SLA garanti, accompagnement d&eacute;di&eacute;</td>
-                </tr>
-              </tbody>
-            </table>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      {/* Hero Section */}
+      <div className="bg-white border-b">
+        <div className="max-w-4xl mx-auto px-4 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-4">
+              Conditions Générales
+            </h1>
+            <p className="text-lg text-gray-600 mb-4">
+              Nos CGV en clair : ce que vous pouvez attendre de nous, et ce que nous attendons de vous.
+            </p>
+            <div className="inline-flex items-center gap-2 text-sm text-gray-500">
+              <span className="w-2 h-2 bg-[#2EC6F3] rounded-full"></span>
+              Version mars 2026
+            </div>
           </div>
-          <p className="mt-3 text-sm text-gray-500">
-            Les prix sont indiqu&eacute;s hors taxes. La TVA au taux en vigueur (20&nbsp;%) sera
-            appliqu&eacute;e &agrave; la facturation. Le Prestataire se r&eacute;serve le droit de modifier
-            ses tarifs, avec un pr&eacute;avis de 30&nbsp;jours notifi&eacute; par email.
-          </p>
-        </section>
+        </div>
+      </div>
 
-        {/* ─── Article 5 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 5 &mdash; Paiement</h2>
-          <p>
-            Les paiements sont trait&eacute;s de mani&egrave;re s&eacute;curis&eacute;e via la plateforme{' '}
-            <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" className="text-[#2EC6F3] hover:underline">
-              Stripe
-            </a>,
-            certifi&eacute;e PCI-DSS niveau&nbsp;1. Le Prestataire ne stocke aucune donn&eacute;e bancaire.
-          </p>
-          <p className="mt-2">
-            Les abonnements sont factur&eacute;s mensuellement, &agrave; la date anniversaire de la
-            souscription. Le paiement est d&ucirc; &agrave; l&apos;avance pour chaque p&eacute;riode de
-            facturation. Les factures sont mises &agrave; disposition au format PDF dans l&apos;espace Client.
-          </p>
-          <p className="mt-2">
-            En cas de d&eacute;faut de paiement, l&apos;acc&egrave;s &agrave; la Solution pourra &ecirc;tre
-            suspendu apr&egrave;s une mise en demeure par email rest&eacute;e sans effet pendant 15&nbsp;jours.
-            Les sommes dues porteront int&eacute;r&ecirc;ts de retard au taux l&eacute;gal major&eacute;
-            de 3&nbsp;points, conform&eacute;ment &agrave; l&apos;article L.441-10 du Code de commerce.
-          </p>
-        </section>
-
-        {/* ─── Article 6 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 6 &mdash; Propri&eacute;t&eacute; Intellectuelle</h2>
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.1 &mdash; Propri&eacute;t&eacute; de la Solution</h3>
-          <p>
-            La Solution, son interface, son code source, ses algorithmes, sa documentation, ses
-            bases de donn&eacute;es et l&apos;ensemble de ses composants sont la propri&eacute;t&eacute;
-            exclusive du Prestataire et sont prot&eacute;g&eacute;s par le droit de la propri&eacute;t&eacute;
-            intellectuelle fran&ccedil;ais et international.
-          </p>
-          <p className="mt-2">
-            Le Client b&eacute;n&eacute;ficie d&apos;un droit d&apos;utilisation personnel, non exclusif,
-            non cessible et non transf&eacute;rable de la Solution, pour la dur&eacute;e de son abonnement
-            et dans les limites du Plan souscrit.
-          </p>
-
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.2 &mdash; Droit sui generis sur la base de donn&eacute;es</h3>
-          <p>
-            Conform&eacute;ment &agrave; l&apos;article L.341-1 et suivants du Code de la propri&eacute;t&eacute;
-            intellectuelle, le Prestataire est le <strong>producteur exclusif de la base de donn&eacute;es</strong> constituant
-            la Solution, en ce qu&apos;il a r&eacute;alis&eacute; un investissement substantiel dans
-            l&apos;obtention, la v&eacute;rification et la pr&eacute;sentation du contenu de celle-ci.
-          </p>
-          <p className="mt-2">
-            Le Client reconna&icirc;t que le Prestataire est le producteur exclusif de la base de
-            donn&eacute;es au sens du Code de la propri&eacute;t&eacute; intellectuelle et s&apos;interdit
-            toute extraction massive ou syst&eacute;matique du contenu de la base de donn&eacute;es,
-            que ce soit par des moyens manuels, automatis&eacute;s, par scraping ou par tout autre proc&eacute;d&eacute;.
-          </p>
-
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.3 &mdash; Propri&eacute;t&eacute; des Donn&eacute;es Client</h3>
-          <p>
-            Le Client demeure propri&eacute;taire de l&apos;int&eacute;gralit&eacute; de ses Donn&eacute;es
-            Client. Le Prestataire ne revendique aucun droit de propri&eacute;t&eacute; sur les Donn&eacute;es
-            Client et s&apos;interdit de les utiliser &agrave; des fins autres que la fourniture et
-            l&apos;am&eacute;lioration de la Solution, conform&eacute;ment aux pr&eacute;sentes CGU/CGV.
-          </p>
-
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.4 &mdash; Donn&eacute;es D&eacute;riv&eacute;es</h3>
-          <p>
-            Le Prestataire d&eacute;tient l&apos;int&eacute;gralit&eacute; des droits de propri&eacute;t&eacute;
-            intellectuelle sur les Donn&eacute;es D&eacute;riv&eacute;es, &agrave; savoir les scores,
-            analyses, statistiques, benchmarks et toute information g&eacute;n&eacute;r&eacute;e par les
-            algorithmes de la Solution. Ces Donn&eacute;es D&eacute;riv&eacute;es ne constituent pas des
-            Donn&eacute;es Client.
-          </p>
-        </section>
-
-        {/* ─── Article 7 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 7 &mdash; Donn&eacute;es personnelles et RGPD</h2>
-
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">7.1 &mdash; Double qualification du Prestataire</h3>
-          <p>
-            Le Prestataire intervient en qualit&eacute; de <strong>sous-traitant</strong> au sens de
-            l&apos;article 28 du R&egrave;glement (UE) 2016/679 (RGPD) pour le traitement des Donn&eacute;es
-            Client effectu&eacute; pour le compte du Client. Les modalit&eacute;s de ce traitement sont
-            d&eacute;taill&eacute;es dans l&apos;Accord de Traitement des Donn&eacute;es (DPA) annex&eacute;
-            aux pr&eacute;sentes, accessible &agrave;{' '}
-            <a href="/dpa" className="text-[#2EC6F3] hover:underline">/dpa</a>.
-          </p>
-          <p className="mt-2">
-            Le Prestataire agit en qualit&eacute; de <strong>responsable de traitement autonome</strong> pour
-            les donn&eacute;es techniques et d&apos;usage n&eacute;cessaires &agrave; la maintenance, &agrave;
-            la s&eacute;curit&eacute; et &agrave; l&apos;&eacute;volution de la Solution, conform&eacute;ment
-            &agrave; sa politique de confidentialit&eacute;.
-          </p>
-
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">7.2 &mdash; Obligations du Client</h3>
-          <p>
-            Le Client, en tant que responsable de traitement pour ses propres donn&eacute;es CRM,
-            s&apos;engage &agrave;&nbsp;:
-          </p>
-          <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Disposer d&apos;une base l&eacute;gale valide pour chaque traitement de donn&eacute;es personnelles saisi dans la Solution</li>
-            <li>Informer les personnes concern&eacute;es conform&eacute;ment aux articles 13 et 14 du RGPD</li>
-            <li>R&eacute;pondre aux demandes d&apos;exercice des droits des personnes concern&eacute;es, avec l&apos;assistance du Prestataire</li>
-            <li>Ne pas saisir de donn&eacute;es sensibles (article 9 du RGPD) sauf n&eacute;cessit&eacute; d&ucirc;ment justifi&eacute;e et encadr&eacute;e</li>
-          </ul>
-        </section>
-
-        {/* ─── Article 8 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 8 &mdash; Donn&eacute;es d&apos;Usage et Analytics</h2>
-          <p>
-            Le Client autorise le Prestataire &agrave; traiter les donn&eacute;es d&apos;usage et les
-            m&eacute;tadonn&eacute;es de mani&egrave;re agr&eacute;g&eacute;e et anonymis&eacute;e pour
-            l&apos;am&eacute;lioration continue de ses services et le d&eacute;veloppement de nouvelles
-            fonctionnalit&eacute;s.
-          </p>
-          <p className="mt-2">
-            Le Prestataire pourra notamment&nbsp;:
-          </p>
-          <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>G&eacute;n&eacute;rer des benchmarks sectoriels anonymis&eacute;s (taux de conversion moyen, temps de traitement des leads, etc.)</li>
-            <li>Am&eacute;liorer les algorithmes de scoring et de recommandation</li>
-            <li>Produire des &eacute;tudes statistiques sur l&apos;utilisation de la Solution</li>
-            <li>D&eacute;velopper de nouvelles fonctionnalit&eacute;s bas&eacute;es sur les tendances d&apos;utilisation</li>
-          </ul>
-          <p className="mt-2">
-            Les donn&eacute;es anonymis&eacute;es de mani&egrave;re irr&eacute;versible ne constituent pas
-            des donn&eacute;es personnelles au sens du RGPD et peuvent &ecirc;tre utilis&eacute;es librement
-            par le Prestataire sans restriction de dur&eacute;e.
-          </p>
-        </section>
-
-        {/* ─── Article 9 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 9 &mdash; Conservation des donn&eacute;es</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200 mt-2">
-              <thead>
-                <tr className="bg-[#082545] text-white">
-                  <th className="text-left py-3 px-4 font-semibold">Type de donn&eacute;es</th>
-                  <th className="text-left py-3 px-4 font-semibold">Dur&eacute;e</th>
-                  <th className="text-left py-3 px-4 font-semibold">Fondement</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr>
-                  <td className="py-3 px-4">Donn&eacute;es CRM (leads, contacts)</td>
-                  <td className="py-3 px-4">Dur&eacute;e du contrat + 3&nbsp;ans maximum</td>
-                  <td className="py-3 px-4">Prescription civile</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4">Donn&eacute;es de formation (Qualiopi)</td>
-                  <td className="py-3 px-4 font-medium">6&nbsp;ans minimum</td>
-                  <td className="py-3 px-4">Art. L.6313-1 et suivants du Code du travail</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4">Factures et donn&eacute;es comptables</td>
-                  <td className="py-3 px-4">10&nbsp;ans</td>
-                  <td className="py-3 px-4">Art. L.123-22 du Code de commerce</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4">Donn&eacute;es d&apos;usage et logs</td>
-                  <td className="py-3 px-4">1&nbsp;an</td>
-                  <td className="py-3 px-4">Int&eacute;r&ecirc;t l&eacute;gitime (s&eacute;curit&eacute;)</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4">Donn&eacute;es anonymis&eacute;es / agr&eacute;g&eacute;es</td>
-                  <td className="py-3 px-4">Ind&eacute;finiment</td>
-                  <td className="py-3 px-4">Hors champ RGPD</td>
-                </tr>
-              </tbody>
-            </table>
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="grid lg:grid-cols-4 gap-8">
+          {/* Table des matières */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-8">
+              <h3 className="font-semibold text-[#082545] mb-4">Sommaire</h3>
+              <nav className="space-y-2 text-sm">
+                <a href="#objet" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  1. Ce que fait Dermotec CRM
+                </a>
+                <a href="#definitions" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  2. Les mots importants
+                </a>
+                <a href="#inscription" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  3. Comment ça marche
+                </a>
+                <a href="#tarifs" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  4. Combien ça coûte
+                </a>
+                <a href="#donnees" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  5. Vos données vous appartiennent
+                </a>
+                <a href="#propriete" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  6. Ce qui est à vous, ce qui est à nous
+                </a>
+                <a href="#disponibilite" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  7. Notre engagement de service
+                </a>
+                <a href="#responsabilite" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  8. Nos limites
+                </a>
+                <a href="#resiliation" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  9. Comment arrêter
+                </a>
+                <a href="#droit" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                  10. Droit applicable
+                </a>
+              </nav>
+            </div>
           </div>
-        </section>
 
-        {/* ─── Article 10 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 10 &mdash; R&eacute;versibilit&eacute;</h2>
-          <p>
-            &Agrave; l&apos;issue du contrat, le Prestataire garantit la restitution des Donn&eacute;es
-            Client dans un format JSON ou CSV exploitable, sous <strong>15&nbsp;jours ouvr&eacute;s</strong> et
-            sans frais suppl&eacute;mentaires, sur simple demande &eacute;crite du Client.
-          </p>
-          <p className="mt-2">
-            Le Client peut &eacute;galement initier un export de ses donn&eacute;es &agrave; tout moment
-            depuis son espace d&apos;administration, dans les limites des fonctionnalit&eacute;s du Plan
-            souscrit.
-          </p>
-          <p className="mt-2">
-            Les donn&eacute;es soumises &agrave; une obligation l&eacute;gale de conservation
-            (Qualiopi, comptabilit&eacute;) seront archiv&eacute;es conform&eacute;ment &agrave; l&apos;article&nbsp;9,
-            ind&eacute;pendamment de la demande de restitution.
-          </p>
-        </section>
+          {/* Contenu principal */}
+          <div className="lg:col-span-3 space-y-8">
+            {/* Article 1 - Objet */}
+            <section id="objet" className="bg-white rounded-lg p-8 shadow-sm">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                1. Ce que fait Dermotec CRM
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Dermotec CRM est un logiciel SaaS qui simplifie la gestion de votre centre de formation esthétique.**
+              </p>
+              <div className="space-y-3 text-gray-700">
+                <p>
+                  Satorea SAS (nous), société par actions simplifiée située au 75 Boulevard Richard Lenoir, 75011 Paris,
+                  édite et exploite Dermotec CRM. Notre solution vous aide à gérer vos leads, sessions de formation,
+                  financements et suivi stagiaires en un seul endroit.
+                </p>
+                <p>
+                  En utilisant Dermotec CRM, vous acceptez ces conditions générales d'utilisation et de vente (CGU/CGV).
+                  C'est notre contrat : lisible, équitable, et respectueux de vos droits.
+                </p>
+              </div>
+            </section>
 
-        {/* ─── Article 11 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 11 &mdash; Sous-traitants ult&eacute;rieurs</h2>
-          <p>
-            Le Client donne une <strong>autorisation g&eacute;n&eacute;rale</strong> au Prestataire
-            pour recourir &agrave; des sous-traitants ult&eacute;rieurs dans le cadre de la fourniture
-            de la Solution. Le Prestataire informera le Client de tout ajout ou remplacement de
-            sous-traitant avec un pr&eacute;avis minimum de <strong>30&nbsp;jours</strong>. Le Client
-            pourra s&apos;opposer au changement dans ce d&eacute;lai&nbsp;; &agrave; d&eacute;faut,
-            le changement sera r&eacute;put&eacute; accept&eacute;.
-          </p>
-          <p className="mt-3 font-medium text-[#082545]">Liste des sous-traitants ult&eacute;rieurs au 1er mars 2026&nbsp;:</p>
-          <div className="overflow-x-auto mt-2">
-            <table className="w-full text-sm border-collapse border border-gray-200">
-              <thead>
-                <tr className="bg-[#082545] text-white">
-                  <th className="text-left py-2 px-4 font-semibold">Sous-traitant</th>
-                  <th className="text-left py-2 px-4 font-semibold">Fonction</th>
-                  <th className="text-left py-2 px-4 font-semibold">Localisation</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr>
-                  <td className="py-2 px-4 font-medium">Supabase</td>
-                  <td className="py-2 px-4">Base de donn&eacute;es, authentification</td>
-                  <td className="py-2 px-4">UE (Francfort)</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-2 px-4 font-medium">Stripe</td>
-                  <td className="py-2 px-4">Traitement des paiements</td>
-                  <td className="py-2 px-4">UE / &Eacute;tats-Unis (DPF)</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 font-medium">Vercel</td>
-                  <td className="py-2 px-4">H&eacute;bergement, CDN</td>
-                  <td className="py-2 px-4">Global (si&egrave;ge &Eacute;tats-Unis, CCT)</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-2 px-4 font-medium">Resend</td>
-                  <td className="py-2 px-4">Emails transactionnels</td>
-                  <td className="py-2 px-4">&Eacute;tats-Unis (DPF)</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 font-medium">Upstash</td>
-                  <td className="py-2 px-4">Cache, rate limiting</td>
-                  <td className="py-2 px-4">UE (Francfort)</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-2 px-4 font-medium">Inngest</td>
-                  <td className="py-2 px-4">T&acirc;ches asynchrones</td>
-                  <td className="py-2 px-4">&Eacute;tats-Unis (CCT)</td>
-                </tr>
-              </tbody>
-            </table>
+            {/* Article 2 - Définitions */}
+            <section id="definitions" className="bg-gray-50 rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                2. Les mots importants
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Pour éviter tout malentendu, voici ce que nous entendons par les termes clés.**
+              </p>
+              <div className="grid gap-4">
+                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                  <h3 className="font-semibold text-gray-900 mb-2">Client</h3>
+                  <p className="text-gray-700">Votre centre de formation qui souscrit à un plan Dermotec CRM</p>
+                </div>
+                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                  <h3 className="font-semibold text-gray-900 mb-2">Utilisateur</h3>
+                  <p className="text-gray-700">Toute personne de votre équipe qui a accès au logiciel</p>
+                </div>
+                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                  <h3 className="font-semibold text-gray-900 mb-2">Vos Données</h3>
+                  <p className="text-gray-700">Tout ce que vous saisissez : leads, stagiaires, documents, sessions, etc.</p>
+                </div>
+                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                  <h3 className="font-semibold text-gray-900 mb-2">Données d'Usage</h3>
+                  <p className="text-gray-700">Les informations techniques sur votre utilisation du logiciel (connexions, clics, performances)</p>
+                </div>
+                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                  <h3 className="font-semibold text-gray-900 mb-2">Insights</h3>
+                  <p className="text-gray-700">Les scores, analyses et statistiques que génère notre intelligence artificielle</p>
+                </div>
+              </div>
+            </section>
+
+            {/* Article 3 - Inscription */}
+            <section id="inscription" className="bg-white rounded-lg p-8 shadow-sm">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                3. Comment ça marche
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Créez votre compte en 2 minutes, sécurisez-le, et commencez à utiliser le CRM immédiatement.**
+              </p>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  L'inscription nécessite une adresse email valide que nous vérifierons. Nous recommandons fortement
+                  l'authentification à deux facteurs (MFA) pour protéger votre compte — elle pourra devenir obligatoire
+                  sur certains plans dans le futur.
+                </p>
+                <p>
+                  Vous êtes responsable de la sécurité de vos identifiants et de toute activité sur vos comptes.
+                  Si vous soupçonnez une intrusion, prévenez-nous immédiatement à{' '}
+                  <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">
+                    support@satorea.fr
+                  </a>.
+                </p>
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                  <p className="text-amber-800">
+                    <span className="font-semibold">Note :</span> Nous nous réservons le droit de suspendre tout compte
+                    présentant un risque de sécurité ou une utilisation abusive.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Article 4 - Tarifs */}
+            <section id="tarifs" className="bg-gray-50 rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                4. Combien ça coûte
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-6">
+                **Quatre plans pour s'adapter à votre taille et vos besoins, du gratuit au sur-mesure.**
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div className="bg-white p-6 rounded-lg border">
+                  <h3 className="font-bold text-lg text-[#082545] mb-2">Découverte</h3>
+                  <div className="text-2xl font-bold text-gray-900 mb-3">Gratuit</div>
+                  <ul className="text-sm text-gray-600 space-y-1 mb-4">
+                    <li>• 1 utilisateur</li>
+                    <li>• 50 leads maximum</li>
+                    <li>• Pipeline simple</li>
+                    <li>• Fonctions de base</li>
+                  </ul>
+                  <p className="text-xs text-gray-500">Pour découvrir et tester</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg border border-[#2EC6F3]">
+                  <h3 className="font-bold text-lg text-[#082545] mb-2">Pro</h3>
+                  <div className="text-2xl font-bold text-gray-900 mb-1">29€ HT/mois</div>
+                  <div className="text-sm text-gray-500 mb-3">35€ TTC/mois</div>
+                  <ul className="text-sm text-gray-600 space-y-1 mb-4">
+                    <li>• 3 utilisateurs</li>
+                    <li>• Leads illimités</li>
+                    <li>• Pipeline avancé + financement</li>
+                    <li>• Sessions et facturation</li>
+                  </ul>
+                  <p className="text-xs text-gray-500">Pour les centres actifs</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg border">
+                  <h3 className="font-bold text-lg text-[#082545] mb-2">Expert</h3>
+                  <div className="text-2xl font-bold text-gray-900 mb-1">79€ HT/mois</div>
+                  <div className="text-sm text-gray-500 mb-3">95€ TTC/mois</div>
+                  <ul className="text-sm text-gray-600 space-y-1 mb-4">
+                    <li>• 10 utilisateurs</li>
+                    <li>• Analytics avancés</li>
+                    <li>• Support prioritaire + API</li>
+                    <li>• Module Qualiopi</li>
+                  </ul>
+                  <p className="text-xs text-gray-500">Pour optimiser et grandir</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg border">
+                  <h3 className="font-bold text-lg text-[#082545] mb-2">Clinique</h3>
+                  <div className="text-2xl font-bold text-gray-900 mb-3">Sur devis</div>
+                  <ul className="text-sm text-gray-600 space-y-1 mb-4">
+                    <li>• Utilisateurs illimités</li>
+                    <li>• Multi-sites</li>
+                    <li>• Intégrations sur mesure</li>
+                    <li>• Accompagnement dédié</li>
+                  </ul>
+                  <p className="text-xs text-gray-500">Pour les groupes et réseaux</p>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-blue-800 text-sm">
+                  <span className="font-semibold">Facturation mensuelle</span> à date d'anniversaire.
+                  Paiement sécurisé par Stripe. Nous pouvons ajuster nos tarifs avec 30 jours de préavis par email.
+                </p>
+              </div>
+            </section>
+
+            {/* Article 5 - Données */}
+            <section id="donnees" className="bg-white rounded-lg p-8 shadow-sm">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                5. Vos données vous appartiennent
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Nous sommes le coffre-fort de vos données, pas leur propriétaire. Elles restent à vous.**
+              </p>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  Nous agissons comme <strong>sous-traitant RGPD</strong> pour vos données clients (leads, stagiaires, etc.)
+                  et comme <strong>responsable de traitement</strong> pour les données techniques nécessaires
+                  au fonctionnement du service.
+                </p>
+                <p>
+                  En tant que centre de formation, vous restez responsable de la conformité RGPD de vos propres
+                  traitements : base légale, information des personnes, réponse aux demandes de droits.
+                </p>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <p className="text-green-800">
+                    <span className="font-semibold">Vos obligations :</span> Disposer d'une base légale pour
+                    chaque donnée saisie, informer vos stagiaires et prospects, ne pas saisir de données sensibles
+                    sauf nécessité justifiée.
+                  </p>
+                </div>
+                <p>
+                  Tous les détails sont dans notre{' '}
+                  <a href="/dpa" className="text-[#2EC6F3] hover:underline font-medium">
+                    Accord de Traitement des Données (DPA)
+                  </a>.
+                </p>
+              </div>
+            </section>
+
+            {/* Article 6 - Propriété intellectuelle */}
+            <section id="propriete" className="bg-gray-50 rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                6. Ce qui est à vous, ce qui est à nous
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Simple : vos données restent vôtres, notre technologie reste nôtre.**
+              </p>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-lg">
+                  <h3 className="font-semibold text-[#2EC6F3] mb-3">💾 À vous</h3>
+                  <ul className="space-y-2 text-gray-700">
+                    <li>• Toutes vos données (leads, stagiaires, documents)</li>
+                    <li>• Le contenu que vous créez</li>
+                    <li>• Votre base de connaissances</li>
+                    <li>• Export garanti en cas d'arrêt</li>
+                  </ul>
+                </div>
+                <div className="bg-white p-6 rounded-lg">
+                  <h3 className="font-semibold text-[#082545] mb-3">⚙️ À nous</h3>
+                  <ul className="space-y-2 text-gray-700">
+                    <li>• Le logiciel Dermotec CRM</li>
+                    <li>• Nos algorithmes et IA</li>
+                    <li>• Les analyses et scores générés</li>
+                    <li>• Notre base de données produit</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <p className="text-amber-800 text-sm">
+                  <span className="font-semibold">Usage autorisé :</span> Vous pouvez utiliser Dermotec CRM
+                  dans le cadre de votre plan, mais pas le copier, le revendre ou l'ingénierie inverse.
+                </p>
+              </div>
+            </section>
+
+            {/* Article 7 - Disponibilité */}
+            <section id="disponibilite" className="bg-white rounded-lg p-8 shadow-sm">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                7. Notre engagement de service
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Nous visons 99,5% de disponibilité et des performances optimales, avec transparence totale.**
+              </p>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  Notre infrastructure moderne (Vercel, Supabase) nous permet d'atteindre d'excellents niveaux
+                  de service. Nous surveillons la performance 24h/24 et communiquons proactivement sur tout incident.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-green-800 mb-2">Ce que nous garantissons</h4>
+                    <ul className="text-green-700 space-y-1 text-sm">
+                      <li>• Sauvegardes automatiques</li>
+                      <li>• Sécurité renforcée</li>
+                      <li>• Monitoring continu</li>
+                      <li>• Support réactif</li>
+                    </ul>
+                  </div>
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-blue-800 mb-2">Maintenances</h4>
+                    <ul className="text-blue-700 space-y-1 text-sm">
+                      <li>• Prévues en heures creuses</li>
+                      <li>• Notification 48h à l'avance</li>
+                      <li>• Durée minimisée</li>
+                      <li>• Zero-downtime quand possible</li>
+                    </ul>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600">
+                  <span className="font-semibold">Note :</span> Ces objectifs de disponibilité sont un engagement
+                  de moyens, pas une garantie contractuelle absolue — parce qu'Internet reste Internet.
+                </p>
+              </div>
+            </section>
+
+            {/* Article 8 - Responsabilité */}
+            <section id="responsabilite" className="bg-gray-50 rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                8. Nos limites
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Nous assumons nos responsabilités, mais dans des limites raisonnables et équitables.**
+              </p>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  En cas de problème causé par Dermotec CRM, notre responsabilité est limitée au montant
+                  de vos abonnements des 12 derniers mois. C'est la pratique standard du SaaS — et c'est
+                  pourquoi nous investissons massivement dans la prévention plutôt que dans les assurances.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-white p-4 rounded-lg border-l-4 border-red-300">
+                    <h4 className="font-semibold text-red-800 mb-2">Exclusions</h4>
+                    <ul className="text-red-700 space-y-1 text-sm">
+                      <li>• Panne d'internet chez vous</li>
+                      <li>• Erreur de manipulation</li>
+                      <li>• Virus sur vos appareils</li>
+                      <li>• Force majeure</li>
+                    </ul>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border-l-4 border-green-300">
+                    <h4 className="font-semibold text-green-800 mb-2">Notre engagement</h4>
+                    <ul className="text-green-700 space-y-1 text-sm">
+                      <li>• Résolution rapide des bugs</li>
+                      <li>• Support réactif</li>
+                      <li>• Remboursement pro-rata si service indisponible</li>
+                      <li>• Transparence totale</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Article 9 - Résiliation */}
+            <section id="resiliation" className="bg-white rounded-lg p-8 shadow-sm">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                9. Comment arrêter
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Vous pouvez arrêter quand vous voulez, et nous vous accompagnons pour récupérer vos données.**
+              </p>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  Aucun engagement de durée : résiliez votre abonnement depuis les paramètres de votre compte
+                  ou par email à{' '}
+                  <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">
+                    support@satorea.fr
+                  </a>.
+                  L'accès continue jusqu'à la fin de votre période de facturation en cours.
+                </p>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-800 mb-2">Récupération de vos données</h4>
+                  <p className="text-blue-700 text-sm">
+                    Pendant 30 jours après résiliation, vous pouvez télécharger un export complet de vos données
+                    (JSON + CSV). Passé ce délai, elles sont définitivement supprimées de nos serveurs.
+                  </p>
+                </div>
+                <p>
+                  Nous pouvons également suspendre votre compte en cas de non-paiement (15 jours après
+                  mise en demeure) ou d'usage abusif. Mais nous privilégions toujours le dialogue.
+                </p>
+              </div>
+            </section>
+
+            {/* Article 10 - Droit applicable */}
+            <section id="droit" className="bg-gray-50 rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+                10. Droit applicable
+              </h2>
+              <p className="text-lg font-semibold text-gray-800 mb-4">
+                **Droit français, tribunaux de Paris. Simple et sans surprise.**
+              </p>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  Ces conditions générales sont régies par le droit français. En cas de litige,
+                  nous privilégions la résolution amiable, mais les tribunaux de Paris restent compétents
+                  si nécessaire.
+                </p>
+                <div className="bg-white p-4 rounded-lg border">
+                  <p className="text-gray-800 text-sm">
+                    <span className="font-semibold">Modification des CGV :</span> Si nous devons les modifier,
+                    nous vous prévenons par email 30 jours avant. Continuer à utiliser le service vaut acceptation.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Contact */}
+            <section className="bg-[#082545] text-white rounded-lg p-8">
+              <h2 className="text-xl font-bold mb-4">Des questions ?</h2>
+              <p className="mb-4">
+                Notre équipe est là pour vous aider. Contactez-nous pour toute question sur ces conditions
+                ou sur l'utilisation de Dermotec CRM.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="mailto:support@satorea.fr"
+                  className="bg-[#2EC6F3] text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors text-center"
+                >
+                  support@satorea.fr
+                </a>
+                <a
+                  href="/contact"
+                  className="border border-gray-300 text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-[#082545] transition-colors text-center"
+                >
+                  Formulaire de contact
+                </a>
+              </div>
+            </section>
           </div>
-        </section>
-
-        {/* ─── Article 12 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 12 &mdash; S&eacute;curit&eacute;</h2>
-          <p>
-            Le Prestataire met en &oelig;uvre les mesures de s&eacute;curit&eacute; techniques et
-            organisationnelles suivantes, conform&eacute;ment &agrave; l&apos;article 32 du RGPD&nbsp;:
-          </p>
-          <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Chiffrement des donn&eacute;es en transit via TLS&nbsp;1.3</li>
-            <li>Chiffrement des donn&eacute;es au repos (AES-256)</li>
-            <li>Row Level Security (RLS) PostgreSQL pour l&apos;isolation des donn&eacute;es par Client</li>
-            <li>Sauvegardes automatiques quotidiennes avec r&eacute;tention de 30&nbsp;jours</li>
-            <li>Authentification multi-facteurs (MFA) disponible</li>
-            <li>Audit de s&eacute;curit&eacute; annuel par un tiers ind&eacute;pendant</li>
-            <li>Journalisation des acc&egrave;s et des actions sensibles</li>
-          </ul>
-        </section>
-
-        {/* ─── Article 13 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 13 &mdash; Disponibilit&eacute;</h2>
-          <p>
-            Le Prestataire s&apos;engage sur un taux de disponibilit&eacute; de la Solution de
-            <strong> 99,5&nbsp;%</strong> mesur&eacute; sur une base mensuelle, hors p&eacute;riodes de
-            maintenance planifi&eacute;e.
-          </p>
-          <p className="mt-2">
-            Les op&eacute;rations de maintenance planifi&eacute;e seront notifi&eacute;es par email au
-            minimum 48&nbsp;heures &agrave; l&apos;avance et seront, dans la mesure du possible,
-            programm&eacute;es en dehors des heures ouvrables (22h&ndash;6h, heure de Paris).
-          </p>
-          <p className="mt-2">
-            En cas d&apos;indisponibilit&eacute; d&eacute;passant le SLA, le Client pourra demander un
-            avoir au prorata de la dur&eacute;e d&apos;indisponibilit&eacute; exc&eacute;dentaire.
-          </p>
-        </section>
-
-        {/* ─── Article 14 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 14 &mdash; Responsabilit&eacute;</h2>
-          <p>
-            <strong>Limitation de responsabilit&eacute;&nbsp;:</strong> La responsabilit&eacute; totale du
-            Prestataire, toutes causes confondues, est limit&eacute;e au montant total des redevances
-            effectivement vers&eacute;es par le Client au cours des <strong>12&nbsp;derniers mois</strong> pr&eacute;c&eacute;dant
-            le fait g&eacute;n&eacute;rateur.
-          </p>
-          <p className="mt-2">
-            <strong>Exclusions&nbsp;:</strong> En aucun cas le Prestataire ne pourra &ecirc;tre tenu
-            responsable des dommages indirects, y compris la perte de chiffre d&apos;affaires, la perte
-            de donn&eacute;es r&eacute;sultant d&apos;une faute du Client, le pr&eacute;judice commercial,
-            la perte de client&egrave;le ou l&apos;atteinte &agrave; l&apos;image.
-          </p>
-          <p className="mt-2">
-            <strong>Force majeure&nbsp;:</strong> Le Prestataire ne saurait &ecirc;tre tenu responsable en
-            cas de force majeure au sens de l&apos;article 1218 du Code civil.
-          </p>
-        </section>
-
-        {/* ─── Article 15 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 15 &mdash; R&eacute;siliation</h2>
-          <p>
-            <strong>Par le Client&nbsp;:</strong> Le Client peut r&eacute;silier son abonnement &agrave; tout
-            moment avec un pr&eacute;avis de <strong>30&nbsp;jours</strong>, depuis son espace d&apos;administration
-            ou par email &agrave;{' '}
-            <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">support@satorea.fr</a>.
-            La r&eacute;siliation prend effet &agrave; la fin de la p&eacute;riode de facturation en cours.
-          </p>
-          <p className="mt-2">
-            <strong>Par le Prestataire&nbsp;:</strong> En cas de manquement grave aux pr&eacute;sentes
-            (utilisation frauduleuse, non-paiement persistant, atteinte &agrave; la s&eacute;curit&eacute;),
-            le Prestataire se r&eacute;serve le droit de suspendre ou r&eacute;silier le compte apr&egrave;s
-            mise en demeure rest&eacute;e sans effet pendant 15&nbsp;jours.
-          </p>
-          <p className="mt-2">
-            <strong>Sort des donn&eacute;es&nbsp;:</strong> Apr&egrave;s r&eacute;siliation, le Client
-            dispose d&apos;un d&eacute;lai de 15&nbsp;jours ouvr&eacute;s pour demander la restitution de
-            ses Donn&eacute;es Client (article&nbsp;10). &Agrave; l&apos;expiration d&apos;un d&eacute;lai
-            de <strong>90&nbsp;jours</strong> suivant la r&eacute;siliation, les Donn&eacute;es Client
-            seront d&eacute;finitivement supprim&eacute;es, sous r&eacute;serve des obligations l&eacute;gales
-            de conservation.
-          </p>
-        </section>
-
-        {/* ─── Article 16 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 16 &mdash; Droit applicable</h2>
-          <p>
-            Les pr&eacute;sentes CGU/CGV sont r&eacute;gies par le <strong>droit fran&ccedil;ais</strong>.
-            En cas de litige relatif &agrave; l&apos;interpr&eacute;tation ou &agrave; l&apos;ex&eacute;cution
-            des pr&eacute;sentes, et &agrave; d&eacute;faut de r&eacute;solution amiable, les
-            <strong> tribunaux comp&eacute;tents de Paris</strong> auront comp&eacute;tence exclusive.
-          </p>
-        </section>
-
-        {/* ─── Article 17 ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 17 &mdash; M&eacute;diation</h2>
-          <p>
-            Conform&eacute;ment aux articles L.611-1 et suivants du Code de la consommation, en cas de
-            litige non r&eacute;solu par le service client dans un d&eacute;lai de 60&nbsp;jours, le Client
-            consommateur peut recourir gratuitement &agrave; un m&eacute;diateur de la consommation.
-          </p>
-          <p className="mt-2">
-            Le Prestataire communiquera les coordonn&eacute;es du m&eacute;diateur comp&eacute;tent sur
-            simple demande &agrave;{' '}
-            <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">support@satorea.fr</a>.
-            Le Client peut &eacute;galement soumettre sa r&eacute;clamation sur la plateforme europ&eacute;enne
-            de r&egrave;glement en ligne des litiges&nbsp;:{' '}
-            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="text-[#2EC6F3] hover:underline">
-              https://ec.europa.eu/consumers/odr
-            </a>.
-          </p>
-        </section>
-
-        {/* ─── Contact ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Contact</h2>
-          <div className="space-y-1">
-            <p><strong>Satorea</strong></p>
-            <p>75 Boulevard Richard Lenoir, 75011 Paris</p>
-            <p>Email&nbsp;: <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">support@satorea.fr</a></p>
-            <p>DPO&nbsp;: <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">dpo@satorea.fr</a></p>
-          </div>
-        </section>
-
-        {/* ─── Dernière mise à jour ─── */}
-        <div className="pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-400">Derni&egrave;re mise &agrave; jour&nbsp;: mars 2026</p>
         </div>
       </div>
     </div>

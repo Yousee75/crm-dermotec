@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 import { useState } from 'react'
 import dynamic2 from 'next/dynamic'
 import { PageHeader } from '@/components/ui/PageHeader'
-import { Search, Target, TrendingUp, Star, Users, Euro, AlertTriangle, Zap } from 'lucide-react'
+import { Search, Target, TrendingUp, Star, Users, Euro, AlertTriangle, Zap, FileDown } from 'lucide-react'
 import { useCompetitorAnalysis } from '@/hooks/use-competitors'
 import { CompetitorCard } from '@/components/competitors/CompetitorCard'
 
@@ -31,11 +31,56 @@ export default function ConcurrentsPage() {
   const [fullAnalysisLoading, setFullAnalysisLoading] = useState(false)
   const { data, isLoading, error, analyze } = useCompetitorAnalysis()
 
-  const handleSearch = () => {
-    if (searchMode === 'siret' && siret.replace(/\s/g, '').length >= 9) {
-      analyze({ siret: siret.replace(/\s/g, ''), radiusM })
+  const handleSearch = async () => {
+    setWarning(null)
+
+    if (searchMode === 'siret') {
+      const cleaned = siret.replace(/\s/g, '')
+      if (cleaned.length < 9) return
+
+      // Vérifier le SIRET avant de lancer
+      try {
+        const res = await fetch(`https://recherche-entreprises.api.gouv.fr/search?q=${cleaned}`)
+        const data = await res.json()
+
+        if (!data.results?.length) {
+          setWarning('SIRET introuvable dans la base Sirene. L\'entreprise n\'existe peut-être pas ou a été radiée.')
+        } else {
+          const ape = data.results[0].activite_principale || ''
+          const esthetiqueApes = ['96.02B', '96.02A', '96.04Z', '47.75Z', '86.90F']
+          if (!esthetiqueApes.includes(ape)) {
+            setWarning(`Secteur "${ape}" détecté — pas dans l'esthétique. Les résultats peuvent être moins pertinents.`)
+          }
+        }
+      } catch { /* continue anyway */ }
+
+      analyze({ siret: cleaned, radiusM })
     } else if (searchMode === 'nom' && nom.trim()) {
       analyze({ nom, ville, radiusM })
+    }
+  }
+
+  const handleFullAnalysis = async () => {
+    if (!data?.prospect) return
+    setFullAnalysisLoading(true)
+    try {
+      const res = await fetch('/api/competitors/full-analysis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          siret: data.prospect.siret,
+          nom: data.prospect.nom,
+          radiusM,
+          maxCompetitors: 5,
+        }),
+      })
+      const fullData = await res.json()
+      if (res.ok) {
+        // TODO: afficher les résultats complets dans un dialog/sheet
+        console.log('Full analysis:', fullData)
+      }
+    } catch { /* silent */ } finally {
+      setFullAnalysisLoading(false)
     }
   }
 
@@ -118,6 +163,16 @@ export default function ConcurrentsPage() {
           </button>
         </div>
 
+        {warning && (
+          <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5 text-sm text-amber-700 flex items-start gap-2">
+            <AlertTriangle size={16} className="shrink-0 mt-0.5" />
+            <div>
+              <p>{warning}</p>
+              <p className="text-xs text-amber-500 mt-1">L&apos;analyse sera lancée quand même.</p>
+            </div>
+          </div>
+        )}
+
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-2 text-sm text-red-600">
             {error}
@@ -155,6 +210,46 @@ export default function ConcurrentsPage() {
                 </div>
               )
             })}
+          </div>
+
+          {/* Boutons actions */}
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={async () => {
+                try {
+                  const res = await fetch('/api/competitors/pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      prospect: data.prospect,
+                      competitors: data.competitors,
+                      kpis: data.kpis,
+                    }),
+                  })
+                  if (res.ok) {
+                    const blob = await res.blob()
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = `rapport-${data.prospect.nom?.replace(/\s+/g, '-')}.pdf`
+                    a.click()
+                    URL.revokeObjectURL(url)
+                  }
+                } catch { /* silent */ }
+              }}
+              className="bg-[#082545] hover:bg-[#0F3460] text-white rounded-lg px-4 py-2.5 flex items-center gap-2 text-sm font-medium transition-all"
+            >
+              <FileDown size={16} />
+              Rapport PDF
+            </button>
+            <button
+              onClick={handleFullAnalysis}
+              disabled={fullAnalysisLoading}
+              className="bg-gradient-to-r from-[#A855F7] to-[#7C3AED] hover:from-[#9333EA] hover:to-[#6D28D9] disabled:opacity-50 text-white rounded-lg px-5 py-2.5 flex items-center gap-2 text-sm font-medium transition-all shadow-md hover:shadow-lg"
+            >
+              <Zap size={16} />
+              {fullAnalysisLoading ? 'Analyse en cours... (30-60s)' : 'Analyse complète (Scraping + IA + Social)'}
+            </button>
           </div>
 
           {/* Carte */}
@@ -195,4 +290,11 @@ export default function ConcurrentsPage() {
           <Target size={48} className="mx-auto text-gray-300 mb-4" />
           <h3 className="font-semibold text-gray-500 mb-2">Analysez votre marché</h3>
           <p className="text-sm text-gray-400 max-w-md mx-auto">
-            Entrez votre SIRET ou le nom de votre établissement pour découvrir vos concurrents
+            Entrez votre SIRET ou le nom de votre établissement pour découvrir vos concurrents,
+            leurs notes Google, leurs revenus et leur score de réputation.
+          </p>
+        </div>
+      )}
+    </div>
+  )
+}

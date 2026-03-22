@@ -2,16 +2,16 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Calendar, Plus, BarChart3 } from 'lucide-react'
+import { LayoutDashboard, Users, Calendar, Plus, Wrench, Target } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 const NAV_ITEMS = [
   { href: '/', icon: LayoutDashboard, label: 'Accueil' },
-  { href: '/leads', icon: Users, label: 'Leads' },
-  { href: '#fab', icon: Plus, label: '', isFab: true },
   { href: '/sessions', icon: Calendar, label: 'Sessions' },
-  { href: '/pipeline', icon: BarChart3, label: 'Pipeline' },
+  { href: '#fab', icon: Plus, label: '', isFab: true },
+  { href: '/outils', icon: Wrench, label: 'Outils' },
+  { href: '/concurrents', icon: Target, label: 'Concurrents' },
 ]
 
 const QUICK_ACTIONS = [

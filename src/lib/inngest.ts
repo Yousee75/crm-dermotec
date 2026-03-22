@@ -96,6 +96,15 @@ type Events = {
       user_id: string
     }
   }
+  'lead.enrich': {
+    data: {
+      lead_id: string
+      siret?: string
+      nom?: string
+      ville?: string
+      email?: string
+    }
+  }
 }
 
 export const inngest = new Inngest({

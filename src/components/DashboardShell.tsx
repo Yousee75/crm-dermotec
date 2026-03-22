@@ -22,6 +22,7 @@ import { CommandPalette } from '@/components/ui/CommandPalette'
 import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
 import { AgentChat } from '@/components/ui/AgentChat'
+import { QuickAddLead } from '@/components/ui/QuickAddLead'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { getRoleView } from '@/lib/role-config'
 import { usePageTracker } from '@/hooks/use-tracker'
@@ -573,6 +574,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       <KeyboardShortcuts />
       <MobileBottomNav />
       <AgentChat />
+      <QuickAddLead />
 
       {/* Keyboard shortcuts modal */}
       {showShortcuts && (

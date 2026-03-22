@@ -5,9 +5,10 @@ export const dynamic = 'force-dynamic'
 import { useState, useCallback, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
+import { useQueryClient } from '@tanstack/react-query'
 import { Dialog, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/Dialog'
 import { STATUTS_LEAD, type StatutLead } from '@/types'
-import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users, CheckSquare, UserPlus, Tag, Trash2, X } from 'lucide-react'
+import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users, CheckSquare, UserPlus, Tag, Trash2, X, Upload } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
@@ -26,6 +27,7 @@ import { ScoreChip } from '@/components/ui/ScoreChip'
 import { FilterDropdown, FilterOption } from '@/components/ui/FilterDropdown'
 import { getScoreColor } from '@/lib/scoring'
 import type { SourceLead } from '@/types'
+import { CsvImportDialog } from '@/components/ui/CsvImportDialog'
 
 export default function LeadsPage() {
   const t = useTranslations('leads')
@@ -35,8 +37,10 @@ export default function LeadsPage() {
   const [sourceFilter, setSourceFilter] = useState<SourceLead[]>([])
   const [page, setPage] = useState(1)
   const [showCreate, setShowCreate] = useState(false)
+  const [showCsvImport, setShowCsvImport] = useState(false)
   const createLead = useCreateLead()
   const changeStatut = useChangeStatut()
+  const queryClient = useQueryClient()
 
   // Form state pour nouveau lead
   const [newLead, setNewLead] = useState({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' as const })
@@ -108,6 +112,14 @@ export default function LeadsPage() {
         title="Leads"
         description={`${data?.total || 0} leads au total`}
       >
+        <Button
+          variant="outline"
+          size="sm"
+          icon={<Upload className="w-3.5 h-3.5" />}
+          onClick={() => setShowCsvImport(true)}
+        >
+          Importer CSV
+        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -559,6 +571,18 @@ export default function LeadsPage() {
           )}
         </Card>
       )}
+
+      {/* Dialog import CSV */}
+      <CsvImportDialog
+        open={showCsvImport}
+        onClose={() => setShowCsvImport(false)}
+        onImported={(count) => {
+          // Refresh leads data
+          queryClient.invalidateQueries({ queryKey: ['leads'] })
+          toast.success(`${count} contact${count > 1 ? 's' : ''} importé${count > 1 ? 's' : ''} avec succès`)
+          setShowCsvImport(false)
+        }}
+      />
 
       {/* Dialog création lead */}
       <Dialog open={showCreate} onClose={() => setShowCreate(false)} size="md">

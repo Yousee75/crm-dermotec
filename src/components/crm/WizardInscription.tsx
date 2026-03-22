@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+// Tabs inline — pas de composant Tabs shadcn
 import { FORMATIONS_SEED, BRAND, TVA_TAUX } from '@/lib/constants'
 import { calculerFinancement } from '@/lib/financement-data'
 import { useLead } from '@/hooks/use-leads'
@@ -375,16 +375,24 @@ export default function WizardInscription({
                   </div>
                 </div>
 
-                <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {CATEGORIES.map(cat => (
-                      <TabsTrigger key={cat} value={cat} className="text-xs">
+                      <button
+                        key={cat}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                          selectedCategory === cat
+                            ? 'bg-[#2EC6F3] text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
                         {cat === 'Toutes' ? 'Toutes' : cat.replace('Dermo-', '')}
-                      </TabsTrigger>
+                      </button>
                     ))}
-                  </TabsList>
+                  </div>
 
-                  <TabsContent value={selectedCategory} className="space-y-4">
+                  <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {filteredFormations.map((formation) => {
                         const isRecommended = lead?.formation_principale?.slug === formation.slug ||
@@ -464,8 +472,8 @@ export default function WizardInscription({
                         )
                       })}
                     </div>
-                  </TabsContent>
-                </Tabs>
+                  </div>
+                </div>
               </div>
             )}
 

@@ -1,455 +1,729 @@
 import type { Metadata } from 'next'
+import { Shield, MapPin, Eye, Users, Lock, Zap } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Politique de confidentialite — Dermotec CRM',
-  description: 'Politique de confidentialite et protection des donnees personnelles (RGPD) du logiciel SaaS Dermotec CRM, edite par Satorea.',
+  title: 'Vos données, nos engagements — Dermotec CRM',
+  description: 'Découvrez comment nous protégeons vos données avec la plus grande transparence. Conformité RGPD, hébergement européen, sécurité renforcée.',
 }
 
 export default function PolitiqueConfidentialitePage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-2">
-        Politique de confidentialit&eacute;
-      </h1>
-      <p className="text-sm text-gray-400 mb-10">
-        Version en vigueur au 1er mars 2026
-      </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/20">
+      <div className="max-w-5xl mx-auto px-6 py-16">
 
-      <div className="space-y-10 text-gray-700 leading-relaxed text-[15px]">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-6 border border-emerald-200">
+            <Shield className="w-4 h-4" />
+            Conforme RGPD & AI Act
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-4">
+            Vos données, nos engagements
+          </h1>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            On vous explique clairement ce qu'on fait avec vos données. Pas de jargon, pas de cachotteries.
+            Juste la transparence que vous méritez.
+          </p>
+          <p className="text-sm text-slate-400 mt-6">
+            Version en vigueur au 1er mars 2026
+          </p>
+        </div>
 
-        {/* ─── Introduction ─── */}
-        <section>
-          <p>
-            La soci&eacute;t&eacute; <strong>Satorea</strong> (ci-apr&egrave;s &laquo;&nbsp;Satorea&nbsp;&raquo;
-            ou &laquo;&nbsp;nous&nbsp;&raquo;), &eacute;ditrice du logiciel SaaS <strong>Dermotec CRM</strong>,
-            s&apos;engage &agrave; prot&eacute;ger la vie priv&eacute;e de ses utilisateurs conform&eacute;ment
-            au R&egrave;glement G&eacute;n&eacute;ral sur la Protection des Donn&eacute;es (RGPD &mdash;
-            R&egrave;glement UE 2016/679) et &agrave; la loi Informatique et Libert&eacute;s du
-            6&nbsp;janvier 1978 modifi&eacute;e.
-          </p>
-          <p className="mt-2">
-            La pr&eacute;sente politique de confidentialit&eacute; d&eacute;crit les traitements de
-            donn&eacute;es personnelles op&eacute;r&eacute;s dans le cadre de la Solution Dermotec CRM,
-            en tenant compte de la <strong>double qualification</strong> de Satorea.
-          </p>
+        {/* En résumé - Cards */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-8 text-center">
+            En résumé
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
+                <MapPin className="w-6 h-6 text-[#2EC6F3]" />
+              </div>
+              <h3 className="font-semibold text-[#082545] mb-2">Hébergement UE</h3>
+              <p className="text-sm text-slate-600">Vos données restent en Europe (Allemagne). Aucune surprise.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                <Lock className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="font-semibold text-[#082545] mb-2">Chiffrement total</h3>
+              <p className="text-sm text-slate-600">TLS 1.3 en transit, AES-256 au repos. Niveau bancaire.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-red-500" />
+              </div>
+              <h3 className="font-semibold text-[#082545] mb-2">Pas de revente</h3>
+              <p className="text-sm text-slate-600">Jamais. On ne monétise pas vos données personnelles.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-4">
+                <Eye className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="font-semibold text-[#082545] mb-2">Vos droits garantis</h3>
+              <p className="text-sm text-slate-600">Accès, rectification, suppression. En 30 jours maximum.</p>
+            </div>
+          </div>
         </section>
 
-        {/* ─── 1. Double qualification ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">1. Responsable du traitement &mdash; Double qualification</h2>
-          <p>
-            Satorea intervient avec une <strong>double qualification</strong> au regard du RGPD&nbsp;:
-          </p>
-          <div className="overflow-x-auto mt-3">
-            <table className="w-full text-sm border-collapse border border-gray-200">
-              <thead>
-                <tr className="bg-[#082545] text-white">
-                  <th className="text-left py-3 px-4 font-semibold">Qualification</th>
-                  <th className="text-left py-3 px-4 font-semibold">Donn&eacute;es concern&eacute;es</th>
-                  <th className="text-left py-3 px-4 font-semibold">Fondement</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr>
-                  <td className="py-3 px-4 font-medium">Sous-traitant (art.&nbsp;28 RGPD)</td>
-                  <td className="py-3 px-4">
-                    Donn&eacute;es CRM saisies par les Clients (leads, stagiaires, inscriptions, documents,
-                    paiements, &eacute;valuations)
-                  </td>
-                  <td className="py-3 px-4">Traitement pour le compte du Client responsable de traitement</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Responsable de traitement autonome</td>
-                  <td className="py-3 px-4">
-                    Donn&eacute;es techniques et d&apos;usage (logs, m&eacute;triques, analytics), donn&eacute;es
-                    de compte utilisateur, donn&eacute;es de facturation
-                  </td>
-                  <td className="py-3 px-4">Maintenance, s&eacute;curit&eacute;, &eacute;volution de la Solution, int&eacute;r&ecirc;t l&eacute;gitime</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-3">
-            <strong>Pour les Clients TPE/PME</strong> utilisant Dermotec CRM&nbsp;: chaque Client est
-            responsable de traitement pour ses propres donn&eacute;es CRM. Satorea agit en tant que
-            sous-traitant conform&eacute;ment &agrave; l&apos;Accord de Traitement des Donn&eacute;es
-            (DPA) accessible &agrave;{' '}
-            <a href="/dpa" className="text-[#2EC6F3] hover:underline">/dpa</a>.
-          </p>
-          <div className="mt-3 space-y-1">
-            <p><strong>Satorea</strong></p>
-            <p>75 Boulevard Richard Lenoir, 75011 Paris</p>
-            <p>Email&nbsp;: <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">support@satorea.fr</a></p>
-            <p>D&eacute;l&eacute;gu&eacute; &agrave; la Protection des Donn&eacute;es (DPO)&nbsp;:{' '}
-              <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">dpo@satorea.fr</a>
+        <div className="space-y-16 text-slate-700">
+
+          {/* Introduction */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <p className="text-lg leading-relaxed">
+              <strong>Satorea</strong> édite Dermotec CRM et s'engage à protéger votre vie privée selon les plus hauts standards européens.
+              Cette politique vous explique tout : quelles données on collecte, pourquoi, comment on les protège, et surtout vos droits.
             </p>
-          </div>
-        </section>
+            <p className="mt-4 text-lg leading-relaxed">
+              Nous avons une <strong>double qualification RGPD</strong> : sous-traitant pour vos données CRM, responsable pour nos données techniques.
+              On vous détaille tout ci-dessous.
+            </p>
+          </section>
 
-        {/* ─── 2. Données collectées ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">2. Donn&eacute;es personnelles collect&eacute;es</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200">
-              <thead>
-                <tr className="bg-[#082545] text-white">
-                  <th className="text-left py-3 px-4 font-semibold">Cat&eacute;gorie</th>
-                  <th className="text-left py-3 px-4 font-semibold">Donn&eacute;es</th>
-                  <th className="text-left py-3 px-4 font-semibold">Finalit&eacute;</th>
-                  <th className="text-left py-3 px-4 font-semibold">Base l&eacute;gale</th>
-                  <th className="text-left py-3 px-4 font-semibold">Dur&eacute;e</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr>
-                  <td className="py-3 px-4 font-medium">Compte utilisateur</td>
-                  <td className="py-3 px-4">Nom, pr&eacute;nom, email, mot de passe (hash&eacute;)</td>
-                  <td className="py-3 px-4">Cr&eacute;ation et gestion du compte</td>
-                  <td className="py-3 px-4">Ex&eacute;cution contractuelle</td>
-                  <td className="py-3 px-4">Dur&eacute;e du contrat + 3&nbsp;ans</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Facturation</td>
-                  <td className="py-3 px-4">Raison sociale, adresse, SIRET, donn&eacute;es Stripe</td>
-                  <td className="py-3 px-4">Facturation et comptabilit&eacute;</td>
-                  <td className="py-3 px-4">Obligation l&eacute;gale</td>
-                  <td className="py-3 px-4">10&nbsp;ans</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-medium">Donn&eacute;es CRM (sous-traitance)</td>
-                  <td className="py-3 px-4">Leads, stagiaires, inscriptions, pr&eacute;sences, &eacute;valuations, documents</td>
-                  <td className="py-3 px-4">Fourniture du service CRM</td>
-                  <td className="py-3 px-4">Ex&eacute;cution contractuelle (Client RT)</td>
-                  <td className="py-3 px-4">Dur&eacute;e du contrat + 3&nbsp;ans max</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Donn&eacute;es de formation</td>
-                  <td className="py-3 px-4">Pr&eacute;sences, &eacute;valuations, certificats, attestations Qualiopi</td>
-                  <td className="py-3 px-4">Conformit&eacute; Qualiopi et obligations formation</td>
-                  <td className="py-3 px-4">Obligation l&eacute;gale</td>
-                  <td className="py-3 px-4 font-medium">6&nbsp;ans minimum</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-medium">Donn&eacute;es d&apos;usage</td>
-                  <td className="py-3 px-4">Logs de connexion, actions, performances, adresse IP, user-agent</td>
-                  <td className="py-3 px-4">S&eacute;curit&eacute;, maintenance, am&eacute;lioration</td>
-                  <td className="py-3 px-4">Int&eacute;r&ecirc;t l&eacute;gitime</td>
-                  <td className="py-3 px-4">1&nbsp;an</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Donn&eacute;es d&eacute;riv&eacute;es</td>
-                  <td className="py-3 px-4">Scores, analytics, benchmarks, statistiques agr&eacute;g&eacute;es</td>
-                  <td className="py-3 px-4">Am&eacute;lioration de la Solution, R&amp;D</td>
-                  <td className="py-3 px-4">Int&eacute;r&ecirc;t l&eacute;gitime</td>
-                  <td className="py-3 px-4">Ind&eacute;finiment (anonymis&eacute;es)</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-medium">Cookies analytiques</td>
-                  <td className="py-3 px-4">Identifiants Vercel Analytics</td>
-                  <td className="py-3 px-4">Mesure d&apos;audience</td>
-                  <td className="py-3 px-4">Consentement</td>
-                  <td className="py-3 px-4">13&nbsp;mois</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+          {/* 1. Double qualification */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              1. Responsable du traitement — Double qualification
+            </h2>
+            <p className="mb-6 text-lg">
+              <strong>On joue cartes sur table.</strong> Selon le RGPD, nous avons deux casquettes différentes selon le type de données :
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-[#082545] text-white">
+                    <th className="text-left py-4 px-6 font-semibold">Qualification</th>
+                    <th className="text-left py-4 px-6 font-semibold">Données concernées</th>
+                    <th className="text-left py-4 px-6 font-semibold">Fondement</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Sous-traitant (art. 28 RGPD)</td>
+                    <td className="py-4 px-6">
+                      Données CRM saisies par les Clients (leads, stagiaires, inscriptions, documents,
+                      paiements, évaluations)
+                    </td>
+                    <td className="py-4 px-6">Traitement pour le compte du Client responsable de traitement</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">Responsable de traitement autonome</td>
+                    <td className="py-4 px-6">
+                      Données techniques et d'usage (logs, métriques, analytics), données
+                      de compte utilisateur, données de facturation
+                    </td>
+                    <td className="py-4 px-6">Maintenance, sécurité, évolution de la Solution, intérêt légitime</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <p className="text-[#082545]">
+                <strong>Concrètement :</strong> si vous êtes client Dermotec CRM, vous restez maître de vos données CRM.
+                Nous ne faisons que les héberger et les traiter selon vos instructions.
+                Notre Accord de Traitement des Données (DPA) est disponible à{' '}
+                <a href="/dpa" className="text-[#2EC6F3] hover:underline font-medium">/dpa</a>.
+              </p>
+            </div>
+            <div className="mt-6 space-y-2 text-sm bg-slate-50 p-4 rounded-lg">
+              <p><strong>Satorea</strong></p>
+              <p>75 Boulevard Richard Lenoir, 75011 Paris</p>
+              <p>Email : <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">support@satorea.fr</a></p>
+              <p>Délégué à la Protection des Données (DPO) :{' '}
+                <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">dpo@satorea.fr</a>
+              </p>
+            </div>
+          </section>
 
-        {/* ─── 3. Sous-traitants ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">3. Sous-traitants et transferts de donn&eacute;es</h2>
-          <p className="mb-3">
-            Satorea fait appel aux sous-traitants suivants pour le fonctionnement de la Solution&nbsp;:
-          </p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200">
-              <thead>
-                <tr className="bg-[#082545] text-white">
-                  <th className="text-left py-3 px-4 font-semibold">Sous-traitant</th>
-                  <th className="text-left py-3 px-4 font-semibold">R&ocirc;le</th>
-                  <th className="text-left py-3 px-4 font-semibold">Localisation</th>
-                  <th className="text-left py-3 px-4 font-semibold">Garanties</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr>
-                  <td className="py-3 px-4 font-medium">Supabase</td>
-                  <td className="py-3 px-4">Base de donn&eacute;es, authentification, stockage</td>
-                  <td className="py-3 px-4">UE (Francfort, Allemagne)</td>
-                  <td className="py-3 px-4">SOC&nbsp;2 Type&nbsp;II, donn&eacute;es en UE</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Stripe</td>
-                  <td className="py-3 px-4">Traitement des paiements</td>
-                  <td className="py-3 px-4">UE / &Eacute;tats-Unis</td>
-                  <td className="py-3 px-4">PCI-DSS Niveau&nbsp;1, DPF, CCT</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-medium">Vercel</td>
-                  <td className="py-3 px-4">H&eacute;bergement, CDN, analytics</td>
-                  <td className="py-3 px-4">Global (si&egrave;ge &Eacute;tats-Unis)</td>
-                  <td className="py-3 px-4">CCT 2021, TIA r&eacute;alis&eacute;</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Resend</td>
-                  <td className="py-3 px-4">Emails transactionnels</td>
-                  <td className="py-3 px-4">&Eacute;tats-Unis</td>
-                  <td className="py-3 px-4">DPF, CCT 2021</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-medium">Upstash</td>
-                  <td className="py-3 px-4">Cache Redis, rate limiting</td>
-                  <td className="py-3 px-4">UE (Francfort)</td>
-                  <td className="py-3 px-4">Donn&eacute;es en UE</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 font-medium">Inngest</td>
-                  <td className="py-3 px-4">T&acirc;ches asynchrones (background jobs)</td>
-                  <td className="py-3 px-4">&Eacute;tats-Unis</td>
-                  <td className="py-3 px-4">CCT 2021, TIA r&eacute;alis&eacute;</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {/* 2. Données collectées */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              2. Données personnelles collectées
+            </h2>
+            <p className="mb-6 text-lg">
+              <strong>Voici exactement ce qu'on collecte et pourquoi.</strong> Chaque donnée a une finalité précise et une durée de conservation définie.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-[#082545] text-white">
+                    <th className="text-left py-4 px-6 font-semibold">Catégorie</th>
+                    <th className="text-left py-4 px-6 font-semibold">Données</th>
+                    <th className="text-left py-4 px-6 font-semibold">Finalité</th>
+                    <th className="text-left py-4 px-6 font-semibold">Base légale</th>
+                    <th className="text-left py-4 px-6 font-semibold">Durée</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Compte utilisateur</td>
+                    <td className="py-4 px-6">Nom, prénom, email, mot de passe (hashé)</td>
+                    <td className="py-4 px-6">Création et gestion du compte</td>
+                    <td className="py-4 px-6">Exécution contractuelle</td>
+                    <td className="py-4 px-6">Durée du contrat + 3 ans</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">Facturation</td>
+                    <td className="py-4 px-6">Raison sociale, adresse, SIRET, données Stripe</td>
+                    <td className="py-4 px-6">Facturation et comptabilité</td>
+                    <td className="py-4 px-6">Obligation légale</td>
+                    <td className="py-4 px-6">10 ans</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Données CRM (sous-traitance)</td>
+                    <td className="py-4 px-6">Leads, stagiaires, inscriptions, présences, évaluations, documents</td>
+                    <td className="py-4 px-6">Fourniture du service CRM</td>
+                    <td className="py-4 px-6">Exécution contractuelle (Client RT)</td>
+                    <td className="py-4 px-6">Durée du contrat + 3 ans max</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">Données de formation</td>
+                    <td className="py-4 px-6">Présences, évaluations, certificats, attestations Qualiopi</td>
+                    <td className="py-4 px-6">Conformité Qualiopi et obligations formation</td>
+                    <td className="py-4 px-6">Obligation légale</td>
+                    <td className="py-4 px-6 font-medium">6 ans minimum</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Données d'usage</td>
+                    <td className="py-4 px-6">Logs de connexion, actions, performances, adresse IP, user-agent</td>
+                    <td className="py-4 px-6">Sécurité, maintenance, amélioration</td>
+                    <td className="py-4 px-6">Intérêt légitime</td>
+                    <td className="py-4 px-6">1 an</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">Données dérivées</td>
+                    <td className="py-4 px-6">Scores, analytics, benchmarks, statistiques agrégées</td>
+                    <td className="py-4 px-6">Amélioration de la Solution, R&D</td>
+                    <td className="py-4 px-6">Intérêt légitime</td>
+                    <td className="py-4 px-6">Indéfiniment (anonymisées)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Cookies analytiques</td>
+                    <td className="py-4 px-6">Identifiants Vercel Analytics</td>
+                    <td className="py-4 px-6">Mesure d'audience</td>
+                    <td className="py-4 px-6">Consentement</td>
+                    <td className="py-4 px-6">13 mois</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">Transferts hors Union europ&eacute;enne</h3>
-          <p>
-            Les transferts de donn&eacute;es vers des pays tiers (notamment les &Eacute;tats-Unis) sont
-            encadr&eacute;s par les <strong>Clauses Contractuelles Types (CCT) adopt&eacute;es par la
-            Commission europ&eacute;enne le 4&nbsp;juin 2021</strong> (d&eacute;cision 2021/914) et/ou
-            par le Data Privacy Framework (DPF) UE&ndash;&Eacute;tats-Unis.
-          </p>
-          <p className="mt-2">
-            Une <strong>Transfer Impact Assessment (TIA)</strong> a &eacute;t&eacute; r&eacute;alis&eacute;e
-            pour chaque sous-traitant situ&eacute; hors UE afin de v&eacute;rifier l&apos;ad&eacute;quation
-            des garanties.
-          </p>
-        </section>
+          {/* 3. Sous-traitants */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              3. Sous-traitants et transferts de données
+            </h2>
+            <p className="mb-6 text-lg">
+              <strong>Nos partenaires sont triés sur le volet.</strong> Chacun respecte les plus hauts standards de sécurité et de confidentialité.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-[#082545] text-white">
+                    <th className="text-left py-4 px-6 font-semibold">Sous-traitant</th>
+                    <th className="text-left py-4 px-6 font-semibold">Rôle</th>
+                    <th className="text-left py-4 px-6 font-semibold">Localisation</th>
+                    <th className="text-left py-4 px-6 font-semibold">Garanties</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Supabase</td>
+                    <td className="py-4 px-6">Base de données, authentification, stockage</td>
+                    <td className="py-4 px-6">UE (Francfort, Allemagne)</td>
+                    <td className="py-4 px-6">SOC 2 Type II, données en UE</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">Stripe</td>
+                    <td className="py-4 px-6">Traitement des paiements</td>
+                    <td className="py-4 px-6">UE / États-Unis</td>
+                    <td className="py-4 px-6">PCI-DSS Niveau 1, DPF, CCT</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Vercel</td>
+                    <td className="py-4 px-6">Hébergement, CDN, analytics</td>
+                    <td className="py-4 px-6">Global (siège États-Unis)</td>
+                    <td className="py-4 px-6">CCT 2021, TIA réalisé</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">Resend</td>
+                    <td className="py-4 px-6">Emails transactionnels</td>
+                    <td className="py-4 px-6">États-Unis</td>
+                    <td className="py-4 px-6">DPF, CCT 2021</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Upstash</td>
+                    <td className="py-4 px-6">Cache Redis, rate limiting</td>
+                    <td className="py-4 px-6">UE (Francfort)</td>
+                    <td className="py-4 px-6">Données en UE</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">Inngest</td>
+                    <td className="py-4 px-6">Tâches asynchrones (background jobs)</td>
+                    <td className="py-4 px-6">États-Unis</td>
+                    <td className="py-4 px-6">CCT 2021, TIA réalisé</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-        {/* ─── 4. Cookies ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">4. Cookies</h2>
-          <h3 className="text-base font-semibold text-[#082545] mt-2 mb-2">Cookies essentiels (exempt&eacute;s de consentement)</h3>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>
-              <strong>Session Supabase</strong>&nbsp;: authentification, maintien de session.
-              Dur&eacute;e&nbsp;: dur&eacute;e de la session.
-            </li>
-            <li>
-              <strong>CSRF token</strong>&nbsp;: protection contre les attaques cross-site.
-              Dur&eacute;e&nbsp;: dur&eacute;e de la session.
-            </li>
-          </ul>
+            <div className="mt-8 p-6 bg-amber-50 rounded-lg border border-amber-200">
+              <h3 className="text-lg font-semibold text-[#082545] mb-3">Transferts hors Union européenne</h3>
+              <p className="text-[#082545]">
+                <strong>Sécurité renforcée pour les transferts US.</strong> Tous nos partenaires américains sont encadrés par les
+                <strong> Clauses Contractuelles Types (CCT) de la Commission européenne</strong> et/ou le Data Privacy Framework.
+              </p>
+              <p className="mt-2 text-[#082545]">
+                Nous avons réalisé une <strong>Transfer Impact Assessment (TIA)</strong> pour chaque sous-traitant hors UE.
+                Vos données bénéficient du même niveau de protection qu'en Europe.
+              </p>
+            </div>
+          </section>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">Cookies analytiques (soumis au consentement)</h3>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>
-              <strong>Vercel Analytics</strong>&nbsp;: mesure d&apos;audience anonymis&eacute;e, performance
-              des pages. Dur&eacute;e&nbsp;: 13&nbsp;mois maximum. Ces cookies ne sont d&eacute;pos&eacute;s
-              qu&apos;avec votre consentement pr&eacute;alable.
-            </li>
-          </ul>
-          <p className="mt-2">
-            Vous pouvez &agrave; tout moment modifier vos pr&eacute;f&eacute;rences via le bandeau de
-            consentement ou les param&egrave;tres de votre navigateur.
-          </p>
-        </section>
+          {/* 4. Cookies */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              4. Cookies
+            </h2>
+            <p className="mb-6 text-lg">
+              <strong>On utilise le minimum de cookies nécessaires.</strong> Pas de tracking publicitaire, juste ce qu'il faut pour que ça marche bien.
+            </p>
 
-        {/* ─── 5. Durées de conservation ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">5. Dur&eacute;es de conservation</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200">
-              <thead>
-                <tr className="bg-[#082545] text-white">
-                  <th className="text-left py-3 px-4 font-semibold">Type de donn&eacute;es</th>
-                  <th className="text-left py-3 px-4 font-semibold">Dur&eacute;e</th>
-                  <th className="text-left py-3 px-4 font-semibold">Fondement</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr>
-                  <td className="py-3 px-4">Donn&eacute;es CRM (leads, contacts)</td>
-                  <td className="py-3 px-4">Dur&eacute;e du contrat + 3&nbsp;ans max</td>
-                  <td className="py-3 px-4">Prescription civile</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4">Donn&eacute;es de formation (Qualiopi)</td>
-                  <td className="py-3 px-4 font-medium">6&nbsp;ans minimum</td>
-                  <td className="py-3 px-4">Code du travail (art. L.6313-1 et s.)</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4">Factures et donn&eacute;es comptables</td>
-                  <td className="py-3 px-4">10&nbsp;ans</td>
-                  <td className="py-3 px-4">Code de commerce (art. L.123-22)</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4">Donn&eacute;es d&apos;usage et logs</td>
-                  <td className="py-3 px-4">1&nbsp;an</td>
-                  <td className="py-3 px-4">Int&eacute;r&ecirc;t l&eacute;gitime</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4">Cookies analytiques</td>
-                  <td className="py-3 px-4">13&nbsp;mois</td>
-                  <td className="py-3 px-4">Recommandation CNIL</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4">Donn&eacute;es anonymis&eacute;es / agr&eacute;g&eacute;es</td>
-                  <td className="py-3 px-4">Ind&eacute;finiment</td>
-                  <td className="py-3 px-4">Hors champ RGPD</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-3">
-            Au-del&agrave; des dur&eacute;es indiqu&eacute;es, les donn&eacute;es sont supprim&eacute;es
-            ou anonymis&eacute;es de mani&egrave;re irr&eacute;versible.
-          </p>
-        </section>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-6 bg-emerald-50 rounded-lg border border-emerald-200">
+                <h3 className="text-lg font-semibold text-emerald-800 mb-3">
+                  <Zap className="w-5 h-5 inline mr-2" />
+                  Cookies essentiels
+                </h3>
+                <p className="text-emerald-700 text-sm mb-3">Pas besoin de consentement — indispensables au fonctionnement</p>
+                <ul className="space-y-2 text-sm text-emerald-700">
+                  <li><strong>Session Supabase</strong> — Authentification (durée de session)</li>
+                  <li><strong>CSRF token</strong> — Protection contre les attaques (durée de session)</li>
+                </ul>
+              </div>
 
-        {/* ─── 6. Anonymisation ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">6. Anonymisation et donn&eacute;es d&eacute;riv&eacute;es</h2>
-          <p>
-            Les donn&eacute;es anonymis&eacute;es de mani&egrave;re irr&eacute;versible ne constituent pas
-            des donn&eacute;es personnelles au sens du RGPD et peuvent &ecirc;tre utilis&eacute;es librement
-            par Satorea, sans limitation de dur&eacute;e, notamment pour&nbsp;:
-          </p>
-          <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>La production de benchmarks sectoriels anonymis&eacute;s</li>
-            <li>L&apos;am&eacute;lioration des algorithmes de la Solution</li>
-            <li>La recherche et le d&eacute;veloppement de nouvelles fonctionnalit&eacute;s</li>
-            <li>La publication d&apos;&eacute;tudes statistiques sur le secteur de la formation esth&eacute;tique</li>
-          </ul>
-          <p className="mt-3">
-            Satorea d&eacute;tient l&apos;int&eacute;gralit&eacute; des droits de propri&eacute;t&eacute;
-            intellectuelle sur les donn&eacute;es d&eacute;riv&eacute;es (scores, analyses, indicateurs
-            statistiques) g&eacute;n&eacute;r&eacute;es par l&apos;utilisation de la Solution.
-          </p>
-        </section>
+              <div className="p-6 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 className="text-lg font-semibold text-blue-800 mb-3">
+                  <Eye className="w-5 h-5 inline mr-2" />
+                  Cookies analytiques
+                </h3>
+                <p className="text-blue-700 text-sm mb-3">Avec votre consentement — pour améliorer l'expérience</p>
+                <ul className="space-y-2 text-sm text-blue-700">
+                  <li><strong>Vercel Analytics</strong> — Mesure d'audience anonymisée (13 mois max)</li>
+                </ul>
+              </div>
+            </div>
 
-        {/* ─── 7. IA ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">7. Intelligence artificielle et algorithmes</h2>
-          <p>
-            Satorea peut utiliser des donn&eacute;es <strong>pseudonymis&eacute;es</strong> pour
-            l&apos;am&eacute;lioration de ses algorithmes de scoring, de recommandation et d&apos;analyse
-            pr&eacute;dictive, dans le respect des recommandations de la CNIL de juillet 2025 relatives
-            &agrave; l&apos;utilisation de donn&eacute;es personnelles dans les syst&egrave;mes d&apos;IA.
-          </p>
-          <p className="mt-2">
-            Les algorithmes de la Solution n&apos;op&egrave;rent aucune prise de d&eacute;cision
-            enti&egrave;rement automatis&eacute;e au sens de l&apos;article 22 du RGPD. Les scores et
-            recommandations g&eacute;n&eacute;r&eacute;s constituent des aides &agrave; la d&eacute;cision
-            et sont toujours soumis &agrave; la validation humaine du Client.
-          </p>
-        </section>
+            <p className="mt-4 text-sm text-slate-600">
+              Vous pouvez modifier vos préférences à tout moment via le bandeau de consentement ou les paramètres de votre navigateur.
+            </p>
+          </section>
 
-        {/* ─── 8. Droits RGPD ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">8. Vos droits (articles 15 &agrave; 22 du RGPD)</h2>
-          <p className="mb-3">
-            Conform&eacute;ment au RGPD, vous disposez des droits suivants concernant vos donn&eacute;es
-            personnelles&nbsp;:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>Droit d&apos;acc&egrave;s</strong> (art.&nbsp;15)&nbsp;: obtenir la confirmation
-              du traitement de vos donn&eacute;es et en recevoir une copie
-            </li>
-            <li>
-              <strong>Droit de rectification</strong> (art.&nbsp;16)&nbsp;: corriger des donn&eacute;es
-              inexactes ou incompl&egrave;tes
-            </li>
-            <li>
-              <strong>Droit &agrave; l&apos;effacement</strong> (art.&nbsp;17)&nbsp;: demander la
-              suppression de vos donn&eacute;es, sous r&eacute;serve des obligations l&eacute;gales de
-              conservation
-            </li>
-            <li>
-              <strong>Droit &agrave; la limitation</strong> (art.&nbsp;18)&nbsp;: restreindre le
-              traitement dans certaines circonstances
-            </li>
-            <li>
-              <strong>Droit &agrave; la portabilit&eacute;</strong> (art.&nbsp;20)&nbsp;: recevoir
-              vos donn&eacute;es dans un format structur&eacute;, couramment utilis&eacute; et lisible
-              par machine (JSON, CSV)
-            </li>
-            <li>
-              <strong>Droit d&apos;opposition</strong> (art.&nbsp;21)&nbsp;: vous opposer au traitement
-              fond&eacute; sur l&apos;int&eacute;r&ecirc;t l&eacute;gitime, y compris le profilage
-            </li>
-          </ul>
-          <p className="mt-3">
-            Pour exercer vos droits, envoyez un email &agrave;{' '}
-            <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">dpo@satorea.fr</a>
-            {' '}en pr&eacute;cisant votre demande et en joignant un justificatif d&apos;identit&eacute;.
-            Nous nous engageons &agrave; r&eacute;pondre dans un d&eacute;lai de <strong>30&nbsp;jours</strong>.
-          </p>
-          <p className="mt-2">
-            <strong>Note pour les personnes concern&eacute;es dont les donn&eacute;es sont saisies par
-            un Client&nbsp;:</strong> si vos donn&eacute;es personnelles ont &eacute;t&eacute; saisies
-            dans Dermotec CRM par un centre de formation (Client), veuillez adresser vos demandes
-            d&apos;exercice de droits directement &agrave; ce centre. Satorea assistera le Client dans
-            le traitement de votre demande conform&eacute;ment au DPA.
-          </p>
-        </section>
+          {/* 5. Durées de conservation */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              5. Durées de conservation
+            </h2>
+            <p className="mb-6 text-lg">
+              <strong>On ne garde rien indéfiniment.</strong> Chaque donnée a sa durée de vie, définie par la loi ou la finalité du traitement.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-[#082545] text-white">
+                    <th className="text-left py-4 px-6 font-semibold">Type de données</th>
+                    <th className="text-left py-4 px-6 font-semibold">Durée</th>
+                    <th className="text-left py-4 px-6 font-semibold">Fondement</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6">Données CRM (leads, contacts)</td>
+                    <td className="py-4 px-6">Durée du contrat + 3 ans max</td>
+                    <td className="py-4 px-6">Prescription civile</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6">Données de formation (Qualiopi)</td>
+                    <td className="py-4 px-6 font-medium">6 ans minimum</td>
+                    <td className="py-4 px-6">Code du travail (art. L.6313-1 et s.)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6">Factures et données comptables</td>
+                    <td className="py-4 px-6">10 ans</td>
+                    <td className="py-4 px-6">Code de commerce (art. L.123-22)</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6">Données d'usage et logs</td>
+                    <td className="py-4 px-6">1 an</td>
+                    <td className="py-4 px-6">Intérêt légitime</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6">Cookies analytiques</td>
+                    <td className="py-4 px-6">13 mois</td>
+                    <td className="py-4 px-6">Recommandation CNIL</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6">Données anonymisées / agrégées</td>
+                    <td className="py-4 px-6">Indéfiniment</td>
+                    <td className="py-4 px-6">Hors champ RGPD</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 p-4 bg-slate-50 rounded-lg">
+              <p className="text-[#082545] text-sm">
+                <strong>Suppression automatique :</strong> Au-delà des durées indiquées, les données sont supprimées
+                ou anonymisées de manière irréversible. Aucune intervention manuelle requise.
+              </p>
+            </div>
+          </section>
 
-        {/* ─── 9. Réclamation CNIL ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">9. R&eacute;clamation aupr&egrave;s de la CNIL</h2>
-          <p>
-            Si vous estimez que le traitement de vos donn&eacute;es ne respecte pas la r&eacute;glementation
-            applicable, vous avez le droit d&apos;introduire une r&eacute;clamation aupr&egrave;s de la{' '}
-            <a
-              href="https://www.cnil.fr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#2EC6F3] hover:underline"
-            >
-              Commission Nationale de l&apos;Informatique et des Libert&eacute;s (CNIL)
-            </a>
-            , 3&nbsp;Place de Fontenoy, TSA&nbsp;80715, 75334&nbsp;Paris Cedex&nbsp;07.
-          </p>
-          <p className="mt-2">
-            Nous vous encourageons &agrave; nous contacter pr&eacute;alablement &agrave;{' '}
-            <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">dpo@satorea.fr</a>
-            {' '}afin de tenter de r&eacute;soudre tout diff&eacute;rend &agrave; l&apos;amiable.
-          </p>
-        </section>
+          {/* 6. Anonymisation */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              6. Anonymisation et données dérivées
+            </h2>
+            <p className="mb-6 text-lg">
+              <strong>Les données anonymisées nous aident à améliorer le produit.</strong> Une fois anonymisées,
+              elles ne vous identifient plus et sortent du champ RGPD.
+            </p>
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border border-blue-200 mb-6">
+              <h3 className="font-semibold text-[#082545] mb-3">Ce qu'on peut faire avec les données anonymisées :</h3>
+              <ul className="space-y-2 text-sm text-[#082545]">
+                <li>• Produire des benchmarks sectoriels anonymisés</li>
+                <li>• Améliorer les algorithmes de la Solution</li>
+                <li>• Développer de nouvelles fonctionnalités</li>
+                <li>• Publier des études statistiques sur le secteur de la formation esthétique</li>
+              </ul>
+            </div>
+            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <p className="text-[#082545] text-sm">
+                <strong>Propriété intellectuelle :</strong> Satorea détient l'intégralité des droits sur les données dérivées
+                (scores, analyses, indicateurs) générées par l'utilisation de la Solution.
+              </p>
+            </div>
+          </section>
 
-        {/* ─── 10. Sécurité ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">10. S&eacute;curit&eacute; des donn&eacute;es</h2>
-          <p>
-            Satorea met en &oelig;uvre les mesures techniques et organisationnelles suivantes,
-            conform&eacute;ment &agrave; l&apos;article&nbsp;32 du RGPD&nbsp;:
-          </p>
-          <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Chiffrement en transit (TLS&nbsp;1.3) et au repos (AES-256)</li>
-            <li>Row Level Security (RLS) PostgreSQL pour l&apos;isolation stricte des donn&eacute;es par Client</li>
-            <li>Authentification multi-facteurs (MFA) disponible pour tous les comptes</li>
-            <li>Sauvegardes automatiques quotidiennes avec r&eacute;tention de 30&nbsp;jours</li>
-            <li>Journalisation des acc&egrave;s et des actions sensibles</li>
-            <li>Audit de s&eacute;curit&eacute; annuel par un tiers ind&eacute;pendant</li>
-            <li>Politique de gestion des incidents et notification sous 48h en cas de violation</li>
-          </ul>
-        </section>
+          {/* 7. IA - Section conservée telle quelle car déjà bien rédigée */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              7. Intelligence artificielle et algorithmes
+            </h2>
 
-        {/* ─── 11. Modifications ─── */}
-        <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">11. Modifications de la politique</h2>
-          <p>
-            Satorea se r&eacute;serve le droit de modifier la pr&eacute;sente politique de
-            confidentialit&eacute; &agrave; tout moment. Toute modification substantielle sera port&eacute;e
-            &agrave; la connaissance des utilisateurs par email ou via une notification dans la Solution,
-            au minimum 30&nbsp;jours avant son entr&eacute;e en vigueur.
-          </p>
-        </section>
+            <h3 className="text-lg font-semibold text-[#082545] mt-6 mb-4">7.1 Transparence (Règlement UE 2024/1689 — AI Act, art. 50)</h3>
+            <p className="mb-4">
+              La Solution Dermotec CRM intègre des fonctionnalités d'intelligence artificielle.
+              Conformément au Règlement européen sur l'intelligence artificielle
+              (AI Act), nous vous informons que :
+            </p>
+            <ul className="list-disc pl-6 space-y-3">
+              <li>
+                <strong>Assistant conversationnel (« Léa »)</strong> : un chatbot
+                propulsé par IA qui répond aux questions des prospects et clients. Chaque conversation
+                débute par une identification claire : <em>« Je suis Léa, assistante
+                IA de Dermotec »</em>. Les réponses sont générées par des
+                modèles de langage et ne remplacent pas un conseil professionnel.
+              </li>
+              <li>
+                <strong>Scoring prédictif</strong> : un score de 0 à 100 est attribué
+                à chaque lead pour aider les commerciaux à prioriser leurs actions. Ce score constitue
+                une <strong>aide à la décision</strong>, jamais une décision automatisée.
+              </li>
+              <li>
+                <strong>Génération de contenus</strong> : emails, réponses aux objections
+                et suggestions commerciales sont proposés par l'IA et toujours soumis à validation
+                humaine avant envoi.
+              </li>
+            </ul>
 
-        {/* ─── Dernière mise à jour ─── */}
-        <div className="pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-400">Derni&egrave;re mise &agrave; jour&nbsp;: mars 2026</p>
+            <h3 className="text-lg font-semibold text-[#082545] mt-6 mb-4">7.2 Absence de décision entièrement automatisée (art. 22 RGPD)</h3>
+            <p className="mb-4">
+              Les algorithmes de la Solution n'opèrent <strong>aucune prise de décision
+              entièrement automatisée</strong> au sens de l'article 22 du RGPD. Les scores,
+              recommandations et contenus générés constituent des aides à la
+              décision et sont <strong>toujours soumis à la validation humaine</strong> du Client
+              avant toute action.
+            </p>
+            <p className="mb-6">
+              Le scoring des leads relève du <strong>profilage</strong> au sens de l'article 4(4)
+              du RGPD. Conformément aux articles 13 et 14, nous vous informons de l'existence de
+              ce profilage et de sa logique sous-jacente : le score est calculé à partir de
+              critères objectifs (complétude du profil, engagement, statut professionnel, formation
+              visée) sans utiliser de catégories de données sensibles (art. 9 RGPD).
+            </p>
+
+            <h3 className="text-lg font-semibold text-[#082545] mb-4">7.3 Sous-traitants IA</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-[#082545] text-white">
+                    <th className="text-left py-4 px-6 font-semibold">Fournisseur</th>
+                    <th className="text-left py-4 px-6 font-semibold">Modèle</th>
+                    <th className="text-left py-4 px-6 font-semibold">Usage</th>
+                    <th className="text-left py-4 px-6 font-semibold">Données transmises</th>
+                    <th className="text-left py-4 px-6 font-semibold">Garanties</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-slate-50">
+                    <td className="py-4 px-6 font-medium">Anthropic</td>
+                    <td className="py-4 px-6">Claude Haiku</td>
+                    <td className="py-4 px-6">Chatbot, scoring, objections</td>
+                    <td className="py-4 px-6">Messages conversation (sans PII identifiants directs)</td>
+                    <td className="py-4 px-6">API stateless, données non utilisées pour l'entraînement, CCT</td>
+                  </tr>
+                  <tr className="bg-slate-50 hover:bg-slate-100">
+                    <td className="py-4 px-6 font-medium">DeepSeek</td>
+                    <td className="py-4 px-6">DeepSeek Chat</td>
+                    <td className="py-4 px-6">Assistant IA, génération emails</td>
+                    <td className="py-4 px-6">Contexte commercial (sans PII identifiants directs)</td>
+                    <td className="py-4 px-6">API stateless, données non utilisées pour l'entraînement</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+              <p className="text-green-800 text-sm">
+                <strong>Minimisation des données IA :</strong> seules les données strictement nécessaires
+                sont transmises aux IA (contexte conversation, catalogue formations).
+                Les identifiants personnels ne sont transmis que si nécessaire à la personnalisation.
+              </p>
+            </div>
+
+            <h3 className="text-lg font-semibold text-[#082545] mt-6 mb-4">7.4 Utilisation des données pour l'amélioration des algorithmes</h3>
+            <p className="mb-6">
+              Satorea peut utiliser des données <strong>pseudonymisées ou anonymisées</strong> pour
+              l'amélioration de ses algorithmes de scoring, de recommandation et d'analyse
+              prédictive, dans le respect des recommandations de la CNIL relatives à l'utilisation
+              de données personnelles dans les systèmes d'IA.
+            </p>
+
+            <h3 className="text-lg font-semibold text-[#082545] mb-4">7.5 Classification du risque (AI Act)</h3>
+            <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+              <p className="text-emerald-800">
+                <strong>Bonne nouvelle :</strong> Les fonctionnalités IA de Dermotec CRM ne relèvent
+                <strong> pas de la catégorie « haut risque »</strong> au sens du Règlement AI Act.
+                Elles sont classées comme systèmes à risque limité, soumises aux seules obligations de transparence.
+              </p>
+            </div>
+          </section>
+
+          {/* 8. Droits RGPD */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              8. Vos droits (articles 15 à 22 du RGPD)
+            </h2>
+            <p className="mb-6 text-lg">
+              <strong>Vous gardez le contrôle total sur vos données.</strong> Voici tous vos droits et comment les exercer simplement.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Eye className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#082545]">Droit d'accès (art. 15)</h3>
+                    <p className="text-sm text-slate-600">Savoir quelles données on a sur vous et en recevoir une copie</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Zap className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#082545]">Droit de rectification (art. 16)</h3>
+                    <p className="text-sm text-slate-600">Corriger des données inexactes ou incomplètes</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Shield className="w-4 h-4 text-red-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#082545]">Droit à l'effacement (art. 17)</h3>
+                    <p className="text-sm text-slate-600">Demander la suppression, sauf obligations légales</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Lock className="w-4 h-4 text-purple-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#082545]">Droit à la limitation (art. 18)</h3>
+                    <p className="text-sm text-slate-600">Restreindre le traitement dans certains cas</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Users className="w-4 h-4 text-orange-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#082545]">Droit à la portabilité (art. 20)</h3>
+                    <p className="text-sm text-slate-600">Récupérer vos données en format JSON/CSV</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <MapPin className="w-4 h-4 text-yellow-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#082545]">Droit d'opposition (art. 21)</h3>
+                    <p className="text-sm text-slate-600">S'opposer au profilage et à l'intérêt légitime</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
+              <h3 className="font-semibold text-[#082545] mb-2">Comment exercer vos droits ?</h3>
+              <p className="text-[#082545] mb-3">
+                Envoyez simplement un email à{' '}
+                <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">dpo@satorea.fr</a>
+                {' '}en précisant votre demande. Joignez un justificatif d'identité pour la sécurité.
+              </p>
+              <p className="text-[#082545] text-sm">
+                <strong>Délai de réponse garanti :</strong> 30 jours maximum. Souvent moins !
+              </p>
+            </div>
+
+            <div className="mt-4 p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <p className="text-amber-800 text-sm">
+                <strong>Données saisies par un client :</strong> Si vos données ont été saisies dans Dermotec CRM
+                par un centre de formation, adressez-vous directement au centre. Nous l'assisterons dans le traitement.
+              </p>
+            </div>
+          </section>
+
+          {/* 9. Réclamation CNIL */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              9. Réclamation auprès de la CNIL
+            </h2>
+            <p className="text-lg mb-4">
+              <strong>Pas satisfait de notre réponse ?</strong> Vous avez le droit de saisir directement l'autorité de contrôle.
+            </p>
+            <div className="p-6 bg-slate-50 rounded-lg">
+              <p className="text-[#082545] mb-3">
+                Vous pouvez introduire une réclamation auprès de la{' '}
+                <a
+                  href="https://www.cnil.fr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#2EC6F3] hover:underline font-medium"
+                >
+                  Commission Nationale de l'Informatique et des Libertés (CNIL)
+                </a>.
+              </p>
+              <p className="text-sm text-slate-600">
+                CNIL - 3 Place de Fontenoy, TSA 80715, 75334 Paris Cedex 07
+              </p>
+            </div>
+            <p className="mt-4 text-slate-600">
+              <strong>On préfère dialoguer :</strong> Contactez-nous d'abord à{' '}
+              <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">dpo@satorea.fr</a>.
+              On résout souvent les problèmes plus vite que l'administration !
+            </p>
+          </section>
+
+          {/* 10. Sécurité */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              10. Sécurité des données
+            </h2>
+            <p className="text-lg mb-6">
+              <strong>Vos données sont protégées comme un coffre-fort numérique.</strong>
+              Voici nos mesures de sécurité techniques et organisationnelles.
+            </p>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                <h3 className="font-semibold text-emerald-800 mb-2">Chiffrement</h3>
+                <p className="text-sm text-emerald-700">TLS 1.3 en transit<br/>AES-256 au repos</p>
+              </div>
+
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 className="font-semibold text-blue-800 mb-2">Isolation</h3>
+                <p className="text-sm text-blue-700">Row Level Security PostgreSQL<br/>Données clients étanches</p>
+              </div>
+
+              <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                <h3 className="font-semibold text-purple-800 mb-2">Authentification</h3>
+                <p className="text-sm text-purple-700">MFA disponible<br/>Tous comptes protégés</p>
+              </div>
+
+              <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                <h3 className="font-semibold text-orange-800 mb-2">Sauvegardes</h3>
+                <p className="text-sm text-orange-700">Quotidiennes automatiques<br/>Rétention 30 jours</p>
+              </div>
+
+              <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                <h3 className="font-semibold text-red-800 mb-2">Monitoring</h3>
+                <p className="text-sm text-red-700">Logs des accès<br/>Actions sensibles tracées</p>
+              </div>
+
+              <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <h3 className="font-semibold text-yellow-800 mb-2">Audits</h3>
+                <p className="text-sm text-yellow-700">Sécurité annuelle<br/>Tiers indépendant</p>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+              <p className="text-[#082545] text-sm">
+                <strong>En cas de violation de données :</strong> notification sous 48h conformément à l'article 32 du RGPD.
+                Politique de gestion des incidents documentée et testée.
+              </p>
+            </div>
+          </section>
+
+          {/* 11. Modifications */}
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+              11. Modifications de la politique
+            </h2>
+            <p className="text-lg">
+              <strong>On vous prévient toujours des changements importants.</strong>
+              Toute modification substantielle vous sera notifiée par email ou dans l'application,
+              minimum 30 jours avant entrée en vigueur.
+            </p>
+            <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <p className="text-blue-800 text-sm">
+                <strong>Modifications mineures</strong> (corrections, clarifications) :
+                mise à jour directe avec notification dans l'historique.
+              </p>
+            </div>
+          </section>
+
+        </div>
+
+        {/* Footer contact */}
+        <div className="mt-16 bg-gradient-to-r from-[#2EC6F3] to-[#082545] p-8 rounded-2xl text-white text-center">
+          <h2 className="text-2xl font-semibold font-[family-name:var(--font-heading)] mb-4">
+            Une question sur vos données ?
+          </h2>
+          <p className="text-blue-100 mb-6">
+            Notre Délégué à la Protection des Données vous répond directement.
+          </p>
+          <a
+            href="mailto:dpo@satorea.fr"
+            className="inline-flex items-center gap-2 bg-white text-[#082545] px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+          >
+            Contactez notre DPO
+          </a>
+        </div>
+
+        {/* Dernière mise à jour */}
+        <div className="mt-8 pt-8 border-t border-slate-200 text-center">
+          <p className="text-sm text-slate-400">Dernière mise à jour : mars 2026</p>
         </div>
       </div>
     </div>

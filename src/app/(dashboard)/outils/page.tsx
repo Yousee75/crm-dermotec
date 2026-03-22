@@ -7,7 +7,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Dialog } from '@/components/ui/Dialog'
 import {
   Calculator, FileText, Image, Search, MessageSquare, Hash, Landmark,
-  Mail, KeyRound, Timer
+  Mail, KeyRound, Timer, ScanText, StickyNote, FileSpreadsheet
 } from 'lucide-react'
 
 import { TvaCalculator } from '@/components/tools/TvaCalculator'
@@ -20,6 +20,9 @@ import { TextReformulator } from '@/components/tools/TextReformulator'
 import { EmailSignatureGenerator } from '@/components/tools/EmailSignatureGenerator'
 import { PasswordGenerator } from '@/components/tools/PasswordGenerator'
 import { PomodoroTimer } from '@/components/tools/PomodoroTimer'
+import { OcrScanner } from '@/components/tools/OcrScanner'
+import { QuickNotes } from '@/components/tools/QuickNotes'
+import { CsvJsonConverter } from '@/components/tools/CsvJsonConverter'
 
 const TOOLS = [
   {
@@ -101,6 +104,30 @@ const TOOLS = [
     description: 'Timer productivité et appels commerciaux',
     color: '#DC2626',
     component: PomodoroTimer,
+  },
+  {
+    id: 'ocr',
+    icon: ScanText,
+    title: 'Scanner OCR',
+    description: 'Extraire du texte depuis une image',
+    color: '#0891B2',
+    component: OcrScanner,
+  },
+  {
+    id: 'notes',
+    icon: StickyNote,
+    title: 'Bloc-notes',
+    description: 'Notes rapides avec sauvegarde auto',
+    color: '#059669',
+    component: QuickNotes,
+  },
+  {
+    id: 'csv',
+    icon: FileSpreadsheet,
+    title: 'CSV ↔ JSON',
+    description: 'Convertir entre CSV et JSON',
+    color: '#D97706',
+    component: CsvJsonConverter,
   },
 ] as const
 
