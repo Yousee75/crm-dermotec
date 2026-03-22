@@ -500,7 +500,13 @@ export function AgentChat() {
       console.error('[AgentChat] Error:', err.message)
     },
   }) // AI SDK v6 types changed — cast helpers
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages, reload } = chatHelpers
+  const messages = chatHelpers?.messages ?? []
+  const input = chatHelpers?.input ?? ''
+  const handleInputChange = chatHelpers?.handleInputChange ?? (() => {})
+  const handleSubmit = chatHelpers?.handleSubmit ?? (() => {})
+  const isLoading = chatHelpers?.isLoading ?? false
+  const setMessages = chatHelpers?.setMessages ?? (() => {})
+  const reload = chatHelpers?.reload ?? (() => {})
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
