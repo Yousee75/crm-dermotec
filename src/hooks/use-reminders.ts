@@ -7,8 +7,24 @@ import type { Rappel } from '@/types'
 export function useRappels(filters: { lead_id?: string; date?: string; statut?: string } = {}) {
   const supabase = createClient()
 
+  // Auto-filtrage par rôle : commercial ne voit que SES rappels
+  const { data: currentEquipe } = useQuery({
+    queryKey: ['current-equipe-rappels'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+      const { data } = await supabase
+        .from('equipe')
+        .select('id, role')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      return data as { id: string; role: string } | null
+    },
+    staleTime: 10 * 60 * 1000,
+  })
+
   return useQuery({
-    queryKey: ['rappels', filters],
+    queryKey: ['rappels', filters, currentEquipe?.id],
     queryFn: async () => {
       let query = supabase
         .from('rappels')
@@ -20,6 +36,11 @@ export function useRappels(filters: { lead_id?: string; date?: string; statut?: 
       if (filters.date) {
         query = query.gte('date_rappel', `${filters.date}T00:00:00`)
           .lte('date_rappel', `${filters.date}T23:59:59`)
+      }
+
+      // Commercial → seulement ses rappels
+      if (currentEquipe?.role === 'commercial' && currentEquipe.id) {
+        query = query.eq('user_id', currentEquipe.id)
       }
 
       const { data, error } = await query
@@ -38,15 +59,38 @@ export function useOverdueRappels() {
   const supabase = createClient()
   const now = new Date().toISOString()
 
-  return useQuery({
-    queryKey: ['rappels', 'overdue'],
+  // Auto-filtrage par rôle
+  const { data: currentEquipe } = useQuery({
+    queryKey: ['current-equipe-overdue'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+      const { data } = await supabase
+        .from('equipe')
+        .select('id, role')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      return data as { id: string; role: string } | null
+    },
+    staleTime: 10 * 60 * 1000,
+  })
+
+  return useQuery({
+    queryKey: ['rappels', 'overdue', currentEquipe?.id],
+    queryFn: async () => {
+      let query = supabase
         .from('rappels')
         .select(`*, lead:leads(id, prenom, nom, email, telephone)`)
         .eq('statut', 'EN_ATTENTE')
         .lt('date_rappel', now)
         .order('date_rappel', { ascending: true })
+
+      // Commercial → seulement ses rappels
+      if (currentEquipe?.role === 'commercial' && currentEquipe.id) {
+        query = query.eq('user_id', currentEquipe.id)
+      }
+
+      const { data, error } = await query
       if (error) throw error
       return (data || []) as Rappel[]
     },

@@ -31,13 +31,37 @@ export interface LeadFilters {
  * - Admin/Manager : voit tous les leads
  * - Commercial : voit UNIQUEMENT ses leads (commercial_assigne_id = equipe_id)
  * - Formatrice : pas d'accès leads
+ *
+ * Le filtrage est AUTOMATIQUE — les pages n'ont pas besoin de passer commercial_id
  */
 export function useLeads(filters: LeadFilters = {}) {
   const supabase = createClient()
   const { page = 1, per_page = 20, sort_by = 'created_at', sort_order = 'desc' } = filters
 
+  // Auto-détection du rôle pour filtrage
+  const { data: currentEquipe } = useQuery({
+    queryKey: ['current-equipe-role'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+      const { data } = await supabase
+        .from('equipe')
+        .select('id, role')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      return data as { id: string; role: string } | null
+    },
+    staleTime: 10 * 60 * 1000, // Cache 10 min
+  })
+
+  // Si commercial → forcer le filtre automatiquement
+  const autoFilters = { ...filters }
+  if (currentEquipe?.role === 'commercial' && currentEquipe.id && !filters.commercial_id) {
+    autoFilters.commercial_id = currentEquipe.id
+  }
+
   return useQuery({
-    queryKey: ['leads', filters],
+    queryKey: ['leads', autoFilters, currentEquipe?.id],
     queryFn: async () => {
       let query = supabase
         .from('leads')
@@ -48,41 +72,41 @@ export function useLeads(filters: LeadFilters = {}) {
         `, { count: 'exact' })
 
       // Filtres
-      if (filters.search) {
-        query = query.or(`prenom.ilike.%${filters.search}%,nom.ilike.%${filters.search}%,email.ilike.%${filters.search}%,telephone.ilike.%${filters.search}%`)
+      if (autoFilters.search) {
+        query = query.or(`prenom.ilike.%${autoFilters.search}%,nom.ilike.%${autoFilters.search}%,email.ilike.%${autoFilters.search}%,telephone.ilike.%${autoFilters.search}%`)
       }
-      if (filters.statut?.length) {
-        query = query.in('statut', filters.statut)
+      if (autoFilters.statut?.length) {
+        query = query.in('statut', autoFilters.statut)
       }
-      if (filters.priorite) {
-        query = query.eq('priorite', filters.priorite)
+      if (autoFilters.priorite) {
+        query = query.eq('priorite', autoFilters.priorite)
       }
-      if (filters.source) {
-        query = query.eq('source', filters.source)
+      if (autoFilters.source) {
+        query = query.eq('source', autoFilters.source)
       }
-      if (filters.formation_id) {
-        query = query.eq('formation_principale_id', filters.formation_id)
+      if (autoFilters.formation_id) {
+        query = query.eq('formation_principale_id', autoFilters.formation_id)
       }
-      if (filters.commercial_id) {
-        query = query.eq('commercial_assigne_id', filters.commercial_id)
+      if (autoFilters.commercial_id) {
+        query = query.eq('commercial_assigne_id', autoFilters.commercial_id)
       }
-      if (filters.score_min) {
-        query = query.gte('score_chaud', filters.score_min)
+      if (autoFilters.score_min) {
+        query = query.gte('score_chaud', autoFilters.score_min)
       }
-      if (filters.financement !== undefined) {
-        query = query.eq('financement_souhaite', filters.financement)
+      if (autoFilters.financement !== undefined) {
+        query = query.eq('financement_souhaite', autoFilters.financement)
       }
-      if (filters.has_email) {
+      if (autoFilters.has_email) {
         query = query.not('email', 'is', null)
       }
-      if (filters.has_phone) {
+      if (autoFilters.has_phone) {
         query = query.not('telephone', 'is', null)
       }
-      if (filters.date_from) {
-        query = query.gte('created_at', filters.date_from)
+      if (autoFilters.date_from) {
+        query = query.gte('created_at', autoFilters.date_from)
       }
-      if (filters.date_to) {
-        query = query.lte('created_at', filters.date_to)
+      if (autoFilters.date_to) {
+        query = query.lte('created_at', autoFilters.date_to)
       }
 
       // Tri + pagination
