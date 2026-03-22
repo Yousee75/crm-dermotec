@@ -43,12 +43,14 @@ interface SessionEmargement {
   }>
 }
 
+// Couleurs centralisées (source unique : status-config.ts)
+import { SESSION_STATUS } from '@/lib/status-config'
 const STATUT_SESSION = {
-  PLANIFIEE: { label: 'Planifiée', color: '#3B82F6', icon: Calendar },
-  CONFIRMEE: { label: 'Confirmée', color: '#22C55E', icon: CheckCircle },
-  EN_COURS: { label: 'En cours', color: '#F59E0B', icon: Play },
-  TERMINEE: { label: 'Terminée', color: '#6366F1', icon: CheckCircle },
-  ANNULEE: { label: 'Annulée', color: '#EF4444', icon: Square }
+  PLANIFIEE: { ...SESSION_STATUS.PLANIFIEE, icon: Calendar },
+  CONFIRMEE: { ...SESSION_STATUS.CONFIRMEE, icon: CheckCircle },
+  EN_COURS: { ...SESSION_STATUS.EN_COURS, icon: Play },
+  TERMINEE: { ...SESSION_STATUS.TERMINEE, icon: CheckCircle },
+  ANNULEE: { ...SESSION_STATUS.ANNULEE, icon: Square },
 }
 
 export default function EmargementTab() {

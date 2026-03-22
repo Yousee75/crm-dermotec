@@ -19,35 +19,15 @@ import type {
   Session, Lead, Inscription, Modele, Formation, Equipe, Emargement
 } from '@/types'
 
-// Status configurations
-const STATUTS_SESSION: Record<StatutSession, { label: string; color: string }> = {
-  BROUILLON: { label: 'Brouillon', color: '#9CA3AF' },
-  PLANIFIEE: { label: 'Planifiée', color: '#3B82F6' },
-  CONFIRMEE: { label: 'Confirmée', color: '#22C55E' },
-  EN_COURS: { label: 'En cours', color: '#06B6D4' },
-  TERMINEE: { label: 'Terminée', color: '#22C55E' },
-  ANNULEE: { label: 'Annulée', color: '#EF4444' },
-  REPORTEE: { label: 'Reportée', color: '#F97316' },
-}
+// Couleurs centralisées (source unique : status-config.ts)
+import {
+  SESSION_STATUS, INSCRIPTION_STATUS, PAIEMENT_STATUS,
+  getSessionStatus, getInscriptionStatus
+} from '@/lib/status-config'
 
-const STATUTS_INSCRIPTION: Record<StatutInscription, { label: string; color: string }> = {
-  EN_ATTENTE: { label: 'En attente', color: '#F59E0B' },
-  CONFIRMEE: { label: 'Confirmée', color: '#22C55E' },
-  EN_COURS: { label: 'En cours', color: '#06B6D4' },
-  COMPLETEE: { label: 'Complétée', color: '#22C55E' },
-  ANNULEE: { label: 'Annulée', color: '#EF4444' },
-  REMBOURSEE: { label: 'Remboursée', color: '#F97316' },
-  NO_SHOW: { label: 'Absent', color: '#DC2626' },
-}
-
-const STATUTS_PAIEMENT: Record<PaiementStatut, { label: string; color: string }> = {
-  EN_ATTENTE: { label: 'En attente', color: '#9CA3AF' },
-  ACOMPTE: { label: 'Acompte', color: '#F59E0B' },
-  PARTIEL: { label: 'Partiel', color: '#F97316' },
-  PAYE: { label: 'Payé', color: '#22C55E' },
-  REMBOURSE: { label: 'Remboursé', color: '#EF4444' },
-  LITIGE: { label: 'Litige', color: '#DC2626' },
-}
+const STATUTS_SESSION = SESSION_STATUS as Record<StatutSession, { label: string; color: string; bgColor: string; dotColor: string; order: number }>
+const STATUTS_INSCRIPTION = INSCRIPTION_STATUS as Record<StatutInscription, { label: string; color: string; bgColor: string; dotColor: string; order: number }>
+const STATUTS_PAIEMENT = PAIEMENT_STATUS as Record<PaiementStatut, { label: string; color: string; bgColor: string; dotColor: string; order: number }>
 
 const STATUTS_MODELE: Record<StatutModele, { label: string; color: string }> = {
   INSCRIT: { label: 'Inscrit', color: '#3B82F6' },

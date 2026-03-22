@@ -14,15 +14,11 @@ import { SkeletonCard } from '@/components/ui/Skeleton'
 import { CreateSessionDialog } from '@/components/ui/CreateSessionDialog'
 import { cn } from '@/lib/utils'
 
-const statuts: Record<string, { label: string; color: string }> = {
-  BROUILLON: { label: 'Brouillon', color: '#9CA3AF' },
-  PLANIFIEE: { label: 'Planifiée', color: '#3B82F6' },
-  CONFIRMEE: { label: 'Confirmée', color: '#22C55E' },
-  EN_COURS: { label: 'En cours', color: '#F59E0B' },
-  TERMINEE: { label: 'Terminée', color: '#6366F1' },
-  ANNULEE: { label: 'Annulée', color: '#EF4444' },
-  REPORTEE: { label: 'Reportée', color: '#F97316' },
-}
+// Couleurs centralisées (source unique : status-config.ts)
+import { SESSION_STATUS, getSessionStatus } from '@/lib/status-config'
+const statuts = Object.fromEntries(
+  Object.entries(SESSION_STATUS).map(([k, v]) => [k, { label: v.label, color: v.color }])
+) as Record<string, { label: string; color: string }>
 
 interface PlanningTabProps {
   onCreateSession: () => void

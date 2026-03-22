@@ -13,24 +13,19 @@ import { SkeletonTable } from '@/components/ui/Skeleton'
 import { PageHeader } from '@/components/ui/PageHeader'
 import Link from 'next/link'
 
-const STATUT_CONFIG: Record<string, { label: string; color: string; icon: typeof CheckCircle }> = {
-  EN_ATTENTE: { label: 'En attente', color: '#F59E0B', icon: Clock },
-  CONFIRMEE: { label: 'Confirmée', color: '#3B82F6', icon: CheckCircle },
-  EN_COURS: { label: 'En cours', color: '#10B981', icon: Clock },
-  COMPLETEE: { label: 'Terminée', color: '#6366F1', icon: CheckCircle },
-  ANNULEE: { label: 'Annulée', color: '#EF4444', icon: XCircle },
-  REMBOURSEE: { label: 'Remboursée', color: '#6B7280', icon: XCircle },
-  NO_SHOW: { label: 'No-show', color: '#EF4444', icon: XCircle },
-}
+// Couleurs centralisées (source unique : status-config.ts)
+import { INSCRIPTION_STATUS, PAIEMENT_STATUS, getInscriptionStatus } from '@/lib/status-config'
 
-const PAIEMENT_CONFIG: Record<string, { label: string; color: string }> = {
-  EN_ATTENTE: { label: 'En attente', color: '#F59E0B' },
-  ACOMPTE: { label: 'Acompte', color: '#F97316' },
-  PARTIEL: { label: 'Partiel', color: '#FF8C00' },
-  PAYE: { label: 'Payé', color: '#10B981' },
-  REMBOURSE: { label: 'Remboursé', color: '#6B7280' },
-  LITIGE: { label: 'Litige', color: '#EF4444' },
-}
+const STATUT_CONFIG = Object.fromEntries(
+  Object.entries(INSCRIPTION_STATUS).map(([k, v]) => [k, {
+    label: v.label, color: v.color,
+    icon: ['ANNULEE', 'REMBOURSEE', 'NO_SHOW'].includes(k) ? XCircle : ['EN_ATTENTE', 'EN_COURS'].includes(k) ? Clock : CheckCircle,
+  }])
+) as Record<string, { label: string; color: string; icon: typeof CheckCircle }>
+
+const PAIEMENT_CONFIG = Object.fromEntries(
+  Object.entries(PAIEMENT_STATUS).map(([k, v]) => [k, { label: v.label, color: v.color }])
+) as Record<string, { label: string; color: string }>
 
 export default function InscriptionsPage() {
   const supabase = createClient()

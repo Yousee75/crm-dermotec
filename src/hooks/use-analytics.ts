@@ -125,28 +125,18 @@ export function useAnalytics() {
         ? Math.round(satisfactionData.reduce((a, b) => a + b, 0) / satisfactionData.length * 10) / 10
         : 0
 
-      // --- Pipeline funnel ---
-      const STATUTS_MAP: Record<string, { label: string; color: string }> = {
-        NOUVEAU: { label: 'Nouveau', color: '#3B82F6' },
-        CONTACTE: { label: 'Contacté', color: '#8B5CF6' },
-        QUALIFIE: { label: 'Qualifié', color: '#F59E0B' },
-        FINANCEMENT_EN_COURS: { label: 'Financement', color: '#06B6D4' },
-        INSCRIT: { label: 'Inscrit', color: '#10B981' },
-        EN_FORMATION: { label: 'En formation', color: '#2EC6F3' },
-        FORME: { label: 'Formé', color: '#22C55E' },
-        ALUMNI: { label: 'Alumni', color: '#059669' },
-        PERDU: { label: 'Perdu', color: '#EF4444' },
-        REPORTE: { label: 'Reporté', color: '#9CA3AF' },
-      }
+      // --- Pipeline funnel (couleurs centralisées depuis status-config) ---
+      const { LEAD_STATUS } = await import('@/lib/status-config')
 
       const pipelineCounts: Record<string, number> = {}
       for (const lead of (pipelineRes.data || [])) {
         pipelineCounts[lead.statut] = (pipelineCounts[lead.statut] || 0) + 1
       }
-      const pipeline = Object.entries(STATUTS_MAP).map(([statut, meta]) => ({
+      const pipeline = Object.entries(LEAD_STATUS).map(([statut, meta]) => ({
         statut,
         count: pipelineCounts[statut] || 0,
-        ...meta,
+        label: meta.label,
+        color: meta.color,
       })).filter(p => p.count > 0 || !['PERDU', 'REPORTE', 'SPAM'].includes(p.statut))
 
       // --- Sources ---
