@@ -60,7 +60,7 @@ export default function PlaybookPage() {
       >
         <button
           onClick={() => setShowNewModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#2EC6F3] to-[#1DA1D4] text-white rounded-xl text-sm font-medium shadow-sm shadow-[#2EC6F3]/20 hover:shadow-md transition"
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl text-sm font-medium shadow-sm shadow-primary/20 hover:shadow-md transition"
         >
           <Plus className="w-4 h-4" />
           Nouvelle entrée
@@ -192,8 +192,8 @@ export default function PlaybookPage() {
                         {/* Badge meilleure réponse */}
                         {i === 0 && (
                           <div className="flex items-center gap-1.5 mb-2">
-                            <Trophy className="w-3.5 h-3.5 text-[#F59E0B]" />
-                            <span className="text-[11px] font-semibold text-[#F59E0B]">Meilleure réponse</span>
+                            <Trophy className="w-3.5 h-3.5 text-amber-500" />
+                            <span className="text-[11px] font-semibold text-amber-500">Meilleure réponse</span>
                             {resp.promoted_to_kb && (
                               <Badge variant="success" size="sm">Promue en KB</Badge>
                             )}
@@ -438,7 +438,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
           <button
             onClick={handleSubmit}
             disabled={!titre.trim() || createMutation.isPending}
-            className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#2EC6F3] to-[#1DA1D4] text-white rounded-xl text-sm font-medium shadow-sm disabled:opacity-40 transition"
+            className="flex-1 px-4 py-2.5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl text-sm font-medium shadow-sm disabled:opacity-40 transition"
           >
             {createMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Enregistrer'}
           </button>

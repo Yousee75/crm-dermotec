@@ -248,7 +248,7 @@ export default function FacturationTab() {
                   return (
                     <tr key={facture.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4">
-                        <Link href={`/facture/${facture.id}`} className="text-primary hover:text-[#1A94CC] font-medium text-sm">
+                        <Link href={`/facture/${facture.id}`} className="text-primary hover:text-primary-dark font-medium text-sm">
                           {facture.numero}
                         </Link>
                       </td>

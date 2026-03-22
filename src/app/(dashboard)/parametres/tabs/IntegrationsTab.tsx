@@ -141,7 +141,7 @@ export default function IntegrationsTab() {
       </div>
 
       {/* Intégration en vedette */}
-      <Card className="p-6 bg-gradient-to-r from-[#2EC6F3]/5 to-blue-50/30 border-primary">
+      <Card className="p-6 bg-gradient-to-r from-primary/5 to-blue-50/30 border-primary">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-white rounded-lg shadow-sm flex items-center justify-center">

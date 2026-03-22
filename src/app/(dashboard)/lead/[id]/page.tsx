@@ -222,7 +222,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <h1 className="text-base sm:text-lg font-bold text-[#082545] truncate">{lead.prenom} {lead.nom}</h1>
+              <h1 className="text-base sm:text-lg font-bold text-accent truncate">{lead.prenom} {lead.nom}</h1>
               <div className="relative">
                 <button onClick={() => setShowStatutMenu(p => !p)} className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium text-white" style={{ backgroundColor: statut.color }}>
                   {statut.label}{validTransitions.length > 0 && <ChevronDown className="w-2 h-2" />}
@@ -263,8 +263,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
               const isActive = i === etapeIndex
               return (
                 <div key={etape.id} className="flex items-center gap-0.5">
-                  {i > 0 && <div className={cn('w-3 h-0.5 rounded-full', isComplete ? 'bg-[#2EC6F3]' : 'bg-gray-200')} />}
-                  <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-medium', isActive ? 'bg-[#2EC6F3]/15 text-[#2EC6F3] ring-1 ring-[#2EC6F3]/30' : isComplete ? 'bg-emerald-50 text-emerald-600' : 'text-gray-400 bg-gray-50')} title={etape.label}>
+                  {i > 0 && <div className={cn('w-3 h-0.5 rounded-full', isComplete ? 'bg-primary' : 'bg-gray-200')} />}
+                  <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-medium', isActive ? 'bg-primary/15 text-primary ring-1 ring-primary/30' : isComplete ? 'bg-emerald-50 text-emerald-600' : 'text-gray-400 bg-gray-50')} title={etape.label}>
                     {isComplete ? <Check className="w-2.5 h-2.5" /> : i + 1}
                   </div>
                 </div>
@@ -294,11 +294,11 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           {/* Contact — collapsible sur mobile */}
           <details className="bg-white rounded-xl border border-gray-100 overflow-hidden" open>
             <summary className="flex items-center justify-between px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition list-none">
-              <div className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-[#2EC6F3]" /><span className="text-xs font-semibold text-[#082545]">Contact</span></div>
+              <div className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-primary" /><span className="text-xs font-semibold text-accent">Contact</span></div>
               {!isEditing ? <button onClick={(e) => { e.preventDefault(); setIsEditing(true) }} className="p-1 rounded hover:bg-gray-100 text-gray-400"><Edit3 className="w-3 h-3" /></button> : (
                 <div className="flex gap-1">
                   <button onClick={(e) => { e.preventDefault(); setIsEditing(false); setEditedLead(() => ({})) }} className="px-2 py-0.5 text-[10px] text-gray-500 border rounded">Annuler</button>
-                  <button onClick={(e) => { e.preventDefault(); handleSave() }} className="px-2 py-0.5 text-[10px] bg-[#2EC6F3] text-white rounded"><Save className="w-2.5 h-2.5 inline mr-0.5" />OK</button>
+                  <button onClick={(e) => { e.preventDefault(); handleSave() }} className="px-2 py-0.5 text-[10px] bg-primary text-white rounded"><Save className="w-2.5 h-2.5 inline mr-0.5" />OK</button>
                 </div>
               )}
             </summary>
@@ -312,7 +312,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
           {/* Profil */}
           <details className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-            <summary className="flex items-center gap-1.5 px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition list-none"><Building2 className="w-3.5 h-3.5 text-[#2EC6F3]" /><span className="text-xs font-semibold text-[#082545]">Profil</span></summary>
+            <summary className="flex items-center gap-1.5 px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition list-none"><Building2 className="w-3.5 h-3.5 text-primary" /><span className="text-xs font-semibold text-accent">Profil</span></summary>
             <div className="px-4 pb-3 space-y-2 border-t border-gray-50 pt-2">
               <SelectField label="Statut pro" value={lead.statut_pro || ''} field="statut_pro" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} options={STATUT_PRO_OPTIONS} />
               <SelectField label="Expérience" value={lead.experience_esthetique || ''} field="experience_esthetique" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} options={EXPERIENCE_OPTIONS} />
@@ -324,16 +324,16 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           {/* Formation + Inscriptions + Financement */}
           {(lead.formation_principale || (lead.inscriptions && lead.inscriptions.length > 0) || (lead.financements && lead.financements.length > 0)) && (
             <details className="bg-white rounded-xl border border-gray-100 overflow-hidden" open>
-              <summary className="flex items-center gap-1.5 px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition list-none"><GraduationCap className="w-3.5 h-3.5 text-[#2EC6F3]" /><span className="text-xs font-semibold text-[#082545]">Formations</span></summary>
+              <summary className="flex items-center gap-1.5 px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition list-none"><GraduationCap className="w-3.5 h-3.5 text-primary" /><span className="text-xs font-semibold text-accent">Formations</span></summary>
               <div className="px-4 pb-3 space-y-2 border-t border-gray-50 pt-2">
                 {lead.formation_principale && (
-                  <div className="p-2 bg-[#2EC6F3]/5 border border-[#2EC6F3]/20 rounded-lg">
-                    <div className="flex justify-between items-start"><span className="text-xs font-medium text-[#082545]">{lead.formation_principale.nom}</span><span className="text-xs font-bold text-[#2EC6F3]">{formatEuro(lead.formation_principale.prix_ht)}</span></div>
+                  <div className="p-2 bg-primary/5 border border-primary/20 rounded-lg">
+                    <div className="flex justify-between items-start"><span className="text-xs font-medium text-accent">{lead.formation_principale.nom}</span><span className="text-xs font-bold text-primary">{formatEuro(lead.formation_principale.prix_ht)}</span></div>
                   </div>
                 )}
                 {lead.inscriptions?.map((insc: Inscription) => (
                   <div key={insc.id} className="flex justify-between items-center text-xs p-2 bg-gray-50 rounded-lg">
-                    <span className="text-[#082545] font-medium truncate">{insc.session?.formation?.nom || 'Formation'}</span>
+                    <span className="text-accent font-medium truncate">{insc.session?.formation?.nom || 'Formation'}</span>
                     <span className={cn('px-1.5 py-0.5 rounded-full text-[9px] font-medium', insc.paiement_statut === 'PAYE' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700')}>{insc.paiement_statut === 'PAYE' ? 'Payé' : 'En attente'}</span>
                   </div>
                 ))}
@@ -346,15 +346,15 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
           {/* Tags + Notes */}
           <details className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-            <summary className="flex items-center gap-1.5 px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition list-none"><Tag className="w-3.5 h-3.5 text-[#2EC6F3]" /><span className="text-xs font-semibold text-[#082545]">Tags & Notes</span></summary>
+            <summary className="flex items-center gap-1.5 px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition list-none"><Tag className="w-3.5 h-3.5 text-primary" /><span className="text-xs font-semibold text-accent">Tags & Notes</span></summary>
             <div className="px-4 pb-3 border-t border-gray-50 pt-2 space-y-3">
               <div className="flex flex-wrap gap-1">
                 {lead.tags.map(tag => (
                   <span key={tag} className="inline-flex items-center gap-0.5 px-2 py-0.5 bg-gray-100 text-gray-700 rounded-full text-[10px] group">{tag}<button onClick={() => handleRemoveTag(tag)} className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100"><X className="w-2 h-2" /></button></span>
                 ))}
-                <input type="text" value={newTag} onChange={e => setNewTag(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAddTag()} placeholder="+" className="w-8 px-1 py-0.5 border border-dashed border-gray-300 rounded-full text-[10px] text-center focus:border-[#2EC6F3] focus:w-20 transition-all outline-none" />
+                <input type="text" value={newTag} onChange={e => setNewTag(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAddTag()} placeholder="+" className="w-8 px-1 py-0.5 border border-dashed border-gray-300 rounded-full text-[10px] text-center focus:border-primary focus:w-20 transition-all outline-none" />
               </div>
-              <textarea value={isEditing ? (editedLead.notes ?? lead.notes ?? '') : (lead.notes || '')} onChange={e => setEditedLead(prev => ({ ...prev, notes: e.target.value }))} disabled={!isEditing} rows={2} placeholder="Notes..." className="w-full px-2 py-1.5 border border-gray-200 rounded-lg text-[11px] disabled:bg-gray-50 resize-none focus:outline-none focus:border-[#2EC6F3]" />
+              <textarea value={isEditing ? (editedLead.notes ?? lead.notes ?? '') : (lead.notes || '')} onChange={e => setEditedLead(prev => ({ ...prev, notes: e.target.value }))} disabled={!isEditing} rows={2} placeholder="Notes..." className="w-full px-2 py-1.5 border border-gray-200 rounded-lg text-[11px] disabled:bg-gray-50 resize-none focus:outline-none focus:border-primary" />
             </div>
           </details>
 
@@ -389,8 +389,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           {/* Timeline activité */}
           <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
             <div className="px-4 py-2.5 border-b border-gray-50 flex items-center gap-2">
-              <Activity className="w-4 h-4 text-[#2EC6F3]" />
-              <span className="text-xs font-semibold text-[#082545]">Activité</span>
+              <Activity className="w-4 h-4 text-primary" />
+              <span className="text-xs font-semibold text-accent">Activité</span>
               {messages.length > 0 && <span className="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{messages.length}</span>}
             </div>
             {/* Envoi rapide */}
@@ -402,10 +402,10 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                   </button>
                 ))}
               </div>
-              {messageCanal === 'email' && <input type="text" value={messageSubject} onChange={e => setMessageSubject(e.target.value)} placeholder="Objet..." className="w-full px-2 py-1 border border-gray-200 rounded text-[11px] mb-1.5 focus:outline-none focus:border-[#2EC6F3]" />}
+              {messageCanal === 'email' && <input type="text" value={messageSubject} onChange={e => setMessageSubject(e.target.value)} placeholder="Objet..." className="w-full px-2 py-1 border border-gray-200 rounded text-[11px] mb-1.5 focus:outline-none focus:border-primary" />}
               <div className="flex gap-1.5">
-                <textarea value={messageContent} onChange={e => setMessageContent(e.target.value)} placeholder={messageCanal === 'note_interne' ? 'Note...' : 'Message...'} rows={1} className="flex-1 px-2 py-1.5 border border-gray-200 rounded text-[11px] resize-none focus:outline-none focus:border-[#2EC6F3]" />
-                <button onClick={handleSendMessage} disabled={sendMessage.isPending || !messageContent.trim()} className="self-end p-2 bg-[#2EC6F3] text-white rounded hover:bg-[#0284C7] transition disabled:opacity-50">
+                <textarea value={messageContent} onChange={e => setMessageContent(e.target.value)} placeholder={messageCanal === 'note_interne' ? 'Note...' : 'Message...'} rows={1} className="flex-1 px-2 py-1.5 border border-gray-200 rounded text-[11px] resize-none focus:outline-none focus:border-primary" />
+                <button onClick={handleSendMessage} disabled={sendMessage.isPending || !messageContent.trim()} className="self-end p-2 bg-primary text-white rounded hover:bg-primary-dark transition disabled:opacity-50">
                   {sendMessage.isPending ? <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Send className="w-3 h-3" />}
                 </button>
               </div>

@@ -5,8 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { TabBar } from '@/components/ui/TabBar'
-import { Award } from 'lucide-react'
-
 // Lazy imports pour les onglets
 import dynamic from 'next/dynamic'
 
@@ -42,17 +40,11 @@ export default function QualiopiPage() {
     window.history.replaceState({}, '', url.toString())
   }, [activeTab])
 
-  // TODO: Récupérer les vraies données pour les compteurs
-  const indicateursCount = 32 // Total des indicateurs Qualiopi
-  const questionnairesCount = 0 // Fonctionnalité à venir
-  const bpfCount = 1 // BPF de l'année en cours
-  const reclamationsCount = 3 // Réclamations actives
-
   const tabs = [
-    { id: 'indicateurs', label: 'Indicateurs', count: indicateursCount },
-    { id: 'questionnaires', label: 'Questionnaires', count: questionnairesCount },
-    { id: 'bpf', label: 'BPF', count: bpfCount },
-    { id: 'reclamations', label: 'Réclamations', count: reclamationsCount },
+    { id: 'indicateurs', label: 'Indicateurs' },
+    { id: 'questionnaires', label: 'Questionnaires' },
+    { id: 'bpf', label: 'BPF' },
+    { id: 'reclamations', label: 'Réclamations' },
   ]
 
   const renderActiveTab = () => {

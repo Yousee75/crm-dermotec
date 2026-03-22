@@ -144,7 +144,7 @@ export default function PipelineTab() {
                     className="block p-2 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded bg-gradient-to-br from-[#2EC6F3] to-[#1A94CC] flex items-center justify-center text-white text-xs font-medium">
+                      <div className="w-6 h-6 rounded bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium">
                         {lead.prenom?.[0] || lead.nom?.[0] || 'L'}
                       </div>
                       <div className="flex-1 min-w-0">

@@ -132,7 +132,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
                   <td className="px-6 py-4">
                     <Link href={`/lead/${lead.id}`} className="group block">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2EC6F3] to-[#1A94CC] flex items-center justify-center text-white text-xs font-medium shadow-sm">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium shadow-sm">
                           {lead.prenom?.[0] || lead.nom?.[0] || 'L'}
                         </div>
                         <div>

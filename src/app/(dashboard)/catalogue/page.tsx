@@ -91,7 +91,7 @@ function HeroSection({ searchTerm, onSearchChange }: {
 }) {
   return (
     <motion.div
-      className="relative overflow-hidden bg-gradient-to-br from-[#2EC6F3] via-blue-500 to-[#082545] text-white"
+      className="relative overflow-hidden bg-gradient-to-br from-primary via-blue-500 to-accent text-white"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6 }}
@@ -242,7 +242,7 @@ function ParcoursTimeline() {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-gradient-to-b from-[#2EC6F3] to-[#082545] h-full hidden lg:block" />
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-gradient-to-b from-primary to-accent h-full hidden lg:block" />
 
           <div className="space-y-12 lg:space-y-16">
             {PARCOURS_RECOMMANDE.map((etape, index) => (
@@ -257,7 +257,7 @@ function ParcoursTimeline() {
                 <div className="flex-1 lg:px-8">
                   <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-[#2EC6F3] to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                         {etape.etape}
                       </div>
                       <div>
@@ -469,7 +469,7 @@ function ROICalculator({ formation }: { formation: FormationEnriched }) {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <motion.div
-            className="bg-gradient-to-r from-[#2EC6F3] to-green-500 h-3 rounded-full"
+            className="bg-gradient-to-r from-primary to-green-500 h-3 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(100, (clientsParSemaine * 4 / formation.roi.seuilRentabiliteSeances) * 100)}%` }}
             transition={{ duration: 0.5 }}

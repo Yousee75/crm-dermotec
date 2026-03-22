@@ -220,7 +220,7 @@ export default function FinancementTab() {
                     <tr key={financement.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2EC6F3] to-[#1A94CC] flex items-center justify-center text-white text-xs font-medium">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium">
                             {financement.apprenant_nom.split(' ').map(n => n[0]).join('')}
                           </div>
                           <span className="text-sm font-medium text-gray-900">
@@ -255,7 +255,7 @@ export default function FinancementTab() {
                       <td className="px-6 py-4">
                         <Link
                           href={`/financement/${financement.id}`}
-                          className="text-primary hover:text-[#1A94CC] text-sm font-medium"
+                          className="text-primary hover:text-primary-dark text-sm font-medium"
                         >
                           Voir détail
                         </Link>

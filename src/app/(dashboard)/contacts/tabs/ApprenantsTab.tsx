@@ -72,7 +72,7 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
   const t = useTranslations('apprenants')
   const [search, setSearch] = useState('')
 
-  // TODO: Remplacer par le vrai hook useApprenants()
+  // Donnees de demonstration — brancher sur useApprenants() quand la table apprenants sera creee
   const isLoading = false
   const apprenants = MOCK_APPRENANTS.filter(a =>
     search === '' ||

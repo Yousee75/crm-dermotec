@@ -188,7 +188,7 @@ export default function AcademyPage() {
   return (
     <div className="space-y-6 pb-6">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#2EC6F3] to-[#082545] px-6 py-6 text-white">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-accent px-6 py-6 text-white">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-white/20" />
           <div className="absolute -left-8 -bottom-8 w-32 h-32 rounded-full bg-white/10" />

@@ -95,14 +95,14 @@ function HeroStats() {
   ]
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#2EC6F3]/10 via-[#2EC6F3]/5 to-[#082545]/10 p-8 border border-primary/20">
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-primary/5 to-accent/10 p-8 border border-primary/20">
       {/* Glassmorphism background */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/20 backdrop-blur-sm" />
 
       {/* Mesh gradient background */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-gradient-to-br from-[#2EC6F3]/30 to-transparent blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-gradient-to-br from-[#082545]/20 to-transparent blur-3xl" />
+        <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-gradient-to-br from-primary/30 to-transparent blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-gradient-to-br from-accent/20 to-transparent blur-3xl" />
       </div>
 
       <div className="relative z-10">
@@ -114,10 +114,10 @@ function HeroStats() {
             transition={{ duration: 0.6 }}
             className="flex items-center justify-center gap-3 mb-4"
           >
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-[#2EC6F3] to-[#082545] text-white">
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-primary to-accent text-white">
               <GraduationCap className="w-8 h-8" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold font-heading bg-gradient-to-r from-[#2EC6F3] to-[#082545] bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold font-heading bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Parcours de formation
             </h1>
           </motion.div>
@@ -367,7 +367,7 @@ function QuizPlayer({
         className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-[#2EC6F3]/10 to-[#082545]/10">
+        <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-primary/10 to-accent/10">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-gray-900">Quiz - {moduleTitle}</h2>
@@ -390,7 +390,7 @@ function QuizPlayer({
             <div className="mt-4">
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
-                  className="bg-gradient-to-r from-[#2EC6F3] to-[#082545] h-2 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-300"
                   style={{ width: `${((currentQuestionIndex + 1) / quiz.length) * 100}%` }}
                 />
               </div>

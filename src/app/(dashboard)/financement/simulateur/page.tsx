@@ -465,7 +465,7 @@ export default function SimulateurFinancementPage() {
     <div className="space-y-8 pb-8">
       {/* Hero compact */}
       <div className="text-center py-6">
-        <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-[#2EC6F3] to-[#082545] rounded-xl flex items-center justify-center">
+        <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center">
           <Calculator className="w-6 h-6 text-white" />
         </div>
         <h1 className="text-3xl font-bold text-accent mb-2">Simulateur de Financement</h1>
@@ -478,7 +478,7 @@ export default function SimulateurFinancementPage() {
       <MotifsRefusCompact />
 
       {/* CTA final compact */}
-      <Card className="p-6 text-center bg-gradient-to-r from-[#2EC6F3]/5 to-[#082545]/5">
+      <Card className="p-6 text-center bg-gradient-to-r from-primary/5 to-accent/5">
         <div className="space-y-3">
           <h2 className="text-xl font-bold text-accent">Besoin d'aide pour votre dossier ?</h2>
           <p className="text-gray-600">Nos conseillers s'occupent de tout — de la demande jusqu'à la facture finale</p>

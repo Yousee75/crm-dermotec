@@ -5,8 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { TabBar } from '@/components/ui/TabBar'
-import { CreditCard } from 'lucide-react'
-
 // Lazy imports pour les onglets
 import dynamic from 'next/dynamic'
 
@@ -38,15 +36,10 @@ export default function GestionPage() {
     window.history.replaceState({}, '', url.toString())
   }, [activeTab])
 
-  // TODO: Récupérer les vraies données pour les compteurs
-  const financementCount = 4 // Mock - dossiers de financement actifs
-  const facturationCount = 8 // Mock - factures totales
-  const eshopCount = 12 // Mock - commandes totales
-
   const tabs = [
-    { id: 'financement', label: 'Financement', count: financementCount },
-    { id: 'facturation', label: 'Facturation', count: facturationCount },
-    { id: 'eshop', label: 'E-Shop', count: eshopCount },
+    { id: 'financement', label: 'Financement' },
+    { id: 'facturation', label: 'Facturation' },
+    { id: 'eshop', label: 'E-Shop' },
   ]
 
   const renderActiveTab = () => {

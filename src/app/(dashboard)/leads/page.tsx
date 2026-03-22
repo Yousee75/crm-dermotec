@@ -422,7 +422,7 @@ export default function LeadsPage() {
 
       {/* Bulk Actions Bar */}
       {someSelected && (
-        <div className="flex items-center gap-3 bg-[#0F172A] text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
+        <div className="flex items-center gap-3 bg-slate-900 text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
           <CheckSquare className="w-4 h-4 text-primary" />
           <span className="text-sm font-medium">{selectedIds.size} sélectionné{selectedIds.size > 1 ? 's' : ''}</span>
           <div className="flex-1" />

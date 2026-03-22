@@ -168,6 +168,10 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
             className="flex items-center gap-1 px-2 py-1 bg-white/10 text-white rounded text-[10px] font-medium hover:bg-white/20 transition">
             <Download className="w-3 h-3" /> PDF
           </button>
+          <button onClick={() => window.open(`/api/enrichment/report/word?leadId=${leadId}`, '_blank')}
+            className="flex items-center gap-1 px-2 py-1 bg-white/10 text-white rounded text-[10px] font-medium hover:bg-white/20 transition">
+            <FileText className="w-3 h-3" /> Word
+          </button>
         </div>
       </div>
 

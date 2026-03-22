@@ -54,7 +54,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
   const t = useTranslations('clients')
   const [search, setSearch] = useState('')
 
-  // TODO: Remplacer par le vrai hook useClients()
+  // Donnees de demonstration — brancher sur useClients() quand la table clients sera creee
   const isLoading = false
   const clients = MOCK_CLIENTS.filter(c =>
     search === '' ||

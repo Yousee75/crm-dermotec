@@ -5,8 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { TabBar } from '@/components/ui/TabBar'
-import { Settings } from 'lucide-react'
-
 // Lazy imports pour les onglets
 import dynamic from 'next/dynamic'
 
@@ -46,17 +44,12 @@ export default function ParametresPage() {
     window.history.replaceState({}, '', url.toString())
   }, [activeTab])
 
-  // TODO: Récupérer les vraies données pour les compteurs
-  const equipeCount = 4 // Nombre de membres d'équipe
-  const formationsCount = 11 // Nombre de formations au catalogue
-  const integrationsCount = 3 // Nombre d'intégrations connectées
-
   const tabs = [
-    { id: 'equipe', label: 'Équipe', count: equipeCount },
-    { id: 'catalogue', label: 'Catalogue', count: formationsCount },
+    { id: 'equipe', label: 'Équipe' },
+    { id: 'catalogue', label: 'Catalogue' },
     { id: 'securite', label: 'Sécurité' },
     { id: 'plan', label: 'Mon plan' },
-    { id: 'integrations', label: 'Intégrations', count: integrationsCount },
+    { id: 'integrations', label: 'Intégrations' },
   ]
 
   const renderActiveTab = () => {

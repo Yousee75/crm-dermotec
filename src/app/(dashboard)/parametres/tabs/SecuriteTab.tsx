@@ -190,7 +190,7 @@ export default function SecuriteTab() {
               <Badge variant="success" size="sm">Activé</Badge>
             </div>
 
-            <Link href="/settings/privacy" className="inline-flex items-center gap-2 text-sm text-primary hover:text-[#1A94CC] font-medium">
+            <Link href="/settings/privacy" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-dark font-medium">
               Paramètres détaillés
               <ExternalLink className="w-3 h-3" />
             </Link>
@@ -236,7 +236,7 @@ export default function SecuriteTab() {
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Journal de sécurité</h3>
-          <Link href="/settings/security/logs" className="text-sm text-primary hover:text-[#1A94CC] font-medium">
+          <Link href="/settings/security/logs" className="text-sm text-primary hover:text-primary-dark font-medium">
             Voir tout
           </Link>
         </div>

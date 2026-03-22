@@ -89,7 +89,7 @@ export default function PlanTab() {
   return (
     <div className="space-y-6">
       {/* Plan actuel */}
-      <Card className="p-6 border-primary bg-gradient-to-r from-[#2EC6F3]/5 to-blue-50/30">
+      <Card className="p-6 border-primary bg-gradient-to-r from-primary/5 to-blue-50/30">
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">

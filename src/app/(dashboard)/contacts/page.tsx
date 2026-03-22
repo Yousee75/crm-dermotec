@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { TabBar } from '@/components/ui/TabBar'
 import { CreateLeadDialog } from '@/components/ui/CreateLeadDialog'
-import { Users, UserPlus, Building2, GraduationCap, Kanban } from 'lucide-react'
 import { useLeads } from '@/hooks/use-leads'
 
 // Lazy imports pour les onglets
@@ -53,9 +52,9 @@ export default function ContactsPage() {
   const prospectCount = leads.filter((l: any) => !['inscrit', 'forme'].includes(l.statut || '')).length
   const pipelineCount = leads.filter((l: any) => l.statut && ['qualifie', 'devis_envoye', 'financement'].includes(l.statut)).length
 
-  // TODO: Remplacer par de vraies données
-  const clientCount = 2 // Mock
-  const apprenantCount = 3 // Mock
+  // Compteurs clients/apprenants — a brancher sur vrais hooks quand les tables seront creees
+  const clientCount = 0
+  const apprenantCount = 0
 
   const tabs = [
     { id: 'prospects', label: 'Prospects', count: prospectCount },
@@ -71,9 +70,9 @@ export default function ContactsPage() {
       case 'pipeline':
         return <PipelineTab />
       case 'clients':
-        return <ClientsTab onCreateClient={() => console.log('Créer client')} />
+        return <ClientsTab onCreateClient={() => {}} />
       case 'apprenants':
-        return <ApprenantsTab onCreateApprenant={() => console.log('Créer apprenant')} />
+        return <ApprenantsTab onCreateApprenant={() => {}} />
       default:
         return <ProspectsTab onCreateLead={() => setShowCreateLead(true)} />
     }

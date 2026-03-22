@@ -47,7 +47,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
   const classText = classification === 'CHAUD' ? '#065F46' : classification === 'TIEDE' ? '#92400E' : '#991B1B'
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-screen"><div className="w-8 h-8 border-2 border-[#2EC6F3] border-t-transparent rounded-full animate-spin" /></div>
+    return <div className="flex items-center justify-center h-screen"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>
   }
 
   if (!lead) {
@@ -67,10 +67,10 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
     <>
       {/* Toolbar (ne s'imprime pas) */}
       <div className="print:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between">
-        <Link href={`/lead/${id}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#2EC6F3] transition">
+        <Link href={`/lead/${id}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition">
           <ArrowLeft className="w-4 h-4" /> Retour fiche lead
         </Link>
-        <button onClick={() => window.print()} className="flex items-center gap-2 px-3 py-1.5 bg-[#082545] text-white rounded-lg text-sm hover:bg-[#082545]/90 transition">
+        <button onClick={() => window.print()} className="flex items-center gap-2 px-3 py-1.5 bg-accent text-white rounded-lg text-sm hover:bg-accent/90 transition">
           <Printer className="w-4 h-4" /> Imprimer / PDF
         </button>
       </div>
@@ -114,9 +114,9 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
             {/* LEFT: Brief + Script placeholder + Objections */}
             <div className="flex flex-col gap-2 overflow-hidden">
               {/* Brief */}
-              <div className="bg-[#F8FAFC] rounded-md p-2.5 border border-gray-200">
-                <div className="text-[9px] font-bold text-[#082545] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                  <span className="w-[3px] h-3 bg-[#2EC6F3] rounded-sm" />Le Brief
+              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200">
+                <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <span className="w-[3px] h-3 bg-primary rounded-sm" />Le Brief
                 </div>
                 <div className="text-[10px] leading-relaxed">
                   {nom}{lead.statut_pro ? `, ${lead.statut_pro.replace(/_/g, ' ')}` : ''}{lead.entreprise_nom ? ` chez ${lead.entreprise_nom}` : ''}.
@@ -132,7 +132,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
               <div className="grid grid-cols-2 gap-2 flex-shrink-0">
                 <div>
                   <div className="text-[7px] font-bold px-1.5 py-1 rounded-sm mb-1.5" style={{ background: '#ECFDF5', color: '#059669' }}>ATOUTS POUR VENDRE</div>
-                  <div className="text-[8px] text-[#059669] space-y-0.5 leading-snug">
+                  <div className="text-[8px] text-emerald-600 space-y-0.5 leading-snug">
                     {formation && <div>+ Formation {formation.nom} demandee</div>}
                     {lead.financement_souhaite && <div>+ Financement souhaite = levier prix</div>}
                     {lead.email && lead.telephone && <div>+ Email + tel = double canal contact</div>}
@@ -142,7 +142,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                 </div>
                 <div>
                   <div className="text-[7px] font-bold px-1.5 py-1 rounded-sm mb-1.5" style={{ background: '#FFFBEB', color: '#D97706' }}>PIEGES A EVITER</div>
-                  <div className="text-[8px] text-[#D97706] space-y-0.5 leading-snug">
+                  <div className="text-[8px] text-amber-600 space-y-0.5 leading-snug">
                     {!lead.financement_souhaite && <div>! Pas de demande financement = sensible au prix</div>}
                     {!lead.entreprise_nom && <div>! Pas d'entreprise renseignee = profil a qualifier</div>}
                     {(lead.nb_contacts || 0) === 0 && <div>! Jamais contacte = premier contact delicat</div>}
@@ -153,9 +153,9 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
               </div>
 
               {/* Script placeholder */}
-              <div className="bg-[#F8FAFC] rounded-md p-2.5 border border-gray-200 flex-1 overflow-hidden">
-                <div className="text-[9px] font-bold text-[#082545] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                  <span className="w-[3px] h-3 bg-[#2EC6F3] rounded-sm" />Script Telephonique
+              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200 flex-1 overflow-hidden">
+                <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <span className="w-[3px] h-3 bg-primary rounded-sm" />Script Telephonique
                 </div>
                 <div className="space-y-1.5">
                   {[
@@ -167,7 +167,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                     <div key={step.n} className="flex gap-1.5 items-start">
                       <div className="w-4 h-4 rounded-full flex items-center justify-center text-white text-[7px] font-bold shrink-0 mt-0.5" style={{ background: step.c }}>{step.n}</div>
                       <div className="flex-1">
-                        <span className="text-[6.5px] font-bold text-[#082545] uppercase tracking-wide">{step.l}</span>
+                        <span className="text-[6.5px] font-bold text-accent uppercase tracking-wide">{step.l}</span>
                         <div className="text-[8.5px] italic leading-snug text-gray-700 mt-0.5">{step.t}</div>
                       </div>
                     </div>
@@ -193,9 +193,9 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
             {/* RIGHT: Radar + Formations + Financement */}
             <div className="flex flex-col gap-2 overflow-hidden">
               {/* Radar */}
-              <div className="bg-[#F8FAFC] rounded-md p-2.5 border border-gray-200 flex-1 overflow-hidden">
-                <div className="text-[9px] font-bold text-[#082545] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                  <span className="w-[3px] h-3 bg-[#2EC6F3] rounded-sm" />Profil Prospect — 5 axes
+              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200 flex-1 overflow-hidden">
+                <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <span className="w-[3px] h-3 bg-primary rounded-sm" />Profil Prospect — 5 axes
                 </div>
                 <div className="flex items-start gap-2.5">
                   {/* SVG Radar */}
@@ -269,21 +269,21 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
               </div>
 
               {/* Formations */}
-              <div className="bg-[#F8FAFC] rounded-md p-2.5 border border-gray-200 flex-shrink-0">
-                <div className="text-[9px] font-bold text-[#082545] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                  <span className="w-[3px] h-3 bg-[#2EC6F3] rounded-sm" />Formations a proposer
+              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200 flex-shrink-0">
+                <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <span className="w-[3px] h-3 bg-primary rounded-sm" />Formations a proposer
                 </div>
                 {formation ? (
                   <div className="space-y-1.5">
-                    <div className="p-1.5 rounded bg-[#F0F9FF] border border-[#2EC6F3]">
+                    <div className="p-1.5 rounded bg-sky-50 border border-primary">
                       <div className="flex justify-between items-center">
-                        <span className="text-[9px] font-bold text-[#082545]">{formation.nom}</span>
+                        <span className="text-[9px] font-bold text-accent">{formation.nom}</span>
                         <div className="flex items-center gap-1">
-                          <span className="text-[6px] font-bold text-white px-1 py-0.5 rounded bg-[#2EC6F3]">PRINCIPAL</span>
-                          <span className="text-[9px] font-bold text-[#2EC6F3]">{formation.prix_ht}\u20acHT</span>
+                          <span className="text-[6px] font-bold text-white px-1 py-0.5 rounded bg-primary">PRINCIPAL</span>
+                          <span className="text-[9px] font-bold text-primary">{formation.prix_ht}\u20acHT</span>
                         </div>
                       </div>
-                      <div className="text-[7.5px] text-[#059669] mt-1">{formation.duree_jours || 2}j de formation. ROI rapide sur les premieres clientes.</div>
+                      <div className="text-[7.5px] text-emerald-600 mt-1">{formation.duree_jours || 2}j de formation. ROI rapide sur les premieres clientes.</div>
                     </div>
                   </div>
                 ) : (
@@ -293,13 +293,13 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
 
               {/* Financement */}
               <div className="p-2 rounded-md flex-shrink-0" style={{ background: '#ECFDF5', borderLeft: '3px solid #10B981' }}>
-                <div className="text-[7px] font-bold text-[#059669] mb-1">STRATEGIE FINANCEMENT</div>
-                <div className="text-[8px] text-[#14532D] leading-snug">
+                <div className="text-[7px] font-bold text-emerald-600 mb-1">STRATEGIE FINANCEMENT</div>
+                <div className="text-[8px] text-green-900 leading-snug">
                   {lead.financement_souhaite
                     ? `${lead.organisme_financement || 'OPCO EP'} — dossier a constituer. ${lead.statut_pro === 'salariee' ? 'Salariee = eligible plan de competences.' : lead.statut_pro === 'independante' ? 'Independante = FAFCEA ou CPF.' : 'Verifier eligibilite OPCO/CPF.'}`
                     : 'Pas de demande financement. Presenter comme argument surprise : "80% de nos stagiaires ne paient rien."'}
                 </div>
-                <div className="text-[8.5px] text-[#14532D] italic font-bold mt-1.5">
+                <div className="text-[8.5px] text-green-900 italic font-bold mt-1.5">
                   "80% de nos stagiaires font financer par l'OPCO. Je verifie votre eligibilite en 2 minutes."
                 </div>
               </div>
@@ -314,8 +314,8 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                 { l: 'Quand', v: 'Mar/Mer 10h-12h' },
                 { l: 'Duree', v: '5-7 min' },
               ].map((c, i) => (
-                <div key={i} className="flex items-center gap-1 px-2 py-0.5 rounded bg-[#F8FAFC] border border-gray-200">
-                  <span className="text-[6.5px] font-bold text-[#082545] uppercase">{c.l}</span>
+                <div key={i} className="flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-gray-200">
+                  <span className="text-[6.5px] font-bold text-accent uppercase">{c.l}</span>
                   <span className="text-[8px] text-gray-700">{c.v}</span>
                 </div>
               ))}

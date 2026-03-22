@@ -383,7 +383,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
             title={`Stagiaires (${placesOccupees})`}
             icon={<Users className="w-4 h-4" />}
             action={
-              <button className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors">
+              <button className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors">
                 <Plus className="w-4 h-4" />
                 Ajouter stagiaire
               </button>
@@ -526,7 +526,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                   </div>
                   <Link
                     href={`/emargement/${session.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors"
                   >
                     <Eye className="w-4 h-4" />
                     Ouvrir l'émargement
@@ -606,7 +606,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
             title={`Modèles (${modeles.length})`}
             icon={<User className="w-4 h-4" />}
             action={
-              <button className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors">
+              <button className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors">
                 <Plus className="w-4 h-4" />
                 Ajouter modèle
               </button>

@@ -342,7 +342,7 @@ export default function MessagesPage() {
                     }}
                     className={cn(
                       'p-4 border-b cursor-pointer hover:bg-gray-50 transition-colors',
-                      isSelected && 'bg-blue-50 border-r-2 border-r-[#2EC6F3]'
+                      isSelected && 'bg-blue-50 border-r-2 border-r-primary'
                     )}
                   >
                     <div className="flex items-center gap-3">

@@ -446,7 +446,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
               {/* Bouton fiche complète */}
               <Link
                 href={`/lead/${lead.id}`}
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent text-white rounded-lg hover:bg-[#0a3060] transition font-medium text-sm"
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent text-white rounded-lg hover:bg-accent-light transition font-medium text-sm"
               >
                 <Eye className="w-4 h-4" />
                 Voir la fiche complète

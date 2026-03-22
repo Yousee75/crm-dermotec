@@ -238,7 +238,7 @@ export default function EShopTab() {
                   return (
                     <tr key={commande.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4">
-                        <Link href={`/commande/${commande.id}`} className="text-primary hover:text-[#1A94CC] font-medium text-sm">
+                        <Link href={`/commande/${commande.id}`} className="text-primary hover:text-primary-dark font-medium text-sm">
                           {commande.numero}
                         </Link>
                       </td>
@@ -306,7 +306,7 @@ export default function EShopTab() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Produits les plus vendus</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#2EC6F3] to-[#1A94CC] rounded-lg flex items-center justify-center text-white font-medium">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-lg flex items-center justify-center text-white font-medium">
               1
             </div>
             <div>
