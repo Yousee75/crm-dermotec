@@ -7,7 +7,7 @@ import {
   BarChart3, ShoppingBag, Settings, Award, Phone, LogOut,
   ChevronLeft, Menu, Zap, ChevronRight, Bell, Search,
   Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle, Shield, Eye,
-  Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart, ChevronDown
+  Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart, ChevronDown, X, Wrench, Target
 } from 'lucide-react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
@@ -20,6 +20,7 @@ import { CommandPalette } from '@/components/ui/CommandPalette'
 import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
 import { AgentChat } from '@/components/ui/AgentChat'
+// AIChatWidget supprimé — remplacé par AgentChat (15 tools, dual-mode, score 360°)
 import { usePageTracker } from '@/hooks/use-tracker'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { cn } from '@/lib/utils'
@@ -53,39 +54,36 @@ const TOP_ITEMS: NavItem[] = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/sessions', icon: Calendar, label: 'Sessions' },
   { href: '/analytics', icon: BarChart3, label: 'Analytics' },
+  { href: '/outils', icon: Wrench, label: 'Outils' },
+  { href: '/concurrents', icon: Target, label: 'Concurrents' },
 ]
 
 const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = [
   {
-    id: 'contacts', label: 'Contacts', icon: Users, href: '/contacts',
+    id: 'commercial', label: 'Commercial', icon: Users, href: '/leads',
     children: [
-      { href: '/leads', icon: UserPlus, label: 'Prospects' },
+      { href: '/leads', icon: UserPlus, label: 'Leads' },
       { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
+      { href: '/contacts', icon: Users, label: 'Contacts' },
       { href: '/clients', icon: Building2, label: 'Clients' },
-      { href: '/apprenants', icon: GraduationCap, label: 'Apprenants' },
     ]
   },
   {
-    id: 'gestion', label: 'Gestion', icon: CreditCard, href: '/gestion',
+    id: 'formation', label: 'Formation', icon: GraduationCap, href: '/inscriptions',
     children: [
+      { href: '/inscriptions', icon: UserCheck, label: 'Inscriptions' },
       { href: '/financement', icon: CreditCard, label: 'Financement' },
-      { href: '/facturation', icon: Receipt, label: 'Facturation' },
-      { href: '/commandes', icon: ShoppingBag, label: 'E-Shop' },
+      { href: '/apprenants', icon: GraduationCap, label: 'Stagiaires' },
+      { href: '/emargement', icon: FileBarChart, label: 'Émargement' },
     ]
   },
   {
-    id: 'qualite', label: 'Qualité', icon: Award, href: '/qualiopi',
-    children: [
-      { href: '/qualite', icon: Award, label: 'Qualiopi' },
-      { href: '/bpf', icon: FileBarChart, label: 'BPF' },
-    ]
-  },
-  {
-    id: 'admin', label: 'Admin', icon: Settings, href: '/parametres',
+    id: 'gestion', label: 'Gestion', icon: Settings, href: '/equipe',
     children: [
       { href: '/equipe', icon: Users, label: 'Équipe' },
-      { href: '/audit', icon: Eye, label: 'Audit' },
-      { href: '/settings', icon: Settings, label: 'Paramètres' },
+      { href: '/facturation', icon: Receipt, label: 'Facturation' },
+      { href: '/commandes', icon: ShoppingBag, label: 'Commandes' },
+      { href: '/qualite', icon: Award, label: 'Qualité' },
     ]
   },
 ]
@@ -191,30 +189,27 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     const p = pathname ?? ''
 
     // Gestion des sous-routes pour les pages à onglets
-    if (href === '/contacts') {
+    if (href === '/leads') {
       return p.startsWith('/leads') ||
+             p.startsWith('/contacts') ||
              p.startsWith('/clients') ||
-             p.startsWith('/apprenants') ||
              p.startsWith('/pipeline') ||
-             p.startsWith('/lead/') ||
-             p.startsWith('/contacts')
+             p.startsWith('/lead/')
     }
-    if (href === '/gestion') {
-      return p.startsWith('/financement') ||
+    if (href === '/inscriptions') {
+      return p.startsWith('/inscriptions') ||
+             p.startsWith('/financement') ||
+             p.startsWith('/apprenants') ||
+             p.startsWith('/emargement')
+    }
+    if (href === '/equipe') {
+      return p.startsWith('/equipe') ||
              p.startsWith('/facturation') ||
              p.startsWith('/commandes') ||
-             p.startsWith('/gestion')
-    }
-    if (href === '/qualiopi') {
-      return p.startsWith('/qualite') ||
+             p.startsWith('/qualite') ||
              p.startsWith('/bpf') ||
-             p.startsWith('/qualiopi')
-    }
-    if (href === '/parametres') {
-      return p.startsWith('/settings') ||
-             p.startsWith('/equipe') ||
              p.startsWith('/audit') ||
-             p.startsWith('/parametres')
+             p.startsWith('/settings')
     }
 
     return p.startsWith(href)
@@ -227,7 +222,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         className={cn(
           'fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ease-in-out',
           'bg-[#082545]',
-          collapsed ? 'w-[60px]' : 'w-[240px]',
+          collapsed ? 'w-[64px]' : 'w-[240px]',
           mobileOpen ? 'translate-x-0' : '-translate-x-full',
           'md:translate-x-0 md:relative'
         )}
@@ -256,12 +251,22 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           )}
 
           {!collapsed && (
-            <button
-              onClick={() => setCollapsed(true)}
-              className="hidden md:flex p-1.5 rounded-md hover:bg-white/5 text-slate-500 hover:text-slate-300 transition"
-            >
-              <PanelLeft className="w-4 h-4" />
-            </button>
+            <>
+              {/* Bouton de fermeture mobile */}
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="md:hidden p-1.5 rounded-md hover:bg-white/5 text-slate-500 hover:text-slate-300 transition"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              {/* Bouton de collapse desktop */}
+              <button
+                onClick={() => setCollapsed(true)}
+                className="hidden md:flex p-1.5 rounded-md hover:bg-white/5 text-slate-500 hover:text-slate-300 transition"
+              >
+                <PanelLeft className="w-4 h-4" />
+              </button>
+            </>
           )}
         </div>
 
@@ -531,7 +536,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         {/* Page content with subtle transition */}
         <div
           key={pathname}
-          className="p-4 md:p-6 lg:p-8 pb-20 md:pb-8 max-w-[1600px] mx-auto animate-fadeIn"
+          className="p-4 md:p-6 lg:p-8 pb-24 md:pb-8 max-w-[1600px] mx-auto animate-fadeIn"
         >
           {children}
         </div>
@@ -623,15 +628,12 @@ function getCurrentPageTitle(pathname: string): string {
     '/qualite': 'Qualiopi',
     '/bpf': 'BPF',
     '/analytics': 'Analytics',
-    '/commandes': 'E-Shop',
+    '/commandes': 'Commandes',
     '/equipe': 'Équipe',
     '/audit': 'Audit',
     '/settings': 'Paramètres',
-    // Nouvelles pages à onglets
     '/contacts': 'Contacts',
-    '/gestion': 'Gestion',
-    '/qualiopi': 'Qualiopi',
-    '/parametres': 'Paramètres',
+    '/emargement': 'Émargement',
   }
 
   for (const [path, title] of Object.entries(titles)) {
