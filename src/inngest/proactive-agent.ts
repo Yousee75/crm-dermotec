@@ -198,7 +198,6 @@ export const proactiveAgent = inngest.createFunction(
         .eq('statut', 'PERDU')
         .gte('updated_at', il30j)
         .gte('score_chaud', 50)
-        .is('deleted_at', null)
         .order('score_chaud', { ascending: false })
         .limit(10)
 
@@ -256,6 +255,82 @@ export const proactiveAgent = inngest.createFunction(
     }
 
     console.log('[ProactiveAgent] Summary:', summary)
+
+    // ============================================
+    // STEP 6: Email récap aux admins
+    // ============================================
+    if (summary.total_actions > 0) {
+      await step.run('send-recap-email', async () => {
+        try {
+          const { Resend } = await import('resend')
+          const apiKey = process.env.RESEND_API_KEY
+          if (!apiKey) return { skipped: true, reason: 'Resend non configuré' }
+
+          const resend = new Resend(apiKey)
+
+          const sections: string[] = []
+
+          if (leadsChaudsSansContact.length > 0) {
+            sections.push(`
+              <h3 style="color:#F59E0B">🔥 ${leadsChaudsSansContact.length} lead(s) chaud(s) sans contact</h3>
+              <ul>${leadsChaudsSansContact.slice(0, 5).map((l: any) =>
+                `<li><strong>${l.prenom} ${l.nom}</strong> — Score ${l.score}, ${l.jours_sans_contact}j sans contact — ${l.formation_nom || 'N/A'}</li>`
+              ).join('')}</ul>
+            `)
+          }
+
+          if (financementsStagnants.length > 0) {
+            sections.push(`
+              <h3 style="color:#EF4444">💰 ${financementsStagnants.length} financement(s) en attente</h3>
+              <ul>${financementsStagnants.slice(0, 5).map((f: any) => {
+                const lead = f.lead as any
+                return `<li><strong>${lead?.prenom || '?'} ${lead?.nom || '?'}</strong> — ${f.organisme} (${f.statut})</li>`
+              }).join('')}</ul>
+            `)
+          }
+
+          if (leadsRecuperables.length > 0) {
+            sections.push(`
+              <h3 style="color:#8B5CF6">♻️ ${leadsRecuperables.length} lead(s) récupérable(s)</h3>
+              <ul>${leadsRecuperables.slice(0, 5).map((l: any) =>
+                `<li><strong>${l.prenom} ${l.nom}</strong> — Score ${l.score_chaud}</li>`
+              ).join('')}</ul>
+            `)
+          }
+
+          if (sessionsProches.length > 0) {
+            sections.push(`
+              <h3 style="color:#6366F1">📅 ${sessionsProches.length} session(s) dans 7 jours</h3>
+            `)
+          }
+
+          await resend.emails.send({
+            from: 'Dermotec CRM <crm@dermotec.fr>',
+            to: process.env.ADMIN_EMAIL || 'dermotec.fr@gmail.com',
+            subject: `[Agent IA] ${summary.total_actions} action(s) automatique(s) — ${new Date().toLocaleDateString('fr-FR')}`,
+            html: `
+              <div style="font-family:sans-serif;max-width:600px">
+                <h2 style="color:#082545">🤖 Rapport Agent IA Proactif</h2>
+                <p style="color:#6B7280">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                ${sections.join('<hr style="border:none;border-top:1px solid #E5E7EB;margin:16px 0">')}
+                <p style="margin-top:24px">
+                  <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}"
+                     style="background:#2EC6F3;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold">
+                    Ouvrir le CRM
+                  </a>
+                </p>
+              </div>
+            `,
+          })
+
+          return { sent: true }
+        } catch (err) {
+          console.error('[ProactiveAgent] Email recap failed:', err)
+          return { skipped: true, reason: 'Erreur envoi' }
+        }
+      })
+    }
+
     return summary
   }
 )

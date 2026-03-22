@@ -78,17 +78,10 @@ export const sendEmail = inngest.createFunction(
       const promises: PromiseLike<unknown>[] = []
 
       if (lead_id) {
+        // Logger avec le helper omnicanal (timeline enrichie)
+        const { logEmailSent } = await import('@/lib/activity-logger')
         promises.push(
-          supabase.from('activites').insert({
-            type: 'EMAIL',
-            lead_id,
-            description: `Email envoyé: ${emailResult.sujet}`,
-            metadata: {
-              template_slug,
-              email_id: emailResult.email_id,
-              destinataire: to,
-            },
-          })
+          logEmailSent(lead_id, emailResult.sujet, to, 'resend')
         )
       }
 

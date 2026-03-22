@@ -677,7 +677,10 @@ EXEMPLE : "Combien on devrait closer ce mois ?" → getPipelineForecast({})`,
   },
 })
 
-// --- TOOL 15: Revenue Graph (profil 360° enrichi, inspiré Gong Revenue Graph) ---
+// --- TOOL 15: Revenue Graph (profil 360° enrichi, inspiré Gong Revenue Graph + Klaviyo CDP) ---
+// Import Score 360°
+import { calculateScore360, score360ToText } from './lead-score-360'
+
 export const getRevenueGraphTool = defineTool({
   description: `Vue 360° ENRICHIE d'un lead : revenue, engagement, financements, rappels, tout en UN SEUL appel.
 Plus complet que getLeadDetails — inclut lifetime value, engagement score, jours sans contact, rappels overdue.
@@ -693,14 +696,29 @@ EXEMPLE : "Quels leads sont en danger ?" → getRevenueGraph({ filtre: "a_risque
     const supabase = await createServiceSupabase() as any
 
     if (lead_id) {
-      // Un seul lead
+      // Un seul lead — vue 360° complète avec score
       const { data, error } = await supabase
         .from('v_revenue_graph')
         .select('*')
         .eq('id', lead_id)
         .single()
       if (error) return { error: error.message }
-      return { lead: data }
+      // Calculer le Score 360° (engagement, LTV, health, churn)
+      const score360 = calculateScore360(data)
+      return {
+        lead: data,
+        score_360: {
+          global: score360.score_global,
+          label: score360.label,
+          engagement: score360.engagement,
+          lifetime_value: score360.lifetime_value,
+          health: score360.health,
+          churn_risk: score360.churn_risk,
+          signaux_positifs: score360.signaux_positifs,
+          signaux_negatifs: score360.signaux_negatifs,
+          action_recommandee: score360.action_recommandee,
+        },
+      }
     }
 
     // Liste filtrée

@@ -30,13 +30,11 @@ async function isLeadStillActive(lead_id: string): Promise<boolean> {
 }
 
 async function logActivity(lead_id: string, description: string, step: string, formation_nom: string) {
-  const supabase = getSupabase()
-  await supabase.from('activites').insert({
-    type: 'EMAIL',
-    lead_id,
-    description,
-    metadata: { step, formation_nom },
-  })
+  // Logger avec le helper omnicanal pour la timeline enrichie
+  const { logCadenceStep } = await import('@/lib/activity-logger')
+  const stepIndex = parseInt(step.replace(/\D/g, '') || '0')
+  const stepType = step.includes('sms') ? 'sms' : step.includes('email') ? 'email' : 'rappel'
+  await logCadenceStep(lead_id, `Lead ${formation_nom}`, stepIndex, stepType, description)
 }
 
 export const leadCadence = inngest.createFunction(
