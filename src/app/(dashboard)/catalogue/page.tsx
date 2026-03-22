@@ -970,7 +970,7 @@ export default function CatalogueFormationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="space-y-0">
       {/* Hero Section */}
       <HeroSection searchTerm={searchTerm} onSearchChange={setSearchTerm} />
 

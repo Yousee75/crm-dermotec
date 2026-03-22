@@ -115,7 +115,7 @@ export default function OnboardingPage() {
   }, [entreprise, equipe, objectifs, supabase, router])
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="flex flex-col -m-4 md:-m-6 lg:-m-8">
       {/* Header */}
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">

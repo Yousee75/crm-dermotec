@@ -25,7 +25,7 @@ import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
 // Composant skeleton pour le dashboard
 function DashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-slate-50 space-y-6 animate-pulse">
+    <div className="space-y-6 animate-pulse">
       {/* Header skeleton */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -218,7 +218,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 space-y-6">
+    <div className="space-y-6">
       {/* Header avec logo Dermotec */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -312,11 +312,11 @@ export default function DashboardPage() {
         </div>
         <div className="flex items-center gap-1">
           {[
-            { label: 'Nouveau', count: leadsData?.leads?.filter(l => l.statut === 'NOUVEAU').length || 0, color: '#94A3B8' },
-            { label: 'Qualifié', count: leadsData?.leads?.filter(l => l.statut === 'QUALIFIE').length || 0, color: 'var(--color-primary)' },
-            { label: 'Financement', count: leadsData?.leads?.filter(l => l.statut === 'FINANCEMENT_EN_COURS').length || 0, color: '#F59E0B' },
-            { label: 'Inscrit', count: leadsData?.leads?.filter(l => l.statut === 'INSCRIT').length || 0, color: '#8B5CF6' },
-            { label: 'Formé', count: leadsData?.leads?.filter(l => l.statut === 'FORME' || l.statut === 'ALUMNI').length || 0, color: 'var(--color-success)' },
+            { label: 'Nouveau', count: leadsData?.leads?.filter(l => l.statut === 'NOUVEAU').length || 0, color: '#999999' },
+            { label: 'Qualifié', count: leadsData?.leads?.filter(l => l.statut === 'QUALIFIE').length || 0, color: '#FF5C00' },
+            { label: 'Financement', count: leadsData?.leads?.filter(l => l.statut === 'FINANCEMENT_EN_COURS').length || 0, color: '#FF5C00' },
+            { label: 'Inscrit', count: leadsData?.leads?.filter(l => l.statut === 'INSCRIT').length || 0, color: '#FF2D78' },
+            { label: 'Formé', count: leadsData?.leads?.filter(l => l.statut === 'FORME' || l.statut === 'ALUMNI').length || 0, color: '#10B981' },
           ].map((stage) => (
             <Link
               key={stage.label}
@@ -454,7 +454,7 @@ export default function DashboardPage() {
                   <div className="w-8 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                     <div className="h-full rounded-full" style={{
                       width: `${lead.score_chaud || 0}%`,
-                      backgroundColor: (lead.score_chaud || 0) >= 80 ? 'var(--color-success)' : (lead.score_chaud || 0) >= 60 ? '#F59E0B' : '#9CA3AF'
+                      backgroundColor: (lead.score_chaud || 0) >= 80 ? 'var(--color-success)' : (lead.score_chaud || 0) >= 60 ? '#FF8C42' : '#999999'
                     }} />
                   </div>
                   <span className="text-[10px] text-gray-400 w-5">{lead.score_chaud || 0}</span>
@@ -492,7 +492,7 @@ export default function DashboardPage() {
           icon={(p: any) => <ChartLineUp weight="duotone" {...p} />}
           label="En pipeline"
           value={enPipeline.toLocaleString()}
-          color="#F59E0B"
+          color="#FF8C42"
         />
         <KpiCard
           icon={(p: any) => <CurrencyEur weight="duotone" {...p} />}
@@ -505,7 +505,7 @@ export default function DashboardPage() {
           icon={(p: any) => <CalendarCheck weight="duotone" {...p} />}
           label="Formations a venir"
           value={sessionsAVenir.toLocaleString()}
-          color="#8B5CF6"
+          color="#FF2D78"
         />
         <KpiCard
           icon={(p: any) => <Crosshair weight="duotone" {...p} />}
