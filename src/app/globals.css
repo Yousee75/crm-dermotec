@@ -54,7 +54,7 @@
   /* ── TEXT (charcoal doux, pas noir agressif) ── */
   --color-text: #2D2D3F;
   --color-text-secondary: #5C5C72;
-  --color-text-muted: #9090A7;
+  --color-text-muted: #7A7A90;  /* ratio 4.5:1 sur blanc — WCAG AA */
   --color-text-inverse: #FFFFFF;
 
   /* ── SIDEBAR (charcoal profond) ── */
@@ -156,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
   50% { box-shadow: 0 0 16px 4px rgba(212, 165, 116, 0.25); }
 }
 .glow-hot {
-  animation: glowHot 2.5s ease-in-out infinite;
+  animation: glowHot 2.5s ease-in-out 3;  /* 3 cycles puis stop — pas infinite */
   border-left: 3px solid var(--color-primary) !important;
 }
 
@@ -166,7 +166,7 @@ h1, h2, h3, h4, h5, h6 {
   50% { box-shadow: 0 0 12px 2px rgba(194, 91, 104, 0.2); }
 }
 .pulse-urgent {
-  animation: pulseUrgent 2s ease-in-out infinite;
+  animation: pulseUrgent 2s ease-in-out 3;  /* 3 cycles puis stop */
   border-left: 3px solid var(--color-error) !important;
 }
 
@@ -230,7 +230,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: nudge 0.4s ease-in-out;
 }
 .nudge-repeat {
-  animation: nudge 1.5s ease-in-out infinite;
+  animation: nudge 1.5s ease-in-out 2;  /* 2 secoues puis stop */
 }
 
 /* --- SCORE BAR : barre de score qui se remplit --- */

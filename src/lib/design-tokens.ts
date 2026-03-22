@@ -45,7 +45,7 @@ export const tokens = {
     text: {
       primary: '#2D2D3F',
       secondary: '#5C5C72',
-      tertiary: '#9090A7',
+      tertiary: '#7A7A90',  // WCAG AA 4.5:1
       disabled: '#C8C8D8',
     },
 
