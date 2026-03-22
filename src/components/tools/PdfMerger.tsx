@@ -98,7 +98,7 @@ export function PdfMerger() {
         <button
           onClick={merge}
           disabled={merging}
-          className="w-full bg-[#EF4444] hover:bg-[#DC2626] disabled:opacity-50 text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+          className="w-full bg-error hover:bg-error disabled:opacity-50 text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
         >
           <Download size={16} />
           {merging ? 'Fusion en cours...' : `Fusionner ${files.length} PDF`}

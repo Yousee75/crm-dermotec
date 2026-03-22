@@ -80,7 +80,7 @@ export function ImageCompressor() {
             step={0.05}
             value={quality}
             onChange={e => handleQualityChange(Number(e.target.value))}
-            className="w-full accent-[#2EC6F3]"
+            className="w-full accent-primary"
           />
         </div>
       )}
@@ -112,7 +112,7 @@ export function ImageCompressor() {
         <button
           onClick={download}
           disabled={loading}
-          className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+          className="w-full bg-success hover:bg-success text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
         >
           <Download size={16} />
           Télécharger l&apos;image compressée

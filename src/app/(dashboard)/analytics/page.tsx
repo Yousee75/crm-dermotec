@@ -23,13 +23,14 @@ import {
 // ---------------------------------------------------------------------------
 // Couleurs branding
 // ---------------------------------------------------------------------------
-const PRIMARY = 'var(--color-primary)'
-const ACCENT = 'var(--color-accent)'
-const SUCCESS = 'var(--color-success)'
+// Recharts exige des hex bruts (pas de CSS vars)
+const PRIMARY = '#2EC6F3'   // eslint-disable-line no-restricted-syntax
+const ACCENT = '#082545'    // eslint-disable-line no-restricted-syntax
+const SUCCESS = '#22C55E'   // eslint-disable-line no-restricted-syntax
 const WARNING = '#F59E0B'
 const ERROR = '#EF4444'
 
-const FUNNEL_COLORS = ['#6B7280', '#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', 'var(--color-success)']
+const FUNNEL_COLORS = ['#6B7280', '#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', '#22C55E']
 const PIE_COLORS = [PRIMARY, '#8B5CF6', '#F59E0B', '#EF4444', '#10B981', '#EC4899', '#6366F1', '#F97316']
 
 const SOURCE_LABELS: Record<string, string> = {

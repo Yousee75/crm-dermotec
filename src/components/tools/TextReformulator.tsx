@@ -80,7 +80,7 @@ export function TextReformulator() {
       <button
         onClick={reformulate}
         disabled={loading || !input.trim()}
-        className="w-full bg-action hover:bg-[#9333EA] disabled:opacity-50 text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+        className="w-full bg-action hover:bg-action-dark disabled:opacity-50 text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
       >
         <Wand2 size={16} />
         {loading ? 'Reformulation...' : 'Reformuler avec l\'IA'}

@@ -102,7 +102,7 @@ export function QuickAddLead() {
       {/* FAB Button — toujours visible, en bas à gauche (chatbot est à droite) */}
       <motion.button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 left-6 z-[65] bg-[#22C55E] hover:bg-[#16A34A] text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-shadow md:bottom-6 md:left-auto md:right-24"
+        className="fixed bottom-6 left-6 z-[65] bg-success hover:bg-success text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-shadow md:bottom-6 md:left-auto md:right-24"
         whileHover={{ scale: 1.08, rotate: open ? 0 : 90 }}
         whileTap={{ scale: 0.92 }}
         initial={{ scale: 0 }}
@@ -125,7 +125,7 @@ export function QuickAddLead() {
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="bg-[#22C55E] text-white px-4 py-3 flex items-center justify-between">
+            <div className="bg-success text-white px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Plus size={18} />
                 <span className="font-semibold text-sm">Ajout rapide</span>
@@ -138,9 +138,9 @@ export function QuickAddLead() {
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="w-16 h-16 bg-[#22C55E]/10 rounded-full flex items-center justify-center mx-auto mb-3"
+                  className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-3"
                 >
-                  <Check size={32} className="text-[#22C55E]" />
+                  <Check size={32} className="text-success" />
                 </motion.div>
                 <p className="font-semibold text-accent">Lead ajouté !</p>
                 <p className="text-xs text-gray-500 mt-1">Enrichissement en cours...</p>
@@ -156,7 +156,7 @@ export function QuickAddLead() {
                     value={nom}
                     onChange={e => setNom(e.target.value)}
                     placeholder="Nom du prospect *"
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30"
+                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
                     autoComplete="off"
                   />
                 </div>
@@ -169,7 +169,7 @@ export function QuickAddLead() {
                     value={telephone}
                     onChange={e => setTelephone(e.target.value)}
                     placeholder="Téléphone *"
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30"
+                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
                     autoComplete="off"
                   />
                 </div>
@@ -180,7 +180,7 @@ export function QuickAddLead() {
                   <select
                     value={formation}
                     onChange={e => setFormation(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#22C55E] appearance-none"
+                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-success appearance-none"
                   >
                     <option value="">Formation (optionnel)</option>
                     {FORMATIONS.map(f => (
@@ -193,7 +193,7 @@ export function QuickAddLead() {
                 <button
                   onClick={handleSubmit}
                   disabled={loading || !nom.trim() || !telephone.trim()}
-                  className="w-full bg-[#22C55E] hover:bg-[#16A34A] disabled:opacity-40 text-white rounded-xl py-3 font-medium text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                  className="w-full bg-success hover:bg-success disabled:opacity-40 text-white rounded-xl py-3 font-medium text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
                 >
                   {loading ? (
                     <Loader2 size={16} className="animate-spin" />

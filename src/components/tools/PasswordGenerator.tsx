@@ -78,7 +78,7 @@ export function PasswordGenerator() {
       {/* Longueur */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Longueur : {length}</label>
-        <input type="range" min={8} max={64} value={length} onChange={e => setLength(Number(e.target.value))} className="w-full accent-[#2EC6F3]" />
+        <input type="range" min={8} max={64} value={length} onChange={e => setLength(Number(e.target.value))} className="w-full accent-primary" />
       </div>
 
       {/* Options */}

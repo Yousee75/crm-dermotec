@@ -79,7 +79,7 @@ export function FinancingSimulator() {
             max={4}
             value={echeances}
             onChange={e => setEcheances(Number(e.target.value))}
-            className="w-full accent-[#2EC6F3]"
+            className="w-full accent-primary"
           />
           <div className="flex justify-between text-xs text-gray-400">
             <span>1x</span><span>2x</span><span>3x</span><span>4x</span>

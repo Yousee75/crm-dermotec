@@ -74,7 +74,7 @@ export default function ProgressDashboard({
         relative overflow-hidden rounded-2xl p-6 md:p-8
         ${isComplete
           ? 'bg-gradient-to-br from-emerald-600 to-cyan-600'
-          : 'bg-gradient-to-br from-accent to-[#0a3a6b]'
+          : 'bg-gradient-to-br from-accent to-accent-light'
         }
       `}>
         {/* Motif de fond */}

@@ -484,7 +484,7 @@ export default function FinancementDetailEnriched({
                           <div>
                             <div className="flex justify-between items-center mb-2">
                               <span className="text-gray-600">Versé</span>
-                              <span className="font-semibold text-lg text-[#22C55E]">{formatEuro(financement.montant_verse)}</span>
+                              <span className="font-semibold text-lg text-success">{formatEuro(financement.montant_verse)}</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
                               <motion.div
@@ -493,7 +493,7 @@ export default function FinancementDetailEnriched({
                                   width: `${financement.montant_accorde ? (financement.montant_verse / financement.montant_accorde * 100) : 0}%`
                                 }}
                                 transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                                className="bg-[#22C55E] h-2 rounded-full"
+                                className="bg-success h-2 rounded-full"
                               />
                             </div>
                           </div>

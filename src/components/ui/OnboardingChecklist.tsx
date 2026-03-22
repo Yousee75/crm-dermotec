@@ -100,7 +100,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
               </div>
               <div className="w-full bg-gray-100 rounded-full h-2">
                 <div
-                  className="bg-gradient-to-r from-primary to-[#1DA1D4] h-2 rounded-full transition-all duration-700"
+                  className="bg-gradient-to-r from-primary to-primary-dark h-2 rounded-full transition-all duration-700"
                   style={{ width: `${progress.global.percent}%` }}
                 />
               </div>
@@ -179,7 +179,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
             {niveauProgress.percent >= 100 && (
               <div className="px-5 py-4 border-t border-gray-100 bg-green-50">
                 <div className="flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-[#F59E0B]" />
+                  <Trophy className="w-5 h-5 text-warning" />
                   <div>
                     <p className="text-sm font-semibold text-green-700">Niveau {activeNiveau} complété !</p>
                     <p className="text-xs text-green-600">

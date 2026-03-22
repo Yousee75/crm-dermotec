@@ -51,7 +51,7 @@ export function WhatsAppButton({
       <button
         onClick={handleClick}
         className={cn(
-          'w-14 h-14 bg-[#25D366] hover:bg-[#1FAD4F]',
+          'w-14 h-14 bg-[#25D366] hover:bg-success',
           'rounded-full shadow-lg hover:shadow-xl',
           'flex items-center justify-center',
           'transition-all duration-200 ease-out',

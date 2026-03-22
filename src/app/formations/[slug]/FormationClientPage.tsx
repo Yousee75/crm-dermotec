@@ -528,7 +528,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                 href="https://wa.me/33188334343?text=Bonjour, je souhaite vérifier mon éligibilité au financement pour la formation"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-[#25D366] text-white rounded-lg hover:bg-[#22C55E] transition-colors font-semibold"
+                className="inline-flex items-center px-6 py-3 bg-[#25D366] text-white rounded-lg hover:bg-success transition-colors font-semibold"
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
                 Vérifier mon éligibilité
@@ -667,7 +667,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                     href="https://wa.me/33188334343?text=Bonjour, quelles sont les prochaines dates pour la formation"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-6 py-3 bg-[#25D366] text-white rounded-lg hover:bg-[#22C55E] transition-colors"
+                    className="inline-flex items-center px-6 py-3 bg-[#25D366] text-white rounded-lg hover:bg-success transition-colors"
                   >
                     <MessageCircle className="w-5 h-5 mr-2" />
                     WhatsApp
@@ -753,7 +753,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                   href="https://wa.me/33188334343?text=Bonjour, je souhaite m'inscrire à la formation"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 bg-[#25D366] hover:bg-[#22C55E] text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
+                  className="px-6 py-3 bg-[#25D366] hover:bg-success text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
                 >
                   <MessageCircle size={18} />
                   WhatsApp

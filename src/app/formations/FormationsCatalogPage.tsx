@@ -91,7 +91,7 @@ export default function FormationsCatalogPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-accent to-[#0F3A6E] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-accent to-accent-light flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-blue-100">Chargement des formations...</p>
@@ -103,7 +103,7 @@ export default function FormationsCatalogPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* HERO SECTION */}
-      <section className="relative bg-gradient-to-br from-accent to-[#0F3A6E] text-white py-20 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-accent to-accent-light text-white py-20 overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
@@ -158,7 +158,7 @@ export default function FormationsCatalogPage() {
                   placeholder="Rechercher une formation..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#082545] shadow-lg text-lg"
+                  className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-accent shadow-lg text-lg"
                 />
               </div>
             </motion.div>
@@ -395,7 +395,7 @@ export default function FormationsCatalogPage() {
       </section>
 
       {/* SECTION CTA BOTTOM */}
-      <section className="py-16 bg-gradient-to-r from-accent to-[#0F3A6E] text-white">
+      <section className="py-16 bg-gradient-to-r from-accent to-accent-light text-white">
         <div className="container mx-auto px-4 text-center max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -335,7 +335,7 @@ export default function LandingPage() {
       </section>
 
       {/* ──────────── FOOTER ──────────── */}
-      <footer className="bg-[#0A1E35] text-gray-400 py-14 px-4 sm:px-6">
+      <footer className="bg-accent text-gray-400 py-14 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Produit */}
