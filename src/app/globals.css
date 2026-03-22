@@ -1,100 +1,103 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================================
-   CRM DERMOTEC — Design System v3 "Rose Gold Elegance"
-   Identité beauté/esthétique : chaleur, premium, sophistication
+   CRM DERMOTEC — Design System v4 "Blush & Fire"
+   Palette beauté audacieuse : Rose blush + Orange feu + Noir luxe
+   Inspiré : Sephora, Charlotte Tilbury, Glossier
    Fonts: DM Sans (body) + Bricolage Grotesque (headings)
    ============================================================ */
 
 @theme {
-  /* ── PRIMARY : Rose Gold (chaleur, premium, beauté) ── */
-  --color-primary: #D4A574;
-  --color-primary-dark: #B8895A;
-  --color-primary-light: #E8C9A8;
-  --color-primary-50: #FDF8F3;
-  --color-primary-100: #FAEFDF;
-  --color-primary-200: #F0D9BE;
+  /* ── PRIMARY : Rose Blush (identité beauté, sophistication) ── */
+  --color-primary: #E8627C;
+  --color-primary-dark: #D14B65;
+  --color-primary-light: #F4A0B0;
+  --color-primary-50: #FFF5F7;
+  --color-primary-100: #FFE5EA;
+  --color-primary-200: #F8C4CE;
 
-  /* ── ACCENT : Charcoal profond (luxe, sophistication) ── */
-  --color-accent: #1A1A2E;
-  --color-accent-light: #2A2A40;
-  --color-accent-50: #F5F5F8;
+  /* ── ACCENT : Noir profond (luxe, contraste, puissance) ── */
+  --color-accent: #0D0D12;
+  --color-accent-light: #1C1C24;
+  --color-accent-50: #F4F4F6;
 
-  /* ── ACTION CTA : Violet doux (créativité, distinction) ── */
-  --color-action: #8B5CF6;
-  --color-action-dark: #7C3AED;
-  --color-action-light: #EDE9FE;
+  /* ── ACTION CTA : Orange Feu (+34% clics vs bleu — énergie, conversion) ── */
+  --color-action: #F97316;
+  --color-action-dark: #EA6C0A;
+  --color-action-light: #FFF0E5;
 
-  /* ── SÉMANTIQUE (tons adoucis pour le secteur beauté) ── */
-  --color-success: #6B9080;
-  --color-success-light: #E0EDE6;
-  --color-success-50: #F0F7F3;
-  --color-warning: #D4A754;
-  --color-warning-light: #FFF3DB;
-  --color-warning-50: #FFFBF0;
-  --color-error: #C25B68;
-  --color-error-light: #FCE4E8;
-  --color-error-50: #FEF2F4;
+  /* ── SÉMANTIQUE ── */
+  --color-success: #10B981;
+  --color-success-light: #D1FAE5;
+  --color-success-50: #ECFDF5;
+  --color-warning: #F97316;
+  --color-warning-light: #FFF0E5;
+  --color-warning-50: #FFFAF5;
+  --color-error: #DC2647;
+  --color-error-light: #FDE2E8;
+  --color-error-50: #FFF1F3;
   --color-info: #6B8CAE;
   --color-info-light: #E0EBF5;
   --color-info-50: #F0F5FA;
 
-  /* ── SURFACES (crème chaud, pas gris froid) ── */
+  /* ── SURFACES (blanc rosé — chaleur subtile) ── */
   --color-surface: #FFFFFF;
-  --color-surface-hover: #FAF8F5;
-  --color-surface-active: #F5F0EA;
+  --color-surface-hover: #FFF9FA;
+  --color-surface-active: #FFF0F2;
   --color-surface-raised: #FFFFFF;
-  --color-background: #FAF8F5;
+  --color-background: #FFF5F7;
 
   /* ── BORDERS ── */
-  --color-border: #E8E0D8;
-  --color-border-light: #F5F0EA;
-  --color-border-focus: #D4A574;
+  --color-border: #F0E4E6;
+  --color-border-light: #FFF0F2;
+  --color-border-focus: #E8627C;
 
-  /* ── TEXT (charcoal doux, pas noir agressif) ── */
-  --color-text: #2D2D3F;
-  --color-text-secondary: #5C5C72;
-  --color-text-muted: #7A7A90;  /* ratio 4.5:1 sur blanc — WCAG AA */
+  /* ── TEXT (noir charcoal — fort contraste, luxe) ── */
+  --color-text: #1A1A24;
+  --color-text-secondary: #52525E;
+  --color-text-muted: #74747F;
   --color-text-inverse: #FFFFFF;
 
-  /* ── SIDEBAR (charcoal profond) ── */
-  --color-sidebar-bg: #1A1A2E;
-  --color-sidebar-text: #B8B8CC;
-  --color-sidebar-active: #D4A574;
-  --color-sidebar-hover: #2A2A40;
+  /* ── SIDEBAR (noir profond + active rose) ── */
+  --color-sidebar-bg: #0D0D12;
+  --color-sidebar-text: #A0A0B0;
+  --color-sidebar-active: #E8627C;
+  --color-sidebar-hover: #1C1C24;
 
-  /* ── PIPELINE : 5 groupes au lieu de 11 couleurs ── */
-  --color-stage-cold: #9090A7;
-  --color-stage-active: #D4A574;
-  --color-stage-hot: #D4A754;
-  --color-stage-won: #6B9080;
-  --color-stage-lost: #C25B68;
+  /* ── PIPELINE : gris → rose → orange → vert (froid → chaud → gagné) ── */
+  --color-stage-cold: #9090A0;
+  --color-stage-active: #E8627C;
+  --color-stage-hot: #F97316;
+  --color-stage-won: #10B981;
+  --color-stage-lost: #DC2647;
 
-  /* Compat : anciens noms gardés pour transition */
-  --color-status-nouveau: #9090A7;
-  --color-status-contacte: #9090A7;
-  --color-status-qualifie: #D4A574;
-  --color-status-financement: #D4A574;
-  --color-status-inscrit: #D4A754;
-  --color-status-en-formation: #D4A754;
-  --color-status-forme: #6B9080;
-  --color-status-alumni: #6B9080;
+  /* Compat : anciens noms */
+  --color-status-nouveau: #9090A0;
+  --color-status-contacte: #9090A0;
+  --color-status-qualifie: #E8627C;
+  --color-status-financement: #E8627C;
+  --color-status-inscrit: #F97316;
+  --color-status-en-formation: #F97316;
+  --color-status-forme: #10B981;
+  --color-status-alumni: #10B981;
 
   --font-heading: 'Bricolage Grotesque', serif;
   --font-body: 'DM Sans', sans-serif;
 
-  /* ── TYPOGRAPHIE : échelle de tailles (grille Teams 4px) ── */
-  --font-size-3xs: 9px;   /* micro-labels, badges compacts */
-  --font-size-2xs: 10px;  /* timestamps, hints, sources */
-  --font-size-xs: 12px;   /* labels, descriptions courtes */
-  --font-size-sm: 14px;   /* body text, inputs */
-  --font-size-base: 16px; /* titres de section */
-  --font-size-lg: 18px;   /* sous-titres */
-  --font-size-xl: 20px;   /* titres de page */
-  --font-size-2xl: 24px;  /* heading H2 */
-  --font-size-3xl: 30px;  /* heading H1 */
+  /* ── TYPOGRAPHIE : échelle de tailles ── */
+  --font-size-3xs: 9px;
+  --font-size-2xs: 10px;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
 
-  /* ── DENSITÉ : espacement compact vs comfortable ── */
+  /* ── DENSITÉ ── */
   --density-compact-padding: 4px 8px;
   --density-normal-padding: 8px 16px;
   --density-spacious-padding: 12px 24px;
@@ -106,14 +109,80 @@
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  --shadow-xs: 0 1px 2px rgba(26, 26, 46, 0.04);
-  --shadow-sm: 0 1px 3px rgba(26, 26, 46, 0.06), 0 1px 2px rgba(26, 26, 46, 0.04);
-  --shadow-md: 0 4px 12px -2px rgba(26, 26, 46, 0.08), 0 2px 4px rgba(26, 26, 46, 0.04);
-  --shadow-lg: 0 12px 24px -4px rgba(26, 26, 46, 0.10), 0 4px 8px rgba(26, 26, 46, 0.04);
-  --shadow-xl: 0 24px 48px -8px rgba(26, 26, 46, 0.12), 0 8px 16px rgba(26, 26, 46, 0.04);
-  --shadow-glow: 0 0 24px rgba(212, 165, 116, 0.20);
-  --shadow-card: 0 1px 3px rgba(26, 26, 46, 0.04), 0 1px 2px rgba(26, 26, 46, 0.02);
-  --shadow-card-hover: 0 12px 32px rgba(212, 165, 116, 0.12), 0 4px 12px rgba(26, 26, 46, 0.06);
+  --shadow-xs: 0 1px 2px rgba(13, 13, 18, 0.05);
+  --shadow-sm: 0 1px 3px rgba(13, 13, 18, 0.07), 0 1px 2px rgba(13, 13, 18, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(13, 13, 18, 0.10), 0 2px 4px rgba(13, 13, 18, 0.05);
+  --shadow-lg: 0 12px 24px -4px rgba(13, 13, 18, 0.12), 0 4px 8px rgba(13, 13, 18, 0.05);
+  --shadow-xl: 0 24px 48px -8px rgba(13, 13, 18, 0.14), 0 8px 16px rgba(13, 13, 18, 0.05);
+  --shadow-glow: 0 0 24px rgba(232, 98, 124, 0.25);
+  --shadow-card: 0 1px 4px rgba(13, 13, 18, 0.04), 0 1px 2px rgba(13, 13, 18, 0.02);
+  --shadow-card-hover: 0 12px 32px rgba(232, 98, 124, 0.14), 0 4px 12px rgba(13, 13, 18, 0.08);
+}
+
+/* ============================================================
+   Dark Mode — Variables override
+   La sidebar reste sombre, le contenu principal s'assombrit
+   Le primary rose gold reste identique dans les 2 modes
+   ============================================================ */
+.dark {
+  --color-surface: #111111;
+  --color-surface-hover: #1a1a1a;
+  --color-surface-active: #222222;
+  --color-surface-raised: #161616;
+  --color-background: #0a0a0a;
+
+  --color-border: #2a2a2a;
+  --color-border-light: #1f1f1f;
+  /* border-focus reste rose gold */
+
+  --color-text: #f0f0f0;
+  --color-text-secondary: #a1a1a1;
+  --color-text-muted: #888888;
+  --color-text-inverse: #111111;
+
+  /* Sémantique — tons légèrement plus vifs sur fond sombre */
+  --color-success-light: #1a2e24;
+  --color-success-50: #0f1a15;
+  --color-warning-light: #2e2510;
+  --color-warning-50: #1a1608;
+  --color-error-light: #2e1518;
+  --color-error-50: #1a0d0f;
+  --color-info-light: #15202e;
+  --color-info-50: #0d141a;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 24px 48px -8px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 24px rgba(212, 165, 116, 0.15);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 12px 32px rgba(212, 165, 116, 0.08), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: #333;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dark mode skeleton */
+.dark .skeleton {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+}
+
+/* Dark mode glass */
+.dark .glass {
+  background: rgba(17, 17, 17, 0.75);
+  border-color: rgba(212, 165, 116, 0.08);
+}
+
+/* Dark mode dot indicator border */
+.dark .dot-indicator::after {
+  border-color: #111111;
 }
 
 /* Base */
@@ -152,8 +221,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- PROSPECT CHAUD : glow pulsant rose gold (dit "contacte-moi !") --- */
 @keyframes glowHot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0); }
-  50% { box-shadow: 0 0 16px 4px rgba(212, 165, 116, 0.25); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 98, 124, 0); }
+  50% { box-shadow: 0 0 16px 4px rgba(232, 98, 124, 0.25); }
 }
 .glow-hot {
   animation: glowHot 2.5s ease-in-out 3;  /* 3 cycles puis stop — pas infinite */
@@ -358,9 +427,9 @@ h1, h2, h3, h4, h5, h6 {
 .stagger-children > *:nth-child(7) { animation-delay: 300ms; }
 .stagger-children > *:nth-child(8) { animation-delay: 350ms; }
 
-/* Skeleton loading — warm tone */
+/* Skeleton loading — blush tone */
 .skeleton {
-  background: linear-gradient(90deg, #F5F0EA 25%, #E8E0D8 50%, #F5F0EA 75%);
+  background: linear-gradient(90deg, #FFF0F2 25%, #F0E4E6 50%, #FFF0F2 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 10px;
@@ -420,7 +489,7 @@ tr.hover-row,
 }
 tr.hover-row:hover,
 .list-row:hover {
-  background: linear-gradient(90deg, rgba(212, 165, 116, 0.08) 0%, rgba(212, 165, 116, 0.02) 100%);
+  background: linear-gradient(90deg, rgba(232, 98, 124, 0.06) 0%, rgba(232, 98, 124, 0.01) 100%);
   border-left-color: var(--color-primary);
   transform: translateX(2px);
 }
@@ -428,12 +497,12 @@ tr.hover-row:hover,
 /* Row hot prospect — toujours mise en avant */
 tr.row-hot,
 .list-row-hot {
-  background: linear-gradient(90deg, rgba(212, 165, 116, 0.06) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgba(232, 98, 124, 0.06) 0%, transparent 100%);
   border-left: 3px solid var(--color-primary);
 }
 tr.row-hot:hover,
 .list-row-hot:hover {
-  background: linear-gradient(90deg, rgba(212, 165, 116, 0.12) 0%, rgba(212, 165, 116, 0.04) 100%);
+  background: linear-gradient(90deg, rgba(232, 98, 124, 0.12) 0%, rgba(232, 98, 124, 0.04) 100%);
   transform: translateX(3px);
 }
 
@@ -457,47 +526,47 @@ tr.row-urgent,
   transform: translateY(-1px) scale(0.995);
 }
 
-/* Glass morphism — warm tint */
+/* Glass morphism — blush tint */
 .glass {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 165, 116, 0.12);
+  border: 1px solid rgba(232, 98, 124, 0.10);
 }
 
 .glass-dark {
-  background: rgba(26, 26, 46, 0.88);
+  background: rgba(13, 13, 18, 0.90);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 165, 116, 0.08);
+  border: 1px solid rgba(232, 98, 124, 0.08);
 }
 
-/* Gradient backgrounds — beauty palette */
+/* Gradient backgrounds — Blush & Fire palette */
 .gradient-primary {
-  background: linear-gradient(135deg, #D4A574 0%, #B8895A 100%);
+  background: linear-gradient(135deg, #E8627C 0%, #D14B65 100%);
 }
 
 .gradient-accent {
-  background: linear-gradient(135deg, #1A1A2E 0%, #2A2A40 100%);
+  background: linear-gradient(135deg, #0D0D12 0%, #1C1C24 100%);
 }
 
 .gradient-action {
-  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  background: linear-gradient(135deg, #F97316 0%, #EA6C0A 100%);
 }
 
 .gradient-warm {
-  background: linear-gradient(135deg, #D4A754 0%, #C25B68 100%);
+  background: linear-gradient(135deg, #F97316 0%, #DC2647 100%);
 }
 
 .gradient-beauty {
-  background: linear-gradient(135deg, #D4A574 0%, #8B5CF6 50%, #1A1A2E 100%);
+  background: linear-gradient(135deg, #E8627C 0%, #F97316 50%, #0D0D12 100%);
 }
 
 .gradient-mesh {
   background:
-    radial-gradient(at 40% 20%, rgba(212, 165, 116, 0.08) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.06) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, rgba(107, 144, 128, 0.04) 0px, transparent 50%);
+    radial-gradient(at 40% 20%, rgba(232, 98, 124, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(249, 115, 22, 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(16, 185, 129, 0.04) 0px, transparent 50%);
 }
 
 /* Focus visible ring (a11y) — rose gold */
@@ -506,9 +575,9 @@ tr.row-urgent,
   outline-offset: 2px;
 }
 
-/* Text gradient — beauty */
+/* Text gradient — blush & fire */
 .text-gradient {
-  background: linear-gradient(135deg, #D4A574 0%, #8B5CF6 100%);
+  background: linear-gradient(135deg, #E8627C 0%, #F97316 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -534,12 +603,12 @@ tr.row-urgent,
    Beauty-specific hover & interaction effects
    ============================================================ */
 
-/* CTA button glow on hover */
+/* CTA button glow on hover — orange fire */
 .cta-glow {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .cta-glow:hover {
-  box-shadow: 0 0 20px rgba(212, 165, 116, 0.3), 0 4px 16px rgba(212, 165, 116, 0.2);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.3), 0 4px 16px rgba(249, 115, 22, 0.2);
   transform: translateY(-1px);
 }
 
@@ -783,7 +852,7 @@ html {
 
 /* Pull-to-refresh feel (glow top) */
 .ptr-glow {
-  box-shadow: inset 0 4px 12px -4px rgba(212, 165, 116, 0.15);
+  box-shadow: inset 0 4px 12px -4px rgba(232, 98, 124, 0.15);
 }
 
 /* Swipe cards (pour tables en mode card sur mobile) */
