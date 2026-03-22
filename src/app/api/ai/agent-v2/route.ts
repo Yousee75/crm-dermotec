@@ -144,11 +144,8 @@ COMPORTEMENT en mode formation :
     // Collecter la réponse complète pour le cache
     let fullResponse = ''
 
-    // WORKAROUND : les tools CRM ne passent pas avec @ai-sdk/anthropic 3.0.63
-    // Le SDK ne transforme pas correctement le schema Zod en input_schema avec type:"object"
-    // Pour l'instant : tools désactivés, l'agent répond en mode chat + le contexte CRM est dans le system prompt
-    // TODO: réactiver quand le bug sera fixé (https://github.com/vercel/ai/issues)
-    const useTools = false // !(body as any).noTools
+    // Tools réactivés — fix: defineTool retourne un objet brut avec jsonSchema() au lieu de tool()
+    const useTools = !(body as any).noTools
 
     const result = streamText({
       model: getModel('best'),
