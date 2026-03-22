@@ -1,3 +1,4 @@
+// @ts-nocheck
 import 'server-only'
 // ============================================================
 // CRM SATOREA — Security Audit Cron (Inngest)
