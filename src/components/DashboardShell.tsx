@@ -21,7 +21,8 @@ import { CommandPalette } from '@/components/ui/CommandPalette'
 import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
 import { AgentChat } from '@/components/ui/AgentChat'
-// AIChatWidget supprimé — remplacé par AgentChat (15 tools, dual-mode, score 360°)
+import { useCurrentUser } from '@/hooks/use-current-user'
+import { getRoleView } from '@/lib/role-config'
 import { usePageTracker } from '@/hooks/use-tracker'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { cn } from '@/lib/utils'
@@ -143,6 +144,21 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showShortcuts, setShowShortcuts] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
+
+  // Rôle utilisateur — détermine la vue (commercial ne voit que ses leads)
+  const { data: currentUser } = useCurrentUser()
+  const roleView = getRoleView(currentUser?.role || 'admin')
+
+  // Filtrer la sidebar par rôle
+  const visibleTopItems = TOP_ITEMS.filter(item =>
+    roleView.topItems.includes(item.href) && !roleView.hiddenPages.includes(item.href)
+  )
+  const visibleSections = COLLAPSIBLE_SECTIONS.filter(section =>
+    roleView.sections.includes(section.id)
+  ).map(section => ({
+    ...section,
+    children: section.children.filter(c => !roleView.hiddenPages.includes(c.href))
+  }))
 
   // Sections dépliables — état persisté en localStorage
   const [expandedSections, setExpandedSections] = useState<Set<string>>(() => {
@@ -275,9 +291,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
         {/* Navigation — items fixes + sections dépliables */}
         <nav className="flex-1 py-3 overflow-y-auto space-y-1">
-          {/* Items toujours visibles (Dashboard, Sessions) */}
+          {/* Items toujours visibles — filtrés par rôle */}
           <div className="space-y-0.5">
-            {TOP_ITEMS.map((item) => (
+            {visibleTopItems.map((item) => (
               <SidebarLink key={item.href} item={item} collapsed={collapsed} isActive={isActive(item.href)} />
             ))}
           </div>
@@ -285,8 +301,8 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           {/* Séparateur */}
           <div className="mx-3 h-px bg-white/[0.06] my-2" />
 
-          {/* Sections dépliables */}
-          {COLLAPSIBLE_SECTIONS.map((section) => {
+          {/* Sections dépliables — filtrées par rôle */}
+          {visibleSections.map((section) => {
             const sectionActive = section.children.some(c => isActive(c.href)) || isActive(section.href)
             const isOpen = expandedSections.has(section.id) || sectionActive
 

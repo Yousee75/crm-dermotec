@@ -26,7 +26,12 @@ export interface LeadFilters {
   per_page?: number
 }
 
-// --- Query: liste leads ---
+/**
+ * Hook leads avec filtrage automatique par rôle
+ * - Admin/Manager : voit tous les leads
+ * - Commercial : voit UNIQUEMENT ses leads (commercial_assigne_id = equipe_id)
+ * - Formatrice : pas d'accès leads
+ */
 export function useLeads(filters: LeadFilters = {}) {
   const supabase = createClient()
   const { page = 1, per_page = 20, sort_by = 'created_at', sort_order = 'desc' } = filters
@@ -99,6 +104,37 @@ export function useLeads(filters: LeadFilters = {}) {
   })
 }
 
+/**
+ * Hook qui retourne les leads filtrés par rôle automatiquement
+ * Commercial → ses leads uniquement | Admin → tous
+ */
+export function useMyLeads(filters: LeadFilters = {}) {
+  // Importer le hook current user inline pour éviter les deps circulaires
+  const supabase = createClient()
+  const { data: userResult } = useQuery({
+    queryKey: ['current-user-for-leads'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+      const { data: equipe } = await supabase
+        .from('equipe')
+        .select('id, role')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      return equipe
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+
+  // Si commercial → forcer le filtre par commercial_id
+  const enrichedFilters = { ...filters }
+  if (userResult?.role === 'commercial' && userResult.id) {
+    enrichedFilters.commercial_id = userResult.id
+  }
+
+  return useLeads(enrichedFilters)
+}
+
 // --- Query: un lead ---
 export function useLead(id: string) {
   const supabase = createClient()
@@ -153,22 +189,21 @@ export function useCreateLead() {
   })
 }
 
-// --- Mutation: update lead (via API Hono) ---
+// --- Mutation: update lead (Supabase direct) ---
 export function useUpdateLead() {
+  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Lead> & { id: string }) => {
-      const res = await fetch(`/api/leads/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
-        throw new Error(err.error || `HTTP ${res.status}`)
-      }
-      return res.json()
+      const { data, error } = await supabase
+        .from('leads')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+      if (error) throw error
+      return data
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
@@ -181,22 +216,23 @@ export function useUpdateLead() {
   })
 }
 
-// --- Mutation: changer statut (via API Hono — state machine validée côté serveur) ---
+// --- Mutation: changer statut (Supabase direct — state machine validée par trigger SQL) ---
 export function useChangeStatut() {
+  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, statut, notes }: { id: string; statut: StatutLead; notes?: string }) => {
-      const res = await fetch(`/api/leads/${id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ statut, notes }),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
-        throw new Error(err.error || `HTTP ${res.status}`)
-      }
-      return res.json()
+      const updates: Record<string, unknown> = { statut }
+      if (notes) updates.notes = notes
+      const { data, error } = await supabase
+        .from('leads')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+      if (error) throw error
+      return data
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
@@ -208,17 +244,18 @@ export function useChangeStatut() {
   })
 }
 
-// --- Mutation: supprimer lead (via API Hono — soft delete RGPD) ---
+// --- Mutation: supprimer lead (Supabase direct — soft delete via SPAM) ---
 export function useDeleteLead() {
+  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`/api/leads/${id}`, { method: 'DELETE' })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
-        throw new Error(err.error || `HTTP ${res.status}`)
-      }
+      const { error } = await supabase
+        .from('leads')
+        .delete()
+        .eq('id', id)
+      if (error) throw error
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
