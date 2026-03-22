@@ -24,13 +24,15 @@ import { IllustrationEmptyLeads } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
 import { exportToCSV } from '@/lib/export-csv'
+import { ExportButton } from '@/components/ui/ExportButton'
+import type { ColumnDef } from '@/lib/export-data'
 import { SourceBadge, SOURCE_CONFIG } from '@/components/ui/SourceBadge'
 import { ScoreChip } from '@/components/ui/ScoreChip'
 import { FilterDropdown, FilterOption } from '@/components/ui/FilterDropdown'
 import { getScoreColor } from '@/lib/scoring'
 import { FORMATIONS_SEED } from '@/lib/constants'
 import type { SourceLead } from '@/types'
-import { CsvImportDialog } from '@/components/ui/CsvImportDialog'
+import { ImportCSVDialog } from '@/components/leads/ImportCSVDialog'
 
 // Smart filter presets — scénarios les plus fréquents d'un commercial
 type SmartFilter = 'chauds' | 'aujourdhui' | 'stagnants' | 'financement' | 'priorite'
@@ -54,6 +56,19 @@ const SORT_OPTIONS = [
 
 // Catégories de formations pour le filtre groupé
 const FORMATION_CATEGORIES = [...new Set(FORMATIONS_SEED.map(f => f.categorie))]
+
+// Colonnes pour l'export CSV/PDF
+const LEADS_EXPORT_COLUMNS: ColumnDef[] = [
+  { header: 'Nom', accessor: 'nom', width: 1.2 },
+  { header: 'Prénom', accessor: 'prenom', width: 1.2 },
+  { header: 'Email', accessor: 'email', width: 1.5 },
+  { header: 'Téléphone', accessor: (r) => r.telephone || '', width: 1.2 },
+  { header: 'Entreprise', accessor: (r) => r.entreprise || '', width: 1.2 },
+  { header: 'Statut', accessor: 'statut', width: 1 },
+  { header: 'Score', accessor: (r) => String(r.score_chaud ?? ''), width: 0.6 },
+  { header: 'Source', accessor: (r) => r.source || '', width: 1 },
+  { header: 'Date', accessor: (r) => r.created_at ? new Date(r.created_at).toLocaleDateString('fr-FR') : '', width: 1 },
+]
 
 export default function LeadsPage() {
   const t = useTranslations('leads')
@@ -192,7 +207,7 @@ export default function LeadsPage() {
       {/* Header */}
       <PageHeader
         title="Prospects"
-        description={`${data?.total || 0} prospects au total`}
+        description={<span><span className="count-up tabular-nums">{data?.total || 0}</span> prospects au total</span>}
       >
         <Button
           variant="outline"
@@ -202,28 +217,12 @@ export default function LeadsPage() {
         >
           Importer CSV
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={<Download className="w-3.5 h-3.5" />}
-          onClick={() => {
-            if (!data?.leads.length) return toast.error('Aucun prospect à exporter')
-            exportToCSV(data.leads.map(l => ({
-              prenom: l.prenom,
-              nom: l.nom,
-              email: l.email || '',
-              telephone: l.telephone || '',
-              statut: l.statut,
-              source: l.source,
-              score: l.score_chaud,
-              formation: l.formation_principale?.nom || '',
-              date: l.created_at,
-            })), 'leads')
-            toast.success(`${data.leads.length} prospects exportés`)
-          }}
-        >
-          Export
-        </Button>
+        <ExportButton
+          data={data?.leads || []}
+          columns={LEADS_EXPORT_COLUMNS}
+          filename="leads"
+          title="Prospects — CRM Dermotec"
+        />
         <Button
           size="sm"
           icon={<Plus className="w-4 h-4" />}
@@ -312,7 +311,7 @@ export default function LeadsPage() {
                 <Icon className="w-3.5 h-3.5" />
                 {sf.label}
                 {count !== undefined && count > 0 && !isActive && (
-                  <span className="min-w-[16px] h-4 rounded-full bg-gray-100 text-gray-500 text-[10px] flex items-center justify-center">{count}</span>
+                  <span className="min-w-[16px] h-4 rounded-full bg-gray-100 text-gray-500 text-[10px] flex items-center justify-center bounce-badge count-up tabular-nums">{count}</span>
                 )}
               </button>
             )
@@ -424,7 +423,7 @@ export default function LeadsPage() {
       {someSelected && (
         <div className="flex items-center gap-3 bg-slate-900 text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
           <CheckSquare className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium">{selectedIds.size} sélectionné{selectedIds.size > 1 ? 's' : ''}</span>
+          <span className="text-sm font-medium"><span className="count-up tabular-nums">{selectedIds.size}</span> sélectionné{selectedIds.size > 1 ? 's' : ''}</span>
           <div className="flex-1" />
           <select
             value={bulkStatut}
@@ -484,11 +483,11 @@ export default function LeadsPage() {
 
       {/* Mobile Card View */}
       {!isLoading && data?.leads && data.leads.length > 0 && (
-        <div className="md:hidden mobile-card-stack">
+        <div className={cn("md:hidden mobile-card-stack", smartFilter && 'filter-reveal-stagger')}>
           {data.leads.map((lead) => {
             const statut = STATUTS_LEAD[lead.statut]
             return (
-              <Link key={lead.id} href={`/lead/${lead.id}`} className="block bg-white rounded-xl border border-gray-100 p-4 haptic-press active:bg-gray-50 transition">
+              <Link key={lead.id} href={`/lead/${lead.id}`} className={cn("block bg-white rounded-xl border border-gray-100 p-4 haptic-press active:bg-gray-50 transition hover-row", lead.score_chaud >= 80 && 'row-hot glow-hot', lead.score_chaud >= 60 && lead.score_chaud < 80 && 'row-hot')}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="relative flex-shrink-0">
@@ -560,7 +559,7 @@ export default function LeadsPage() {
                   <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className={cn("divide-y divide-gray-50", smartFilter && 'filter-reveal-stagger')}>
                 {data?.leads.length === 0 ? (
                   <tr>
                     <td colSpan={8}>
@@ -585,8 +584,10 @@ export default function LeadsPage() {
                     <tr
                       key={lead.id}
                       className={cn(
-                        "group hover:bg-primary/[0.02] transition-colors cursor-pointer",
-                        selectedIds.has(lead.id) && "bg-primary/[0.05]"
+                        "group hover:bg-primary/[0.02] transition-colors cursor-pointer hover-row",
+                        selectedIds.has(lead.id) && "bg-primary/[0.05]",
+                        lead.score_chaud >= 80 && 'row-hot glow-hot',
+                        lead.score_chaud >= 60 && lead.score_chaud < 80 && 'row-hot'
                       )}
                     >
                       <td className="w-10 px-3 py-3" onClick={e => e.stopPropagation()}>
@@ -738,9 +739,9 @@ export default function LeadsPage() {
           {data && data.total_pages > 1 && (
             <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100">
               <p className="text-xs text-gray-500">
-                Page <span className="font-medium text-gray-700">{data.page}</span> sur {data.total_pages}
+                Page <span className="font-medium text-gray-700 count-up tabular-nums">{data.page}</span> sur <span className="tabular-nums">{data.total_pages}</span>
                 <span className="text-gray-300 mx-1">·</span>
-                {data.total} leads
+                <span className="count-up tabular-nums">{data.total}</span> leads
               </p>
               <div className="flex items-center gap-1">
                 <Button
@@ -798,14 +799,12 @@ export default function LeadsPage() {
         </Card>
       )}
 
-      {/* Dialog import CSV */}
-      <CsvImportDialog
+      {/* Dialog import CSV — multi-step avec API server-side */}
+      <ImportCSVDialog
         open={showCsvImport}
         onClose={() => setShowCsvImport(false)}
         onImported={(count) => {
-          // Refresh leads data
           queryClient.invalidateQueries({ queryKey: ['leads'] })
-          toast.success(`${count} contact${count > 1 ? 's' : ''} importé${count > 1 ? 's' : ''} avec succès`)
           setShowCsvImport(false)
         }}
       />
