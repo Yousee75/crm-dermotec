@@ -11,7 +11,15 @@ import { createServiceSupabase } from './supabase-server'
 import { hybridSearchKB } from './hybrid-search'
 
 // Helper to bypass strict overload matching on tool()
-const defineTool = (config: { description: string; parameters: z.ZodObject<any>; execute: (...args: any[]) => Promise<any> }): Tool => tool(config as any)
+// Fix: Anthropic API requires input_schema.type even for empty objects
+const defineTool = (config: { description: string; parameters: z.ZodObject<any>; execute: (...args: any[]) => Promise<any> }): Tool => {
+  // Si le schema est vide z.object({}), ajouter un champ optionnel pour que le SDK génère un schema valide
+  const keys = Object.keys(config.parameters.shape || {})
+  if (keys.length === 0) {
+    config.parameters = z.object({ _dummy: z.string().optional().describe('Paramètre ignoré') })
+  }
+  return tool(config as any)
+}
 
 // --- TOOL 1: Recherche de leads ---
 export const searchLeadsTool = defineTool({
