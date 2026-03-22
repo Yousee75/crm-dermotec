@@ -4,24 +4,26 @@ import FormationsCatalogPage from './FormationsCatalogPage'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Formations Esthétique Professionnelles | Certifiées Qualiopi | Dermotec Advanced',
-  description: 'Découvrez nos formations esthétique et dermo-correctrice certifiées Qualiopi. Financement OPCO, CPF, France Travail possible. 11 formations d\'excellence à Paris.',
-  keywords: 'formations esthétique, formation professionnelle, certifié qualiopi, financement OPCO, CPF, dermotec, paris, esthéticienne, dermo-correctrice, microneedling, laser',
+  title: 'Catalogue Formations Esthetique Professionnelles | Certifiees Qualiopi',
+  description: 'Decouvrez nos 20+ formations esthetique et dermo-correctrice certifiees Qualiopi a Paris. Financement OPCO, CPF, France Travail. +500 stagiaires formees.',
+  keywords: 'formations esthetique, formation professionnelle, certifie qualiopi, financement OPCO, CPF, dermotec, paris, estheticienne, dermo-correctrice, microneedling, laser',
   openGraph: {
-    title: 'Formations Esthétique Professionnelles | Dermotec Advanced',
-    description: 'Formations certifiées Qualiopi pour esthéticiennes • Financement possible • 4.9/5 ⭐ • +500 stagiaires formées',
+    title: 'Catalogue Formations Esthetique | Dermotec Advanced',
+    description: '20+ formations certifiees Qualiopi pour estheticiennes a Paris. Financement OPCO/CPF possible. +500 stagiaires formees.',
+    url: 'https://crm-dermotec.vercel.app/formations',
+    siteName: 'Dermotec Advanced',
     images: ['/images/formations-hero.jpg'],
     type: 'website',
-    locale: 'fr_FR'
+    locale: 'fr_FR',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Formations Esthétique Professionnelles | Dermotec Advanced',
-    description: 'Formations certifiées Qualiopi pour esthéticiennes • Financement possible • 4.9/5 ⭐'
+    title: 'Catalogue Formations Esthetique | Dermotec Advanced',
+    description: '20+ formations certifiees Qualiopi pour estheticiennes a Paris. Financement OPCO/CPF possible.',
   },
   alternates: {
-    canonical: 'https://dermotec-advanced.com/formations'
-  }
+    canonical: 'https://crm-dermotec.vercel.app/formations',
+  },
 }
 
 export default function FormationsPage() {

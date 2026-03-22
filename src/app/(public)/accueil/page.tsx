@@ -9,6 +9,7 @@ import {
   Zap,
   Check,
 } from 'lucide-react'
+import { TrustBar } from '@/components/ui/TrustBar'
 
 export const metadata: Metadata = {
   title: 'Dermotec CRM by Satorea — Le CRM pour les centres de formation esthétique',
@@ -132,44 +133,51 @@ export default function LandingPage() {
       {/* ──────────── HERO ──────────── */}
       <section
         className="relative flex flex-col items-center justify-center min-h-screen px-4 py-20 text-center"
-        style={{ background: 'linear-gradient(180deg, #082545 0%, #0F3460 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #0D0D12 0%, #1C1C24 100%)' }}
       >
-        <h1
-          className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white max-w-4xl leading-tight mb-6"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          Le CRM qui comprend les centres de formation esthétique
-        </h1>
-        <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mb-10">
-          Pipeline commercial, financement OPCO/CPF, gestion Qualiopi, inscriptions — tout en un.
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-10">
-          <Link
-            href="/login"
-            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
-          >
-            Commencer gratuitement
-          </Link>
-          <Link
-            href="/pricing"
-            className="inline-flex items-center justify-center rounded-xl border-2 border-white/30 hover:border-white text-white font-semibold px-8 py-3.5 text-base transition-all duration-150"
-          >
-            Voir les tarifs
-          </Link>
+        {/* Gradient mesh décoratif */}
+        <div className="absolute inset-0 opacity-30 pointer-events-none">
+          <div className="absolute top-20 right-1/4 w-96 h-96 rounded-full bg-primary/20 blur-3xl" />
+          <div className="absolute bottom-20 left-1/4 w-80 h-80 rounded-full bg-action/15 blur-3xl" />
         </div>
 
-        {/* Social proof */}
-        <p className="text-sm text-gray-400 mb-14">
-          500+ stagiaires formés &middot; 4.9/5 Google &middot; Certifié Qualiopi
-        </p>
+        <div className="relative z-10">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white max-w-4xl leading-tight mb-6">
+            Le CRM qui comprend les centres de formation{' '}
+            <span className="text-gradient">esthétique</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+            Pipeline commercial, financement OPCO/CPF, gestion Qualiopi, inscriptions — tout en un.
+          </p>
 
-        {/* Screenshot placeholder */}
-        <div className="w-full max-w-4xl aspect-video rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-          <span className="text-gray-400 text-sm">Interface CRM</span>
+          {/* CTAs — 2 boutons côte à côte (inspiré Bright Data) */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-8 justify-center">
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center rounded-full bg-action hover:bg-action-dark text-white font-semibold px-8 py-3.5 text-base transition-all duration-200 cta-glow"
+            >
+              Commencer gratuitement
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center rounded-full border-2 border-white/20 hover:border-primary text-white hover:text-primary font-semibold px-8 py-3.5 text-base transition-all duration-200"
+            >
+              Voir les tarifs
+            </Link>
+          </div>
+
+          {/* Trust indicators visuels (inspiré Bright Data x3) */}
+          <TrustBar variant="hero" />
+
+          {/* Screenshot placeholder */}
+          <div className="w-full max-w-4xl aspect-video rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mt-10 overflow-hidden">
+            <span className="text-gray-500 text-sm">Interface CRM Dermotec</span>
+          </div>
         </div>
       </section>
+
+      {/* ──────────── TRUST BAR COMPLÈTE ──────────── */}
+      <TrustBar variant="full" />
 
       {/* ──────────── FEATURES ──────────── */}
       <section className="bg-white py-20 px-4 sm:px-6">

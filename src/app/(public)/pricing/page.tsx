@@ -3,9 +3,22 @@ import Link from 'next/link'
 import { Check } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Tarifs — Dermotec Advanced CRM',
+  title: 'Tarifs CRM Formation Esthetique | Plans et Prix',
   description:
-    'Plans et tarifs du CRM Dermotec Advanced. Gratuit pour démarrer, puissant pour grandir. Essai 14 jours sans engagement.',
+    'Plans et tarifs du CRM Dermotec Advanced pour centres de formation esthetique. Gratuit pour demarrer, puissant pour grandir. Essai 14 jours sans engagement.',
+  openGraph: {
+    title: 'Tarifs CRM Formation Esthetique | Dermotec Advanced',
+    description: 'CRM specialise formation esthetique. Plan gratuit, Pro 49EUR/mois, Expert 99EUR/mois. Essai 14 jours sans engagement.',
+    url: 'https://crm-dermotec.vercel.app/pricing',
+    siteName: 'Dermotec Advanced',
+    type: 'website',
+    locale: 'fr_FR',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Tarifs CRM Formation Esthetique | Dermotec Advanced',
+    description: 'CRM specialise formation esthetique. Plan gratuit, Pro 49EUR/mois, Expert 99EUR/mois. Essai 14 jours.',
+  },
 }
 
 const plans = [

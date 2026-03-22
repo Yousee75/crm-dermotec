@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react'
+import { forwardRef, useCallback, type ButtonHTMLAttributes, type MouseEvent } from 'react'
 import { cn } from '@/lib/utils'
 
 type ButtonVariant = 'default' | 'primary' | 'secondary' | 'ghost' | 'destructive' | 'outline' | 'link'
@@ -32,35 +32,29 @@ const sizeStyles: Record<ButtonSize, string> = {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', loading, icon, children, disabled, ...props }, ref) => {
+  ({ className, variant = 'primary', size = 'md', loading, icon, children, disabled, onClick, ...props }, ref) => {
+    const handleClick = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+      // Ripple effect
+      const btn = e.currentTarget
+      const rect = btn.getBoundingClientRect()
+      const ripple = document.createElement('span')
+      const diameter = Math.max(rect.width, rect.height)
+      ripple.style.width = ripple.style.height = `${diameter}px`
+      ripple.style.left = `${e.clientX - rect.left - diameter / 2}px`
+      ripple.style.top = `${e.clientY - rect.top - diameter / 2}px`
+      ripple.className = 'ripple-effect'
+      btn.appendChild(ripple)
+      ripple.addEventListener('animationend', () => ripple.remove())
+      onClick?.(e)
+    }, [onClick])
+
     return (
       <button
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center font-medium transition-all duration-150',
+          'ripple-container inline-flex items-center justify-center font-medium transition-all duration-150',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
           'disabled:opacity-50 disabled:pointer-events-none',
-          'active:scale-[0.98]',
+          'active:scale-[0.97]',
           variantStyles[variant],
-          sizeStyles[size],
-          className
-        )}
-        disabled={disabled || loading}
-        {...props}
-      >
-        {loading ? (
-          <svg className="animate-spin-slow h-4 w-4" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
-        ) : icon ? (
-          <span className="shrink-0">{icon}</span>
-        ) : null}
-        {children}
-      </button>
-    )
-  }
-)
-
-Button.displayName = 'Button'
-export { Button, type ButtonProps, type ButtonVariant, type ButtonSize }
+          siz

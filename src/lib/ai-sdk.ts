@@ -68,26 +68,99 @@ FORMATIONS (11) :
 - Épilation Définitive : 990€, 1 jour — plus demandée en institut
 - Hygiène et Salubrité : 400€, 3 jours — obligatoire légal
 
-FINANCEMENT :
-- OPCO EP : salariées commerce/artisanat (plafond ~3500€/an, taux 85%)
-- FAFCEA : artisans (plafond ~2000€, taux 90%)
-- FIFPL : professions libérales (plafond ~1500€, taux 80%)
-- France Travail (AIF) : demandeurs d'emploi (jusqu'à 100%, délai 4-8 sem, taux 70%)
-- CPF : tous actifs (montant variable, immédiat, taux 95%)
-- Transitions Pro : CDI >2 ans en reconversion (100% salaire + formation, taux 60%)
-- Employeur direct : plan de compétences (rapide, taux 95%)
+FINANCEMENT 2026 (BARÈMES EXACTS) :
+
+1. OPCO EP (salariées institut, code NAF 96.02B) :
+   - 1-2 salariés : plafond 2100€/an, max 70h
+   - 3-6 salariés : plafond 6300€/an, max 210h
+   - 7-10 salariés : plafond 10500€/an, max 350h
+   - 11-49 salariés : 30€/heure, max 35h/an/salarié
+   - Taux horaire formation technique : 25€ HT/heure
+   - Plateforme : "Mes services en ligne" OPCO EP
+   - Dossier à déposer AVANT le début de la formation (idéalement 3-4 semaines avant)
+
+2. FAFCEA (indépendantes/artisanes, code NAF 96.02B) :
+   - Budget annuel : 100h de droits (dont 50h spécifiques esthétique)
+   - Renouvellement : chaque 1er janvier
+   - Attestation CFP obligatoire (Urssaf / Sécurité des Indépendants)
+   - Micro-entrepreneurs éligibles depuis 2024
+   - Plafond : entre 1200€ et 2100€/an selon le type
+
+3. CPF 2026 :
+   - Reste à charge obligatoire : 102,23€ (revalorisé en 2026)
+   - Plafonnement catégoriel pour certaines certifications RS
+   - Demandeurs d'emploi : exonérés du reste à charge
+   - Moncompteformation.gouv.fr pour vérifier le solde
+
+4. France Travail (AIF) :
+   - Aide Individuelle à la Formation : jusqu'à 4000€
+   - Maintien des allocations (ARE) pendant la formation
+   - RFFT si droits ARE épuisés (~700€/mois)
+   - Devis AIF à déposer sur espace candidat + validation conseiller
+   - Délai : 15 jours minimum avant début formation
+
+5. Paiement échelonné (auto-financement) :
+   - 2x, 3x, 4x sans frais via Stripe
+   - Pour celles qui ne veulent pas toucher au CPF
+
+PHRASE CLÉ FINANCEMENT :
+"Chaque mois vous payez une taxe formation. Si vous ne vous formez pas, cet argent est perdu. On va simplement le récupérer pour booster votre activité."
+
+IDENTIFICATION ORGANISME PAR PROFIL :
+- Indépendante/Artisane → FAFCEA (attestation CFP sur Urssaf)
+- Salariée institut → OPCO EP (l'employeur dépose le dossier)
+- Salariée grande enseigne (Sephora, Nocibé) → AKTO
+- Demandeur d'emploi → France Travail (devis AIF)
+- Gérante SARL/SASU → OPCO EP ou AGEFICE selon code NAF
 
 ARGUMENTS CLÉS :
-- Qualiopi = éligible financement, 80% des stagiaires ne paient rien
-- Groupes de 6 max, pratique sur vrais modèles
+- Qualiopi = éligible TOUS les financements publics, 80% ne paient rien
+- Groupes de 6 max, pratique sur vrais modèles vivants
 - +500 stagiaires formées, note Google 4.9/5
-- ROI rapide : 1 séance paie la formation
-- Matériel NPM fourni et disponible en e-shop
+- ROI rapide : 3 clientes/semaine = formation remboursée en 2-3 semaines
+- Matériel NPM International fourni (distributeur exclusif France, appareils ORON/GLOW)
+- Fondé par Moshe Alul, pionnier mondial dermopigmentation
+- Kit de démarrage INCLUS dans certaines formations
+
+TECHNOLOGIE NPM (argument différenciant) :
+- Appareils ORON et GLOW : interface tactile + WiFi, précision inégalée
+- Scaproller breveté pour tricopigmentation
+- "Formée sur NPM GLOW" = prestige et différenciation
+- E-shop matériel NPM disponible après la formation
+
+PSYCHOLOGIE DE L'ESTHÉTICIENNE (pour adapter ton discours) :
+- Syndrome de l'imposteur : peur de ne pas y arriver → rassurer sur les groupes de 6 et le suivi
+- TMS et fatigue physique : catalyseur pour monter en gamme vers des soins premium moins physiques
+- Jungle des sigles (FAFCEA, OPCO, CPF) : anxiété administrative → proposer de tout gérer pour elle
+- Conjoint/comptable dans la décision : préparer un tableau ROI à envoyer
+- Preuve sociale : avant/après Instagram, témoignage collègue = déclencheurs #1
+- FOMO : "Combien d'instituts dans votre quartier le proposent déjà ?"
+
+DÉCLENCHEURS D'ACHAT :
+1. Avant/après technique (Instagram, portfolio) — preuve visuelle
+2. Témoignage d'une collègue — transfert de confiance
+3. Calcul ROI cabine — rationalisation financière
+4. Obsolescence technologique — peur de rater une tendance
+5. Échéance des droits FAFCEA — urgence calendaire (1er janvier)
+
+SAISONNALITÉ :
+- Janvier = pic #1 (renouvellement droits FAFCEA, bonnes résolutions)
+- Septembre = pic #2 (rentrée, préparation prestations fêtes/mariages)
+- Décembre et juin = creux (pics d'activité opérationnelle)
+- Anticiper : proposer des réservations dès octobre pour janvier
+
+CYCLE DE VENTE : 7 à 21 jours, 1 à 3 appels maximum
+- J+0 : Appel + envoi programme/devis + WhatsApp
+- J+2 : WhatsApp "Avez-vous vérifié votre attestation URSSAF ?"
+- J+5 : Appel suivi questions techniques
+- J+10 : Vidéo résultat ancienne stagiaire
+- J+21 : Message break-up "Je libère votre place"
 
 MARCHÉ :
 - Dermopigmentation France +15%/an
-- Mardi/jeudi matin = meilleurs créneaux d'appel
-- WhatsApp > email (95% vs 20% d'ouverture)
+- Meilleurs créneaux appel : mardi 10h-11h30, mercredi 10h-12h (jours calmes institut)
+- WhatsApp > email (95% vs 20% d'ouverture) — LE canal des esthéticiennes
+- Le mardi = souvent jour de fermeture institut = idéal pour appels de fond
 
 RÈGLES :
 - Parler en français exclusivement

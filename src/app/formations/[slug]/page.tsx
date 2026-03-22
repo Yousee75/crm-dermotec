@@ -38,9 +38,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     openGraph: {
       title: `${formation.nom} | Dermotec Advanced`,
       description: formation.description_commerciale || formation.description,
+      url: `https://crm-dermotec.vercel.app/formations/${formation.slug}`,
+      siteName: 'Dermotec Advanced',
       images: formation.image_url ? [formation.image_url] : [],
       type: 'website',
-      locale: 'fr_FR'
+      locale: 'fr_FR',
     },
     twitter: {
       card: 'summary_large_image',
@@ -49,7 +51,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       images: formation.image_url ? [formation.image_url] : []
     },
     alternates: {
-      canonical: `https://dermotec-advanced.com/formations/${formation.slug}`
+      canonical: `https://crm-dermotec.vercel.app/formations/${formation.slug}`,
     }
   }
 }

@@ -35,7 +35,7 @@ function KpiCard({ icon: Icon, label, value, color, subtitle, trend, className, 
     <div
       className={cn(
         'group bg-white rounded-xl border border-gray-100 p-4 md:p-5',
-        'hover:shadow-md hover:border-gray-200 transition-all duration-200',
+        'hover:shadow-lg hover:border-gray-200 hover:-translate-y-0.5 transition-all duration-200',
         'animate-fadeIn',
         onClick && 'cursor-pointer',
         className
@@ -52,8 +52,8 @@ function KpiCard({ icon: Icon, label, value, color, subtitle, trend, className, 
             <p className="text-xs text-gray-400">{subtitle}</p>
           )}
           {trend && TrendIcon && (
-            <div className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium', trendColor)}>
-              <TrendIcon className="w-3 h-3" />
+            <div className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium transition-all duration-300', trendColor)}>
+              <TrendIcon className="w-3 h-3 animate-bounceIn" />
               {trend.value > 0 ? '+' : ''}{trend.value}%
               {trend.label && <span className="text-gray-400 ml-0.5">{trend.label}</span>}
             </div>

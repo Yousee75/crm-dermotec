@@ -3,9 +3,22 @@ import Link from 'next/link'
 import { Search } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Centre d\u2019aide — Dermotec CRM',
+  title: 'Centre d\'Aide | FAQ et Support',
   description:
-    'Trouvez rapidement des réponses à vos questions sur Dermotec CRM. Premiers pas, formations, Qualiopi, facturation et compte.',
+    'Trouvez rapidement des reponses a vos questions sur Dermotec CRM. Premiers pas, formations, Qualiopi, facturation, RGPD et gestion de compte.',
+  openGraph: {
+    title: 'Centre d\'Aide | Dermotec Advanced',
+    description: 'FAQ et support Dermotec CRM. Guides premiers pas, formations, Qualiopi, facturation et compte.',
+    url: 'https://crm-dermotec.vercel.app/aide',
+    siteName: 'Dermotec Advanced',
+    type: 'website',
+    locale: 'fr_FR',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Centre d\'Aide | Dermotec Advanced',
+    description: 'FAQ et support Dermotec CRM. Guides premiers pas, formations, Qualiopi, facturation et compte.',
+  },
 }
 
 const sections = [
