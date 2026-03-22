@@ -1,257 +1,414 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-import {
-  Gauge,
-  CreditCard,
-  Calendar,
-  Award,
-  BarChart3,
-  Zap,
-  Check,
-} from 'lucide-react'
-import { TrustBar } from '@/components/ui/TrustBar'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Dermotec CRM by Satorea — Le CRM pour les centres de formation esthétique',
-  description:
-    'Pipeline commercial, financement OPCO/CPF, gestion Qualiopi, inscriptions — tout en un. Le CRM conçu pour les centres de formation esthétique.',
+export const dynamic = 'force-dynamic'
+
+import Link from 'next/link'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+import {
+  Brain,
+  Wallet,
+  CalendarCheck,
+  Search,
+  GraduationCap,
+  MessageSquareText,
+  Shield,
+  Award,
+  Users,
+  Star,
+  Check,
+  ArrowRight,
+  Sparkles,
+  TrendingUp,
+  BookOpen,
+  Zap,
+  ChevronRight,
+} from 'lucide-react'
+
+// ─── Animation variants ───
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 }
 
+const stagger = {
+  visible: { transition: { staggerChildren: 0.1 } },
+}
+
+function AnimatedSection({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-80px' })
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+      variants={stagger}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+// ─── Data ───
 const features = [
   {
-    icon: Gauge,
-    title: 'Pipeline Kanban',
-    description:
-      'Visualisez vos leads du premier contact à l\u2019inscription. 11 statuts personnalisés, glisser-déposer, filtres avancés.',
+    icon: Brain,
+    title: 'Pipeline intelligent',
+    description: 'Scoring IA /100, 11 statuts personnalisables, drag-drop Kanban. Vos leads les plus chauds remontent automatiquement.',
+    gradient: 'from-blue-500 to-cyan-400',
   },
   {
-    icon: CreditCard,
-    title: 'Financement automatisé',
-    description:
-      'Dossiers OPCO, CPF, France Travail en 3 clics. Suivi en temps réel, relances automatiques, 12 organismes pré-configurés.',
+    icon: Wallet,
+    title: 'Financement automatis\u00e9',
+    description: 'OPCO, CPF, France Travail, P\u00f4le Emploi. 12 organismes pr\u00e9-configur\u00e9s, checklist documents, relances auto.',
+    gradient: 'from-emerald-500 to-teal-400',
   },
   {
-    icon: Calendar,
-    title: 'Sessions & Planning',
-    description:
-      'Planifiez vos formations, gérez les places et les formatrices. Calendrier visuel, gestion du matériel et des salles.',
+    icon: CalendarCheck,
+    title: 'Sessions & planning',
+    description: 'Calendrier visuel, gestion formatrices et salles, \u00e9margement QR digital. Conformit\u00e9 Qualiopi int\u00e9gr\u00e9e.',
+    gradient: 'from-violet-500 to-purple-400',
   },
   {
-    icon: Award,
-    title: 'Certificats & Conventions',
-    description:
-      'Générez vos documents Qualiopi en PDF. Conventions, attestations, certificats — conformes et prêts à envoyer.',
+    icon: Search,
+    title: 'Analyse concurrentielle',
+    description: '25 sources de donn\u00e9es, veille automatique, positionnement tarifaire. Gardez une longueur d\u2019avance.',
+    gradient: 'from-orange-500 to-amber-400',
   },
   {
-    icon: BarChart3,
-    title: 'Analytics temps réel',
-    description:
-      'CA, conversion, remplissage — tout en un dashboard. Suivez les 7 critères et 32 indicateurs Qualiopi.',
+    icon: GraduationCap,
+    title: 'LMS int\u00e9gr\u00e9',
+    description: 'Supports de formation style Udemy, quiz, progression, certificats PDF. Tout le parcours apprenant en un clic.',
+    gradient: 'from-pink-500 to-rose-400',
   },
   {
-    icon: Zap,
-    title: 'Assistant IA',
-    description:
-      'Suggestions proactives, scoring leads, relances automatiques. L\u2019IA qui comprend la formation esthétique.',
+    icon: MessageSquareText,
+    title: 'Chatbot IA commercial',
+    description: '13 outils IA : scoring, objections, scripts, relances. Votre assistant commercial qui ne dort jamais.',
+    gradient: 'from-indigo-500 to-blue-400',
   },
+]
+
+const stats = [
+  { value: '25+', label: 'Sources de donn\u00e9es', icon: Search },
+  { value: '11', label: 'Formations', icon: BookOpen },
+  { value: '500+', label: 'Stagiaires form\u00e9s', icon: Users },
+  { value: '4.8', label: 'Satisfaction', icon: Star, suffix: '\u2605' },
 ]
 
 const plans = [
   {
-    name: 'Découverte',
+    name: 'D\u00e9couverte',
     price: 'Gratuit',
     period: '',
-    features: [
-      '50 leads',
-      '1 utilisateur',
-      'Pipeline kanban',
-      'Email templates',
-    ],
+    features: ['50 leads', '1 utilisateur', 'Pipeline kanban', 'Email templates', 'Support communaut\u00e9'],
     cta: 'Commencer',
     ctaHref: '/login',
     highlighted: false,
   },
   {
     name: 'Pro',
-    price: '49€',
+    price: '49\u20AC',
     period: '/mois HT',
-    features: [
-      'Tout Découverte +',
-      '500 leads · 5 utilisateurs',
-      'Financement dossiers',
-      'Analytics avancé',
-      'Cadences automatisées',
-    ],
+    features: ['500 leads', '5 utilisateurs', 'Financement dossiers', 'Analytics avanc\u00e9', 'Cadences automatis\u00e9es', 'Support prioritaire'],
     cta: 'Essai gratuit 14 jours',
     ctaHref: '/login',
     highlighted: true,
   },
   {
     name: 'Expert',
-    price: '99€',
+    price: '99\u20AC',
     period: '/mois HT',
-    features: [
-      'Tout Pro +',
-      'Leads illimités · 15 utilisateurs',
-      'Assistant IA',
-      'API + Webhooks',
-      'Support téléphonique',
-    ],
+    features: ['Leads illimit\u00e9s', '15 utilisateurs', 'Assistant IA', 'API + Webhooks', 'LMS complet', 'Support t\u00e9l\u00e9phonique'],
     cta: 'Essai gratuit 14 jours',
     ctaHref: '/login',
     highlighted: false,
   },
 ]
 
-const testimonials = [
-  {
-    quote:
-      'On est passés de fichiers Excel à un vrai pipeline. En 2 mois, notre taux de conversion a doublé. Les dossiers OPCO se montent en 5 minutes.',
-    name: 'Sophie Lefèvre',
-    role: 'Gérante',
-    company: 'Institut Beauté Parisienne',
-  },
-  {
-    quote:
-      'Le suivi Qualiopi est un game changer. Avant, on passait 2 jours à préparer l\u2019audit. Maintenant, tout est prêt en temps réel.',
-    name: 'Nadia Benmoussa',
-    role: 'Directrice pédagogique',
-    company: 'Formation Esthétique Lyon',
-  },
-  {
-    quote:
-      'L\u2019assistant IA m\u2019a permis de relancer 40 leads oubliés. 12 se sont inscrits. Le ROI est immédiat.',
-    name: 'Claire Dubois',
-    role: 'Responsable commerciale',
-    company: 'Académie Belle Peau',
-  },
+const trustBadges = [
+  { icon: Shield, label: 'Certifi\u00e9 Qualiopi' },
+  { icon: Award, label: 'Partenaire NPM France' },
+  { icon: Users, label: '500+ stagiaires form\u00e9s' },
 ]
 
+// ─── Page ───
 export default function LandingPage() {
   return (
-    <>
-      {/* ──────────── HERO ──────────── */}
-      <section
-        className="relative flex flex-col items-center justify-center min-h-screen px-4 py-20 text-center"
-        style={{ background: 'linear-gradient(180deg, #0D0D12 0%, #1C1C24 100%)' }}
-      >
-        {/* Gradient mesh décoratif */}
-        <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <div className="absolute top-20 right-1/4 w-96 h-96 rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute bottom-20 left-1/4 w-80 h-80 rounded-full bg-action/15 blur-3xl" />
-        </div>
+    <div className="overflow-x-hidden">
+      {/* ════════════════ HERO ════════════════ */}
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-4 py-24 text-center overflow-hidden">
+        {/* Background gradient */}
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background: 'linear-gradient(135deg, #082545 0%, #0a3a6b 40%, #0e4d8f 70%, #1a6fb5 100%)',
+          }}
+        />
+        {/* Decorative orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#2EC6F3]/20 rounded-full blur-[120px] -z-[5]" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#2EC6F3]/10 rounded-full blur-[150px] -z-[5]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full -z-[5]" />
 
-        <div className="relative z-10">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white max-w-4xl leading-tight mb-6">
-            Le CRM qui comprend les centres de formation{' '}
-            <span className="text-gradient">esthétique</span>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="max-w-4xl mx-auto"
+        >
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-1.5 mb-8"
+          >
+            <Sparkles className="w-4 h-4 text-[#2EC6F3]" />
+            <span className="text-sm text-white/80">Propuls&eacute; par l&apos;IA</span>
+          </motion.div>
+
+          <h1
+            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight"
+            style={{ fontFamily: 'var(--font-heading)' }}
+          >
+            Le CRM intelligent pour les{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2EC6F3] to-[#6DD5FA]">
+              centres de formation esth&eacute;tique
+            </span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-            Pipeline commercial, financement OPCO/CPF, gestion Qualiopi, inscriptions — tout en un.
+
+          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+            G&eacute;rez vos leads, automatisez votre prospection, et doublez vos inscriptions.
+            Pipeline, financement, Qualiopi &mdash; tout en un.
           </p>
 
-          {/* CTAs — 2 boutons côte à côte (inspiré Bright Data) */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8 justify-center">
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
               href="/login"
-              className="inline-flex items-center justify-center rounded-full bg-action hover:bg-action-dark text-white font-semibold px-8 py-3.5 text-base transition-all duration-200 cta-glow"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#2EC6F3] hover:bg-[#1ab5e2] text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-lg shadow-[#2EC6F3]/25 hover:shadow-xl hover:shadow-[#2EC6F3]/30"
             >
-              Commencer gratuitement
+              Essai gratuit
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/pricing"
-              className="inline-flex items-center justify-center rounded-full border-2 border-white/20 hover:border-primary text-white hover:text-primary font-semibold px-8 py-3.5 text-base transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/25 hover:border-white/50 text-white font-semibold px-8 py-4 text-base transition-all duration-200 backdrop-blur-sm"
             >
               Voir les tarifs
             </Link>
           </div>
+        </motion.div>
 
-          {/* Trust indicators visuels (inspiré Bright Data x3) */}
-          <TrustBar variant="hero" />
-
-          {/* Screenshot placeholder */}
-          <div className="w-full max-w-4xl aspect-video rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mt-10 overflow-hidden">
-            <span className="text-gray-500 text-sm">Interface CRM Dermotec</span>
+        {/* Hero visual — gradient dashboard mockup */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
+          className="w-full max-w-5xl mx-auto mt-4"
+        >
+          <div className="relative rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-sm p-1 shadow-2xl">
+            <div className="rounded-xl bg-gradient-to-br from-[#082545]/80 to-[#0e4d8f]/60 aspect-[16/9] flex flex-col">
+              {/* Fake titlebar */}
+              <div className="flex items-center gap-2 px-5 py-3 border-b border-white/10">
+                <div className="w-3 h-3 rounded-full bg-red-400/60" />
+                <div className="w-3 h-3 rounded-full bg-yellow-400/60" />
+                <div className="w-3 h-3 rounded-full bg-green-400/60" />
+                <div className="flex-1 flex justify-center">
+                  <div className="w-48 h-5 rounded bg-white/10" />
+                </div>
+              </div>
+              {/* Fake content */}
+              <div className="flex-1 p-4 sm:p-6 grid grid-cols-4 gap-3 sm:gap-4">
+                {/* Sidebar */}
+                <div className="col-span-1 space-y-3 hidden sm:block">
+                  {[0, 1, 2, 3, 4, 5].map((i) => (
+                    <div
+                      key={i}
+                      className="h-8 rounded-lg"
+                      style={{
+                        background: i === 0 ? 'rgba(46,198,243,0.2)' : 'rgba(255,255,255,0.06)',
+                        width: `${65 + (i * 7) % 35}%`,
+                      }}
+                    />
+                  ))}
+                </div>
+                {/* Main area — pipeline columns */}
+                <div className="col-span-4 sm:col-span-3 grid grid-cols-3 gap-2 sm:gap-3">
+                  {['Nouveau', 'Qualification', 'Inscription'].map((col) => (
+                    <div key={col} className="space-y-2 sm:space-y-3">
+                      <div className="text-[10px] sm:text-xs text-white/40 font-medium px-1">{col}</div>
+                      {[0, 1, 2].map((i) => (
+                        <div
+                          key={i}
+                          className="h-16 sm:h-20 rounded-lg bg-white/[0.06] border border-white/[0.08] p-2 sm:p-3"
+                        >
+                          <div className="w-3/4 h-2 sm:h-2.5 rounded bg-white/15 mb-1.5 sm:mb-2" />
+                          <div className="w-1/2 h-1.5 sm:h-2 rounded bg-white/10 mb-2 sm:mb-3" />
+                          <div className="flex gap-1">
+                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#2EC6F3]/20" />
+                            <div className="flex-1 h-1.5 sm:h-2 rounded bg-white/[0.08] mt-1.5 sm:mt-2" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* ──────────── TRUST BAR COMPLÈTE ──────────── */}
-      <TrustBar variant="full" />
+      {/* ════════════════ TRUST BADGES ════════════════ */}
+      <section className="bg-white py-12 px-4 border-b border-gray-100">
+        <AnimatedSection className="max-w-4xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
+            {trustBadges.map((badge) => {
+              const Icon = badge.icon
+              return (
+                <motion.div
+                  key={badge.label}
+                  variants={fadeUp}
+                  className="flex items-center gap-3"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[#2EC6F3]/10 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-[#2EC6F3]" />
+                  </div>
+                  <span className="text-sm font-semibold text-[#082545]">{badge.label}</span>
+                </motion.div>
+              )
+            })}
+          </div>
+        </AnimatedSection>
+      </section>
 
-      {/* ──────────── FEATURES ──────────── */}
-      <section className="bg-white py-20 px-4 sm:px-6">
+      {/* ════════════════ FEATURES ════════════════ */}
+      <section className="bg-white py-20 sm:py-28 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <h2
-            className="text-3xl sm:text-4xl font-bold text-accent text-center mb-4"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Tout ce dont votre centre a besoin
-          </h2>
-          <p className="text-gray-500 text-center max-w-xl mx-auto mb-14">
-            6 modules pensés pour les centres de formation esthétique. Rien de superflu.
-          </p>
+          <AnimatedSection className="text-center mb-16">
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full bg-[#2EC6F3]/10 px-4 py-1.5 mb-6">
+              <Zap className="w-4 h-4 text-[#2EC6F3]" />
+              <span className="text-sm font-medium text-[#2EC6F3]">6 modules puissants</span>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#082545] mb-4"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Tout ce dont votre centre a besoin
+            </motion.h2>
+            <motion.p variants={fadeUp} className="text-gray-500 max-w-xl mx-auto text-lg">
+              De la premi&egrave;re prise de contact &agrave; la certification, chaque &eacute;tape est couverte.
+            </motion.p>
+          </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <AnimatedSection className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature) => {
               const Icon = feature.icon
               return (
-                <div key={feature.title} className="p-6 rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all duration-200">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <Icon className="w-5 h-5 text-primary" />
+                <motion.div
+                  key={feature.title}
+                  variants={fadeUp}
+                  className="group relative p-6 rounded-2xl border border-gray-100 bg-white hover:border-[#2EC6F3]/30 hover:shadow-lg hover:shadow-[#2EC6F3]/5 transition-all duration-300"
+                >
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-5 shadow-sm`}>
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
                   <h3
-                    className="text-lg font-bold text-accent mb-2"
+                    className="text-lg font-bold text-[#082545] mb-2"
                     style={{ fontFamily: 'var(--font-heading)' }}
                   >
                     {feature.title}
                   </h3>
                   <p className="text-sm text-gray-500 leading-relaxed">{feature.description}</p>
-                </div>
+                  <div className="mt-4 flex items-center gap-1 text-sm font-medium text-[#2EC6F3] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    En savoir plus <ChevronRight className="w-4 h-4" />
+                  </div>
+                </motion.div>
               )
             })}
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 
-      {/* ──────────── PLANS ──────────── */}
-      <section className="bg-background py-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2
-            className="text-3xl sm:text-4xl font-bold text-accent text-center mb-4"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Des tarifs pensés pour les TPE
-          </h2>
-          <p className="text-gray-500 text-center max-w-xl mx-auto mb-14">
-            14 jours d&apos;essai gratuit sur tous les plans payants. Sans carte bancaire.
-          </p>
+      {/* ════════════════ STATS ════════════════ */}
+      <section className="bg-gray-50 py-20 px-4 sm:px-6">
+        <AnimatedSection className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat) => {
+              const Icon = stat.icon
+              return (
+                <motion.div
+                  key={stat.label}
+                  variants={fadeUp}
+                  className="text-center"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-[#2EC6F3]/10 flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-6 h-6 text-[#2EC6F3]" />
+                  </div>
+                  <div
+                    className="text-3xl sm:text-4xl font-bold text-[#082545] mb-1"
+                    style={{ fontFamily: 'var(--font-heading)' }}
+                  >
+                    {stat.value}{stat.suffix || ''}
+                  </div>
+                  <div className="text-sm text-gray-500">{stat.label}</div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </AnimatedSection>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      {/* ════════════════ PRICING PREVIEW ════════════════ */}
+      <section className="bg-white py-20 sm:py-28 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <AnimatedSection className="text-center mb-16">
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full bg-[#2EC6F3]/10 px-4 py-1.5 mb-6">
+              <TrendingUp className="w-4 h-4 text-[#2EC6F3]" />
+              <span className="text-sm font-medium text-[#2EC6F3]">Tarifs transparents</span>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#082545] mb-4"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Des tarifs pens&eacute;s pour les TPE
+            </motion.h2>
+            <motion.p variants={fadeUp} className="text-gray-500 max-w-xl mx-auto text-lg">
+              14 jours d&apos;essai gratuit. Sans carte bancaire. Sans engagement.
+            </motion.p>
+          </AnimatedSection>
+
+          <AnimatedSection className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             {plans.map((plan) => (
-              <div
+              <motion.div
                 key={plan.name}
-                className={`relative flex flex-col bg-white rounded-2xl border-2 p-6 transition-shadow ${
+                variants={fadeUp}
+                className={`relative flex flex-col bg-white rounded-2xl border-2 p-7 transition-all duration-300 ${
                   plan.highlighted
-                    ? 'border-primary shadow-lg shadow-primary/10'
-                    : 'border-gray-100'
+                    ? 'border-[#2EC6F3] shadow-xl shadow-[#2EC6F3]/10 md:scale-[1.03]'
+                    : 'border-gray-100 hover:border-gray-200 hover:shadow-md'
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-white">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-[#2EC6F3] px-4 py-1 text-xs font-bold text-white tracking-wide uppercase">
                     Populaire
                   </span>
                 )}
 
                 <h3
-                  className="text-xl font-bold text-accent mb-1"
+                  className="text-xl font-bold text-[#082545] mb-1"
                   style={{ fontFamily: 'var(--font-heading)' }}
                 >
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mb-6">
                   <span
-                    className="text-3xl font-bold text-accent"
+                    className="text-4xl font-bold text-[#082545]"
                     style={{ fontFamily: 'var(--font-heading)' }}
                   >
                     {plan.price}
@@ -261,8 +418,8 @@ export default function LandingPage() {
 
                 <ul className="flex-1 space-y-3 mb-8">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
-                      <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                    <li key={f} className="flex items-start gap-2.5 text-sm text-gray-600">
+                      <Check className="w-4 h-4 text-[#2EC6F3] mt-0.5 shrink-0" />
                       <span>{f}</span>
                     </li>
                   ))}
@@ -270,141 +427,139 @@ export default function LandingPage() {
 
                 <Link
                   href={plan.ctaHref}
-                  className={`block text-center rounded-xl py-2.5 px-4 text-sm font-medium transition-all duration-150 ${
+                  className={`block text-center rounded-xl py-3 px-4 text-sm font-semibold transition-all duration-200 ${
                     plan.highlighted
-                      ? 'bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md'
-                      : 'border border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
+                      ? 'bg-[#2EC6F3] hover:bg-[#1ab5e2] text-white shadow-sm hover:shadow-md'
+                      : 'border-2 border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-[#082545]'
                   }`}
                 >
                   {plan.cta}
                 </Link>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </AnimatedSection>
 
-          <p className="text-center">
-            <Link href="/pricing" className="text-sm text-primary hover:underline font-medium">
-              Voir tous les plans &rarr;
+          <motion.p variants={fadeUp} className="text-center">
+            <Link href="/pricing" className="inline-flex items-center gap-1 text-sm text-[#2EC6F3] hover:underline font-semibold">
+              Voir tous les plans <ArrowRight className="w-4 h-4" />
             </Link>
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      {/* ──────────── TESTIMONIALS ──────────── */}
-      <section className="bg-white py-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2
-            className="text-3xl sm:text-4xl font-bold text-accent text-center mb-14"
+      {/* ════════════════ CTA FINAL ════════════════ */}
+      <section className="relative py-24 px-4 sm:px-6 overflow-hidden">
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background: 'linear-gradient(135deg, #082545 0%, #0a3a6b 50%, #0e4d8f 100%)',
+          }}
+        />
+        <div className="absolute top-10 right-10 w-72 h-72 bg-[#2EC6F3]/15 rounded-full blur-[100px] -z-[5]" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-[#2EC6F3]/10 rounded-full blur-[80px] -z-[5]" />
+
+        <AnimatedSection className="max-w-3xl mx-auto text-center">
+          <motion.h2
+            variants={fadeUp}
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
-            Ce qu&apos;en disent nos utilisateurs
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="rounded-2xl border border-gray-100 p-6 flex flex-col"
-              >
-                <p className="text-sm text-gray-600 leading-relaxed flex-1 mb-6">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div>
-                  <p className="text-sm font-semibold text-accent">{t.name}</p>
-                  <p className="text-xs text-gray-400">
-                    {t.role}, {t.company}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+            Pr&ecirc;t &agrave; transformer votre centre de formation ?
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-lg text-gray-300 mb-10 max-w-xl mx-auto">
+            Rejoignez les centres qui ont d&eacute;j&agrave; doubl&eacute; leurs inscriptions gr&acirc;ce &agrave; Satorea.
+          </motion.p>
+          <motion.div variants={fadeUp}>
+            <Link
+              href="/login"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#2EC6F3] hover:bg-[#1ab5e2] text-white font-semibold px-10 py-4 text-lg transition-all duration-200 shadow-lg shadow-[#2EC6F3]/25 hover:shadow-xl hover:shadow-[#2EC6F3]/30"
+            >
+              Commencer gratuitement
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+          <motion.p variants={fadeUp} className="text-sm text-gray-400 mt-6">
+            Gratuit pour d&eacute;marrer &middot; Sans carte bancaire &middot; Configuration en 5 minutes
+          </motion.p>
+        </AnimatedSection>
       </section>
 
-      {/* ──────────── CTA FINAL ──────────── */}
-      <section className="bg-accent py-20 px-4 sm:px-6 text-center">
-        <div className="max-w-2xl mx-auto">
-          <h2
-            className="text-3xl sm:text-4xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Prêt à digitaliser votre centre ?
-          </h2>
-          <p className="text-gray-300 mb-10">
-            14 jours d&apos;essai gratuit. Sans engagement. Sans carte bancaire.
-          </p>
-          <Link
-            href="/login"
-            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
-          >
-            Créer mon compte gratuitement
-          </Link>
-        </div>
-      </section>
-
-      {/* ──────────── FOOTER ──────────── */}
-      <footer className="bg-accent text-gray-400 py-14 px-4 sm:px-6">
+      {/* ════════════════ FOOTER ════════════════ */}
+      <footer className="bg-[#082545] text-gray-400 pt-16 pb-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Produit */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Produit</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="text-sm font-semibold text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                Produit
+              </h4>
+              <ul className="space-y-2.5 text-sm">
                 <li>
-                  <Link href="/#features" className="hover:text-primary transition-colors">
-                    Features
+                  <Link href="/formations" className="hover:text-[#2EC6F3] transition-colors">
+                    Formations
                   </Link>
                 </li>
                 <li>
-                  <Link href="/pricing" className="hover:text-primary transition-colors">
+                  <Link href="/pricing" className="hover:text-[#2EC6F3] transition-colors">
                     Tarifs
                   </Link>
                 </li>
                 <li>
-                  <Link href="/aide" className="hover:text-primary transition-colors">
+                  <Link href="/aide" className="hover:text-[#2EC6F3] transition-colors">
                     Aide
                   </Link>
                 </li>
-              </ul>
-            </div>
-
-            {/* Entreprise */}
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Entreprise</h4>
-              <ul className="space-y-2 text-sm">
                 <li>
-                  <span className="text-gray-500">À propos</span>
-                </li>
-                <li>
-                  <span className="text-gray-500">Blog</span>
-                </li>
-                <li>
-                  <span className="text-gray-500">Carrières</span>
+                  <Link href="/changelog" className="hover:text-[#2EC6F3] transition-colors">
+                    Changelog
+                  </Link>
                 </li>
               </ul>
             </div>
 
-            {/* Légal */}
+            {/* Formation */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Légal</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="text-sm font-semibold text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                Formations
+              </h4>
+              <ul className="space-y-2.5 text-sm">
                 <li>
-                  <Link href="/conditions-generales" className="hover:text-primary transition-colors">
-                    CGU
+                  <Link href="/formations" className="hover:text-[#2EC6F3] transition-colors">
+                    Catalogue
                   </Link>
                 </li>
                 <li>
-                  <Link href="/politique-confidentialite" className="hover:text-primary transition-colors">
-                    Confidentialité
+                  <span className="text-gray-500">Certifications</span>
+                </li>
+                <li>
+                  <span className="text-gray-500">Financement</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                L&eacute;gal
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                <li>
+                  <Link href="/conditions-generales" className="hover:text-[#2EC6F3] transition-colors">
+                    CGV
                   </Link>
                 </li>
                 <li>
-                  <Link href="/mentions-legales" className="hover:text-primary transition-colors">
-                    Mentions légales
+                  <Link href="/mentions-legales" className="hover:text-[#2EC6F3] transition-colors">
+                    Mentions l&eacute;gales
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dpa" className="hover:text-primary transition-colors">
+                  <Link href="/politique-confidentialite" className="hover:text-[#2EC6F3] transition-colors">
+                    Confidentialit&eacute;
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dpa" className="hover:text-[#2EC6F3] transition-colors">
                     DPA
                   </Link>
                 </li>
@@ -413,20 +568,33 @@ export default function LandingPage() {
 
             {/* Contact */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Contact</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="text-sm font-semibold text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                Contact
+              </h4>
+              <ul className="space-y-2.5 text-sm">
                 <li>support@satorea.fr</li>
                 <li>01 88 33 43 43</li>
-                <li>75 Bd Richard Lenoir, 75011 Paris</li>
+                <li>75 Bd Richard Lenoir</li>
+                <li>75011 Paris</li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-6 text-center text-xs text-gray-500">
-            &copy; 2026 Satorea &middot; Dermotec CRM &middot; Made in Paris
+          <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-[#2EC6F3] flex items-center justify-center">
+                <span className="text-white font-bold text-xs" style={{ fontFamily: 'var(--font-heading)' }}>D</span>
+              </div>
+              <span className="text-sm font-semibold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                Dermotec Advanced
+              </span>
+            </div>
+            <p className="text-xs text-gray-500">
+              &copy; 2026 Dermotec Advanced &middot; Satorea SAS &middot; Made in Paris
+            </p>
           </div>
         </div>
       </footer>
-    </>
+    </div>
   )
 }

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import type { Metadata } from 'next'
 import { Shield, MapPin, Eye, Users, Lock, Zap } from 'lucide-react'
 

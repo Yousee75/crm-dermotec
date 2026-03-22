@@ -144,25 +144,13 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   })
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showShortcuts, setShowShortcuts] = useState(false)
-  const [compactMode, setCompactMode] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return localStorage.getItem('density-compact') === 'true'
-  })
-
   // Persister sidebar collapsed
   useEffect(() => {
     localStorage.setItem('sidebar-collapsed', String(collapsed))
+    // Nettoyer le mode compact si activé par erreur
+    document.documentElement.classList.remove('density-compact')
+    localStorage.removeItem('density-compact')
   }, [collapsed])
-
-  // Persister et appliquer le mode compact
-  useEffect(() => {
-    localStorage.setItem('density-compact', String(compactMode))
-    if (compactMode) {
-      document.documentElement.classList.add('density-compact')
-    } else {
-      document.documentElement.classList.remove('density-compact')
-    }
-  }, [compactMode])
 
   // Rôle utilisateur — détermine la vue (commercial ne voit que ses leads)
   const { data: currentUser } = useCurrentUser()
@@ -472,7 +460,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       {/* Main content */}
       <main className="flex-1 overflow-y-auto bg-background">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-100 dark:border-[#2a2a2a]">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-border">
           <div className="flex items-center justify-between h-[56px] px-4 md:px-6 lg:px-8 max-w-[1600px] mx-auto">
             {/* Left: mobile menu + breadcrumb */}
             <div className="flex items-center gap-3">
@@ -480,7 +468,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                 onClick={() => setMobileOpen(true)}
                 className="md:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100 transition"
               >
-                <Menu className="w-5 h-5 text-gray-600 dark:text-slate-300" />
+                <Menu className="w-5 h-5 text-gray-600" />
               </button>
 
               {/* Collapse toggle desktop */}
@@ -495,7 +483,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
               {/* Current page title */}
               <div className="hidden sm:block">
-                <p className="text-sm font-medium text-gray-900 dark:text-slate-100">
+                <p className="text-sm font-medium text-gray-900">
                   {getCurrentPageTitle(pathname ?? '/')}
                 </p>
               </div>
@@ -512,23 +500,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                 </kbd>
               </button>
 
-              {/* Density toggle */}
-              <button
-                onClick={() => setCompactMode(!compactMode)}
-                className={cn(
-                  'hidden md:flex p-2 rounded-lg transition',
-                  compactMode ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'
-                )}
-                title={compactMode ? 'Mode confortable' : 'Mode compact'}
-              >
-                <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  {compactMode ? (
-                    <>{/* Spacious icon */}<line x1="2" y1="3" x2="14" y2="3" /><line x1="2" y1="8" x2="14" y2="8" /><line x1="2" y1="13" x2="14" y2="13" /></>
-                  ) : (
-                    <>{/* Compact icon */}<line x1="2" y1="4" x2="14" y2="4" /><line x1="2" y1="8" x2="14" y2="8" /><line x1="2" y1="12" x2="14" y2="12" /></>
-                  )}
-                </svg>
-              </button>
+              {/* Espace réservé — density toggle supprimé (cassait les marges) */}
 
               {/* Theme toggle */}
               <ThemeToggle />
@@ -564,8 +536,8 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         <div className="fixed inset-0 z-[100]">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-[4px]" onClick={() => setShowShortcuts(false)} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 animate-scaleIn">
-            <div className="bg-white dark:bg-[#111111] rounded-2xl shadow-2xl border border-gray-200/80 dark:border-[#2a2a2a] overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-[#2a2a2a]">
+            <div className="bg-white rounded-2xl shadow-2xl border border-gray-200/80 overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                 <div className="flex items-center gap-2.5">
                   <Keyboard className="w-4 h-4 text-primary" />
                   <h2 className="text-sm font-semibold text-gray-900">Raccourcis clavier</h2>

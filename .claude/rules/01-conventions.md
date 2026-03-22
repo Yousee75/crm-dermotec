@@ -8,10 +8,14 @@
 - Tailwind v4 + framer-motion + sonner
 - React Query v5 + zustand + react-hook-form + zod
 
-## Couleurs branding
-- Primary: #2EC6F3 (bleu Dermotec)
-- Accent: #082545 (bleu nuit sidebar)
-- Success: #22C55E, Warning: #F59E0B, Error: #EF4444
+## Couleurs branding — Palette Satorea OFFICIELLE
+- Primary/CTA: #FF5C00 (orange Satorea)
+- Accent/Rose: #FF2D78 (rose hot pink)
+- Noir: #111111 (sidebar, texte)
+- Fond: #FAF8F5 (papier chaud)
+- Success: #10B981, Warning: #FF8C42, Error: #FF2D78
+- Source: satorea_light_options.html (Option B)
+- AUCUNE autre couleur autorisée en production
 
 ## Fonts
 - Headings: Bricolage Grotesque (--font-heading)

@@ -93,6 +93,27 @@ npm run build            # Build production
 npx vercel --prod        # Deploy production
 ```
 
+## Palette Satorea OFFICIELLE (SEULE référence autorisée)
+
+**Source** : `satorea_light_options.html` — Option B "Blanc Chaud / Papier Premium"
+
+| Rôle | Hex | Usage |
+|------|-----|-------|
+| **Orange** | `#FF5C00` | Primary, CTA, sidebar active, liens |
+| **Orange clair** | `#FF8C42` | Hover, warning, badges |
+| **Rose** | `#FF2D78` | Accent, action secondaire, beauté |
+| **Rose clair** | `#FF6BA8` | Badges, hover rose |
+| **Noir** | `#111111` | Texte, sidebar bg, titres |
+| **Gris foncé** | `#222222` | Sidebar hover |
+| **Gris moyen** | `#3A3A3A` | Texte secondaire |
+| **Fond papier** | `#FAF8F5` | Background page |
+| **Fond hover** | `#F4F0EB` | Surfaces hover |
+| **Fond active** | `#EDE8E0` | Surfaces active |
+| **Border** | `#EEEEEE` | Bordures |
+| **Blanc** | `#FFFFFF` | Cards, surfaces |
+
+**AUCUNE autre couleur n'est autorisée en production.** Pas de bleu, pas de violet, pas de cyan. Seuls les statuts sémantiques utilisent le vert (#10B981 success) et le rouge = rose (#FF2D78 error).
+
 ## Regles absolues
 
 1. JAMAIS commiter .env.local
@@ -101,6 +122,8 @@ npx vercel --prod        # Deploy production
 4. Layout dashboard = Server Component (force-dynamic) + Client Shell
 5. PDF templates dans lib/pdf/ (src/lib/pdf/)
 6. Commit avec --no-verify (hooks pre-commit pas configures)
+7. **PALETTE** : UNIQUEMENT les couleurs de satorea_light_options.html (voir ci-dessus)
+8. **JAMAIS de dark: classes** dans les composants (pas de dark mode pour l'instant)
 
 ## Config manuelle (voir SETUP_GUIDE.md)
 

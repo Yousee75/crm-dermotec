@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import type { Metadata } from 'next'
 import { Badge } from '@/components/ui/Badge'
 import { Building, MapPin, Phone, Mail, Shield, Globe, Users, HelpCircle } from 'lucide-react'
