@@ -144,12 +144,15 @@ COMPORTEMENT en mode formation :
     // Collecter la réponse complète pour le cache
     let fullResponse = ''
 
+    // Debug : si noTools est passé, ne pas envoyer les tools (diagnostic)
+    const useTools = !(body as any).noTools
+
     const result = streamText({
       model: getModel('best'),
       system: systemPrompt,
       messages,
-      tools: crmTools,
-      maxSteps: 10 as any,  // Anti-boucle infinie : max 10 tool calls par requête
+      ...(useTools ? { tools: crmTools } : {}),
+      maxSteps: useTools ? (10 as any) : 1,
       maxRetries: 2,
       temperature: 0.4,
       onFinish: async ({ text, usage }) => {
