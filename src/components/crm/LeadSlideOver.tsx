@@ -23,7 +23,7 @@ interface LeadSlideOverProps {
 }
 
 export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
-  const { data: lead, isLoading } = useLead(leadId || '', { enabled: !!leadId })
+  const { data: lead, isLoading } = useLead(leadId || '')
   const changeStatut = useChangeStatut()
   const [showStatut, setShowStatut] = useState(false)
 
