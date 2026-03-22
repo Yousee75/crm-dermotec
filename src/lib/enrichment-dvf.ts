@@ -107,7 +107,7 @@ async function fetchMutations(
       params.set('date_mutation_max', `${annee}-12-31`)
     }
 
-    const res = await fetch(`${DVF_API}?${params}`, {
+    const res = await fetch(`${DVF_APIS[0]}?${params}`, {
       headers: { Accept: 'application/json' },
       signal: AbortSignal.timeout(TIMEOUT_MS),
     })

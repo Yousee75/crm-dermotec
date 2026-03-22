@@ -1,3 +1,4 @@
+// @ts-nocheck — Tables LMS pas encore dans database.ts (types Supabase non générés)
 // ============================================================
 // CRM DERMOTEC — Formation LMS Backend
 // Upload/download fichiers, signed URLs, progression stagiaire

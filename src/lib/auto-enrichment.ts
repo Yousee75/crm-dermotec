@@ -4,13 +4,20 @@ import 'server-only'
 // Utilities pour déclencher l'enrichissement automatique
 // ============================================================
 
-import { inngest } from './inngest'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+let _supabase: SupabaseClient | null = null
+function getSupabase() {
+  if (!_supabase) {
+    _supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  }
+  return _supabase
+}
+
+function getInngest() {
+  // Lazy import pour éviter le crash SSG
+  return import('./inngest').then(m => m.inngest)
+}
 
 interface EnrichmentTriggerData {
   lead_id: string
@@ -26,6 +33,7 @@ interface EnrichmentTriggerData {
 export async function triggerLeadEnrichment(data: EnrichmentTriggerData) {
   try {
     // Vérifier si le lead existe et récupérer ses données
+    const supabase = getSupabase()
     const { data: lead, error } = await supabase
       .from('leads')
       .select('id, entreprise_nom, siret, email, adresse, metadata')
@@ -52,7 +60,7 @@ export async function triggerLeadEnrichment(data: EnrichmentTriggerData) {
     }
 
     // Vérifier si un enrichissement récent existe déjà
-    const { data: recentEnrichment } = await supabase
+    const { data: recentEnrichment } = await getSupabase()
       .from('auto_enrichment_log')
       .select('created_at')
       .eq('lead_id', data.lead_id)
@@ -66,6 +74,7 @@ export async function triggerLeadEnrichment(data: EnrichmentTriggerData) {
     }
 
     // Déclencher l'enrichissement via Inngest
+    const inngest = await getInngest()
     const result = await inngest.send({
       name: 'lead.enrich',
       data: enrichmentData
@@ -104,7 +113,7 @@ export async function manualEnrichment(
  * Vérifier le statut d'enrichissement d'un lead
  */
 export async function getEnrichmentStatus(leadId: string) {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from('v_enrichment_summary')
     .select('*')
     .eq('lead_id', leadId)
