@@ -5,16 +5,34 @@
 // ============================================================
 import 'server-only'
 
-import { tool, type Tool, zodSchema } from 'ai'
+import { tool, type Tool, zodSchema, jsonSchema } from 'ai'
 import { z } from 'zod'
 import { createServiceSupabase } from './supabase-server'
 import { hybridSearchKB } from './hybrid-search'
 
-// AI SDK v6 — wrapper avec zodSchema() pour conversion Zod → JSON Schema correcte
-// @ts-ignore — overload strict mais fonctionne au runtime (vérifié)
+// AI SDK v6 — Convertit Zod → JSON Schema manuellement puis utilise jsonSchema()
+// Raison : tool() + zodSchema() ne produit pas le format attendu par l'API Anthropic
 function defineTool(config: { description: string; parameters: z.ZodObject<any>; execute: (args: any) => Promise<any> }) {
-  // @ts-ignore — zodSchema() produit le bon JSON Schema avec type:"object"
-  return tool({ description: config.description, parameters: zodSchema(config.parameters), execute: config.execute })
+  const shape = config.parameters.shape || {}
+  const properties: Record<string, any> = {}
+  const required: string[] = []
+
+  for (const [key, val] of Object.entries(shape)) {
+    const zf = val as z.ZodTypeAny
+    const inner = (zf as any)._def?.innerType || zf
+    let type = 'string'
+    if (inner instanceof z.ZodNumber) type = 'number'
+    else if (inner instanceof z.ZodBoolean) type = 'boolean'
+    else if (inner instanceof z.ZodArray) type = 'array'
+    properties[key] = { type, description: zf.description || key }
+    if (!zf.isOptional()) required.push(key)
+  }
+
+  const schema: any = { type: 'object' as const, properties }
+  if (required.length > 0) schema.required = required
+
+  // @ts-ignore — overload TS strict mais fonctionne (jsonSchema produit le bon format)
+  return tool({ description: config.description, parameters: jsonSchema(schema), execute: config.execute })
 }
 
 // --- TOOL 1: Recherche de leads ---
