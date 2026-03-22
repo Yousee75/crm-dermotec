@@ -343,6 +343,28 @@ EXEMPLE : "Marie est qualifiée" → updateLeadStatus({ lead_id: "uuid", nouveau
 
     const ancien_statut = lead.statut
 
+    // Validation state machine — transitions autorisées
+    const VALID_TRANSITIONS: Record<string, string[]> = {
+      NOUVEAU: ['CONTACTE', 'QUALIFIE', 'PERDU', 'SPAM'],
+      CONTACTE: ['QUALIFIE', 'FINANCEMENT_EN_COURS', 'PERDU', 'SPAM', 'REPORTE'],
+      QUALIFIE: ['FINANCEMENT_EN_COURS', 'INSCRIT', 'PERDU', 'REPORTE'],
+      FINANCEMENT_EN_COURS: ['INSCRIT', 'QUALIFIE', 'PERDU', 'REPORTE'],
+      INSCRIT: ['EN_FORMATION', 'PERDU', 'REPORTE'],
+      EN_FORMATION: ['FORME', 'PERDU'],
+      FORME: ['ALUMNI'],
+      ALUMNI: [],
+      REPORTE: ['CONTACTE', 'QUALIFIE', 'FINANCEMENT_EN_COURS', 'PERDU'],
+      PERDU: ['NOUVEAU', 'CONTACTE'],  // Réactivation possible
+      SPAM: [],
+    }
+
+    const allowed = VALID_TRANSITIONS[ancien_statut] || []
+    if (!allowed.includes(nouveau_statut)) {
+      return {
+        error: `Transition invalide : ${ancien_statut} → ${nouveau_statut}. Transitions possibles depuis ${ancien_statut} : ${allowed.join(', ') || 'aucune'}`,
+      }
+    }
+
     // Mettre à jour
     const { error } = await supabase.from('leads').update({ statut: nouveau_statut }).eq('id', lead_id)
     if (error) return { error: error.message }

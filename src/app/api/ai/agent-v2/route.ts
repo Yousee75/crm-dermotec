@@ -148,14 +148,28 @@ COMPORTEMENT en mode formation :
       system: systemPrompt,
       messages,
       tools: crmTools,
+      maxSteps: 10,  // Anti-boucle infinie : max 10 tool calls par requête
       maxRetries: 2,
       temperature: 0.4,
-      onFinish: async ({ text }) => {
+      onFinish: async ({ text, usage }) => {
         fullResponse = text
         // Sauvegarder dans le semantic cache (seulement questions génériques)
         if (!leadId && lastUserMessage.length > 10 && text.length > 50) {
           await semanticCacheSet(lastUserMessage, text).catch(() => {})
         }
+        // Sauvegarder la conversation dans agent_conversations
+        try {
+          const { createServiceSupabase } = await import('@/lib/supabase-server')
+          const sb = await createServiceSupabase() as any
+          await sb.from('agent_conversations').insert({
+            lead_id: leadId || null,
+            mode: mode || 'commercial',
+            messages: messages.concat([{ role: 'assistant', content: text }]),
+            total_messages: messages.length + 1,
+            total_tokens: (usage?.totalTokens) || 0,
+            last_message_at: new Date().toISOString(),
+          })
+        } catch { /* non-bloquant */ }
       },
       onError: ({ error }) => {
         console.error('[Agent v3] Stream error:', error)
