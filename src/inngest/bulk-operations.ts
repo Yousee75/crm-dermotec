@@ -260,16 +260,92 @@ export const processQueueJob = inngest.createFunction({
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async ({ step }: { step: any }) => {
-    const result = await step.run('drain-queue', async () => {
+    // 1. Drainer la queue in-memory
+    const result = await step.run('drain-memory-queue', async () => {
       const { processQueue } = await import('@/lib/graceful-degradation')
       return processQueue()
     })
 
-    if (result.remaining > 0) {
-      console.warn(`[Queue] ${result.remaining} operations still pending`)
+    // 2. Drainer la Dead Letter Queue persistante (messages échoués)
+    const dlqResult = await step.run('drain-dlq', async () => {
+      const { createClient } = await import('@supabase/supabase-js')
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { persistSession: false } }
+      )
+
+      // Récupérer les opérations en attente de retry
+      const { data: pending } = await supabase
+        .from('failed_operations')
+        .select('*')
+        .eq('status', 'pending')
+        .lte('next_retry_at', new Date().toISOString())
+        .lt('attempts', 5)  // Max 5 tentatives
+        .order('created_at', { ascending: true })
+        .limit(20)
+
+      if (!pending?.length) return { processed: 0, failed: 0, remaining: 0 }
+
+      let processed = 0
+      let failed = 0
+
+      for (const op of pending) {
+        try {
+          // Marquer comme processing
+          await supabase.from('failed_operations')
+            .update({ status: 'processing', attempts: op.attempts + 1 })
+            .eq('id', op.id)
+
+          // Reprocesser selon le service
+          if (op.service === 'messages' && op.operation === 'save_message') {
+            const { error } = await supabase.from('messages').insert(op.payload)
+            if (error) throw new Error(error.message)
+          }
+
+          // Marquer comme completed
+          await supabase.from('failed_operations')
+            .update({ status: 'completed', completed_at: new Date().toISOString() })
+            .eq('id', op.id)
+
+          processed++
+        } catch (err) {
+          const nextAttempt = op.attempts + 1
+          if (nextAttempt >= op.max_attempts) {
+            // Dead — ne plus retenter
+            await supabase.from('failed_operations')
+              .update({ status: 'dead', last_error: (err as Error).message })
+              .eq('id', op.id)
+            failed++
+            console.error(`[DLQ] Permanently failed: ${op.service}/${op.operation}`, (err as Error).message)
+          } else {
+            // Retry avec backoff exponentiel (30s, 1min, 2min, 4min, 8min)
+            const backoffMs = Math.min(30_000 * Math.pow(2, nextAttempt), 480_000)
+            await supabase.from('failed_operations')
+              .update({
+                status: 'pending',
+                last_error: (err as Error).message,
+                next_retry_at: new Date(Date.now() + backoffMs).toISOString(),
+              })
+              .eq('id', op.id)
+          }
+        }
+      }
+
+      // Compter le restant
+      const { count } = await supabase
+        .from('failed_operations')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'pending')
+
+      return { processed, failed, remaining: count || 0 }
+    })
+
+    if (result.remaining > 0 || dlqResult.remaining > 0) {
+      console.warn(`[Queue] Memory: ${result.remaining} pending | DLQ: ${dlqResult.remaining} pending`)
     }
 
-    return result
+    return { memory_queue: result, dlq: dlqResult }
   }
 )
 

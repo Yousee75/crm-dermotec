@@ -25,41 +25,90 @@ interface SaveMessageParams {
 
 /**
  * Sauvegarde un message dans la table messages (source de vérité omnicanale)
- * Non-bloquant : ne throw jamais
+ *
+ * CRASH-PROOF (patterns des géants de la tech) :
+ * 1. Tente l'insert dans messages
+ * 2. Si échec → sauvegarde dans failed_operations (Dead Letter Queue persistante)
+ * 3. Un cron Inngest reprocesse les failed_operations toutes les 2 min
+ * 4. Idempotency key pour éviter les doublons si retry
+ *
+ * → Même si Supabase crash pendant 5 min, AUCUN message n'est perdu
  */
 export async function saveMessage(params: SaveMessageParams): Promise<string | null> {
+  const idempotencyKey = `msg_${params.lead_id}_${params.canal}_${Date.now()}`
+  const payload = {
+    lead_id: params.lead_id,
+    direction: params.direction,
+    canal: params.canal,
+    contenu: params.contenu,
+    sujet: params.sujet || null,
+    de: params.de || (params.direction === 'outbound' ? 'Dermotec' : null),
+    a: params.a || null,
+    statut: params.statut || 'envoye',
+    external_id: params.external_id || null,
+    erreur_detail: params.erreur_detail || null,
+    user_id: params.user_id || null,
+    metadata: params.metadata || {},
+  }
+
   try {
     const { createServiceSupabase } = await import('./supabase-server')
     const supabase = await createServiceSupabase() as any
 
     const { data, error } = await supabase
       .from('messages')
-      .insert({
-        lead_id: params.lead_id,
-        direction: params.direction,
-        canal: params.canal,
-        contenu: params.contenu,
-        sujet: params.sujet || null,
-        de: params.de || (params.direction === 'outbound' ? 'Dermotec' : null),
-        a: params.a || null,
-        statut: params.statut || 'envoye',
-        external_id: params.external_id || null,
-        erreur_detail: params.erreur_detail || null,
-        user_id: params.user_id || null,
-        metadata: params.metadata || {},
-      })
+      .insert(payload)
       .select('id')
       .single()
 
     if (error) {
-      console.error('[MessageStore] Insert failed:', error.message)
+      console.error('[MessageStore] Insert failed, saving to DLQ:', error.message)
+      await saveToDeadLetterQueue(supabase, 'messages', 'save_message', payload, idempotencyKey, error.message)
       return null
     }
 
     return data?.id || null
   } catch (err) {
-    console.error('[MessageStore] Error:', err)
+    // Supabase complètement down — tenter quand même le DLQ
+    console.error('[MessageStore] Critical error, attempting DLQ:', err)
+    try {
+      const { createServiceSupabase } = await import('./supabase-server')
+      const supabase = await createServiceSupabase() as any
+      await saveToDeadLetterQueue(supabase, 'messages', 'save_message', payload, idempotencyKey, (err as Error).message)
+    } catch {
+      // Dernier recours : console.error pour les logs Vercel
+      console.error('[MessageStore] DLQ ALSO FAILED — DATA LOSS RISK:', JSON.stringify(payload).slice(0, 500))
+    }
     return null
+  }
+}
+
+/**
+ * Sauvegarde une opération échouée dans la Dead Letter Queue
+ * Sera reprocessée par le cron Inngest processQueueJob
+ */
+async function saveToDeadLetterQueue(
+  supabase: any,
+  service: string,
+  operation: string,
+  payload: unknown,
+  idempotencyKey: string,
+  errorMessage: string
+): Promise<void> {
+  try {
+    await supabase.from('failed_operations').upsert({
+      service,
+      operation,
+      payload,
+      status: 'pending',
+      attempts: 0,
+      max_attempts: 5,
+      last_error: errorMessage,
+      idempotency_key: idempotencyKey,
+      next_retry_at: new Date(Date.now() + 30_000).toISOString(), // Retry dans 30s
+    }, { onConflict: 'idempotency_key' })
+  } catch (dlqErr) {
+    console.error('[DLQ] Failed to save to dead letter queue:', dlqErr)
   }
 }
 
