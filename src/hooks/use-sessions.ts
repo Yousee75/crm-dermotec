@@ -38,6 +38,8 @@ export function useSessions(filters: { month?: string; formation_id?: string; st
       if (error) throw error
       return (data || []) as Session[]
     },
+    staleTime: 2 * 60_000, // 2 min — liste sessions
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -62,6 +64,8 @@ export function useSession(id: string) {
       return data as Session
     },
     enabled: !!id,
+    staleTime: 60_000, // 1 min — détail session
+    gcTime: 10 * 60_000,
   })
 }
 

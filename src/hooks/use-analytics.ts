@@ -208,6 +208,7 @@ export function useAnalytics() {
         caMensuel,
       }
     },
-    staleTime: 60_000, // Cache 1 minute
+    staleTime: 5 * 60_000, // 5 min — analytics/stats
+    gcTime: 10 * 60_000,
   })
 }

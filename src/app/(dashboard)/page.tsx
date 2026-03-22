@@ -58,7 +58,9 @@ export default function DashboardPage() {
 
       const total = data?.reduce((sum, inscription) => sum + (inscription.montant_total || 0), 0) || 0
       return total
-    }
+    },
+    staleTime: 5 * 60_000, // 5 min — CA analytics
+    gcTime: 10 * 60_000,
   })
 
   // Taux de conversion

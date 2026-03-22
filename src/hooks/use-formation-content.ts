@@ -88,7 +88,8 @@ export function useFormationModules(formationId: string) {
         `/api/formation-content?formationId=${encodeURIComponent(formationId)}`
       ),
     enabled: !!formationId,
-    staleTime: 5 * 60 * 1000, // 5 min — contenu change rarement
+    staleTime: 10 * 60_000, // 10 min — contenu quasi-statique
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -104,7 +105,8 @@ export function useModuleContents(moduleId: string) {
         `/api/formation-content?moduleId=${encodeURIComponent(moduleId)}`
       ),
     enabled: !!moduleId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 10 * 60_000, // 10 min — contenu quasi-statique
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -120,7 +122,8 @@ export function useContentProgress(inscriptionId: string) {
         `/api/formation-content?inscriptionId=${encodeURIComponent(inscriptionId)}`
       ),
     enabled: !!inscriptionId,
-    staleTime: 30 * 1000, // 30s — progression change souvent
+    staleTime: 2 * 60_000, // 2 min — progression LMS
+    gcTime: 10 * 60_000,
   })
 }
 

@@ -34,6 +34,8 @@ export function usePlaybookEntries(categorie?: string) {
       if (error) throw error
       return (data || []) as PlaybookEntry[]
     },
+    staleTime: 10 * 60_000, // 10 min — playbook quasi-statique
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -61,6 +63,8 @@ export function usePlaybookEntry(entryId: string) {
       return data as PlaybookEntry
     },
     enabled: !!entryId,
+    staleTime: 10 * 60_000, // 10 min — détail playbook
+    gcTime: 10 * 60_000,
   })
 }
 

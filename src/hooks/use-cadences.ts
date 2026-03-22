@@ -17,6 +17,8 @@ export function useCadenceTemplates() {
       if (error) throw error
       return data as CadenceTemplate[]
     },
+    staleTime: 10 * 60_000, // 10 min — templates quasi-statiques
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -38,6 +40,8 @@ export function useCadenceInstances(filters?: { lead_id?: string; statut?: strin
       if (error) throw error
       return data as CadenceInstance[]
     },
+    staleTime: 2 * 60_000, // 2 min — instances cadences
+    gcTime: 10 * 60_000,
   })
 }
 

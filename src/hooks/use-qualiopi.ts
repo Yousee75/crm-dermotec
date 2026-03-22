@@ -113,6 +113,7 @@ export function useQualiopi() {
 
       return { criteres, score_total, stats }
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 5 * 60_000, // 5 min — qualiopi analytics
+    gcTime: 10 * 60_000,
   })
 }

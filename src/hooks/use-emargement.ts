@@ -19,6 +19,8 @@ export function useEmargements(sessionId: string) {
       return data as (Emargement & { inscription: { lead: { prenom: string; nom: string; email: string } } })[]
     },
     enabled: !!sessionId,
+    staleTime: 2 * 60_000, // 2 min — liste émargements
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -37,6 +39,8 @@ export function useEmargementsByInscription(inscriptionId: string) {
       return data as Emargement[]
     },
     enabled: !!inscriptionId,
+    staleTime: 2 * 60_000, // 2 min — émargements par inscription
+    gcTime: 10 * 60_000,
   })
 }
 

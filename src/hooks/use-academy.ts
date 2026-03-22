@@ -51,6 +51,8 @@ export function useAcademyModules() {
         lessons: undefined,
       })) as AcademyModule[]
     },
+    staleTime: 10 * 60_000, // 10 min — modules quasi-statiques
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -73,6 +75,8 @@ export function useAcademyModule(slug: string) {
       return data as AcademyModule
     },
     enabled: !!slug,
+    staleTime: 10 * 60_000, // 10 min — détail module
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -89,6 +93,8 @@ export function useAcademyProgress(userId?: string) {
       return data as AcademyProgress[]
     },
     enabled: !!userId,
+    staleTime: 2 * 60_000, // 2 min — progression LMS
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -116,6 +122,8 @@ export function useAcademyBadges(userId?: string) {
       })) as AcademyBadge[]
     },
     enabled: !!userId,
+    staleTime: 10 * 60_000, // 10 min — badges quasi-statiques
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -157,6 +165,8 @@ export function useAcademyStats(userId?: string) {
       } as AcademyUserStats
     },
     enabled: !!userId,
+    staleTime: 5 * 60_000, // 5 min — stats academy
+    gcTime: 10 * 60_000,
   })
 }
 

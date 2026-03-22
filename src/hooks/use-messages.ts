@@ -13,6 +13,8 @@ export function useMessages(leadId: string) {
       return data.messages as Message[]
     },
     enabled: !!leadId,
+    staleTime: 60_000, // 1 min — messages d'un lead
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -76,6 +78,8 @@ export function useInbox(searchQuery?: string) {
 
       return result
     },
+    staleTime: 60_000, // 1 min — inbox
+    gcTime: 10 * 60_000,
   })
 }
 

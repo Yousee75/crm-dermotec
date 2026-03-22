@@ -20,7 +20,8 @@ export function useRappels(filters: { lead_id?: string; date?: string; statut?: 
         .maybeSingle()
       return data as { id: string; role: string } | null
     },
-    staleTime: 10 * 60 * 1000,
+    staleTime: 10 * 60_000,
+    gcTime: 10 * 60_000,
   })
 
   return useQuery({
@@ -47,6 +48,8 @@ export function useRappels(filters: { lead_id?: string; date?: string; statut?: 
       if (error) throw error
       return (data || []) as Rappel[]
     },
+    staleTime: 30_000, // 30s — rappels
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -72,7 +75,8 @@ export function useOverdueRappels() {
         .maybeSingle()
       return data as { id: string; role: string } | null
     },
-    staleTime: 10 * 60 * 1000,
+    staleTime: 10 * 60_000,
+    gcTime: 10 * 60_000,
   })
 
   return useQuery({
@@ -94,6 +98,8 @@ export function useOverdueRappels() {
       if (error) throw error
       return (data || []) as Rappel[]
     },
+    staleTime: 30_000, // 30s — rappels overdue
+    gcTime: 10 * 60_000,
   })
 }
 

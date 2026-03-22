@@ -51,7 +51,8 @@ export function useLeads(filters: LeadFilters = {}) {
         .maybeSingle()
       return data as { id: string; role: string } | null
     },
-    staleTime: 10 * 60 * 1000, // Cache 10 min
+    staleTime: 10 * 60_000, // Cache 10 min
+    gcTime: 10 * 60_000,
   })
 
   // Si commercial → forcer le filtre automatiquement
@@ -125,6 +126,8 @@ export function useLeads(filters: LeadFilters = {}) {
         total_pages: Math.ceil((count || 0) / per_page),
       }
     },
+    staleTime: 2 * 60_000, // 2 min — liste leads
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -147,7 +150,8 @@ export function useMyLeads(filters: LeadFilters = {}) {
         .maybeSingle()
       return equipe
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 5 * 60_000,
+    gcTime: 10 * 60_000,
   })
 
   // Si commercial → forcer le filtre par commercial_id
@@ -184,6 +188,8 @@ export function useLead(id: string) {
       return data as Lead
     },
     enabled: !!id,
+    staleTime: 60_000, // 1 min — détail lead
+    gcTime: 10 * 60_000,
   })
 }
 

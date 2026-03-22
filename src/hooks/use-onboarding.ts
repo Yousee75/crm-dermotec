@@ -32,6 +32,8 @@ export function useOnboardingProgress(userId?: string) {
       }
     },
     enabled: !!userId,
+    staleTime: 10 * 60_000, // 10 min — onboarding quasi-statique
+    gcTime: 10 * 60_000,
   })
 }
 

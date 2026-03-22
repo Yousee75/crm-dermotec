@@ -96,6 +96,8 @@ export function useFinancements(filters: FinancementFilters = {}) {
         total_pages: Math.ceil((count || 0) / per_page),
       }
     },
+    staleTime: 2 * 60_000, // 2 min — liste financements
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -130,6 +132,8 @@ export function useFinancement(id: string) {
       return data as Financement
     },
     enabled: !!id,
+    staleTime: 60_000, // 1 min — détail financement
+    gcTime: 10 * 60_000,
   })
 }
 
@@ -189,6 +193,8 @@ export function useFinancementStats(filters?: Pick<FinancementFilters, 'organism
 
       return stats
     },
+    staleTime: 5 * 60_000, // 5 min — stats financements
+    gcTime: 10 * 60_000,
   })
 }
 

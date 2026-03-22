@@ -130,7 +130,7 @@ export default function SubscriptionPage() {
   const currentPlan = PLANS.find((p) => p.id === sub.planId)!
   const currentIdx = planIndex(sub.planId)
 
-  const handleChangePlan = (targetId: PlanId) => {
+  const handleChangePlan = async (targetId: PlanId) => {
     const targetIdx = planIndex(targetId)
     const action = targetIdx > currentIdx ? 'Upgrade' : 'Downgrade'
     const target = PLANS[targetIdx]
