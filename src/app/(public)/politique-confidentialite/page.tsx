@@ -17,7 +17,7 @@ export default function PolitiqueConfidentialitePage() {
             <Shield className="w-4 h-4" />
             Conforme RGPD & AI Act
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-accent font-[family-name:var(--font-heading)] mb-4">
             Vos données, nos engagements
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
@@ -31,7 +31,7 @@ export default function PolitiqueConfidentialitePage() {
 
         {/* En résumé - Cards */}
         <section className="mb-16">
-          <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-8 text-center">
+          <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-8 text-center">
             En résumé
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -39,28 +39,28 @@ export default function PolitiqueConfidentialitePage() {
               <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
                 <MapPin className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-semibold text-[#082545] mb-2">Hébergement UE</h3>
+              <h3 className="font-semibold text-accent mb-2">Hébergement UE</h3>
               <p className="text-sm text-slate-600">Vos données restent en Europe (Allemagne). Aucune surprise.</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
                 <Lock className="w-6 h-6 text-emerald-600" />
               </div>
-              <h3 className="font-semibold text-[#082545] mb-2">Chiffrement total</h3>
+              <h3 className="font-semibold text-accent mb-2">Chiffrement total</h3>
               <p className="text-sm text-slate-600">TLS 1.3 en transit, AES-256 au repos. Niveau bancaire.</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-6 h-6 text-red-500" />
               </div>
-              <h3 className="font-semibold text-[#082545] mb-2">Pas de revente</h3>
+              <h3 className="font-semibold text-accent mb-2">Pas de revente</h3>
               <p className="text-sm text-slate-600">Jamais. On ne monétise pas vos données personnelles.</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-4">
                 <Eye className="w-6 h-6 text-purple-600" />
               </div>
-              <h3 className="font-semibold text-[#082545] mb-2">Vos droits garantis</h3>
+              <h3 className="font-semibold text-accent mb-2">Vos droits garantis</h3>
               <p className="text-sm text-slate-600">Accès, rectification, suppression. En 30 jours maximum.</p>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 1. Double qualification */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               1. Responsable du traitement — Double qualification
             </h2>
             <p className="mb-6 text-lg">
@@ -91,7 +91,7 @@ export default function PolitiqueConfidentialitePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
                 <thead>
-                  <tr className="bg-[#082545] text-white">
+                  <tr className="bg-accent text-white">
                     <th className="text-left py-4 px-6 font-semibold">Qualification</th>
                     <th className="text-left py-4 px-6 font-semibold">Données concernées</th>
                     <th className="text-left py-4 px-6 font-semibold">Fondement</th>
@@ -118,7 +118,7 @@ export default function PolitiqueConfidentialitePage() {
               </table>
             </div>
             <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="text-[#082545]">
+              <p className="text-accent">
                 <strong>Concrètement :</strong> si vous êtes client Dermotec CRM, vous restez maître de vos données CRM.
                 Nous ne faisons que les héberger et les traiter selon vos instructions.
                 Notre Accord de Traitement des Données (DPA) est disponible à{' '}
@@ -137,7 +137,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 2. Données collectées */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               2. Données personnelles collectées
             </h2>
             <p className="mb-6 text-lg">
@@ -146,7 +146,7 @@ export default function PolitiqueConfidentialitePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
                 <thead>
-                  <tr className="bg-[#082545] text-white">
+                  <tr className="bg-accent text-white">
                     <th className="text-left py-4 px-6 font-semibold">Catégorie</th>
                     <th className="text-left py-4 px-6 font-semibold">Données</th>
                     <th className="text-left py-4 px-6 font-semibold">Finalité</th>
@@ -211,7 +211,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 3. Sous-traitants */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               3. Sous-traitants et transferts de données
             </h2>
             <p className="mb-6 text-lg">
@@ -220,7 +220,7 @@ export default function PolitiqueConfidentialitePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
                 <thead>
-                  <tr className="bg-[#082545] text-white">
+                  <tr className="bg-accent text-white">
                     <th className="text-left py-4 px-6 font-semibold">Sous-traitant</th>
                     <th className="text-left py-4 px-6 font-semibold">Rôle</th>
                     <th className="text-left py-4 px-6 font-semibold">Localisation</th>
@@ -269,12 +269,12 @@ export default function PolitiqueConfidentialitePage() {
             </div>
 
             <div className="mt-8 p-6 bg-amber-50 rounded-lg border border-amber-200">
-              <h3 className="text-lg font-semibold text-[#082545] mb-3">Transferts hors Union européenne</h3>
-              <p className="text-[#082545]">
+              <h3 className="text-lg font-semibold text-accent mb-3">Transferts hors Union européenne</h3>
+              <p className="text-accent">
                 <strong>Sécurité renforcée pour les transferts US.</strong> Tous nos partenaires américains sont encadrés par les
                 <strong> Clauses Contractuelles Types (CCT) de la Commission européenne</strong> et/ou le Data Privacy Framework.
               </p>
-              <p className="mt-2 text-[#082545]">
+              <p className="mt-2 text-accent">
                 Nous avons réalisé une <strong>Transfer Impact Assessment (TIA)</strong> pour chaque sous-traitant hors UE.
                 Vos données bénéficient du même niveau de protection qu'en Europe.
               </p>
@@ -283,7 +283,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 4. Cookies */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               4. Cookies
             </h2>
             <p className="mb-6 text-lg">
@@ -322,7 +322,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 5. Durées de conservation */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               5. Durées de conservation
             </h2>
             <p className="mb-6 text-lg">
@@ -331,7 +331,7 @@ export default function PolitiqueConfidentialitePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
                 <thead>
-                  <tr className="bg-[#082545] text-white">
+                  <tr className="bg-accent text-white">
                     <th className="text-left py-4 px-6 font-semibold">Type de données</th>
                     <th className="text-left py-4 px-6 font-semibold">Durée</th>
                     <th className="text-left py-4 px-6 font-semibold">Fondement</th>
@@ -372,7 +372,7 @@ export default function PolitiqueConfidentialitePage() {
               </table>
             </div>
             <div className="mt-4 p-4 bg-slate-50 rounded-lg">
-              <p className="text-[#082545] text-sm">
+              <p className="text-accent text-sm">
                 <strong>Suppression automatique :</strong> Au-delà des durées indiquées, les données sont supprimées
                 ou anonymisées de manière irréversible. Aucune intervention manuelle requise.
               </p>
@@ -381,7 +381,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 6. Anonymisation */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               6. Anonymisation et données dérivées
             </h2>
             <p className="mb-6 text-lg">
@@ -389,8 +389,8 @@ export default function PolitiqueConfidentialitePage() {
               elles ne vous identifient plus et sortent du champ RGPD.
             </p>
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border border-blue-200 mb-6">
-              <h3 className="font-semibold text-[#082545] mb-3">Ce qu'on peut faire avec les données anonymisées :</h3>
-              <ul className="space-y-2 text-sm text-[#082545]">
+              <h3 className="font-semibold text-accent mb-3">Ce qu'on peut faire avec les données anonymisées :</h3>
+              <ul className="space-y-2 text-sm text-accent">
                 <li>• Produire des benchmarks sectoriels anonymisés</li>
                 <li>• Améliorer les algorithmes de la Solution</li>
                 <li>• Développer de nouvelles fonctionnalités</li>
@@ -398,7 +398,7 @@ export default function PolitiqueConfidentialitePage() {
               </ul>
             </div>
             <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
-              <p className="text-[#082545] text-sm">
+              <p className="text-accent text-sm">
                 <strong>Propriété intellectuelle :</strong> Satorea détient l'intégralité des droits sur les données dérivées
                 (scores, analyses, indicateurs) générées par l'utilisation de la Solution.
               </p>
@@ -407,11 +407,11 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 7. IA - Section conservée telle quelle car déjà bien rédigée */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               7. Intelligence artificielle et algorithmes
             </h2>
 
-            <h3 className="text-lg font-semibold text-[#082545] mt-6 mb-4">7.1 Transparence (Règlement UE 2024/1689 — AI Act, art. 50)</h3>
+            <h3 className="text-lg font-semibold text-accent mt-6 mb-4">7.1 Transparence (Règlement UE 2024/1689 — AI Act, art. 50)</h3>
             <p className="mb-4">
               La Solution Dermotec CRM intègre des fonctionnalités d'intelligence artificielle.
               Conformément au Règlement européen sur l'intelligence artificielle
@@ -437,7 +437,7 @@ export default function PolitiqueConfidentialitePage() {
               </li>
             </ul>
 
-            <h3 className="text-lg font-semibold text-[#082545] mt-6 mb-4">7.2 Absence de décision entièrement automatisée (art. 22 RGPD)</h3>
+            <h3 className="text-lg font-semibold text-accent mt-6 mb-4">7.2 Absence de décision entièrement automatisée (art. 22 RGPD)</h3>
             <p className="mb-4">
               Les algorithmes de la Solution n'opèrent <strong>aucune prise de décision
               entièrement automatisée</strong> au sens de l'article 22 du RGPD. Les scores,
@@ -453,11 +453,11 @@ export default function PolitiqueConfidentialitePage() {
               visée) sans utiliser de catégories de données sensibles (art. 9 RGPD).
             </p>
 
-            <h3 className="text-lg font-semibold text-[#082545] mb-4">7.3 Sous-traitants IA</h3>
+            <h3 className="text-lg font-semibold text-accent mb-4">7.3 Sous-traitants IA</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse border border-slate-200 rounded-lg overflow-hidden">
                 <thead>
-                  <tr className="bg-[#082545] text-white">
+                  <tr className="bg-accent text-white">
                     <th className="text-left py-4 px-6 font-semibold">Fournisseur</th>
                     <th className="text-left py-4 px-6 font-semibold">Modèle</th>
                     <th className="text-left py-4 px-6 font-semibold">Usage</th>
@@ -491,7 +491,7 @@ export default function PolitiqueConfidentialitePage() {
               </p>
             </div>
 
-            <h3 className="text-lg font-semibold text-[#082545] mt-6 mb-4">7.4 Utilisation des données pour l'amélioration des algorithmes</h3>
+            <h3 className="text-lg font-semibold text-accent mt-6 mb-4">7.4 Utilisation des données pour l'amélioration des algorithmes</h3>
             <p className="mb-6">
               Satorea peut utiliser des données <strong>pseudonymisées ou anonymisées</strong> pour
               l'amélioration de ses algorithmes de scoring, de recommandation et d'analyse
@@ -499,7 +499,7 @@ export default function PolitiqueConfidentialitePage() {
               de données personnelles dans les systèmes d'IA.
             </p>
 
-            <h3 className="text-lg font-semibold text-[#082545] mb-4">7.5 Classification du risque (AI Act)</h3>
+            <h3 className="text-lg font-semibold text-accent mb-4">7.5 Classification du risque (AI Act)</h3>
             <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
               <p className="text-emerald-800">
                 <strong>Bonne nouvelle :</strong> Les fonctionnalités IA de Dermotec CRM ne relèvent
@@ -511,7 +511,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 8. Droits RGPD */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               8. Vos droits (articles 15 à 22 du RGPD)
             </h2>
             <p className="mb-6 text-lg">
@@ -525,7 +525,7 @@ export default function PolitiqueConfidentialitePage() {
                     <Eye className="w-4 h-4 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#082545]">Droit d'accès (art. 15)</h3>
+                    <h3 className="font-semibold text-accent">Droit d'accès (art. 15)</h3>
                     <p className="text-sm text-slate-600">Savoir quelles données on a sur vous et en recevoir une copie</p>
                   </div>
                 </div>
@@ -535,7 +535,7 @@ export default function PolitiqueConfidentialitePage() {
                     <Zap className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#082545]">Droit de rectification (art. 16)</h3>
+                    <h3 className="font-semibold text-accent">Droit de rectification (art. 16)</h3>
                     <p className="text-sm text-slate-600">Corriger des données inexactes ou incomplètes</p>
                   </div>
                 </div>
@@ -545,7 +545,7 @@ export default function PolitiqueConfidentialitePage() {
                     <Shield className="w-4 h-4 text-red-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#082545]">Droit à l'effacement (art. 17)</h3>
+                    <h3 className="font-semibold text-accent">Droit à l'effacement (art. 17)</h3>
                     <p className="text-sm text-slate-600">Demander la suppression, sauf obligations légales</p>
                   </div>
                 </div>
@@ -557,7 +557,7 @@ export default function PolitiqueConfidentialitePage() {
                     <Lock className="w-4 h-4 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#082545]">Droit à la limitation (art. 18)</h3>
+                    <h3 className="font-semibold text-accent">Droit à la limitation (art. 18)</h3>
                     <p className="text-sm text-slate-600">Restreindre le traitement dans certains cas</p>
                   </div>
                 </div>
@@ -567,7 +567,7 @@ export default function PolitiqueConfidentialitePage() {
                     <Users className="w-4 h-4 text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#082545]">Droit à la portabilité (art. 20)</h3>
+                    <h3 className="font-semibold text-accent">Droit à la portabilité (art. 20)</h3>
                     <p className="text-sm text-slate-600">Récupérer vos données en format JSON/CSV</p>
                   </div>
                 </div>
@@ -577,7 +577,7 @@ export default function PolitiqueConfidentialitePage() {
                     <MapPin className="w-4 h-4 text-yellow-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#082545]">Droit d'opposition (art. 21)</h3>
+                    <h3 className="font-semibold text-accent">Droit d'opposition (art. 21)</h3>
                     <p className="text-sm text-slate-600">S'opposer au profilage et à l'intérêt légitime</p>
                   </div>
                 </div>
@@ -585,13 +585,13 @@ export default function PolitiqueConfidentialitePage() {
             </div>
 
             <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
-              <h3 className="font-semibold text-[#082545] mb-2">Comment exercer vos droits ?</h3>
-              <p className="text-[#082545] mb-3">
+              <h3 className="font-semibold text-accent mb-2">Comment exercer vos droits ?</h3>
+              <p className="text-accent mb-3">
                 Envoyez simplement un email à{' '}
                 <a href="mailto:dpo@satorea.fr" className="text-primary hover:underline font-medium">dpo@satorea.fr</a>
                 {' '}en précisant votre demande. Joignez un justificatif d'identité pour la sécurité.
               </p>
-              <p className="text-[#082545] text-sm">
+              <p className="text-accent text-sm">
                 <strong>Délai de réponse garanti :</strong> 30 jours maximum. Souvent moins !
               </p>
             </div>
@@ -606,14 +606,14 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 9. Réclamation CNIL */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               9. Réclamation auprès de la CNIL
             </h2>
             <p className="text-lg mb-4">
               <strong>Pas satisfait de notre réponse ?</strong> Vous avez le droit de saisir directement l'autorité de contrôle.
             </p>
             <div className="p-6 bg-slate-50 rounded-lg">
-              <p className="text-[#082545] mb-3">
+              <p className="text-accent mb-3">
                 Vous pouvez introduire une réclamation auprès de la{' '}
                 <a
                   href="https://www.cnil.fr"
@@ -637,7 +637,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 10. Sécurité */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               10. Sécurité des données
             </h2>
             <p className="text-lg mb-6">
@@ -678,7 +678,7 @@ export default function PolitiqueConfidentialitePage() {
             </div>
 
             <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-              <p className="text-[#082545] text-sm">
+              <p className="text-accent text-sm">
                 <strong>En cas de violation de données :</strong> notification sous 48h conformément à l'article 32 du RGPD.
                 Politique de gestion des incidents documentée et testée.
               </p>
@@ -687,7 +687,7 @@ export default function PolitiqueConfidentialitePage() {
 
           {/* 11. Modifications */}
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-semibold text-[#082545] font-[family-name:var(--font-heading)] mb-6">
+            <h2 className="text-2xl font-semibold text-accent font-[family-name:var(--font-heading)] mb-6">
               11. Modifications de la politique
             </h2>
             <p className="text-lg">
@@ -706,7 +706,7 @@ export default function PolitiqueConfidentialitePage() {
         </div>
 
         {/* Footer contact */}
-        <div className="mt-16 bg-gradient-to-r from-primary to-[#082545] p-8 rounded-2xl text-white text-center">
+        <div className="mt-16 bg-gradient-to-r from-primary to-accent p-8 rounded-2xl text-white text-center">
           <h2 className="text-2xl font-semibold font-[family-name:var(--font-heading)] mb-4">
             Une question sur vos données ?
           </h2>
@@ -715,7 +715,7 @@ export default function PolitiqueConfidentialitePage() {
           </p>
           <a
             href="mailto:dpo@satorea.fr"
-            className="inline-flex items-center gap-2 bg-white text-[#082545] px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-accent px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors"
           >
             Contactez notre DPO
           </a>

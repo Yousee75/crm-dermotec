@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function MentionsLegalesPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-16">
         {/* En-tête */}
         <div className="text-center mb-12">
@@ -18,7 +18,7 @@ export default function MentionsLegalesPage() {
               Mis à jour mars 2026
             </Badge>
           </div>
-          <h1 className="text-4xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-4">
+          <h1 className="text-4xl font-bold text-accent font-[family-name:var(--font-heading)] mb-4">
             Mentions légales
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -33,7 +33,7 @@ export default function MentionsLegalesPage() {
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Building className="w-6 h-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)]">
                 Qui sommes-nous
               </h2>
             </div>
@@ -109,7 +109,7 @@ export default function MentionsLegalesPage() {
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Globe className="w-6 h-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)]">
                 Hébergement & Données
               </h2>
             </div>
@@ -156,7 +156,7 @@ export default function MentionsLegalesPage() {
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Shield className="w-6 h-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)]">
                 Propriété intellectuelle
               </h2>
             </div>
@@ -179,7 +179,7 @@ export default function MentionsLegalesPage() {
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Users className="w-6 h-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)]">
                 Données personnelles
               </h2>
             </div>
@@ -205,7 +205,7 @@ export default function MentionsLegalesPage() {
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Shield className="w-6 h-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)]">
                 Cookies
               </h2>
             </div>
@@ -238,7 +238,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Footer Une question ? */}
-          <div className="bg-gradient-to-r from-primary to-[#082545] rounded-2xl text-white p-8 text-center">
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl text-white p-8 text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
               <HelpCircle className="w-6 h-6" />
               <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)]">
@@ -250,7 +250,7 @@ export default function MentionsLegalesPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a href="mailto:dermotec.fr@gmail.com"
-                 className="flex items-center gap-2 bg-white text-[#082545] px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors">
+                 className="flex items-center gap-2 bg-white text-accent px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors">
                 <Mail className="w-4 h-4" />
                 Nous contacter
               </a>

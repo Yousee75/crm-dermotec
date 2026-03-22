@@ -217,7 +217,7 @@ export default function MFAVerifyPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#082545] to-[#0F3460]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-accent to-[#0F3460]">
       {/* Background decorations */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-primary/8 blur-3xl" />
@@ -238,7 +238,7 @@ export default function MFAVerifyPage() {
               )}
             </div>
 
-            <h1 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h1 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
               Vérification en 2 étapes
             </h1>
 
@@ -284,7 +284,7 @@ export default function MFAVerifyPage() {
               onClick={() => handleVerify()}
               loading={loading}
               disabled={code.some(digit => digit === '') || loading}
-              className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4] disabled:opacity-50"
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-dark disabled:opacity-50"
             >
               {loading ? 'Vérification...' : 'Vérifier'}
             </Button>
@@ -301,7 +301,7 @@ export default function MFAVerifyPage() {
                   <button
                     onClick={handleResendCode}
                     disabled={loading}
-                    className="text-primary hover:text-[#1BA8D4] text-sm font-medium transition disabled:opacity-50"
+                    className="text-primary hover:text-primary-dark text-sm font-medium transition disabled:opacity-50"
                   >
                     Renvoyer le code
                   </button>

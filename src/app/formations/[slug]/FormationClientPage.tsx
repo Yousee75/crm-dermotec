@@ -200,7 +200,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
   return (
     <div className="min-h-screen bg-white">
       {/* HERO SECTION */}
-      <section className="relative min-h-screen bg-gradient-to-br from-[#082545] to-[#0F3460] text-white overflow-hidden">
+      <section className="relative min-h-screen bg-gradient-to-br from-accent to-[#0F3460] text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
 
         {/* Background pattern */}
@@ -419,7 +419,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                   {formation.competences_acquises.map((competence, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-primary/10 text-[#082545] rounded-full text-sm font-medium"
+                      className="px-3 py-1 bg-primary/10 text-accent rounded-full text-sm font-medium"
                     >
                       {competence}
                     </span>
@@ -627,7 +627,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                           }`}>
                             {placesRestantes} place{placesRestantes !== 1 ? 's' : ''} restante{placesRestantes !== 1 ? 's' : ''}
                           </div>
-                          <div className="text-lg font-bold text-[#082545]">
+                          <div className="text-lg font-bold text-accent">
                             {formation.prix_ht}€ HT
                           </div>
                         </div>
@@ -658,7 +658,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a
                     href="tel:0188334343"
-                    className="inline-flex items-center px-6 py-3 bg-[#082545] text-white rounded-lg hover:bg-[#0F3460] transition-colors"
+                    className="inline-flex items-center px-6 py-3 bg-accent text-white rounded-lg hover:bg-[#0F3460] transition-colors"
                   >
                     <Phone className="w-5 h-5 mr-2" />
                     01 88 33 43 43
@@ -721,7 +721,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
       </section>
 
       {/* FINAL CTA SECTION */}
-      <section className="py-16 bg-gradient-to-r from-[#082545] to-[#0F3460] text-white">
+      <section className="py-16 bg-gradient-to-r from-accent to-[#0F3460] text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold font-['Bricolage_Grotesque']">
@@ -745,7 +745,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               <div className="flex gap-4">
                 <a
                   href="tel:0188334343"
-                  className="px-6 py-3 border-2 border-white text-white hover:bg-white hover:text-[#082545] rounded-lg font-semibold transition-all duration-300"
+                  className="px-6 py-3 border-2 border-white text-white hover:bg-white hover:text-accent rounded-lg font-semibold transition-all duration-300"
                 >
                   Appeler : 01 88 33 43 43
                 </a>

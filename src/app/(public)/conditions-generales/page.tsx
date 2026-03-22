@@ -7,12 +7,12 @@ export const metadata: Metadata = {
 
 export default function ConditionsGeneralesPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-16">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-4">
+            <h1 className="text-4xl font-bold text-accent font-[family-name:var(--font-heading)] mb-4">
               Conditions Générales
             </h1>
             <p className="text-lg text-gray-600 mb-4">
@@ -31,7 +31,7 @@ export default function ConditionsGeneralesPage() {
           {/* Table des matières */}
           <div className="lg:col-span-1">
             <div className="sticky top-8">
-              <h3 className="font-semibold text-[#082545] mb-4">Sommaire</h3>
+              <h3 className="font-semibold text-accent mb-4">Sommaire</h3>
               <nav className="space-y-2 text-sm">
                 <a href="#objet" className="block text-gray-600 hover:text-primary transition-colors">
                   1. Ce que fait Dermotec CRM
@@ -71,7 +71,7 @@ export default function ConditionsGeneralesPage() {
           <div className="lg:col-span-3 space-y-8">
             {/* Article 1 - Objet */}
             <section id="objet" className="bg-white rounded-lg p-8 shadow-sm">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 1. Ce que fait Dermotec CRM
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -92,7 +92,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 2 - Définitions */}
             <section id="definitions" className="bg-gray-50 rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 2. Les mots importants
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -124,7 +124,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 3 - Inscription */}
             <section id="inscription" className="bg-white rounded-lg p-8 shadow-sm">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 3. Comment ça marche
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -154,7 +154,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 4 - Tarifs */}
             <section id="tarifs" className="bg-gray-50 rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 4. Combien ça coûte
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-6">
@@ -163,7 +163,7 @@ export default function ConditionsGeneralesPage() {
 
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-white p-6 rounded-lg border">
-                  <h3 className="font-bold text-lg text-[#082545] mb-2">Découverte</h3>
+                  <h3 className="font-bold text-lg text-accent mb-2">Découverte</h3>
                   <div className="text-2xl font-bold text-gray-900 mb-3">Gratuit</div>
                   <ul className="text-sm text-gray-600 space-y-1 mb-4">
                     <li>• 1 utilisateur</li>
@@ -175,7 +175,7 @@ export default function ConditionsGeneralesPage() {
                 </div>
 
                 <div className="bg-white p-6 rounded-lg border border-primary">
-                  <h3 className="font-bold text-lg text-[#082545] mb-2">Pro</h3>
+                  <h3 className="font-bold text-lg text-accent mb-2">Pro</h3>
                   <div className="text-2xl font-bold text-gray-900 mb-1">29€ HT/mois</div>
                   <div className="text-sm text-gray-500 mb-3">35€ TTC/mois</div>
                   <ul className="text-sm text-gray-600 space-y-1 mb-4">
@@ -188,7 +188,7 @@ export default function ConditionsGeneralesPage() {
                 </div>
 
                 <div className="bg-white p-6 rounded-lg border">
-                  <h3 className="font-bold text-lg text-[#082545] mb-2">Expert</h3>
+                  <h3 className="font-bold text-lg text-accent mb-2">Expert</h3>
                   <div className="text-2xl font-bold text-gray-900 mb-1">79€ HT/mois</div>
                   <div className="text-sm text-gray-500 mb-3">95€ TTC/mois</div>
                   <ul className="text-sm text-gray-600 space-y-1 mb-4">
@@ -201,7 +201,7 @@ export default function ConditionsGeneralesPage() {
                 </div>
 
                 <div className="bg-white p-6 rounded-lg border">
-                  <h3 className="font-bold text-lg text-[#082545] mb-2">Clinique</h3>
+                  <h3 className="font-bold text-lg text-accent mb-2">Clinique</h3>
                   <div className="text-2xl font-bold text-gray-900 mb-3">Sur devis</div>
                   <ul className="text-sm text-gray-600 space-y-1 mb-4">
                     <li>• Utilisateurs illimités</li>
@@ -223,7 +223,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 5 - Données */}
             <section id="donnees" className="bg-white rounded-lg p-8 shadow-sm">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 5. Vos données vous appartiennent
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -257,7 +257,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 6 - Propriété intellectuelle */}
             <section id="propriete" className="bg-gray-50 rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 6. Ce qui est à vous, ce qui est à nous
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -274,7 +274,7 @@ export default function ConditionsGeneralesPage() {
                   </ul>
                 </div>
                 <div className="bg-white p-6 rounded-lg">
-                  <h3 className="font-semibold text-[#082545] mb-3">⚙️ À nous</h3>
+                  <h3 className="font-semibold text-accent mb-3">⚙️ À nous</h3>
                   <ul className="space-y-2 text-gray-700">
                     <li>• Le logiciel Dermotec CRM</li>
                     <li>• Nos algorithmes et IA</li>
@@ -293,7 +293,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 7 - Disponibilité */}
             <section id="disponibilite" className="bg-white rounded-lg p-8 shadow-sm">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 7. Notre engagement de service
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -333,7 +333,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 8 - Responsabilité */}
             <section id="responsabilite" className="bg-gray-50 rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 8. Nos limites
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -370,7 +370,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 9 - Résiliation */}
             <section id="resiliation" className="bg-white rounded-lg p-8 shadow-sm">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 9. Comment arrêter
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -401,7 +401,7 @@ export default function ConditionsGeneralesPage() {
 
             {/* Article 10 - Droit applicable */}
             <section id="droit" className="bg-gray-50 rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-3">
+              <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 10. Droit applicable
               </h2>
               <p className="text-lg font-semibold text-gray-800 mb-4">
@@ -423,7 +423,7 @@ export default function ConditionsGeneralesPage() {
             </section>
 
             {/* Contact */}
-            <section className="bg-[#082545] text-white rounded-lg p-8">
+            <section className="bg-accent text-white rounded-lg p-8">
               <h2 className="text-xl font-bold mb-4">Des questions ?</h2>
               <p className="mb-4">
                 Notre équipe est là pour vous aider. Contactez-nous pour toute question sur ces conditions
@@ -438,7 +438,7 @@ export default function ConditionsGeneralesPage() {
                 </a>
                 <a
                   href="/contact"
-                  className="border border-gray-300 text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-[#082545] transition-colors text-center"
+                  className="border border-gray-300 text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-accent transition-colors text-center"
                 >
                   Formulaire de contact
                 </a>

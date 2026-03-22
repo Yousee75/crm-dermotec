@@ -348,7 +348,7 @@ export default function LeadActionHub({ leadId, onActionClick }: LeadActionHubPr
                   'flex-shrink-0 h-auto py-2 px-3 flex items-center gap-2 min-h-[44px]',
                   'hover:scale-[1.02] transition-all duration-200',
                   {
-                    'bg-primary hover:bg-[#0284C7] text-white border-primary': isPrimary,
+                    'bg-primary hover:bg-primary-dark text-white border-primary': isPrimary,
                     'bg-green-50 border-green-200 text-green-700 hover:bg-green-100': action.variant === 'success',
                     'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100': action.variant === 'warning',
                     'ring-2 ring-primary ring-offset-1': isActive,

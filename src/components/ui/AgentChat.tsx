@@ -104,7 +104,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
           {result.script_telephone && (
             <button
               onClick={() => { navigator.clipboard.writeText(result.script_telephone.replace(/^"|"$/g, '')); toast.success('Script copié') }}
-              className="flex items-center gap-1.5 text-[10px] text-primary hover:text-[#1BA8D4] transition"
+              className="flex items-center gap-1.5 text-[10px] text-primary hover:text-primary-dark transition"
             >
               <Copy className="w-3 h-3" /> Copier le script téléphone
             </button>
@@ -152,7 +152,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
               <p className="text-xs text-gray-700 italic">"{result.meilleure_reponse}"</p>
               <button
                 onClick={() => { navigator.clipboard.writeText(result.meilleure_reponse); toast.success('Réponse copiée') }}
-                className="flex items-center gap-1 text-[10px] text-primary mt-1 hover:text-[#1BA8D4]"
+                className="flex items-center gap-1 text-[10px] text-primary mt-1 hover:text-primary-dark"
               >
                 <Copy className="w-3 h-3" /> Copier
               </button>
@@ -590,7 +590,7 @@ export function AgentChat() {
         className={cn(
           'fixed z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-200',
           'md:bottom-6 md:right-6 bottom-20 right-4',
-          isOpen ? 'bg-gray-700 hover:bg-gray-800 scale-90' : 'bg-gradient-to-br from-primary to-[#1BA8D4] hover:shadow-xl hover:scale-105'
+          isOpen ? 'bg-gray-700 hover:bg-gray-800 scale-90' : 'bg-gradient-to-br from-primary to-primary-dark hover:shadow-xl hover:scale-105'
         )}
       >
         {isOpen ? <X className="w-5 h-5 text-white" /> : <Bot className="w-6 h-6 text-white" />}

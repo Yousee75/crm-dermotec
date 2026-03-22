@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Download, FileSpreadsheet, FileText, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
-import { exportToCSV, exportToPDF, type ColumnDef } from '@/lib/export-data.tsx'
+import { exportToCSV, exportToPDF, type ColumnDef } from '@/lib/export-data'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { cn } from '@/lib/utils'
 

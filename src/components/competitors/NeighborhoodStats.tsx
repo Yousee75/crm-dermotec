@@ -24,7 +24,7 @@ export function NeighborhoodStats({ data }: NeighborhoodStatsProps) {
   return (
     <div className="space-y-4">
       {/* Score trafic piéton */}
-      <div className="bg-gradient-to-r from-[#082545] to-[#0F3460] rounded-xl p-4 text-white">
+      <div className="bg-gradient-to-r from-accent to-[#0F3460] rounded-xl p-4 text-white">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-white/70">Score trafic piéton</p>

@@ -52,12 +52,12 @@ export default function ResetPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-6">
+      <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="text-center max-w-sm">
           <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-8 h-8 text-green-500" />
           </div>
-          <h2 className="text-xl font-bold text-[#082545] mb-2">
+          <h2 className="text-xl font-bold text-accent mb-2">
             Mot de passe mis à jour
           </h2>
           <p className="text-gray-600 mb-4">
@@ -72,13 +72,13 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-6">
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <div className="w-full max-w-sm">
         <div className="mb-8">
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
             <ShieldCheck className="w-6 h-6 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
+          <h2 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
             Nouveau mot de passe
           </h2>
           <p className="text-gray-600">
@@ -150,7 +150,7 @@ export default function ResetPasswordPage() {
             type="submit"
             loading={loading}
             disabled={!password || !confirmPassword || password.length < 8}
-            className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4]"
+            className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-dark"
           >
             {loading ? 'Mise à jour...' : 'Mettre à jour le mot de passe'}
           </Button>

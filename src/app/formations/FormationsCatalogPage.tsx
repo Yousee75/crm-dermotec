@@ -91,7 +91,7 @@ export default function FormationsCatalogPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#082545] to-[#0F3A6E] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-accent to-[#0F3A6E] flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-blue-100">Chargement des formations...</p>
@@ -103,7 +103,7 @@ export default function FormationsCatalogPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* HERO SECTION */}
-      <section className="relative bg-gradient-to-br from-[#082545] to-[#0F3A6E] text-white py-20 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-accent to-[#0F3A6E] text-white py-20 overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
@@ -280,7 +280,7 @@ export default function FormationsCatalogPage() {
                       {/* Contenu card */}
                       <div className="p-6 space-y-4">
                         <div className="space-y-3">
-                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#082545] transition-colors font-['Bricolage_Grotesque'] leading-tight">
+                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-accent transition-colors font-['Bricolage_Grotesque'] leading-tight">
                             {formation.nom}
                           </h3>
 
@@ -304,7 +304,7 @@ export default function FormationsCatalogPage() {
                         <div className="space-y-3 pt-2">
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className="text-2xl font-bold text-[#082545]">
+                              <div className="text-2xl font-bold text-accent">
                                 À partir de {formation.prix_ht}€
                               </div>
                               <div className="text-xs text-gray-500">HT</div>
@@ -334,7 +334,7 @@ export default function FormationsCatalogPage() {
                               {formation.competences_acquises.slice(0, 2).map((competence: string, idx: number) => (
                                 <span
                                   key={idx}
-                                  className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-[#082545] rounded-md text-xs font-medium"
+                                  className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-accent rounded-md text-xs font-medium"
                                 >
                                   <Target size={10} />
                                   {competence}
@@ -395,7 +395,7 @@ export default function FormationsCatalogPage() {
       </section>
 
       {/* SECTION CTA BOTTOM */}
-      <section className="py-16 bg-gradient-to-r from-[#082545] to-[#0F3A6E] text-white">
+      <section className="py-16 bg-gradient-to-r from-accent to-[#0F3A6E] text-white">
         <div className="container mx-auto px-4 text-center max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -425,7 +425,7 @@ export default function FormationsCatalogPage() {
                 href="https://wa.me/33188334343?text=Bonjour ! Je souhaite des conseils pour choisir ma formation esthétique."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-[#082545] rounded-2xl font-bold text-lg transition-all duration-300"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-accent rounded-2xl font-bold text-lg transition-all duration-300"
               >
                 <MessageCircle size={20} />
                 WhatsApp

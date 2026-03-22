@@ -128,7 +128,7 @@ export default function PricingPage() {
       {/* Header */}
       <div className="max-w-3xl mx-auto text-center mb-14">
         <h1
-          className="text-4xl sm:text-5xl font-bold text-[#082545] mb-4"
+          className="text-4xl sm:text-5xl font-bold text-accent mb-4"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Tarifs simples, sans surprise
@@ -159,7 +159,7 @@ export default function PricingPage() {
             {/* Plan Header */}
             <div className="mb-6">
               <h2
-                className="text-xl font-bold text-[#082545] mb-1"
+                className="text-xl font-bold text-accent mb-1"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {plan.name}
@@ -167,7 +167,7 @@ export default function PricingPage() {
               <p className="text-sm text-gray-500 mb-4">{plan.description}</p>
               <div className="flex items-baseline gap-1">
                 <span
-                  className="text-3xl font-bold text-[#082545]"
+                  className="text-3xl font-bold text-accent"
                   style={{ fontFamily: 'var(--font-heading)' }}
                 >
                   {plan.price}
@@ -198,7 +198,7 @@ export default function PricingPage() {
               href={plan.ctaHref}
               className={`block text-center rounded-xl py-2.5 px-4 text-sm font-medium transition-all duration-150 ${
                 plan.highlighted
-                  ? 'bg-primary hover:bg-[#1BA8D4] text-white shadow-sm hover:shadow-md'
+                  ? 'bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md'
                   : 'border border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
               }`}
             >
@@ -211,7 +211,7 @@ export default function PricingPage() {
       {/* FAQ */}
       <div className="max-w-3xl mx-auto">
         <h2
-          className="text-2xl font-bold text-[#082545] text-center mb-10"
+          className="text-2xl font-bold text-accent text-center mb-10"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Questions fréquentes
@@ -219,7 +219,7 @@ export default function PricingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
           {faqs.map((faq) => (
             <div key={faq.question}>
-              <h3 className="font-semibold text-[#082545] text-sm mb-2">{faq.question}</h3>
+              <h3 className="font-semibold text-accent text-sm mb-2">{faq.question}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{faq.answer}</p>
             </div>
           ))}

@@ -103,7 +103,7 @@ export function PasswordGenerator() {
 
       <button
         onClick={generate}
-        className="w-full bg-primary hover:bg-[#0284C7] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+        className="w-full bg-primary hover:bg-primary-dark text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
       >
         <RefreshCw size={16} />
         Générer un mot de passe

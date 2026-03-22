@@ -15,13 +15,13 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center px-6">
         <div className="w-20 h-20 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-6">
           <span className="text-3xl">⚠️</span>
         </div>
         <h1
-          className="text-2xl font-bold text-[#082545] mb-2"
+          className="text-2xl font-bold text-accent mb-2"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Une erreur est survenue
@@ -32,7 +32,7 @@ export default function Error({
         <div className="flex gap-3 justify-center">
           <button
             onClick={reset}
-            className="px-6 py-3 bg-primary hover:bg-[#1BA8D4] text-white rounded-lg font-medium transition"
+            className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition"
           >
             Réessayer
           </button>

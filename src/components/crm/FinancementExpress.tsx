@@ -355,7 +355,7 @@ export default function FinancementExpress({
             {/* Section 3: Action */}
             <div className="border-t pt-4">
               <Button
-                className="w-full bg-primary hover:bg-[#0284C7] text-white min-h-[44px]"
+                className="w-full bg-primary hover:bg-primary-dark text-white min-h-[44px]"
                 onClick={() => {
                   toast.success('Dossier de financement en cours de création')
                   // Ici, on ouvrirait le formulaire de création du financement

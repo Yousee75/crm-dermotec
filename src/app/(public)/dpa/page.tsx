@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function DpaPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold text-[#082545] font-[family-name:var(--font-heading)] mb-2">
+      <h1 className="text-3xl font-bold text-accent font-[family-name:var(--font-heading)] mb-2">
         Accord de Traitement des Donn&eacute;es (DPA)
       </h1>
       <p className="text-sm text-gray-400 mb-2">
@@ -22,7 +22,7 @@ export default function DpaPage() {
 
         {/* ─── Préambule ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Pr&eacute;ambule</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Pr&eacute;ambule</h2>
           <p>
             Le pr&eacute;sent Accord de Traitement des Donn&eacute;es (ci-apr&egrave;s &laquo;&nbsp;DPA&nbsp;&raquo;)
             constitue une annexe aux Conditions G&eacute;n&eacute;rales d&apos;Utilisation et de Vente
@@ -39,7 +39,7 @@ export default function DpaPage() {
 
         {/* ─── Article 1 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 1 &mdash; Objet</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 1 &mdash; Objet</h2>
           <p>
             Le pr&eacute;sent DPA a pour objet de d&eacute;finir les obligations respectives des Parties
             en mati&egrave;re de protection des donn&eacute;es personnelles dans le cadre de l&apos;utilisation
@@ -53,7 +53,7 @@ export default function DpaPage() {
 
         {/* ─── Article 2 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 2 &mdash; Nature et finalit&eacute; du traitement</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 2 &mdash; Nature et finalit&eacute; du traitement</h2>
           <p>
             Le traitement porte sur les donn&eacute;es personnelles saisies, import&eacute;es ou
             g&eacute;n&eacute;r&eacute;es par le Responsable de traitement dans la Solution Dermotec CRM,
@@ -73,11 +73,11 @@ export default function DpaPage() {
 
         {/* ─── Article 3 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 3 &mdash; Types de donn&eacute;es trait&eacute;es</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 3 &mdash; Types de donn&eacute;es trait&eacute;es</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-[#082545] text-white">
+                <tr className="bg-accent text-white">
                   <th className="text-left py-3 px-4 font-semibold">Cat&eacute;gorie</th>
                   <th className="text-left py-3 px-4 font-semibold">Donn&eacute;es</th>
                 </tr>
@@ -118,7 +118,7 @@ export default function DpaPage() {
 
         {/* ─── Article 4 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 4 &mdash; Cat&eacute;gories de personnes concern&eacute;es</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 4 &mdash; Cat&eacute;gories de personnes concern&eacute;es</h2>
           <ul className="list-disc pl-6 space-y-1">
             <li><strong>Prospects / Leads</strong>&nbsp;: personnes ayant manifest&eacute; un int&eacute;r&ecirc;t pour une formation</li>
             <li><strong>Stagiaires</strong>&nbsp;: personnes inscrites ou ayant suivi une formation</li>
@@ -130,7 +130,7 @@ export default function DpaPage() {
 
         {/* ─── Article 5 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 5 &mdash; Dur&eacute;e du traitement</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 5 &mdash; Dur&eacute;e du traitement</h2>
           <p>
             Le traitement est effectu&eacute; pendant toute la dur&eacute;e du contrat liant le Responsable
             de traitement au Sous-traitant, augment&eacute;e des dur&eacute;es l&eacute;gales de
@@ -145,12 +145,12 @@ export default function DpaPage() {
 
         {/* ─── Article 6 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 6 &mdash; Obligations du Sous-traitant</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 6 &mdash; Obligations du Sous-traitant</h2>
           <p className="mb-3">
             Conform&eacute;ment &agrave; l&apos;article 28 du RGPD, le Sous-traitant s&apos;engage &agrave;&nbsp;:
           </p>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.1 &mdash; Instructions document&eacute;es</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.1 &mdash; Instructions document&eacute;es</h3>
           <p>
             Traiter les donn&eacute;es personnelles uniquement sur instruction document&eacute;e du
             Responsable de traitement, y compris en ce qui concerne les transferts de donn&eacute;es
@@ -158,14 +158,14 @@ export default function DpaPage() {
             document&eacute;es initiales.
           </p>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.2 &mdash; Confidentialit&eacute;</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.2 &mdash; Confidentialit&eacute;</h3>
           <p>
             Veiller &agrave; ce que les personnes autoris&eacute;es &agrave; traiter les donn&eacute;es
             personnelles soient soumises &agrave; une obligation de confidentialit&eacute; contractuelle
             ou l&eacute;gale.
           </p>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.3 &mdash; Mesures de s&eacute;curit&eacute; (article 32 RGPD)</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.3 &mdash; Mesures de s&eacute;curit&eacute; (article 32 RGPD)</h3>
           <p>Mettre en &oelig;uvre les mesures techniques et organisationnelles suivantes&nbsp;:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
             <li><strong>Chiffrement au repos</strong>&nbsp;: AES-256 sur l&apos;ensemble des donn&eacute;es stock&eacute;es</li>
@@ -177,7 +177,7 @@ export default function DpaPage() {
             <li><strong>Contr&ocirc;le d&apos;acc&egrave;s</strong>&nbsp;: principe du moindre privil&egrave;ge, r&ocirc;les granulaires</li>
           </ul>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.4 &mdash; Sous-traitance ult&eacute;rieure</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.4 &mdash; Sous-traitance ult&eacute;rieure</h3>
           <p>
             Ne pas recruter un autre sous-traitant sans l&apos;autorisation &eacute;crite pr&eacute;alable
             g&eacute;n&eacute;rale du Responsable de traitement. Le Sous-traitant informera le Responsable
@@ -186,7 +186,7 @@ export default function DpaPage() {
             possibilit&eacute; de s&apos;y opposer.
           </p>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.5 &mdash; Assistance pour les droits des personnes</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.5 &mdash; Assistance pour les droits des personnes</h3>
           <p>
             Assister le Responsable de traitement, par des mesures techniques et organisationnelles
             appropri&eacute;es, dans l&apos;ex&eacute;cution de son obligation de r&eacute;pondre aux
@@ -195,7 +195,7 @@ export default function DpaPage() {
             opposition.
           </p>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.6 &mdash; Notification des violations</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.6 &mdash; Notification des violations</h3>
           <p>
             Notifier le Responsable de traitement de toute violation de donn&eacute;es personnelles dans
             un d&eacute;lai maximum de <strong>48&nbsp;heures</strong> apr&egrave;s en avoir pris connaissance.
@@ -208,7 +208,7 @@ export default function DpaPage() {
             <li>Les mesures prises ou propos&eacute;es pour rem&eacute;dier &agrave; la violation</li>
           </ul>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.7 &mdash; Restitution et suppression en fin de contrat</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.7 &mdash; Restitution et suppression en fin de contrat</h3>
           <p>
             &Agrave; l&apos;issue du contrat, et selon le choix du Responsable de traitement&nbsp;:
           </p>
@@ -230,7 +230,7 @@ export default function DpaPage() {
             restreint pour la dur&eacute;e requise, puis supprim&eacute;es.
           </p>
 
-          <h3 className="text-base font-semibold text-[#082545] mt-4 mb-2">6.8 &mdash; Droit d&apos;audit</h3>
+          <h3 className="text-base font-semibold text-accent mt-4 mb-2">6.8 &mdash; Droit d&apos;audit</h3>
           <p>
             Mettre &agrave; la disposition du Responsable de traitement toutes les informations
             n&eacute;cessaires pour d&eacute;montrer le respect des obligations pr&eacute;vues &agrave;
@@ -246,7 +246,7 @@ export default function DpaPage() {
 
         {/* ─── Article 7 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 7 &mdash; Obligations du Responsable de traitement</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 7 &mdash; Obligations du Responsable de traitement</h2>
           <p>Le Responsable de traitement s&apos;engage &agrave;&nbsp;:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
             <li>Fournir au Sous-traitant des instructions document&eacute;es concernant le traitement</li>
@@ -260,7 +260,7 @@ export default function DpaPage() {
 
         {/* ─── Article 8 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 8 &mdash; Sous-traitants ult&eacute;rieurs</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 8 &mdash; Sous-traitants ult&eacute;rieurs</h2>
           <p className="mb-3">
             Le Responsable de traitement donne une autorisation g&eacute;n&eacute;rale au Sous-traitant
             pour recourir aux sous-traitants ult&eacute;rieurs list&eacute;s ci-dessous. Le Sous-traitant
@@ -270,7 +270,7 @@ export default function DpaPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-[#082545] text-white">
+                <tr className="bg-accent text-white">
                   <th className="text-left py-3 px-4 font-semibold">Sous-traitant</th>
                   <th className="text-left py-3 px-4 font-semibold">Fonction</th>
                   <th className="text-left py-3 px-4 font-semibold">Localisation des donn&eacute;es</th>
@@ -321,7 +321,7 @@ export default function DpaPage() {
 
         {/* ─── Article 9 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 9 &mdash; Localisation des donn&eacute;es</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 9 &mdash; Localisation des donn&eacute;es</h2>
           <p>
             Les donn&eacute;es principales (base de donn&eacute;es PostgreSQL, fichiers stock&eacute;s) sont
             h&eacute;berg&eacute;es au sein de l&apos;Union europ&eacute;enne, sur l&apos;infrastructure
@@ -339,7 +339,7 @@ export default function DpaPage() {
 
         {/* ─── Article 10 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 10 &mdash; Sort des donn&eacute;es en fin de contrat</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 10 &mdash; Sort des donn&eacute;es en fin de contrat</h2>
           <p>
             &Agrave; l&apos;issue du contrat, quelle qu&apos;en soit la cause&nbsp;:
           </p>
@@ -368,7 +368,7 @@ export default function DpaPage() {
 
         {/* ─── Article 11 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 11 &mdash; Mesures techniques et organisationnelles</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 11 &mdash; Mesures techniques et organisationnelles</h2>
           <p className="mb-3">
             R&eacute;capitulatif des mesures de s&eacute;curit&eacute; mises en &oelig;uvre par le
             Sous-traitant conform&eacute;ment &agrave; l&apos;article 32 du RGPD&nbsp;:
@@ -376,7 +376,7 @@ export default function DpaPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-[#082545] text-white">
+                <tr className="bg-accent text-white">
                   <th className="text-left py-3 px-4 font-semibold">Mesure</th>
                   <th className="text-left py-3 px-4 font-semibold">D&eacute;tail</th>
                 </tr>
@@ -425,7 +425,7 @@ export default function DpaPage() {
 
         {/* ─── Article 12 ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Article 12 &mdash; Dispositions g&eacute;n&eacute;rales</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Article 12 &mdash; Dispositions g&eacute;n&eacute;rales</h2>
           <p>
             Le pr&eacute;sent DPA fait partie int&eacute;grante des CGU/CGV de Dermotec CRM. En cas de
             contradiction entre le DPA et les CGU/CGV, les dispositions du DPA pr&eacute;valent en
@@ -439,7 +439,7 @@ export default function DpaPage() {
 
         {/* ─── Contact ─── */}
         <section>
-          <h2 className="text-xl font-semibold text-[#082545] mb-3">Contact</h2>
+          <h2 className="text-xl font-semibold text-accent mb-3">Contact</h2>
           <div className="space-y-1">
             <p><strong>Satorea</strong> &mdash; &Eacute;diteur de Dermotec CRM</p>
             <p>75 Boulevard Richard Lenoir, 75011 Paris</p>

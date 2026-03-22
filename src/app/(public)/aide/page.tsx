@@ -158,7 +158,7 @@ export default function AidePage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <h1
-          className="text-4xl sm:text-5xl font-bold text-[#082545] mb-4 text-center"
+          className="text-4xl sm:text-5xl font-bold text-accent mb-4 text-center"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Centre d&apos;aide
@@ -183,7 +183,7 @@ export default function AidePage() {
           {sections.map((section) => (
             <div key={section.title}>
               <h2
-                className="text-2xl font-bold text-[#082545] mb-6"
+                className="text-2xl font-bold text-accent mb-6"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {section.title}
@@ -194,7 +194,7 @@ export default function AidePage() {
                     key={item.question}
                     className="group rounded-xl border border-gray-100 bg-white"
                   >
-                    <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-[#082545] hover:text-primary transition-colors [&::-webkit-details-marker]:hidden list-none">
+                    <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-accent hover:text-primary transition-colors [&::-webkit-details-marker]:hidden list-none">
                       <span>{item.question}</span>
                       <span className="ml-4 text-gray-400 group-open:rotate-45 transition-transform duration-200 text-lg">
                         +
@@ -211,9 +211,9 @@ export default function AidePage() {
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-16 text-center rounded-2xl bg-[#F8FAFC] border border-gray-100 py-10 px-6">
+        <div className="mt-16 text-center rounded-2xl bg-background border border-gray-100 py-10 px-6">
           <h3
-            className="text-lg font-bold text-[#082545] mb-2"
+            className="text-lg font-bold text-accent mb-2"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Besoin d&apos;aide supplémentaire ?

@@ -248,7 +248,7 @@ export default function EmargementPage() {
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
             <div className="text-center">
-              <h1 className="text-xl font-bold text-[#082545]">
+              <h1 className="text-xl font-bold text-accent">
                 DERMOTEC ADVANCED
               </h1>
               <p className="text-sm text-gray-600">
@@ -262,7 +262,7 @@ export default function EmargementPage() {
       <main className="max-w-2xl mx-auto px-4 py-8">
         {/* Titre principal */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-[#082545] mb-2">
+          <h2 className="text-2xl font-bold text-accent mb-2">
             Feuille d'émargement
           </h2>
           <p className="text-gray-600">
@@ -281,7 +281,7 @@ export default function EmargementPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-sm font-medium text-gray-700">Formation</label>
-                <p className="text-lg font-semibold text-[#082545]">
+                <p className="text-lg font-semibold text-accent">
                   {session.formation.nom}
                 </p>
               </div>
@@ -310,7 +310,7 @@ export default function EmargementPage() {
 
             <div className="pt-2 border-t">
               <label className="text-sm font-medium text-gray-700">Stagiaire</label>
-              <p className="text-lg font-medium text-[#082545]">
+              <p className="text-lg font-medium text-accent">
                 {inscription.lead.prenom} {inscription.lead.nom || ''}
               </p>
             </div>

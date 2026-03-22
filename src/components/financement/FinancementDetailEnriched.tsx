@@ -324,7 +324,7 @@ export default function FinancementDetailEnriched({
           onClick={e => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-primary to-[#082545] text-white p-6">
+          <div className="bg-gradient-to-r from-primary to-accent text-white p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div>

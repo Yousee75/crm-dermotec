@@ -128,7 +128,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
       {/* ── HEADER ── */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#082545] to-[#0F3460]">
+      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-accent to-[#0F3460]">
         <div className="flex items-center gap-2.5">
           <div className={cn('w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold', scoreColor)}>
             {n.score_chaleur}

@@ -128,7 +128,7 @@ export default function ConventionPage() {
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-[#082545] mb-2">Convention de Formation</h1>
+              <h1 className="text-2xl font-bold text-accent mb-2">Convention de Formation</h1>
               <p className="text-gray-600">
                 {formation.nom} • {lead.prenom} {lead.nom}
               </p>
@@ -165,7 +165,7 @@ export default function ConventionPage() {
           <>
             {/* Résumé de la formation */}
             <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-              <h2 className="text-xl font-bold text-[#082545] mb-4 flex items-center">
+              <h2 className="text-xl font-bold text-accent mb-4 flex items-center">
                 <FileText className="h-5 w-5 mr-2 text-primary" />
                 Résumé de votre formation
               </h2>
@@ -230,7 +230,7 @@ export default function ConventionPage() {
 
             {/* Articles de la convention */}
             <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-              <h2 className="text-xl font-bold text-[#082545] mb-6">Articles de la Convention</h2>
+              <h2 className="text-xl font-bold text-accent mb-6">Articles de la Convention</h2>
 
               <div className="space-y-6">
                 <article>
@@ -308,7 +308,7 @@ export default function ConventionPage() {
 
             {/* Consentement et signature */}
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h2 className="text-xl font-bold text-[#082545] mb-6">Signature électronique</h2>
+              <h2 className="text-xl font-bold text-accent mb-6">Signature électronique</h2>
 
               {/* Checkbox RGPD */}
               <div className="mb-6">

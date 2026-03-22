@@ -365,7 +365,7 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
 
                 <CardFooter className="p-4 pt-0">
                   <Button
-                    className="w-full bg-primary hover:bg-[#0284C7] text-white min-h-[44px]"
+                    className="w-full bg-primary hover:bg-primary-dark text-white min-h-[44px]"
                     onClick={() => handleSelectFormation(suggestion.formation.slug)}
                     disabled={!suggestion.prochaineSession}
                   >

@@ -44,7 +44,7 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
       {/* Header scénario */}
-      <div className="bg-gradient-to-r from-[#082545] to-[#0F3460] px-6 py-4">
+      <div className="bg-gradient-to-r from-accent to-[#0F3460] px-6 py-4">
         <div className="flex items-center gap-2 mb-2">
           <Phone className="w-5 h-5 text-primary" />
           <span className="text-primary text-sm font-semibold uppercase tracking-wide">Script de vente</span>

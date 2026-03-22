@@ -86,7 +86,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
       </div>
     )
@@ -94,14 +94,14 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-6">
+      <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="text-center max-w-sm">
           <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-6">
             <XCircle className="w-8 h-8 text-red-500" />
           </div>
-          <h2 className="text-xl font-bold text-[#082545] mb-2">Invitation invalide</h2>
+          <h2 className="text-xl font-bold text-accent mb-2">Invitation invalide</h2>
           <p className="text-gray-600 mb-6">{error}</p>
-          <Button onClick={() => router.push('/login')} className="bg-primary hover:bg-[#1BA8D4]">
+          <Button onClick={() => router.push('/login')} className="bg-primary hover:bg-primary-dark">
             Aller à la connexion
           </Button>
         </div>
@@ -111,12 +111,12 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-6">
+      <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="text-center max-w-sm">
           <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-8 h-8 text-green-500" />
           </div>
-          <h2 className="text-xl font-bold text-[#082545] mb-2">Bienvenue !</h2>
+          <h2 className="text-xl font-bold text-accent mb-2">Bienvenue !</h2>
           <p className="text-gray-600">Redirection vers le dashboard...</p>
         </div>
       </div>
@@ -126,11 +126,11 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
   const roleLabel = invitation?.role === 'admin' ? 'Administrateur' : invitation?.role === 'viewer' ? 'Lecteur' : 'Membre'
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-6">
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
           {/* Header */}
-          <div className="bg-[#082545] px-8 py-6 text-center">
+          <div className="bg-accent px-8 py-6 text-center">
             <h1 className="text-2xl font-bold text-primary mb-1">Dermotec CRM</h1>
             <p className="text-white/60 text-sm">Invitation à rejoindre l&apos;équipe</p>
           </div>
@@ -141,11 +141,11 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
               <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <Users className="w-7 h-7 text-primary" />
               </div>
-              <h2 className="text-lg font-semibold text-[#082545] mb-2">
+              <h2 className="text-lg font-semibold text-accent mb-2">
                 Vous êtes invité(e)
               </h2>
               <p className="text-gray-600 text-sm">
-                Vous avez été invité(e) à rejoindre le CRM en tant que <strong className="text-[#082545]">{roleLabel}</strong>.
+                Vous avez été invité(e) à rejoindre le CRM en tant que <strong className="text-accent">{roleLabel}</strong>.
               </p>
             </div>
 
@@ -167,7 +167,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
             <Button
               onClick={handleAccept}
               loading={accepting}
-              className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4]"
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-dark"
               icon={<CheckCircle className="w-5 h-5" />}
             >
               {accepting ? 'Acceptation...' : 'Accepter l\'invitation'}

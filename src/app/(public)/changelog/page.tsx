@@ -67,7 +67,7 @@ const TYPE_LABELS: Record<string, { label: string; color: string }> = {
 export default function ChangelogPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+      <h1 className="text-3xl font-bold text-accent mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
         Changelog
       </h1>
       <p className="text-gray-600 mb-12">
@@ -78,7 +78,7 @@ export default function ChangelogPage() {
         {RELEASES.map((release) => (
           <div key={release.version}>
             <div className="flex items-center gap-3 mb-6">
-              <h2 className="text-xl font-bold text-[#082545]">v{release.version}</h2>
+              <h2 className="text-xl font-bold text-accent">v{release.version}</h2>
               <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${release.tagColor}`}>
                 {release.tag}
               </span>

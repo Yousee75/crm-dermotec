@@ -60,7 +60,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left Panel - Brand */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-[#082545] to-[#0F3460]">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-accent to-[#0F3460]">
         {/* Background decorations */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-primary/8 blur-3xl" />
@@ -127,7 +127,7 @@ export default function LoginPage() {
 
           {/* Form Header */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
+            <h2 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
               Connexion au CRM
             </h2>
             <p className="text-gray-600">
@@ -184,7 +184,7 @@ export default function LoginPage() {
               type="submit"
               loading={loading}
               disabled={!email || !password}
-              className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Connexion...' : 'Se connecter'}
             </Button>
@@ -194,7 +194,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <Link
               href="/forgot-password"
-              className="text-primary hover:text-[#1BA8D4] text-sm font-medium transition"
+              className="text-primary hover:text-primary-dark text-sm font-medium transition"
             >
               Mot de passe oublié ?
             </Link>

@@ -113,7 +113,7 @@ export function AIChatWidget() {
       {/* Bouton flottant — z-[70] pour être au-dessus de tout */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[70] bg-gradient-to-br from-primary to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#0284C7] text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-shadow"
+        className="fixed bottom-6 right-6 z-[70] bg-gradient-to-br from-primary to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-primary-dark text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-shadow"
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
         initial={{ scale: 0, opacity: 0 }}
@@ -140,7 +140,7 @@ export function AIChatWidget() {
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#082545] to-[#0F3460] text-white px-4 py-3 flex items-center justify-between shrink-0 rounded-t-2xl">
+            <div className="bg-gradient-to-r from-accent to-[#0F3460] text-white px-4 py-3 flex items-center justify-between shrink-0 rounded-t-2xl">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
                   <Sparkles size={16} className="text-primary" />

@@ -46,14 +46,14 @@ export default function NPSPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-4">
+      <div className="min-h-screen flex items-center justify-center bg-background px-4">
         <div className="max-w-md text-center">
           <div className="w-20 h-20 rounded-2xl gradient-primary mx-auto flex items-center justify-center mb-6">
             <span className="text-3xl">
               {score !== null && score >= 9 ? '🎉' : score !== null && score >= 7 ? '👍' : '🙏'}
             </span>
           </div>
-          <h1 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h1 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
             {score !== null && score >= 9 ? 'Merci beaucoup !' : score !== null && score >= 7 ? 'Merci pour votre retour' : 'Nous prenons note'}
           </h1>
           <p className="text-gray-500 text-sm">
@@ -68,14 +68,14 @@ export default function NPSPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="max-w-lg w-full">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-xl gradient-primary mx-auto flex items-center justify-center mb-4">
             <span className="text-xl font-bold text-white">D</span>
           </div>
-          <h1 className="text-xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h1 className="text-xl font-bold text-accent" style={{ fontFamily: 'var(--font-heading)' }}>
             Comment s&apos;est passée votre formation ?
           </h1>
           <p className="text-sm text-gray-500 mt-1">Dermotec Advanced — Enquête satisfaction</p>
@@ -133,7 +133,7 @@ export default function NPSPage() {
         {score !== null && (
           <button
             onClick={handleSubmit}
-            className="w-full py-3 bg-primary hover:bg-[#1BA8D4] text-white rounded-xl font-medium transition animate-fadeIn"
+            className="w-full py-3 bg-primary hover:bg-primary-dark text-white rounded-xl font-medium transition animate-fadeIn"
           >
             Envoyer mon avis
           </button>

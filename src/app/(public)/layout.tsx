@@ -12,7 +12,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <span className="text-white font-bold text-sm font-[family-name:var(--font-heading)]">D</span>
             </div>
-            <span className="text-lg font-bold text-[#082545] font-[family-name:var(--font-heading)] group-hover:text-primary transition-colors">
+            <span className="text-lg font-bold text-accent font-[family-name:var(--font-heading)] group-hover:text-primary transition-colors">
               Dermotec Advanced
             </span>
           </Link>

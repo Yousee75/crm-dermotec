@@ -259,7 +259,7 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
                         className={cn(
                           'w-full min-h-[44px]',
                           isSelected
-                            ? 'bg-primary hover:bg-[#0284C7] text-white'
+                            ? 'bg-primary hover:bg-primary-dark text-white'
                             : 'variant-outline'
                         )}
                         variant={isSelected ? 'default' : 'outline'}

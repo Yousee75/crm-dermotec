@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-6">
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <div className="w-full max-w-sm">
         {/* Back link */}
         <Link
@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
             <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
-            <h2 className="text-xl font-bold text-[#082545] mb-2">
+            <h2 className="text-xl font-bold text-accent mb-2">
               Email envoyé
             </h2>
             <p className="text-gray-600 mb-6">
@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
           /* Form */
           <>
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
+              <h2 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
                 Mot de passe oublié
               </h2>
               <p className="text-gray-600">
@@ -94,7 +94,7 @@ export default function ForgotPasswordPage() {
                 type="submit"
                 loading={loading}
                 disabled={!email}
-                className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4]"
+                className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-dark"
               >
                 {loading ? 'Envoi...' : 'Envoyer le lien'}
               </Button>

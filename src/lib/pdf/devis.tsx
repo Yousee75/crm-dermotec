@@ -4,19 +4,27 @@ import {
   Text,
   View,
   StyleSheet,
-  Font
 } from '@react-pdf/renderer';
 
-// Enregistrement des polices (optionnel, Helvetica est native)
-// Font.register({
-//   family: 'Helvetica',
-//   src: 'path/to/helvetica.ttf'
-// });
+// ============================================================
+// CRM DERMOTEC — Template PDF Devis
+// Style professionnel Dermotec Advanced
+// ============================================================
 
-interface DevisProps {
+export interface DevisProps {
   devisId: string;
   date: string;
   validiteJours: number;
+  emetteur: {
+    nom: string;
+    adresse: string;
+    telephone: string;
+    email: string;
+    siret: string;
+    nda: string;
+    rcs: string;
+    tva_intracom: string;
+  };
   prospect: {
     nom: string;
     prenom?: string;
@@ -28,9 +36,16 @@ interface DevisProps {
   };
   formation: {
     nom: string;
-    duree: string;
+    dureeJours: number;
+    dureeHeures: number;
     prixHt: number;
     description?: string;
+  };
+  session?: {
+    dateDebut: string;
+    dateFin: string;
+    formatrice?: string;
+    lieu?: string;
   };
   financement?: {
     type: string;
@@ -39,177 +54,394 @@ interface DevisProps {
   echeances?: number;
 }
 
-// Styles pour le PDF
+// Emetteur par defaut — Dermotec Advanced
+export const EMETTEUR_DERMOTEC = {
+  nom: 'Dermotec Advanced',
+  adresse: '75 Boulevard Richard Lenoir, 75011 Paris',
+  telephone: '01 88 33 43 43',
+  email: 'contact@dermotec-advanced.com',
+  siret: '851 306 860 00012',
+  nda: '11755959875',
+  rcs: 'RCS Paris 851 306 860',
+  tva_intracom: 'FR 85 851306860',
+};
+
+const PRIMARY = '#2EC6F3';
+const ACCENT = '#082545';
+const GRAY_500 = '#6B7280';
+const GRAY_300 = '#D1D5DB';
+const GRAY_100 = '#F3F4F6';
+const WHITE = '#FFFFFF';
+
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
     fontSize: 10,
     padding: 40,
-    color: '#000000',
+    color: '#1F2937',
+    backgroundColor: WHITE,
   },
+
+  // ── Header ──
   header: {
-    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  headerLeft: {
+    width: '55%',
+  },
+  headerRight: {
+    width: '40%',
+    alignItems: 'flex-end',
   },
   companyName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#082545',
-    textAlign: 'center',
-    marginBottom: 5,
+    color: ACCENT,
+    marginBottom: 4,
   },
-  companyAddress: {
-    fontSize: 10,
-    color: '#6B7280',
-    textAlign: 'center',
-    marginBottom: 10,
+  companySubtitle: {
+    fontSize: 9,
+    color: PRIMARY,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    letterSpacing: 1,
   },
+  companyInfo: {
+    fontSize: 8,
+    color: GRAY_500,
+    marginBottom: 2,
+  },
+  devisRef: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: ACCENT,
+    marginBottom: 4,
+  },
+  devisDate: {
+    fontSize: 9,
+    color: GRAY_500,
+    marginBottom: 2,
+  },
+
+  // ── Separator ──
   separator: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#2EC6F3',
+    height: 3,
+    backgroundColor: PRIMARY,
+    marginVertical: 15,
+    borderRadius: 2,
+  },
+  thinSeparator: {
+    height: 1,
+    backgroundColor: GRAY_300,
+    marginVertical: 12,
+  },
+
+  // ── Parties (emetteur + destinataire) ──
+  partiesRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
-  devisTitle: {
-    fontSize: 16,
+  partieBox: {
+    width: '47%',
+    padding: 12,
+    borderRadius: 4,
+  },
+  emetteurBox: {
+    backgroundColor: GRAY_100,
+  },
+  destinataireBox: {
+    backgroundColor: '#EFF6FF',
+    borderLeftWidth: 3,
+    borderLeftColor: PRIMARY,
+  },
+  partieLabel: {
+    fontSize: 8,
     fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#082545',
+    color: GRAY_500,
+    marginBottom: 6,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase' as any,
+  },
+  partieName: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: ACCENT,
+    marginBottom: 3,
+  },
+  partieInfo: {
+    fontSize: 9,
+    color: '#374151',
+    marginBottom: 2,
+  },
+
+  // ── Formation ──
+  formationSection: {
     marginBottom: 15,
+    padding: 12,
+    backgroundColor: '#F0FDFA',
+    borderRadius: 4,
+    borderLeftWidth: 3,
+    borderLeftColor: '#14B8A6',
   },
-  dateValidite: {
-    fontSize: 10,
-    textAlign: 'right',
-    marginBottom: 20,
-    color: '#6B7280',
+  formationTitle: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: ACCENT,
+    marginBottom: 6,
+    letterSpacing: 0.5,
   },
-  section: {
-    marginBottom: 15,
-  },
-  sectionTitle: {
+  formationName: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#082545',
-    marginBottom: 8,
-    backgroundColor: '#f8f9fa',
-    padding: 5,
+    color: ACCENT,
+    marginBottom: 6,
   },
-  row: {
+  formationRow: {
     flexDirection: 'row',
     marginBottom: 3,
   },
-  label: {
+  formationLabel: {
     width: '25%',
     fontSize: 9,
-    color: '#6B7280',
+    color: GRAY_500,
   },
-  value: {
+  formationValue: {
     width: '75%',
     fontSize: 9,
     fontWeight: 'bold',
+    color: '#374151',
   },
+
+  // ── Table prix ──
   table: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: '#082545',
+    backgroundColor: ACCENT,
     padding: 8,
-    color: 'white',
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+  },
+  tableHeaderText: {
+    color: WHITE,
     fontSize: 9,
     fontWeight: 'bold',
   },
   tableRow: {
     flexDirection: 'row',
+    padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-    padding: 8,
-    fontSize: 9,
+    borderBottomColor: '#E5E7EB',
+    backgroundColor: WHITE,
   },
-  col1: { width: '50%' },
-  col2: { width: '15%', textAlign: 'center' },
-  col3: { width: '20%', textAlign: 'right' },
-  col4: { width: '15%', textAlign: 'right' },
-  totalSection: {
-    marginTop: 20,
+  tableRowAlt: {
+    flexDirection: 'row',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E7EB',
+    backgroundColor: '#FAFAFA',
+  },
+  col1: { width: '45%', fontSize: 9 },
+  col2: { width: '15%', textAlign: 'center', fontSize: 9 },
+  col3: { width: '20%', textAlign: 'right', fontSize: 9 },
+  col4: { width: '20%', textAlign: 'right', fontSize: 9 },
+
+  // ── Totaux ──
+  totauxContainer: {
     alignItems: 'flex-end',
+    marginBottom: 15,
+  },
+  totauxBox: {
+    width: '45%',
   },
   totalRow: {
     flexDirection: 'row',
-    width: '50%',
     justifyContent: 'space-between',
-    padding: 3,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
     fontSize: 10,
   },
-  totalFinal: {
-    flexDirection: 'row',
-    width: '50%',
-    justifyContent: 'space-between',
-    padding: 8,
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#2EC6F3',
-    backgroundColor: '#f0f9ff',
+  totalLabel: {
+    fontSize: 10,
+    color: GRAY_500,
   },
-  financementSection: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#f0f9ff',
+  totalValue: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#374151',
+  },
+  totalTTCRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    backgroundColor: PRIMARY,
+    borderRadius: 4,
+    marginTop: 4,
+  },
+  totalTTCLabel: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: WHITE,
+  },
+  totalTTCValue: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: WHITE,
+  },
+
+  // ── Financement ──
+  financementBox: {
+    marginBottom: 15,
+    padding: 12,
+    backgroundColor: '#FEF9C3',
     borderLeftWidth: 4,
-    borderLeftColor: '#2EC6F3',
+    borderLeftColor: '#F59E0B',
+    borderRadius: 4,
   },
   financementTitle: {
-    fontSize: 11,
-    fontWeight: 'bold',
-    color: '#082545',
-    marginBottom: 5,
-  },
-  financementText: {
     fontSize: 10,
+    fontWeight: 'bold',
+    color: ACCENT,
+    marginBottom: 6,
+  },
+  financementRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 3,
   },
-  conditions: {
-    marginTop: 30,
-    padding: 15,
-    backgroundColor: '#f8f9fa',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+  financementLabel: {
+    fontSize: 9,
+    color: '#92400E',
+  },
+  financementValue: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: '#92400E',
+  },
+  resteAChargeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 4,
+    paddingTop: 4,
+    borderTopWidth: 1,
+    borderTopColor: '#FDE68A',
+  },
+  resteAChargeLabel: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: ACCENT,
+  },
+  resteAChargeValue: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: ACCENT,
+  },
+
+  // ── Conditions ──
+  conditionsBox: {
+    marginBottom: 15,
+    padding: 12,
+    backgroundColor: GRAY_100,
+    borderRadius: 4,
   },
   conditionsTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: 'bold',
-    color: '#082545',
-    marginBottom: 10,
+    color: ACCENT,
+    marginBottom: 8,
   },
   conditionItem: {
-    fontSize: 9,
-    marginBottom: 5,
-    paddingLeft: 10,
+    fontSize: 8,
+    color: '#374151',
+    marginBottom: 4,
+    paddingLeft: 8,
   },
+
+  // ── Signature ──
+  signatureSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 25,
+  },
+  signatureBox: {
+    width: '44%',
+    textAlign: 'center',
+  },
+  signatureLabel: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: ACCENT,
+    marginBottom: 4,
+  },
+  signatureHint: {
+    fontSize: 8,
+    color: GRAY_500,
+    marginBottom: 8,
+    fontStyle: 'italic',
+  },
+  signatureLine: {
+    borderBottomWidth: 1,
+    borderBottomColor: GRAY_300,
+    height: 40,
+    marginBottom: 4,
+  },
+  signatureCaption: {
+    fontSize: 7,
+    color: GRAY_500,
+  },
+
+  // ── Footer ──
   footer: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 25,
     left: 40,
     right: 40,
     textAlign: 'center',
-    fontSize: 8,
-    color: '#6B7280',
+    fontSize: 7,
+    color: GRAY_500,
     borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-    paddingTop: 10,
+    borderTopColor: '#E5E7EB',
+    paddingTop: 8,
   },
 });
 
-// Fonction utilitaire pour formater les prix
+// Formateur prix FR
 function formatPrice(amount: number): string {
   return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(amount);
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount) + ' \u20AC';
 }
 
-// Fonction utilitaire pour formater les nombres avec espaces
-function formatNumber(num: number): string {
-  return num.toLocaleString('fr-FR');
+function formatDateFR(dateStr: string): string {
+  try {
+    return new Date(dateStr).toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+function formatFinancementType(type: string): string {
+  const map: Record<string, string> = {
+    opco: 'OPCO',
+    cpf: 'CPF (Compte Personnel de Formation)',
+    france_travail: 'France Travail (ex-Pole Emploi)',
+    autofinancement: 'Autofinancement',
+    faf: 'FAF (Fonds d\'Assurance Formation)',
+    fifpl: 'FIF-PL',
+    agefice: 'AGEFICE',
+    afdas: 'AFDAS',
+  };
+  return map[type] || type.toUpperCase();
 }
 
 export function DevisPDF(props: DevisProps) {
@@ -217,19 +449,21 @@ export function DevisPDF(props: DevisProps) {
     devisId,
     date,
     validiteJours,
+    emetteur,
     prospect,
     formation,
+    session,
     financement,
     echeances,
   } = props;
 
-  // Calculs
+  // Calculs financiers
   const montantHt = formation.prixHt;
-  const tva = Math.round(montantHt * 0.2);
+  const tva = Math.round(montantHt * 20) / 100;
   const montantTtc = montantHt + tva;
   const financementMontant = financement?.montant || 0;
-  const resteACharge = montantTtc - financementMontant;
-  const mensualite = echeances ? Math.round(resteACharge / echeances) : resteACharge;
+  const resteACharge = Math.max(0, montantTtc - financementMontant);
+  const mensualite = echeances && echeances > 1 ? Math.round(resteACharge / echeances * 100) / 100 : null;
 
   // Date d'expiration
   const dateExpiration = new Date(date);
@@ -238,94 +472,93 @@ export function DevisPDF(props: DevisProps) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Header */}
+
+        {/* ── HEADER ── */}
         <View style={styles.header}>
-          <Text style={styles.companyName}>DERMOTEC ADVANCED</Text>
-          <Text style={styles.companyAddress}>
-            75 Boulevard Richard Lenoir, 75011 Paris
-          </Text>
-          <Text style={styles.companyAddress}>
-            Tél: 01 XX XX XX XX • Email: contact@dermotec-advanced.com
-          </Text>
-          <View style={styles.separator} />
+          <View style={styles.headerLeft}>
+            <Text style={styles.companyName}>{emetteur.nom.toUpperCase()}</Text>
+            <Text style={styles.companySubtitle}>CENTRE DE FORMATION CERTIFIE QUALIOPI</Text>
+            <Text style={styles.companyInfo}>{emetteur.adresse}</Text>
+            <Text style={styles.companyInfo}>Tel : {emetteur.telephone} | {emetteur.email}</Text>
+            <Text style={styles.companyInfo}>SIRET : {emetteur.siret} | NDA : {emetteur.nda}</Text>
+          </View>
+          <View style={styles.headerRight}>
+            <Text style={styles.devisRef}>DEVIS N{'\u00B0'} {devisId}</Text>
+            <Text style={styles.devisDate}>Date : {formatDateFR(date)}</Text>
+            <Text style={styles.devisDate}>Valable jusqu'au : {formatDateFR(dateExpiration.toISOString())}</Text>
+          </View>
         </View>
 
-        {/* Titre devis */}
-        <Text style={styles.devisTitle}>DEVIS N° {devisId}</Text>
+        <View style={styles.separator} />
 
-        {/* Date et validité */}
-        <View style={styles.dateValidite}>
-          <Text>Date: {new Date(date).toLocaleDateString('fr-FR')}</Text>
-          <Text>Valable jusqu'au: {dateExpiration.toLocaleDateString('fr-FR')}</Text>
-        </View>
-
-        {/* Destinataire */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>DESTINATAIRE</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Nom:</Text>
-            <Text style={styles.value}>
+        {/* ── PARTIES ── */}
+        <View style={styles.partiesRow}>
+          <View style={[styles.partieBox, styles.emetteurBox]}>
+            <Text style={styles.partieLabel}>EMETTEUR</Text>
+            <Text style={styles.partieName}>{emetteur.nom}</Text>
+            <Text style={styles.partieInfo}>{emetteur.adresse}</Text>
+            <Text style={styles.partieInfo}>SIRET : {emetteur.siret}</Text>
+            <Text style={styles.partieInfo}>NDA : {emetteur.nda}</Text>
+            <Text style={styles.partieInfo}>{emetteur.rcs}</Text>
+          </View>
+          <View style={[styles.partieBox, styles.destinataireBox]}>
+            <Text style={styles.partieLabel}>DESTINATAIRE</Text>
+            <Text style={styles.partieName}>
               {prospect.prenom ? `${prospect.prenom} ${prospect.nom}` : prospect.nom}
             </Text>
+            {prospect.entreprise && <Text style={styles.partieInfo}>{prospect.entreprise}</Text>}
+            {prospect.adresse && <Text style={styles.partieInfo}>{prospect.adresse}</Text>}
+            {prospect.siret && <Text style={styles.partieInfo}>SIRET : {prospect.siret}</Text>}
+            {prospect.email && <Text style={styles.partieInfo}>{prospect.email}</Text>}
+            {prospect.telephone && <Text style={styles.partieInfo}>Tel : {prospect.telephone}</Text>}
           </View>
-          {prospect.entreprise && (
-            <View style={styles.row}>
-              <Text style={styles.label}>Entreprise:</Text>
-              <Text style={styles.value}>{prospect.entreprise}</Text>
-            </View>
-          )}
-          {prospect.adresse && (
-            <View style={styles.row}>
-              <Text style={styles.label}>Adresse:</Text>
-              <Text style={styles.value}>{prospect.adresse}</Text>
-            </View>
-          )}
-          {prospect.siret && (
-            <View style={styles.row}>
-              <Text style={styles.label}>SIRET:</Text>
-              <Text style={styles.value}>{prospect.siret}</Text>
-            </View>
-          )}
-          {prospect.email && (
-            <View style={styles.row}>
-              <Text style={styles.label}>Email:</Text>
-              <Text style={styles.value}>{prospect.email}</Text>
-            </View>
-          )}
-          {prospect.telephone && (
-            <View style={styles.row}>
-              <Text style={styles.label}>Téléphone:</Text>
-              <Text style={styles.value}>{prospect.telephone}</Text>
-            </View>
-          )}
         </View>
 
-        {/* Formation */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>FORMATION PROPOSÉE</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Formation:</Text>
-            <Text style={styles.value}>{formation.nom}</Text>
+        {/* ── FORMATION ── */}
+        <View style={styles.formationSection}>
+          <Text style={styles.formationTitle}>FORMATION PROPOSEE</Text>
+          <Text style={styles.formationName}>{formation.nom}</Text>
+          <View style={styles.formationRow}>
+            <Text style={styles.formationLabel}>Duree :</Text>
+            <Text style={styles.formationValue}>{formation.dureeJours} jour{formation.dureeJours > 1 ? 's' : ''} ({formation.dureeHeures} heures)</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Durée:</Text>
-            <Text style={styles.value}>{formation.duree}</Text>
-          </View>
+          {session && (
+            <>
+              <View style={styles.formationRow}>
+                <Text style={styles.formationLabel}>Dates :</Text>
+                <Text style={styles.formationValue}>
+                  Du {formatDateFR(session.dateDebut)} au {formatDateFR(session.dateFin)}
+                </Text>
+              </View>
+              {session.formatrice && (
+                <View style={styles.formationRow}>
+                  <Text style={styles.formationLabel}>Formatrice :</Text>
+                  <Text style={styles.formationValue}>{session.formatrice}</Text>
+                </View>
+              )}
+              {session.lieu && (
+                <View style={styles.formationRow}>
+                  <Text style={styles.formationLabel}>Lieu :</Text>
+                  <Text style={styles.formationValue}>{session.lieu}</Text>
+                </View>
+              )}
+            </>
+          )}
           {formation.description && (
-            <View style={styles.row}>
-              <Text style={styles.label}>Description:</Text>
-              <Text style={styles.value}>{formation.description}</Text>
+            <View style={styles.formationRow}>
+              <Text style={styles.formationLabel}>Description :</Text>
+              <Text style={styles.formationValue}>{formation.description}</Text>
             </View>
           )}
         </View>
 
-        {/* Table des prix */}
+        {/* ── TABLE PRIX ── */}
         <View style={styles.table}>
           <View style={styles.tableHeader}>
-            <Text style={styles.col1}>Désignation</Text>
-            <Text style={styles.col2}>Quantité</Text>
-            <Text style={styles.col3}>Prix unitaire HT</Text>
-            <Text style={styles.col4}>Total HT</Text>
+            <Text style={[styles.tableHeaderText, styles.col1]}>Designation</Text>
+            <Text style={[styles.tableHeaderText, styles.col2]}>Qte</Text>
+            <Text style={[styles.tableHeaderText, styles.col3]}>Prix unitaire HT</Text>
+            <Text style={[styles.tableHeaderText, styles.col4]}>Total HT</Text>
           </View>
           <View style={styles.tableRow}>
             <Text style={styles.col1}>{formation.nom}</Text>
@@ -335,65 +568,101 @@ export function DevisPDF(props: DevisProps) {
           </View>
         </View>
 
-        {/* Totaux */}
-        <View style={styles.totalSection}>
-          <View style={styles.totalRow}>
-            <Text>Sous-total HT:</Text>
-            <Text>{formatPrice(montantHt)}</Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text>TVA (20%):</Text>
-            <Text>{formatPrice(tva)}</Text>
-          </View>
-          <View style={styles.totalFinal}>
-            <Text>TOTAL TTC:</Text>
-            <Text>{formatPrice(montantTtc)}</Text>
+        {/* ── TOTAUX ── */}
+        <View style={styles.totauxContainer}>
+          <View style={styles.totauxBox}>
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Total HT</Text>
+              <Text style={styles.totalValue}>{formatPrice(montantHt)}</Text>
+            </View>
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>TVA (20%)</Text>
+              <Text style={styles.totalValue}>{formatPrice(tva)}</Text>
+            </View>
+            <View style={styles.totalTTCRow}>
+              <Text style={styles.totalTTCLabel}>TOTAL TTC</Text>
+              <Text style={styles.totalTTCValue}>{formatPrice(montantTtc)}</Text>
+            </View>
           </View>
         </View>
 
-        {/* Financement */}
-        {financement && (
-          <View style={styles.financementSection}>
+        {/* ── FINANCEMENT ── */}
+        {financement && financement.montant > 0 && (
+          <View style={styles.financementBox}>
             <Text style={styles.financementTitle}>FINANCEMENT</Text>
-            <Text style={styles.financementText}>
-              Prise en charge {financement.type.toUpperCase()}: -{formatPrice(financement.montant)}
-            </Text>
-            <Text style={styles.financementText}>
-              Reste à charge: {formatPrice(resteACharge)}
-            </Text>
-            {echeances && echeances > 1 && (
-              <Text style={styles.financementText}>
-                Paiement en {echeances}x: {formatPrice(mensualite)}/mois
+            <View style={styles.financementRow}>
+              <Text style={styles.financementLabel}>
+                Prise en charge {formatFinancementType(financement.type)} :
               </Text>
+              <Text style={styles.financementValue}>-{formatPrice(financement.montant)}</Text>
+            </View>
+            <View style={styles.resteAChargeRow}>
+              <Text style={styles.resteAChargeLabel}>Reste a charge :</Text>
+              <Text style={styles.resteAChargeValue}>{formatPrice(resteACharge)}</Text>
+            </View>
+            {mensualite && (
+              <View style={[styles.financementRow, { marginTop: 4 }]}>
+                <Text style={styles.financementLabel}>
+                  Paiement en {echeances}x sans frais :
+                </Text>
+                <Text style={styles.financementValue}>{formatPrice(mensualite)}/mois</Text>
+              </View>
             )}
           </View>
         )}
 
-        {/* Conditions */}
-        <View style={styles.conditions}>
-          <Text style={styles.conditionsTitle}>CONDITIONS GÉNÉRALES</Text>
+        {/* ── CONDITIONS ── */}
+        <View style={styles.conditionsBox}>
+          <Text style={styles.conditionsTitle}>CONDITIONS GENERALES</Text>
           <Text style={styles.conditionItem}>
-            • Ce devis est valable {validiteJours} jours à compter de la date d'émission
+            {'\u2022'} Ce devis est valable {validiteJours} jours a compter de la date d'emission.
           </Text>
           <Text style={styles.conditionItem}>
-            • Organisme de formation certifié Qualiopi - Critère qualité engagée
+            {'\u2022'} Organisme de formation certifie Qualiopi — Actions de formation.
           </Text>
           <Text style={styles.conditionItem}>
-            • N° de déclaration d'activité: 11 75 54321 75 (cet enregistrement ne vaut pas agrément de l'État)
+            {'\u2022'} NDA : {emetteur.nda} (cet enregistrement ne vaut pas agrement de l'Etat).
           </Text>
           <Text style={styles.conditionItem}>
-            • Formation éligible au financement CPF, OPCO, Pôle Emploi selon conditions
+            {'\u2022'} Formation eligible au financement CPF, OPCO, France Travail selon conditions d'eligibilite.
           </Text>
           <Text style={styles.conditionItem}>
-            • Modalités de paiement: comptant ou échelonnement selon accord préalable
+            {'\u2022'} Modalites de paiement : comptant a reception ou echelonnement selon accord prealable.
+          </Text>
+          <Text style={styles.conditionItem}>
+            {'\u2022'} En cas d'annulation par le stagiaire a moins de 10 jours ouvrables avant le debut de la formation,
+            30% du montant total restera du.
+          </Text>
+          <Text style={styles.conditionItem}>
+            {'\u2022'} Les CGV completes sont disponibles sur demande et sur notre site internet.
           </Text>
         </View>
 
-        {/* Footer */}
+        {/* ── SIGNATURE ── */}
+        <View style={styles.signatureSection}>
+          <View style={styles.signatureBox}>
+            <Text style={styles.signatureLabel}>Le centre de formation</Text>
+            <Text style={styles.signatureHint}>{emetteur.nom}</Text>
+            <View style={styles.signatureLine} />
+            <Text style={styles.signatureCaption}>Cachet et signature</Text>
+          </View>
+          <View style={styles.signatureBox}>
+            <Text style={styles.signatureLabel}>Bon pour accord</Text>
+            <Text style={styles.signatureHint}>Date et signature du client</Text>
+            <View style={styles.signatureLine} />
+            <Text style={styles.signatureCaption}>
+              Signature precedee de la mention "Bon pour accord"
+            </Text>
+          </View>
+        </View>
+
+        {/* ── FOOTER ── */}
         <Text style={styles.footer}>
-          Dermotec Advanced — Centre de Formation Esthétique — Certifié Qualiopi
-          {'\n'}SARL au capital de 10 000 € • RCS Paris 123 456 789 • TVA FR12345678901
+          {emetteur.nom} — Centre de Formation Esthetique — Certifie Qualiopi
+          {'\n'}{emetteur.rcs} | TVA : {emetteur.tva_intracom} | SIRET : {emetteur.siret}
+          {'\n'}N{'\u00B0'} de declaration d'activite : {emetteur.nda}
         </Text>
+
       </Page>
     </Document>
   );

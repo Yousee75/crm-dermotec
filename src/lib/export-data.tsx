@@ -3,6 +3,8 @@
  * Fonctionne cote client uniquement (Blob + URL.createObjectURL)
  */
 
+import React from 'react'
+
 // ─── Types ───────────────────────────────────────────────────────────
 
 export type ColumnDef = {

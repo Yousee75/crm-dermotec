@@ -146,7 +146,7 @@ function InscriptionSuccessContent() {
 
         {/* Détails de l'inscription */}
         <div className="rounded-2xl bg-white p-8 shadow-lg border border-gray-100 mb-6">
-          <h2 className="text-xl font-bold text-[#082545] mb-6">Détails de votre formation</h2>
+          <h2 className="text-xl font-bold text-accent mb-6">Détails de votre formation</h2>
 
           <div className="space-y-4">
             <div>
@@ -204,7 +204,7 @@ function InscriptionSuccessContent() {
 
         {/* Prochaines étapes */}
         <div className="rounded-2xl bg-white p-8 shadow-lg border border-gray-100 mb-6">
-          <h2 className="text-xl font-bold text-[#082545] mb-6">Prochaines étapes</h2>
+          <h2 className="text-xl font-bold text-accent mb-6">Prochaines étapes</h2>
 
           <div className="space-y-4">
             <div className="flex items-start gap-3">
@@ -247,7 +247,7 @@ function InscriptionSuccessContent() {
 
         {/* Contact */}
         <div className="rounded-2xl bg-primary/5 p-8 border border-primary/20 text-center">
-          <h2 className="text-xl font-bold text-[#082545] mb-4">Une question ?</h2>
+          <h2 className="text-xl font-bold text-accent mb-4">Une question ?</h2>
           <p className="text-gray-600 mb-6">
             Notre équipe est là pour vous accompagner
           </p>

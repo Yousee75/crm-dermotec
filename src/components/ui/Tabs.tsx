@@ -49,7 +49,7 @@ function Tabs({ tabs, defaultTab, onChange, className, variant = 'default' }: Si
         baseStyles,
         'px-3 py-1.5 rounded-full',
         isActive
-          ? 'bg-primary/10 text-[#1BA8D4]'
+          ? 'bg-primary/10 text-primary-dark'
           : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
       ),
     },
@@ -81,7 +81,7 @@ function Tabs({ tabs, defaultTab, onChange, className, variant = 'default' }: Si
             <span className={cn(
               'ml-1 px-1.5 py-0.5 text-[10px] rounded-full font-medium',
               active === tab.id
-                ? 'bg-primary/20 text-[#1BA8D4]'
+                ? 'bg-primary/20 text-primary-dark'
                 : 'bg-gray-200 text-gray-500'
             )}>
               {tab.badge}

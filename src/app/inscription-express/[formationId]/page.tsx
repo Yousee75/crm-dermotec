@@ -173,7 +173,7 @@ export default function InscriptionExpressPage() {
               </span>
             </div>
 
-            <h1 className="mb-4 text-3xl font-bold text-[#082545] leading-tight font-[BricolageGrotesque]">
+            <h1 className="mb-4 text-3xl font-bold text-accent leading-tight font-[BricolageGrotesque]">
               {formation.nom}
             </h1>
 
@@ -202,7 +202,7 @@ export default function InscriptionExpressPage() {
             </div>
 
             <div className="mb-6">
-              <div className="mb-2 text-4xl font-bold text-[#082545]">
+              <div className="mb-2 text-4xl font-bold text-accent">
                 {montantTotal}€
                 <span className="ml-2 text-lg font-normal text-gray-500">TTC</span>
               </div>
@@ -222,7 +222,7 @@ export default function InscriptionExpressPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Formulaire Identité */}
           <div className="rounded-2xl bg-white p-8 shadow-lg border border-gray-100">
-            <h2 className="mb-6 text-xl font-bold text-[#082545]">Vos informations</h2>
+            <h2 className="mb-6 text-xl font-bold text-accent">Vos informations</h2>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -292,7 +292,7 @@ export default function InscriptionExpressPage() {
             <button
               type="button"
               onClick={() => setShowConvention(!showConvention)}
-              className="mb-4 flex w-full items-center justify-between text-xl font-bold text-[#082545]"
+              className="mb-4 flex w-full items-center justify-between text-xl font-bold text-accent"
             >
               Convention de formation
               {showConvention ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
@@ -388,7 +388,7 @@ export default function InscriptionExpressPage() {
 
           {/* Paiement */}
           <div className="rounded-2xl bg-white p-8 shadow-lg border border-gray-100">
-            <h2 className="mb-6 text-xl font-bold text-[#082545]">Mode de paiement</h2>
+            <h2 className="mb-6 text-xl font-bold text-accent">Mode de paiement</h2>
 
             <div className="space-y-4">
               <label className="block">

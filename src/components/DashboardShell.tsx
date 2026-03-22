@@ -468,7 +468,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       )}
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto bg-[#F8FAFC]">
+      <main className="flex-1 overflow-y-auto bg-background">
         {/* Top bar */}
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100">
           <div className="flex items-center justify-between h-[56px] px-4 md:px-6 lg:px-8 max-w-[1600px] mx-auto">

@@ -283,7 +283,7 @@ export default function QuestionnairePage() {
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="w-full bg-primary hover:bg-[#0284C7] text-white font-medium py-4 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 text-base"
+          className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-4 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 text-base"
           style={{ minHeight: '52px' }}
         >
           {submitting ? (

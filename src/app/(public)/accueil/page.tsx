@@ -148,7 +148,7 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-4 mb-10">
           <Link
             href="/login"
-            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-[#1BA8D4] text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
           >
             Commencer gratuitement
           </Link>
@@ -175,7 +175,7 @@ export default function LandingPage() {
       <section className="bg-white py-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <h2
-            className="text-3xl sm:text-4xl font-bold text-[#082545] text-center mb-4"
+            className="text-3xl sm:text-4xl font-bold text-accent text-center mb-4"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Tout ce dont votre centre a besoin
@@ -193,7 +193,7 @@ export default function LandingPage() {
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
                   <h3
-                    className="text-lg font-bold text-[#082545] mb-2"
+                    className="text-lg font-bold text-accent mb-2"
                     style={{ fontFamily: 'var(--font-heading)' }}
                   >
                     {feature.title}
@@ -207,10 +207,10 @@ export default function LandingPage() {
       </section>
 
       {/* ──────────── PLANS ──────────── */}
-      <section className="bg-[#F8FAFC] py-20 px-4 sm:px-6">
+      <section className="bg-background py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <h2
-            className="text-3xl sm:text-4xl font-bold text-[#082545] text-center mb-4"
+            className="text-3xl sm:text-4xl font-bold text-accent text-center mb-4"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Des tarifs pensés pour les TPE
@@ -236,14 +236,14 @@ export default function LandingPage() {
                 )}
 
                 <h3
-                  className="text-xl font-bold text-[#082545] mb-1"
+                  className="text-xl font-bold text-accent mb-1"
                   style={{ fontFamily: 'var(--font-heading)' }}
                 >
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mb-6">
                   <span
-                    className="text-3xl font-bold text-[#082545]"
+                    className="text-3xl font-bold text-accent"
                     style={{ fontFamily: 'var(--font-heading)' }}
                   >
                     {plan.price}
@@ -264,7 +264,7 @@ export default function LandingPage() {
                   href={plan.ctaHref}
                   className={`block text-center rounded-xl py-2.5 px-4 text-sm font-medium transition-all duration-150 ${
                     plan.highlighted
-                      ? 'bg-primary hover:bg-[#1BA8D4] text-white shadow-sm hover:shadow-md'
+                      ? 'bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md'
                       : 'border border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
                   }`}
                 >
@@ -286,7 +286,7 @@ export default function LandingPage() {
       <section className="bg-white py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <h2
-            className="text-3xl sm:text-4xl font-bold text-[#082545] text-center mb-14"
+            className="text-3xl sm:text-4xl font-bold text-accent text-center mb-14"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Ce qu&apos;en disent nos utilisateurs
@@ -302,7 +302,7 @@ export default function LandingPage() {
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div>
-                  <p className="text-sm font-semibold text-[#082545]">{t.name}</p>
+                  <p className="text-sm font-semibold text-accent">{t.name}</p>
                   <p className="text-xs text-gray-400">
                     {t.role}, {t.company}
                   </p>
@@ -314,7 +314,7 @@ export default function LandingPage() {
       </section>
 
       {/* ──────────── CTA FINAL ──────────── */}
-      <section className="bg-[#082545] py-20 px-4 sm:px-6 text-center">
+      <section className="bg-accent py-20 px-4 sm:px-6 text-center">
         <div className="max-w-2xl mx-auto">
           <h2
             className="text-3xl sm:text-4xl font-bold text-white mb-4"
@@ -327,7 +327,7 @@ export default function LandingPage() {
           </p>
           <Link
             href="/login"
-            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-[#1BA8D4] text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
           >
             Créer mon compte gratuitement
           </Link>
