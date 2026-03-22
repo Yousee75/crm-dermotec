@@ -280,57 +280,23 @@ export const autoEnrichLead = inngest.createFunction(
             throw new Error('Invalid Instagram URL')
           }
 
-          // Utiliser Bright Data Web Unlocker pour scraper Instagram
-          const zone = process.env.BRIGHTDATA_WEB_UNLOCKER_ZONE || 'web_unlocker1'
-          const proxyUrl = `http://${process.env.BRIGHTDATA_API_KEY}:@proxy-server.brightdata.com:${zone === 'web_unlocker1' ? '22225' : '22226'}`
+          // Utiliser scrapeInstagram de social-discovery (Bright Data Scraping Browser)
+          const { scrapeInstagram } = await import('@/lib/social-discovery')
+          const metrics = await scrapeInstagram(username)
 
-          const instagramUrl = `https://www.instagram.com/${username}/`
-
-          const response = await fetch(instagramUrl, {
-            method: 'GET',
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
-          })
-
-          if (!response.ok) {
-            throw new Error(`Failed to fetch Instagram profile: ${response.status}`)
-          }
-
-          const html = await response.text()
-
-          // Extraire le nombre de followers depuis le script JSON
-          const jsonMatch = html.match(/window\._sharedData\s*=\s*({.+?});/)
-          let followers = null
-          let posts = null
-
-          if (jsonMatch) {
-            try {
-              const jsonData = JSON.parse(jsonMatch[1])
-              const user = jsonData?.entry_data?.ProfilePage?.[0]?.graphql?.user
-              if (user) {
-                followers = user.edge_followed_by?.count
-                posts = user.edge_owner_to_timeline_media?.count
-              }
-            } catch (e) {
-              // Fallback: chercher dans le HTML
-              const followersMatch = html.match(/"edge_followed_by":\{"count":(\d+)\}/)
-              if (followersMatch) {
-                followers = parseInt(followersMatch[1])
-              }
-
-              const postsMatch = html.match(/"edge_owner_to_timeline_media":\{"count":(\d+)\}/)
-              if (postsMatch) {
-                posts = parseInt(postsMatch[1])
-              }
-            }
+          if (!metrics) {
+            throw new Error('Instagram scraping returned no data')
           }
 
           const instagramData = {
             username,
-            url: instagramUrl,
-            followers,
-            posts,
+            url: `https://www.instagram.com/${username}/`,
+            followers: metrics.followers || null,
+            following: metrics.following || null,
+            posts: metrics.posts || null,
+            bio: metrics.bio || null,
+            isVerified: metrics.isVerified || false,
+            profilePic: metrics.profilePic || null,
             scraped_at: new Date().toISOString()
           }
 

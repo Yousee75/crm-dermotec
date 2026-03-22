@@ -40,6 +40,7 @@ interface InternalData {
   pj?: any
   planity?: any
   treatwell?: any
+  tripadvisor?: any
   instagram?: any
   social?: any
   scraper?: any
@@ -312,6 +313,7 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
         if (scraped.pagesJaunes) data.pj = scraped.pagesJaunes
         if (scraped.planity) data.planity = scraped.planity
         if (scraped.treatwell) data.treatwell = scraped.treatwell
+        if (scraped.tripadvisor) data.tripadvisor = scraped.tripadvisor
         if (scraped.google) data.scraper = scraped.google
       }, 60000) // scraping = 60s max
     )

@@ -195,6 +195,7 @@ export function assembleIntelligence(internal: {
   pj?: any
   planity?: any
   treatwell?: any
+  tripadvisor?: any
   instagram?: any
   social?: any
   scraper?: any
@@ -256,8 +257,9 @@ export function assembleIntelligence(internal: {
   if (internal.google?.total_reviews) avisTotal.push(internal.google.total_reviews)
   if (internal.pj?.rating) { notes.push(internal.pj.rating); plateformes++ }
   if (internal.pj?.reviewsCount) avisTotal.push(internal.pj.reviewsCount)
-  if (internal.planity?.found) plateformes++
-  if (internal.treatwell?.found) plateformes++
+  if (internal.planity?.found) { plateformes++; if (internal.planity.rating) notes.push(internal.planity.rating); if (internal.planity.reviewsCount) avisTotal.push(internal.planity.reviewsCount) }
+  if (internal.treatwell?.found) { plateformes++; if (internal.treatwell.rating) notes.push(internal.treatwell.rating); if (internal.treatwell.reviewsCount) avisTotal.push(internal.treatwell.reviewsCount) }
+  if (internal.tripadvisor?.found) { plateformes++; if (internal.tripadvisor.rating) notes.push(internal.tripadvisor.rating); if (internal.tripadvisor.reviewsCount) avisTotal.push(internal.tripadvisor.reviewsCount) }
   if (internal.instagram?.followers) plateformes++
 
   if (notes.length > 0) {

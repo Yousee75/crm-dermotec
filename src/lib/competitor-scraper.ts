@@ -57,6 +57,21 @@ export interface ScrapedCompetitor {
     prix?: string[]
     adresse?: string
   }
+  tripadvisor?: {
+    found: boolean
+    nom?: string
+    rating?: number
+    reviewsCount?: number
+    ranking?: string
+    adresse?: string
+    telephone?: string
+    website?: string
+    categories?: string[]
+    photoUrls?: string[]
+    reviews?: PlatformReview[]
+    priceRange?: string
+    horaires?: string[]
+  }
   google?: {
     rating?: number
     reviewsCount?: number
@@ -407,6 +422,123 @@ function parseTreatwell(html: string): ScrapedCompetitor['treatwell'] {
   return result
 }
 
+function parseTripAdvisor(html: string): ScrapedCompetitor['tripadvisor'] {
+  // TripAdvisor est très protégé — Scraping Browser obligatoire
+  const hasContent = html.length > 5000
+    && (html.includes('tripadvisor') || html.includes('TripAdvisor') || html.includes('travellers'))
+
+  if (!hasContent) return { found: false }
+
+  const result: NonNullable<ScrapedCompetitor['tripadvisor']> = { found: true }
+
+  // Nom — H1 ou JSON-LD
+  const nameMatch = html.match(/<h1[^>]*>([^<]+)<\/h1>/i)
+  if (nameMatch) result.nom = nameMatch[1].replace(/<[^>]+>/g, '').trim()
+
+  // Rating — JSON-LD first (plus fiable)
+  const ldBlocks = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi) || []
+  for (const block of ldBlocks) {
+    try {
+      const data = JSON.parse(block.replace(/<\/?script[^>]*>/gi, ''))
+      if (data?.aggregateRating) {
+        result.rating = parseFloat(data.aggregateRating.ratingValue)
+        result.reviewsCount = parseInt(data.aggregateRating.reviewCount || '0')
+      }
+      if (data?.name && !result.nom) result.nom = data.name
+      if (data?.address) {
+        const addr = data.address
+        result.adresse = [addr.streetAddress, addr.postalCode, addr.addressLocality]
+          .filter(Boolean).join(', ')
+      }
+      if (data?.telephone) result.telephone = data.telephone
+      if (data?.url) result.website = data.url
+      if (data?.priceRange) result.priceRange = data.priceRange
+      // Reviews JSON-LD
+      if (data?.review && Array.isArray(data.review)) {
+        result.reviews = data.review.slice(0, 15).map((r: any) => ({
+          platform: 'tripadvisor',
+          author: r.author?.name || r.author || 'Anonyme',
+          rating: parseInt(r.reviewRating?.ratingValue || '5'),
+          text: (r.reviewBody || r.description || '').slice(0, 500),
+          date: r.datePublished,
+          title: r.name,
+        }))
+      }
+    } catch { /* skip */ }
+  }
+
+  // Fallback rating depuis HTML
+  if (!result.rating) {
+    const ratingMatch = html.match(/(\d[.,]\d)\s*(?:sur|of|\/)\s*5/i)
+      || html.match(/class="[^"]*(?:ratingValue|rating-value|bubble_rating)[^"]*"[^>]*>(\d[.,]\d)/i)
+    if (ratingMatch) result.rating = parseFloat(ratingMatch[1].replace(',', '.'))
+  }
+
+  if (!result.reviewsCount) {
+    const reviewsMatch = html.match(/(\d[\d\s,.]*)\s*avis/i)
+      || html.match(/(\d[\d\s,.]*)\s*reviews?/i)
+    if (reviewsMatch) result.reviewsCount = parseInt(reviewsMatch[1].replace(/[\s,.]/g, ''))
+  }
+
+  // Ranking — "N° X sur Y"
+  const rankingMatch = html.match(/(?:N°|#)\s*(\d+)\s*(?:sur|of|\/)\s*(\d+)/i)
+    || html.match(/Classé\s*(\d+)\s*sur\s*(\d+)/i)
+  if (rankingMatch) result.ranking = `#${rankingMatch[1]} sur ${rankingMatch[2]}`
+
+  // Adresse fallback
+  if (!result.adresse) {
+    const addrMatch = html.match(/class="[^"]*(?:address|location)[^"]*"[^>]*>([\s\S]*?)<\//i)
+    if (addrMatch) result.adresse = addrMatch[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+  }
+
+  // Téléphone fallback
+  if (!result.telephone) {
+    const telMatch = html.match(/(?:0[1-9])(?:[\s.-]?\d{2}){4}/)
+      || html.match(/\+33\s*[1-9](?:[\s.-]?\d{2}){4}/)
+    if (telMatch) result.telephone = telMatch[0].replace(/[\s.-]/g, '').replace(/\+33/, '0')
+  }
+
+  // Catégories
+  const catMatches = html.match(/class="[^"]*(?:tag|category|breadcrumb)[^"]*"[^>]*>([^<]{3,40})</gi) || []
+  const cats = catMatches
+    .map(m => m.replace(/class="[^"]*"[^>]*>/i, '').trim())
+    .filter(c => c.length > 2 && !/tripadvisor|accueil|france/i.test(c))
+  if (cats.length) result.categories = [...new Set(cats)].slice(0, 10)
+
+  // Photos
+  const photoMatches = html.match(/src="(https?:\/\/[^"]*(?:photo|media|image)[^"]*\.(?:jpg|jpeg|png|webp))"/gi) || []
+  result.photoUrls = [...new Set(
+    photoMatches.map(m => m.replace(/^src="/, '').replace(/"$/, ''))
+  )].slice(0, 8)
+
+  // Horaires
+  result.horaires = html
+    .match(/(?:Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)[^<]{5,60}/gi)
+    ?.map(h => h.trim()).slice(0, 7) || []
+
+  // Reviews HTML fallback (si pas de JSON-LD)
+  if (!result.reviews || result.reviews.length === 0) {
+    const reviews: PlatformReview[] = []
+    // Pattern TripAdvisor : titre + texte + auteur
+    const reviewBlocks = html.matchAll(
+      /class="[^"]*(?:review-title|title)[^"]*"[^>]*>([^<]{5,200})<[\s\S]{0,800}?class="[^"]*(?:review-body|entry|partial_entry)[^"]*"[^>]*>([\s\S]{10,800}?)<\//gi
+    )
+    for (const m of reviewBlocks) {
+      if (reviews.length >= 10) break
+      reviews.push({
+        platform: 'tripadvisor',
+        author: 'Voyageur',
+        rating: 5,
+        text: m[2]?.replace(/<[^>]+>/g, '').trim().slice(0, 500) || '',
+        title: m[1]?.trim(),
+      })
+    }
+    if (reviews.length) result.reviews = reviews
+  }
+
+  return result
+}
+
 function parseGoogleReviews(html: string): ScrapedCompetitor['google'] {
   const result: NonNullable<ScrapedCompetitor['google']> = {}
 
@@ -444,11 +576,10 @@ export async function scrapeCompetitorFull(params: {
   pagesJaunesUrl?: string
   planityUrl?: string
   treatwellUrl?: string
+  tripadvisorUrl?: string
   googleMapsUrl?: string
 }): Promise<ScrapedCompetitor> {
   const results: ScrapedCompetitor = {}
-
-  // Scraping complet lancé
 
   // Construire URLs avec les bons formats (testés mars 2026)
   const slugify = (s: string) => s.toLowerCase()
@@ -471,30 +602,30 @@ export async function scrapeCompetitorFull(params: {
   const treatwellUrl = params.treatwellUrl ||
     `https://www.treatwell.fr/salons/institut-de-beaute/${villeSlug}/`
 
-  // Lancer tous les scrapings en parallèle (Promise.allSettled = pas de crash si un échoue)
-  const [pjResult, planityResult, treatwellResult] = await Promise.allSettled([
+  // TripAdvisor : recherche par nom + ville (anti-bot lourd, Scraping Browser obligatoire)
+  const tripadvisorUrl = params.tripadvisorUrl ||
+    `https://www.tripadvisor.fr/Search?q=${encodeURIComponent(params.nom + ' ' + params.ville)}&searchSessionId=&sid=&blockRedirect=true&ssrc=A&isSingleSearch=true`
+
+  // Lancer TOUS les scrapings en parallèle (Promise.allSettled = pas de crash si un échoue)
+  await Promise.allSettled([
     // PagesJaunes — Cloudflare protégé, besoin Scraping Browser
     fetchWithFullFallback(pjUrl, true).then(html => {
-      if (html) {
-        results.pagesJaunes = parsePagesJaunes(html)
-        // PJ parsed
-      }
+      if (html) results.pagesJaunes = parsePagesJaunes(html)
     }),
 
-    // Planity — JS heavy, besoin Scraping Browser
+    // Planity — SPA React, besoin Scraping Browser
     fetchWithFullFallback(planityUrl, true).then(html => {
-      if (html) {
-        results.planity = parsePlanity(html)
-        // Planity parsed
-      }
+      if (html) results.planity = parsePlanity(html)
     }),
 
     // Treatwell — moins protégé, Web Unlocker suffit souvent
     fetchWithFullFallback(treatwellUrl, false).then(html => {
-      if (html) {
-        results.treatwell = parseTreatwell(html)
-        // Treatwell parsed
-      }
+      if (html) results.treatwell = parseTreatwell(html)
+    }),
+
+    // TripAdvisor — très protégé (Cloudflare + CAPTCHA), Scraping Browser obligatoire
+    fetchWithFullFallback(tripadvisorUrl, true).then(html => {
+      if (html) results.tripadvisor = parseTripAdvisor(html)
     }),
   ])
 
