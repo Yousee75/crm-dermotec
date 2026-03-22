@@ -13,3 +13,4 @@ export { bulkEmailSend, bulkLeadUpdate, refreshMaterializedViews, processQueueJo
 export { stripeWebhookProcessor } from './stripe-webhook-processor'
 export { proactiveAgent } from './proactive-agent'
 export { monthlySnapshot } from './monthly-snapshot'
+export { weeklyReport } from './weekly-report'

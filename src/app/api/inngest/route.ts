@@ -30,6 +30,7 @@ async function getHandler() {
       inngestFunctions.stripeWebhookProcessor,
       inngestFunctions.proactiveAgent,
       inngestFunctions.monthlySnapshot,
+      inngestFunctions.weeklyReport,
     ],
   })
 }
