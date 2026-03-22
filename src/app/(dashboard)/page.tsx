@@ -12,6 +12,10 @@ import {
   Phone, ChevronRight,
   MessageCircle, Mail
 } from 'lucide-react'
+import {
+  UsersThree, ChartLineUp, CurrencyEur, CalendarCheck,
+  Warning, PhoneCall, Crosshair, Lightning,
+} from '@phosphor-icons/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCurrentUser } from '@/hooks/use-current-user'
@@ -241,7 +245,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5" />
+                <Warning className="w-5 h-5" weight="duotone" />
               </div>
               <div>
                 <p className="font-semibold">{overdueCount} rappel{overdueCount > 1 ? 's' : ''} en retard</p>
@@ -256,7 +260,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                <Phone className="w-5 h-5" />
+                <PhoneCall className="w-5 h-5" weight="duotone" />
               </div>
               <div>
                 <p className="font-semibold">{todayCount} prospect{todayCount > 1 ? 's' : ''} à rappeler aujourd&apos;hui</p>
@@ -271,7 +275,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                <Calendar className="w-5 h-5" />
+                <CalendarCheck className="w-5 h-5" weight="duotone" />
               </div>
               <div>
                 <p className="font-semibold">{sessionsAVenir} formation{sessionsAVenir > 1 ? 's' : ''} planifiée{sessionsAVenir > 1 ? 's' : ''}</p>
@@ -285,7 +289,7 @@ export default function DashboardPage() {
         <div className="bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl p-4 text-white shadow-lg shadow-emerald-500/20">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-              <Target className="w-5 h-5" />
+              <Crosshair className="w-5 h-5" weight="duotone" />
             </div>
             <div>
               <p className="font-semibold">Tout est en ordre</p>
@@ -471,39 +475,39 @@ export default function DashboardPage() {
       {/* KPIs compacts (APRÈS les actions) */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <KpiCard
-          icon={Users}
+          icon={(p: any) => <UsersThree weight="duotone" {...p} />}
           label="Total prospects"
           value={totalLeads.toLocaleString()}
           color="#2EC6F3"
         />
         <KpiCard
-          icon={UserCheck}
+          icon={(p: any) => <Lightning weight="duotone" {...p} />}
           label="Nouveaux ce mois"
           value={nouveauxCeMois.toLocaleString()}
           color="#22C55E"
           variation={variationNouveaux}
         />
         <KpiCard
-          icon={TrendingUp}
+          icon={(p: any) => <ChartLineUp weight="duotone" {...p} />}
           label="En pipeline"
           value={enPipeline.toLocaleString()}
           color="#F59E0B"
         />
         <KpiCard
-          icon={Euro}
-          label="CA réalisé"
+          icon={(p: any) => <CurrencyEur weight="duotone" {...p} />}
+          label="CA realise"
           value={formatEuro(caRealise)}
           color="#2EC6F3"
           subtitle="Ce mois"
         />
         <KpiCard
-          icon={Calendar}
-          label="Formations à venir"
+          icon={(p: any) => <CalendarCheck weight="duotone" {...p} />}
+          label="Formations a venir"
           value={sessionsAVenir.toLocaleString()}
           color="#8B5CF6"
         />
         <KpiCard
-          icon={Target}
+          icon={(p: any) => <Crosshair weight="duotone" {...p} />}
           label="Taux conversion"
           value={`${tauxConversion.toFixed(1)}%`}
           color="#22C55E"

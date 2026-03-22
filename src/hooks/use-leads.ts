@@ -246,7 +246,7 @@ export function useUpdateLead() {
   })
 }
 
-// --- Mutation: changer statut (Supabase direct — state machine validée par trigger SQL) ---
+// --- Mutation: changer statut — FEEDBACK OPTIMISTE (Teams-style) ---
 export function useChangeStatut() {
   const supabase = createClient()
   const queryClient = useQueryClient()
@@ -264,11 +264,39 @@ export function useChangeStatut() {
       if (error) throw error
       return data
     },
+    // Feedback optimiste : met à jour le cache AVANT la réponse serveur
+    onMutate: async ({ id, statut }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['leads'] })
+      await queryClient.cancelQueries({ queryKey: ['lead', id] })
+
+      // Snapshot previous value
+      const previousLead = queryClient.getQueryData(['lead', id])
+
+      // Optimistically update the lead
+      queryClient.setQueryData(['lead', id], (old: any) => old ? { ...old, statut } : old)
+
+      // Update leads list cache
+      queryClient.setQueriesData({ queryKey: ['leads'] }, (old: any) => {
+        if (!old?.data) return old
+        return {
+          ...old,
+          data: old.data.map((l: any) => l.id === id ? { ...l, statut } : l),
+        }
+      })
+
+      toast.success('Statut mis à jour')
+      return { previousLead }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
-      toast.success('Statut mis à jour')
     },
-    onError: (error: Error) => {
+    onError: (error: Error, { id }, context) => {
+      // Rollback on error
+      if (context?.previousLead) {
+        queryClient.setQueryData(['lead', id], context.previousLead)
+      }
+      queryClient.invalidateQueries({ queryKey: ['leads'] })
       toast.error(`Erreur changement statut : ${error.message}`)
     },
   })

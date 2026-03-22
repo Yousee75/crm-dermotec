@@ -66,6 +66,32 @@ export function KeyboardShortcuts() {
       if (key === 'n') {
         e.preventDefault()
         router.push('/leads?new=1')
+        return
+      }
+
+      // Raccourci "E" = Enrichir (sur la fiche lead uniquement)
+      if (key === 'e' && window.location.pathname.startsWith('/lead/')) {
+        e.preventDefault()
+        // Clic sur le bouton "Générer le briefing" s'il existe
+        const enrichBtn = document.querySelector('[data-action="enrich"]') as HTMLButtonElement
+        if (enrichBtn) enrichBtn.click()
+        return
+      }
+
+      // Raccourci "R" = Ouvrir rapport PDF
+      if (key === 'r' && window.location.pathname.startsWith('/lead/')) {
+        e.preventDefault()
+        const leadId = window.location.pathname.split('/lead/')[1]?.split('/')[0]
+        if (leadId) window.open(`/api/enrichment/report/pdf?leadId=${leadId}`, '_blank')
+        return
+      }
+
+      // Raccourci "W" = Télécharger rapport Word
+      if (key === 'w' && window.location.pathname.startsWith('/lead/')) {
+        e.preventDefault()
+        const leadId = window.location.pathname.split('/lead/')[1]?.split('/')[0]
+        if (leadId) window.open(`/api/enrichment/report/word?leadId=${leadId}`, '_blank')
+        return
       }
     }
 

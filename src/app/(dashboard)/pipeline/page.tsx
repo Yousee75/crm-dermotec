@@ -323,7 +323,6 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                 <Avatar
                   name={`${lead.prenom} ${lead.nom}`}
                   size="md"
-                  color="#2EC6F3"
                 />
                 <div>
                   <h3 className="font-semibold text-accent">{lead.prenom} {lead.nom}</h3>
