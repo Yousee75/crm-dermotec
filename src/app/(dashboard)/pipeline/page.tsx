@@ -3,11 +3,12 @@
 export const dynamic = 'force-dynamic'
 
 import { useState } from 'react'
-import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOverlay, DragOverEvent } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOverlay, DragOverEvent, useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye, Sparkles, List } from 'lucide-react'
+import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye, Sparkles, List, X, ExternalLink, Calendar, MapPin } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { useLeads, useChangeStatut } from '@/hooks/use-leads'
 import { PHASES_PIPELINE, STATUTS_LEAD } from '@/types'
@@ -22,7 +23,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar'
 import Link from 'next/link'
 
 // --- Component: Lead Card (Draggable) ---
-function DraggableLeadCard({ lead }: { lead: Lead }) {
+function DraggableLeadCard({ lead, onLeadClick }: { lead: Lead; onLeadClick?: (lead: Lead) => void }) {
   const {
     attributes,
     listeners,
@@ -42,16 +43,28 @@ function DraggableLeadCard({ lead }: { lead: Lead }) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
       className={cn(
-        "bg-white p-3 rounded-xl border border-gray-100 shadow-card cursor-grab",
+        "bg-white p-3 rounded-xl border border-gray-100 shadow-card",
         "hover:shadow-md hover:border-gray-200 transition-all duration-150",
-        "active:cursor-grabbing active:shadow-lg active:scale-[1.02]",
         "relative group/drag",
         isDragging && "opacity-70 shadow-none"
       )}
     >
-      <LeadCard lead={lead} />
+      {/* Zone de drag : le grip handle */}
+      <div
+        {...listeners}
+        className="absolute top-0 left-0 bottom-0 w-6 cursor-grab active:cursor-grabbing flex items-center justify-center opacity-0 group-hover/drag:opacity-100 transition-opacity"
+      >
+        <GripVertical className="w-4 h-4 text-gray-300" />
+      </div>
+
+      {/* Clic sur la card = ouvrir le panel */}
+      <div
+        className="cursor-pointer"
+        onClick={() => onLeadClick?.(lead)}
+      >
+        <LeadCard lead={lead} />
+      </div>
     </div>
   )
 }
@@ -62,11 +75,6 @@ function LeadCard({ lead }: { lead: Lead }) {
 
   return (
     <div className="space-y-2.5">
-      {/* Grip handle */}
-      <div className="absolute top-3 left-1 opacity-0 group-hover/drag:opacity-100 transition-opacity">
-        <GripVertical className="w-4 h-4 text-gray-300" />
-      </div>
-
       {/* Header: avatar + nom + score */}
       <div className="flex items-center justify-between gap-2 pl-5">
         <div className="flex items-center gap-2 min-w-0">
@@ -133,21 +141,29 @@ function LeadCard({ lead }: { lead: Lead }) {
   )
 }
 
-// --- Component: Pipeline Column ---
-function PipelineColumn({ phase, leads, totalValue, isDropTarget }: {
+// --- Component: Pipeline Column (with useDroppable) ---
+function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }: {
   phase: typeof PHASES_PIPELINE[0]
   leads: Lead[]
   totalValue: number
   isDropTarget?: boolean
+  onLeadClick?: (lead: Lead) => void
 }) {
   const primaryStatut = phase.statuts[0]
   const statutConfig = STATUTS_LEAD[primaryStatut]
 
+  // FIX: useDroppable pour que la colonne soit un vrai drop target
+  const { setNodeRef, isOver } = useDroppable({ id: phase.id })
+  const isActive = isDropTarget || isOver
+
   return (
-    <div className={cn(
-      "flex-shrink-0 w-[280px] flex flex-col transition-all duration-200",
-      isDropTarget && "ring-2 ring-[#2EC6F3] ring-offset-2 bg-blue-50/50 rounded-xl"
-    )}>
+    <div
+      ref={setNodeRef}
+      className={cn(
+        "flex-shrink-0 w-[280px] flex flex-col transition-all duration-200 rounded-xl",
+        isActive && "ring-2 ring-[#2EC6F3] ring-offset-2 bg-blue-50/50"
+      )}
+    >
       {/* Header */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-card p-3.5 mb-2">
         <div className="flex items-center justify-between mb-2">
@@ -177,7 +193,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget }: {
         <SortableContext items={leads.map(l => l.id)} strategy={verticalListSortingStrategy}>
           {leads.map(lead => (
             <div key={lead.id} className="group">
-              <DraggableLeadCard lead={lead} />
+              <DraggableLeadCard lead={lead} onLeadClick={onLeadClick} />
             </div>
           ))}
         </SortableContext>
@@ -272,11 +288,182 @@ function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: any, le
   )
 }
 
+// --- Component: Lead Slide-Over Panel ---
+function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => void }) {
+  if (!lead) return null
+
+  const daysSinceCreated = daysBetween(lead.created_at, new Date())
+  const statutConfig = STATUTS_LEAD[lead.statut]
+
+  return (
+    <AnimatePresence>
+      {lead && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/30 z-40"
+            onClick={onClose}
+          />
+          {/* Panel */}
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 overflow-y-auto"
+          >
+            {/* Header */}
+            <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between z-10">
+              <div className="flex items-center gap-3">
+                <Avatar
+                  name={`${lead.prenom} ${lead.nom}`}
+                  size="md"
+                  color="#2EC6F3"
+                />
+                <div>
+                  <h3 className="font-semibold text-[#082545]">{lead.prenom} {lead.nom}</h3>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span
+                      className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-white"
+                      style={{ backgroundColor: statutConfig?.color || '#6B7280' }}
+                    >
+                      {statutConfig?.label || lead.statut}
+                    </span>
+                    <span className="text-xs text-gray-400">{daysSinceCreated}j</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-1">
+                <Link
+                  href={`/lead/${lead.id}`}
+                  className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-[#2EC6F3] transition"
+                  title="Ouvrir la fiche complète"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </Link>
+                <button onClick={onClose} className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 transition">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-4 space-y-4">
+              {/* Contact rapide */}
+              <div className="flex gap-2">
+                {lead.telephone && (
+                  <a
+                    href={`tel:${lead.telephone}`}
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition text-sm font-medium"
+                  >
+                    <Phone className="w-4 h-4" />
+                    Appeler
+                  </a>
+                )}
+                {lead.email && (
+                  <a
+                    href={`mailto:${lead.email}`}
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition text-sm font-medium"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Email
+                  </a>
+                )}
+                {lead.telephone && (
+                  <a
+                    href={`https://wa.me/${lead.telephone.replace(/\s/g, '')}`}
+                    target="_blank"
+                    rel="noopener"
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition text-sm font-medium"
+                  >
+                    WhatsApp
+                  </a>
+                )}
+              </div>
+
+              {/* Infos clés */}
+              <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                <h4 className="text-xs font-semibold text-gray-500 uppercase">Informations</h4>
+                {lead.email && (
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">Email</span>
+                    <span className="text-gray-900 font-medium">{lead.email}</span>
+                  </div>
+                )}
+                {lead.telephone && (
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">Téléphone</span>
+                    <span className="text-gray-900 font-medium">{lead.telephone}</span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Source</span>
+                  <span className="text-gray-900 font-medium capitalize">{lead.source.replace('_', ' ')}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Score</span>
+                  <span className={cn(
+                    "font-bold",
+                    lead.score_chaud >= 70 ? "text-green-600" :
+                    lead.score_chaud >= 40 ? "text-amber-600" : "text-gray-600"
+                  )}>
+                    {lead.score_chaud}/100
+                  </span>
+                </div>
+                {lead.commercial_assigne && (
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">Commercial</span>
+                    <span className="text-gray-900 font-medium">
+                      {lead.commercial_assigne.prenom} {lead.commercial_assigne.nom}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Formation */}
+              {lead.formation_principale && (
+                <div className="bg-[#2EC6F3]/5 border border-[#2EC6F3]/20 rounded-lg p-3">
+                  <h4 className="text-xs font-semibold text-[#082545] uppercase mb-1">Formation intéressée</h4>
+                  <p className="text-sm font-medium text-[#082545]">{lead.formation_principale.nom}</p>
+                  {lead.formation_principale.prix_ht && (
+                    <p className="text-xs text-gray-500 mt-0.5">{lead.formation_principale.prix_ht}€ HT</p>
+                  )}
+                </div>
+              )}
+
+              {/* Notes */}
+              {lead.notes && (
+                <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
+                  <h4 className="text-xs font-semibold text-amber-700 uppercase mb-1">Notes</h4>
+                  <p className="text-sm text-gray-700">{lead.notes}</p>
+                </div>
+              )}
+
+              {/* Bouton fiche complète */}
+              <Link
+                href={`/lead/${lead.id}`}
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#082545] text-white rounded-lg hover:bg-[#0a3060] transition font-medium text-sm"
+              >
+                <Eye className="w-4 h-4" />
+                Voir la fiche complète
+              </Link>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
 // --- Main Page ---
 export default function PipelinePage() {
   const [search, setSearch] = useState('')
   const [draggedLead, setDraggedLead] = useState<Lead | null>(null)
   const [activeDropColumn, setActiveDropColumn] = useState<string | null>(null)
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
 
   const { data: leadsData } = useLeads({ search, per_page: 1000 })
   const changeStatut = useChangeStatut()
@@ -318,8 +505,17 @@ export default function PipelinePage() {
     if (!over) return
 
     const leadId = active.id as string
-    const newPhaseId = over.id as string
-    const targetPhase = PHASES_PIPELINE.find(p => p.id === newPhaseId)
+    const overId = over.id as string
+
+    // Trouver la phase cible : soit c'est la colonne directement, soit c'est un lead DANS une colonne
+    let targetPhase = PHASES_PIPELINE.find(p => p.id === overId)
+    if (!targetPhase) {
+      // L'over est un lead, trouver dans quelle colonne il est
+      const overLead = leadsData?.leads.find(l => l.id === overId)
+      if (overLead) {
+        targetPhase = PHASES_PIPELINE.find(p => p.statuts.includes(overLead.statut))
+      }
+    }
     if (!targetPhase) return
 
     const newStatut = targetPhase.statuts[0] as StatutLead
@@ -333,13 +529,13 @@ export default function PipelinePage() {
       notes: `Déplacé vers ${targetPhase.label} depuis le pipeline`
     }, {
       onSuccess: () => {
-        toast.success(`Lead déplacé vers ${targetPhase.label}`, {
-          description: `${currentLead.prenom} ${currentLead.nom} • ${STATUTS_LEAD[previousStatut]?.label || previousStatut} → ${targetPhase.label}`,
+        toast.success(`Lead déplacé vers ${targetPhase!.label}`, {
+          description: `${currentLead.prenom} ${currentLead.nom} • ${STATUTS_LEAD[previousStatut]?.label || previousStatut} → ${targetPhase!.label}`,
         })
       },
       onError: () => {
         toast.error('Impossible de changer le statut', {
-          description: 'Cette transition n\'est pas autorisée',
+          description: 'Cette transition n\'est pas autorisée par le workflow',
         })
       }
     })
@@ -386,14 +582,14 @@ export default function PipelinePage() {
         >
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
             {leadsByPhase.map(({ phase, leads, totalValue }) => (
-              <div key={phase.id} id={phase.id} className="droppable">
-                <PipelineColumn
-                  phase={phase}
-                  leads={leads}
-                  totalValue={totalValue}
-                  isDropTarget={activeDropColumn === phase.id}
-                />
-              </div>
+              <PipelineColumn
+                key={phase.id}
+                phase={phase}
+                leads={leads}
+                totalValue={totalValue}
+                isDropTarget={activeDropColumn === phase.id}
+                onLeadClick={(lead) => setSelectedLead(lead)}
+              />
             ))}
           </div>
 
@@ -409,6 +605,9 @@ export default function PipelinePage() {
 
       {/* Mobile: List View */}
       <MobileListView leadsByPhase={leadsByPhase} />
+
+      {/* Lead Slide-Over Panel */}
+      <LeadSlideOver lead={selectedLead} onClose={() => setSelectedLead(null)} />
     </div>
   )
 }
