@@ -1,27 +1,73 @@
 // ============================================================
-// CRM DERMOTEC — Score Chip visuel
-// Affiche le score avec icône température + couleur
+// CRM DERMOTEC — Score Chip vivant
+// Les prospects chauds pulsent, les froids sont discrets
 // ============================================================
 
 import { Flame, Thermometer, Search, Snowflake } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const SCORE_TIERS = [
-  { min: 80, label: 'Chaud', icon: Flame, bg: 'bg-red-50 text-red-700 border-red-200' },
-  { min: 60, label: 'Tiede', icon: Thermometer, bg: 'bg-amber-50 text-amber-700 border-amber-200' },
-  { min: 40, label: 'A qualifier', icon: Search, bg: 'bg-blue-50 text-blue-700 border-blue-200' },
-  { min: 0, label: 'Froid', icon: Snowflake, bg: 'bg-gray-50 text-gray-500 border-gray-200' },
+  { min: 80, label: 'Chaud', icon: Flame, bg: 'bg-red-50 text-red-700 border-red-200', animate: true },
+  { min: 60, label: 'Tiède', icon: Thermometer, bg: 'bg-amber-50 text-amber-700 border-amber-200', animate: false },
+  { min: 40, label: 'À qualifier', icon: Search, bg: 'bg-blue-50 text-blue-700 border-blue-200', animate: false },
+  { min: 0, label: 'Froid', icon: Snowflake, bg: 'bg-gray-50 text-gray-400 border-gray-200', animate: false },
 ]
 
 export { SCORE_TIERS }
 
-export function ScoreChip({ score }: { score: number }) {
+interface ScoreChipProps {
+  score: number
+  size?: 'sm' | 'md' | 'lg'
+  showLabel?: boolean
+  showBar?: boolean
+}
+
+export function ScoreChip({ score, size = 'sm', showLabel = false, showBar = false }: ScoreChipProps) {
   const tier = SCORE_TIERS.find(t => score >= t.min) || SCORE_TIERS[SCORE_TIERS.length - 1]
   const Icon = tier.icon
+  const isHot = score >= 80
+
+  const sizes = {
+    sm: 'px-2 py-0.5 text-[11px] gap-1',
+    md: 'px-2.5 py-1 text-xs gap-1.5',
+    lg: 'px-3 py-1.5 text-sm gap-2',
+  }
+
+  const iconSizes = {
+    sm: 'w-3 h-3',
+    md: 'w-3.5 h-3.5',
+    lg: 'w-4 h-4',
+  }
+
   return (
-    <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold border', tier.bg)}>
-      <Icon className="w-3 h-3" />
-      {score}
-    </span>
+    <div className="inline-flex flex-col items-end gap-1">
+      <span className={cn(
+        'inline-flex items-center rounded-full font-semibold border transition-all',
+        sizes[size],
+        tier.bg,
+        isHot && 'glow-hot border-red-300 shadow-sm',
+      )}>
+        <Icon className={cn(iconSizes[size], isHot && 'animate-pulse')} />
+        <span className="tabular-nums">{score}</span>
+        {showLabel && <span className="ml-0.5 font-medium">{tier.label}</span>}
+      </span>
+      {showBar && (
+        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden" style={{ minWidth: 48 }}>
+          <div
+            className="h-full rounded-full score-fill"
+            style={{
+              width: `${Math.min(100, score)}%`,
+              background: isHot
+                ? 'linear-gradient(90deg, #D4A574, #C25B68)'
+                : score >= 60
+                ? 'linear-gradient(90deg, #D4A754, #D4A574)'
+                : score >= 40
+                ? 'linear-gradient(90deg, #6B8CAE, #8B5CF6)'
+                : '#E8E0D8',
+            }}
+          />
+        </div>
+      )}
+    </div>
   )
 }

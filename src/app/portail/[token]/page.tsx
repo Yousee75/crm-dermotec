@@ -24,8 +24,11 @@ import {
   FileSignature,
 } from 'lucide-react'
 import type { PortailData } from '@/types'
+import ProgressDashboard from '@/components/lms/ProgressDashboard'
+import type { ModuleProgress } from '@/components/lms/ProgressDashboard'
+import CoursePlayer from '@/components/lms/CoursePlayer'
 
-type TabId = 'formation' | 'planning' | 'convention' | 'documents' | 'emargements' | 'evaluation' | 'factures'
+type TabId = 'formation' | 'planning' | 'convention' | 'documents' | 'emargements' | 'evaluation' | 'factures' | 'supports'
 
 interface TabOption {
   id: TabId
@@ -41,6 +44,7 @@ const tabs: TabOption[] = [
   { id: 'emargements', label: 'Mes Émargements', icon: PenTool },
   { id: 'evaluation', label: 'Mon Évaluation', icon: Star },
   { id: 'factures', label: 'Mes Factures', icon: Euro },
+  { id: 'supports', label: 'Mes Supports', icon: GraduationCap },
 ]
 
 export default function PortailPage() {
@@ -58,6 +62,19 @@ export default function PortailPage() {
     points_amelioration: '',
   })
   const [submittingEval, setSubmittingEval] = useState(false)
+  const [showCoursePlayer, setShowCoursePlayer] = useState(false)
+  const [lmsData, setLmsData] = useState<{
+    modules: ModuleProgress[]
+    progressionGlobale: number
+    pointsGagnes: number
+    pointsTotaux: number
+    contenusCompletes: number
+    contenusTotal: number
+    tempsPasseMinutes: number
+    scoreQuizMoyen?: number
+    lastContent?: { id: string; titre: string; type: string; module_titre: string }
+  } | null>(null)
+  const [lmsLoading, setLmsLoading] = useState(false)
 
   useEffect(() => {
     fetchPortailData()
@@ -119,6 +136,56 @@ export default function PortailPage() {
       console.error('Erreur soumission évaluation:', err)
     } finally {
       setSubmittingEval(false)
+    }
+  }
+
+  // Charger les données LMS quand l'onglet Supports est actif
+  useEffect(() => {
+    if (activeTab === 'supports' && data?.inscription?.id && !lmsData && !lmsLoading) {
+      fetchLmsData()
+    }
+  }, [activeTab, data?.inscription?.id])
+
+  const fetchLmsData = async () => {
+    if (!data?.inscription?.id) return
+    try {
+      setLmsLoading(true)
+      const res = await fetch(`/api/formation-content?inscriptionId=${encodeURIComponent(data.inscription.id)}`)
+      if (!res.ok) {
+        console.error('Erreur chargement LMS:', res.status)
+        return
+      }
+      const result = await res.json()
+
+      // Transformer les modules en ModuleProgress
+      const modules: ModuleProgress[] = (result.modules || []).map((m: any) => ({
+        id: m.id,
+        titre: m.titre,
+        jour_formation: m.jour_formation,
+        total_contents: m.contenus?.length || 0,
+        completed_contents: (m.progression || []).filter((p: any) => p.statut === 'termine').length,
+        progression_pct: m.progressionPct || 0,
+        duree_minutes: m.duree_minutes,
+      }))
+
+      const contenusTotal = modules.reduce((sum, m) => sum + m.total_contents, 0)
+      const contenusCompletes = modules.reduce((sum, m) => sum + m.completed_contents, 0)
+
+      setLmsData({
+        modules,
+        progressionGlobale: result.progressionPct || 0,
+        pointsGagnes: result.pointsGagnes || 0,
+        pointsTotaux: contenusTotal * 10,
+        contenusCompletes,
+        contenusTotal,
+        tempsPasseMinutes: 0,
+        scoreQuizMoyen: undefined,
+        lastContent: undefined,
+      })
+    } catch (err) {
+      console.error('Erreur LMS:', err)
+    } finally {
+      setLmsLoading(false)
     }
   }
 
@@ -734,9 +801,249 @@ export default function PortailPage() {
                 )}
               </div>
             )}
+            {/* Mes Supports */}
+            {activeTab === 'supports' && (
+              <div className="p-6">
+                <h2 className="text-2xl font-heading font-bold text-text mb-6">Mes Supports de Formation</h2>
+
+                {lmsLoading ? (
+                  <div className="text-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary mb-4" />
+                    <p className="text-text-secondary">Chargement des supports...</p>
+                  </div>
+                ) : lmsData && lmsData.modules.length > 0 ? (
+                  <div className="space-y-6">
+                    <ProgressDashboard
+                      formationNom={data.formation.nom}
+                      formationDureeJours={data.formation.duree_jours}
+                      progressionGlobale={lmsData.progressionGlobale}
+                      pointsGagnes={lmsData.pointsGagnes}
+                      pointsTotaux={lmsData.pointsTotaux}
+                      contenusCompletes={lmsData.contenusCompletes}
+                      contenusTotal={lmsData.contenusTotal}
+                      tempsPasseMinutes={lmsData.tempsPasseMinutes}
+                      scoreQuizMoyen={lmsData.scoreQuizMoyen}
+                      modules={lmsData.modules}
+                      lastContent={lmsData.lastContent}
+                      onStartCourse={() => setShowCoursePlayer(true)}
+                      onResume={() => setShowCoursePlayer(true)}
+                      onDownloadCertificat={() => {
+                        // Rediriger vers l'onglet documents
+                        setActiveTab('documents')
+                      }}
+                    />
+
+                    {/* Bouton accès plein écran */}
+                    <div className="text-center pt-2">
+                      <button
+                        onClick={() => setShowCoursePlayer(true)}
+                        className="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors"
+                      >
+                        <BookOpen className="h-5 w-5" />
+                        <span>Accéder aux supports</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <BookOpen className="h-12 w-12 text-text-muted mx-auto mb-4" />
+                    <p className="text-text-secondary">
+                      Les supports de formation seront disponibles prochainement
+                    </p>
+                    <p className="text-sm text-text-muted mt-2">
+                      Votre formatrice mettra les contenus en ligne avant ou pendant la session.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Course Player plein écran */}
+      {showCoursePlayer && (
+        <CoursePlayerFullscreen
+          token={token}
+          data={data}
+          onClose={() => setShowCoursePlayer(false)}
+        />
+      )}
+    </div>
+  )
+}
+
+// ============================================================
+// Course Player Fullscreen — Wrapper pour le portail stagiaire
+// ============================================================
+
+function CoursePlayerFullscreen({
+  token,
+  data,
+  onClose,
+}: {
+  token: string
+  data: PortailData
+  onClose: () => void
+}) {
+  const [modules, setModules] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [currentContentId, setCurrentContentId] = useState<string | undefined>()
+  const [progressionGlobale, setProgressionGlobale] = useState(0)
+  const [pointsGagnes, setPointsGagnes] = useState(0)
+
+  useEffect(() => {
+    loadFullCourseData()
+  }, [])
+
+  const loadFullCourseData = async () => {
+    try {
+      setLoading(true)
+      const res = await fetch(`/api/formation-content?inscriptionId=${encodeURIComponent(data.inscription.id)}`)
+      if (!res.ok) return
+      const result = await res.json()
+
+      // Transformer en format CoursePlayer
+      const courseModules = (result.modules || []).map((m: any) => ({
+        id: m.id,
+        titre: m.titre,
+        slug: m.slug || m.id,
+        description: m.description,
+        jour_formation: m.jour_formation,
+        ordre: m.ordre || 0,
+        duree_minutes: m.duree_minutes,
+        contents: (m.contenus || []).map((c: any) => {
+          const prog = (m.progression || []).find((p: any) => p.contenu_id === c.id)
+          return {
+            id: c.id,
+            titre: c.titre,
+            slug: c.slug || c.id,
+            type: c.type,
+            description: c.description,
+            ordre: c.ordre || 0,
+            file_name: c.file_name,
+            file_size: c.file_size,
+            video_url: c.url || c.video_url,
+            video_provider: c.video_provider,
+            video_duration_seconds: c.duree_minutes ? c.duree_minutes * 60 : undefined,
+            audio_url: c.audio_url,
+            contenu: c.contenu_texte ? { text: c.contenu_texte } : undefined,
+            telechargeable: true,
+            points: 10,
+            obligatoire: c.obligatoire,
+            progress_statut: prog?.statut === 'termine' ? 'complete' : prog?.statut === 'en_cours' ? 'en_cours' : 'non_vu',
+            progress_pct: prog?.statut === 'termine' ? 100 : 0,
+            score_quiz: prog?.score_quiz,
+            locked: false,
+          }
+        }),
+        progress: {
+          completed: (m.progression || []).filter((p: any) => p.statut === 'termine').length,
+          total: (m.contenus || []).length,
+        },
+      }))
+
+      setModules(courseModules)
+      setProgressionGlobale(result.progressionPct || 0)
+      setPointsGagnes(result.pointsGagnes || 0)
+
+      // Sélectionner le premier contenu non complété
+      const allContents = courseModules.flatMap((m: any) => m.contents)
+      const nextContent = allContents.find((c: any) => c.progress_statut !== 'complete')
+      if (nextContent) setCurrentContentId(nextContent.id)
+      else if (allContents.length > 0) setCurrentContentId(allContents[0].id)
+    } catch (err) {
+      console.error('Erreur chargement course player:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleComplete = async (contentId: string) => {
+    try {
+      await fetch('/api/formation-content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'complete',
+          inscriptionId: data.inscription.id,
+          contentId,
+        }),
+      })
+      await loadFullCourseData()
+    } catch (err) {
+      console.error('Erreur completion:', err)
+    }
+  }
+
+  const handleTrackView = async (contentId: string, tempsSecondes: number) => {
+    try {
+      await fetch('/api/formation-content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'track',
+          inscriptionId: data.inscription.id,
+          contentId,
+          tempsSecondes,
+        }),
+      })
+    } catch {
+      // Silent fail pour le tracking
+    }
+  }
+
+  const handleDownload = async (contentId: string) => {
+    try {
+      const res = await fetch('/api/formation-content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'download',
+          contentId,
+          inscriptionId: data.inscription.id,
+        }),
+      })
+      const result = await res.json()
+      if (result.url) {
+        window.open(result.url, '_blank', 'noopener,noreferrer')
+      }
+    } catch (err) {
+      console.error('Erreur téléchargement:', err)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-50 bg-gray-950 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto text-cyan-500" />
+          <p className="text-gray-400">Chargement de la formation...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Import dynamique évité — on utilise le CoursePlayer directement
+  const CoursePlayer = require('@/components/lms/CoursePlayer').default
+
+  const contenusTotal = modules.reduce((sum: number, m: any) => sum + m.contents.length, 0)
+
+  return (
+    <div className="fixed inset-0 z-50">
+      <CoursePlayer
+        formationNom={data.formation.nom}
+        modules={modules}
+        currentContentId={currentContentId}
+        progressionGlobale={progressionGlobale}
+        pointsGagnes={pointsGagnes}
+        pointsTotaux={contenusTotal * 10}
+        onContentSelect={setCurrentContentId}
+        onComplete={handleComplete}
+        onDownload={handleDownload}
+        onTrackView={handleTrackView}
+        onBack={onClose}
+      />
     </div>
   )
 }

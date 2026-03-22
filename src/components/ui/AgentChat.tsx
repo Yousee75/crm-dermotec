@@ -485,6 +485,10 @@ export function AgentChat() {
   const currentLeadId = leadIdMatch ? leadIdMatch[1] : undefined
   const modeConfig = MODE_CONFIG[agentMode]
 
+  const [input, setInput] = useState('')
+
+  // AI SDK v6 / @ai-sdk/react v3 : useChat n'a plus input/handleInputChange/handleSubmit/isLoading
+  // Il faut gérer l'input localement et utiliser sendMessage + status
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const chatHelpers = (useChat as any)({
     api: '/api/ai/agent-v2',
@@ -499,14 +503,13 @@ export function AgentChat() {
     onError: (err: any) => {
       console.error('[AgentChat] Error:', err.message)
     },
-  }) // AI SDK v6 types changed — cast helpers
+  }) // AI SDK v6 — sendMessage + status (pas handleSubmit/isLoading)
   const messages = chatHelpers?.messages ?? []
-  const input = chatHelpers?.input ?? ''
-  const handleInputChange = chatHelpers?.handleInputChange ?? (() => {})
-  const handleSubmit = chatHelpers?.handleSubmit ?? (() => {})
-  const isLoading = chatHelpers?.isLoading ?? false
+  const sendMessage = chatHelpers?.sendMessage ?? (async () => {})
+  const status = chatHelpers?.status ?? 'ready'
+  const isLoading = status === 'streaming' || status === 'submitted'
   const setMessages = chatHelpers?.setMessages ?? (() => {})
-  const reload = chatHelpers?.reload ?? (() => {})
+  const regenerate = chatHelpers?.regenerate ?? (() => {})
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -541,13 +544,26 @@ export function AgentChat() {
     ? modeConfig.suggestionsLead
     : modeConfig.suggestions
 
-  const submitSuggestion = (text: string) => {
-    handleInputChange({ target: { value: text } } as any)
-    setTimeout(() => {
-      const form = document.querySelector('[data-agent-form]') as HTMLFormElement
-      form?.requestSubmit()
-    }, 50)
-  }
+  const handleSend = useCallback(async () => {
+    const trimmed = input.trim()
+    if (!trimmed || isLoading) return
+    setInput('')
+    try {
+      await sendMessage({ prompt: trimmed })
+    } catch (err: any) {
+      console.error('[AgentChat] sendMessage error:', err?.message)
+    }
+  }, [input, isLoading, sendMessage])
+
+  const submitSuggestion = useCallback(async (text: string) => {
+    if (isLoading) return
+    setInput('')
+    try {
+      await sendMessage({ prompt: text })
+    } catch (err: any) {
+      console.error('[AgentChat] sendMessage error:', err?.message)
+    }
+  }, [isLoading, sendMessage])
 
   return (
     <>

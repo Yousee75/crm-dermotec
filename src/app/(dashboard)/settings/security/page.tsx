@@ -1,17 +1,667 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useMFA } from '@/hooks/use-mfa'
+import { createClient } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { PageHeader } from '@/components/ui/PageHeader'
 import {
   Shield, Smartphone, Key, Lock, CheckCircle, AlertTriangle,
-  QrCode, Copy, Plus, Trash2, RotateCcw, Users
+  QrCode, Copy, Plus, Trash2, RotateCcw, Users,
+  ShieldAlert, ShieldBan, ShieldCheck, Monitor, Activity,
+  Eye, Ban, RefreshCw, Fingerprint, Globe, Zap
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+
+// ============================================================
+// Types pour le dashboard sécurité
+// ============================================================
+
+interface SecurityStats {
+  total_events: number
+  critical_events: number
+  high_events: number
+  medium_events: number
+  unique_ips: number
+  unique_devices: number
+  unique_users: number
+  blocked_requests: number
+  impossible_travel_events: number
+  new_device_events: number
+  bot_detected_events: number
+}
+
+interface SecurityAlert {
+  id: string
+  user_id: string
+  risk_level: 'medium' | 'high' | 'critical'
+  risk_score: number
+  flags: string[]
+  action_taken: string
+  details: string | null
+  device_fingerprint: string | null
+  ip_address: string | null
+  geo_city: string | null
+  geo_country: string | null
+  resolved: boolean
+  resolved_at: string | null
+  resolved_by: string | null
+  resolution_notes: string | null
+  created_at: string
+}
+
+interface KnownDevice {
+  id: string
+  user_id: string
+  fingerprint: string
+  name: string | null
+  user_agent: string | null
+  platform: string | null
+  ip_addresses: string[]
+  first_seen: string
+  last_seen: string
+  login_count: number
+  trusted: boolean
+  blocked: boolean
+  blocked_reason: string | null
+}
+
+interface SecurityEvent {
+  id: string
+  user_id: string
+  action: string
+  device_fingerprint: string | null
+  ip_address: string | null
+  geo_city: string | null
+  geo_country: string | null
+  risk_score: number
+  risk_level: string | null
+  risk_flags: string[]
+  risk_action: string | null
+  created_at: string
+}
+
+// ============================================================
+// Hooks sécurité
+// ============================================================
+
+function useSecurityStats() {
+  const supabase = createClient()
+  return useQuery<SecurityStats>({
+    queryKey: ['security-stats-7d'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('v_security_stats_7d')
+        .select('*')
+        .single()
+      if (error) throw error
+      return data as SecurityStats
+    },
+    staleTime: 60_000,
+  })
+}
+
+function useSecurityAlerts() {
+  const supabase = createClient()
+  return useQuery<SecurityAlert[]>({
+    queryKey: ['security-alerts-pending'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('security_alerts')
+        .select('*')
+        .eq('resolved', false)
+        .order('created_at', { ascending: false })
+        .limit(20)
+      if (error) throw error
+      return (data ?? []) as SecurityAlert[]
+    },
+    staleTime: 30_000,
+  })
+}
+
+function useKnownDevices() {
+  const supabase = createClient()
+  return useQuery<KnownDevice[]>({
+    queryKey: ['known-devices'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('known_devices')
+        .select('*')
+        .order('last_seen', { ascending: false })
+        .limit(30)
+      if (error) throw error
+      return (data ?? []) as KnownDevice[]
+    },
+    staleTime: 60_000,
+  })
+}
+
+function useRecentRiskEvents() {
+  const supabase = createClient()
+  return useQuery<SecurityEvent[]>({
+    queryKey: ['security-events-risk'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('security_events')
+        .select('*')
+        .gte('risk_score', 30)
+        .order('created_at', { ascending: false })
+        .limit(30)
+      if (error) throw error
+      return (data ?? []) as SecurityEvent[]
+    },
+    staleTime: 30_000,
+  })
+}
+
+// ============================================================
+// Composants du dashboard sécurité
+// ============================================================
+
+function SecurityStatsCards() {
+  const { data: stats, isLoading, error } = useSecurityStats()
+
+  if (error) return null
+
+  const kpis = [
+    {
+      label: 'Evenements 7j',
+      value: stats?.total_events ?? 0,
+      icon: <Activity className="w-5 h-5" />,
+      color: 'bg-blue-50 text-blue-600',
+    },
+    {
+      label: 'Bloqués',
+      value: stats?.blocked_requests ?? 0,
+      icon: <ShieldBan className="w-5 h-5" />,
+      color: 'bg-red-50 text-red-600',
+    },
+    {
+      label: 'Injection IA',
+      value: stats?.bot_detected_events ?? 0,
+      icon: <Zap className="w-5 h-5" />,
+      color: 'bg-amber-50 text-amber-600',
+    },
+    {
+      label: 'Appareils non validés',
+      value: stats?.new_device_events ?? 0,
+      icon: <Monitor className="w-5 h-5" />,
+      color: 'bg-purple-50 text-purple-600',
+    },
+  ]
+
+  return (
+    <Card padding="none">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
+            <ShieldAlert className="w-5 h-5 text-red-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Statistiques sécurité — 7 derniers jours
+            </h3>
+            <p className="text-sm text-gray-600">
+              Vue d'ensemble des événements de sécurité
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {kpis.map((kpi) => (
+            <div
+              key={kpi.label}
+              className="border border-gray-100 rounded-xl p-4 flex flex-col gap-3"
+            >
+              <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center', kpi.color)}>
+                {kpi.icon}
+              </div>
+              <div>
+                {isLoading ? (
+                  <div className="h-8 w-16 bg-gray-100 rounded animate-pulse" />
+                ) : (
+                  <p className="text-2xl font-bold text-gray-900">{kpi.value}</p>
+                )}
+                <p className="text-xs text-gray-500 mt-1">{kpi.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {stats && (stats.critical_events > 0 || stats.high_events > 0 || stats.impossible_travel_events > 0) && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {stats.critical_events > 0 && (
+              <Badge variant="error" size="sm" dot pulse>
+                {stats.critical_events} critique{stats.critical_events > 1 ? 's' : ''}
+              </Badge>
+            )}
+            {stats.high_events > 0 && (
+              <Badge variant="warning" size="sm" dot>
+                {stats.high_events} élevé{stats.high_events > 1 ? 's' : ''}
+              </Badge>
+            )}
+            {stats.impossible_travel_events > 0 && (
+              <Badge variant="info" size="sm" dot>
+                {stats.impossible_travel_events} impossible travel
+              </Badge>
+            )}
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
+
+function riskBadge(level: string) {
+  switch (level) {
+    case 'critical':
+      return <Badge variant="error" size="sm" dot pulse>Critique</Badge>
+    case 'high':
+      return <Badge variant="warning" size="sm" dot>Élevé</Badge>
+    case 'medium':
+      return <Badge variant="info" size="sm" dot>Moyen</Badge>
+    default:
+      return <Badge variant="default" size="sm">{level}</Badge>
+  }
+}
+
+function formatDateFR(iso: string) {
+  return new Date(iso).toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
+function truncate(str: string | null, len = 12) {
+  if (!str) return '—'
+  return str.length > len ? str.slice(0, len) + '...' : str
+}
+
+function PendingAlertsTable() {
+  const { data: alerts, isLoading, error } = useSecurityAlerts()
+  const queryClient = useQueryClient()
+  const supabase = createClient()
+
+  const resolveMutation = useMutation({
+    mutationFn: async (alertId: string) => {
+      const { error } = await supabase
+        .from('security_alerts')
+        .update({
+          resolved: true,
+          resolved_at: new Date().toISOString(),
+        })
+        .eq('id', alertId)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['security-alerts-pending'] })
+      queryClient.invalidateQueries({ queryKey: ['security-stats-7d'] })
+      toast.success('Alerte résolue')
+    },
+    onError: () => {
+      toast.error('Erreur lors de la résolution')
+    },
+  })
+
+  if (error) return null
+
+  return (
+    <Card padding="none">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-amber-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Alertes non résolues
+            </h3>
+            <p className="text-sm text-gray-600">
+              Événements suspects nécessitant une action
+            </p>
+          </div>
+          {alerts && alerts.length > 0 && (
+            <Badge variant="error" size="sm" className="ml-auto">{alerts.length}</Badge>
+          )}
+        </div>
+
+        {isLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-14 bg-gray-50 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : !alerts || alerts.length === 0 ? (
+          <div className="text-center py-8 text-gray-400">
+            <ShieldCheck className="w-10 h-10 mx-auto mb-2 text-green-400" />
+            <p className="text-sm font-medium text-green-600">Aucune alerte en attente</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto -mx-6">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-100">
+                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Date</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">User</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Niveau</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Flags</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Action</th>
+                  <th className="text-right px-6 py-2 text-xs font-medium text-gray-500 uppercase"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {alerts.map((alert) => (
+                  <tr key={alert.id} className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-3 text-gray-600 whitespace-nowrap">
+                      {formatDateFR(alert.created_at)}
+                    </td>
+                    <td className="px-3 py-3 text-gray-700 font-mono text-xs">
+                      {truncate(alert.user_id, 8)}
+                    </td>
+                    <td className="px-3 py-3">{riskBadge(alert.risk_level)}</td>
+                    <td className="px-3 py-3">
+                      <div className="flex flex-wrap gap-1">
+                        {(alert.flags ?? []).slice(0, 3).map((flag) => (
+                          <Badge key={flag} variant="outline" size="xs">{flag}</Badge>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-3 py-3 text-gray-600 text-xs">{alert.action_taken}</td>
+                    <td className="px-6 py-3 text-right">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => resolveMutation.mutate(alert.id)}
+                        disabled={resolveMutation.isPending}
+                      >
+                        <CheckCircle className="w-3.5 h-3.5 mr-1" />
+                        Résoudre
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
+
+function KnownDevicesTable() {
+  const { data: devices, isLoading, error } = useKnownDevices()
+  const queryClient = useQueryClient()
+  const supabase = createClient()
+
+  const trustMutation = useMutation({
+    mutationFn: async ({ deviceId, trust }: { deviceId: string; trust: boolean }) => {
+      const updates: Record<string, any> = trust
+        ? { trusted: true, trusted_at: new Date().toISOString(), blocked: false, blocked_reason: null }
+        : { blocked: true, blocked_reason: 'Bloqué manuellement par admin', trusted: false }
+      const { error } = await supabase
+        .from('known_devices')
+        .update(updates)
+        .eq('id', deviceId)
+      if (error) throw error
+    },
+    onSuccess: (_, { trust }) => {
+      queryClient.invalidateQueries({ queryKey: ['known-devices'] })
+      toast.success(trust ? 'Appareil validé' : 'Appareil bloqué')
+    },
+    onError: () => {
+      toast.error('Erreur lors de la mise à jour')
+    },
+  })
+
+  if (error) return null
+
+  function deviceStatus(d: KnownDevice) {
+    if (d.blocked) return <Badge variant="error" size="sm" dot>Bloqué</Badge>
+    if (d.trusted) return <Badge variant="success" size="sm" dot>Validé</Badge>
+    return <Badge variant="warning" size="sm" dot>En attente</Badge>
+  }
+
+  return (
+    <Card padding="none">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-indigo-50 rounded-lg flex items-center justify-center">
+            <Fingerprint className="w-5 h-5 text-indigo-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Appareils connus
+            </h3>
+            <p className="text-sm text-gray-600">
+              Fingerprints des appareils détectés
+            </p>
+          </div>
+        </div>
+
+        {isLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-14 bg-gray-50 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : !devices || devices.length === 0 ? (
+          <div className="text-center py-8 text-gray-400">
+            <Monitor className="w-10 h-10 mx-auto mb-2" />
+            <p className="text-sm">Aucun appareil enregistré</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto -mx-6">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-100">
+                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Fingerprint</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">User</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Dernière connexion</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">IPs</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Statut</th>
+                  <th className="text-right px-6 py-2 text-xs font-medium text-gray-500 uppercase"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {devices.map((device) => (
+                  <tr key={device.id} className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-3">
+                      <code className="text-xs font-mono bg-gray-100 px-2 py-0.5 rounded text-gray-700">
+                        {truncate(device.fingerprint, 16)}
+                      </code>
+                    </td>
+                    <td className="px-3 py-3 text-gray-700 font-mono text-xs">
+                      {truncate(device.user_id, 8)}
+                    </td>
+                    <td className="px-3 py-3 text-gray-600 whitespace-nowrap text-xs">
+                      {formatDateFR(device.last_seen)}
+                    </td>
+                    <td className="px-3 py-3">
+                      <div className="flex flex-wrap gap-1">
+                        {(device.ip_addresses ?? []).slice(0, 2).map((ip) => (
+                          <span key={ip} className="text-xs text-gray-500 font-mono">{ip}</span>
+                        ))}
+                        {(device.ip_addresses ?? []).length > 2 && (
+                          <Badge variant="outline" size="xs">+{device.ip_addresses.length - 2}</Badge>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-3 py-3">{deviceStatus(device)}</td>
+                    <td className="px-6 py-3 text-right">
+                      <div className="flex gap-1 justify-end">
+                        {!device.trusted && !device.blocked && (
+                          <>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => trustMutation.mutate({ deviceId: device.id, trust: true })}
+                              disabled={trustMutation.isPending}
+                            >
+                              <ShieldCheck className="w-3.5 h-3.5 mr-1 text-green-600" />
+                              Valider
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => trustMutation.mutate({ deviceId: device.id, trust: false })}
+                              disabled={trustMutation.isPending}
+                              className="text-red-600 hover:bg-red-50"
+                            >
+                              <Ban className="w-3.5 h-3.5 mr-1" />
+                              Bloquer
+                            </Button>
+                          </>
+                        )}
+                        {device.trusted && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => trustMutation.mutate({ deviceId: device.id, trust: false })}
+                            disabled={trustMutation.isPending}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            <Ban className="w-3.5 h-3.5 mr-1" />
+                            Bloquer
+                          </Button>
+                        )}
+                        {device.blocked && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => trustMutation.mutate({ deviceId: device.id, trust: true })}
+                            disabled={trustMutation.isPending}
+                          >
+                            <ShieldCheck className="w-3.5 h-3.5 mr-1 text-green-600" />
+                            Valider
+                          </Button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
+
+function RecentRiskEventsTable() {
+  const { data: events, isLoading, error } = useRecentRiskEvents()
+
+  if (error) return null
+
+  const actionLabels: Record<string, string> = {
+    login: 'Connexion',
+    logout: 'Déconnexion',
+    api_call: 'Appel API',
+    enrichment: 'Enrichissement',
+    export: 'Export',
+    admin_action: 'Action admin',
+    password_change: 'Changement MDP',
+    mfa_challenge: 'Challenge MFA',
+    device_trust: 'Trust appareil',
+  }
+
+  function riskScoreColor(score: number) {
+    if (score >= 80) return 'text-red-600 bg-red-50'
+    if (score >= 50) return 'text-amber-600 bg-amber-50'
+    return 'text-blue-600 bg-blue-50'
+  }
+
+  return (
+    <Card padding="none">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-rose-50 rounded-lg flex items-center justify-center">
+            <Eye className="w-5 h-5 text-rose-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Derniers événements à risque
+            </h3>
+            <p className="text-sm text-gray-600">
+              Événements avec score de risque &ge; 30
+            </p>
+          </div>
+        </div>
+
+        {isLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-14 bg-gray-50 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : !events || events.length === 0 ? (
+          <div className="text-center py-8 text-gray-400">
+            <ShieldCheck className="w-10 h-10 mx-auto mb-2 text-green-400" />
+            <p className="text-sm font-medium text-green-600">Aucun événement à risque récent</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto -mx-6">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-100">
+                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Date</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">User</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Action</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">IP</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Score</th>
+                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Flags</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {events.map((event) => (
+                  <tr key={event.id} className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-3 text-gray-600 whitespace-nowrap text-xs">
+                      {formatDateFR(event.created_at)}
+                    </td>
+                    <td className="px-3 py-3 text-gray-700 font-mono text-xs">
+                      {truncate(event.user_id, 8)}
+                    </td>
+                    <td className="px-3 py-3 text-gray-700 text-xs">
+                      {actionLabels[event.action] ?? event.action}
+                    </td>
+                    <td className="px-3 py-3 font-mono text-xs text-gray-500">
+                      {event.ip_address ?? '—'}
+                    </td>
+                    <td className="px-3 py-3">
+                      <span className={cn(
+                        'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold',
+                        riskScoreColor(event.risk_score)
+                      )}>
+                        {event.risk_score}
+                      </span>
+                    </td>
+                    <td className="px-6 py-3">
+                      <div className="flex flex-wrap gap-1">
+                        {(event.risk_flags ?? []).slice(0, 3).map((flag) => (
+                          <Badge key={flag} variant="outline" size="xs">{flag}</Badge>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
 
 interface Factor {
   id: string
@@ -652,6 +1302,32 @@ export default function SecuritySettingsPage() {
           </div>
         </div>
       </Card>
+
+      {/* ============================================================ */}
+      {/* DASHBOARD SECURITE ADMIN */}
+      {/* ============================================================ */}
+
+      <div className="pt-4 border-t border-gray-200">
+        <h2 className="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+          <Shield className="w-5 h-5 text-primary" />
+          Dashboard sécurité
+        </h2>
+        <p className="text-sm text-gray-500 mb-6">
+          Surveillance en temps réel des menaces et appareils
+        </p>
+      </div>
+
+      {/* 1. Stats sécurité 7 jours */}
+      <SecurityStatsCards />
+
+      {/* 2. Alertes non résolues */}
+      <PendingAlertsTable />
+
+      {/* 3. Appareils connus */}
+      <KnownDevicesTable />
+
+      {/* 4. Derniers événements à risque */}
+      <RecentRiskEventsTable />
     </div>
   )
 }

@@ -147,8 +147,109 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
-   Animations
+   Animations — CRM vivant qui guide l'action
    ============================================================ */
+
+/* --- PROSPECT CHAUD : glow pulsant rose gold (dit "contacte-moi !") --- */
+@keyframes glowHot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0); }
+  50% { box-shadow: 0 0 16px 4px rgba(212, 165, 116, 0.25); }
+}
+.glow-hot {
+  animation: glowHot 2.5s ease-in-out infinite;
+  border-left: 3px solid var(--color-primary) !important;
+}
+
+/* --- URGENT : pulse rouge doux pour les rappels en retard --- */
+@keyframes pulseUrgent {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(194, 91, 104, 0); }
+  50% { box-shadow: 0 0 12px 2px rgba(194, 91, 104, 0.2); }
+}
+.pulse-urgent {
+  animation: pulseUrgent 2s ease-in-out infinite;
+  border-left: 3px solid var(--color-error) !important;
+}
+
+/* --- BADGE BOUNCE : attire l'attention sur un compteur --- */
+@keyframes bounceBadge {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.15); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.05); }
+}
+.bounce-badge {
+  animation: bounceBadge 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- KPI COUNTUP : chiffres qui montent --- */
+@keyframes countSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.count-up {
+  animation: countSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* --- CELEBRATION : micro-confetti quand action terminée --- */
+@keyframes celebratePop {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.celebrate {
+  animation: celebratePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- FILTER REVEAL : transition quand on active un filtre --- */
+@keyframes filterReveal {
+  from { opacity: 0; transform: scale(0.95) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.filter-reveal {
+  animation: filterReveal 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.filter-reveal-stagger > * {
+  animation: filterReveal 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.filter-reveal-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.filter-reveal-stagger > *:nth-child(2) { animation-delay: 30ms; }
+.filter-reveal-stagger > *:nth-child(3) { animation-delay: 60ms; }
+.filter-reveal-stagger > *:nth-child(4) { animation-delay: 90ms; }
+.filter-reveal-stagger > *:nth-child(5) { animation-delay: 120ms; }
+.filter-reveal-stagger > *:nth-child(6) { animation-delay: 150ms; }
+.filter-reveal-stagger > *:nth-child(7) { animation-delay: 180ms; }
+.filter-reveal-stagger > *:nth-child(8) { animation-delay: 210ms; }
+
+/* --- DRAW ATTENTION : pour éléments qui nécessitent une action --- */
+@keyframes nudge {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+.nudge {
+  animation: nudge 0.4s ease-in-out;
+}
+.nudge-repeat {
+  animation: nudge 1.5s ease-in-out infinite;
+}
+
+/* --- SCORE BAR : barre de score qui se remplit --- */
+@keyframes fillScore {
+  from { width: 0%; }
+}
+.score-fill {
+  animation: fillScore 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* --- RING PROGRESS : cercle de progression animé --- */
+@keyframes drawCircle {
+  from { stroke-dashoffset: var(--circumference, 283); }
+}
+.ring-animate {
+  animation: drawCircle 1s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* --- Standard animations --- */
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
@@ -311,13 +412,49 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Table row hover — beauty gradient effect */
-tr.hover-row {
-  transition: all 0.2s ease;
+/* Table row hover — beauty gradient + interactive feedback */
+tr.hover-row,
+.list-row {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 3px solid transparent;
 }
-tr.hover-row:hover {
-  background: linear-gradient(90deg, rgba(212, 165, 116, 0.06) 0%, rgba(212, 165, 116, 0.02) 100%);
-  box-shadow: inset 3px 0 0 var(--color-primary);
+tr.hover-row:hover,
+.list-row:hover {
+  background: linear-gradient(90deg, rgba(212, 165, 116, 0.08) 0%, rgba(212, 165, 116, 0.02) 100%);
+  border-left-color: var(--color-primary);
+  transform: translateX(2px);
+}
+
+/* Row hot prospect — toujours mise en avant */
+tr.row-hot,
+.list-row-hot {
+  background: linear-gradient(90deg, rgba(212, 165, 116, 0.06) 0%, transparent 100%);
+  border-left: 3px solid var(--color-primary);
+}
+tr.row-hot:hover,
+.list-row-hot:hover {
+  background: linear-gradient(90deg, rgba(212, 165, 116, 0.12) 0%, rgba(212, 165, 116, 0.04) 100%);
+  transform: translateX(3px);
+}
+
+/* Row urgent — rappel en retard */
+tr.row-urgent,
+.list-row-urgent {
+  background: linear-gradient(90deg, rgba(194, 91, 104, 0.05) 0%, transparent 100%);
+  border-left: 3px solid var(--color-error);
+}
+
+/* Card interactive — effet lift + glow au survol */
+.card-interactive {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.card-interactive:hover {
+  transform: translateY(-3px) scale(1.005);
+  box-shadow: var(--shadow-card-hover);
+}
+.card-interactive:active {
+  transform: translateY(-1px) scale(0.995);
 }
 
 /* Glass morphism — warm tint */
