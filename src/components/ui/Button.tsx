@@ -11,22 +11,24 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: React.ReactNode
 }
 
+// Inspiré Bright Data : pas de shadow sur les boutons, pill shape, hover = couleur change
 const variantStyles: Record<ButtonVariant, string> = {
-  default: 'bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md active:shadow-none',
-  primary: 'bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md active:shadow-none',
-  secondary: 'bg-accent hover:bg-accent-light text-white shadow-sm',
-  ghost: 'hover:bg-gray-100 text-gray-700',
-  destructive: 'bg-red-500 hover:bg-red-600 text-white shadow-sm',
-  outline: 'border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 shadow-xs',
+  default: 'bg-primary hover:bg-primary-dark text-white active:scale-[0.97]',
+  primary: 'bg-primary hover:bg-primary-dark text-white active:scale-[0.97]',
+  secondary: 'bg-accent hover:bg-accent-light text-white active:scale-[0.97]',
+  ghost: 'hover:bg-gray-100 text-gray-700 active:scale-[0.97]',
+  destructive: 'bg-error hover:bg-error/90 text-white active:scale-[0.97]',
+  outline: 'border border-border bg-white hover:bg-surface-hover text-text active:scale-[0.97]',
   link: 'text-primary hover:text-primary-dark underline-offset-4 hover:underline p-0 h-auto',
 }
 
+// Pill shape (rounded-full) sur md/lg — inspiré Bright Data, Stripe, Linear
 const sizeStyles: Record<ButtonSize, string> = {
-  xs: 'h-7 px-2 text-xs rounded-md gap-1',
-  sm: 'h-8 px-3 text-xs rounded-lg gap-1.5',
-  md: 'h-9 px-4 text-sm rounded-xl gap-2',
-  lg: 'h-11 px-6 text-sm rounded-xl gap-2 font-medium',
-  icon: 'h-9 w-9 rounded-lg flex items-center justify-center p-0',
+  xs: 'h-7 px-2.5 text-xs rounded-full gap-1',
+  sm: 'h-8 px-3.5 text-xs rounded-full gap-1.5',
+  md: 'h-9 px-5 text-sm rounded-full gap-2',
+  lg: 'h-11 px-7 text-sm rounded-full gap-2 font-semibold',
+  icon: 'h-9 w-9 rounded-full flex items-center justify-center p-0',
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
