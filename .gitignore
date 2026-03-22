@@ -52,3 +52,7 @@ pnpm-lock.yaml
 mcp/node_modules
 mcp/dist
 mcp/node_modules/
+*.docx
+~
+*.html
+generate-rapport-word.ts

@@ -4,13 +4,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
-  LayoutDashboard, Users, Calendar, GraduationCap, CreditCard,
-  BarChart3, ShoppingBag, Settings, Award, Phone, LogOut,
+  Users, GraduationCap, CreditCard,
+  ShoppingBag, Phone, LogOut,
   ChevronLeft, Menu, Zap, ChevronRight, Bell, Search,
   Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle, Shield, Eye,
   Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart, ChevronDown, X, Wrench, Target,
   MessageCircle, Repeat
 } from 'lucide-react'
+import {
+  HouseSimple, UsersThree, CalendarBlank,
+  ChartBar, Certificate, GearSix,
+  CreditCard as PhCreditCard,
+} from '@phosphor-icons/react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
 import { createClient } from '@/lib/supabase-client'
@@ -58,14 +63,21 @@ interface CollapsibleSection {
 // SIDEBAR v2 — 7 sections claires, langage formateur
 // Principe noCRM : "Qu'est-ce que je fais maintenant ?"
 // ============================================================
+// Phosphor wrapper — duotone weight pour la sidebar premium
+function PhIcon(PhComponent: React.ElementType) {
+  return function DuotoneIcon(props: { className?: string }) {
+    return <PhComponent weight="duotone" {...props} />
+  }
+}
+
 const TOP_ITEMS: NavItem[] = [
-  { href: '/', icon: LayoutDashboard, label: "Aujourd'hui" },
-  { href: '/leads', icon: UserPlus, label: 'Prospects' },
-  { href: '/sessions', icon: Calendar, label: 'Formations' },
-  { href: '/financement', icon: CreditCard, label: 'Financement' },
-  { href: '/analytics', icon: BarChart3, label: 'Tableau de bord' },
-  { href: '/qualiopi', icon: Award, label: 'Qualité' },
-  { href: '/parametres', icon: Settings, label: 'Réglages' },
+  { href: '/', icon: PhIcon(HouseSimple), label: "Aujourd'hui" },
+  { href: '/leads', icon: PhIcon(UsersThree), label: 'Prospects' },
+  { href: '/sessions', icon: PhIcon(CalendarBlank), label: 'Formations' },
+  { href: '/financement', icon: PhIcon(PhCreditCard), label: 'Financement' },
+  { href: '/analytics', icon: PhIcon(ChartBar), label: 'Tableau de bord' },
+  { href: '/qualiopi', icon: PhIcon(Certificate), label: 'Qualite' },
+  { href: '/parametres', icon: PhIcon(GearSix), label: 'Reglages' },
 ]
 
 // Plus de sections dépliables — tout est accessible via les pages hub
