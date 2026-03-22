@@ -31,6 +31,8 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       'lucide-react', 'recharts', 'date-fns', 'framer-motion',
       '@tanstack/react-query', 'sonner', '@supabase/ssr', 'cmdk',
+      'react-hook-form', 'zod', '@dnd-kit/core', '@dnd-kit/sortable',
+      '@supabase/supabase-js', 'react-day-picker',
     ],
   },
 
@@ -76,6 +78,18 @@ const nextConfig: NextConfig = {
     },
     {
       source: '/images/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+      ],
+    },
+    {
+      source: '/_next/static/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+      ],
+    },
+    {
+      source: '/fonts/:path*',
       headers: [
         { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
       ],
