@@ -7,7 +7,8 @@ import {
   BarChart3, ShoppingBag, Settings, Award, Phone, LogOut,
   ChevronLeft, Menu, Zap, ChevronRight, Bell, Search,
   Gauge, PanelLeft, BookOpen, MessageSquare, Keyboard, HelpCircle, Shield, Eye,
-  Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart, ChevronDown, X, Wrench, Target
+  Building2, UserCheck, UserPlus, Kanban, Receipt, FileBarChart, ChevronDown, X, Wrench, Target,
+  MessageCircle, Repeat
 } from 'lucide-react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
@@ -50,22 +51,23 @@ interface CollapsibleSection {
   children: NavItem[]
 }
 
+// Sidebar simplifiée : le quotidien EN HAUT, l'admin en bas
+// Principe Pipedrive : "Quand tu ouvres le CRM, tu sais quoi faire"
 const TOP_ITEMS: NavItem[] = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/leads', icon: UserPlus, label: 'Leads' },
+  { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
   { href: '/sessions', icon: Calendar, label: 'Sessions' },
-  { href: '/analytics', icon: BarChart3, label: 'Analytics' },
-  { href: '/outils', icon: Wrench, label: 'Outils' },
-  { href: '/concurrents', icon: Target, label: 'Concurrents' },
 ]
 
 const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = [
   {
     id: 'commercial', label: 'Commercial', icon: Users, href: '/leads',
     children: [
-      { href: '/leads', icon: UserPlus, label: 'Leads' },
-      { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
       { href: '/contacts', icon: Users, label: 'Contacts' },
       { href: '/clients', icon: Building2, label: 'Clients' },
+      { href: '/messages', icon: MessageCircle, label: 'Messages' },
+      { href: '/cadences', icon: Repeat, label: 'Cadences' },
     ]
   },
   {
@@ -80,10 +82,11 @@ const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = [
   {
     id: 'gestion', label: 'Gestion', icon: Settings, href: '/equipe',
     children: [
+      { href: '/analytics', icon: BarChart3, label: 'Analytics' },
       { href: '/equipe', icon: Users, label: 'Équipe' },
       { href: '/facturation', icon: Receipt, label: 'Facturation' },
-      { href: '/commandes', icon: ShoppingBag, label: 'Commandes' },
       { href: '/qualite', icon: Award, label: 'Qualité' },
+      { href: '/outils', icon: Wrench, label: 'Outils' },
     ]
   },
 ]
