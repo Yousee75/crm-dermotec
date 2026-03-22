@@ -173,25 +173,31 @@ COMPORTEMENT en mode formation :
 
           // Sauvegarder dans messages omnicanal (canal = agent_ia)
           if (leadId) {
-            const { saveAgentMessage } = await import('@/lib/message-store')
-            // Question du commercial
-            await saveAgentMessage({
-              lead_id: leadId,
-              direction: 'outbound',
-              contenu: lastUserMessage.slice(0, 500),
-              metadata: { type: 'user_question', mode: mode || 'commercial' },
-            })
-            // Réponse de l'agent
-            if (text) {
+            try {
+              const { saveAgentMessage } = await import('@/lib/message-store')
+              // Question du commercial (inbound = vient vers le CRM)
               await saveAgentMessage({
                 lead_id: leadId,
                 direction: 'inbound',
-                contenu: text.slice(0, 1000),
-                metadata: { type: 'agent_response', mode: mode || 'commercial', tokens: usage?.totalTokens },
+                contenu: lastUserMessage.slice(0, 500),
+                metadata: { type: 'user_question', mode: mode || 'commercial' },
               })
+              // Réponse de l'agent (outbound = sort du CRM vers l'utilisateur)
+              if (text) {
+                await saveAgentMessage({
+                  lead_id: leadId,
+                  direction: 'outbound',
+                  contenu: text.slice(0, 1000),
+                  metadata: { type: 'agent_response', mode: mode || 'commercial', tokens: usage?.totalTokens },
+                })
+              }
+            } catch (msgErr) {
+              console.error('[Agent v3] Message save failed:', msgErr)
             }
           }
-        } catch { /* non-bloquant */ }
+        } catch (saveErr) {
+          console.error('[Agent v3] Conversation save failed:', saveErr)
+        }
       },
       onError: ({ error }) => {
         console.error('[Agent v3] Stream error:', error)
@@ -199,10 +205,22 @@ COMPORTEMENT en mode formation :
     })
 
     return result.toUIMessageStreamResponse()
-  } catch (error) {
-    console.error('[Agent v3] Error:', error)
-    return new Response(JSON.stringify({ error: 'Erreur interne agent IA' }), {
-      status: 500,
+  } catch (error: any) {
+    console.error('[Agent v3] Error:', error?.message || error)
+    console.error('[Agent v3] Stack:', error?.stack)
+
+    // Distinguer les erreurs API key vs autres
+    const message = error?.message || 'Erreur interne agent IA'
+    const isAuthError = message.includes('API key') || message.includes('401') || message.includes('Unauthorized') || message.includes('clé API')
+    const isModelError = message.includes('model') || message.includes('not found') || message.includes('404')
+
+    return new Response(JSON.stringify({
+      error: isAuthError ? 'Clé API IA non configurée ou invalide'
+        : isModelError ? 'Modèle IA indisponible'
+        : 'Erreur interne agent IA',
+      details: process.env.NODE_ENV === 'development' ? message : undefined,
+    }), {
+      status: isAuthError ? 401 : 500,
       headers: { 'Content-Type': 'application/json' },
     })
   }
