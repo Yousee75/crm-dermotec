@@ -124,3 +124,113 @@ export function logNote(
     user_id: userId,
   })
 }
+
+// --- Helpers omnicanal (Batch 2 — inspiré Klaviyo) ---
+
+/**
+ * Logger un email envoyé (Resend / agent IA)
+ */
+export function logEmailSent(
+  leadId: string,
+  sujet: string,
+  destinataire: string,
+  source: 'resend' | 'agent_ia' | 'cadence' | 'manuel' = 'resend',
+  userId?: string
+): Promise<void> {
+  return logActivity({
+    type: 'EMAIL',
+    description: `Email envoyé : "${sujet}" → ${destinataire}`,
+    lead_id: leadId,
+    user_id: userId,
+    metadata: { canal: 'email', sujet, destinataire, source },
+  })
+}
+
+/**
+ * Logger un SMS envoyé
+ */
+export function logSmsSent(
+  leadId: string,
+  contenu: string,
+  destinataire: string,
+  userId?: string
+): Promise<void> {
+  return logActivity({
+    type: 'CONTACT',
+    description: `SMS envoyé → ${destinataire} : "${contenu.slice(0, 80)}"`,
+    lead_id: leadId,
+    user_id: userId,
+    metadata: { canal: 'sms', contenu: contenu.slice(0, 160), destinataire },
+  })
+}
+
+/**
+ * Logger une étape de cadence exécutée
+ */
+export function logCadenceStep(
+  leadId: string,
+  cadenceName: string,
+  stepIndex: number,
+  stepType: string,
+  stepDescription: string
+): Promise<void> {
+  return logActivity({
+    type: 'SYSTEME',
+    description: `Cadence "${cadenceName}" — étape ${stepIndex + 1} (${stepType}) : ${stepDescription}`,
+    lead_id: leadId,
+    metadata: { canal: 'cadence', cadence: cadenceName, step: stepIndex, stepType },
+  })
+}
+
+/**
+ * Logger un document signé (convention portail)
+ */
+export function logDocumentSigned(
+  leadId: string,
+  documentType: string,
+  inscriptionId?: string
+): Promise<void> {
+  return logActivity({
+    type: 'DOCUMENT',
+    description: `Document signé : ${documentType}`,
+    lead_id: leadId,
+    inscription_id: inscriptionId,
+    metadata: { canal: 'portail', document_type: documentType },
+  })
+}
+
+/**
+ * Logger une session de formation suivie
+ */
+export function logFormationAttendance(
+  leadId: string,
+  sessionId: string,
+  formationNom: string,
+  present: boolean
+): Promise<void> {
+  return logActivity({
+    type: 'SESSION',
+    description: present
+      ? `Présent à la session : ${formationNom}`
+      : `Absent à la session : ${formationNom}`,
+    lead_id: leadId,
+    session_id: sessionId,
+    metadata: { canal: 'formation', formation: formationNom, present },
+  })
+}
+
+/**
+ * Logger une action de l'agent IA
+ */
+export function logAgentAction(
+  leadId: string,
+  action: string,
+  details?: string
+): Promise<void> {
+  return logActivity({
+    type: 'SYSTEME',
+    description: `Agent IA : ${action}${details ? ` — ${details}` : ''}`,
+    lead_id: leadId,
+    metadata: { canal: 'agent_ia', action },
+  })
+}

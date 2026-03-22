@@ -7,7 +7,8 @@ import { formatDateTime } from '@/lib/utils'
 import {
   UserPlus, ArrowRightLeft, Phone, Mail, MessageCircle,
   CreditCard, FileText, Calendar, Bell, StickyNote,
-  Download, Cog, AlertTriangle
+  Download, Cog, AlertTriangle, Bot, Send, GraduationCap,
+  Smartphone, PenTool
 } from 'lucide-react'
 
 const TYPE_CONFIG: Record<string, { icon: React.ElementType; color: string; label: string }> = {
@@ -17,7 +18,7 @@ const TYPE_CONFIG: Record<string, { icon: React.ElementType; color: string; labe
   CONTACT: { icon: Phone, color: '#06B6D4', label: 'Contact' },
   INSCRIPTION: { icon: Calendar, color: '#22C55E', label: 'Inscription' },
   FINANCEMENT: { icon: CreditCard, color: '#F59E0B', label: 'Financement' },
-  SESSION: { icon: Calendar, color: '#6366F1', label: 'Session' },
+  SESSION: { icon: GraduationCap, color: '#6366F1', label: 'Formation' },
   PAIEMENT: { icon: CreditCard, color: '#10B981', label: 'Paiement' },
   DOCUMENT: { icon: FileText, color: '#64748B', label: 'Document' },
   EMAIL: { icon: Mail, color: '#3B82F6', label: 'Email' },
@@ -25,6 +26,28 @@ const TYPE_CONFIG: Record<string, { icon: React.ElementType; color: string; labe
   NOTE: { icon: StickyNote, color: '#A855F7', label: 'Note' },
   EXPORT: { icon: Download, color: '#64748B', label: 'Export' },
   SYSTEME: { icon: Cog, color: '#9CA3AF', label: 'Système' },
+}
+
+// Sous-icônes par canal (metadata.canal) pour l'omnicanal
+const CANAL_ICON: Record<string, { icon: React.ElementType; color: string; label: string }> = {
+  email: { icon: Send, color: '#3B82F6', label: 'Email envoyé' },
+  sms: { icon: Smartphone, color: '#22C55E', label: 'SMS' },
+  whatsapp: { icon: MessageCircle, color: '#25D366', label: 'WhatsApp' },
+  cadence: { icon: Cog, color: '#8B5CF6', label: 'Cadence auto' },
+  agent_ia: { icon: Bot, color: '#2EC6F3', label: 'Agent IA' },
+  portail: { icon: PenTool, color: '#F59E0B', label: 'Portail stagiaire' },
+  formation: { icon: GraduationCap, color: '#6366F1', label: 'Formation' },
+}
+
+/**
+ * Résout la config d'icône : si metadata.canal existe, utilise l'icône du canal
+ */
+function resolveConfig(activity: { type: string; metadata?: Record<string, unknown> }) {
+  const canal = activity.metadata?.canal as string | undefined
+  if (canal && CANAL_ICON[canal]) {
+    return CANAL_ICON[canal]
+  }
+  return TYPE_CONFIG[activity.type] || TYPE_CONFIG.SYSTEME
 }
 
 interface Props {
@@ -70,7 +93,7 @@ export function ActivityTimeline({ leadId, sessionId, limit = 20, showFilters = 
 
       <div className="space-y-0">
         {activities.map((activity, i) => {
-          const config = TYPE_CONFIG[activity.type] || TYPE_CONFIG.SYSTEME
+          const config = resolveConfig(activity)
           const Icon = config.icon
 
           return (

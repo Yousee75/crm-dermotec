@@ -9,6 +9,8 @@ import { streamText } from 'ai'
 import { getModel, DERMOTEC_SYSTEM } from '@/lib/ai-sdk'
 import { crmTools } from '@/lib/ai-tools'
 import { semanticCacheGet, semanticCacheSet } from '@/lib/semantic-cache'
+import { generateCoachingInsights, coachingToSystemPrompt } from '@/lib/win-patterns'
+import type { WinPattern } from '@/lib/pipeline-forecast'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -16,9 +18,10 @@ export const maxDuration = 60
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { messages, leadId } = body as {
+    const { messages, leadId, mode } = body as {
       messages: Array<{ role: 'user' | 'assistant'; content: string }>
       leadId?: string
+      mode?: 'commercial' | 'formation'
     }
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -50,6 +53,18 @@ export async function POST(request: Request) {
       }
     }
 
+    // Charger les win patterns pour le coaching IA (cache 15 min côté agent)
+    let coachingPrompt = ''
+    try {
+      const { createServiceSupabase } = await import('@/lib/supabase-server')
+      const sb = await createServiceSupabase() as any
+      const { data: winPatterns } = await sb.from('v_win_patterns').select('*')
+      if (winPatterns?.length) {
+        const insights = generateCoachingInsights(winPatterns as WinPattern[])
+        coachingPrompt = coachingToSystemPrompt(insights)
+      }
+    } catch { /* win patterns non disponibles, pas bloquant */ }
+
     // Construire le system prompt enrichi
     let systemPrompt = DERMOTEC_SYSTEM
 
@@ -58,11 +73,11 @@ export async function POST(request: Request) {
 COMPORTEMENT OBLIGATOIRE quand tu as un lead_id :
 1. Appelle getProactiveInsights(lead_id) EN PREMIER pour détecter les urgences
 2. Si des urgences → commence ta réponse par les alertes
-3. Utilise getLeadDetails si tu as besoin de plus de contexte
+3. Utilise getRevenueGraph(lead_id) pour le profil 360° complet (LTV, engagement, churn)
 4. Utilise findSimilarSuccess pour des insights data-driven`
     }
 
-    systemPrompt += `\n\nTu as accès à 13 outils pour AGIR dans le CRM :
+    systemPrompt += `\n\nTu as accès à 15 outils pour AGIR dans le CRM :
 - think : réfléchir en privé avant de répondre (le commercial ne voit pas ta réflexion)
 - searchLeads : chercher des leads par nom/email/statut
 - getLeadDetails : charger une fiche lead complète
@@ -76,12 +91,54 @@ COMPORTEMENT OBLIGATOIRE quand tu as un lead_id :
 - getPipelineStats : KPIs du pipeline
 - updateLeadStatus : changer le statut d'un lead
 - sendEmail : envoyer un email
+- getPipelineForecast : prévisions CA 30/60/90j + velocity + patterns gagnants
+- getRevenueGraph : vue 360° enrichie (LTV, engagement, churn risk, filtres prédéfinis)
 
 COMPORTEMENT :
 - Utilise "think" AVANT les réponses complexes (financement, choix formation, stratégie)
 - Utilise les outils de manière PROACTIVE — ne dis pas "je pourrais" → FAIS-LE
 - Quand tu exécutes une action, CONFIRME ce qui a été fait
-- Cite tes sources (KB article, playbook response) quand pertinent`
+- Cite tes sources (KB article, playbook response) quand pertinent
+- Pour les questions forecast/CA → utilise getPipelineForecast
+- Pour les bilans lead → utilise getRevenueGraph avec le filtre adapté`
+
+    // Injecter le coaching IA basé sur les win patterns
+    if (coachingPrompt) {
+      systemPrompt += coachingPrompt
+    }
+
+    // Mode dual : Commercial (défaut) ou Formation/Qualiopi
+    if (mode === 'formation') {
+      systemPrompt += `
+
+## MODE FORMATION / QUALIOPI
+
+Tu es maintenant en mode FORMATION. Ton rôle change :
+- Tu aides à la gestion des sessions, émargements, évaluations et certificats
+- Tu connais les 7 critères Qualiopi et les 32 indicateurs
+- Tu peux vérifier la conformité des sessions et documents
+
+QUALIOPI — 7 CRITÈRES :
+1. Information du public (site web, catalogue, CGV)
+2. Identification des objectifs et adaptation (programmes, prérequis)
+3. Adaptation aux publics (positionnement, individualisation)
+4. Moyens pédagogiques et techniques (matériel, locaux, supports)
+5. Qualification des intervenants (CV, diplômes, formation continue)
+6. Inscription dans l'environnement professionnel (veille, partenariats)
+7. Recueil des appréciations (NPS, satisfaction, suivi)
+
+ACTIONS DISPONIBLES en mode formation :
+- Vérifier la complétude d'un dossier session (émargement, évaluation, documents)
+- Calculer les heures de formation restantes pour le BPF
+- Suivre les présences et absences des stagiaires
+- Identifier les documents manquants pour un audit Qualiopi
+- Générer des rapports de suivi stagiaire
+
+COMPORTEMENT en mode formation :
+- Priorise la conformité réglementaire
+- Cite les articles du Code du travail quand pertinent
+- Alerte si un indicateur Qualiopi risque d'être non conforme`
+    }
 
     // Collecter la réponse complète pour le cache
     let fullResponse = ''

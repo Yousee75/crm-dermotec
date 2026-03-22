@@ -32,6 +32,8 @@ export async function GET(request: NextRequest) {
       sourcesRes,
       rappelsRes,
       financementsRes,
+      forecastRes,
+      winPatternsRes,
     ] = await Promise.all([
       // 1. Stats globales (vue existante)
       supabase.from('v_dashboard_stats').select('*').single(),
@@ -53,6 +55,12 @@ export async function GET(request: NextRequest) {
 
       // 7. Résumé financements (vue existante)
       supabase.from('v_financements_resume').select('*'),
+
+      // 8. Pipeline forecast (NOUVEAU — inspiré Gong Forecast)
+      supabase.from('v_pipeline_forecast').select('*'),
+
+      // 9. Win patterns (NOUVEAU — coaching IA)
+      supabase.from('v_win_patterns').select('*'),
     ])
 
     // Métriques calculées
@@ -105,6 +113,26 @@ export async function GET(request: NextRequest) {
 
       // Financements par organisme
       financements: financementsRes.data || [],
+
+      // Pipeline forecast (CA pondéré par probabilité)
+      pipeline_forecast: (() => {
+        const stages = forecastRes.data || []
+        const active = stages.filter((s: any) => !['FORME', 'ALUMNI', 'PERDU', 'SPAM'].includes(s.statut))
+        const caBrut = active.reduce((sum: number, s: any) => sum + (s.ca_brut || 0), 0)
+        const caPondere = active.reduce((sum: number, s: any) => sum + (s.ca_pondere || 0), 0)
+        const ca30j = stages
+          .filter((s: any) => ['INSCRIT', 'EN_FORMATION', 'FINANCEMENT_EN_COURS'].includes(s.statut))
+          .reduce((sum: number, s: any) => sum + (s.ca_pondere || 0), 0)
+        return {
+          ca_brut_total: Math.round(caBrut),
+          ca_pondere_total: Math.round(caPondere),
+          forecast_30j: Math.round(ca30j),
+          par_etape: active,
+        }
+      })(),
+
+      // Win patterns (patterns gagnants pour coaching)
+      win_patterns: winPatternsRes.data || [],
     })
   } catch (err) {
     console.error('[Analytics]', err)

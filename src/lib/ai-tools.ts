@@ -599,6 +599,146 @@ EXEMPLE : "Comment les gérantes d'institut comme Marie ont converti ?" → find
   },
 })
 
+// --- TOOL 14: Pipeline Forecast (inspiré Gong Forecast) ---
+export const getPipelineForecastTool = defineTool({
+  description: `Donne les PRÉVISIONS de chiffre d'affaires du pipeline : CA pondéré par probabilité, forecast 30/60/90 jours, velocity.
+QUAND L'UTILISER : quand le manager demande "quel CA on peut espérer", "prévisions", "forecast", "projection", "combien on va faire ce mois".
+EXEMPLE : "Quel est le forecast ?" → getPipelineForecast({})
+EXEMPLE : "Combien on devrait closer ce mois ?" → getPipelineForecast({})`,
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createServiceSupabase() as any
+
+    // 1. Pipeline forecast (CA pondéré par étape)
+    const { data: forecast } = await supabase
+      .from('v_pipeline_forecast')
+      .select('*')
+
+    // 2. Velocity (temps moyen par transition)
+    const { data: velocity } = await supabase
+      .from('v_pipeline_velocity')
+      .select('*')
+
+    // 3. Win patterns (coaching)
+    const { data: winPatterns } = await supabase
+      .from('v_win_patterns')
+      .select('*')
+
+    // Calculer les totaux
+    const stages = forecast || []
+    const activeStages = stages.filter((s: any) =>
+      !['FORME', 'ALUMNI', 'PERDU', 'SPAM'].includes(s.statut)
+    )
+
+    const totalLeads = activeStages.reduce((sum: number, s: any) => sum + (s.nb_leads || 0), 0)
+    const caBrut = activeStages.reduce((sum: number, s: any) => sum + (s.ca_brut || 0), 0)
+    const caPondere = activeStages.reduce((sum: number, s: any) => sum + (s.ca_pondere || 0), 0)
+
+    // Forecast temporel
+    const ca30j = stages
+      .filter((s: any) => ['INSCRIT', 'EN_FORMATION', 'FINANCEMENT_EN_COURS'].includes(s.statut))
+      .reduce((sum: number, s: any) => sum + (s.ca_pondere || 0), 0)
+    const ca60j = ca30j + stages
+      .filter((s: any) => s.statut === 'QUALIFIE')
+      .reduce((sum: number, s: any) => sum + (s.ca_pondere || 0), 0)
+    const ca90j = ca60j + stages
+      .filter((s: any) => ['CONTACTE', 'REPORTE'].includes(s.statut))
+      .reduce((sum: number, s: any) => sum + (s.ca_pondere || 0), 0)
+
+    return {
+      total_leads_actifs: totalLeads,
+      ca_brut_total: Math.round(caBrut),
+      ca_pondere_total: Math.round(caPondere),
+      forecast: {
+        '30_jours': Math.round(ca30j),
+        '60_jours': Math.round(ca60j),
+        '90_jours': Math.round(ca90j),
+      },
+      par_etape: activeStages.map((s: any) => ({
+        statut: s.statut,
+        nb_leads: s.nb_leads,
+        probabilite: `${Math.round((s.probabilite_etape || 0) * 100)}%`,
+        ca_brut: Math.round(s.ca_brut || 0),
+        ca_pondere: Math.round(s.ca_pondere || 0),
+      })),
+      velocity: (velocity || []).slice(0, 10).map((v: any) => ({
+        transition: `${v.statut_origine} → ${v.statut_destination}`,
+        duree_moyenne: `${v.duree_moyenne_jours}j`,
+        nb_cas: v.nb_transitions,
+      })),
+      top_win_patterns: (winPatterns || []).slice(0, 8).map((w: any) => ({
+        dimension: w.dimension,
+        valeur: w.valeur,
+        nb_wins: w.nb_wins,
+        delai_moyen: `${w.delai_moyen_jours}j`,
+        panier: Math.round(w.panier_moyen || 0),
+      })),
+    }
+  },
+})
+
+// --- TOOL 15: Revenue Graph (profil 360° enrichi, inspiré Gong Revenue Graph) ---
+export const getRevenueGraphTool = defineTool({
+  description: `Vue 360° ENRICHIE d'un lead : revenue, engagement, financements, rappels, tout en UN SEUL appel.
+Plus complet que getLeadDetails — inclut lifetime value, engagement score, jours sans contact, rappels overdue.
+QUAND L'UTILISER : quand tu as besoin d'une vue COMPLÈTE d'un lead pour faire une analyse poussée.
+EXEMPLE : "Fais-moi un bilan complet de Marie" → getRevenueGraph({ lead_id: "uuid" })
+EXEMPLE : "Quels leads sont en danger ?" → getRevenueGraph({ filtre: "a_risque" })`,
+  parameters: z.object({
+    lead_id: z.string().optional().describe('ID d\'un lead spécifique'),
+    filtre: z.enum(['a_risque', 'chauds', 'inactifs', 'top_ltv']).optional().describe('Filtre prédéfini'),
+    limit: z.number().optional().default(10).describe('Nombre max de résultats'),
+  }),
+  execute: async ({ lead_id, filtre, limit }: { lead_id?: string; filtre?: string; limit?: number }) => {
+    const supabase = await createServiceSupabase() as any
+
+    if (lead_id) {
+      // Un seul lead
+      const { data, error } = await supabase
+        .from('v_revenue_graph')
+        .select('*')
+        .eq('id', lead_id)
+        .single()
+      if (error) return { error: error.message }
+      return { lead: data }
+    }
+
+    // Liste filtrée
+    let q = supabase
+      .from('v_revenue_graph')
+      .select('id, prenom, nom, statut, score, engagement_score, lifetime_value, jours_sans_contact, rappels_overdue, formation_nom, formation_prix, nb_activites, nb_financements_en_cours')
+      .limit(limit || 10)
+
+    switch (filtre) {
+      case 'a_risque':
+        // Leads avec score > 50 mais sans contact depuis 7+ jours ou rappels overdue
+        q = q.gte('score', 50)
+          .or('jours_sans_contact.gte.7,rappels_overdue.gte.1')
+          .order('jours_sans_contact', { ascending: false })
+        break
+      case 'chauds':
+        q = q.gte('engagement_score', 60)
+          .order('engagement_score', { ascending: false })
+        break
+      case 'inactifs':
+        q = q.gte('jours_sans_contact', 14)
+          .not('statut', 'in', '("PERDU","FORME","ALUMNI")')
+          .order('jours_sans_contact', { ascending: false })
+        break
+      case 'top_ltv':
+        q = q.gt('lifetime_value', 0)
+          .order('lifetime_value', { ascending: false })
+        break
+      default:
+        q = q.order('engagement_score', { ascending: false })
+    }
+
+    const { data, error } = await q
+    if (error) return { error: error.message }
+    return { leads: data || [], count: data?.length || 0, filtre: filtre || 'top_engagement' }
+  },
+})
+
 // --- Export tous les tools ---
 export const crmTools = {
   think: thinkTool,
@@ -614,4 +754,6 @@ export const crmTools = {
   getPipelineStats: getPipelineStatsTool,
   updateLeadStatus: updateLeadStatusTool,
   sendEmail: sendEmailTool,
+  getPipelineForecast: getPipelineForecastTool,
+  getRevenueGraph: getRevenueGraphTool,
 }

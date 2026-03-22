@@ -28,6 +28,7 @@ async function getHandler() {
       inngestFunctions.processQueueJob,
       inngestFunctions.businessMetricsCheck,
       inngestFunctions.stripeWebhookProcessor,
+      inngestFunctions.proactiveAgent,
     ],
   })
 }
