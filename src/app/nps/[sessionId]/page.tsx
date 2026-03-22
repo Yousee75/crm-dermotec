@@ -15,7 +15,8 @@ import { cn } from '@/lib/utils'
  */
 
 export default function NPSPage() {
-  const { sessionId } = useParams<{ sessionId: string }>()
+  const params = useParams<{ sessionId: string }>()
+  const sessionId = params?.sessionId
   const [score, setScore] = useState<number | null>(null)
   const [comment, setComment] = useState('')
   const [submitted, setSubmitted] = useState(false)

@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Persistence des données concurrents
 // Sauvegarde dans Supabase competitor_profiles + competitor_reviews
@@ -117,7 +118,7 @@ export async function saveCompetitorProfile(data: CompetitorFullData): Promise<s
     const profileId = saved?.id
     if (!profileId) return null
 
-    console.log(`[Persistence] Saved ${profile.nom} (${profileId}) — ${scoreRemplissage}% rempli`)
+    // Saved profile
 
     // Sauvegarder les avis
     const allReviews: PlatformReview[] = [
@@ -143,7 +144,7 @@ export async function saveCompetitorProfile(data: CompetitorFullData): Promise<s
       if (revError) {
         console.warn('[Persistence] Save reviews error:', revError.message)
       } else {
-        console.log(`[Persistence] Saved ${reviewRows.length} reviews for ${profile.nom}`)
+        // Reviews saved
       }
     }
 
@@ -165,6 +166,6 @@ export async function saveAnalysisResults(
     if (id) ids.push(id)
   }
 
-  console.log(`[Persistence] Saved ${ids.length}/${competitors.length} competitors`)
+  // Analysis results saved
   return ids
 }

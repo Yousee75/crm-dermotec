@@ -144,16 +144,16 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   {competitor.rank && (
-                    <div className="w-8 h-8 rounded-full bg-[#2EC6F3] text-white flex items-center justify-center text-sm font-bold">
+                    <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
                       #{competitor.rank}
                     </div>
                   )}
                   <div>
-                    <h2 className="text-xl font-bold text-[#082545]">{competitor.nom}</h2>
+                    <h2 className="text-xl font-bold text-accent">{competitor.nom}</h2>
                     <div className="flex items-center gap-2 text-gray-600 text-sm mt-1">
                       <MapPin size={14} />
                       {competitor.adresse}, {competitor.ville}
-                      <span className="text-[#2EC6F3]">• {formatDistance(competitor.distanceM)}</span>
+                      <span className="text-primary">• {formatDistance(competitor.distanceM)}</span>
                     </div>
                   </div>
                 </div>
@@ -178,7 +178,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-[#2EC6F3] h-2 rounded-full transition-all"
+                        className="bg-primary h-2 rounded-full transition-all"
                         style={{ width: `${competitor.completionScore}%` }}
                       />
                     </div>
@@ -207,7 +207,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                   className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <Camera className="text-[#2EC6F3]" size={18} />
+                    <Camera className="text-primary" size={18} />
                     <span className="font-medium">Réseaux sociaux</span>
                   </div>
                   {openSections.reseaux ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -264,7 +264,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                   className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <Euro className="text-[#2EC6F3]" size={18} />
+                    <Euro className="text-primary" size={18} />
                     <span className="font-medium">Données financières</span>
                   </div>
                   {openSections.financier ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -329,7 +329,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                   className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <Star className="text-[#2EC6F3]" size={18} />
+                    <Star className="text-primary" size={18} />
                     <span className="font-medium">Notes & Avis</span>
                   </div>
                   {openSections.avis ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -388,7 +388,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                     className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center gap-2">
-                      <Award className="text-[#2EC6F3]" size={18} />
+                      <Award className="text-primary" size={18} />
                       <span className="font-medium">Services & Prix</span>
                     </div>
                     {openSections.services ? <ChevronUp size={18} /> : <ChevronDown size={18} />}

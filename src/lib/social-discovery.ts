@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Social Discovery
 // Trouver les profils sociaux d'un concurrent
@@ -123,7 +124,7 @@ export async function discoverSocialProfiles(
         })
         if (res.ok) html = await res.text()
       } catch {
-        console.log(`[SocialDiscovery] Fetch direct timeout pour ${websiteUrl.slice(0, 50)}, fallback Bright Data`)
+        // Fetch direct timeout, fallback Bright Data
       }
     }
 
@@ -174,7 +175,7 @@ export async function discoverSocialProfiles(
     const canonicalMatch = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/)
     if (canonicalMatch) profiles.website = canonicalMatch[1]
 
-    console.log(`[SocialDiscovery] ${websiteUrl.slice(0, 50)} (${html.length} chars) → IG:${profiles.instagram || 'N/A'} FB:${profiles.facebook ? 'oui' : 'N/A'} TT:${profiles.tiktok || 'N/A'}`)
+    // Social profiles extracted
 
     return profiles
   } catch (err) {
@@ -249,7 +250,7 @@ export async function scrapeInstagram(username: string): Promise<SocialMetrics['
       || html.match(/"profile_pic_url"\s*:\s*"([^"]+)"/)
     if (picMatch) result.profilePic = picMatch[1].replace(/\\u0026/g, '&')
 
-    console.log(`[Instagram] @${username}: ${result.followers || '?'} followers, ${result.posts || '?'} posts`)
+    // Instagram metrics extracted
 
     return result
   } catch (err) {

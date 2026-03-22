@@ -76,7 +76,7 @@ export function QuickNotes() {
         value={notes}
         onChange={handleNotesChange}
         placeholder="Prenez vos notes ici... (sauvegarde automatique)"
-        className="w-full h-80 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+        className="w-full h-80 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
       />
 
       {/* Footer Info */}

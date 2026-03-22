@@ -372,7 +372,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
     <Dialog open={open} onClose={handleClose} size="lg">
       <DialogHeader onClose={handleClose}>
         <DialogTitle className="flex items-center gap-2">
-          <FileSpreadsheet className="w-5 h-5 text-[#2EC6F3]" />
+          <FileSpreadsheet className="w-5 h-5 text-primary" />
           Import CSV
         </DialogTitle>
       </DialogHeader>
@@ -388,7 +388,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
               className={`
                 relative border-2 border-dashed rounded-xl p-8 text-center transition
                 ${isDragging
-                  ? 'border-[#2EC6F3] bg-[#2EC6F3]/5'
+                  ? 'border-primary bg-primary/5'
                   : 'border-gray-200 hover:border-gray-300'
                 }
               `}
@@ -404,7 +404,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
               <Upload className="w-12 h-12 text-gray-300 mx-auto mb-4" />
 
               <div className="space-y-2">
-                <h3 className="font-medium text-[#082545]">
+                <h3 className="font-medium text-accent">
                   Glissez votre fichier ici
                 </h3>
                 <p className="text-sm text-gray-500">
@@ -458,7 +458,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
 
             {/* Column Mapping */}
             <div>
-              <h3 className="font-medium text-[#082545] mb-3">Correspondance des colonnes</h3>
+              <h3 className="font-medium text-accent mb-3">Correspondance des colonnes</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {Object.entries(mapping).map(([field, value]) => {
                   const isRequired = requiredFields.includes(field as any)
@@ -487,10 +487,10 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                           ...prev,
                           [field]: e.target.value || null
                         }))}
-                        className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 ${
+                        className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 ${
                           isRequired && !value
                             ? 'border-red-300 focus:border-red-500'
-                            : 'border-gray-200 focus:border-[#2EC6F3]'
+                            : 'border-gray-200 focus:border-primary'
                         }`}
                       >
                         <option value="">-- Non mappé --</option>
@@ -508,7 +508,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
 
             {/* Preview Table */}
             <div>
-              <h3 className="font-medium text-[#082545] mb-3">Aperçu des données</h3>
+              <h3 className="font-medium text-accent mb-3">Aperçu des données</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs border border-gray-200 rounded-lg">
                   <thead>
@@ -573,12 +573,12 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
       {step === 'import' && (
         <>
           <div className="space-y-6 text-center">
-            <div className="w-16 h-16 mx-auto bg-[#2EC6F3]/10 rounded-full flex items-center justify-center">
-              <Upload className="w-8 h-8 text-[#2EC6F3]" />
+            <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+              <Upload className="w-8 h-8 text-primary" />
             </div>
 
             <div>
-              <h3 className="font-medium text-[#082545] mb-2">
+              <h3 className="font-medium text-accent mb-2">
                 Import en cours...
               </h3>
               <p className="text-sm text-gray-600">

@@ -24,7 +24,7 @@ interface ForecastSparklineProps {
 export function ForecastSparkline({
   data,
   forecast = [],
-  color = 'text-[#2EC6F3]',
+  color = 'text-primary',
   height = 48,
   className,
 }: ForecastSparklineProps) {

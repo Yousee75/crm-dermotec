@@ -25,6 +25,7 @@ interface LeadToRelance {
   score: number
   formation_interesse: string
   derniere_activite: string
+  daysSinceLastActivity?: number
   created_at: string
   phone: string
   context?: string

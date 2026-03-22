@@ -108,7 +108,7 @@ export default function IndicateursTab() {
               <p className="text-sm text-gray-600">Taux de conformité</p>
               <p className="text-2xl font-bold text-gray-900">{tauxConformite}%</p>
             </div>
-            <Award className="w-8 h-8 text-[#2EC6F3]" />
+            <Award className="w-8 h-8 text-primary" />
           </div>
           <ProgressBar value={tauxConformite} className="mt-2" />
         </Card>
@@ -176,7 +176,7 @@ export default function IndicateursTab() {
             <Card
               key={critere.id}
               className={`p-6 cursor-pointer transition-all hover:shadow-md ${
-                isSelected ? 'ring-2 ring-[#2EC6F3] border-[#2EC6F3]' : ''
+                isSelected ? 'ring-2 ring-primary border-primary' : ''
               }`}
               onClick={() => setSelectedCritere(isSelected ? null : critere.id)}
             >

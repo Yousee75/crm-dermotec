@@ -92,7 +92,7 @@ export function CreateMembreDialog({ open, onClose }: Props) {
             <select
               value={role}
               onChange={e => setRole(e.target.value as RoleEquipe)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
             >
               <option value="commercial">Commercial</option>
               <option value="formatrice">Formatrice</option>

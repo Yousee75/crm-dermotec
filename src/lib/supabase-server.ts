@@ -70,13 +70,23 @@ export async function createServiceSupabase() {
   const { createClient } = await import('@supabase/supabase-js')
   const supabaseUrl = getSupabaseUrl()
 
-  // En mode démo sans service role key, utiliser l'anon key (RLS active)
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  const key = serviceKey || anonKey
+  // Service Role Key OBLIGATOIRE pour les opérations admin (bypass RLS)
+  // Ne JAMAIS fallback vers l'anon key — cela contournerait la sécurité RLS
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!key) {
-    throw new Error('Aucune clé Supabase disponible (ni service_role ni anon)')
+    // En développement, fallback vers anon key avec warning
+    if (process.env.NODE_ENV === 'development') {
+      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      if (anonKey) {
+        console.warn('[SECURITY] SUPABASE_SERVICE_ROLE_KEY manquante — fallback anon key (dev only)')
+        _serviceClient = (await import('@supabase/supabase-js')).createClient(supabaseUrl, anonKey, {
+          auth: { autoRefreshToken: false, persistSession: false },
+        })
+        return _serviceClient
+      }
+    }
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY requise en production')
   }
 
   _serviceClient = createClient(

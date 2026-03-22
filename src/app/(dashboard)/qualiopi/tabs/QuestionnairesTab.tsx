@@ -113,13 +113,13 @@ export default function QuestionnairesTab() {
       </Card>
 
       {/* Notification de développement */}
-      <Card className="p-4 border-[#2EC6F3] bg-[#2EC6F3]/5">
+      <Card className="p-4 border-primary bg-primary/5">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#2EC6F3] rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
             <ClipboardList className="w-4 h-4 text-white" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-[#2EC6F3]">
+            <p className="text-sm font-medium text-primary">
               Développement en cours
             </p>
             <p className="text-sm text-gray-600">

@@ -54,45 +54,24 @@ interface CollapsibleSection {
   children: NavItem[]
 }
 
-// Sidebar simplifiée : le quotidien EN HAUT, l'admin en bas
-// Principe Pipedrive : "Quand tu ouvres le CRM, tu sais quoi faire"
+// ============================================================
+// SIDEBAR v2 — 7 sections claires, langage formateur
+// Principe noCRM : "Qu'est-ce que je fais maintenant ?"
+// ============================================================
 const TOP_ITEMS: NavItem[] = [
-  { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/leads', icon: UserPlus, label: 'Leads' },
-  { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
-  { href: '/sessions', icon: Calendar, label: 'Sessions' },
+  { href: '/', icon: LayoutDashboard, label: "Aujourd'hui" },
+  { href: '/leads', icon: UserPlus, label: 'Prospects' },
+  { href: '/sessions', icon: Calendar, label: 'Formations' },
+  { href: '/financement', icon: CreditCard, label: 'Financement' },
+  { href: '/analytics', icon: BarChart3, label: 'Tableau de bord' },
+  { href: '/qualiopi', icon: Award, label: 'Qualité' },
+  { href: '/parametres', icon: Settings, label: 'Réglages' },
 ]
 
-const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = [
-  {
-    id: 'commercial', label: 'Commercial', icon: Users, href: '/leads',
-    children: [
-      { href: '/contacts', icon: Users, label: 'Contacts' },
-      { href: '/clients', icon: Building2, label: 'Clients' },
-      { href: '/messages', icon: MessageCircle, label: 'Messages' },
-      { href: '/cadences', icon: Repeat, label: 'Cadences' },
-    ]
-  },
-  {
-    id: 'formation', label: 'Formation', icon: GraduationCap, href: '/inscriptions',
-    children: [
-      { href: '/inscriptions', icon: UserCheck, label: 'Inscriptions' },
-      { href: '/financement', icon: CreditCard, label: 'Financement' },
-      { href: '/apprenants', icon: GraduationCap, label: 'Stagiaires' },
-      { href: '/emargement', icon: FileBarChart, label: 'Émargement' },
-    ]
-  },
-  {
-    id: 'gestion', label: 'Gestion', icon: Settings, href: '/equipe',
-    children: [
-      { href: '/analytics', icon: BarChart3, label: 'Analytics' },
-      { href: '/equipe', icon: Users, label: 'Équipe' },
-      { href: '/facturation', icon: Receipt, label: 'Facturation' },
-      { href: '/qualite', icon: Award, label: 'Qualité' },
-      { href: '/outils', icon: Wrench, label: 'Outils' },
-    ]
-  },
-]
+// Plus de sections dépliables — tout est accessible via les pages hub
+// Messages et Notifications → dans le header
+// Academy, Outils, Concurrents → Cmd+K ou liens depuis les pages
+const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = []
 
 // Backward compat : garder NAV_SECTIONS pour le code existant
 const NAV_SECTIONS: NavSection[] = [{ items: TOP_ITEMS }]
@@ -109,7 +88,7 @@ function SidebarLink({ item, collapsed, isActive }: { item: NavItem; collapsed: 
         collapsed && 'justify-center px-2 mx-1'
       )}
     >
-      <item.icon className={cn('w-[18px] h-[18px] shrink-0', isActive && 'text-[#2EC6F3]')} />
+      <item.icon className={cn('w-[18px] h-[18px] shrink-0', isActive && 'text-primary')} />
       {!collapsed && (
         <>
           <span className="flex-1 truncate">{item.label}</span>
@@ -205,32 +184,54 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
   const isActive = (href: string): boolean => {
     if (pathname === href) return true
-    if (href === '/') return false
+    if (href === '/') return pathname === '/' || pathname === '/cockpit'
 
     const p = pathname ?? ''
 
-    // Gestion des sous-routes pour les pages à onglets
+    // Prospects : leads + pipeline + contacts + clients + fiche lead
     if (href === '/leads') {
       return p.startsWith('/leads') ||
              p.startsWith('/contacts') ||
              p.startsWith('/clients') ||
              p.startsWith('/pipeline') ||
-             p.startsWith('/lead/')
+             p.startsWith('/lead/') ||
+             p.startsWith('/messages') ||
+             p.startsWith('/cadences')
     }
-    if (href === '/inscriptions') {
-      return p.startsWith('/inscriptions') ||
-             p.startsWith('/financement') ||
+    // Formations : sessions + inscriptions + stagiaires + émargement
+    if (href === '/sessions') {
+      return p.startsWith('/sessions') ||
+             p.startsWith('/session/') ||
+             p.startsWith('/inscriptions') ||
              p.startsWith('/apprenants') ||
-             p.startsWith('/emargement')
+             p.startsWith('/stagiaires') ||
+             p.startsWith('/emargement') ||
+             p.startsWith('/catalogue')
     }
-    if (href === '/equipe') {
-      return p.startsWith('/equipe') ||
+    // Financement : financement + BPF
+    if (href === '/financement') {
+      return p.startsWith('/financement') ||
+             p.startsWith('/bpf')
+    }
+    // Tableau de bord : analytics + performance + cockpit + audit
+    if (href === '/analytics') {
+      return p.startsWith('/analytics') ||
+             p.startsWith('/performance') ||
+             p.startsWith('/audit')
+    }
+    // Qualité : qualiopi + qualite
+    if (href === '/qualiopi') {
+      return p.startsWith('/qualiopi') ||
+             p.startsWith('/qualite')
+    }
+    // Réglages : parametres + settings + equipe + facturation + commandes
+    if (href === '/parametres') {
+      return p.startsWith('/parametres') ||
+             p.startsWith('/settings') ||
+             p.startsWith('/equipe') ||
              p.startsWith('/facturation') ||
              p.startsWith('/commandes') ||
-             p.startsWith('/qualite') ||
-             p.startsWith('/bpf') ||
-             p.startsWith('/audit') ||
-             p.startsWith('/settings')
+             p.startsWith('/onboarding')
     }
 
     return p.startsWith(href)
@@ -334,7 +335,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                     collapsed && 'justify-center px-2 mx-1'
                   )}
                 >
-                  <section.icon className={cn('w-[18px] h-[18px] shrink-0', sectionActive && 'text-[#2EC6F3]')} />
+                  <section.icon className={cn('w-[18px] h-[18px] shrink-0', sectionActive && 'text-primary')} />
                   {!collapsed && (
                     <>
                       <span className="flex-1 text-left truncate">{section.label}</span>
@@ -461,7 +462,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
               {/* Current page title */}
               <div className="hidden sm:block">
-                <p className="text-sm font-medium text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                <p className="text-sm font-medium text-gray-900">
                   {getCurrentPageTitle(pathname ?? '/')}
                 </p>
               </div>
@@ -545,11 +546,11 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                       </div>
                       {notifCount > 0 && (
                         <Link
-                          href="/cockpit"
+                          href="/notifications"
                           onClick={() => setNotifOpen(false)}
-                          className="block px-4 py-2.5 text-center text-xs text-[#2EC6F3] font-medium hover:bg-gray-50 transition border-t border-gray-100"
+                          className="block px-4 py-2.5 text-center text-xs text-primary font-medium hover:bg-gray-50 transition border-t border-gray-100"
                         >
-                          Voir tout dans le Cockpit
+                          Voir toutes les notifications
                         </Link>
                       )}
                     </div>
@@ -584,8 +585,8 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <div className="bg-white rounded-2xl shadow-2xl border border-gray-200/80 overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                 <div className="flex items-center gap-2.5">
-                  <Keyboard className="w-4 h-4 text-[#2EC6F3]" />
-                  <h2 className="text-sm font-semibold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>Raccourcis clavier</h2>
+                  <Keyboard className="w-4 h-4 text-primary" />
+                  <h2 className="text-sm font-semibold text-gray-900">Raccourcis clavier</h2>
                 </div>
                 <button onClick={() => setShowShortcuts(false)} className="p-1 rounded hover:bg-gray-100 transition">
                   <span className="text-gray-400 text-lg leading-none">&times;</span>
@@ -604,16 +605,14 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Navigation (G puis...)</p>
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-                    <ShortcutRow keys={['G', 'D']} label="Dashboard" />
-                    <ShortcutRow keys={['G', 'L']} label="Leads" />
+                    <ShortcutRow keys={['G', 'D']} label="Aujourd'hui" />
+                    <ShortcutRow keys={['G', 'L']} label="Prospects" />
                     <ShortcutRow keys={['G', 'P']} label="Pipeline" />
-                    <ShortcutRow keys={['G', 'S']} label="Sessions" />
-                    <ShortcutRow keys={['G', 'C']} label="Cockpit" />
+                    <ShortcutRow keys={['G', 'S']} label="Formations" />
                     <ShortcutRow keys={['G', 'F']} label="Financement" />
-                    <ShortcutRow keys={['G', 'A']} label="Analytics" />
+                    <ShortcutRow keys={['G', 'A']} label="Tableau de bord" />
                     <ShortcutRow keys={['G', 'Q']} label="Qualité" />
-                    <ShortcutRow keys={['G', 'E']} label="Équipe" />
-                    <ShortcutRow keys={['G', 'T']} label="Paramètres" />
+                    <ShortcutRow keys={['G', 'T']} label="Réglages" />
                   </div>
                 </div>
               </div>
@@ -642,26 +641,37 @@ function ShortcutRow({ keys, label }: { keys: string[]; label: string }) {
 
 function getCurrentPageTitle(pathname: string): string {
   const titles: Record<string, string> = {
-    '/': 'Dashboard',
-    '/cockpit': 'Ma journée',
-    '/catalogue': 'Catalogue de formations',
-    '/sessions': 'Sessions',
-    '/inscriptions': 'Inscriptions',
-    '/clients': 'Clients',
-    '/apprenants': 'Apprenants',
+    '/': "Aujourd'hui",
+    '/cockpit': "Aujourd'hui",
     '/leads': 'Prospects',
-    '/pipeline': 'Pipeline',
-    '/financement': 'Financement',
-    '/facturation': 'Facturation',
-    '/qualite': 'Qualiopi',
-    '/bpf': 'BPF',
-    '/analytics': 'Analytics',
-    '/commandes': 'Commandes',
-    '/equipe': 'Équipe',
-    '/audit': 'Audit',
-    '/settings': 'Paramètres',
+    '/pipeline': 'Suivi commercial',
     '/contacts': 'Contacts',
+    '/clients': 'Clients',
+    '/messages': 'Messages',
+    '/cadences': 'Relances auto',
+    '/sessions': 'Formations planifiées',
+    '/inscriptions': 'Inscriptions',
+    '/apprenants': 'Mes stagiaires',
+    '/stagiaires': 'Mes stagiaires',
     '/emargement': 'Émargement',
+    '/catalogue': 'Catalogue formations',
+    '/financement': 'Financement',
+    '/bpf': 'Bilan pédagogique',
+    '/analytics': 'Tableau de bord',
+    '/performance': 'Performance',
+    '/audit': 'Audit',
+    '/qualiopi': 'Qualité Qualiopi',
+    '/qualite': 'Qualité',
+    '/parametres': 'Réglages',
+    '/settings': 'Réglages',
+    '/equipe': 'Équipe',
+    '/facturation': 'Facturation',
+    '/commandes': 'Commandes',
+    '/academy': 'Mon coaching',
+    '/playbook': 'Scripts de vente',
+    '/outils': 'Outils',
+    '/concurrents': 'Concurrents',
+    '/notifications': 'Notifications',
   }
 
   for (const [path, title] of Object.entries(titles)) {
@@ -670,9 +680,8 @@ function getCurrentPageTitle(pathname: string): string {
     }
   }
 
-  // Detail pages
-  if (pathname.startsWith('/lead/')) return 'Fiche lead'
-  if (pathname.startsWith('/session/')) return 'Détail session'
+  if (pathname.startsWith('/lead/')) return 'Fiche prospect'
+  if (pathname.startsWith('/session/')) return 'Détail formation'
 
   return 'Dermotec CRM'
 }

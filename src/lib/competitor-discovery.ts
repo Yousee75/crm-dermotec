@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Discovery rapide de concurrents
 // SIRET → Sirene + Google Places + déduction URLs

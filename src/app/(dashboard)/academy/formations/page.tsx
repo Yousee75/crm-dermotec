@@ -95,7 +95,7 @@ function HeroStats() {
   ]
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#2EC6F3]/10 via-[#2EC6F3]/5 to-[#082545]/10 p-8 border border-[#2EC6F3]/20">
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#2EC6F3]/10 via-[#2EC6F3]/5 to-[#082545]/10 p-8 border border-primary/20">
       {/* Glassmorphism background */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/20 backdrop-blur-sm" />
 
@@ -146,7 +146,7 @@ function HeroStats() {
             >
               <div className="flex items-center justify-center text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 <AnimatedCounter value={stat.value} duration={2000} />
-                <span className="text-[#2EC6F3]">{stat.suffix}</span>
+                <span className="text-primary">{stat.suffix}</span>
               </div>
               <p className="text-sm text-gray-600 font-medium">{stat.label}</p>
             </motion.div>
@@ -229,7 +229,7 @@ function SectionAccordion({ section }: { section: AcademySection }) {
               {section.pointsCles && section.pointsCles.length > 0 && (
                 <div>
                   <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
-                    <Target className="w-4 h-4 text-[#2EC6F3]" />
+                    <Target className="w-4 h-4 text-primary" />
                     Points clés
                   </h4>
                   <ul className="space-y-2">
@@ -427,7 +427,7 @@ function QuizPlayer({
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {finalScore >= 80 ? 'Excellent !' : finalScore >= 60 ? 'Bien joué !' : 'À améliorer'}
                 </h3>
-                <p className="text-4xl font-bold text-[#2EC6F3] mb-2">{finalScore}%</p>
+                <p className="text-4xl font-bold text-primary mb-2">{finalScore}%</p>
                 <p className="text-gray-600">
                   {score} bonnes réponses sur {quiz.length}
                 </p>
@@ -463,7 +463,7 @@ function QuizPlayer({
                     const isCorrect = index === currentQuestion.correctIndex
                     const showResult = showExplanation
 
-                    let cardStyle = "border border-gray-200 hover:border-[#2EC6F3]"
+                    let cardStyle = "border border-gray-200 hover:border-primary"
 
                     if (showResult) {
                       if (isCorrect) {
@@ -474,7 +474,7 @@ function QuizPlayer({
                         cardStyle = "border-gray-200 bg-gray-50"
                       }
                     } else if (isSelected) {
-                      cardStyle = "border-[#2EC6F3] bg-[#2EC6F3]/5"
+                      cardStyle = "border-primary bg-primary/5"
                     }
 
                     return (
@@ -492,7 +492,7 @@ function QuizPlayer({
                             "w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold",
                             showResult && isCorrect ? "border-green-500 bg-green-500 text-white" :
                             showResult && isSelected && !isCorrect ? "border-red-500 bg-red-500 text-white" :
-                            isSelected ? "border-[#2EC6F3] bg-[#2EC6F3] text-white" :
+                            isSelected ? "border-primary bg-primary text-white" :
                             "border-gray-300"
                           )}>
                             {String.fromCharCode(65 + index)}
@@ -543,7 +543,7 @@ function QuizPlayer({
                     <Button
                       onClick={handleValidation}
                       disabled={selectedOption === null}
-                      className="bg-[#2EC6F3] hover:bg-[#2EC6F3]/90"
+                      className="bg-primary hover:bg-primary/90"
                     >
                       Valider
                     </Button>
@@ -649,7 +649,7 @@ function ModuleDetail({
             {/* Objectifs */}
             <div>
               <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <Target className="w-5 h-5 text-[#2EC6F3]" />
+                <Target className="w-5 h-5 text-primary" />
                 Objectifs pédagogiques
               </h3>
               <ul className="space-y-2">
@@ -719,7 +719,7 @@ function ModuleDetail({
               </Button>
               <Button
                 onClick={onStartQuiz}
-                className="bg-[#2EC6F3] hover:bg-[#2EC6F3]/90"
+                className="bg-primary hover:bg-primary/90"
               >
                 <Play className="w-4 h-4 mr-2" />
                 Lancer le Quiz
@@ -743,7 +743,7 @@ function ModuleCard({ module, onClick }: { module: AcademyModule, onClick: () =>
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
       onClick={onClick}
-      className="group cursor-pointer bg-white rounded-2xl border-2 border-gray-200 hover:border-[#2EC6F3] hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className="group cursor-pointer bg-white rounded-2xl border-2 border-gray-200 hover:border-primary hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       {/* Border colorée selon catégorie */}
       <div
@@ -784,7 +784,7 @@ function ModuleCard({ module, onClick }: { module: AcademyModule, onClick: () =>
 
         {/* Content */}
         <div className="space-y-3 mb-4">
-          <h3 className="font-bold text-gray-900 line-clamp-2 group-hover:text-[#2EC6F3] transition-colors">
+          <h3 className="font-bold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
             {module.titre}
           </h3>
           <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">

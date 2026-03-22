@@ -38,7 +38,7 @@ export function NeighborhoodStats({ data }: NeighborhoodStatsProps) {
         </div>
         <div className="mt-2 h-2 bg-white/20 rounded-full overflow-hidden">
           <div
-            className="h-full rounded-full bg-[#2EC6F3] transition-all"
+            className="h-full rounded-full bg-primary transition-all"
             style={{ width: `${data.footTrafficScore}%` }}
           />
         </div>
@@ -51,7 +51,7 @@ export function NeighborhoodStats({ data }: NeighborhoodStatsProps) {
           return (
             <div key={key} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
               <Icon size={18} className="mx-auto mb-1" style={{ color }} />
-              <p className="text-xl font-bold text-[#082545]">{count}</p>
+              <p className="text-xl font-bold text-accent">{count}</p>
               <p className="text-[10px] text-gray-500 leading-tight">{label}</p>
             </div>
           )
@@ -68,7 +68,7 @@ export function NeighborhoodStats({ data }: NeighborhoodStatsProps) {
                 <span className="text-gray-700 truncate flex-1">{l.name}</span>
                 <div className="flex items-center gap-2 shrink-0">
                   {l.rating && <span className="text-amber-500">★ {l.rating}</span>}
-                  <span className="text-[#2EC6F3] font-medium">{l.distance}m</span>
+                  <span className="text-primary font-medium">{l.distance}m</span>
                 </div>
               </div>
             ))}

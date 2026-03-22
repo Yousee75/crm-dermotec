@@ -119,10 +119,10 @@ export function CreateLeadDialog({ open, onOpenChange }: Props) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#2EC6F3]/10 flex items-center justify-center">
-              <UserPlus className="w-4 h-4 text-[#2EC6F3]" />
+            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <UserPlus className="w-4 h-4 text-primary" />
             </div>
-            <h2 className="text-lg font-semibold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>Nouveau lead</h2>
+            <h2 className="text-lg font-semibold text-accent">Nouveau lead</h2>
           </div>
           <button onClick={() => onOpenChange(false)} className="p-2 hover:bg-gray-100 rounded-lg transition min-h-[44px] min-w-[44px] flex items-center justify-center">
             <X className="w-5 h-5 text-gray-400" />
@@ -178,7 +178,7 @@ export function CreateLeadDialog({ open, onOpenChange }: Props) {
 
           {/* Financement */}
           <label className="flex items-center gap-3 cursor-pointer min-h-[44px]">
-            <input type="checkbox" checked={form.financement_souhaite} onChange={e => set('financement_souhaite', e.target.checked)} className="w-5 h-5 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3]" />
+            <input type="checkbox" checked={form.financement_souhaite} onChange={e => set('financement_souhaite', e.target.checked)} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
             <span className="text-sm text-gray-700">Financement souhaité (OPCO, France Travail, CPF...)</span>
           </label>
 
@@ -196,7 +196,7 @@ export function CreateLeadDialog({ open, onOpenChange }: Props) {
           <button
             onClick={handleSubmit}
             disabled={createLead.isPending}
-            className="px-5 py-2.5 bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white rounded-xl text-sm font-medium transition disabled:opacity-50 min-h-[44px] flex items-center gap-2"
+            className="px-5 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl text-sm font-medium transition disabled:opacity-50 min-h-[44px] flex items-center gap-2"
           >
             {createLead.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Création...</> : 'Créer le lead'}
           </button>
@@ -218,6 +218,6 @@ function Field({ label, error, children }: { label: string; error?: string; chil
 
 function inputClass(error?: string) {
   return `w-full px-3 py-2.5 rounded-lg border text-sm outline-none transition min-h-[44px] ${
-    error ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' : 'border-gray-200 focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/20'
+    error ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' : 'border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20'
   }`
 }

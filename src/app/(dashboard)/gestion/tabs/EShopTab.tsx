@@ -173,7 +173,7 @@ export default function EShopTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="en_attente">En attente</option>
@@ -238,7 +238,7 @@ export default function EShopTab() {
                   return (
                     <tr key={commande.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4">
-                        <Link href={`/commande/${commande.id}`} className="text-[#2EC6F3] hover:text-[#1A94CC] font-medium text-sm">
+                        <Link href={`/commande/${commande.id}`} className="text-primary hover:text-[#1A94CC] font-medium text-sm">
                           {commande.numero}
                         </Link>
                       </td>

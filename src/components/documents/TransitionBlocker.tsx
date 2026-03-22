@@ -52,7 +52,7 @@ const getTransitionBlockers = (
           message: 'Pièce d\'identité manquante',
           actionLabel: 'Uploader pièce d\'identité',
           actionIcon: <Upload className="w-4 h-4" />,
-          onClick: () => console.log('Upload pièce identité')
+          onClick: () => {}
         })
       }
 
@@ -63,7 +63,7 @@ const getTransitionBlockers = (
           message: 'Justificatif de statut manquant',
           actionLabel: 'Uploader justificatif',
           actionIcon: <Upload className="w-4 h-4" />,
-          onClick: () => console.log('Upload justificatif')
+          onClick: () => {}
         })
       }
 
@@ -74,7 +74,7 @@ const getTransitionBlockers = (
           message: 'Financement non demandé par le lead',
           actionLabel: 'Modifier le profil',
           actionIcon: <Eye className="w-4 h-4" />,
-          onClick: () => console.log('Modifier profil')
+          onClick: () => {}
         })
       }
       break
@@ -92,7 +92,7 @@ const getTransitionBlockers = (
           message: 'Convention non signée',
           actionLabel: 'Envoyer convention',
           actionIcon: <Send className="w-4 h-4" />,
-          onClick: () => console.log('Envoyer convention')
+          onClick: () => {}
         })
       }
 
@@ -103,7 +103,7 @@ const getTransitionBlockers = (
           message: 'Paiement non reçu ou financement non validé',
           actionLabel: 'Voir paiement',
           actionIcon: <CreditCard className="w-4 h-4" />,
-          onClick: () => console.log('Voir paiement')
+          onClick: () => {}
         })
       }
       break
@@ -122,7 +122,7 @@ const getTransitionBlockers = (
           message: 'Convention non signée',
           actionLabel: 'Envoyer convention',
           actionIcon: <Send className="w-4 h-4" />,
-          onClick: () => console.log('Envoyer convention')
+          onClick: () => {}
         })
       }
 
@@ -133,7 +133,7 @@ const getTransitionBlockers = (
           message: 'Paiement non confirmé',
           actionLabel: 'Confirmer paiement',
           actionIcon: <CreditCard className="w-4 h-4" />,
-          onClick: () => console.log('Confirmer paiement')
+          onClick: () => {}
         })
       }
       break
@@ -151,7 +151,7 @@ const getTransitionBlockers = (
           message: 'Feuille d\'émargement manquante',
           actionLabel: 'Uploader émargement',
           actionIcon: <Upload className="w-4 h-4" />,
-          onClick: () => console.log('Upload émargement')
+          onClick: () => {}
         })
       }
 
@@ -162,7 +162,7 @@ const getTransitionBlockers = (
           message: 'Évaluation de satisfaction manquante',
           actionLabel: 'Saisir évaluation',
           actionIcon: <Eye className="w-4 h-4" />,
-          onClick: () => console.log('Saisir évaluation')
+          onClick: () => {}
         })
       }
 
@@ -173,7 +173,7 @@ const getTransitionBlockers = (
           message: `Taux de présence insuffisant (${tauxPresence}% < 80%)`,
           actionLabel: 'Vérifier présence',
           actionIcon: <Eye className="w-4 h-4" />,
-          onClick: () => console.log('Vérifier présence')
+          onClick: () => {}
         })
       }
       break
@@ -192,7 +192,7 @@ const getTransitionBlockers = (
           message: 'Certificat non généré',
           actionLabel: 'Générer certificat',
           actionIcon: <Upload className="w-4 h-4" />,
-          onClick: () => console.log('Générer certificat')
+          onClick: () => {}
         })
       }
 
@@ -203,7 +203,7 @@ const getTransitionBlockers = (
           message: 'Satisfaction faible (< 3/5)',
           actionLabel: 'Voir évaluation',
           actionIcon: <Eye className="w-4 h-4" />,
-          onClick: () => console.log('Voir évaluation')
+          onClick: () => {}
         })
       }
       break

@@ -73,7 +73,7 @@ export function useRealtime(table: string, options?: RealtimeOptions) {
       .subscribe((status) => {
         if (status === 'SUBSCRIBED') {
           activeChannels++
-          console.log(`[Realtime] Subscribed to ${table} (${activeChannels}/${MAX_CHANNELS_PER_PAGE})`)
+          // Subscribed
         }
         if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
           activeChannels = Math.max(0, activeChannels - 1)
@@ -86,7 +86,7 @@ export function useRealtime(table: string, options?: RealtimeOptions) {
         supabase.removeChannel(channelRef.current)
         activeChannels = Math.max(0, activeChannels - 1)
         channelRef.current = null
-        console.log(`[Realtime] Unsubscribed from ${table} (${activeChannels} remaining)`)
+        // Unsubscribed
       }
     }
   }, [table, supabase, queryClient, options?.filter, options?.userId])
@@ -154,7 +154,7 @@ export function usePresence(userId: string, userName: string) {
       .on('presence', { event: 'sync' }, () => {
         const state = channelRef.current?.presenceState()
         if (state) {
-          console.log('Utilisateurs connectés:', Object.keys(state).length)
+          // Presence sync
         }
       })
       .subscribe(async (status) => {

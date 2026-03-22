@@ -10,6 +10,7 @@ import { Badge, StatusBadge } from '@/components/ui/Badge'
 import { Avatar } from '@/components/ui/Avatar'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptySessions } from '@/components/ui/Illustrations'
 import { SkeletonCard } from '@/components/ui/Skeleton'
 import { CreateSessionDialog } from '@/components/ui/CreateSessionDialog'
 import { cn } from '@/lib/utils'
@@ -40,7 +41,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
             type="month"
             value={month}
             onChange={(e) => setMonth(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none"
+            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
           />
           <Button size="sm" icon={<Plus className="w-4 h-4" />} onClick={onCreateSession}>
             Nouvelle session
@@ -59,6 +60,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
         ) : sessions?.length === 0 ? (
           <Card>
             <EmptyState
+              illustration={<IllustrationEmptySessions size={120} />}
               icon={<Calendar className="w-7 h-7" />}
               title="Aucune session ce mois"
               description="Planifiez votre première session de formation"
@@ -85,7 +87,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
                   <div className="flex-1 min-w-0">
                     {/* Title + status */}
                     <div className="flex items-center gap-2.5 mb-3">
-                      <h3 className="font-semibold text-[#082545] group-hover:text-[#2EC6F3] transition truncate">
+                      <h3 className="font-semibold text-accent group-hover:text-primary transition truncate">
                         {session.formation?.nom}
                       </h3>
                       <StatusBadge status={session.statut} label={s.label} color={s.color} />

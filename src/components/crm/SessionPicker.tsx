@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useSessions } from '@/hooks/use-sessions'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
+import { Card, CardContent } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/progress'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar } from '@/components/ui/Avatar'
 import { FORMATIONS_SEED } from '@/lib/constants'
 import { formatDate } from '@/lib/utils'
 import { toast } from 'sonner'
@@ -151,7 +151,7 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
               >
                 <Card className={cn(
                   'cursor-pointer transition-all duration-200 hover:shadow-md',
-                  isSelected && 'ring-2 ring-[#2EC6F3] ring-offset-2 shadow-lg',
+                  isSelected && 'ring-2 ring-primary ring-offset-2 shadow-lg',
                   isAlmostFull && 'border-orange-200 bg-orange-50/30'
                 )}>
                   <CardContent
@@ -170,7 +170,7 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
                             })}
                           </h4>
                           {isSelected && (
-                            <CheckCircle className="h-5 w-5 text-[#2EC6F3]" />
+                            <CheckCircle className="h-5 w-5 text-primary" />
                           )}
                           {isAlmostFull && (
                             <Badge variant="secondary" className="px-2 py-0.5 text-xs bg-orange-100 text-orange-700">
@@ -185,7 +185,7 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
                             <Clock className="h-4 w-4" />
                             <span>
                               {isSameDay
-                                ? `${session.heure_debut || '09:00'} - ${session.heure_fin || '17:00'}`
+                                ? `${session.horaire_debut || '09:00'} - ${session.horaire_fin || '17:00'}`
                                 : `Du ${dateDebut.toLocaleDateString('fr-FR')} au ${dateFin.toLocaleDateString('fr-FR')}`
                               }
                             </span>
@@ -199,14 +199,11 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
                         {/* Formatrice */}
                         {session.formatrice && (
                           <div className="flex items-center gap-2 mb-3">
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback className={cn(
-                                'text-white text-sm font-medium',
-                                getAvatarColor(session.formatrice.avatar_color)
-                              )}>
-                                {getInitials(session.formatrice.nom, session.formatrice.prenom)}
-                              </AvatarFallback>
-                            </Avatar>
+                            <Avatar
+                              name={`${session.formatrice.prenom} ${session.formatrice.nom}`}
+                              color={session.formatrice.avatar_color}
+                              size="sm"
+                            />
                             <div>
                               <p className="text-sm font-medium text-slate-900">
                                 {session.formatrice.prenom} {session.formatrice.nom}
@@ -262,7 +259,7 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
                         className={cn(
                           'w-full min-h-[44px]',
                           isSelected
-                            ? 'bg-[#2EC6F3] hover:bg-[#0284C7] text-white'
+                            ? 'bg-primary hover:bg-[#0284C7] text-white'
                             : 'variant-outline'
                         )}
                         variant={isSelected ? 'default' : 'outline'}

@@ -158,7 +158,7 @@ export function CommandPalette() {
                     key={lead.id}
                     value={`lead-${lead.id}`}
                     onSelect={() => go(`/lead/${lead.id}`)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
                     <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-semibold text-white shrink-0"
@@ -179,7 +179,7 @@ export function CommandPalette() {
                   <Command.Item
                     value="see-all-leads"
                     onSelect={() => go(`/leads?search=${encodeURIComponent(query)}`)}
-                    className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs text-[#2EC6F3] cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                    className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs text-primary cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
                     Voir les {searchResults!.total} résultats <ArrowRight className="w-3 h-3" />
                   </Command.Item>
@@ -195,7 +195,7 @@ export function CommandPalette() {
                     key={`recent-${lead.id}`}
                     value={`recent-${lead.id}-${lead.name}`}
                     onSelect={() => go(`/lead/${lead.id}`)}
-                    className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                    className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
                     <Clock className="w-4 h-4 text-gray-300 shrink-0" />
                     <span className="flex-1 text-gray-600 truncate">{lead.name}</span>
@@ -213,10 +213,10 @@ export function CommandPalette() {
                     key={item.id}
                     value={`action-${item.id}-${item.label}`}
                     onSelect={() => go(item.path)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[#2EC6F3]/8 flex items-center justify-center shrink-0">
-                      <item.icon className="w-4 h-4 text-[#2EC6F3]" />
+                    <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center shrink-0">
+                      <item.icon className="w-4 h-4 text-primary" />
                     </div>
                     <span className="flex-1 text-gray-700">{item.label}</span>
                     {item.shortcut && (
@@ -237,7 +237,7 @@ export function CommandPalette() {
                     key={item.id}
                     value={`page-${item.id}-${item.label}`}
                     onSelect={() => go(item.path)}
-                    className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-[#2EC6F3]/5 transition"
+                    className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
                     <item.icon className="w-4 h-4 text-gray-400 shrink-0" />
                     <span className="flex-1 text-gray-600">{item.label}</span>

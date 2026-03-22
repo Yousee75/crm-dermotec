@@ -38,7 +38,7 @@ import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Avatar } from '@/components/ui/Avatar'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs'
+import { TabsRoot as Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
@@ -286,7 +286,7 @@ export default function FinancementDetailEnriched({
   if (isLoading) {
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-        <div className="w-8 h-8 border-2 border-[#2EC6F3] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -369,31 +369,31 @@ export default function FinancementDetailEnriched({
               <TabsList className="w-full justify-start p-0 bg-transparent border-0 rounded-none">
                 <TabsTrigger
                   value="general"
-                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-[#2EC6F3] data-[state=active]:bg-transparent"
+                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
                 >
                   Général
                 </TabsTrigger>
                 <TabsTrigger
                   value="couts"
-                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-[#2EC6F3] data-[state=active]:bg-transparent"
+                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
                 >
                   Coûts & Marge
                 </TabsTrigger>
                 <TabsTrigger
                   value="tva"
-                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-[#2EC6F3] data-[state=active]:bg-transparent"
+                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
                 >
                   TVA
                 </TabsTrigger>
                 <TabsTrigger
                   value="multi-financement"
-                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-[#2EC6F3] data-[state=active]:bg-transparent"
+                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
                 >
                   Multi-Financement
                 </TabsTrigger>
                 <TabsTrigger
                   value="historique"
-                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-[#2EC6F3] data-[state=active]:bg-transparent"
+                  className="px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
                 >
                   Historique
                 </TabsTrigger>
@@ -415,7 +415,7 @@ export default function FinancementDetailEnriched({
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Informations lead */}
                     <Card className="p-6">
-                      <h3 className="text-lg font-semibold text-[#082545] mb-4">Lead associé</h3>
+                      <h3 className="text-lg font-semibold text-accent mb-4">Lead associé</h3>
                       <div className="flex items-center gap-4 mb-4">
                         <Avatar
                           name={`${financement.lead?.prenom} ${financement.lead?.nom}`}
@@ -424,7 +424,7 @@ export default function FinancementDetailEnriched({
                         <div>
                           <Link
                             href={`/lead/${financement.lead?.id}`}
-                            className="font-semibold text-[#082545] hover:text-[#2EC6F3] transition-colors flex items-center gap-2"
+                            className="font-semibold text-accent hover:text-primary transition-colors flex items-center gap-2"
                           >
                             {financement.lead?.prenom} {financement.lead?.nom}
                             <ExternalLink className="w-4 h-4" />
@@ -449,7 +449,7 @@ export default function FinancementDetailEnriched({
 
                     {/* Montants */}
                     <Card className="p-6">
-                      <h3 className="text-lg font-semibold text-[#082545] mb-4">Montants</h3>
+                      <h3 className="text-lg font-semibold text-accent mb-4">Montants</h3>
                       <div className="space-y-4">
                         {financement.montant_demande && (
                           <div>
@@ -458,7 +458,7 @@ export default function FinancementDetailEnriched({
                               <span className="font-semibold text-lg">{formatEuro(financement.montant_demande)}</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
-                              <div className="bg-[#2EC6F3] h-2 rounded-full" style={{ width: '100%' }} />
+                              <div className="bg-primary h-2 rounded-full" style={{ width: '100%' }} />
                             </div>
                           </div>
                         )}
@@ -503,7 +503,7 @@ export default function FinancementDetailEnriched({
 
                     {/* Dates clés */}
                     <Card className="p-6">
-                      <h3 className="text-lg font-semibold text-[#082545] mb-4">Dates clés</h3>
+                      <h3 className="text-lg font-semibold text-accent mb-4">Dates clés</h3>
                       <div className="space-y-3">
                         {financement.date_soumission && (
                           <div className="flex justify-between">
@@ -538,7 +538,7 @@ export default function FinancementDetailEnriched({
 
                     {/* Documents checklist */}
                     <Card className="p-6">
-                      <h3 className="text-lg font-semibold text-[#082545] mb-4">Documents requis</h3>
+                      <h3 className="text-lg font-semibold text-accent mb-4">Documents requis</h3>
                       <div className="space-y-3">
                         {organisme?.documentsRequis.map((doc, index) => (
                           <motion.div
@@ -558,13 +558,13 @@ export default function FinancementDetailEnriched({
 
                   {/* Notes éditables */}
                   <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-[#082545] mb-4">Notes</h3>
+                    <h3 className="text-lg font-semibold text-accent mb-4">Notes</h3>
                     {isEditing ? (
                       <div className="space-y-4">
                         <textarea
                           value={notes}
                           onChange={(e) => setNotes(e.target.value)}
-                          className="w-full min-h-[120px] p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                          className="w-full min-h-[120px] p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="Ajouter des notes..."
                         />
                         <div className="flex gap-3">
@@ -650,7 +650,7 @@ export default function FinancementDetailEnriched({
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Formulaire des coûts */}
                     <Card className="p-6">
-                      <h3 className="text-lg font-semibold text-[#082545] mb-4">Postes de coûts</h3>
+                      <h3 className="text-lg font-semibold text-accent mb-4">Postes de coûts</h3>
                       <div className="space-y-4">
                         {/* Coût formatrice */}
                         <div>
@@ -662,7 +662,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.formatrice}
                               onChange={(e) => setCouts({ ...couts, formatrice: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="50"
                             />
@@ -681,7 +681,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.salle}
                               onChange={(e) => setCouts({ ...couts, salle: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="50"
                             />
@@ -700,7 +700,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.materiel}
                               onChange={(e) => setCouts({ ...couts, materiel: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="10"
                             />
@@ -718,7 +718,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.consommables}
                               onChange={(e) => setCouts({ ...couts, consommables: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="10"
                             />
@@ -736,7 +736,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.deplacement}
                               onChange={(e) => setCouts({ ...couts, deplacement: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="10"
                             />
@@ -755,7 +755,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.restauration}
                               onChange={(e) => setCouts({ ...couts, restauration: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="10"
                             />
@@ -773,7 +773,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.administratif}
                               onChange={(e) => setCouts({ ...couts, administratif: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="10"
                             />
@@ -792,7 +792,7 @@ export default function FinancementDetailEnriched({
                               type="number"
                               value={couts.autres}
                               onChange={(e) => setCouts({ ...couts, autres: Number(e.target.value) })}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               min="0"
                               step="10"
                             />
@@ -801,7 +801,7 @@ export default function FinancementDetailEnriched({
                           <textarea
                             value={couts.autresDetail}
                             onChange={(e) => setCouts({ ...couts, autresDetail: e.target.value })}
-                            className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent text-sm"
+                            className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                             placeholder="Détail des autres coûts..."
                             rows={2}
                           />
@@ -817,7 +817,7 @@ export default function FinancementDetailEnriched({
                     {/* Calculs temps réel */}
                     <div className="space-y-6">
                       <Card className="p-6">
-                        <h3 className="text-lg font-semibold text-[#082545] mb-4">Calculs temps réel</h3>
+                        <h3 className="text-lg font-semibold text-accent mb-4">Calculs temps réel</h3>
                         <div className="space-y-4">
                           <motion.div
                             key={calculsCouts.coutTotal}
@@ -827,7 +827,7 @@ export default function FinancementDetailEnriched({
                             className="text-center p-4 bg-gray-50 rounded-lg"
                           >
                             <p className="text-sm text-gray-600 mb-1">COÛT TOTAL</p>
-                            <p className="text-3xl font-bold text-[#082545]">{formatEuro(calculsCouts.coutTotal)}</p>
+                            <p className="text-3xl font-bold text-accent">{formatEuro(calculsCouts.coutTotal)}</p>
                           </motion.div>
 
                           <motion.div
@@ -900,7 +900,7 @@ export default function FinancementDetailEnriched({
                           {calculsCouts.seuilRentabilite > 0 && (
                             <div className="p-4 bg-gray-50 rounded-lg">
                               <p className="text-sm text-gray-600">Seuil de rentabilité</p>
-                              <p className="font-semibold text-[#082545]">
+                              <p className="font-semibold text-accent">
                                 {calculsCouts.seuilRentabilite} stagiaire{calculsCouts.seuilRentabilite > 1 ? 's' : ''} minimum
                               </p>
                             </div>
@@ -910,13 +910,13 @@ export default function FinancementDetailEnriched({
 
                       {/* Graphique donut simple */}
                       <Card className="p-6">
-                        <h3 className="text-lg font-semibold text-[#082545] mb-4">Répartition des coûts</h3>
+                        <h3 className="text-lg font-semibold text-accent mb-4">Répartition des coûts</h3>
                         <div className="grid grid-cols-2 gap-3 text-sm">
                           {Object.entries(couts)
                             .filter(([key, value]) => key !== 'autresDetail' && value > 0)
                             .map(([key, value]) => (
                               <div key={key} className="flex items-center gap-2">
-                                <div className="w-3 h-3 bg-[#2EC6F3] rounded-full" />
+                                <div className="w-3 h-3 bg-primary rounded-full" />
                                 <span className="capitalize">{key}</span>
                                 <span className="ml-auto font-medium">{formatEuro(value)}</span>
                               </div>
@@ -938,14 +938,14 @@ export default function FinancementDetailEnriched({
                 >
                   {/* Exonération TVA */}
                   <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-[#082545] mb-4">Régime TVA</h3>
+                    <h3 className="text-lg font-semibold text-accent mb-4">Régime TVA</h3>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <input
                           type="checkbox"
                           checked={exonerationTVA}
                           onChange={(e) => setExonerationTVA(e.target.checked)}
-                          className="w-5 h-5 text-[#2EC6F3] border-gray-300 rounded focus:ring-[#2EC6F3]"
+                          className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
                         />
                         <label className="font-medium">Exonération TVA (Article 261-4-4° CGI)</label>
                       </div>
@@ -961,7 +961,7 @@ export default function FinancementDetailEnriched({
                           </div>
                           <div className="mt-4 p-3 bg-white rounded border">
                             <p className="text-sm font-medium text-gray-700">Montant</p>
-                            <p className="text-xl font-bold text-[#082545]">{formatEuro(calculsTVA.montantHT)} HT = TTC</p>
+                            <p className="text-xl font-bold text-accent">{formatEuro(calculsTVA.montantHT)} HT = TTC</p>
                           </div>
                         </div>
                       ) : (
@@ -971,7 +971,7 @@ export default function FinancementDetailEnriched({
                             <select
                               value={tauxTVA}
                               onChange={(e) => setTauxTVA(Number(e.target.value))}
-                              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                             >
                               <option value={20}>20% (normal)</option>
                               <option value={5.5}>5,5% (réduit)</option>
@@ -1005,14 +1005,14 @@ export default function FinancementDetailEnriched({
 
                   {/* Section Qualiopi */}
                   <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-[#082545] mb-4">Certification Qualiopi</h3>
+                    <h3 className="text-lg font-semibold text-accent mb-4">Certification Qualiopi</h3>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <input
                           type="checkbox"
                           checked={qualiopiValide}
                           onChange={(e) => setQualiopiValide(e.target.checked)}
-                          className="w-5 h-5 text-[#2EC6F3] border-gray-300 rounded focus:ring-[#2EC6F3]"
+                          className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
                         />
                         <label className="font-medium">Certification Qualiopi valide</label>
                       </div>
@@ -1042,7 +1042,7 @@ export default function FinancementDetailEnriched({
 
                   {/* Section NDA */}
                   <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-[#082545] mb-4">Numéro Déclaration Activité (NDA)</h3>
+                    <h3 className="text-lg font-semibold text-accent mb-4">Numéro Déclaration Activité (NDA)</h3>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Numéro NDA</label>
@@ -1050,7 +1050,7 @@ export default function FinancementDetailEnriched({
                           type="text"
                           value={numerNDA}
                           onChange={(e) => setNumerNDA(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="11 75 12345 75"
                         />
                       </div>
@@ -1067,7 +1067,7 @@ export default function FinancementDetailEnriched({
 
                   {/* Section Convention */}
                   <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-[#082545] mb-4">Convention de formation</h3>
+                    <h3 className="text-lg font-semibold text-accent mb-4">Convention de formation</h3>
                     <div className="space-y-3">
                       <div className="p-3 bg-gray-50 rounded-lg">
                         <p className="text-sm font-medium text-gray-700">Mentions obligatoires</p>
@@ -1088,7 +1088,7 @@ export default function FinancementDetailEnriched({
 
                   {/* Alertes réglementaires */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-[#082545]">Alertes réglementaires</h3>
+                    <h3 className="text-lg font-semibold text-accent">Alertes réglementaires</h3>
 
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
@@ -1152,13 +1152,13 @@ export default function FinancementDetailEnriched({
                 >
                   <Card className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-[#082545]">Multi-financement</h3>
+                      <h3 className="text-lg font-semibold text-accent">Multi-financement</h3>
                       <div className="flex items-center gap-3">
                         <input
                           type="checkbox"
                           checked={multiFinancementActive}
                           onChange={(e) => setMultiFinancementActive(e.target.checked)}
-                          className="w-5 h-5 text-[#2EC6F3] border-gray-300 rounded focus:ring-[#2EC6F3]"
+                          className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
                         />
                         <label className="font-medium">Activer le multi-financement</label>
                       </div>
@@ -1189,7 +1189,7 @@ export default function FinancementDetailEnriched({
                                     nouvelles[index].organisme = e.target.value
                                     setLignesFinancement(nouvelles)
                                   }}
-                                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                                 >
                                   {ORGANISMES_FINANCEMENT.map(org => (
                                     <option key={org.id} value={org.id}>{org.sigle}</option>
@@ -1203,7 +1203,7 @@ export default function FinancementDetailEnriched({
                                     nouvelles[index].montant = Number(e.target.value)
                                     setLignesFinancement(nouvelles)
                                   }}
-                                  className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                                  className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                                   placeholder="Montant"
                                 />
                                 <select
@@ -1213,7 +1213,7 @@ export default function FinancementDetailEnriched({
                                     nouvelles[index].statut = e.target.value
                                     setLignesFinancement(nouvelles)
                                   }}
-                                  className="w-40 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                                  className="w-40 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                                 >
                                   <option value="PREPARATION">Préparation</option>
                                   <option value="SOUMIS">Soumis</option>
@@ -1246,7 +1246,7 @@ export default function FinancementDetailEnriched({
                           {/* Calculs temps réel multi-financement */}
                           {calculsMultiFinancement && (
                             <div className="mt-6 space-y-4">
-                              <h4 className="font-semibold text-[#082545]">Calculs temps réel</h4>
+                              <h4 className="font-semibold text-accent">Calculs temps réel</h4>
 
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div className="p-3 bg-blue-50 rounded-lg text-center">
@@ -1353,14 +1353,14 @@ export default function FinancementDetailEnriched({
                   {/* Filtres */}
                   <Card className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-[#082545]">Historique des modifications</h3>
+                      <h3 className="text-lg font-semibold text-accent">Historique des modifications</h3>
                       <div className="flex items-center gap-3">
                         <Filter className="w-4 h-4 text-gray-500" />
                         <select
                           multiple
                           value={historiqueFiltres}
                           onChange={(e) => setHistoriqueFiltres(Array.from(e.target.selectedOptions, option => option.value))}
-                          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent text-sm"
+                          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                         >
                           <option value="">Tous</option>
                           <option value="Création">Créations</option>
@@ -1412,7 +1412,7 @@ export default function FinancementDetailEnriched({
                                   transition={{ delay: index * 0.1 }}
                                   className="relative pl-12 pb-6"
                                 >
-                                  <div className="absolute left-2 w-4 h-4 bg-white border-2 border-[#2EC6F3] rounded-full" />
+                                  <div className="absolute left-2 w-4 h-4 bg-white border-2 border-primary rounded-full" />
                                   <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                                     <div className="flex items-start justify-between mb-2">
                                       <div className="flex items-center gap-3">
@@ -1421,7 +1421,7 @@ export default function FinancementDetailEnriched({
                                           size="sm"
                                         />
                                         <div>
-                                          <p className="font-medium text-[#082545]">{entry.user || 'Système'}</p>
+                                          <p className="font-medium text-accent">{entry.user || 'Système'}</p>
                                           <p className="text-sm text-gray-500">
                                             {formatDate(entry.date)} à {new Date(entry.date).toLocaleTimeString('fr-FR', {
                                               hour: '2-digit',

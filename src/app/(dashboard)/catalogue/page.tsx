@@ -18,7 +18,7 @@ import {
   Target,
   Zap,
   Heart,
-  Sparkles,
+  Sun,
   ShieldCheck,
   X
 } from 'lucide-react'
@@ -46,7 +46,7 @@ const CATEGORIES_CONFIG = {
     label: 'Soins Visage',
     count: 2,
     color: 'from-blue-500 to-cyan-600',
-    icon: Sparkles
+    icon: Sun
   },
   'laser-ipl': {
     label: 'Laser & IPL',
@@ -190,7 +190,7 @@ function CategoryTabs({
                 onClick={() => onCategoryChange(category)}
                 className={`relative flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   isActive
-                    ? 'bg-[#2EC6F3] text-white shadow-lg'
+                    ? 'bg-primary text-white shadow-lg'
                     : 'bg-white text-gray-600 hover:bg-gray-100'
                 }`}
                 whileHover={{ scale: 1.05 }}
@@ -232,7 +232,7 @@ function ParcoursTimeline() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+          <h2 className="text-3xl font-heading font-bold text-accent mb-4">
             Parcours de Formation Recommandé
           </h2>
           <p className="text-gray-600 text-lg">
@@ -261,7 +261,7 @@ function ParcoursTimeline() {
                         {etape.etape}
                       </div>
                       <div>
-                        <h3 className="text-xl font-heading font-bold text-[#082545]">
+                        <h3 className="text-xl font-heading font-bold text-accent">
                           {etape.niveau}
                         </h3>
                         <p className="text-gray-600">{etape.description}</p>
@@ -275,7 +275,7 @@ function ParcoursTimeline() {
                         return (
                           <span
                             key={formationSlug}
-                            className="px-3 py-1 bg-blue-50 text-[#2EC6F3] rounded-full text-sm font-medium"
+                            className="px-3 py-1 bg-blue-50 text-primary rounded-full text-sm font-medium"
                           >
                             {formation.nom}
                           </span>
@@ -286,7 +286,7 @@ function ParcoursTimeline() {
                 </div>
 
                 {/* Timeline dot (desktop) */}
-                <div className="hidden lg:block w-6 h-6 bg-[#2EC6F3] rounded-full border-4 border-white shadow-lg z-10" />
+                <div className="hidden lg:block w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg z-10" />
 
                 {/* Spacer */}
                 <div className="flex-1 lg:px-8" />
@@ -333,10 +333,10 @@ function FormationCard({
       {/* Contenu */}
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
-          <h3 className="text-xl font-heading font-bold text-[#082545] group-hover:text-[#2EC6F3] transition-colors">
+          <h3 className="text-xl font-heading font-bold text-accent group-hover:text-primary transition-colors">
             {formation.nom}
           </h3>
-          <span className="text-2xl font-bold text-[#2EC6F3]">
+          <span className="text-2xl font-bold text-primary">
             {formation.prix}
           </span>
         </div>
@@ -358,7 +358,7 @@ function FormationCard({
           </div>
         )}
 
-        <button className="w-full bg-[#2EC6F3] text-white py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors group-hover:bg-blue-500">
+        <button className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors group-hover:bg-blue-500">
           Voir détails
           <ChevronRight className="w-4 h-4 inline ml-1" />
         </button>
@@ -418,7 +418,7 @@ function ROICalculator({ formation }: { formation: FormationEnriched }) {
         />
         <div className="flex justify-between text-sm text-gray-500 mt-1">
           <span>1</span>
-          <span className="font-bold text-[#2EC6F3]">{clientsParSemaine}</span>
+          <span className="font-bold text-primary">{clientsParSemaine}</span>
           <span>10</span>
         </div>
       </div>
@@ -524,13 +524,13 @@ function FormationDetailModal({
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <div>
-                <h2 className="text-2xl font-heading font-bold text-[#082545]">
+                <h2 className="text-2xl font-heading font-bold text-accent">
                   {formation.nom}
                 </h2>
                 <div className="flex items-center gap-4 mt-2 text-gray-600">
                   <span>{formation.duree}</span>
                   <span>•</span>
-                  <span className="font-bold text-[#2EC6F3]">{formation.prix}</span>
+                  <span className="font-bold text-primary">{formation.prix}</span>
                 </div>
               </div>
               <button
@@ -553,7 +553,7 @@ function FormationDetailModal({
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-2 px-6 py-3 text-sm font-medium relative ${
                       isActive
-                        ? 'text-[#2EC6F3] border-b-2 border-[#2EC6F3]'
+                        ? 'text-primary border-b-2 border-primary'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
@@ -577,13 +577,13 @@ function FormationDetailModal({
                   {activeTab === 'technique' && (
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-bold text-[#082545] mb-3">Description technique</h3>
+                        <h3 className="text-lg font-bold text-accent mb-3">Description technique</h3>
                         <p className="text-gray-700 leading-relaxed">{formation.descriptionTechnique}</p>
                       </div>
 
                       {formation.techniquesComparees.length > 0 && (
                         <div>
-                          <h3 className="text-lg font-bold text-[#082545] mb-3">Techniques comparées</h3>
+                          <h3 className="text-lg font-bold text-accent mb-3">Techniques comparées</h3>
                           <div className="overflow-x-auto">
                             <table className="w-full border border-gray-200 rounded-lg">
                               <thead className="bg-gray-50">
@@ -611,13 +611,13 @@ function FormationDetailModal({
 
                       {formation.materiel.length > 0 && (
                         <div>
-                          <h3 className="text-lg font-bold text-[#082545] mb-3">Matériel nécessaire</h3>
+                          <h3 className="text-lg font-bold text-accent mb-3">Matériel nécessaire</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {formation.materiel.map((item, index) => (
                               <div key={index} className="border border-gray-200 rounded-lg p-4">
                                 <h4 className="font-bold text-gray-900 mb-2">{item.nom}</h4>
                                 <p className="text-gray-600 text-sm mb-2">{item.description}</p>
-                                <p className="text-[#2EC6F3] font-bold mb-2">{item.prixIndicatif}</p>
+                                <p className="text-primary font-bold mb-2">{item.prixIndicatif}</p>
                                 <div className="flex flex-wrap gap-1">
                                   {item.avantages.map((avantage, i) => (
                                     <span key={i} className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
@@ -655,7 +655,7 @@ function FormationDetailModal({
                   {activeTab === 'reglementation' && (
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-bold text-[#082545] mb-3">Réglementation</h3>
+                        <h3 className="text-lg font-bold text-accent mb-3">Réglementation</h3>
                         <p className="text-gray-700 leading-relaxed">{formation.reglementation}</p>
                       </div>
 
@@ -678,7 +678,7 @@ function FormationDetailModal({
 
                       {formation.publicCible.length > 0 && (
                         <div>
-                          <h3 className="text-lg font-bold text-[#082545] mb-3">Public cible</h3>
+                          <h3 className="text-lg font-bold text-accent mb-3">Public cible</h3>
                           <ul className="space-y-2">
                             {formation.publicCible.map((item, index) => (
                               <li key={index} className="flex items-center gap-2 text-gray-700">
@@ -734,7 +734,7 @@ function GlossaireSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+          <h2 className="text-3xl font-heading font-bold text-accent mb-4">
             Glossaire Technique
           </h2>
           <p className="text-gray-600 text-lg mb-8">
@@ -748,7 +748,7 @@ function GlossaireSection() {
               placeholder="Rechercher un terme..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]"
+              className="w-full px-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
         </motion.div>
@@ -767,7 +767,7 @@ function GlossaireSection() {
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
             >
-              <h3 className="text-lg font-bold text-[#082545] mb-2">
+              <h3 className="text-lg font-bold text-accent mb-2">
                 {item.terme}
               </h3>
               <p className="text-gray-600">
@@ -845,7 +845,7 @@ function ROIComparatifTable() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+          <h2 className="text-3xl font-heading font-bold text-accent mb-4">
             Comparatif ROI des Formations
           </h2>
           <p className="text-gray-600 text-lg">
@@ -897,7 +897,7 @@ function ROIComparatifTable() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <td className="px-6 py-4 font-medium text-[#082545]">
+                  <td className="px-6 py-4 font-medium text-accent">
                     {row.formation}
                   </td>
                   <td className="px-6 py-4">
@@ -907,7 +907,7 @@ function ROIComparatifTable() {
                   </td>
                   <td className="px-6 py-4">
                     {row.prixSeance > 0 ? (
-                      <span className="text-lg font-bold text-[#2EC6F3]">
+                      <span className="text-lg font-bold text-primary">
                         {row.prixSeance}€
                       </span>
                     ) : (
@@ -987,7 +987,7 @@ export default function CatalogueFormationsPage() {
       <div className="px-6 py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+            <h2 className="text-3xl font-heading font-bold text-accent mb-4">
               Nos Formations
             </h2>
             <p className="text-gray-600 text-lg">

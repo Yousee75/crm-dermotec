@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Score multi-dimensionnel concurrent
 // 5 dimensions (0-100 chacune) + score global pondéré

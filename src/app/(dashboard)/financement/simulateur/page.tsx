@@ -69,7 +69,7 @@ function SimulateurCompact() {
           <select
             value={selectedProfil}
             onChange={(e) => setSelectedProfil(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-[#2EC6F3] focus:border-[#2EC6F3]"
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
           >
             <option value="">Sélectionner</option>
             {PROFILS.map(p => (
@@ -83,7 +83,7 @@ function SimulateurCompact() {
           <select
             value={selectedFormation}
             onChange={(e) => setSelectedFormation(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-[#2EC6F3] focus:border-[#2EC6F3]"
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
           >
             <option value="">Sélectionner</option>
             {FORMATIONS_DATA.map(f => (
@@ -142,12 +142,12 @@ function SimulateurCompact() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="bg-gray-50 rounded-lg p-3 border-l-4 border-[#2EC6F3]"
+          className="bg-gray-50 rounded-lg p-3 border-l-4 border-primary"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div>
-                <p className="font-semibold text-[#082545]">{resultat.organisme.sigle}</p>
+                <p className="font-semibold text-accent">{resultat.organisme.sigle}</p>
                 <p className="text-sm text-gray-600">
                   {resultat.montantPrisEnCharge}€ pris en charge
                   {resultat.resteACharge > 0 && ` • Reste: ${resultat.resteACharge}€`}
@@ -174,7 +174,7 @@ function TableauOrganismes() {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-2xl font-bold text-[#082545]">8 Organismes de Financement</h2>
+      <h2 className="text-2xl font-bold text-accent">8 Organismes de Financement</h2>
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
@@ -199,7 +199,7 @@ function TableauOrganismes() {
                   >
                     <td className="px-3 py-2">
                       <div>
-                        <p className="font-semibold text-[#082545]">{org.sigle}</p>
+                        <p className="font-semibold text-accent">{org.sigle}</p>
                         <p className="text-xs text-gray-500">{org.nom.slice(0, 25)}...</p>
                       </div>
                     </td>
@@ -208,7 +208,7 @@ function TableauOrganismes() {
                         {org.publicEligible[0].slice(0, 12)}...
                       </Badge>
                     </td>
-                    <td className="px-3 py-2 font-semibold text-[#2EC6F3]">
+                    <td className="px-3 py-2 font-semibold text-primary">
                       {org.tauxHoraire.technique}€
                     </td>
                     <td className="px-3 py-2 font-semibold">
@@ -239,11 +239,11 @@ function TableauOrganismes() {
                       <td colSpan={7} className="px-3 py-2 bg-blue-50 border-t">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                           <div>
-                            <p className="font-semibold text-[#082545] mb-1">Script commercial</p>
+                            <p className="font-semibold text-accent mb-1">Script commercial</p>
                             <p className="text-gray-700">{org.scriptCommercial.slice(0, 150)}...</p>
                           </div>
                           <div>
-                            <p className="font-semibold text-[#082545] mb-1">Points de vigilance</p>
+                            <p className="font-semibold text-accent mb-1">Points de vigilance</p>
                             <ul className="space-y-1">
                               {org.pointsVigilance.slice(0, 2).map((point, idx) => (
                                 <li key={idx} className="flex items-start gap-1">
@@ -299,8 +299,8 @@ function ChecklistEtCasPratiques() {
       <Card className="p-4">
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-[#082545]">Checklist Documents</h3>
-            <div className="text-sm font-semibold text-[#2EC6F3]">{progressPercentage}% prêt</div>
+            <h3 className="text-lg font-bold text-accent">Checklist Documents</h3>
+            <div className="text-sm font-semibold text-primary">{progressPercentage}% prêt</div>
           </div>
 
           <select
@@ -309,7 +309,7 @@ function ChecklistEtCasPratiques() {
             className="w-full px-3 py-2 text-sm border rounded-lg"
           >
             {CHECKLISTS_FINANCEMENT.map(c => (
-              <option key={c.profil} value={c.profil}>{c.nom}</option>
+              <option key={c.profil} value={c.profil}>{c.description}</option>
             ))}
           </select>
 
@@ -322,7 +322,7 @@ function ChecklistEtCasPratiques() {
                       type="checkbox"
                       checked={checkedDocs.includes(doc)}
                       onChange={() => toggleDoc(doc)}
-                      className="w-4 h-4 text-[#2EC6F3] rounded"
+                      className="w-4 h-4 text-primary rounded"
                     />
                     <span className={`text-sm ${checkedDocs.includes(doc) ? 'line-through text-gray-500' : 'text-gray-700'}`}>
                       {doc}
@@ -332,10 +332,10 @@ function ChecklistEtCasPratiques() {
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-semibold text-[#082545] text-sm">Étapes</h4>
+                <h4 className="font-semibold text-accent text-sm">Étapes</h4>
                 {checklist.etapes.map((etape, idx) => (
                   <div key={idx} className="flex items-start gap-2 text-xs">
-                    <div className="w-5 h-5 bg-[#2EC6F3] rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold">
+                    <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold">
                       {idx + 1}
                     </div>
                     <span className="text-gray-700">{etape}</span>
@@ -344,7 +344,7 @@ function ChecklistEtCasPratiques() {
               </div>
 
               <div className="flex items-center gap-2 p-2 bg-blue-50 rounded text-sm">
-                <Calendar className="w-4 h-4 text-[#2EC6F3]" />
+                <Calendar className="w-4 h-4 text-primary" />
                 <span className="font-medium">Délai: {checklist.delaiEstime}</span>
               </div>
             </>
@@ -355,14 +355,14 @@ function ChecklistEtCasPratiques() {
       {/* Cas pratiques à droite */}
       <Card className="p-4">
         <div className="space-y-3">
-          <h3 className="text-lg font-bold text-[#082545]">Cas Pratiques</h3>
+          <h3 className="text-lg font-bold text-accent">Cas Pratiques</h3>
 
           <div className="space-y-2 max-h-96 overflow-y-auto">
             {CAS_MONTAGE_FINANCIER.map((cas, idx) => (
               <div key={idx} className="p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <p className="font-semibold text-[#082545] text-sm">{cas.prenom}, {cas.age} ans</p>
+                    <p className="font-semibold text-accent text-sm">{cas.prenom}, {cas.age} ans</p>
                     <p className="text-xs text-gray-600">{cas.profil}</p>
                   </div>
                   <Badge variant="primary" size="sm">{cas.financeur}</Badge>
@@ -403,7 +403,7 @@ function MotifsRefusCompact() {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-2xl font-bold text-[#082545]">Éviter les Refus</h2>
+      <h2 className="text-2xl font-bold text-accent">Éviter les Refus</h2>
 
       <div className="space-y-2">
         {MOTIFS_REFUS.map((motif, idx) => (
@@ -420,7 +420,7 @@ function MotifsRefusCompact() {
                   >
                     {motif.frequence === 'frequent' ? 'Fréquent' : 'Occasionnel'}
                   </Badge>
-                  <span className="font-semibold text-[#082545] text-sm">{motif.motif}</span>
+                  <span className="font-semibold text-accent text-sm">{motif.motif}</span>
                 </div>
                 <ChevronDown
                   className={`w-4 h-4 text-gray-400 transition-transform ${
@@ -442,7 +442,7 @@ function MotifsRefusCompact() {
                   <div className="pt-3 space-y-2 text-sm">
                     <div>
                       <p className="font-medium text-gray-700 mb-1">Explication</p>
-                      <p className="text-gray-600">{motif.explication}</p>
+                      <p className="text-gray-600">{motif.cause}</p>
                     </div>
                     <div>
                       <p className="font-medium text-gray-700 mb-1">Solution</p>
@@ -468,7 +468,7 @@ export default function SimulateurFinancementPage() {
         <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-[#2EC6F3] to-[#082545] rounded-xl flex items-center justify-center">
           <Calculator className="w-6 h-6 text-white" />
         </div>
-        <h1 className="text-3xl font-bold text-[#082545] mb-2">Simulateur de Financement</h1>
+        <h1 className="text-3xl font-bold text-accent mb-2">Simulateur de Financement</h1>
         <p className="text-gray-600">8 organismes • 100% des profils couverts • Résultat immédiat</p>
       </div>
 
@@ -480,7 +480,7 @@ export default function SimulateurFinancementPage() {
       {/* CTA final compact */}
       <Card className="p-6 text-center bg-gradient-to-r from-[#2EC6F3]/5 to-[#082545]/5">
         <div className="space-y-3">
-          <h2 className="text-xl font-bold text-[#082545]">Besoin d'aide pour votre dossier ?</h2>
+          <h2 className="text-xl font-bold text-accent">Besoin d'aide pour votre dossier ?</h2>
           <p className="text-gray-600">Nos conseillers s'occupent de tout — de la demande jusqu'à la facture finale</p>
           <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
             <div className="flex items-center gap-1">

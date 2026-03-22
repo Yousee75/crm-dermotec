@@ -20,13 +20,13 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
 
   if (type === 'pre_test' && preTestQuestion) {
     return (
-      <div className="bg-gradient-to-br from-[#2EC6F3]/5 to-[#082545]/5 rounded-2xl p-6 border border-[#2EC6F3]/20">
+      <div className="bg-gradient-to-br from-[#2EC6F3]/5 to-[#082545]/5 rounded-2xl p-6 border border-primary/20">
         <div className="flex items-center gap-2 mb-4">
-          <Brain className="w-5 h-5 text-[#2EC6F3]" />
-          <span className="text-sm font-semibold text-[#2EC6F3] uppercase tracking-wide">Testez votre intuition</span>
+          <Brain className="w-5 h-5 text-primary" />
+          <span className="text-sm font-semibold text-primary uppercase tracking-wide">Testez votre intuition</span>
         </div>
 
-        <p className="text-lg font-semibold text-[#082545] mb-4">{preTestQuestion.question}</p>
+        <p className="text-lg font-semibold text-accent mb-4">{preTestQuestion.question}</p>
 
         {preTestAnswer === null ? (
           <div className="space-y-2">
@@ -34,7 +34,7 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
               <button
                 key={i}
                 onClick={() => setPreTestAnswer(i)}
-                className="w-full text-left p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-[#2EC6F3] transition text-sm"
+                className="w-full text-left p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-primary transition text-sm"
               >
                 {opt}
               </button>
@@ -54,7 +54,7 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
             </div>
             <button
               onClick={onContinue}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#2EC6F3] text-white rounded-xl font-semibold text-sm hover:bg-[#1BA8D4] transition"
+              className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-semibold text-sm hover:bg-primary-dark transition"
             >
               Découvrir la leçon <ChevronRight className="w-4 h-4" />
             </button>
@@ -73,13 +73,13 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
 
   return (
     <div className="bg-gradient-to-r from-[#082545] to-[#0F3460] rounded-2xl p-6 text-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-40 h-40 bg-[#2EC6F3]/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
       <div className="relative">
         <span className="text-3xl mb-3 block">{icons[type]}</span>
         <p className="text-lg font-semibold leading-relaxed mb-4">{content}</p>
         <button
           onClick={onContinue}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#2EC6F3] text-white rounded-xl font-semibold text-sm hover:bg-[#1BA8D4] transition"
+          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-semibold text-sm hover:bg-primary-dark transition"
         >
           <Lightbulb className="w-4 h-4" /> Découvrir la réponse
         </button>

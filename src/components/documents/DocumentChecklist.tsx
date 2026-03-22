@@ -120,15 +120,15 @@ export function DocumentChecklist({
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h3 className="text-lg font-semibold text-[#082545] flex items-center gap-2" style={{ fontFamily: 'var(--font-heading)' }}>
-            <FileText className="w-5 h-5 text-[#2EC6F3]" />
+          <h3 className="text-lg font-semibold text-accent flex items-center gap-2">
+            <FileText className="w-5 h-5 text-primary" />
             Documents requis — {organismeInfo.label}
           </h3>
           <p className="text-sm text-gray-500 mt-1">{organismeInfo.description}</p>
         </div>
 
         <div className="text-right">
-          <div className="text-2xl font-bold text-[#082545]">{pourcentageComplete}%</div>
+          <div className="text-2xl font-bold text-accent">{pourcentageComplete}%</div>
           <div className="text-xs text-gray-500">complété</div>
         </div>
       </div>
@@ -223,7 +223,7 @@ export function DocumentChecklist({
                     "flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-lg cursor-pointer transition",
                     isUploading
                       ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-                      : "bg-[#2EC6F3] text-white hover:bg-[#1BA8D4]"
+                      : "bg-primary text-white hover:bg-primary-dark"
                   )}>
                     {isUploading ? (
                       <Clock className="w-3 h-3 animate-spin" />

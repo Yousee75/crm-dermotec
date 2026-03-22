@@ -75,7 +75,7 @@ function SheetHeader({ children, onClose, className }: { children: React.ReactNo
 
 function SheetTitle({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <h2 className={cn('text-lg font-semibold text-[#082545]', className)} style={{ fontFamily: 'var(--font-heading)' }}>
+    <h2 className={cn('text-lg font-semibold text-accent', className)}>
       {children}
     </h2>
   )

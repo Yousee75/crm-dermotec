@@ -7,7 +7,7 @@ import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOve
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye, Sparkles, List, X, ExternalLink, Calendar, MapPin } from 'lucide-react'
+import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye, List, X, ExternalLink, Calendar, MapPin, UserCheck } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { useLeads, useChangeStatut } from '@/hooks/use-leads'
@@ -20,6 +20,7 @@ import { SearchInput } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
 import { Avatar } from '@/components/ui/Avatar'
 import { ProgressBar } from '@/components/ui/ProgressBar'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import Link from 'next/link'
 
 // --- Component: Lead Card (Draggable) ---
@@ -85,7 +86,7 @@ function LeadCard({ lead }: { lead: Lead }) {
           />
           <Link
             href={`/lead/${lead.id}`}
-            className="font-medium text-gray-900 text-sm truncate hover:text-[#2EC6F3] transition"
+            className="font-medium text-gray-900 text-sm truncate hover:text-primary transition"
             onClick={e => e.stopPropagation()}
           >
             {lead.prenom} {lead.nom}
@@ -161,7 +162,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
       ref={setNodeRef}
       className={cn(
         "flex-shrink-0 w-[280px] flex flex-col transition-all duration-200 rounded-xl",
-        isActive && "ring-2 ring-[#2EC6F3] ring-offset-2 bg-blue-50/50"
+        isActive && "ring-2 ring-primary ring-offset-2 bg-blue-50/50"
       )}
     >
       {/* Header */}
@@ -200,7 +201,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
         {leads.length === 0 && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-2">
-              <Sparkles className="w-5 h-5 text-gray-300" />
+              <Users className="w-5 h-5 text-gray-300" />
             </div>
             <p className="text-xs text-gray-500 font-medium mb-0.5">Colonne vide</p>
             <p className="text-[11px] text-gray-400">Glissez un lead ici</p>
@@ -212,7 +213,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
 }
 
 // --- Component: Mobile List View ---
-function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: any, leads: Lead[], totalValue: number }> }) {
+function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: { id: string; label: string; statuts: StatutLead[] }, leads: Lead[], totalValue: number }> }) {
   return (
     <div className="md:hidden space-y-4">
       <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
@@ -243,7 +244,7 @@ function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: any, le
                         />
                         <Link
                           href={`/lead/${lead.id}`}
-                          className="font-medium text-gray-900 text-sm hover:text-[#2EC6F3] transition"
+                          className="font-medium text-gray-900 text-sm hover:text-primary transition"
                         >
                           {lead.prenom} {lead.nom}
                         </Link>
@@ -324,7 +325,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                   color="#2EC6F3"
                 />
                 <div>
-                  <h3 className="font-semibold text-[#082545]">{lead.prenom} {lead.nom}</h3>
+                  <h3 className="font-semibold text-accent">{lead.prenom} {lead.nom}</h3>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span
                       className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-white"
@@ -339,7 +340,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
               <div className="flex items-center gap-1">
                 <Link
                   href={`/lead/${lead.id}`}
-                  className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-[#2EC6F3] transition"
+                  className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-primary transition"
                   title="Ouvrir la fiche complète"
                 >
                   <ExternalLink className="w-4 h-4" />
@@ -425,9 +426,9 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
 
               {/* Formation */}
               {lead.formation_principale && (
-                <div className="bg-[#2EC6F3]/5 border border-[#2EC6F3]/20 rounded-lg p-3">
-                  <h4 className="text-xs font-semibold text-[#082545] uppercase mb-1">Formation intéressée</h4>
-                  <p className="text-sm font-medium text-[#082545]">{lead.formation_principale.nom}</p>
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
+                  <h4 className="text-xs font-semibold text-accent uppercase mb-1">Formation intéressée</h4>
+                  <p className="text-sm font-medium text-accent">{lead.formation_principale.nom}</p>
                   {lead.formation_principale.prix_ht && (
                     <p className="text-xs text-gray-500 mt-0.5">{lead.formation_principale.prix_ht}€ HT</p>
                   )}
@@ -445,7 +446,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
               {/* Bouton fiche complète */}
               <Link
                 href={`/lead/${lead.id}`}
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#082545] text-white rounded-lg hover:bg-[#0a3060] transition font-medium text-sm"
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent text-white rounded-lg hover:bg-[#0a3060] transition font-medium text-sm"
               >
                 <Eye className="w-4 h-4" />
                 Voir la fiche complète
@@ -464,8 +465,17 @@ export default function PipelinePage() {
   const [draggedLead, setDraggedLead] = useState<Lead | null>(null)
   const [activeDropColumn, setActiveDropColumn] = useState<string | null>(null)
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
+  const [showMyLeadsOnly, setShowMyLeadsOnly] = useState(true)
 
-  const { data: leadsData } = useLeads({ search, per_page: 1000 })
+  const { data: currentUser } = useCurrentUser()
+  const isAdminOrManager = currentUser?.isAdmin || currentUser?.role === 'manager'
+
+  // Si admin/manager + filtre "mes leads" actif → filtrer par commercial_id
+  const commercialFilter = isAdminOrManager && showMyLeadsOnly && currentUser?.equipe_id
+    ? currentUser.equipe_id
+    : undefined
+
+  const { data: leadsData } = useLeads({ search, per_page: 1000, commercial_id: commercialFilter })
   const changeStatut = useChangeStatut()
 
   const sensors = useSensors(
@@ -548,13 +558,13 @@ export default function PipelinePage() {
     <div className="space-y-5">
       {/* Header */}
       <PageHeader
-        title="Pipeline Commercial"
-        description="Vue d'ensemble du parcours leads → clients"
+        title="Suivi commercial"
+        description="Parcours prospect du premier contact à la formation"
       >
         <div className="flex items-center gap-4 text-sm text-gray-500">
           <div className="flex items-center gap-1.5">
             <Users className="w-4 h-4" />
-            <span className="font-medium text-gray-700">{totalLeads}</span> leads
+            <span className="font-medium text-gray-700">{totalLeads}</span> prospects
           </div>
           <div className="flex items-center gap-1.5">
             <TrendingUp className="w-4 h-4" />
@@ -563,13 +573,29 @@ export default function PipelinePage() {
         </div>
       </PageHeader>
 
-      {/* Search */}
-      <div className="max-w-sm">
-        <SearchInput
-          placeholder="Rechercher un lead..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      {/* Search + Filtre Mes leads */}
+      <div className="flex items-center gap-3">
+        <div className="max-w-sm flex-1">
+          <SearchInput
+            placeholder="Rechercher un prospect..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        {isAdminOrManager && (
+          <button
+            onClick={() => setShowMyLeadsOnly(p => !p)}
+            className={cn(
+              'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition whitespace-nowrap',
+              showMyLeadsOnly
+                ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            )}
+          >
+            <UserCheck className="w-4 h-4" />
+            {showMyLeadsOnly ? 'Mes leads' : 'Tous les leads'}
+          </button>
+        )}
       </div>
 
       {/* Desktop: Pipeline Columns */}
@@ -595,7 +621,7 @@ export default function PipelinePage() {
 
           <DragOverlay>
             {draggedLead && (
-              <div className="bg-white p-3 rounded-xl shadow-xl border border-[#2EC6F3]/20 opacity-95 w-[280px]">
+              <div className="bg-white p-3 rounded-xl shadow-xl border border-primary/20 opacity-95 w-[280px]">
                 <LeadCard lead={draggedLead} />
               </div>
             )}

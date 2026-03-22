@@ -204,7 +204,7 @@ export default function ReclamationsTab() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les types</option>
             <option value="formation">Formation</option>
@@ -216,7 +216,7 @@ export default function ReclamationsTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="ouverte">Ouverte</option>
@@ -280,7 +280,7 @@ export default function ReclamationsTab() {
                   return (
                     <tr key={reclamation.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-[#2EC6F3]">
+                        <span className="text-sm font-medium text-primary">
                           {reclamation.numero}
                         </span>
                       </td>

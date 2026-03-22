@@ -36,14 +36,14 @@ export function FilterDropdown({ label, icon: Icon, children, activeCount, onCle
         className={cn(
           'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all border',
           activeCount
-            ? 'bg-[#2EC6F3]/10 text-[#2EC6F3] border-[#2EC6F3]/30'
+            ? 'bg-primary/10 text-primary border-primary/30'
             : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:bg-gray-50'
         )}
       >
         <Icon className="w-3.5 h-3.5" />
         {label}
         {activeCount ? (
-          <span className="min-w-[18px] h-[18px] rounded-full bg-[#2EC6F3] text-white text-[10px] flex items-center justify-center leading-none">
+          <span className="min-w-[18px] h-[18px] rounded-full bg-primary text-white text-[10px] flex items-center justify-center leading-none">
             {activeCount}
           </span>
         ) : (
@@ -84,12 +84,12 @@ export function FilterOption({ selected, onClick, children, color }: {
       onClick={onClick}
       className={cn(
         'w-full flex items-center gap-2.5 px-3 py-2 text-xs transition hover:bg-gray-50',
-        selected && 'bg-[#2EC6F3]/5'
+        selected && 'bg-primary/5'
       )}
     >
       <div className={cn(
         'w-4 h-4 rounded border-2 flex items-center justify-center transition shrink-0',
-        selected ? 'bg-[#2EC6F3] border-[#2EC6F3]' : 'border-gray-300'
+        selected ? 'bg-primary border-primary' : 'border-gray-300'
       )}>
         {selected && <Check className="w-2.5 h-2.5 text-white" />}
       </div>

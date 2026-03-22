@@ -89,11 +89,11 @@ export default function PlanTab() {
   return (
     <div className="space-y-6">
       {/* Plan actuel */}
-      <Card className="p-6 border-[#2EC6F3] bg-gradient-to-r from-[#2EC6F3]/5 to-blue-50/30">
+      <Card className="p-6 border-primary bg-gradient-to-r from-[#2EC6F3]/5 to-blue-50/30">
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-[#2EC6F3] rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                 <Crown className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -167,10 +167,10 @@ export default function PlanTab() {
           const estPlanActuel = plan.id === 'pro'
 
           return (
-            <Card key={plan.id} className={`p-6 relative ${plan.populaire ? 'border-[#2EC6F3] shadow-lg' : ''} ${estPlanActuel ? 'ring-2 ring-[#2EC6F3]' : ''}`}>
+            <Card key={plan.id} className={`p-6 relative ${plan.populaire ? 'border-primary shadow-lg' : ''} ${estPlanActuel ? 'ring-2 ring-primary' : ''}`}>
               {plan.populaire && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge variant="primary" className="bg-[#2EC6F3]">
+                  <Badge variant="primary" className="bg-primary">
                     <Star className="w-3 h-3 mr-1" />
                     Populaire
                   </Badge>

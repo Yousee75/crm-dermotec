@@ -6,7 +6,7 @@ import {
   Calendar,
   Award,
   BarChart3,
-  Sparkles,
+  Zap,
   Check,
 } from 'lucide-react'
 
@@ -48,7 +48,7 @@ const features = [
       'CA, conversion, remplissage — tout en un dashboard. Suivez les 7 critères et 32 indicateurs Qualiopi.',
   },
   {
-    icon: Sparkles,
+    icon: Zap,
     title: 'Assistant IA',
     description:
       'Suggestions proactives, scoring leads, relances automatiques. L\u2019IA qui comprend la formation esthétique.',

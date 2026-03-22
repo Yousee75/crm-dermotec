@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLead } from '@/hooks/use-leads'
 import { useSessions } from '@/hooks/use-sessions'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
+import { Card, CardContent, CardFooter } from '@/components/ui/Card'
 import { FORMATIONS_SEED } from '@/lib/constants'
 import { formatEuro } from '@/lib/utils'
 import { toast } from 'sonner'
@@ -155,7 +155,7 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
   const enrichedSuggestions = suggestions.map(suggestion => {
     const formationSessions = sessions?.filter(s =>
       s.formation?.slug === suggestion.formation.slug &&
-      s.statut === 'PROGRAMMEE' &&
+      s.statut === 'PLANIFIEE' &&
       new Date(s.date_debut) > new Date()
     ) || []
 
@@ -211,7 +211,7 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
               <div className="flex items-center gap-3">
                 <div className={cn(
                   'w-2 h-8 rounded-full',
-                  suggestion.isRecommended ? 'bg-[#2EC6F3]' : 'bg-slate-300'
+                  suggestion.isRecommended ? 'bg-primary' : 'bg-slate-300'
                 )} />
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
@@ -219,7 +219,7 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
                       {suggestion.formation.nom}
                     </h4>
                     {suggestion.isRecommended && (
-                      <Badge variant="secondary" className="px-1.5 py-0 text-xs bg-[#2EC6F3] text-white">
+                      <Badge variant="secondary" className="px-1.5 py-0 text-xs bg-primary text-white">
                         <Star className="h-2.5 w-2.5 mr-0.5" />
                         Recommandé
                       </Badge>
@@ -272,8 +272,8 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
             >
               <Card className={cn(
                 'transition-all duration-200 hover:shadow-md',
-                isSelected && 'ring-2 ring-[#2EC6F3] ring-offset-2',
-                suggestion.isRecommended && 'border-[#2EC6F3] bg-gradient-to-r from-blue-50/30 to-transparent'
+                isSelected && 'ring-2 ring-primary ring-offset-2',
+                suggestion.isRecommended && 'border-primary bg-gradient-to-r from-blue-50/30 to-transparent'
               )}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-3">
@@ -365,7 +365,7 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
 
                 <CardFooter className="p-4 pt-0">
                   <Button
-                    className="w-full bg-[#2EC6F3] hover:bg-[#0284C7] text-white min-h-[44px]"
+                    className="w-full bg-primary hover:bg-[#0284C7] text-white min-h-[44px]"
                     onClick={() => handleSelectFormation(suggestion.formation.slug)}
                     disabled={!suggestion.prochaineSession}
                   >

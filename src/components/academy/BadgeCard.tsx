@@ -15,7 +15,7 @@ export function BadgeCard({ nom, description, icone, earned, earned_at, points_b
   return (
     <div className={`relative flex flex-col items-center p-4 rounded-2xl border-2 transition-all min-w-[120px] ${
       earned
-        ? 'bg-white border-[#2EC6F3]/30 shadow-sm hover:shadow-md'
+        ? 'bg-white border-primary/30 shadow-sm hover:shadow-md'
         : 'bg-gray-50 border-gray-100 opacity-50'
     }`}>
       {/* Badge icon */}
@@ -26,13 +26,13 @@ export function BadgeCard({ nom, description, icone, earned, earned_at, points_b
       </div>
 
       {/* Name */}
-      <p className={`text-xs font-semibold text-center leading-tight ${earned ? 'text-[#082545]' : 'text-gray-400'}`}>
+      <p className={`text-xs font-semibold text-center leading-tight ${earned ? 'text-accent' : 'text-gray-400'}`}>
         {nom}
       </p>
 
       {/* Points */}
       {earned && points_bonus && points_bonus > 0 && (
-        <span className="mt-1 text-[10px] font-bold text-[#2EC6F3]">+{points_bonus} pts</span>
+        <span className="mt-1 text-[10px] font-bold text-primary">+{points_bonus} pts</span>
       )}
 
       {/* Earned date */}

@@ -98,7 +98,7 @@ export default function ConcurrentsPage() {
           <button
             onClick={() => setSearchMode('siret')}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              searchMode === 'siret' ? 'bg-[#082545] text-white' : 'bg-gray-100 text-gray-600'
+              searchMode === 'siret' ? 'bg-accent text-white' : 'bg-gray-100 text-gray-600'
             }`}
           >
             Par SIRET
@@ -106,7 +106,7 @@ export default function ConcurrentsPage() {
           <button
             onClick={() => setSearchMode('nom')}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              searchMode === 'nom' ? 'bg-[#082545] text-white' : 'bg-gray-100 text-gray-600'
+              searchMode === 'nom' ? 'bg-accent text-white' : 'bg-gray-100 text-gray-600'
             }`}
           >
             Par nom
@@ -121,7 +121,7 @@ export default function ConcurrentsPage() {
               onChange={e => setSiret(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
               placeholder="SIRET de votre établissement (14 chiffres)"
-              className="flex-1 min-w-[200px] border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-[#2EC6F3]"
+              className="flex-1 min-w-[200px] border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary"
             />
           ) : (
             <>
@@ -130,7 +130,7 @@ export default function ConcurrentsPage() {
                 value={nom}
                 onChange={e => setNom(e.target.value)}
                 placeholder="Nom de l'établissement"
-                className="flex-1 min-w-[150px] border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#2EC6F3]"
+                className="flex-1 min-w-[150px] border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
               <input
                 type="text"
@@ -138,7 +138,7 @@ export default function ConcurrentsPage() {
                 onChange={e => setVille(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 placeholder="Ville"
-                className="w-[150px] border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#2EC6F3]"
+                className="w-[150px] border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </>
           )}
@@ -156,7 +156,7 @@ export default function ConcurrentsPage() {
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className="bg-[#2EC6F3] hover:bg-[#2EC6F3] disabled:opacity-50 text-white rounded-lg px-5 py-2.5 flex items-center gap-2 transition-colors"
+            className="bg-primary hover:bg-primary disabled:opacity-50 text-white rounded-lg px-5 py-2.5 flex items-center gap-2 transition-colors"
           >
             <Search size={16} />
             {isLoading ? 'Analyse...' : 'Analyser'}
@@ -183,7 +183,7 @@ export default function ConcurrentsPage() {
       {/* Loading */}
       {isLoading && (
         <div className="text-center py-12">
-          <div className="animate-spin w-8 h-8 border-2 border-[#2EC6F3] border-t-transparent rounded-full mx-auto mb-3" />
+          <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-3" />
           <p className="text-sm text-gray-500">Recherche des concurrents et enrichissement des données...</p>
           <p className="text-xs text-gray-400 mt-1">Cela peut prendre 10-30 secondes</p>
         </div>
@@ -205,7 +205,7 @@ export default function ConcurrentsPage() {
               return (
                 <div key={kpi.label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
                   <Icon size={20} className="mx-auto mb-1" style={{ color: kpi.color }} />
-                  <p className="text-xl font-bold text-[#082545]">{kpi.value}</p>
+                  <p className="text-xl font-bold text-accent">{kpi.value}</p>
                   <p className="text-xs text-gray-500">{kpi.label}</p>
                 </div>
               )
@@ -237,7 +237,7 @@ export default function ConcurrentsPage() {
                   }
                 } catch { /* silent */ }
               }}
-              className="bg-[#082545] hover:bg-[#0F3460] text-white rounded-lg px-4 py-2.5 flex items-center gap-2 text-sm font-medium transition-all"
+              className="bg-accent hover:bg-[#0F3460] text-white rounded-lg px-4 py-2.5 flex items-center gap-2 text-sm font-medium transition-all"
             >
               <FileDown size={16} />
               Rapport PDF
@@ -254,7 +254,7 @@ export default function ConcurrentsPage() {
 
           {/* Carte */}
           <div className="bg-white border border-gray-200 rounded-xl p-4">
-            <h3 className="font-semibold text-sm text-[#082545] mb-3">
+            <h3 className="font-semibold text-sm text-accent mb-3">
               Carte des concurrents — Rayon {radiusM >= 1000 ? `${radiusM / 1000}km` : `${radiusM}m`}
             </h3>
             <CompetitorMap
@@ -263,7 +263,7 @@ export default function ConcurrentsPage() {
               prospectName={data.prospect.nom}
             />
             <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
-              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-[#2EC6F3] inline-block" /> Vous</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-primary inline-block" /> Vous</span>
               <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-[#22C55E] inline-block" /> Score &gt;70</span>
               <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-[#F59E0B] inline-block" /> Score 40-70</span>
               <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-[#EF4444] inline-block" /> Score &lt;40</span>
@@ -272,7 +272,7 @@ export default function ConcurrentsPage() {
 
           {/* Liste concurrents */}
           <div>
-            <h3 className="font-semibold text-sm text-[#082545] mb-3">
+            <h3 className="font-semibold text-sm text-accent mb-3">
               {data.competitors.length} concurrent{data.competitors.length > 1 ? 's' : ''} trouvé{data.competitors.length > 1 ? 's' : ''}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

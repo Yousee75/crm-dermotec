@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { CheckCircle, XCircle, ChevronRight, RotateCcw, Trophy, Sparkles } from 'lucide-react'
+import { CheckCircle, XCircle, ChevronRight, RotateCcw, Trophy } from 'lucide-react'
 
 interface QuizQuestion {
   question: string
@@ -95,7 +95,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
             )}
           </div>
 
-          <h3 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h3 className="text-2xl font-bold text-accent mb-2">
             {passed ? 'Bravo !' : 'Presque !'}
           </h3>
 
@@ -127,7 +127,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
             {!passed && (
               <button
                 onClick={handleRetry}
-                className="flex items-center gap-2 px-6 py-3 bg-[#2EC6F3] text-white rounded-xl font-semibold hover:bg-[#1BA8D4] transition"
+                className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary-dark transition"
               >
                 <RotateCcw className="w-4 h-4" /> Réessayer
               </button>
@@ -137,7 +137,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
                 onClick={() => onComplete(correctCount, questions.length)}
                 className="flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition"
               >
-                <Sparkles className="w-4 h-4" /> Continuer
+                <ChevronRight className="w-4 h-4" /> Continuer
               </button>
             )}
           </div>
@@ -155,25 +155,25 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
         </span>
         <div className="flex-1 max-w-[200px] mx-4 bg-gray-200 rounded-full h-2">
           <div
-            className="bg-[#2EC6F3] h-2 rounded-full transition-all duration-300"
+            className="bg-primary h-2 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
           />
         </div>
-        <span className="text-sm font-medium text-[#2EC6F3]">
+        <span className="text-sm font-medium text-primary">
           {correctCount} ✓
         </span>
       </div>
 
       {/* Question */}
       <div className="p-6">
-        <h3 className="text-lg font-semibold text-[#082545] mb-6 leading-relaxed">
+        <h3 className="text-lg font-semibold text-accent mb-6 leading-relaxed">
           {current.question}
         </h3>
 
         {/* Options */}
         <div className="space-y-3">
           {current.options.map((option, i) => {
-            let style = 'border-gray-200 bg-white hover:border-[#2EC6F3] hover:bg-[#2EC6F3]/5 cursor-pointer'
+            let style = 'border-gray-200 bg-white hover:border-primary hover:bg-primary/5 cursor-pointer'
 
             if (isAnswered) {
               if (i === current.correct) {
@@ -184,7 +184,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
                 style = 'border-gray-100 bg-gray-50 opacity-50'
               }
             } else if (i === selectedOption) {
-              style = 'border-[#2EC6F3] bg-[#2EC6F3]/10 ring-2 ring-[#2EC6F3]/20'
+              style = 'border-primary bg-primary/10 ring-2 ring-primary/20'
             }
 
             return (
@@ -209,7 +209,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
                     String.fromCharCode(65 + i)
                   )}
                 </span>
-                <span className="text-[15px] text-[#082545]">{option}</span>
+                <span className="text-[15px] text-accent">{option}</span>
               </button>
             )
           })}
@@ -229,7 +229,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
         {isAnswered && (
           <button
             onClick={handleNext}
-            className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#2EC6F3] text-white rounded-xl font-semibold hover:bg-[#1BA8D4] transition"
+            className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary-dark transition"
           >
             {currentIndex < questions.length - 1 ? (
               <>Question suivante <ChevronRight className="w-4 h-4" /></>

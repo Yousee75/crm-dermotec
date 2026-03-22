@@ -145,7 +145,7 @@ export default function EmargementTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="EN_COURS,TERMINEE">En cours et terminées</option>
             <option value="EN_COURS">En cours uniquement</option>
@@ -173,7 +173,7 @@ export default function EmargementTab() {
           {filteredSessions?.map((session, i) => {
             const statutConfig = STATUT_SESSION[session.statut as keyof typeof STATUT_SESSION] || STATUT_SESSION.PLANIFIEE
             const StatusIcon = statutConfig.icon
-            const inscriptionsConfirmees = session.inscriptions?.filter(i => i.statut === 'CONFIRMEE' || i.statut === 'EN_COURS') || []
+            const inscriptionsConfirmees = session.inscriptions?.filter((ins: any) => ins.statut === 'CONFIRMEE' || ins.statut === 'EN_COURS') || []
             const qrCodeUrl = generateQrCodeUrl(session.id)
 
             return (
@@ -186,7 +186,7 @@ export default function EmargementTab() {
                   <div className="flex-1 min-w-0">
                     {/* En-tête */}
                     <div className="flex items-center gap-3 mb-4">
-                      <h3 className="text-lg font-semibold text-[#082545] truncate">
+                      <h3 className="text-lg font-semibold text-accent truncate">
                         {session.formation?.nom}
                       </h3>
                       <div className="flex items-center gap-2">
@@ -248,7 +248,7 @@ export default function EmargementTab() {
                       </div>
                       {inscriptionsConfirmees.length > 0 && (
                         <div className="flex flex-wrap gap-2">
-                          {inscriptionsConfirmees.slice(0, 5).map((inscription) => (
+                          {inscriptionsConfirmees.slice(0, 5).map((inscription: any) => (
                             <Badge key={inscription.id} variant="outline" size="sm">
                               {inscription.lead?.prenom} {inscription.lead?.nom}
                             </Badge>

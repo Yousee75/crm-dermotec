@@ -141,11 +141,11 @@ export default function IntegrationsTab() {
       </div>
 
       {/* Intégration en vedette */}
-      <Card className="p-6 bg-gradient-to-r from-[#2EC6F3]/5 to-blue-50/30 border-[#2EC6F3]">
+      <Card className="p-6 bg-gradient-to-r from-[#2EC6F3]/5 to-blue-50/30 border-primary">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-white rounded-lg shadow-sm flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-[#2EC6F3]" />
+              <Calendar className="w-6 h-6 text-primary" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">Google Calendar</h3>

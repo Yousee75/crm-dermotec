@@ -12,6 +12,7 @@ async function getHandler() {
   const { serve } = await import('inngest/next')
   const { inngest } = await import('@/lib/inngest')
   const inngestFunctions = await import('@/inngest')
+  const securityCrons = await import('@/inngest/security-audit-cron')
 
   return serve({
     client: inngest,
@@ -33,6 +34,10 @@ async function getHandler() {
       inngestFunctions.weeklyReport,
       inngestFunctions.smartRelance,
       inngestFunctions.autoEnrichLead,
+      // Security monitoring — H24
+      securityCrons.securityAuditHourly,   // Audit complet toutes les heures
+      securityCrons.uptimeMonitor,          // Uptime check toutes les 5 min
+      securityCrons.dailySecurityReport,    // Rapport email quotidien 8h
     ],
   })
 }

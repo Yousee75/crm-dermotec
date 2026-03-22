@@ -9,6 +9,7 @@ import { Card } from '@/components/ui/Card'
 import { Avatar } from '@/components/ui/Avatar'
 import { SearchInput } from '@/components/ui/Input'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyStagiaires } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { PageHeader } from '@/components/ui/PageHeader'
 import Link from 'next/link'
@@ -74,7 +75,7 @@ export default function InscriptionsPage() {
     <div className="space-y-6">
       <PageHeader
         title="Inscriptions"
-        subtitle={`${stats.total} inscription${stats.total > 1 ? 's' : ''} — ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(stats.ca)} CA`}
+        description={`${stats.total} inscription${stats.total > 1 ? 's' : ''} — ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(stats.ca)} CA`}
       />
 
       {/* KPIs */}
@@ -139,7 +140,7 @@ export default function InscriptionsPage() {
         <select
           value={statutFilter}
           onChange={(e) => setStatutFilter(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="">Tous les statuts</option>
           {Object.entries(STATUT_CONFIG).map(([key, val]) => (
@@ -154,9 +155,10 @@ export default function InscriptionsPage() {
       ) : filtered?.length === 0 ? (
         <Card>
           <EmptyState
+            illustration={<IllustrationEmptyStagiaires size={120} />}
             icon={<UserCheck className="w-7 h-7" />}
             title="Aucune inscription"
-            description="Les inscriptions apparaîtront ici quand des leads seront inscrits à des sessions."
+            description="Les inscriptions apparaîtront ici quand des prospects seront inscrits à des formations."
           />
         </Card>
       ) : (
@@ -184,7 +186,7 @@ export default function InscriptionsPage() {
                         <Link href={`/lead/${inscription.lead?.id}`} className="flex items-center gap-3 group">
                           <Avatar name={`${inscription.lead?.prenom} ${inscription.lead?.nom}`} size="sm" />
                           <div>
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-[#2EC6F3] transition">
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition">
                               {inscription.lead?.prenom} {inscription.lead?.nom}
                             </p>
                             <p className="text-xs text-gray-500">{inscription.lead?.email}</p>
@@ -198,7 +200,7 @@ export default function InscriptionsPage() {
                         <p className="text-xs text-gray-500">{inscription.session?.formation?.categorie}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <Link href={`/session/${inscription.session?.id}`} className="text-sm text-[#2EC6F3] hover:text-[#082545] transition">
+                        <Link href={`/session/${inscription.session?.id}`} className="text-sm text-primary hover:text-accent transition">
                           {inscription.session?.date_debut ? new Date(inscription.session.date_debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '—'}
                           {inscription.session?.date_fin && inscription.session.date_fin !== inscription.session.date_debut
                             ? ` — ${new Date(inscription.session.date_fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}`

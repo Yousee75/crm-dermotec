@@ -142,8 +142,8 @@ export function AIChatWidget() {
             {/* Header */}
             <div className="bg-gradient-to-r from-[#082545] to-[#0F3460] text-white px-4 py-3 flex items-center justify-between shrink-0 rounded-t-2xl">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-[#2EC6F3]/20 flex items-center justify-center">
-                  <Sparkles size={16} className="text-[#2EC6F3]" />
+                <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Sparkles size={16} className="text-primary" />
                 </div>
                 <div>
                   <p className="font-semibold text-sm">Assistant Dermotec</p>
@@ -177,7 +177,7 @@ export function AIChatWidget() {
                   href={page.href}
                   className={`text-[10px] font-medium px-2 py-1 rounded-md whitespace-nowrap transition-colors ${
                     pathname?.startsWith(page.href)
-                      ? 'bg-[#2EC6F3]/10 text-[#2EC6F3]'
+                      ? 'bg-primary/10 text-primary'
                       : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
                   }`}
                 >
@@ -191,7 +191,7 @@ export function AIChatWidget() {
               {messages.length === 0 && (
                 <div className="text-center text-gray-400 text-sm mt-6 space-y-3">
                   <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-[#2EC6F3]/10 to-[#0EA5E9]/10 flex items-center justify-center">
-                    <Bot size={28} className="text-[#2EC6F3]" />
+                    <Bot size={28} className="text-primary" />
                   </div>
                   <p className="font-medium text-gray-600 text-sm">
                     {currentSuggestions.title === 'Assistant'
@@ -203,10 +203,10 @@ export function AIChatWidget() {
                       <button
                         key={suggestion}
                         onClick={() => handleSuggestionClick(suggestion)}
-                        className="w-full flex items-center justify-between text-left text-xs bg-gray-50 hover:bg-[#2EC6F3]/5 hover:border-[#2EC6F3]/30 border border-gray-100 rounded-lg px-3 py-2.5 transition-all group"
+                        className="w-full flex items-center justify-between text-left text-xs bg-gray-50 hover:bg-primary/5 hover:border-primary/30 border border-gray-100 rounded-lg px-3 py-2.5 transition-all group"
                       >
                         <span>{suggestion}</span>
-                        <ArrowRight size={12} className="text-gray-300 group-hover:text-[#2EC6F3] transition-colors" />
+                        <ArrowRight size={12} className="text-gray-300 group-hover:text-primary transition-colors" />
                       </button>
                     ))}
                   </div>
@@ -221,7 +221,7 @@ export function AIChatWidget() {
                   <div
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-[#2EC6F3] text-white rounded-br-md'
+                        ? 'bg-primary text-white rounded-br-md'
                         : 'bg-gray-100 text-gray-800 rounded-bl-md'
                     }`}
                   >
@@ -237,9 +237,9 @@ export function AIChatWidget() {
                 <div className="flex justify-start">
                   <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3">
                     <div className="flex gap-1.5">
-                      <span className="w-2 h-2 bg-[#2EC6F3] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-[#2EC6F3] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-[#2EC6F3] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </div>
@@ -262,7 +262,7 @@ export function AIChatWidget() {
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Posez votre question..."
-                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/20 focus:bg-white transition-all placeholder:text-gray-400"
+                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all placeholder:text-gray-400"
                   disabled={isLoading}
                   autoComplete="off"
                   autoCorrect="off"
@@ -271,7 +271,7 @@ export function AIChatWidget() {
                 <button
                   onClick={handleSend}
                   disabled={isLoading || !input.trim()}
-                  className="bg-[#2EC6F3] hover:bg-[#0EA5E9] disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl p-3 transition-all hover:shadow-md active:scale-95"
+                  className="bg-primary hover:bg-[#0EA5E9] disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl p-3 transition-all hover:shadow-md active:scale-95"
                 >
                   <Send size={16} />
                 </button>

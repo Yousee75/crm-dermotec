@@ -179,12 +179,12 @@ export default function EquipePage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#082545]">Équipe</h1>
+          <h1 className="text-2xl font-bold text-accent">Équipe</h1>
           <p className="text-gray-500 mt-1">
             {equipe?.length || 0} membres · {totalActifs} actifs
           </p>
         </div>
-        <button onClick={() => setShowCreateMembre(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3]/90 transition">
+        <button onClick={() => setShowCreateMembre(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">
           <Plus className="w-4 h-4" />
           Ajouter un membre
         </button>
@@ -196,7 +196,7 @@ export default function EquipePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Membres actifs</p>
-              <p className="text-2xl font-bold text-[#082545] mt-1">{totalActifs}</p>
+              <p className="text-2xl font-bold text-accent mt-1">{totalActifs}</p>
             </div>
             <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
               <Users className="w-5 h-5 text-blue-600" />
@@ -208,7 +208,7 @@ export default function EquipePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Formatrices</p>
-              <p className="text-2xl font-bold text-[#082545] mt-1">{totalFormatrices}</p>
+              <p className="text-2xl font-bold text-accent mt-1">{totalFormatrices}</p>
             </div>
             <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center">
               <GraduationCap className="w-5 h-5 text-pink-600" />
@@ -220,7 +220,7 @@ export default function EquipePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Commerciaux</p>
-              <p className="text-2xl font-bold text-[#082545] mt-1">{totalCommerciaux}</p>
+              <p className="text-2xl font-bold text-accent mt-1">{totalCommerciaux}</p>
             </div>
             <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
               <Phone className="w-5 h-5 text-blue-600" />
@@ -232,7 +232,7 @@ export default function EquipePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Sessions ce mois</p>
-              <p className="text-2xl font-bold text-[#082545] mt-1">{sessionsAssignees}</p>
+              <p className="text-2xl font-bold text-accent mt-1">{sessionsAssignees}</p>
             </div>
             <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
               <Calendar className="w-5 h-5 text-green-600" />
@@ -253,8 +253,8 @@ export default function EquipePage() {
               className={cn(
                 'inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition',
                 isActive
-                  ? 'bg-[#2EC6F3] text-white border-[#2EC6F3]'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-[#2EC6F3]/50'
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white text-gray-700 border-gray-200 hover:border-primary/50'
               )}
             >
               <Icon className="w-4 h-4" />
@@ -296,7 +296,7 @@ export default function EquipePage() {
             }
           </p>
           {roleFilter === 'all' && (
-            <button className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3]/90 transition">
+            <button className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">
               <Plus className="w-4 h-4" />
               Ajouter un membre
             </button>
@@ -308,7 +308,7 @@ export default function EquipePage() {
             <div
               key={membre.id}
               className={cn(
-                'bg-white rounded-lg border border-gray-200 p-6 cursor-pointer hover:border-[#2EC6F3]/50 transition',
+                'bg-white rounded-lg border border-gray-200 p-6 cursor-pointer hover:border-primary/50 transition',
                 !membre.is_active && 'opacity-60'
               )}
               onClick={() => setSelectedMember(membre)}
@@ -318,7 +318,7 @@ export default function EquipePage() {
                 <div className="flex items-center gap-3">
                   <TeamAvatar membre={membre} />
                   <div>
-                    <h3 className="font-semibold text-[#082545]">
+                    <h3 className="font-semibold text-accent">
                       {membre.prenom} {membre.nom}
                     </h3>
                     <RoleBadge role={membre.role} />
@@ -345,7 +345,7 @@ export default function EquipePage() {
                 <a
                   href={`mailto:${membre.email}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#2EC6F3] transition"
+                  className="flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition"
                 >
                   <Mail className="w-4 h-4" />
                   {membre.email}
@@ -354,7 +354,7 @@ export default function EquipePage() {
                   <a
                     href={`tel:${membre.telephone}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#2EC6F3] transition"
+                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition"
                   >
                     <Phone className="w-4 h-4" />
                     {membre.telephone}
@@ -392,7 +392,7 @@ export default function EquipePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-2 text-sm text-[#2EC6F3] hover:underline"
+                      className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
                     >
                       <FileText className="w-4 h-4" />
                       CV
@@ -435,7 +435,7 @@ export default function EquipePage() {
                 <div className="flex items-center gap-4">
                   <TeamAvatar membre={selectedMember} size="lg" />
                   <div>
-                    <h2 className="text-xl font-bold text-[#082545]">
+                    <h2 className="text-xl font-bold text-accent">
                       {selectedMember.prenom} {selectedMember.nom}
                     </h2>
                     <RoleBadge role={selectedMember.role} />

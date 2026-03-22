@@ -108,7 +108,7 @@ export function CompetitorMap({ center, competitors, prospectName, onMarkerClick
           onCloseClick={() => setSelected(null)}
         >
           <div className="p-1 min-w-[180px]">
-            <p className="font-semibold text-sm text-[#082545] mb-1">{selected.nom}</p>
+            <p className="font-semibold text-sm text-accent mb-1">{selected.nom}</p>
             {selected.googleRating && (
               <StarRating rating={selected.googleRating} reviewsCount={selected.googleReviewsCount} size={10} />
             )}

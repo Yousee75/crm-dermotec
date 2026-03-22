@@ -79,7 +79,7 @@ export function TrustBar({ variant = 'full' }: TrustBarProps) {
                 >
                   <Icon
                     className={cn(
-                      'text-[#2EC6F3]',
+                      'text-primary',
                       isCompact ? 'w-4 h-4' : 'w-5 h-5'
                     )}
                   />

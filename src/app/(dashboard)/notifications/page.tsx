@@ -165,7 +165,7 @@ export default function NotificationsPage() {
                 className={cn(
                   'flex items-start gap-3 p-4 rounded-xl border transition hover:shadow-sm',
                   !notif.read
-                    ? 'bg-[#2EC6F3]/[0.03] border-[#2EC6F3]/20'
+                    ? 'bg-primary/[0.03] border-primary/20'
                     : 'bg-white border-gray-100'
                 )}
               >
@@ -174,10 +174,10 @@ export default function NotificationsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className={cn('text-sm font-medium', !notif.read ? 'text-[#082545]' : 'text-gray-700')}>
+                    <p className={cn('text-sm font-medium', !notif.read ? 'text-accent' : 'text-gray-700')}>
                       {notif.title}
                     </p>
-                    {!notif.read && <div className="w-2 h-2 rounded-full bg-[#2EC6F3] shrink-0" />}
+                    {!notif.read && <div className="w-2 h-2 rounded-full bg-primary shrink-0" />}
                   </div>
                   <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{notif.description}</p>
                   <p className="text-[10px] text-gray-400 mt-1">{formatDate(notif.created_at)}</p>

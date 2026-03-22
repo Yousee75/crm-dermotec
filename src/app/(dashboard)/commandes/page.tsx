@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/Button'
 import { SearchInput, Input } from '@/components/ui/Input'
 import { Avatar } from '@/components/ui/Avatar'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyCommandes } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/Dialog'
 import { cn } from '@/lib/utils'
@@ -226,7 +227,7 @@ export default function CommandesPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Rechercher par n° commande, nom, email..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none"
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
               />
             </div>
           </div>
@@ -234,7 +235,7 @@ export default function CommandesPage() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value as StatutCommande | '')}
-            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Tous les statuts</option>
             {Object.entries(STATUT_CONFIG).map(([key, config]) => (
@@ -249,7 +250,7 @@ export default function CommandesPage() {
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
               placeholder="01/01/2024 - 31/01/2024"
-              className="pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none w-48"
+              className="pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none w-48"
             />
           </div>
         </div>
@@ -296,6 +297,7 @@ export default function CommandesPage() {
                   <tr>
                     <td colSpan={9}>
                       <EmptyState
+                        illustration={<IllustrationEmptyCommandes size={120} />}
                         icon={<ShoppingBag className="w-8 h-8" />}
                         title="Aucune commande trouvée"
                         description={search || statutFilter ? "Modifiez vos filtres pour voir plus de résultats" : "Les commandes apparaîtront ici"}
@@ -309,7 +311,7 @@ export default function CommandesPage() {
 
                   return (
                     <>
-                      <tr key={commande.id} className="group hover:bg-[#2EC6F3]/[0.02] transition-colors">
+                      <tr key={commande.id} className="group hover:bg-primary/[0.02] transition-colors">
                         {/* Expand toggle */}
                         <td className="px-4 py-3">
                           <button
@@ -327,7 +329,7 @@ export default function CommandesPage() {
                         {/* Numéro commande */}
                         <td className="px-4 py-3">
                           <div className="flex flex-col gap-1">
-                            <span className="font-mono text-sm font-medium text-[#082545]">
+                            <span className="font-mono text-sm font-medium text-accent">
                               {commande.numero_commande || `#${commande.id.slice(0, 8)}`}
                             </span>
                             {commande.tracking_number && (
@@ -341,7 +343,7 @@ export default function CommandesPage() {
                           <div className="flex items-center gap-3">
                             <Avatar name={clientName} size="sm" />
                             <div className="min-w-0">
-                              <p className="font-medium text-[#082545] truncate">{clientName}</p>
+                              <p className="font-medium text-accent truncate">{clientName}</p>
                               <p className="text-xs text-gray-500 truncate">{commande.client_email}</p>
                             </div>
                           </div>
@@ -367,7 +369,7 @@ export default function CommandesPage() {
                         {/* Montant */}
                         <td className="px-4 py-3">
                           <div className="flex flex-col gap-1">
-                            <span className="font-semibold text-[#082545]">
+                            <span className="font-semibold text-accent">
                               {formatEuro(commande.montant_ttc)}
                             </span>
                             {commande.frais_port > 0 && (
@@ -589,7 +591,7 @@ export default function CommandesPage() {
               <select
                 name="transporteur"
                 defaultValue={trackingModal?.transporteur || ''}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
               >
                 <option value="">Sélectionner un transporteur...</option>
                 <option value="La Poste">La Poste</option>

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { SearchInput } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyLeads } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Building2, Plus, Phone, Mail } from 'lucide-react'
 import Link from 'next/link'
@@ -68,6 +69,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
   if (clients.length === 0 && !search) {
     return (
       <EmptyState
+        illustration={<IllustrationEmptyLeads size={120} />}
         icon={<Building2 className="w-4 h-4" />}
         title="Aucun client"
         description="Les prospects convertis apparaîtront ici en tant que clients actifs."
@@ -95,6 +97,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
       {/* Liste des clients */}
       {clients.length === 0 ? (
         <EmptyState
+          illustration={<IllustrationEmptyLeads size={120} />}
           icon={<Building2 className="w-4 h-4" />}
           title="Aucun résultat"
           description="Aucun client ne correspond à votre recherche."
@@ -132,7 +135,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
                             {client.nom.charAt(0)}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-[#2EC6F3] transition-colors">
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">
                               {client.nom}
                             </p>
                             <div className="flex items-center gap-2 mt-1">

@@ -2,21 +2,22 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Calendar, Plus, Wrench, Target } from 'lucide-react'
+import { LayoutDashboard, Users, Calendar, Plus, BarChart3, CreditCard } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 const NAV_ITEMS = [
-  { href: '/', icon: LayoutDashboard, label: 'Accueil' },
-  { href: '/sessions', icon: Calendar, label: 'Sessions' },
+  { href: '/', icon: LayoutDashboard, label: "Aujourd'hui" },
+  { href: '/leads', icon: Users, label: 'Prospects' },
   { href: '#fab', icon: Plus, label: '', isFab: true },
-  { href: '/outils', icon: Wrench, label: 'Outils' },
-  { href: '/concurrents', icon: Target, label: 'Concurrents' },
+  { href: '/sessions', icon: Calendar, label: 'Formations' },
+  { href: '/analytics', icon: BarChart3, label: 'Stats' },
 ]
 
 const QUICK_ACTIONS = [
-  { href: '/leads?action=create', label: 'Nouveau lead', icon: Users, color: '#2EC6F3' },
-  { href: '/sessions?action=create', label: 'Nouvelle session', icon: Calendar, color: '#10B981' },
+  { href: '/leads?action=create', label: 'Nouveau prospect', icon: Users, color: '#2EC6F3' },
+  { href: '/sessions?action=create', label: 'Nouvelle formation', icon: Calendar, color: '#10B981' },
+  { href: '/financement', label: 'Financement', icon: CreditCard, color: '#F59E0B' },
 ]
 
 export function MobileBottomNav() {
@@ -61,7 +62,7 @@ export function MobileBottomNav() {
                     'w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-200',
                     fabOpen
                       ? 'bg-gray-800 rotate-45'
-                      : 'bg-[#2EC6F3]'
+                      : 'bg-primary'
                   )}>
                     <Plus className="w-6 h-6 text-white" />
                   </div>
@@ -78,7 +79,7 @@ export function MobileBottomNav() {
                   'flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 transition-all duration-150 relative',
                   'min-h-[52px]',
                   'active:scale-90',
-                  isActive ? 'text-[#2EC6F3]' : 'text-gray-400'
+                  isActive ? 'text-primary' : 'text-gray-400'
                 )}
               >
                 <item.icon className={cn('w-5 h-5 transition-transform', isActive && 'scale-110')} strokeWidth={isActive ? 2.5 : 2} />
@@ -89,7 +90,7 @@ export function MobileBottomNav() {
                   {item.label}
                 </span>
                 {isActive && (
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-[#2EC6F3] rounded-full" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-primary rounded-full" />
                 )}
               </Link>
             )

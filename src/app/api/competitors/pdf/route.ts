@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     // Retourner le PDF
     const filename = `rapport-concurrentiel-${(prospect.nom || 'analyse').replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`
 
-    return new NextResponse(buffer, {
+    return new NextResponse(buffer as unknown as BodyInit, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',

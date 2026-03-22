@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Avatar } from '@/components/ui/Avatar'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyStagiaires } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Users, Calendar, Filter, Euro, CheckCircle, XCircle, Clock } from 'lucide-react'
 import Link from 'next/link'
@@ -204,7 +205,7 @@ export default function InscriptionsTab() {
         <select
           value={sessionFilter}
           onChange={(e) => setSessionFilter(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         >
           <option value="">Toutes les sessions</option>
           {sessions?.map(session => (
@@ -217,7 +218,7 @@ export default function InscriptionsTab() {
         <select
           value={statutFilter}
           onChange={(e) => setStatutFilter(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         >
           <option value="">Tous les statuts</option>
           <option value="EN_ATTENTE">En attente</option>
@@ -232,6 +233,7 @@ export default function InscriptionsTab() {
       {filteredInscriptions?.length === 0 ? (
         <Card>
           <EmptyState
+            illustration={<IllustrationEmptyStagiaires size={120} />}
             icon={<Users className="w-7 h-7" />}
             title={search || sessionFilter || statutFilter ? "Aucune inscription trouvée" : "Aucune inscription"}
             description={search || sessionFilter || statutFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Les inscriptions apparaîtront ici."}
@@ -264,9 +266,9 @@ export default function InscriptionsTab() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filteredInscriptions?.map((inscription) => {
-                  const statutConfig = STATUT_INSCRIPTION[inscription.statut] || STATUT_INSCRIPTION.EN_ATTENTE
-                  const paiementConfig = STATUT_PAIEMENT[inscription.paiement_statut] || STATUT_PAIEMENT.EN_ATTENTE
+                {filteredInscriptions?.map((inscription: any) => {
+                  const statutConfig = STATUT_INSCRIPTION[inscription.statut as keyof typeof STATUT_INSCRIPTION] || STATUT_INSCRIPTION.EN_ATTENTE
+                  const paiementConfig = STATUT_PAIEMENT[inscription.paiement_statut as keyof typeof STATUT_PAIEMENT] || STATUT_PAIEMENT.EN_ATTENTE
                   const StatusIcon = statutConfig.icon
 
                   return (
@@ -288,7 +290,7 @@ export default function InscriptionsTab() {
                       <td className="px-6 py-4">
                         <Link
                           href={`/session/${inscription.session?.id}`}
-                          className="text-sm text-[#2EC6F3] hover:text-[#082545] transition"
+                          className="text-sm text-primary hover:text-accent transition"
                         >
                           {new Date(inscription.session?.date_debut || '').toLocaleDateString('fr-FR', {
                             day: 'numeric',

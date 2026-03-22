@@ -349,7 +349,7 @@ export default function SecuritySettingsPage() {
                           value={verificationCode}
                           onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                           placeholder="Code à 6 chiffres"
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#2EC6F3] focus:ring-0"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
                           maxLength={6}
                         />
                         <div className="flex gap-2">
@@ -434,7 +434,7 @@ export default function SecuritySettingsPage() {
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+33 6 12 34 56 78"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#2EC6F3] focus:ring-0"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
                       />
                       <div className="flex gap-2">
                         <Button
@@ -472,7 +472,7 @@ export default function SecuritySettingsPage() {
                         value={verificationCode}
                         onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                         placeholder="Code à 6 chiffres"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#2EC6F3] focus:ring-0"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
                         maxLength={6}
                       />
                       <div className="flex gap-2">
@@ -540,7 +540,7 @@ export default function SecuritySettingsPage() {
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+33 6 12 34 56 78"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#2EC6F3] focus:ring-0"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
                       />
                       <div className="flex gap-2">
                         <Button
@@ -578,7 +578,7 @@ export default function SecuritySettingsPage() {
                         value={verificationCode}
                         onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                         placeholder="Code à 6 chiffres"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#2EC6F3] focus:ring-0"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
                         maxLength={6}
                       />
                       <div className="flex gap-2">

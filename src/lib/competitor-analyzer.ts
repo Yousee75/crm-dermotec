@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Analyse concurrentielle
 // Fusion multi-sources + score réputation + ranking

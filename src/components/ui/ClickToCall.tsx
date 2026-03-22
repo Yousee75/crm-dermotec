@@ -25,7 +25,7 @@ export function ClickToCall({ phone, className = '', showIcon = true, size = 'sm
   return (
     <a
       href={`tel:${cleanNumber}`}
-      className={`inline-flex items-center ${sizeClasses} rounded-lg bg-[#2EC6F3]/5 text-[#0EA5E9] hover:bg-[#2EC6F3]/15 hover:text-[#0284C7] transition-colors font-mono ${className}`}
+      className={`inline-flex items-center ${sizeClasses} rounded-lg bg-primary/5 text-[#0EA5E9] hover:bg-primary/15 hover:text-[#0284C7] transition-colors font-mono ${className}`}
       title={`Appeler ${displayNumber}`}
     >
       {showIcon && <Phone size={size === 'sm' ? 12 : 14} />}

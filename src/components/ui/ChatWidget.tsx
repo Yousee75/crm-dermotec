@@ -30,7 +30,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
       {/* Chat Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-20 right-6 z-50 bg-[#082545] hover:bg-[#0F3460] text-white rounded-full p-4 shadow-lg transition-all duration-300 ${className}`}
+        className={`fixed bottom-20 right-6 z-50 bg-accent hover:bg-[#0F3460] text-white rounded-full p-4 shadow-lg transition-all duration-300 ${className}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ scale: 0, opacity: 0 }}
@@ -39,7 +39,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
       >
         {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
         {!isOpen && (
-          <div className="absolute -top-1 -right-1 bg-[#2EC6F3] text-white text-xs rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
+          <div className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
             1
           </div>
         )}
@@ -56,7 +56,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
             className="fixed bottom-36 right-6 z-50 bg-white rounded-lg shadow-xl border border-gray-200 w-80 max-w-[calc(100vw-3rem)]"
           >
             {/* Header */}
-            <div className="bg-[#082545] text-white p-4 rounded-t-lg">
+            <div className="bg-accent text-white p-4 rounded-t-lg">
               <h3 className="font-semibold">Dermotec Advanced</h3>
               <p className="text-sm text-blue-100">En ligne maintenant</p>
             </div>
@@ -86,12 +86,12 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Tapez votre message..."
-                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
                 <button
                   onClick={handleSend}
                   disabled={!message.trim()}
-                  className="bg-[#2EC6F3] hover:bg-[#2EC6F3] disabled:bg-gray-300 text-white rounded-lg p-2 transition-colors"
+                  className="bg-primary hover:bg-primary disabled:bg-gray-300 text-white rounded-lg p-2 transition-colors"
                 >
                   <Send size={16} />
                 </button>

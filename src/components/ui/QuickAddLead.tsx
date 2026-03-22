@@ -142,7 +142,7 @@ export function QuickAddLead() {
                 >
                   <Check size={32} className="text-[#22C55E]" />
                 </motion.div>
-                <p className="font-semibold text-[#082545]">Lead ajouté !</p>
+                <p className="font-semibold text-accent">Lead ajouté !</p>
                 <p className="text-xs text-gray-500 mt-1">Enrichissement en cours...</p>
               </div>
             ) : (

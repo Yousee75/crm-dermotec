@@ -14,7 +14,7 @@ import {
   Star,
   Award,
   Target,
-  Sparkles,
+  Palette,
   Heart,
   Sun,
   Zap,
@@ -29,7 +29,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 
 const categoryIcons = {
-  'Dermo-Esthétique': Sparkles,
+  'Dermo-Esthétique': Palette,
   'Dermo-Correctrice': Heart,
   'Soins Visage': Sun,
   'Laser & IPL': Zap,
@@ -331,7 +331,7 @@ export default function FormationsCatalogPage() {
                         {formation.competences_acquises && formation.competences_acquises.length > 0 && (
                           <div className="pt-3 border-t border-gray-100">
                             <div className="flex flex-wrap gap-1">
-                              {formation.competences_acquises.slice(0, 2).map((competence, idx) => (
+                              {formation.competences_acquises.slice(0, 2).map((competence: string, idx: number) => (
                                 <span
                                   key={idx}
                                   className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-[#082545] rounded-md text-xs font-medium"

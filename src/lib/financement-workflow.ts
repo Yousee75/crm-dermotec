@@ -1037,10 +1037,10 @@ export function getFinancementSummary(financement: any): FinancementSummary {
   const alertes = detecterAlertes(financement)
 
   // Déterminer la prochaine action
-  let prochaineAction = {
+  let prochaineAction: { action: string; description: string; urgence: 'basse' | 'moyenne' | 'haute' } = {
     action: 'Aucune action',
     description: 'Dossier en attente',
-    urgence: 'basse' as const,
+    urgence: 'basse',
   }
 
   switch (financement.etape) {

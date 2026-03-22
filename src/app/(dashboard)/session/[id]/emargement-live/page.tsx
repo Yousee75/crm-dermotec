@@ -68,7 +68,7 @@ export default function EmargementLivePage() {
   if (isLoading || !data) {
     return (
       <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin w-8 h-8 border-4 border-[#2EC6F3] border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
       </div>
     )
   }
@@ -93,7 +93,7 @@ export default function EmargementLivePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h1 className="text-xl font-bold text-accent">
             Émargement en direct
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
@@ -114,7 +114,7 @@ export default function EmargementLivePage() {
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card className="p-4 text-center">
-          <p className="text-2xl font-bold text-[#082545]">{signedCurrent}/{totalExpected}</p>
+          <p className="text-2xl font-bold text-accent">{signedCurrent}/{totalExpected}</p>
           <p className="text-xs text-gray-500">Signatures {creneau === 'matin' ? 'matin' : 'après-midi'}</p>
         </Card>
         <Card className={cn('p-4 text-center', missingCount > 0 && 'border-orange-200 bg-orange-50')}>
@@ -152,7 +152,7 @@ export default function EmargementLivePage() {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base">
-              <Users className="w-4 h-4 text-[#2EC6F3]" />
+              <Users className="w-4 h-4 text-primary" />
               Stagiaires ({signedCurrent}/{totalExpected})
             </CardTitle>
           </CardHeader>

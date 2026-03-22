@@ -1,3 +1,4 @@
+import 'server-only'
 /**
  * Module de scraping pour données financières d'entreprises
  * Sources: Societe.com, Verif.com, API Annuaire Entreprises
@@ -272,7 +273,7 @@ export async function fetchSocieteData(siren: string): Promise<SocieteData> {
     }
 
     const url = `https://www.societe.com/societe/${nomSlug}-${siren}.html`;
-    console.log(`Scraping Societe.com: ${url}`);
+    // Scraping Societe.com
 
     const html = await scrapePage(url, signal);
     return parseSocieteHTML(html, siren);
@@ -298,7 +299,7 @@ export async function fetchVerifData(siren: string): Promise<VerifData> {
     }
 
     const url = `https://www.verif.com/societe/${nomUpper}-${siren}/`;
-    console.log(`Scraping Verif.com: ${url}`);
+    // Scraping Verif.com
 
     const html = await scrapePage(url, signal);
     return parseVerifHTML(html, siren);
@@ -312,7 +313,7 @@ export async function fetchAnnuaireData(siren: string): Promise<AnnuaireData> {
   const signal = AbortSignal.timeout(BRIGHTDATA_CONFIG.timeout);
 
   try {
-    console.log(`Requête API Annuaire Entreprises: ${siren}`);
+    // Requête API Annuaire Entreprises
 
     const result = await fetchAnnuaireAPI(siren, signal);
 

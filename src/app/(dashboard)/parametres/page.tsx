@@ -81,7 +81,6 @@ export default function ParametresPage() {
       <PageHeader
         title="Paramètres"
         description="Configurez votre équipe, catalogue, sécurité et intégrations pour optimiser votre centre de formation."
-        icon={Settings}
       />
 
       <TabBar

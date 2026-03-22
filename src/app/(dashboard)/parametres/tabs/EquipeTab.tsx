@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { SearchInput } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyEquipe } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Card } from '@/components/ui/Card'
 import { Users, Plus, UserCheck, Crown, Shield, Settings, Mail, Phone } from 'lucide-react'
@@ -213,7 +214,7 @@ export default function EquipeTab() {
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les rôles</option>
             <option value="admin">Administrateur</option>
@@ -231,6 +232,7 @@ export default function EquipeTab() {
       {/* Liste de l'équipe */}
       {equipe.length === 0 ? (
         <EmptyState
+          illustration={<IllustrationEmptyEquipe size={120} />}
           icon={<Users className="w-4 h-4" />}
           title={search || roleFilter ? "Aucun membre trouvé" : "Aucun membre d'équipe"}
           description={search || roleFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Commencez par inviter des membres à rejoindre votre équipe."}

@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Scraping Production via Bright Data
 // PagesJaunes + Planity + Treatwell + Google Avis
@@ -102,7 +103,7 @@ async function fetchWithScrapingBrowser(url: string): Promise<string | null> {
       // Vérification qualité — la page doit avoir du contenu
       if (html.length < 500) throw new Error('Page trop courte, probablement bloquée')
 
-      console.log(`[Scraper] Scraping Browser OK pour ${url.slice(0, 60)} (${html.length} chars)`)
+      // Scraping Browser OK
       return html
     } catch (err) {
       console.warn(`[Scraper] ScrapingBrowser attempt ${attempt}/${MAX_RETRIES} failed:`, err)
@@ -140,7 +141,7 @@ async function fetchWithWebUnlocker(url: string): Promise<string | null> {
       const html = await res.text()
       if (html.length < 500) throw new Error('Page trop courte')
 
-      console.log(`[Scraper] WebUnlocker OK pour ${url.slice(0, 60)} (${html.length} chars)`)
+      // WebUnlocker OK
       return html
     } catch (err) {
       console.warn(`[Scraper] WebUnlocker attempt ${attempt}/${MAX_RETRIES} failed:`, err)
@@ -169,7 +170,7 @@ async function fetchWithScrapeDo(url: string, renderJs = false): Promise<string 
 
     if (!res.ok) return null
     const html = await res.text()
-    console.log(`[Scraper] Scrape.do OK pour ${url.slice(0, 60)} (${html.length} chars)`)
+    // Scrape.do OK
     return html
   } catch {
     return null
@@ -447,8 +448,7 @@ export async function scrapeCompetitorFull(params: {
 }): Promise<ScrapedCompetitor> {
   const results: ScrapedCompetitor = {}
 
-  console.log(`[Scraper] Lancement scraping complet pour "${params.nom}" à ${params.ville}`)
-  console.log(`[Scraper] URLs: PJ=${!!params.pagesJaunesUrl} Planity=${!!params.planityUrl} Treatwell=${!!params.treatwellUrl}`)
+  // Scraping complet lancé
 
   // Construire URLs avec les bons formats (testés mars 2026)
   const slugify = (s: string) => s.toLowerCase()
@@ -477,7 +477,7 @@ export async function scrapeCompetitorFull(params: {
     fetchWithFullFallback(pjUrl, true).then(html => {
       if (html) {
         results.pagesJaunes = parsePagesJaunes(html)
-        console.log(`[Scraper] PJ: rating=${results.pagesJaunes?.rating}, avis=${results.pagesJaunes?.reviewsCount}, services=${results.pagesJaunes?.services?.length || 0}`)
+        // PJ parsed
       }
     }),
 
@@ -485,7 +485,7 @@ export async function scrapeCompetitorFull(params: {
     fetchWithFullFallback(planityUrl, true).then(html => {
       if (html) {
         results.planity = parsePlanity(html)
-        console.log(`[Scraper] Planity: found=${results.planity?.found}, rating=${results.planity?.rating}, services=${results.planity?.services?.length || 0}`)
+        // Planity parsed
       }
     }),
 
@@ -493,16 +493,10 @@ export async function scrapeCompetitorFull(params: {
     fetchWithFullFallback(treatwellUrl, false).then(html => {
       if (html) {
         results.treatwell = parseTreatwell(html)
-        console.log(`[Scraper] Treatwell: found=${results.treatwell?.found}, rating=${results.treatwell?.rating}`)
+        // Treatwell parsed
       }
     }),
   ])
-
-  // Log résultats
-  const pjStatus = pjResult.status === 'fulfilled' ? 'OK' : 'FAILED'
-  const planityStatus = planityResult.status === 'fulfilled' ? 'OK' : 'FAILED'
-  const treatwellStatus = treatwellResult.status === 'fulfilled' ? 'OK' : 'FAILED'
-  console.log(`[Scraper] Résultats: PJ=${pjStatus} Planity=${planityStatus} Treatwell=${treatwellStatus}`)
 
   return results
 }

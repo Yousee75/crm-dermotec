@@ -41,7 +41,7 @@ export function PdfMerger() {
       }
 
       const mergedBytes = await mergedPdf.save()
-      const blob = new Blob([mergedBytes], { type: 'application/pdf' })
+      const blob = new Blob([mergedBytes as BlobPart], { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
@@ -64,7 +64,7 @@ export function PdfMerger() {
   return (
     <div className="space-y-4">
       {/* Upload zone */}
-      <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-[#2EC6F3] rounded-xl p-6 cursor-pointer transition-colors">
+      <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-primary rounded-xl p-6 cursor-pointer transition-colors">
         <Upload size={28} className="text-gray-400 mb-2" />
         <p className="text-sm text-gray-600 font-medium">Ajouter des fichiers PDF</p>
         <p className="text-xs text-gray-400 mt-1">Glissez ou cliquez pour sélectionner</p>

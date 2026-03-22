@@ -12,8 +12,8 @@ function PageHeader({ title, description, children, className }: PageHeaderProps
     <div className={cn('flex flex-col sm:flex-row sm:items-center justify-between gap-4', className)}>
       <div>
         <h1
-          className="text-2xl font-bold text-[#082545] tracking-tight"
-          style={{ fontFamily: 'var(--font-heading)' }}
+          className="text-2xl font-bold text-accent tracking-tight"
+         
         >
           {title}
         </h1>

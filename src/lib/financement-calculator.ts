@@ -1,8 +1,8 @@
 // Module de calculs financiers complet pour le CRM Dermotec
 // Centre de formation esthétique certifié Qualiopi
 
+import type { OrganismeFinancement } from '@/types/formations-content'
 import {
-  OrganismeFinancement,
   getOrganismeById,
   getOrganismeParProfil,
   calculerFinancement,
@@ -155,7 +155,7 @@ export function calculerCoutsFormation(params: {
     restauration,
     administratif,
     autres,
-    autresDetail,
+    autresDetail: coutAutresDetail,
     total,
     parJour,
     parHeure,
@@ -544,6 +544,7 @@ export function genererRapportFinancier(params: {
   sections.push({
     titre: 'Recommandations',
     contenu: marge.recommandation,
+    montant: 0,
     alerte: marge.niveau === 'deficit' || marge.niveau === 'faible',
   })
 

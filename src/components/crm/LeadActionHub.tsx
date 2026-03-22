@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLead } from '@/hooks/use-leads'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
 import { toast } from 'sonner'
 import {
   Phone, Mail, MessageCircle, Target, GraduationCap,
@@ -348,10 +348,10 @@ export default function LeadActionHub({ leadId, onActionClick }: LeadActionHubPr
                   'flex-shrink-0 h-auto py-2 px-3 flex items-center gap-2 min-h-[44px]',
                   'hover:scale-[1.02] transition-all duration-200',
                   {
-                    'bg-[#2EC6F3] hover:bg-[#0284C7] text-white border-[#2EC6F3]': isPrimary,
+                    'bg-primary hover:bg-[#0284C7] text-white border-primary': isPrimary,
                     'bg-green-50 border-green-200 text-green-700 hover:bg-green-100': action.variant === 'success',
                     'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100': action.variant === 'warning',
-                    'ring-2 ring-[#2EC6F3] ring-offset-1': isActive,
+                    'ring-2 ring-primary ring-offset-1': isActive,
                     'shadow-md': isPrimary || isActive,
                   }
                 )}

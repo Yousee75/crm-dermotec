@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
+import { sanitizeEmail } from '@/lib/sanitize'
 
 export function EmailSignatureGenerator() {
   const [form, setForm] = useState({
@@ -69,7 +70,7 @@ export function EmailSignatureGenerator() {
               value={form[f.field as keyof typeof form]}
               onChange={e => update(f.field, e.target.value)}
               placeholder={f.placeholder}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2EC6F3]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
             />
           </div>
         ))}
@@ -78,12 +79,12 @@ export function EmailSignatureGenerator() {
       {/* Aperçu */}
       <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
         <p className="text-xs text-gray-400 mb-2">Aperçu :</p>
-        <div dangerouslySetInnerHTML={{ __html: signatureHtml }} />
+        <div dangerouslySetInnerHTML={{ __html: sanitizeEmail(signatureHtml) }} />
       </div>
 
       <button
         onClick={copySignature}
-        className="w-full bg-[#082545] hover:bg-[#0F3460] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+        className="w-full bg-accent hover:bg-[#0F3460] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
       >
         {copied ? <Check size={16} /> : <Copy size={16} />}
         {copied ? 'Copié !' : 'Copier la signature HTML'}

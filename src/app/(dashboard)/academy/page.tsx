@@ -312,7 +312,7 @@ export default function AcademyPage() {
                   "group relative rounded-xl border transition-all duration-200",
                   isLocked
                     ? "bg-gray-50 border-gray-200 cursor-not-allowed"
-                    : "bg-white border-gray-200 hover:border-[#2EC6F3] hover:shadow-lg cursor-pointer"
+                    : "bg-white border-gray-200 hover:border-primary hover:shadow-lg cursor-pointer"
                 )}
               >
                 <div className="p-6">
@@ -502,7 +502,7 @@ export default function AcademyPage() {
                     </div>
 
                     <div className="text-right">
-                      <p className="font-bold text-[#2EC6F3]">
+                      <p className="font-bold text-primary">
                         {member.total_points}
                       </p>
                       <p className="text-xs text-gray-500">points</p>

@@ -54,7 +54,7 @@ export function ProgressRing({
       </svg>
       {showLabel && (
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-bold text-[#082545]">{percent}%</span>
+          <span className="text-2xl font-bold text-accent">{percent}%</span>
           {label && <span className="text-xs text-gray-400 mt-0.5">{label}</span>}
         </div>
       )}

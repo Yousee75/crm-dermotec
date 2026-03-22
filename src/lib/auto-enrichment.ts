@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Auto Enrichment Helper
 // Utilities pour déclencher l'enrichissement automatique
@@ -46,7 +47,7 @@ export async function triggerLeadEnrichment(data: EnrichmentTriggerData) {
 
     // Vérifier s'il y a assez de données pour l'enrichissement
     if (!enrichmentData.siret && !enrichmentData.nom) {
-      console.log('[AutoEnrichment] Skipped - not enough data for enrichment')
+      // Skipped - not enough data
       return { skipped: true, reason: 'Not enough data (need SIRET or company name)' }
     }
 
@@ -60,7 +61,7 @@ export async function triggerLeadEnrichment(data: EnrichmentTriggerData) {
       .limit(1)
 
     if (recentEnrichment && recentEnrichment.length > 0) {
-      console.log('[AutoEnrichment] Skipped - recent enrichment exists')
+      // Skipped - recent enrichment exists
       return { skipped: true, reason: 'Recent enrichment already exists (< 7 days)' }
     }
 
@@ -70,7 +71,7 @@ export async function triggerLeadEnrichment(data: EnrichmentTriggerData) {
       data: enrichmentData
     })
 
-    console.log('[AutoEnrichment] Triggered:', result)
+    // Triggered enrichment
 
     return { triggered: true, eventId: result?.ids?.[0] }
   } catch (error) {

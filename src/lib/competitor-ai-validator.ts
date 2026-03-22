@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Validation IA des données concurrents
 // Double validation : DeepSeek (rapide/pas cher) + Claude (précis)

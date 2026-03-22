@@ -9,7 +9,7 @@ import {
   Shield, MessageCircle, Lightbulb, Star, Zap, Plus,
   ThumbsUp, ThumbsDown, CheckCircle, XCircle, Trophy,
   Loader2, Copy, Check, Bot, Send, ChevronDown, ChevronUp,
-  Sparkles, TrendingUp, Clock
+  TrendingUp, Clock
 } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
@@ -81,7 +81,7 @@ export default function PlaybookPage() {
           onClick={() => setActiveCategorie(undefined)}
           className={cn(
             'px-3 py-1.5 rounded-lg text-sm font-medium transition',
-            !activeCategorie ? 'bg-[#082545] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            !activeCategorie ? 'bg-accent text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           )}
         >
           Tout
@@ -110,7 +110,7 @@ export default function PlaybookPage() {
       {/* Liste des entrées */}
       {isLoading ? (
         <div className="text-center py-12">
-          <Loader2 className="w-8 h-8 mx-auto text-[#2EC6F3] animate-spin" />
+          <Loader2 className="w-8 h-8 mx-auto text-primary animate-spin" />
         </div>
       ) : entries?.length === 0 ? (
         <Card>
@@ -120,7 +120,7 @@ export default function PlaybookPage() {
             <p className="text-sm text-gray-400 mt-1">Ajoutez votre première objection ou astuce !</p>
             <button
               onClick={() => setShowNewModal(true)}
-              className="mt-4 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg text-sm font-medium"
+              className="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium"
             >
               Commencer
             </button>
@@ -169,7 +169,7 @@ export default function PlaybookPage() {
                     {/* Meilleure réponse en preview */}
                     {bestResponse && !isExpanded && (
                       <p className="text-xs text-gray-600 mt-2 line-clamp-2 bg-gray-50 rounded-lg px-3 py-2">
-                        {bestResponse.is_ai_generated && <Bot className="w-3 h-3 inline mr-1 text-[#2EC6F3]" />}
+                        {bestResponse.is_ai_generated && <Bot className="w-3 h-3 inline mr-1 text-primary" />}
                         {bestResponse.contenu}
                       </p>
                     )}
@@ -187,7 +187,7 @@ export default function PlaybookPage() {
                     {entry.responses?.sort((a, b) => b.taux_succes - a.taux_succes || b.upvotes - a.upvotes).map((resp, i) => (
                       <div key={resp.id} className={cn(
                         'bg-white rounded-xl p-4 border transition',
-                        i === 0 ? 'border-[#2EC6F3]/30 shadow-sm' : 'border-gray-100'
+                        i === 0 ? 'border-primary/30 shadow-sm' : 'border-gray-100'
                       )}>
                         {/* Badge meilleure réponse */}
                         {i === 0 && (
@@ -203,7 +203,7 @@ export default function PlaybookPage() {
                         {/* Contenu */}
                         <div className="flex gap-2">
                           {resp.is_ai_generated && (
-                            <Bot className="w-4 h-4 text-[#2EC6F3] shrink-0 mt-0.5" />
+                            <Bot className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                           )}
                           <p className="text-sm text-gray-700 leading-relaxed flex-1">{resp.contenu}</p>
                           <button
@@ -295,12 +295,12 @@ function AddResponseInline({ entryId, existingResponses }: { entryId: string; ex
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
           placeholder="Ajouter votre réponse..."
-          className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/20 outline-none"
+          className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none"
         />
         <button
           onClick={handleAdd}
           disabled={!text.trim() || addMutation.isPending}
-          className="p-2 bg-[#2EC6F3] text-white rounded-lg disabled:opacity-40"
+          className="p-2 bg-primary text-white rounded-lg disabled:opacity-40"
         >
           <Send className="w-4 h-4" />
         </button>
@@ -382,7 +382,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
             placeholder={categorie === 'objection' ? 'Ex: "C\'est trop cher"' : 'Titre de l\'entrée...'}
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/10 outline-none"
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
           />
         </div>
 
@@ -394,7 +394,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             value={contexte}
             onChange={(e) => setContexte(e.target.value)}
             placeholder="Ex: Reconversion, intéressée microblading"
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/10 outline-none"
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
           />
         </div>
 
@@ -404,9 +404,9 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             {!aiSuggestion && !suggestMutation.isPending && (
               <button
                 onClick={handleSuggest}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#2EC6F3]/10 text-[#2EC6F3] text-xs font-medium hover:bg-[#2EC6F3]/20 transition"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition"
               >
-                <Sparkles className="w-3.5 h-3.5" />
+                <Lightbulb className="w-3.5 h-3.5" />
                 L'IA suggère une réponse
               </button>
             )}
@@ -421,8 +421,8 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             {aiSuggestion && (
               <div className="bg-blue-50 rounded-xl p-3 border border-blue-100">
                 <div className="flex items-center gap-1.5 mb-2">
-                  <Bot className="w-3.5 h-3.5 text-[#2EC6F3]" />
-                  <span className="text-[11px] font-medium text-[#2EC6F3]">Suggestion IA</span>
+                  <Bot className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-[11px] font-medium text-primary">Suggestion IA</span>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed">{aiSuggestion}</p>
               </div>

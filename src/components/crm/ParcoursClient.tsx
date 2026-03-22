@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useLead } from '@/hooks/use-leads'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/ui/Badge'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { formatDate, formatEuro } from '@/lib/utils'
 import {
@@ -42,7 +42,7 @@ const ETAPES_PARCOURS = [
 
 const mapStatutToEtape = (statut: StatutLead): number => {
   for (let i = 0; i < ETAPES_PARCOURS.length; i++) {
-    if (ETAPES_PARCOURS[i].statuts.includes(statut as any)) {
+    if ((ETAPES_PARCOURS[i].statuts as readonly string[]).includes(statut)) {
       return i
     }
   }
@@ -184,9 +184,9 @@ const getStatutColor = (statut: 'complete' | 'active' | 'pending') => {
       }
     case 'active':
       return {
-        circle: 'bg-[#2EC6F3] border-[#2EC6F3] animate-pulse',
+        circle: 'bg-primary border-primary animate-pulse',
         line: 'bg-slate-300',
-        text: 'text-[#2EC6F3]',
+        text: 'text-primary',
         bg: 'bg-blue-50'
       }
     case 'pending':

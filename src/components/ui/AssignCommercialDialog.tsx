@@ -67,7 +67,7 @@ export function AssignCommercialDialog({ open, onClose, lead }: Props) {
           onClick={() => setSelectedId('')}
           className={cn(
             'w-full flex items-center gap-3 p-3 rounded-xl border-2 transition text-left',
-            !selectedId ? 'border-[#2EC6F3] bg-[#2EC6F3]/5' : 'border-gray-100 hover:border-gray-200'
+            !selectedId ? 'border-primary bg-primary/5' : 'border-gray-100 hover:border-gray-200'
           )}
         >
           <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-xs">—</div>
@@ -81,12 +81,12 @@ export function AssignCommercialDialog({ open, onClose, lead }: Props) {
             onClick={() => setSelectedId(c.id)}
             className={cn(
               'w-full flex items-center gap-3 p-3 rounded-xl border-2 transition text-left',
-              selectedId === c.id ? 'border-[#2EC6F3] bg-[#2EC6F3]/5' : 'border-gray-100 hover:border-gray-200'
+              selectedId === c.id ? 'border-primary bg-primary/5' : 'border-gray-100 hover:border-gray-200'
             )}
           >
             <Avatar name={`${c.prenom} ${c.nom}`} size="sm" color={c.avatar_color} status="online" />
             <div>
-              <p className="text-sm font-medium text-[#082545]">{c.prenom} {c.nom}</p>
+              <p className="text-sm font-medium text-accent">{c.prenom} {c.nom}</p>
               <p className="text-xs text-gray-400 capitalize">{c.role}</p>
             </div>
           </button>

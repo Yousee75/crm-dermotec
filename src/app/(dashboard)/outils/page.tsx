@@ -159,7 +159,7 @@ export default function OutilsPage() {
               >
                 <Icon size={20} style={{ color: t.color }} />
               </div>
-              <h3 className="font-semibold text-[#082545] text-sm group-hover:text-[#2EC6F3] transition-colors">
+              <h3 className="font-semibold text-accent text-sm group-hover:text-primary transition-colors">
                 {t.title}
               </h3>
               <p className="text-xs text-gray-500 mt-1">{t.description}</p>
@@ -184,7 +184,7 @@ export default function OutilsPage() {
                 <tool.icon size={20} style={{ color: tool.color }} />
               </div>
               <div>
-                <h2 className="font-semibold text-lg text-[#082545]">{tool.title}</h2>
+                <h2 className="font-semibold text-lg text-accent">{tool.title}</h2>
                 <p className="text-sm text-gray-500">{tool.description}</p>
               </div>
             </div>

@@ -225,7 +225,7 @@ export default function ModuleDetailPage() {
                         className={cn(
                           "flex items-center gap-4 p-4 rounded-xl border transition-all duration-200",
                           isCompleted ? "bg-green-50 border-green-200" :
-                          isCurrent ? "bg-blue-50 border-[#2EC6F3] ring-2 ring-[#2EC6F3]/20" :
+                          isCurrent ? "bg-blue-50 border-primary ring-2 ring-primary/20" :
                           isLocked ? "bg-gray-50 border-gray-200 cursor-not-allowed opacity-60" :
                           "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
                         )}
@@ -234,7 +234,7 @@ export default function ModuleDetailPage() {
                         <div className={cn(
                           "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold",
                           isCompleted ? "bg-green-500 text-white" :
-                          isCurrent ? "bg-[#2EC6F3] text-white" :
+                          isCurrent ? "bg-primary text-white" :
                           isLocked ? "bg-gray-300 text-gray-500" :
                           "bg-gray-200 text-gray-600"
                         )}>
@@ -251,14 +251,14 @@ export default function ModuleDetailPage() {
                             <h3 className={cn(
                               "font-medium truncate",
                               isCompleted ? "text-green-900 line-through" :
-                              isCurrent ? "text-[#2EC6F3]" :
+                              isCurrent ? "text-primary" :
                               isLocked ? "text-gray-400" :
                               "text-gray-900"
                             )}>
                               {lesson.titre}
                             </h3>
                             {isCurrent && (
-                              <Play className="w-4 h-4 text-[#2EC6F3] animate-pulse" />
+                              <Play className="w-4 h-4 text-primary animate-pulse" />
                             )}
                           </div>
 
@@ -336,7 +336,7 @@ export default function ModuleDetailPage() {
               <div className="pt-2 border-t">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Points potentiels</span>
-                  <span className="font-medium text-[#2EC6F3]">
+                  <span className="font-medium text-primary">
                     {lessons.reduce((acc: number, lesson: AcademyLesson) => acc + lesson.points, 0)}
                   </span>
                 </div>
@@ -364,7 +364,7 @@ export default function ModuleDetailPage() {
                       href={`/academy/${slug}/${lesson.slug}`}
                       className={cn(
                         "flex items-center gap-3 p-2 rounded-lg text-sm transition-colors",
-                        isCurrent ? "bg-blue-50 text-[#2EC6F3]" :
+                        isCurrent ? "bg-blue-50 text-primary" :
                         isCompleted ? "bg-green-50 text-green-700" :
                         "text-gray-600 hover:bg-gray-50"
                       )}
@@ -372,7 +372,7 @@ export default function ModuleDetailPage() {
                       <div className={cn(
                         "w-4 h-4 rounded-full flex items-center justify-center text-xs",
                         isCompleted ? "bg-green-500 text-white" :
-                        isCurrent ? "bg-[#2EC6F3] text-white" :
+                        isCurrent ? "bg-primary text-white" :
                         "bg-gray-200 text-gray-500"
                       )}>
                         {isCompleted ? (

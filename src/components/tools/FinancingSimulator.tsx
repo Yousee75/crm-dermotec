@@ -45,7 +45,7 @@ export function FinancingSimulator() {
         <select
           value={formationIdx}
           onChange={e => setFormationIdx(Number(e.target.value))}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#2EC6F3]"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
         >
           {FORMATIONS.map((f, i) => (
             <option key={f.nom} value={i}>{f.nom} — {f.prix}€ HT</option>
@@ -59,7 +59,7 @@ export function FinancingSimulator() {
         <select
           value={financementId}
           onChange={e => setFinancementId(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#2EC6F3]"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
         >
           {FINANCEMENTS.map(f => (
             <option key={f.id} value={f.id}>{f.label}</option>
@@ -106,7 +106,7 @@ export function FinancingSimulator() {
         {echeances > 1 && resteACharge > 0 && (
           <div className="flex justify-between text-sm">
             <span className="text-white/70">Mensualité ({echeances}x)</span>
-            <span className="font-mono text-[#2EC6F3]">{mensualite.toFixed(0)}€/mois</span>
+            <span className="font-mono text-primary">{mensualite.toFixed(0)}€/mois</span>
           </div>
         )}
       </div>

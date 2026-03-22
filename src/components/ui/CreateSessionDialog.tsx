@@ -110,7 +110,7 @@ export function CreateSessionDialog({ open, onClose }: Props) {
             value={formationId}
             onChange={(e) => handleFormationChange(e.target.value)}
             required
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Sélectionner une formation</option>
             {formations?.map(f => (
@@ -136,7 +136,7 @@ export function CreateSessionDialog({ open, onClose }: Props) {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-gray-700">Formatrice</label>
-            <select value={formatriceId} onChange={(e) => setFormatriceId(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white">
+            <select value={formatriceId} onChange={(e) => setFormatriceId(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white">
               <option value="">Sélectionner...</option>
               {formatrices?.map(f => <option key={f.id} value={f.id}>{f.prenom} {f.nom}</option>)}
             </select>
@@ -145,8 +145,8 @@ export function CreateSessionDialog({ open, onClose }: Props) {
         </div>
 
         {selectedFormation && dateDebut && (
-          <div className="bg-[#2EC6F3]/5 border border-[#2EC6F3]/20 rounded-xl p-3">
-            <p className="text-sm font-medium text-[#082545]">{selectedFormation.nom}</p>
+          <div className="bg-primary/5 border border-primary/20 rounded-xl p-3">
+            <p className="text-sm font-medium text-accent">{selectedFormation.nom}</p>
             <p className="text-xs text-gray-500 mt-0.5">{selectedFormation.duree_jours}j · {selectedFormation.duree_heures}h · {selectedFormation.prix_ht}€ HT · {placesMax} places</p>
           </div>
         )}

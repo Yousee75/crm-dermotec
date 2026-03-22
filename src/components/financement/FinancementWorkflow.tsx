@@ -41,8 +41,8 @@ import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Avatar } from '@/components/ui/Avatar'
-import { Progress } from '@/components/ui/Progress'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs'
+import { Progress } from '@/components/ui/progress'
+import { TabsRoot as Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
@@ -74,7 +74,12 @@ const WORKFLOW_STEPS = [
 
 // Mock data pour les fonctionnalités non implémentées
 // TODO: Remplacer par de vrais hooks quand les tables seront créées
-const mockFactures = [
+const mockFactures: Array<{
+  id: string; numero: string; type: string; destinataire: string;
+  montantHT: number; tauxTVA: number; montantTTC: number;
+  statut: 'brouillon' | 'envoyee' | 'payee'; dateEmission: string;
+  dateEcheance: string; dateEnvoi?: string; relances: number;
+}> = [
   {
     id: '1',
     numero: 'FAC-2026-0001',
@@ -83,7 +88,7 @@ const mockFactures = [
     montantHT: 1200,
     tauxTVA: 0,
     montantTTC: 1200,
-    statut: 'envoyee' as const,
+    statut: 'envoyee',
     dateEmission: '2026-03-15',
     dateEcheance: '2026-04-15',
     dateEnvoi: '2026-03-15',
@@ -97,7 +102,7 @@ const mockFactures = [
     montantHT: -200,
     tauxTVA: 20,
     montantTTC: -240,
-    statut: 'brouillon' as const,
+    statut: 'brouillon',
     dateEmission: '2026-03-20',
     dateEcheance: '2026-04-20',
     relances: 0
@@ -259,7 +264,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-[#082545]">Pipeline de financement</h2>
+        <h2 className="text-lg font-semibold text-accent">Pipeline de financement</h2>
         <div className="text-sm text-gray-500">
           Étape {Math.min(currentStep + 1, 12)}/12 — {Math.round(((currentStep + 1) / 12) * 100)}%
         </div>
@@ -284,7 +289,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
                   'relative cursor-pointer group',
                   'h-12 rounded-lg border-2 flex items-center justify-center text-xs font-medium transition-all',
                   isCompleted && 'bg-green-50 border-green-200 text-green-700',
-                  isActive && 'bg-[#2EC6F3]/10 border-[#2EC6F3] text-[#082545]',
+                  isActive && 'bg-primary/10 border-primary text-accent',
                   isFuture && 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'
                 )}
                 onClick={() => onStepClick(index)}
@@ -329,7 +334,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
                 className={cn(
                   'flex-shrink-0 w-20 h-12 rounded-lg border-2 flex items-center justify-center text-xs font-medium',
                   isCompleted && 'bg-green-50 border-green-200 text-green-700',
-                  isActive && 'bg-[#2EC6F3]/10 border-[#2EC6F3] text-[#082545]',
+                  isActive && 'bg-primary/10 border-primary text-accent',
                   !isCompleted && !isActive && 'bg-gray-50 border-gray-200 text-gray-500'
                 )}
               >
@@ -345,10 +350,10 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
       </div>
 
       {/* Prochaine action */}
-      <div className="bg-[#2EC6F3]/5 border border-[#2EC6F3]/20 rounded-lg p-3">
+      <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-[#2EC6F3] rounded-full animate-pulse" />
-          <span className="text-sm font-medium text-[#082545]">Prochaine action:</span>
+          <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+          <span className="text-sm font-medium text-accent">Prochaine action:</span>
           <span className="text-sm text-gray-600">{getNextAction(currentStep)}</span>
         </div>
       </div>
@@ -368,7 +373,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Informations principales */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-[#082545] flex items-center gap-2">
+            <h3 className="font-semibold text-accent flex items-center gap-2">
               <User className="w-4 h-4" />
               Informations principales
             </h3>
@@ -384,13 +389,13 @@ function ResumeActionsTab({ financement }: { financement: any }) {
               <div className="flex items-center gap-3">
                 <Avatar name="Sophie Martin" size="sm" />
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-[#082545]">Sophie Martin</p>
+                  <p className="font-medium text-accent">Sophie Martin</p>
                   <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <a href="tel:0123456789" className="flex items-center gap-1 hover:text-[#2EC6F3]">
+                    <a href="tel:0123456789" className="flex items-center gap-1 hover:text-primary">
                       <Phone className="w-3 h-3" />
                       01 23 45 67 89
                     </a>
-                    <a href="mailto:sophie.martin@email.com" className="flex items-center gap-1 hover:text-[#2EC6F3]">
+                    <a href="mailto:sophie.martin@email.com" className="flex items-center gap-1 hover:text-primary">
                       <Mail className="w-3 h-3" />
                       sophie.martin@email.com
                     </a>
@@ -407,7 +412,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
 
           {/* Montants */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-[#082545] flex items-center gap-2">
+            <h3 className="font-semibold text-accent flex items-center gap-2">
               <Euro className="w-4 h-4" />
               Suivi financier
             </h3>
@@ -416,7 +421,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-500">Demandé</p>
-                  <p className="text-lg font-semibold text-[#082545]">1 500,00 €</p>
+                  <p className="text-lg font-semibold text-accent">1 500,00 €</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">APC accordé</p>
@@ -453,8 +458,8 @@ function ResumeActionsTab({ financement }: { financement: any }) {
         {/* Mode de paiement */}
         <div className="mt-6 pt-6 border-t border-gray-100">
           <div className="flex items-center gap-2 mb-2">
-            <CreditCard className="w-4 h-4 text-[#2EC6F3]" />
-            <span className="font-medium text-[#082545]">Mode de paiement:</span>
+            <CreditCard className="w-4 h-4 text-primary" />
+            <span className="font-medium text-accent">Mode de paiement:</span>
             <Badge variant="outline">Subrogation</Badge>
           </div>
           <p className="text-sm text-gray-600">
@@ -464,7 +469,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
 
         {/* Dates clés */}
         <div className="mt-6 pt-6 border-t border-gray-100">
-          <h4 className="font-medium text-[#082545] mb-3 flex items-center gap-2">
+          <h4 className="font-medium text-accent mb-3 flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             Dates importantes
           </h4>
@@ -491,7 +496,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
 
       {/* Actions rapides */}
       <Card className="p-6">
-        <h3 className="font-semibold text-[#082545] mb-4">Actions rapides</h3>
+        <h3 className="font-semibold text-accent mb-4">Actions rapides</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <Button
             className="justify-start gap-2"
@@ -570,7 +575,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
               className="bg-white rounded-lg p-6 w-full max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="font-semibold text-[#082545] mb-4">Avancer à l'étape suivante</h3>
+              <h3 className="font-semibold text-accent mb-4">Avancer à l'étape suivante</h3>
               <div className="space-y-4">
                 <Select>
                   <SelectTrigger>
@@ -613,7 +618,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
               className="bg-white rounded-lg p-6 w-full max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="font-semibold text-[#082545] mb-4">Enregistrer un paiement</h3>
+              <h3 className="font-semibold text-accent mb-4">Enregistrer un paiement</h3>
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-1 block">Montant</label>
@@ -681,11 +686,11 @@ function DocumentsTab() {
       <Card className="p-4">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="font-semibold text-[#082545]">Progression des documents</h3>
+            <h3 className="font-semibold text-accent">Progression des documents</h3>
             <p className="text-sm text-gray-600">{validatedCount}/{totalCount} documents validés</p>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold text-[#2EC6F3]">{Math.round(progressPercentage)}%</p>
+            <p className="text-2xl font-bold text-primary">{Math.round(progressPercentage)}%</p>
             <p className="text-xs text-gray-500">Complétude</p>
           </div>
         </div>
@@ -750,7 +755,7 @@ function DocumentsTab() {
       {/* Liste des documents */}
       <Card padding="none">
         <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-          <h3 className="font-semibold text-[#082545]">Documents du dossier</h3>
+          <h3 className="font-semibold text-accent">Documents du dossier</h3>
           <div className="flex gap-2">
             <Button size="sm" variant="outline" className="gap-2">
               <Download className="w-4 h-4" />
@@ -779,7 +784,7 @@ function DocumentsTab() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                      <p className="font-medium text-[#082545] truncate">{doc.nom}</p>
+                      <p className="font-medium text-accent truncate">{doc.nom}</p>
                       <div className="flex items-center gap-2 mt-1">
                         <Badge
                           size="sm"
@@ -850,10 +855,10 @@ function PaiementsTab() {
     <div className="space-y-6">
       {/* Résumé financier */}
       <Card className="p-6">
-        <h3 className="font-semibold text-[#082545] mb-4">Résumé financier</h3>
+        <h3 className="font-semibold text-accent mb-4">Résumé financier</h3>
         <div className="grid grid-cols-3 gap-6">
           <div className="text-center">
-            <p className="text-2xl font-bold text-[#082545]">{formatEuro(Math.abs(totalFacture))}</p>
+            <p className="text-2xl font-bold text-accent">{formatEuro(Math.abs(totalFacture))}</p>
             <p className="text-sm text-gray-600">Total facturé</p>
           </div>
           <div className="text-center">
@@ -888,7 +893,7 @@ function PaiementsTab() {
               className={cn(
                 'py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap',
                 activeSubTab === tab.key
-                  ? 'border-[#2EC6F3] text-[#2EC6F3]'
+                  ? 'border-primary text-primary'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               )}
             >
@@ -902,7 +907,7 @@ function PaiementsTab() {
       {activeSubTab === 'factures' && (
         <Card padding="none">
           <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-            <h4 className="font-medium text-[#082545]">Factures émises</h4>
+            <h4 className="font-medium text-accent">Factures émises</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
               Nouvelle facture
@@ -974,7 +979,7 @@ function PaiementsTab() {
       {activeSubTab === 'paiements' && (
         <Card padding="none">
           <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-            <h4 className="font-medium text-[#082545]">Paiements reçus</h4>
+            <h4 className="font-medium text-accent">Paiements reçus</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
               Enregistrer paiement
@@ -1031,7 +1036,7 @@ function PaiementsTab() {
       {activeSubTab === 'echeancier' && (
         <Card padding="none">
           <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-            <h4 className="font-medium text-[#082545]">Échéancier de paiement</h4>
+            <h4 className="font-medium text-accent">Échéancier de paiement</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
               Créer échéancier
@@ -1090,7 +1095,7 @@ function MultiFinancementTab() {
       <Card className="p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-semibold text-[#082545]">Multi-financement</h3>
+            <h3 className="font-semibold text-accent">Multi-financement</h3>
             <p className="text-sm text-gray-600">Combiner plusieurs organismes pour un même dossier</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -1102,7 +1107,7 @@ function MultiFinancementTab() {
             />
             <div className={cn(
               "w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer transition-colors",
-              isEnabled && "bg-[#2EC6F3]"
+              isEnabled && "bg-primary"
             )}>
               <div className={cn(
                 "w-5 h-5 bg-white rounded-full shadow transform transition-transform",
@@ -1122,10 +1127,10 @@ function MultiFinancementTab() {
         >
           {/* Résumé */}
           <Card className="p-6">
-            <h4 className="font-semibold text-[#082545] mb-4">Répartition financière</h4>
+            <h4 className="font-semibold text-accent mb-4">Répartition financière</h4>
             <div className="grid grid-cols-3 gap-6">
               <div className="text-center">
-                <p className="text-2xl font-bold text-[#2EC6F3]">{formatEuro(totalCouvert)}</p>
+                <p className="text-2xl font-bold text-primary">{formatEuro(totalCouvert)}</p>
                 <p className="text-sm text-gray-600">Total couvert</p>
               </div>
               <div className="text-center">
@@ -1156,7 +1161,7 @@ function MultiFinancementTab() {
           {/* Lignes de financement */}
           <Card padding="none">
             <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-              <h4 className="font-medium text-[#082545]">Lignes de financement</h4>
+              <h4 className="font-medium text-accent">Lignes de financement</h4>
               <Button size="sm" className="gap-2">
                 <Plus className="w-4 h-4" />
                 Ajouter une ligne
@@ -1229,7 +1234,7 @@ function MultiFinancementTab() {
         <Card className="p-8 text-center">
           <div className="max-w-md mx-auto">
             <PlusCircle className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-            <h3 className="font-medium text-[#082545] mb-2">Multi-financement désactivé</h3>
+            <h3 className="font-medium text-accent mb-2">Multi-financement désactivé</h3>
             <p className="text-sm text-gray-600 mb-4">
               Activez cette option pour combiner plusieurs organismes financeurs sur un même dossier.
             </p>
@@ -1335,7 +1340,7 @@ function HistoriqueTab() {
 
       {/* Timeline */}
       <Card className="p-6">
-        <h3 className="font-semibold text-[#082545] mb-6">Historique complet</h3>
+        <h3 className="font-semibold text-accent mb-6">Historique complet</h3>
 
         <div className="space-y-6">
           {filteredHistorique.map((entry, index) => {
@@ -1375,7 +1380,7 @@ function HistoriqueTab() {
                           par {entry.utilisateur}
                         </span>
                       </div>
-                      <p className="font-medium text-[#082545] mb-1">
+                      <p className="font-medium text-accent mb-1">
                         {entry.description}
                       </p>
                       {entry.details && (
@@ -1416,7 +1421,7 @@ function HistoriqueTab() {
               className="bg-white rounded-lg p-6 w-full max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="font-semibold text-[#082545] mb-4">Ajouter une note</h3>
+              <h3 className="font-semibold text-accent mb-4">Ajouter une note</h3>
               <div className="space-y-4">
                 <Textarea
                   placeholder="Saisissez votre note..."
@@ -1476,7 +1481,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
           <div>
-            <h1 className="text-xl font-bold text-[#082545]">Workflow de financement</h1>
+            <h1 className="text-xl font-bold text-accent">Workflow de financement</h1>
             <p className="text-gray-600">
               Sophie Martin · OPCO EP · N° OPCO-2026-0341
             </p>

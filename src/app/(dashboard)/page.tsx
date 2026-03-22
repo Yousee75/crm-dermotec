@@ -124,7 +124,7 @@ export default function DashboardPage() {
             className="h-8 w-auto object-contain"
           />
           <div>
-            <h1 className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h1 className="text-2xl font-bold text-accent">
               {greeting}{currentUser?.prenom ? ` ${currentUser.prenom}` : ''} 👋
             </h1>
             <p className="text-sm text-gray-500">
@@ -134,23 +134,115 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Alerte s'il y a des actions urgentes */}
-      {(overdueCount > 0 || todayCount > 0 || sessionsAVenir > 0) && (
-        <div className="bg-gradient-to-r from-[#082545] to-[#0F3A6E] rounded-xl p-4 text-white">
-          <p className="text-blue-200 text-sm">
-            {overdueCount > 0 && <span className="text-amber-300">{overdueCount} rappel{overdueCount > 1 ? 's' : ''} en retard</span>}
-            {overdueCount > 0 && (todayCount > 0 || sessionsAVenir > 0) && <span> · </span>}
-            {todayCount > 0 && <span>{todayCount} rappel{todayCount > 1 ? 's' : ''} aujourd&apos;hui</span>}
-            {todayCount > 0 && sessionsAVenir > 0 && <span> · </span>}
-            {sessionsAVenir > 0 && <span>{sessionsAVenir} session{sessionsAVenir > 1 ? 's' : ''} à venir</span>}
-          </p>
+      {/* FOCUS — Le message le plus important du moment */}
+      {overdueCount > 0 ? (
+        <Link href="/leads" className="block bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white hover:from-red-600 hover:to-red-700 transition-all shadow-lg shadow-red-500/20 group">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold">{overdueCount} rappel{overdueCount > 1 ? 's' : ''} en retard</p>
+                <p className="text-red-100 text-sm">Contactez-les maintenant pour ne pas les perdre</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-white/60 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
+      ) : todayCount > 0 ? (
+        <Link href="/leads" className="block bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl p-4 text-white hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg shadow-amber-500/20 group">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                <Phone className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold">{todayCount} prospect{todayCount > 1 ? 's' : ''} à rappeler aujourd&apos;hui</p>
+                <p className="text-amber-100 text-sm">Le meilleur moment pour appeler : maintenant</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-white/60 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
+      ) : sessionsAVenir > 0 ? (
+        <Link href="/sessions" className="block bg-gradient-to-r from-primary to-blue-500 rounded-xl p-4 text-white hover:from-primary-dark hover:to-blue-600 transition-all shadow-lg shadow-primary/20 group">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                <Calendar className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold">{sessionsAVenir} formation{sessionsAVenir > 1 ? 's' : ''} planifiée{sessionsAVenir > 1 ? 's' : ''}</p>
+                <p className="text-blue-100 text-sm">Vérifiez les inscriptions et le taux de remplissage</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-white/60 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
+      ) : (
+        <div className="bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl p-4 text-white shadow-lg shadow-emerald-500/20">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+              <Target className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="font-semibold">Tout est en ordre</p>
+              <p className="text-emerald-100 text-sm">Aucune action urgente. Profitez-en pour prospecter !</p>
+            </div>
+          </div>
         </div>
       )}
 
+      {/* PIPELINE MINI — Vue rapide cliquable */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-accent flex items-center gap-2">
+            Pipeline commercial
+          </h3>
+          <Link href="/pipeline" className="text-xs text-primary hover:underline flex items-center gap-1">
+            Voir le Kanban <ChevronRight className="w-3 h-3" />
+          </Link>
+        </div>
+        <div className="flex items-center gap-1">
+          {[
+            { label: 'Nouveau', count: leadsData?.leads?.filter(l => l.statut === 'NOUVEAU').length || 0, color: '#94A3B8' },
+            { label: 'Qualifié', count: leadsData?.leads?.filter(l => l.statut === 'QUALIFIE').length || 0, color: '#2EC6F3' },
+            { label: 'Financement', count: leadsData?.leads?.filter(l => l.statut === 'FINANCEMENT_EN_COURS').length || 0, color: '#F59E0B' },
+            { label: 'Inscrit', count: leadsData?.leads?.filter(l => l.statut === 'INSCRIT').length || 0, color: '#8B5CF6' },
+            { label: 'Formé', count: leadsData?.leads?.filter(l => l.statut === 'FORME' || l.statut === 'ALUMNI').length || 0, color: '#22C55E' },
+          ].map((stage) => (
+            <Link
+              key={stage.label}
+              href={`/pipeline`}
+              className="flex-1 group"
+            >
+              <div
+                className="h-2 rounded-full transition-all group-hover:h-3"
+                style={{ backgroundColor: `${stage.color}30` }}
+              >
+                <div
+                  className="h-full rounded-full transition-all"
+                  style={{
+                    backgroundColor: stage.color,
+                    width: stage.count > 0 ? '100%' : '0%',
+                    opacity: stage.count > 0 ? 1 : 0.3,
+                  }}
+                />
+              </div>
+              <div className="mt-1.5 text-center">
+                <p className="text-xs font-bold text-gray-700" style={{ fontVariantNumeric: 'tabular-nums' }}>{stage.count}</p>
+                <p className="text-[10px] text-gray-400 truncate">{stage.label}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* MA JOURNÉE — Ce que le commercial doit faire aujourd'hui */}
       <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
-        <h2 className="font-bold text-lg text-[#082545] mb-4 flex items-center gap-2">
-          <Zap className="text-[#2EC6F3]" size={20} />
+        <h2 className="font-bold text-lg text-accent mb-4 flex items-center gap-2">
+          <Zap className="text-primary" size={20} />
           Ma journée
         </h2>
 
@@ -177,7 +269,7 @@ export default function DashboardPage() {
                         </a>
                       )}
                       <p className="text-xs text-gray-500 mt-1">
-                        {r.lead?.formation_interesse || 'Formation non précisée'}
+                        {r.lead?.formations_interessees?.[0] || 'Formation non précisée'}
                       </p>
                       {r.date_rappel && (
                         <p className="text-xs text-gray-400">
@@ -211,7 +303,7 @@ export default function DashboardPage() {
                         </a>
                       )}
                       <p className="text-xs text-gray-500 mt-1">
-                        {r.lead?.formation_interesse || 'Formation non précisée'}
+                        {r.lead?.formations_interessees?.[0] || 'Formation non précisée'}
                       </p>
                       {r.date_rappel && (
                         <p className="text-xs text-gray-400">
@@ -238,7 +330,7 @@ export default function DashboardPage() {
               )}
 
               {(overdueCount + todayCount > 5) && (
-                <Link href="/leads" className="text-xs text-[#2EC6F3] hover:underline flex items-center gap-1 mt-2">
+                <Link href="/leads" className="text-xs text-primary hover:underline flex items-center gap-1 mt-2">
                   Voir tous les rappels ({overdueCount + todayCount})
                   <ChevronRight className="w-3 h-3" />
                 </Link>
@@ -252,17 +344,17 @@ export default function DashboardPage() {
             <div className="space-y-2">
               <Link
                 href="/leads"
-                className="flex items-center gap-3 p-3 bg-[#2EC6F3] text-white rounded-lg font-medium hover:bg-[#2EC6F3]/90 transition min-h-[44px]"
+                className="flex items-center gap-3 p-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition min-h-[44px]"
               >
                 <Plus className="w-4 h-4 shrink-0" />
-                <span className="text-sm">Nouveau lead</span>
+                <span className="text-sm">Nouveau prospect</span>
               </Link>
               <Link
                 href="/pipeline"
                 className="flex items-center gap-3 p-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition min-h-[44px]"
               >
                 <BarChart3 className="w-4 h-4 shrink-0" />
-                <span className="text-sm">Voir le pipeline</span>
+                <span className="text-sm">Suivi commercial</span>
               </Link>
               <Link
                 href="/concurrents"
@@ -283,7 +375,7 @@ export default function DashboardPage() {
 
           {/* Colonne 3: Prochaines sessions */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 mb-3">Sessions à venir</h3>
+            <h3 className="text-sm font-semibold text-gray-500 mb-3">Formations à venir</h3>
             <div className="space-y-2">
               {sessions?.filter(s => s.statut === 'PLANIFIEE' || s.statut === 'CONFIRMEE')
                 .sort((a, b) => new Date(a.date_debut).getTime() - new Date(b.date_debut).getTime())
@@ -310,7 +402,7 @@ export default function DashboardPage() {
                         {s.places_occupees}/{s.places_max} inscrits
                       </p>
                     </div>
-                    <Calendar className="w-4 h-4 text-[#2EC6F3] shrink-0" />
+                    <Calendar className="w-4 h-4 text-primary shrink-0" />
                   </div>
                 </Link>
               ))}
@@ -323,9 +415,9 @@ export default function DashboardPage() {
                 </div>
               )}
 
-              {sessions?.filter(s => s.statut === 'PLANIFIEE' || s.statut === 'CONFIRMEE').length > 3 && (
-                <Link href="/sessions" className="text-xs text-[#2EC6F3] hover:underline flex items-center gap-1 mt-2">
-                  Voir toutes les sessions
+              {(sessions?.filter(s => s.statut === 'PLANIFIEE' || s.statut === 'CONFIRMEE')?.length ?? 0) > 3 && (
+                <Link href="/sessions" className="text-xs text-primary hover:underline flex items-center gap-1 mt-2">
+                  Voir toutes les formations
                   <ChevronRight className="w-3 h-3" />
                 </Link>
               )}
@@ -334,50 +426,16 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Actions rapides en haut */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-        <h3 className="text-sm font-semibold text-[#082545] mb-3 flex items-center gap-2">
-          <Zap className="w-4 h-4 text-[#2EC6F3]" />
-          Actions rapides
-        </h3>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href="/leads"
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#2EC6F3] text-white rounded-lg text-sm font-medium hover:bg-[#2EC6F3]/90 transition min-h-[44px]"
-          >
-            <Plus className="w-4 h-4" /> Nouveau lead
-          </Link>
-          <Link
-            href="/sessions"
-            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
-          >
-            <Calendar className="w-4 h-4" /> Créer session
-          </Link>
-          <Link
-            href="/pipeline"
-            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
-          >
-            <PieChart className="w-4 h-4" /> Voir pipeline
-          </Link>
-          <Link
-            href="/financement"
-            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
-          >
-            <Euro className="w-4 h-4" /> Simuler financement
-          </Link>
-        </div>
-      </div>
-
-      {/* 2 colonnes : ACTIONS D'ABORD (principe noCRM : "quoi faire maintenant ?") */}
+      {/* 2 colonnes : ACTIONS + DERNIERS PROSPECTS */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Actions du jour */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
-            <h3 className="font-semibold text-sm text-[#082545] flex items-center gap-2">
-              <Phone className="w-4 h-4 text-[#2EC6F3]" />
+            <h3 className="font-semibold text-sm text-accent flex items-center gap-2">
+              <Phone className="w-4 h-4 text-primary" />
               Actions du jour
             </h3>
-            <Link href="/leads" className="text-xs text-[#2EC6F3] hover:underline flex items-center gap-1">
+            <Link href="/leads" className="text-xs text-primary hover:underline flex items-center gap-1">
               Voir tout <ChevronRight className="w-3 h-3" />
             </Link>
           </div>
@@ -449,21 +507,21 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Derniers leads */}
+        {/* Derniers prospects */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
-            <h3 className="font-semibold text-sm text-[#082545] flex items-center gap-2">
-              <Users className="w-4 h-4 text-[#2EC6F3]" />
-              Derniers leads
+            <h3 className="font-semibold text-sm text-accent flex items-center gap-2">
+              <Users className="w-4 h-4 text-primary" />
+              Derniers prospects
             </h3>
-            <Link href="/leads" className="text-xs text-[#2EC6F3] hover:underline flex items-center gap-1">
+            <Link href="/leads" className="text-xs text-primary hover:underline flex items-center gap-1">
               Voir tout <ChevronRight className="w-3 h-3" />
             </Link>
           </div>
           <div className="divide-y divide-gray-50">
             {leadsData?.leads && leadsData.leads.length > 0 ? leadsData.leads.slice(0, 5).map((lead) => (
               <Link key={lead.id} href={`/lead/${lead.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition group">
-                <div className="w-8 h-8 rounded-full bg-[#2EC6F3]/10 flex items-center justify-center text-xs font-bold text-[#2EC6F3] shrink-0">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary shrink-0">
                   {lead.prenom?.[0]}{lead.nom?.[0]}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -486,9 +544,9 @@ export default function DashboardPage() {
             )) : (
               <div className="text-center py-8 text-gray-400">
                 <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p className="text-sm">Aucun lead enregistré</p>
-                <Link href="/leads" className="text-xs text-[#2EC6F3] hover:underline mt-1 inline-block">
-                  Créer le premier lead
+                <p className="text-sm">Aucun prospect enregistré</p>
+                <Link href="/leads" className="text-xs text-primary hover:underline mt-1 inline-block">
+                  Créer le premier prospect
                 </Link>
               </div>
             )}
@@ -500,7 +558,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <KpiCard
           icon={Users}
-          label="Total leads"
+          label="Total prospects"
           value={totalLeads.toLocaleString()}
           color="#2EC6F3"
         />
@@ -526,7 +584,7 @@ export default function DashboardPage() {
         />
         <KpiCard
           icon={Calendar}
-          label="Sessions à venir"
+          label="Formations à venir"
           value={sessionsAVenir.toLocaleString()}
           color="#8B5CF6"
         />
@@ -574,7 +632,7 @@ function KpiCard({
         )}
       </div>
       <div>
-        <p className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
+        <p className="text-2xl font-bold text-accent">
           {value}
         </p>
         <p className="text-sm text-gray-500 mt-1">{label}</p>

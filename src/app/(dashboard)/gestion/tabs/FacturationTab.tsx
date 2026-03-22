@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { SearchInput } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyCommandes } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Card } from '@/components/ui/Card'
 import { Receipt, Plus, Download, Clock, CheckCircle, AlertTriangle, Eye } from 'lucide-react'
@@ -177,7 +178,7 @@ export default function FacturationTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="brouillon">Brouillon</option>
@@ -201,6 +202,7 @@ export default function FacturationTab() {
       {/* Table des factures */}
       {factures.length === 0 ? (
         <EmptyState
+          illustration={<IllustrationEmptyCommandes size={120} />}
           icon={<Receipt className="w-4 h-4" />}
           title="Aucune facture"
           description="Les factures de formation apparaîtront ici une fois émises."
@@ -246,7 +248,7 @@ export default function FacturationTab() {
                   return (
                     <tr key={facture.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4">
-                        <Link href={`/facture/${facture.id}`} className="text-[#2EC6F3] hover:text-[#1A94CC] font-medium text-sm">
+                        <Link href={`/facture/${facture.id}`} className="text-primary hover:text-[#1A94CC] font-medium text-sm">
                           {facture.numero}
                         </Link>
                       </td>

@@ -39,16 +39,16 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
             <Link
               key={lead.id}
               href={`/lead/${lead.id}`}
-              className="flex items-center gap-2 bg-white rounded-lg px-2.5 py-2 border border-gray-100 hover:border-[#2EC6F3]/30 transition group"
+              className="flex items-center gap-2 bg-white rounded-lg px-2.5 py-2 border border-gray-100 hover:border-primary/30 transition group"
             >
-              <div className="w-7 h-7 rounded-full bg-[#2EC6F3]/10 flex items-center justify-center text-[10px] font-bold text-[#2EC6F3]">
+              <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
                 {lead.prenom?.[0]}{lead.nom?.[0]}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-medium text-gray-900 truncate">{lead.prenom} {lead.nom}</p>
                 <p className="text-[10px] text-gray-400 truncate">{lead.statut} · Score {lead.score_chaud}</p>
               </div>
-              <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-[#2EC6F3] transition shrink-0" />
+              <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-primary transition shrink-0" />
             </Link>
           ))}
           {result.count > 3 && <p className="text-[10px] text-gray-400 text-center">+{result.count - 3} autres</p>}
@@ -103,7 +103,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
           {result.script_telephone && (
             <button
               onClick={() => { navigator.clipboard.writeText(result.script_telephone.replace(/^"|"$/g, '')); toast.success('Script copié') }}
-              className="flex items-center gap-1.5 text-[10px] text-[#2EC6F3] hover:text-[#1BA8D4] transition"
+              className="flex items-center gap-1.5 text-[10px] text-primary hover:text-[#1BA8D4] transition"
             >
               <Copy className="w-3 h-3" /> Copier le script téléphone
             </button>
@@ -151,7 +151,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
               <p className="text-xs text-gray-700 italic">"{result.meilleure_reponse}"</p>
               <button
                 onClick={() => { navigator.clipboard.writeText(result.meilleure_reponse); toast.success('Réponse copiée') }}
-                className="flex items-center gap-1 text-[10px] text-[#2EC6F3] mt-1 hover:text-[#1BA8D4]"
+                className="flex items-center gap-1 text-[10px] text-primary mt-1 hover:text-[#1BA8D4]"
               >
                 <Copy className="w-3 h-3" /> Copier
               </button>
@@ -201,7 +201,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
           <div className="grid grid-cols-2 gap-1.5">
             {result.contacts_moyens && (
               <div className="text-center">
-                <p className="text-sm font-bold text-[#2EC6F3]">{result.contacts_moyens}</p>
+                <p className="text-sm font-bold text-primary">{result.contacts_moyens}</p>
                 <p className="text-[9px] text-gray-400">contacts moy.</p>
               </div>
             )}
@@ -233,7 +233,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
           {/* KPIs forecast */}
           <div className="grid grid-cols-2 gap-1">
             <div className="bg-white rounded-lg px-2 py-1.5 border border-gray-100 text-center">
-              <p className="text-sm font-bold text-[#2EC6F3]">{(result.ca_pondere_total || 0).toLocaleString('fr-FR')}€</p>
+              <p className="text-sm font-bold text-primary">{(result.ca_pondere_total || 0).toLocaleString('fr-FR')}€</p>
               <p className="text-[9px] text-gray-400">CA pondéré total</p>
             </div>
             <div className="bg-white rounded-lg px-2 py-1.5 border border-gray-100 text-center">
@@ -346,7 +346,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 <div className="text-center">
-                  <p className="text-sm font-bold text-[#2EC6F3]">{(l.lifetime_value || 0).toLocaleString('fr-FR')}€</p>
+                  <p className="text-sm font-bold text-primary">{(l.lifetime_value || 0).toLocaleString('fr-FR')}€</p>
                   <p className="text-[8px] text-gray-400">Lifetime Value</p>
                 </div>
                 <div className="text-center">
@@ -383,7 +383,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
             <p className="text-[10px] text-gray-400">{result.count} leads · filtre : {result.filtre}</p>
             {result.leads.slice(0, 5).map((l: any) => (
               <Link key={l.id} href={`/lead/${l.id}`}
-                className="flex items-center gap-2 bg-white rounded-lg px-2.5 py-1.5 border border-gray-100 hover:border-[#2EC6F3]/30 transition group">
+                className="flex items-center gap-2 bg-white rounded-lg px-2.5 py-1.5 border border-gray-100 hover:border-primary/30 transition group">
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium text-gray-900 truncate">{l.prenom} {l.nom}</p>
                   <p className="text-[10px] text-gray-400 truncate">
@@ -391,7 +391,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
                     {l.jours_sans_contact > 7 && <span className="text-red-500 ml-1">· {l.jours_sans_contact}j sans contact</span>}
                   </p>
                 </div>
-                <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-[#2EC6F3] shrink-0" />
+                <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-primary shrink-0" />
               </Link>
             ))}
           </div>
@@ -636,14 +636,14 @@ export function AgentChat() {
                 {messages.map((message: any) => (
                   <div key={message.id} className={cn('flex gap-2', message.role === 'user' ? 'justify-end' : 'justify-start')}>
                     {message.role === 'assistant' && (
-                      <div className="w-6 h-6 rounded-full bg-[#2EC6F3]/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <Bot className="w-3 h-3 text-[#2EC6F3]" />
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <Bot className="w-3 h-3 text-primary" />
                       </div>
                     )}
                     <div className={cn(
                       'max-w-[85%] rounded-2xl px-3 py-2 text-[13px] leading-relaxed',
                       message.role === 'user'
-                        ? 'bg-[#2EC6F3] text-white rounded-br-sm'
+                        ? 'bg-primary text-white rounded-br-sm'
                         : 'bg-gray-50 text-gray-800 rounded-bl-sm'
                     )}>
                       {/* Tool invocations with visual results */}
@@ -660,7 +660,7 @@ export function AgentChat() {
                               {toolInvocation.state === 'result' ? (
                                 <CheckCircle className="w-3 h-3 text-green-500 shrink-0" />
                               ) : (
-                                <Loader2 className="w-3 h-3 text-[#2EC6F3] animate-spin shrink-0" />
+                                <Loader2 className="w-3 h-3 text-primary animate-spin shrink-0" />
                               )}
                               <ToolIcon className="w-3 h-3 shrink-0" />
                               <span>{toolInfo.label}</span>
@@ -676,7 +676,7 @@ export function AgentChat() {
                       )}
                     </div>
                     {message.role === 'user' && (
-                      <div className="w-6 h-6 rounded-full bg-[#082545] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center shrink-0 mt-0.5">
                         <User className="w-3 h-3 text-white" />
                       </div>
                     )}
@@ -685,8 +685,8 @@ export function AgentChat() {
 
                 {isLoading && !messages.some((m: any) => m.toolInvocations?.some((t: any) => t.state !== 'result')) && (
                   <div className="flex gap-2">
-                    <div className="w-6 h-6 rounded-full bg-[#2EC6F3]/10 flex items-center justify-center shrink-0">
-                      <Bot className="w-3 h-3 text-[#2EC6F3]" />
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Bot className="w-3 h-3 text-primary" />
                     </div>
                     <div className="bg-gray-50 rounded-2xl rounded-bl-sm px-3 py-2">
                       <div className="flex items-center gap-1">
@@ -708,7 +708,7 @@ export function AgentChat() {
                     <button
                       key={s}
                       onClick={() => submitSuggestion(s)}
-                      className="px-2.5 py-1 rounded-full text-[11px] bg-gray-100 text-gray-600 hover:bg-[#2EC6F3]/10 hover:text-[#2EC6F3] transition"
+                      className="px-2.5 py-1 rounded-full text-[11px] bg-gray-100 text-gray-600 hover:bg-primary/10 hover:text-primary transition"
                     >
                       {s}
                     </button>
@@ -724,13 +724,13 @@ export function AgentChat() {
                   value={input}
                   onChange={handleInputChange}
                   placeholder={currentLeadId ? 'Question sur ce lead...' : 'Pose ta question...'}
-                  className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/20 outline-none bg-gray-50"
+                  className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none bg-gray-50"
                   disabled={isLoading}
                 />
                 <button
                   type="submit"
                   disabled={isLoading || !input.trim()}
-                  className="p-2 bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white rounded-xl transition disabled:opacity-40 shrink-0"
+                  className="p-2 bg-primary hover:bg-primary-dark text-white rounded-xl transition disabled:opacity-40 shrink-0"
                 >
                   {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 </button>

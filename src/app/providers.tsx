@@ -1,7 +1,8 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
+import { PostHogProvider } from '@/components/ui/PostHogProvider'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -20,7 +21,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <Suspense fallback={null}>
+        <PostHogProvider>
+          {children}
+        </PostHogProvider>
+      </Suspense>
     </QueryClientProvider>
   )
 }

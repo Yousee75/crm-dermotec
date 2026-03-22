@@ -143,7 +143,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
         </div>
         <h3 className="text-sm font-semibold text-gray-900 mb-1">Session introuvable</h3>
         <p className="text-sm text-gray-500 mb-4">Cette session n'existe pas ou a été supprimée</p>
-        <Link href="/sessions" className="text-sm text-[#2EC6F3] hover:underline">
+        <Link href="/sessions" className="text-sm text-primary hover:underline">
           Retour aux sessions
         </Link>
       </div>
@@ -178,7 +178,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
           </Link>
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
+              <h1 className="text-2xl font-bold text-accent">
                 {formation.nom}
               </h1>
               <span
@@ -214,13 +214,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
         <div className="flex items-center gap-6 text-right">
           <div>
             <p className="text-sm text-gray-500">Places</p>
-            <p className="text-lg font-semibold text-[#082545]">
+            <p className="text-lg font-semibold text-accent">
               {placesOccupees}/{session.places_max}
             </p>
           </div>
           <div>
             <p className="text-sm text-gray-500">CA prévu</p>
-            <p className="text-lg font-semibold text-[#2EC6F3]">
+            <p className="text-lg font-semibold text-primary">
               {formatEuro(caPrevu)}
             </p>
           </div>
@@ -236,7 +236,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.id
-                  ? 'border-[#2EC6F3] text-[#2EC6F3]'
+                  ? 'border-primary text-primary'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -287,12 +287,12 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                         <p className="text-xs text-gray-500 mb-1">Contact</p>
                         <div className="flex items-center gap-2">
                           {formatrice.email && (
-                            <a href={`mailto:${formatrice.email}`} className="text-[#2EC6F3] hover:underline">
+                            <a href={`mailto:${formatrice.email}`} className="text-primary hover:underline">
                               <Mail className="w-4 h-4" />
                             </a>
                           )}
                           {formatrice.telephone && (
-                            <a href={`tel:${formatrice.telephone}`} className="text-[#2EC6F3] hover:underline">
+                            <a href={`tel:${formatrice.telephone}`} className="text-primary hover:underline">
                               <Phone className="w-4 h-4" />
                             </a>
                           )}
@@ -312,7 +312,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className="bg-[#2EC6F3] h-3 rounded-full transition-all duration-300"
+                      className="bg-primary h-3 rounded-full transition-all duration-300"
                       style={{ width: `${tauxRemplissage}%` }}
                     />
                   </div>
@@ -327,7 +327,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               <Card title="Chiffre d'affaires" icon={<Euro className="w-4 h-4" />}>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <p className="text-2xl font-bold text-[#2EC6F3]">{formatEuro(caPrevu)}</p>
+                    <p className="text-2xl font-bold text-primary">{formatEuro(caPrevu)}</p>
                     <p className="text-sm text-gray-600">CA prévu</p>
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded-lg">
@@ -345,7 +345,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                     onChange={(e) => setNotes(e.target.value)}
                     onBlur={handleNotesUpdate}
                     placeholder="Ajouter des notes sur cette session..."
-                    className="w-full h-24 p-3 border border-gray-200 rounded-lg resize-none focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/20 outline-none text-sm"
+                    className="w-full h-24 p-3 border border-gray-200 rounded-lg resize-none focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm"
                   />
                 </div>
               </Card>
@@ -383,7 +383,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
             title={`Stagiaires (${placesOccupees})`}
             icon={<Users className="w-4 h-4" />}
             action={
-              <button className="flex items-center gap-2 px-3 py-2 bg-[#2EC6F3] text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors">
+              <button className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors">
                 <Plus className="w-4 h-4" />
                 Ajouter stagiaire
               </button>
@@ -410,13 +410,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                       <tr key={inscription.id} className="border-b border-gray-50">
                         <td className="py-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-[#2EC6F3]/10 rounded-full flex items-center justify-center">
-                              <span className="text-sm font-medium text-[#2EC6F3]">
+                            <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                              <span className="text-sm font-medium text-primary">
                                 {lead?.prenom?.charAt(0)}{lead?.nom?.charAt(0)}
                               </span>
                             </div>
                             <div>
-                              <p className="font-medium text-[#082545]">
+                              <p className="font-medium text-accent">
                                 {lead?.prenom} {lead?.nom}
                               </p>
                               <p className="text-xs text-gray-500">{lead?.email}</p>
@@ -526,7 +526,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                   </div>
                   <Link
                     href={`/emargement/${session.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors"
                   >
                     <Eye className="w-4 h-4" />
                     Ouvrir l'émargement
@@ -562,8 +562,8 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                         <tr key={inscription.id} className="hover:bg-gray-50">
                           <td className="p-3 border border-gray-200">
                             <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 bg-[#2EC6F3]/10 rounded-full flex items-center justify-center">
-                                <span className="text-xs font-medium text-[#2EC6F3]">
+                              <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+                                <span className="text-xs font-medium text-primary">
                                   {lead?.prenom?.charAt(0)}{lead?.nom?.charAt(0)}
                                 </span>
                               </div>
@@ -606,7 +606,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
             title={`Modèles (${modeles.length})`}
             icon={<User className="w-4 h-4" />}
             action={
-              <button className="flex items-center gap-2 px-3 py-2 bg-[#2EC6F3] text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors">
+              <button className="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-sm hover:bg-[#1fb5e3] transition-colors">
                 <Plus className="w-4 h-4" />
                 Ajouter modèle
               </button>
@@ -620,7 +620,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                   <div key={modele.id} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h4 className="font-medium text-[#082545]">{modele.prenom} {modele.nom}</h4>
+                        <h4 className="font-medium text-accent">{modele.prenom} {modele.nom}</h4>
                         <p className="text-sm text-gray-500">{modele.age} ans</p>
                       </div>
                       <span
@@ -703,8 +703,8 @@ function Card({
   return (
     <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-gray-100">
-        <h3 className="font-semibold text-[#082545] flex items-center gap-2">
-          <span className="text-[#2EC6F3]">{icon}</span>
+        <h3 className="font-semibold text-accent flex items-center gap-2">
+          <span className="text-primary">{icon}</span>
           {title}
         </h3>
         {action}
@@ -731,7 +731,7 @@ function ChecklistItem({
       <button
         onClick={onChange}
         className={`w-11 h-6 rounded-full transition-colors ${
-          checked ? 'bg-[#2EC6F3]' : 'bg-gray-200'
+          checked ? 'bg-primary' : 'bg-gray-200'
         }`}
       >
         <div className={`w-5 h-5 bg-white rounded-full transition-transform ${

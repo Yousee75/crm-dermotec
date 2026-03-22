@@ -84,7 +84,7 @@ export function PomodoroTimer() {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-4xl font-bold font-mono text-[#082545]">
+          <span className="text-4xl font-bold font-mono text-accent">
             {String(minutes).padStart(2, '0')}:{String(secs).padStart(2, '0')}
           </span>
           <span className="text-xs text-gray-400 mt-1">{PRESETS[preset].label}</span>

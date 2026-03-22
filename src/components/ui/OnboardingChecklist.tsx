@@ -43,7 +43,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
       >
         <GraduationCap className="w-4 h-4" />
         {progress.global.percent < 100 && (
-          <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#2EC6F3] animate-pulse" />
+          <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-primary animate-pulse" />
         )}
       </button>
     )
@@ -56,12 +56,12 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2.5 w-full px-3 py-2 mx-2 rounded-lg text-[13px] text-slate-400 hover:bg-white/5 hover:text-slate-200 transition"
       >
-        <GraduationCap className="w-[18px] h-[18px] shrink-0 text-[#2EC6F3]" />
+        <GraduationCap className="w-[18px] h-[18px] shrink-0 text-primary" />
         <div className="flex-1 text-left">
           <span>Formation</span>
           <div className="w-full bg-white/10 rounded-full h-1 mt-1">
             <div
-              className="bg-[#2EC6F3] h-1 rounded-full transition-all duration-500"
+              className="bg-primary h-1 rounded-full transition-all duration-500"
               style={{ width: `${progress.global.percent}%` }}
             />
           </div>
@@ -75,13 +75,13 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60]" onClick={() => setIsOpen(false)} />
           <div className="fixed right-0 top-0 bottom-0 w-[380px] bg-white z-[61] shadow-2xl flex flex-col animate-slideInRight">
             {/* Header */}
-            <div className="bg-[#082545] px-5 py-4 flex items-center justify-between">
+            <div className="bg-accent px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#2EC6F3]/20 flex items-center justify-center">
-                  <GraduationCap className="w-5 h-5 text-[#2EC6F3]" />
+                <div className="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center">
+                  <GraduationCap className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-white font-semibold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
+                  <h2 className="text-white font-semibold text-sm">
                     Formation CRM
                   </h2>
                   <p className="text-white/50 text-xs">{progress.global.completed}/{progress.global.total} étapes</p>
@@ -96,7 +96,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
             <div className="px-5 py-3 border-b border-gray-100">
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs font-medium text-gray-600">Progression globale</span>
-                <span className="text-xs font-bold text-[#2EC6F3]">{progress.global.percent}%</span>
+                <span className="text-xs font-bold text-primary">{progress.global.percent}%</span>
               </div>
               <div className="w-full bg-gray-100 rounded-full h-2">
                 <div
@@ -116,7 +116,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
                   className={cn(
                     'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition',
                     activeNiveau === n.key
-                      ? 'bg-[#082545] text-white'
+                      ? 'bg-accent text-white'
                       : n.unlocked
                         ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         : 'bg-gray-50 text-gray-300 cursor-not-allowed'
@@ -151,7 +151,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
                       {isCompleted ? (
                         <CheckCircle className="w-5 h-5 text-green-500" />
                       ) : (
-                        <Circle className="w-5 h-5 text-gray-300 hover:text-[#2EC6F3] transition" />
+                        <Circle className="w-5 h-5 text-gray-300 hover:text-primary transition" />
                       )}
                     </button>
 
@@ -166,7 +166,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
                     </div>
 
                     {step.tour_steps && !isCompleted && (
-                      <button className="shrink-0 p-1.5 rounded-lg bg-[#2EC6F3]/10 text-[#2EC6F3] hover:bg-[#2EC6F3]/20 transition">
+                      <button className="shrink-0 p-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition">
                         <Play className="w-3.5 h-3.5" />
                       </button>
                     )}

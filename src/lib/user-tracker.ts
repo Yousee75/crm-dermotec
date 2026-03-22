@@ -78,7 +78,7 @@ class UserTracker {
     // Listener pour les clics globaux (délégation d'événements)
     document.addEventListener('click', this.handleGlobalClick.bind(this))
 
-    console.log('[UserTracker] Initialized for user:', userId)
+    // Initialized
   }
 
   // Track un événement
@@ -100,8 +100,7 @@ class UserTracker {
       this.flush()
     }
 
-    // Log local pour debug
-    console.log('[UserTracker]', event, metadata)
+    // Event tracked
   }
 
   // Auto-track durée page précédente + nouvelle page
@@ -202,14 +201,9 @@ class UserTracker {
         throw new Error(`HTTP ${response.status}`)
       }
 
-      console.log(`[UserTracker] Flushed ${events.length} events`)
+      // Flushed events
     } catch (error) {
       console.warn('[UserTracker] Flush failed, logging locally:', error)
-
-      // Fallback : log en console si API échoue
-      events.forEach(event => {
-        console.log(`[Tracking] ${event.event}:`, event)
-      })
 
       // Remettre les events dans le buffer (retry)
       this.buffer.unshift(...events)
@@ -240,7 +234,7 @@ class UserTracker {
     // Remove listeners
     document.removeEventListener('click', this.handleGlobalClick.bind(this))
 
-    console.log('[UserTracker] Destroyed')
+    // Destroyed
   }
 }
 

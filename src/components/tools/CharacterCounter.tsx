@@ -22,7 +22,7 @@ export function CharacterCounter() {
         value={text}
         onChange={e => setText(e.target.value)}
         placeholder="Collez ou tapez votre texte ici..."
-        className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm min-h-[160px] resize-y focus:outline-none focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/30"
+        className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm min-h-[160px] resize-y focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
       />
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

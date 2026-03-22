@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { SearchInput } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyStagiaires } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { GraduationCap, Plus, Phone, Mail, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
@@ -86,6 +87,7 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
   if (apprenants.length === 0 && !search) {
     return (
       <EmptyState
+        illustration={<IllustrationEmptyStagiaires size={120} />}
         icon={<GraduationCap className="w-4 h-4" />}
         title="Aucun apprenant"
         description="Les personnes inscrites aux formations apparaîtront ici."
@@ -113,6 +115,7 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
       {/* Liste des apprenants */}
       {apprenants.length === 0 ? (
         <EmptyState
+          illustration={<IllustrationEmptyStagiaires size={120} />}
           icon={<GraduationCap className="w-4 h-4" />}
           title="Aucun résultat"
           description="Aucun apprenant ne correspond à votre recherche."
@@ -152,7 +155,7 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
                             color="#2EC6F3"
                           />
                           <div>
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-[#2EC6F3] transition-colors">
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">
                               {apprenant.prenom} {apprenant.nom}
                             </p>
                             {apprenant.certifie && (

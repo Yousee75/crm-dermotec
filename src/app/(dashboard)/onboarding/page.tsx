@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
 import {
   Building2, Users, GraduationCap, Rocket,
-  ChevronRight, ChevronLeft, Check, Sparkles
+  ChevronRight, ChevronLeft, Check
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -119,8 +119,8 @@ export default function OnboardingPage() {
       {/* Header */}
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <h1 className="text-lg font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
-            <span className="text-[#2EC6F3]">Dermotec</span> CRM
+          <h1 className="text-lg font-bold text-accent">
+            <span className="text-primary">Dermotec</span> CRM
           </h1>
           <span className="text-xs text-gray-400">Étape {step + 1} sur {STEPS.length}</span>
         </div>
@@ -138,7 +138,7 @@ export default function OnboardingPage() {
                 <div key={s.id} className="flex items-center gap-2 flex-1">
                   <div className={cn(
                     'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-                    isActive ? 'bg-[#2EC6F3]/10 text-[#2EC6F3]' :
+                    isActive ? 'bg-primary/10 text-primary' :
                     isDone ? 'bg-green-50 text-green-600' :
                     'text-gray-400'
                   )}>
@@ -162,7 +162,7 @@ export default function OnboardingPage() {
           {step === 0 && (
             <div className="space-y-6 animate-fadeIn">
               <div>
-                <h2 className="text-2xl font-bold text-[#082545] mb-2">Parlons de votre entreprise</h2>
+                <h2 className="text-2xl font-bold text-accent mb-2">Parlons de votre entreprise</h2>
                 <p className="text-gray-600">Ces informations nous aident à personnaliser votre CRM.</p>
               </div>
 
@@ -174,7 +174,7 @@ export default function OnboardingPage() {
                     value={entreprise.nom}
                     onChange={e => setEntreprise(p => ({ ...p, nom: e.target.value }))}
                     placeholder="Mon Institut Beauté"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     autoFocus
                   />
                 </div>
@@ -189,7 +189,7 @@ export default function OnboardingPage() {
                         className={cn(
                           'px-3 py-2.5 rounded-lg text-sm text-left transition border min-h-[44px]',
                           entreprise.secteur === s
-                            ? 'bg-[#2EC6F3]/10 border-[#2EC6F3]/30 text-[#2EC6F3] font-medium'
+                            ? 'bg-primary/10 border-primary/30 text-primary font-medium'
                             : 'border-gray-200 text-gray-600 hover:bg-gray-50'
                         )}
                       >
@@ -207,7 +207,7 @@ export default function OnboardingPage() {
                       value={entreprise.siret}
                       onChange={e => setEntreprise(p => ({ ...p, siret: e.target.value }))}
                       placeholder="123 456 789 00012"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     />
                   </div>
                   <div>
@@ -217,7 +217,7 @@ export default function OnboardingPage() {
                       value={entreprise.ville}
                       onChange={e => setEntreprise(p => ({ ...p, ville: e.target.value }))}
                       placeholder="Paris"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     />
                   </div>
                 </div>
@@ -229,7 +229,7 @@ export default function OnboardingPage() {
           {step === 1 && (
             <div className="space-y-6 animate-fadeIn">
               <div>
-                <h2 className="text-2xl font-bold text-[#082545] mb-2">Votre équipe</h2>
+                <h2 className="text-2xl font-bold text-accent mb-2">Votre équipe</h2>
                 <p className="text-gray-600">Combien de personnes utiliseront le CRM ?</p>
               </div>
 
@@ -244,11 +244,11 @@ export default function OnboardingPage() {
                         className={cn(
                           'px-4 py-4 rounded-xl text-left transition border min-h-[60px]',
                           equipe.taille === t.value
-                            ? 'bg-[#2EC6F3]/10 border-[#2EC6F3]/30 ring-2 ring-[#2EC6F3]/20'
+                            ? 'bg-primary/10 border-primary/30 ring-2 ring-primary/20'
                             : 'border-gray-200 hover:bg-gray-50'
                         )}
                       >
-                        <span className={cn('text-sm font-medium', equipe.taille === t.value ? 'text-[#2EC6F3]' : 'text-gray-800')}>
+                        <span className={cn('text-sm font-medium', equipe.taille === t.value ? 'text-primary' : 'text-gray-800')}>
                           {t.label}
                         </span>
                       </button>
@@ -261,7 +261,7 @@ export default function OnboardingPage() {
                   <select
                     value={equipe.role}
                     onChange={e => setEquipe(p => ({ ...p, role: e.target.value }))}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                   >
                     <option value="">Sélectionnez...</option>
                     <option value="dirigeant">Dirigeant(e)</option>
@@ -279,7 +279,7 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="space-y-6 animate-fadeIn">
               <div>
-                <h2 className="text-2xl font-bold text-[#082545] mb-2">Vos priorités</h2>
+                <h2 className="text-2xl font-bold text-accent mb-2">Vos priorités</h2>
                 <p className="text-gray-600">Qu&apos;attendez-vous du CRM ? (Sélectionnez au moins 1)</p>
               </div>
 
@@ -291,20 +291,20 @@ export default function OnboardingPage() {
                     className={cn(
                       'w-full flex items-start gap-3 p-4 rounded-xl text-left transition border min-h-[60px]',
                       objectifs.includes(obj.id)
-                        ? 'bg-[#2EC6F3]/5 border-[#2EC6F3]/30 ring-2 ring-[#2EC6F3]/20'
+                        ? 'bg-primary/5 border-primary/30 ring-2 ring-primary/20'
                         : 'border-gray-200 hover:bg-gray-50'
                     )}
                   >
                     <div className={cn(
                       'w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 transition',
                       objectifs.includes(obj.id)
-                        ? 'bg-[#2EC6F3] border-[#2EC6F3]'
+                        ? 'bg-primary border-primary'
                         : 'border-gray-300'
                     )}>
                       {objectifs.includes(obj.id) && <Check className="w-3 h-3 text-white" />}
                     </div>
                     <div>
-                      <p className={cn('text-sm font-medium', objectifs.includes(obj.id) ? 'text-[#082545]' : 'text-gray-700')}>
+                      <p className={cn('text-sm font-medium', objectifs.includes(obj.id) ? 'text-accent' : 'text-gray-700')}>
                         {obj.label}
                       </p>
                       <p className="text-xs text-gray-400 mt-0.5">{obj.desc}</p>
@@ -332,7 +332,7 @@ export default function OnboardingPage() {
             <Button
               onClick={() => setStep(s => s + 1)}
               disabled={!canNext}
-              className="bg-[#2EC6F3] hover:bg-[#1BA8D4] min-h-[44px]"
+              className="bg-primary hover:bg-primary-dark min-h-[44px]"
             >
               Continuer
               <ChevronRight className="w-4 h-4" />
@@ -342,8 +342,8 @@ export default function OnboardingPage() {
               onClick={handleFinish}
               disabled={!canNext || loading}
               loading={loading}
-              className="bg-[#2EC6F3] hover:bg-[#1BA8D4] min-h-[44px]"
-              icon={<Sparkles className="w-4 h-4" />}
+              className="bg-primary hover:bg-primary-dark min-h-[44px]"
+              icon={<Rocket className="w-4 h-4" />}
             >
               {loading ? 'Configuration...' : 'Lancer mon CRM'}
             </Button>

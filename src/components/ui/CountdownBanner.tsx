@@ -73,13 +73,13 @@ export function CountdownBanner({
   const isUrgent = placesRestantes < 3
 
   return (
-    <div className="sticky top-0 z-40 bg-[#082545] text-white">
+    <div className="sticky top-0 z-40 bg-accent text-white">
       <div className="relative px-4 py-3">
         <div className="flex items-center justify-center text-center">
           <div className="flex items-center gap-2 flex-wrap justify-center">
             {/* Info formation */}
             <span className="text-sm font-medium">
-              Prochaine session <span className="text-[#2EC6F3]">{formationNom}</span> :
+              Prochaine session <span className="text-primary">{formationNom}</span> :
             </span>
 
             <span className="text-sm font-medium">
@@ -114,7 +114,7 @@ export function CountdownBanner({
               <span
                 className={cn(
                   'font-bold',
-                  isUrgent ? 'text-red-400' : 'text-[#2EC6F3]'
+                  isUrgent ? 'text-red-400' : 'text-primary'
                 )}
               >
                 {placesRestantes}/{placesMax}

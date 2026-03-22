@@ -19,6 +19,7 @@ import { Badge, StatusBadge } from '@/components/ui/Badge'
 import { Avatar } from '@/components/ui/Avatar'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyMessages } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { cn, formatRelativeDate, getInitials } from '@/lib/utils'
 
@@ -160,6 +161,7 @@ export default function MessagesPage() {
             <div className="text-center py-8 text-gray-500">Chargement...</div>
           ) : !messages?.length ? (
             <EmptyState
+              illustration={<IllustrationEmptyMessages size={120} />}
               icon={<MessageCircle className="w-12 h-12" />}
               title="Aucun message"
               description="Commencez la conversation"
@@ -184,7 +186,7 @@ export default function MessagesPage() {
                       isNote
                         ? 'bg-yellow-50 border border-yellow-200'
                         : isOutbound
-                        ? 'bg-[#2EC6F3] text-white'
+                        ? 'bg-primary text-white'
                         : 'bg-gray-100 text-gray-900'
                     )}
                   >
@@ -221,7 +223,7 @@ export default function MessagesPage() {
                   className={cn(
                     'flex items-center gap-2 px-3 py-2 rounded-lg text-sm whitespace-nowrap',
                     selectedCanal === canal.id
-                      ? 'bg-[#2EC6F3] text-white'
+                      ? 'bg-primary text-white'
                       : 'bg-white border text-gray-600'
                   )}
                 >
@@ -301,7 +303,7 @@ export default function MessagesPage() {
           {/* Filters */}
           <div className="p-3 border-b">
             <div className="flex gap-1 overflow-x-auto">
-              <button className="px-2 py-1 text-xs bg-[#2EC6F3] text-white rounded">
+              <button className="px-2 py-1 text-xs bg-primary text-white rounded">
                 Tous
               </button>
               {CANAUX.slice(0, 4).map((canal) => (
@@ -320,9 +322,10 @@ export default function MessagesPage() {
           <div className="flex-1 overflow-y-auto">
             {!conversations?.length ? (
               <EmptyState
+                illustration={<IllustrationEmptyMessages size={120} />}
                 icon={<MessageCircle className="w-8 h-8" />}
                 title="Aucun message"
-                description="Envoyez votre premier message depuis une fiche lead."
+                description="Envoyez votre premier message depuis une fiche prospect."
                 className="h-40"
               />
             ) : (
@@ -390,6 +393,7 @@ export default function MessagesPage() {
           <Card className="flex flex-col">
             {!selectedLeadId ? (
               <EmptyState
+                illustration={<IllustrationEmptyMessages size={120} />}
                 icon={<MessageCircle className="w-12 h-12" />}
                 title="Sélectionnez une conversation"
                 description="Choisissez une conversation dans la liste"
@@ -430,6 +434,7 @@ export default function MessagesPage() {
                     <div className="text-center py-8 text-gray-500">Chargement...</div>
                   ) : !messages?.length ? (
                     <EmptyState
+                      illustration={<IllustrationEmptyMessages size={120} />}
                       icon={<MessageCircle className="w-8 h-8" />}
                       title="Aucun message"
                       description="Commencez la conversation"
@@ -454,7 +459,7 @@ export default function MessagesPage() {
                               isNote
                                 ? 'bg-yellow-50 border border-yellow-200'
                                 : isOutbound
-                                ? 'bg-[#2EC6F3] text-white'
+                                ? 'bg-primary text-white'
                                 : 'bg-gray-100 text-gray-900'
                             )}
                           >
@@ -489,7 +494,7 @@ export default function MessagesPage() {
                           className={cn(
                             'flex items-center gap-2 px-3 py-2 rounded-lg text-sm',
                             selectedCanal === canal.id
-                              ? 'bg-[#2EC6F3] text-white'
+                              ? 'bg-primary text-white'
                               : 'bg-white border text-gray-600 hover:bg-gray-50'
                           )}
                         >

@@ -313,6 +313,7 @@ export interface Financement {
   motif_refus?: string
   notes?: string
   historique: HistoriqueEntry[]
+  metadata?: Record<string, unknown>
   created_at: string
   updated_at: string
 }
@@ -947,7 +948,7 @@ export const ORGANISMES_FINANCEMENT: Record<OrganismeFinancement, { label: strin
 }
 
 export const CATEGORIES_FORMATION: { id: CategorieFormation; label: string; icon: string; color: string }[] = [
-  { id: 'Dermo-Esthétique', label: 'Dermo-Esthétique', icon: 'Sparkles', color: '#E11D48' },
+  { id: 'Dermo-Esthétique', label: 'Dermo-Esthétique', icon: 'Palette', color: '#E11D48' },
   { id: 'Dermo-Correctrice', label: 'Dermo-Correctrice', icon: 'Heart', color: '#DB2777' },
   { id: 'Soins Visage', label: 'Soins Visage', icon: 'Sun', color: '#F59E0B' },
   { id: 'Laser & IPL', label: 'Laser & IPL', icon: 'Zap', color: '#7C3AED' },

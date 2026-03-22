@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useLead } from '@/hooks/use-leads'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
+import { Card, CardContent } from '@/components/ui/Card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Progress } from '@/components/ui/progress'
 import { calculerFinancement, ORGANISMES_FINANCEMENT, identifierOrganisme } from '@/lib/financement-data'
 import { formatEuro } from '@/lib/utils'
@@ -37,7 +37,7 @@ const detectProfilFinanceur = (lead: any): { organismeId: string; confidence: 'h
   if (!lead) return { organismeId: 'cpf', confidence: 'low', reason: 'Profil inconnu' }
 
   const statut = lead.statut_professionnel?.toLowerCase() || ''
-  const hasEntreprise = lead.entreprise && lead.siret
+  const hasEntreprise = lead.entreprise_nom && lead.siret
   const hasFormationPrincipale = lead.formation_principale_id
 
   // Détection automatique basée sur le profil
@@ -45,7 +45,7 @@ const detectProfilFinanceur = (lead: any): { organismeId: string; confidence: 'h
     return {
       organismeId: 'opco-ep',
       confidence: 'high',
-      reason: `Salarié(e) avec entreprise ${lead.entreprise}`
+      reason: `Salarié(e) avec entreprise ${lead.entreprise_nom}`
     }
   }
 
@@ -195,7 +195,7 @@ export default function FinancementExpress({
     <Card className="w-full">
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-[#2EC6F3]" />
+          <Calculator className="h-5 w-5 text-primary" />
           <h3 className="font-medium text-slate-900">Simulation de financement</h3>
           {result && (
             <Badge variant="outline" className="text-xs">
@@ -211,7 +211,7 @@ export default function FinancementExpress({
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-sm font-medium text-slate-900">
-                  Profil détecté : {lead.statut_professionnel || 'Non renseigné'}
+                  Profil détecté : {lead.statut_pro || 'Non renseigné'}
                 </span>
                 <Badge
                   variant={detection.confidence === 'high' ? 'default' : 'secondary'}
@@ -224,10 +224,10 @@ export default function FinancementExpress({
                 </Badge>
               </div>
               <p className="text-xs text-slate-600">{detection.reason}</p>
-              {lead.entreprise && (
+              {lead.entreprise_nom && (
                 <p className="text-xs text-slate-500 mt-1">
                   <Building2 className="h-3 w-3 inline mr-1" />
-                  {lead.entreprise} {lead.siret && `(${lead.siret})`}
+                  {lead.entreprise_nom} {lead.siret && `(${lead.siret})`}
                 </p>
               )}
             </div>
@@ -268,7 +268,7 @@ export default function FinancementExpress({
           >
             <div className="border-t pt-4">
               <div className="flex items-center gap-2 mb-3">
-                <CreditCard className="h-5 w-5 text-[#2EC6F3]" />
+                <CreditCard className="h-5 w-5 text-primary" />
                 <span className="font-medium text-slate-900">
                   {result.organisme.sigle} - Résultat
                 </span>
@@ -355,7 +355,7 @@ export default function FinancementExpress({
             {/* Section 3: Action */}
             <div className="border-t pt-4">
               <Button
-                className="w-full bg-[#2EC6F3] hover:bg-[#0284C7] text-white min-h-[44px]"
+                className="w-full bg-primary hover:bg-[#0284C7] text-white min-h-[44px]"
                 onClick={() => {
                   toast.success('Dossier de financement en cours de création')
                   // Ici, on ouvrirait le formulaire de création du financement

@@ -23,11 +23,11 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
           {/* Rank + Nom */}
           <div className="flex items-center gap-2 mb-1">
             {c.rank && (
-              <span className="text-xs font-bold text-white bg-[#082545] rounded-full w-5 h-5 flex items-center justify-center shrink-0">
+              <span className="text-xs font-bold text-white bg-accent rounded-full w-5 h-5 flex items-center justify-center shrink-0">
                 {c.rank}
               </span>
             )}
-            <h3 className="font-semibold text-sm text-[#082545] truncate group-hover:text-[#2EC6F3] transition-colors">
+            <h3 className="font-semibold text-sm text-accent truncate group-hover:text-primary transition-colors">
               {c.nom}
             </h3>
           </div>
@@ -36,7 +36,7 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
           <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
             <MapPin size={12} className="shrink-0" />
             <span className="truncate">{c.adresse || c.ville}</span>
-            <span className="text-[#2EC6F3] font-medium shrink-0">· {c.distanceM}m</span>
+            <span className="text-primary font-medium shrink-0">· {c.distanceM}m</span>
           </div>
 
           {/* Rating Google */}

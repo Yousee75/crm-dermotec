@@ -122,13 +122,13 @@ export function QRCodeGenerator({
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader className="text-center pb-3">
-        <CardTitle className="flex items-center justify-center gap-2 text-[#082545]">
-          <QrCode className="h-5 w-5 text-[#2EC6F3]" />
+        <CardTitle className="flex items-center justify-center gap-2 text-accent">
+          <QrCode className="h-5 w-5 text-primary" />
           {label || 'QR Code Émargement'}
         </CardTitle>
         {sessionInfo && (
           <div className="text-sm text-gray-600 space-y-0.5 mt-2">
-            <p className="font-semibold text-[#082545]">{sessionInfo.formationNom}</p>
+            <p className="font-semibold text-accent">{sessionInfo.formationNom}</p>
             <p>{sessionInfo.date} {sessionInfo.horaires && `• ${sessionInfo.horaires}`}</p>
             {sessionInfo.salle && <p className="text-xs">Salle : {sessionInfo.salle}</p>}
             {sessionInfo.formatrice && <p className="text-xs">Formatrice : {sessionInfo.formatrice}</p>}

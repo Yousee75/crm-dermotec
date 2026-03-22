@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Download, ExternalLink, CheckSquare, Square, Lightbulb, AlertTriangle, Info, BookOpen, Play } from 'lucide-react'
 import { QuizBlock } from './QuizBlock'
+import { sanitizeEmail } from '@/lib/sanitize'
 import { ScriptBlock } from './ScriptBlock'
 
 interface ContentBlock {
@@ -43,21 +44,21 @@ function TextContent({ body }: { body: string }) {
 
   const renderLine = (line: string, i: number) => {
     if (line.startsWith('# ')) {
-      return <h1 key={i} className="text-2xl font-bold text-[#082545] mt-8 mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{line.slice(2)}</h1>
+      return <h1 key={i} className="text-2xl font-bold text-accent mt-8 mb-4">{line.slice(2)}</h1>
     }
     if (line.startsWith('## ')) {
-      return <h2 key={i} className="text-xl font-bold text-[#082545] mt-6 mb-3" style={{ fontFamily: 'var(--font-heading)' }}>{line.slice(3)}</h2>
+      return <h2 key={i} className="text-xl font-bold text-accent mt-6 mb-3">{line.slice(3)}</h2>
     }
     if (line.startsWith('### ')) {
-      return <h3 key={i} className="text-lg font-semibold text-[#082545] mt-5 mb-2">{line.slice(4)}</h3>
+      return <h3 key={i} className="text-lg font-semibold text-accent mt-5 mb-2">{line.slice(4)}</h3>
     }
     if (line.startsWith('- ') || line.startsWith('• ')) {
       return <li key={i} className="text-[15px] text-gray-700 leading-relaxed ml-4">{renderInline(line.slice(2))}</li>
     }
     if (line.startsWith('> ')) {
       return (
-        <blockquote key={i} className="border-l-4 border-[#2EC6F3] pl-4 py-2 my-3 bg-[#2EC6F3]/5 rounded-r-lg">
-          <p className="text-[15px] text-[#082545] italic">{line.slice(2)}</p>
+        <blockquote key={i} className="border-l-4 border-primary pl-4 py-2 my-3 bg-primary/5 rounded-r-lg">
+          <p className="text-[15px] text-accent italic">{line.slice(2)}</p>
         </blockquote>
       )
     }
@@ -96,9 +97,9 @@ function TextContent({ body }: { body: string }) {
 
   const renderInline = (text: string) => {
     return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-[#082545]">$1</strong>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-accent">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-[#2EC6F3]">$1</code>')
+      .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-primary">$1</code>')
   }
 
   const lines = body.split('\n')
@@ -110,7 +111,7 @@ function TextContent({ body }: { body: string }) {
         if (typeof element === 'object' && element !== null && 'props' in element) {
           const html = (element.props as Record<string, unknown>).children
           if (typeof html === 'string' && html.includes('<')) {
-            return <div key={i} dangerouslySetInnerHTML={{ __html: renderInline(line) }} className="text-[15px] text-gray-700 leading-[1.8] mb-3" />
+            return <div key={i} dangerouslySetInnerHTML={{ __html: sanitizeEmail(renderInline(line)) }} className="text-[15px] text-gray-700 leading-[1.8] mb-3" />
           }
         }
         return element
@@ -157,7 +158,7 @@ function VideoContent({ url, transcript }: { url: string; transcript?: string })
         <div>
           <button
             onClick={() => setShowTranscript(!showTranscript)}
-            className="flex items-center gap-2 text-sm text-[#2EC6F3] font-medium hover:underline"
+            className="flex items-center gap-2 text-sm text-primary font-medium hover:underline"
           >
             <BookOpen className="w-4 h-4" />
             {showTranscript ? 'Masquer la transcription' : 'Voir la transcription'}
@@ -191,7 +192,7 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
       <div className="px-6 py-4 bg-gray-50 border-b flex items-center justify-between">
-        <h3 className="font-semibold text-[#082545]">Checklist</h3>
+        <h3 className="font-semibold text-accent">Checklist</h3>
         <span className="text-sm text-gray-500">{checked.size}/{items.length} complété{checked.size > 1 ? 's' : ''}</span>
       </div>
       <div className="p-4 space-y-2">
@@ -209,7 +210,7 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
               <Square className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
             )}
             <div>
-              <p className={`text-[15px] ${checked.has(i) ? 'text-green-700 line-through' : 'text-[#082545]'}`}>
+              <p className={`text-[15px] ${checked.has(i) ? 'text-green-700 line-through' : 'text-accent'}`}>
                 {item.label}
               </p>
               {item.description && (
@@ -237,7 +238,7 @@ function PdfContent({ url, titre }: { url: string; titre: string }) {
           <span className="text-red-500 font-bold text-lg">PDF</span>
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-[#082545]">{titre}</h3>
+          <h3 className="font-semibold text-accent">{titre}</h3>
           <p className="text-sm text-gray-500">Document téléchargeable</p>
         </div>
         <div className="flex gap-2">
@@ -254,7 +255,7 @@ function PdfContent({ url, titre }: { url: string; titre: string }) {
               <a
                 href={url}
                 download
-                className="flex items-center gap-1.5 px-4 py-2 bg-[#2EC6F3] text-white rounded-lg text-sm font-medium hover:bg-[#1BA8D4] transition"
+                className="flex items-center gap-1.5 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition"
               >
                 <Download className="w-4 h-4" /> Télécharger
               </a>
@@ -278,7 +279,7 @@ function ExerciceContent({ consigne, exemple, criteres }: { consigne: string; ex
       <div className="p-6 space-y-4">
         <div>
           <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Consigne</h4>
-          <p className="text-[15px] text-[#082545] leading-relaxed">{consigne}</p>
+          <p className="text-[15px] text-accent leading-relaxed">{consigne}</p>
         </div>
 
         {exemple && (

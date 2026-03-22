@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { SearchInput } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyFinancement } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Card } from '@/components/ui/Card'
 import { CreditCard, Plus, FileText, Clock, CheckCircle, AlertCircle, Euro } from 'lucide-react'
@@ -158,7 +159,7 @@ export default function FinancementTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="en_attente">En attente</option>
@@ -176,6 +177,7 @@ export default function FinancementTab() {
       {/* Table des financements */}
       {financements.length === 0 ? (
         <EmptyState
+          illustration={<IllustrationEmptyFinancement size={120} />}
           icon={<CreditCard className="w-4 h-4" />}
           title="Aucun dossier de financement"
           description="Les demandes de financement OPCO, CPF et Pôle Emploi apparaîtront ici."
@@ -253,7 +255,7 @@ export default function FinancementTab() {
                       <td className="px-6 py-4">
                         <Link
                           href={`/financement/${financement.id}`}
-                          className="text-[#2EC6F3] hover:text-[#1A94CC] text-sm font-medium"
+                          className="text-primary hover:text-[#1A94CC] text-sm font-medium"
                         >
                           Voir détail
                         </Link>

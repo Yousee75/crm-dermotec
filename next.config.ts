@@ -7,9 +7,9 @@ const nextConfig: NextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 
-  // Security
+  // Security — Protection code propriétaire
   poweredByHeader: false,
-  productionBrowserSourceMaps: false,
+  productionBrowserSourceMaps: false, // JAMAIS de source maps en prod
 
   serverExternalPackages: ['@react-pdf/renderer'],
 
@@ -34,6 +34,10 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Webpack — Obfuscation désactivée temporairement (crash build avec gros projet)
+  // TODO: Réactiver avec une config plus légère ou passer à SWC minifier
+  // webpack: (config, { isServer, dev }) => { ... },
+
   // Security headers + cache assets statiques
   headers: async () => [
     {
@@ -50,6 +54,14 @@ const nextConfig: NextConfig = {
       source: '/images/:path*',
       headers: [
         { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+      ],
+    },
+    {
+      // Réponses enrichment = pas de cache, pas d'indexation
+      source: '/api/enrichment/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'no-store, no-cache, must-revalidate, private' },
+        { key: 'X-Robots-Tag', value: 'noindex, nofollow, nosnippet, noarchive' },
       ],
     },
   ],

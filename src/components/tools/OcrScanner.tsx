@@ -77,7 +77,7 @@ export function OcrScanner() {
       <div
         onDrop={handleDrop}
         onDragOver={e => e.preventDefault()}
-        className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-[#2EC6F3] transition-colors"
+        className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors"
       >
         {image ? (
           <div className="space-y-4">
@@ -104,7 +104,7 @@ export function OcrScanner() {
             />
             <label
               htmlFor="image-upload"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] text-white rounded-md hover:bg-[#2EC6F3]/90 cursor-pointer transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 cursor-pointer transition-colors"
             >
               <Upload className="w-4 h-4" />
               Choisir une image
@@ -119,7 +119,7 @@ export function OcrScanner() {
           <button
             onClick={extractText}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#082545] text-white rounded-md hover:bg-[#082545]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-md hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? (
               <>
@@ -140,7 +140,7 @@ export function OcrScanner() {
       {loading && (
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-[#2EC6F3] h-2 rounded-full transition-all duration-300"
+            className="bg-primary h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -162,7 +162,7 @@ export function OcrScanner() {
           <textarea
             value={extractedText}
             onChange={e => setExtractedText(e.target.value)}
-            className="w-full h-64 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="w-full h-64 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="Le texte extrait apparaîtra ici..."
           />
         </div>

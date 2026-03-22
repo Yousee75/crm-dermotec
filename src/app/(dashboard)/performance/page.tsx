@@ -39,7 +39,7 @@ export default function PerformancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h1 className="text-2xl font-bold text-accent">
             Performance Commerciaux
           </h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -53,7 +53,7 @@ export default function PerformancePage() {
               onClick={() => setPeriode(p)}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 periode === p
-                  ? 'bg-white text-[#082545] shadow-sm'
+                  ? 'bg-white text-accent shadow-sm'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -91,7 +91,7 @@ export default function PerformancePage() {
             <KpiCard
               label="Pipeline Actif"
               value={String(data.totaux.pipeline_total)}
-              subvalue="leads en cours"
+              subvalue="prospects en cours"
               icon={<BarChart3 className="w-5 h-5" />}
               color="#8B5CF6"
             />
@@ -111,7 +111,7 @@ export default function PerformancePage() {
               <span className="text-sm font-medium text-gray-700">
                 Progression objectif global
               </span>
-              <span className="text-sm font-bold text-[#082545]">
+              <span className="text-sm font-bold text-accent">
                 {data.totaux.progression_objectif_global}%
               </span>
             </div>
@@ -132,7 +132,7 @@ export default function PerformancePage() {
           {/* Leaderboard */}
           <div className="bg-white rounded-xl border overflow-hidden">
             <div className="p-4 border-b bg-gray-50">
-              <h2 className="font-semibold text-[#082545] flex items-center gap-2">
+              <h2 className="font-semibold text-accent flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-yellow-500" />
                 Classement — {periodeLabels[periode]}
               </h2>
@@ -164,7 +164,7 @@ export default function PerformancePage() {
                         {commercial.prenom[0]}{commercial.nom[0]}
                       </div>
                       <div>
-                        <p className="font-medium text-[#082545]">
+                        <p className="font-medium text-accent">
                           {commercial.prenom} {commercial.nom}
                         </p>
                         <p className="text-xs text-gray-500">{commercial.role}</p>
@@ -176,7 +176,7 @@ export default function PerformancePage() {
                       {/* CA */}
                       <div>
                         <p className="text-xs text-gray-500">CA</p>
-                        <p className="font-semibold text-[#082545]">{formatEuro(commercial.ca_periode)}</p>
+                        <p className="font-semibold text-accent">{formatEuro(commercial.ca_periode)}</p>
                         <TendanceBadge value={commercial.tendance_ca} />
                       </div>
 
@@ -213,14 +213,14 @@ export default function PerformancePage() {
                       {/* Pipeline */}
                       <div>
                         <p className="text-xs text-gray-500">Pipeline</p>
-                        <p className="font-semibold text-[#082545]">{commercial.pipeline_actif}</p>
+                        <p className="font-semibold text-accent">{commercial.pipeline_actif}</p>
                         <p className="text-xs text-gray-400">score moy. {commercial.pipeline_score_moyen}</p>
                       </div>
 
                       {/* Activité / Alertes */}
                       <div>
                         <p className="text-xs text-gray-500">Activité</p>
-                        <p className="font-semibold text-[#082545]">{commercial.activites_periode}</p>
+                        <p className="font-semibold text-accent">{commercial.activites_periode}</p>
                         {commercial.rappels_overdue > 0 && (
                           <p className="text-xs text-red-500 flex items-center gap-1">
                             <AlertTriangle className="w-3 h-3" />
@@ -247,7 +247,7 @@ export default function PerformancePage() {
                     {c.prenom[0]}{c.nom[0]}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#082545]">{c.prenom} {c.nom}</h3>
+                    <h3 className="font-semibold text-accent">{c.prenom} {c.nom}</h3>
                     <p className="text-xs text-gray-500">#{c.rang} — {c.role}</p>
                   </div>
                   {c.rang === 1 && <Trophy className="w-6 h-6 text-yellow-500 ml-auto" />}
@@ -275,7 +275,7 @@ export default function PerformancePage() {
                 {/* Mini KPIs */}
                 <div className="grid grid-cols-3 gap-3 text-center">
                   <div className="bg-gray-50 rounded-lg p-2">
-                    <p className="text-lg font-bold text-[#082545]">{c.leads_periode}</p>
+                    <p className="text-lg font-bold text-accent">{c.leads_periode}</p>
                     <p className="text-[10px] text-gray-500">Leads</p>
                   </div>
                   <div className="bg-gray-50 rounded-lg p-2">
@@ -285,7 +285,7 @@ export default function PerformancePage() {
                     <p className="text-[10px] text-gray-500">Conversion</p>
                   </div>
                   <div className="bg-gray-50 rounded-lg p-2">
-                    <p className="text-lg font-bold text-[#082545]">{c.pipeline_actif}</p>
+                    <p className="text-lg font-bold text-accent">{c.pipeline_actif}</p>
                     <p className="text-[10px] text-gray-500">Pipeline</p>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ function KpiCard({ label, value, subvalue, progress, icon, color, alert }: {
         <span className="text-sm text-gray-500">{label}</span>
         <div style={{ color }}>{icon}</div>
       </div>
-      <p className="text-2xl font-bold text-[#082545]">{value}</p>
+      <p className="text-2xl font-bold text-accent">{value}</p>
       <p className="text-xs text-gray-500 mt-1">{subvalue}</p>
       {progress !== undefined && (
         <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">

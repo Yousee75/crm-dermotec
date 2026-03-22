@@ -60,7 +60,7 @@ function KpiCard({
       </div>
       <div>
         <p className="text-xs text-gray-500 mb-1">{label}</p>
-        <p className="text-lg font-bold text-[#082545]">{value}</p>
+        <p className="text-lg font-bold text-accent">{value}</p>
         {trend && (
           <p className="text-xs text-gray-400 mt-1">{trend.label}</p>
         )}

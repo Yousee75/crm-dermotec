@@ -5,10 +5,11 @@ export const dynamic = 'force-dynamic'
 import { useState, useCallback, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLeads, useCreateLead, useChangeStatut } from '@/hooks/use-leads'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import { useQueryClient } from '@tanstack/react-query'
 import { Dialog, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/Dialog'
 import { STATUTS_LEAD, type StatutLead } from '@/types'
-import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users, CheckSquare, UserPlus, Tag, Trash2, X, Upload } from 'lucide-react'
+import { Plus, Phone, Mail, MessageCircle, Download, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Users, CheckSquare, UserPlus, Tag, Trash2, X, Upload, Flame, Clock, Calendar, Wallet, AlertTriangle, UserCheck, GraduationCap, SortAsc, SortDesc, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
@@ -19,6 +20,7 @@ import { Avatar } from '@/components/ui/Avatar'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyLeads } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
 import { exportToCSV } from '@/lib/export-csv'
@@ -26,8 +28,32 @@ import { SourceBadge, SOURCE_CONFIG } from '@/components/ui/SourceBadge'
 import { ScoreChip } from '@/components/ui/ScoreChip'
 import { FilterDropdown, FilterOption } from '@/components/ui/FilterDropdown'
 import { getScoreColor } from '@/lib/scoring'
+import { FORMATIONS_SEED } from '@/lib/constants'
 import type { SourceLead } from '@/types'
 import { CsvImportDialog } from '@/components/ui/CsvImportDialog'
+
+// Smart filter presets — scénarios les plus fréquents d'un commercial
+type SmartFilter = 'chauds' | 'aujourdhui' | 'stagnants' | 'financement' | 'priorite'
+
+const SMART_FILTERS: { id: SmartFilter; label: string; icon: React.ElementType; color: string; tooltip: string }[] = [
+  { id: 'chauds', label: 'Chauds', icon: Flame, color: '#EF4444', tooltip: 'Score ≥ 60 — prêts à convertir' },
+  { id: 'aujourdhui', label: "Aujourd'hui", icon: Calendar, color: '#8B5CF6', tooltip: 'Créés aujourd\'hui' },
+  { id: 'stagnants', label: 'Stagnants', icon: Clock, color: '#F59E0B', tooltip: 'Pas de contact depuis 7+ jours' },
+  { id: 'financement', label: 'Financement', icon: Wallet, color: '#06B6D4', tooltip: 'Financement souhaité' },
+  { id: 'priorite', label: 'Urgents', icon: AlertTriangle, color: '#EF4444', tooltip: 'Priorité urgente ou haute' },
+]
+
+const SORT_OPTIONS = [
+  { value: 'created_at:desc', label: 'Plus récents' },
+  { value: 'created_at:asc', label: 'Plus anciens' },
+  { value: 'score_chaud:desc', label: 'Score ↓' },
+  { value: 'score_chaud:asc', label: 'Score ↑' },
+  { value: 'date_dernier_contact:asc', label: 'Dernier contact ↑ (stagnants)' },
+  { value: 'nom:asc', label: 'Nom A→Z' },
+]
+
+// Catégories de formations pour le filtre groupé
+const FORMATION_CATEGORIES = [...new Set(FORMATIONS_SEED.map(f => f.categorie))]
 
 export default function LeadsPage() {
   const t = useTranslations('leads')
@@ -35,23 +61,79 @@ export default function LeadsPage() {
   const [search, setSearch] = useState('')
   const [statutFilter, setStatutFilter] = useState<StatutLead[]>([])
   const [sourceFilter, setSourceFilter] = useState<SourceLead[]>([])
+  const [formationFilter, setFormationFilter] = useState('')
+  const [smartFilter, setSmartFilter] = useState<SmartFilter | null>(null)
+  const [sortBy, setSortBy] = useState('created_at:desc')
+  const [showMyLeads, setShowMyLeads] = useState(false)
   const [page, setPage] = useState(1)
   const [showCreate, setShowCreate] = useState(false)
   const [showCsvImport, setShowCsvImport] = useState(false)
+  const [showSortMenu, setShowSortMenu] = useState(false)
   const createLead = useCreateLead()
   const changeStatut = useChangeStatut()
   const queryClient = useQueryClient()
+  const { data: currentUser } = useCurrentUser()
+  const isAdminOrManager = currentUser?.isAdmin || currentUser?.role === 'manager'
 
   // Form state pour nouveau lead
   const [newLead, setNewLead] = useState({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' as const })
 
-  const { data, isLoading } = useLeads({
-    search: search || undefined,
-    statut: statutFilter.length ? statutFilter : undefined,
-    source: sourceFilter.length ? sourceFilter[0] as SourceLead : undefined,
-    page,
-    per_page: 20,
-  })
+  // Construire les filtres à partir du smart filter actif + filtres avancés
+  const [sort_field, sort_dir] = sortBy.split(':') as [string, 'asc' | 'desc']
+  const today = new Date().toISOString().split('T')[0]
+
+  const computedFilters = useMemo(() => {
+    const f: Record<string, any> = {
+      search: search || undefined,
+      statut: statutFilter.length ? statutFilter : undefined,
+      source: sourceFilter.length ? sourceFilter[0] as SourceLead : undefined,
+      formation_id: formationFilter || undefined,
+      commercial_id: showMyLeads && isAdminOrManager && currentUser?.equipe_id ? currentUser.equipe_id : undefined,
+      sort_by: sort_field,
+      sort_order: sort_dir,
+      page,
+      per_page: 20,
+    }
+    // Smart filter overrides
+    if (smartFilter === 'chauds') f.score_min = 60
+    if (smartFilter === 'aujourdhui') f.date_from = today
+    if (smartFilter === 'stagnants') {
+      f.statut = ['NOUVEAU', 'CONTACTE', 'QUALIFIE'] as StatutLead[]
+      f.sort_by = 'date_dernier_contact'
+      f.sort_order = 'asc'
+    }
+    if (smartFilter === 'financement') f.financement = true
+    if (smartFilter === 'priorite') f.priorite = 'URGENTE'
+    return f
+  }, [search, statutFilter, sourceFilter, formationFilter, smartFilter, sort_field, sort_dir, page, showMyLeads, isAdminOrManager, currentUser?.equipe_id, today])
+
+  const { data, isLoading } = useLeads(computedFilters)
+
+  // Compteurs pour les smart chips (utilise les données chargées — pas de requêtes supplémentaires)
+  const smartCounts = useMemo(() => {
+    if (!data?.leads) return {}
+    const all = data.leads
+    return {
+      chauds: all.filter(l => l.score_chaud >= 60).length,
+      stagnants: all.filter(l => {
+        if (!['NOUVEAU', 'CONTACTE', 'QUALIFIE'].includes(l.statut)) return false
+        const ref = l.date_dernier_contact || l.created_at
+        return (Date.now() - new Date(ref).getTime()) / 86400000 > 7
+      }).length,
+      financement: all.filter(l => l.financement_souhaite).length,
+    }
+  }, [data?.leads])
+
+  const hasAnyFilter = statutFilter.length > 0 || sourceFilter.length > 0 || formationFilter || smartFilter || search
+
+  const clearAllFilters = useCallback(() => {
+    setStatutFilter([])
+    setSourceFilter([])
+    setFormationFilter('')
+    setSmartFilter(null)
+    setSearch('')
+    setPage(1)
+  }, [])
 
   // Bulk selection state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
@@ -109,8 +191,8 @@ export default function LeadsPage() {
     <div className="space-y-5">
       {/* Header */}
       <PageHeader
-        title="Leads"
-        description={`${data?.total || 0} leads au total`}
+        title="Prospects"
+        description={`${data?.total || 0} prospects au total`}
       >
         <Button
           variant="outline"
@@ -125,7 +207,7 @@ export default function LeadsPage() {
           size="sm"
           icon={<Download className="w-3.5 h-3.5" />}
           onClick={() => {
-            if (!data?.leads.length) return toast.error('Aucun lead à exporter')
+            if (!data?.leads.length) return toast.error('Aucun prospect à exporter')
             exportToCSV(data.leads.map(l => ({
               prenom: l.prenom,
               nom: l.nom,
@@ -137,7 +219,7 @@ export default function LeadsPage() {
               formation: l.formation_principale?.nom || '',
               date: l.created_at,
             })), 'leads')
-            toast.success(`${data.leads.length} leads exportés`)
+            toast.success(`${data.leads.length} prospects exportés`)
           }}
         >
           Export
@@ -147,23 +229,99 @@ export default function LeadsPage() {
           icon={<Plus className="w-4 h-4" />}
           onClick={() => setShowCreate(true)}
         >
-          Nouveau Lead
+          Nouveau prospect
         </Button>
       </PageHeader>
 
-      {/* Filters */}
+      {/* ===== FILTRAGE 3 NIVEAUX ===== */}
       <div className="space-y-3">
-        <div className="w-full sm:max-w-md">
-          <SearchInput
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setPage(1) }}
-            placeholder="Rechercher (nom, email, téléphone...)"
-          />
+        {/* Niveau 0 : Recherche + Mes leads + Tri */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex-1 min-w-[200px] sm:max-w-md">
+            <SearchInput
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+              placeholder="Rechercher (nom, email, téléphone...)"
+            />
+          </div>
+          {isAdminOrManager && (
+            <button
+              onClick={() => { setShowMyLeads(p => !p); setPage(1) }}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition whitespace-nowrap border',
+                showMyLeads
+                  ? 'bg-primary/10 text-primary border-primary/30'
+                  : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+              )}
+            >
+              <UserCheck className="w-3.5 h-3.5" />
+              {showMyLeads ? 'Mes leads' : 'Tous'}
+            </button>
+          )}
+          {/* Tri */}
+          <div className="relative">
+            <button
+              onClick={() => setShowSortMenu(p => !p)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition border bg-white text-gray-600 border-gray-200 hover:bg-gray-50 whitespace-nowrap"
+            >
+              {sort_dir === 'desc' ? <SortDesc className="w-3.5 h-3.5" /> : <SortAsc className="w-3.5 h-3.5" />}
+              <span className="hidden sm:inline">{SORT_OPTIONS.find(s => s.value === sortBy)?.label || 'Trier'}</span>
+              <ChevronDown className="w-3 h-3 text-gray-400" />
+            </button>
+            {showSortMenu && (
+              <>
+                <div className="fixed inset-0 z-30" onClick={() => setShowSortMenu(false)} />
+                <div className="absolute right-0 top-full mt-1 z-40 bg-white rounded-xl shadow-xl border border-gray-100 py-1 min-w-[220px] animate-fadeIn">
+                  {SORT_OPTIONS.map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { setSortBy(opt.value); setShowSortMenu(false); setPage(1) }}
+                      className={cn(
+                        'w-full flex items-center gap-2 px-3 py-2 text-xs transition hover:bg-gray-50 text-left',
+                        sortBy === opt.value && 'text-primary font-medium bg-primary/5'
+                      )}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
-        {/* Smart filter dropdowns */}
+        {/* Niveau 1 : Smart Chips — scénarios 1 clic */}
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-hide">
+          {SMART_FILTERS.map(sf => {
+            const Icon = sf.icon
+            const isActive = smartFilter === sf.id
+            const count = (smartCounts as any)[sf.id]
+            return (
+              <button
+                key={sf.id}
+                onClick={() => { setSmartFilter(isActive ? null : sf.id); setPage(1) }}
+                title={sf.tooltip}
+                className={cn(
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition whitespace-nowrap border shrink-0',
+                  isActive
+                    ? 'text-white border-transparent shadow-sm'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                )}
+                style={isActive ? { backgroundColor: sf.color } : undefined}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {sf.label}
+                {count !== undefined && count > 0 && !isActive && (
+                  <span className="min-w-[16px] h-4 rounded-full bg-gray-100 text-gray-500 text-[10px] flex items-center justify-center">{count}</span>
+                )}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Niveau 2 : Filtres avancés — dropdowns */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Statut dropdown */}
+          {/* Statut */}
           <FilterDropdown
             label="Statut"
             icon={Filter}
@@ -189,7 +347,7 @@ export default function LeadsPage() {
             ))}
           </FilterDropdown>
 
-          {/* Source dropdown */}
+          {/* Source */}
           <FilterDropdown
             label="Source"
             icon={Users}
@@ -220,12 +378,42 @@ export default function LeadsPage() {
             })}
           </FilterDropdown>
 
-          {/* Clear all */}
-          {(statutFilter.length > 0 || sourceFilter.length > 0) && (
+          {/* Formation */}
+          <FilterDropdown
+            label="Formation"
+            icon={GraduationCap}
+            activeCount={formationFilter ? 1 : undefined}
+            onClear={() => { setFormationFilter(''); setPage(1) }}
+          >
+            {FORMATION_CATEGORIES.map(cat => (
+              <div key={cat}>
+                <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{cat}</div>
+                {FORMATIONS_SEED.filter(f => f.categorie === cat).map(f => (
+                  <FilterOption
+                    key={f.slug}
+                    selected={formationFilter === f.slug}
+                    onClick={() => {
+                      setFormationFilter(prev => prev === f.slug ? '' : f.slug)
+                      setPage(1)
+                    }}
+                  >
+                    <span className="flex items-center justify-between w-full">
+                      <span className="truncate">{f.nom}</span>
+                      <span className="text-[10px] text-gray-400 ml-2 shrink-0">{f.prix_ht}€</span>
+                    </span>
+                  </FilterOption>
+                ))}
+              </div>
+            ))}
+          </FilterDropdown>
+
+          {/* Résumé filtres actifs + Clear */}
+          {hasAnyFilter && (
             <button
-              onClick={() => { setStatutFilter([]); setSourceFilter([]); setPage(1) }}
-              className="text-xs text-gray-400 hover:text-red-500 transition px-2"
+              onClick={clearAllFilters}
+              className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition px-2"
             >
+              <X className="w-3 h-3" />
               Tout effacer
             </button>
           )}
@@ -235,7 +423,7 @@ export default function LeadsPage() {
       {/* Bulk Actions Bar */}
       {someSelected && (
         <div className="flex items-center gap-3 bg-[#0F172A] text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
-          <CheckSquare className="w-4 h-4 text-[#2EC6F3]" />
+          <CheckSquare className="w-4 h-4 text-primary" />
           <span className="text-sm font-medium">{selectedIds.size} sélectionné{selectedIds.size > 1 ? 's' : ''}</span>
           <div className="flex-1" />
           <select
@@ -266,7 +454,7 @@ export default function LeadsPage() {
               clearSelection()
               setBulkStatut('')
             }}
-            className="px-3 py-1.5 bg-[#2EC6F3] rounded-lg text-sm font-medium hover:bg-[#2EC6F3]/80 transition"
+            className="px-3 py-1.5 bg-primary rounded-lg text-sm font-medium hover:bg-primary/80 transition"
             disabled={!bulkStatut || changeStatut.isPending}
           >
             {changeStatut.isPending ? 'En cours...' : 'Appliquer'}
@@ -275,8 +463,8 @@ export default function LeadsPage() {
             onClick={() => {
               if (!data?.leads) return
               const selectedLeads = data.leads.filter(l => selectedIds.has(l.id))
-              exportToCSV(selectedLeads, `leads-selection-${new Date().toISOString().split('T')[0]}`)
-              toast.success(`${selectedLeads.length} leads exportés`)
+              exportToCSV(selectedLeads as unknown as Record<string, unknown>[], `leads-selection-${new Date().toISOString().split('T')[0]}`)
+              toast.success(`${selectedLeads.length} prospects exportés`)
               clearSelection()
             }}
             className="p-1.5 hover:bg-white/10 rounded-lg transition"
@@ -308,7 +496,7 @@ export default function LeadsPage() {
                       <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white" style={{ backgroundColor: getScoreColor(lead.score_chaud) }} />
                     </div>
                     <div className="min-w-0">
-                      <p className="font-semibold text-sm text-[#0F172A] truncate">{lead.prenom} {lead.nom}</p>
+                      <p className="font-semibold text-sm text-text truncate">{lead.prenom} {lead.nom}</p>
                       <p className="text-xs text-gray-400 truncate">{lead.formation_principale?.nom || lead.statut_pro?.replace(/_/g, ' ') || '—'}</p>
                     </div>
                   </div>
@@ -319,12 +507,12 @@ export default function LeadsPage() {
                 </div>
                 <div className="flex items-center gap-3 mt-3 pt-3 border-t border-gray-50">
                   {lead.telephone && (
-                    <a href={`tel:${lead.telephone}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#2EC6F3]">
+                    <a href={`tel:${lead.telephone}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-primary">
                       <Phone className="w-3.5 h-3.5" /> {lead.telephone}
                     </a>
                   )}
                   {lead.email && (
-                    <a href={`mailto:${lead.email}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#2EC6F3] truncate">
+                    <a href={`mailto:${lead.email}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-primary truncate">
                       <Mail className="w-3.5 h-3.5" /> <span className="truncate">{lead.email}</span>
                     </a>
                   )}
@@ -349,7 +537,7 @@ export default function LeadsPage() {
                       type="checkbox"
                       checked={allSelected}
                       onChange={toggleAll}
-                      className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
+                      className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                     />
                   </th>
                   <th className="px-4 py-3 text-left">
@@ -368,7 +556,8 @@ export default function LeadsPage() {
                       <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Activite</th>
+                  <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Activité</th>
+                  <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -376,13 +565,13 @@ export default function LeadsPage() {
                   <tr>
                     <td colSpan={8}>
                       <EmptyState
-                        icon={<Users className="w-7 h-7" />}
-                        title={search || statutFilter.length ? 'Aucun lead trouvé' : 'Commencez ici'}
-                        description={search || statutFilter.length
+                        illustration={<IllustrationEmptyLeads size={140} />}
+                        title={hasAnyFilter ? 'Aucun lead trouvé' : 'Commencez ici'}
+                        description={hasAnyFilter
                           ? 'Modifiez vos filtres ou essayez un autre terme de recherche'
                           : 'Ajoutez votre premier prospect pour démarrer votre pipeline commercial'
                         }
-                        action={!search && !statutFilter.length ? {
+                        action={!hasAnyFilter ? {
                           label: 'Créer votre premier lead',
                           onClick: () => setShowCreate(true),
                           icon: <Plus className="w-3.5 h-3.5" />,
@@ -396,8 +585,8 @@ export default function LeadsPage() {
                     <tr
                       key={lead.id}
                       className={cn(
-                        "group hover:bg-[#2EC6F3]/[0.02] transition-colors cursor-pointer",
-                        selectedIds.has(lead.id) && "bg-[#2EC6F3]/[0.05]"
+                        "group hover:bg-primary/[0.02] transition-colors cursor-pointer",
+                        selectedIds.has(lead.id) && "bg-primary/[0.05]"
                       )}
                     >
                       <td className="w-10 px-3 py-3" onClick={e => e.stopPropagation()}>
@@ -405,7 +594,7 @@ export default function LeadsPage() {
                           type="checkbox"
                           checked={selectedIds.has(lead.id)}
                           onChange={() => toggleSelect(lead.id)}
-                          className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
+                          className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                         />
                       </td>
                       <td className="px-4 py-3">
@@ -419,10 +608,10 @@ export default function LeadsPage() {
                             />
                           </div>
                           <div className="min-w-0">
-                            <p className="font-medium text-[#0F172A] truncate group-hover:text-[#2EC6F3] transition">{lead.prenom} {lead.nom}</p>
+                            <p className="font-medium text-text truncate group-hover:text-primary transition">{lead.prenom} {lead.nom}</p>
                             <p className="text-[11px] text-gray-400 truncate">
                               {lead.statut_pro?.replace(/_/g, ' ') || '—'}
-                              {lead.financement_souhaite && <span className="ml-1 text-[#2EC6F3]" title="Financement souhaité">F</span>}
+                              {lead.financement_souhaite && <span className="ml-1 text-primary" title="Financement souhaité">F</span>}
                             </p>
                           </div>
                         </Link>
@@ -481,7 +670,6 @@ export default function LeadsPage() {
                       </td>
                       <td className="hidden lg:table-cell px-4 py-3">
                         {(() => {
-                          // Dernier contact > date création (plus actionnable)
                           const ref = lead.date_dernier_contact || lead.created_at
                           const d = Math.floor((Date.now() - new Date(ref).getTime()) / 86400000)
                           const isStale = d > 7 && ['NOUVEAU', 'CONTACTE', 'QUALIFIE'].includes(lead.statut)
@@ -500,6 +688,44 @@ export default function LeadsPage() {
                             </div>
                           )
                         })()}
+                      </td>
+
+                      {/* Actions rapides */}
+                      <td className="px-2 py-3">
+                        <div className="flex items-center gap-1">
+                          {lead.telephone && (
+                            <a
+                              href={`tel:${lead.telephone.replace(/[\s.-]/g, '').replace(/^0/, '+33')}`}
+                              onClick={e => e.stopPropagation()}
+                              className="p-1.5 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition-colors"
+                              title="Appeler"
+                            >
+                              <Phone size={14} />
+                            </a>
+                          )}
+                          {lead.email && (
+                            <a
+                              href={`mailto:${lead.email}`}
+                              onClick={e => e.stopPropagation()}
+                              className="p-1.5 rounded-lg hover:bg-purple-50 text-gray-400 hover:text-purple-500 transition-colors"
+                              title="Email"
+                            >
+                              <Mail size={14} />
+                            </a>
+                          )}
+                          {lead.telephone && (
+                            <a
+                              href={`https://wa.me/${lead.telephone.replace(/[\s.+-]/g, '').replace(/^0/, '33')}`}
+                              onClick={e => e.stopPropagation()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-1.5 rounded-lg hover:bg-green-50 text-gray-400 hover:text-green-500 transition-colors"
+                              title="WhatsApp"
+                            >
+                              <MessageCircle size={14} />
+                            </a>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   )
@@ -547,7 +773,7 @@ export default function LeadsPage() {
                         className={cn(
                           'w-8 h-8 rounded-md text-xs font-medium transition',
                           pageNum === page
-                            ? 'bg-[#2EC6F3] text-white shadow-sm'
+                            ? 'bg-primary text-white shadow-sm'
                             : 'text-gray-500 hover:bg-gray-100'
                         )}
                       >
@@ -587,7 +813,7 @@ export default function LeadsPage() {
       {/* Dialog création lead */}
       <Dialog open={showCreate} onClose={() => setShowCreate(false)} size="md">
         <DialogHeader onClose={() => setShowCreate(false)}>
-          <DialogTitle>Nouveau Lead</DialogTitle>
+          <DialogTitle>Nouveau prospect</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -598,7 +824,7 @@ export default function LeadsPage() {
                 type="text"
                 value={newLead.prenom}
                 onChange={(e) => setNewLead(prev => ({ ...prev, prenom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                 placeholder="Marie"
                 autoFocus
               />
@@ -609,7 +835,7 @@ export default function LeadsPage() {
                 type="text"
                 value={newLead.nom}
                 onChange={(e) => setNewLead(prev => ({ ...prev, nom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                 placeholder="Dupont"
               />
             </div>
@@ -621,7 +847,7 @@ export default function LeadsPage() {
               type="email"
               value={newLead.email}
               onChange={(e) => setNewLead(prev => ({ ...prev, email: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
               placeholder="marie@exemple.fr"
             />
           </div>
@@ -632,7 +858,7 @@ export default function LeadsPage() {
               type="tel"
               value={newLead.telephone}
               onChange={(e) => setNewLead(prev => ({ ...prev, telephone: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
               placeholder="06 12 34 56 78"
             />
           </div>
@@ -642,7 +868,7 @@ export default function LeadsPage() {
             <select
               value={newLead.source}
               onChange={(e) => setNewLead(prev => ({ ...prev, source: e.target.value as typeof prev.source }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] bg-white"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white"
             >
               <option value="formulaire">Formulaire</option>
               <option value="telephone">Téléphone</option>

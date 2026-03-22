@@ -96,7 +96,7 @@ export function CsvJsonConverter() {
     <div className="space-y-6">
       {/* Header with toggle */}
       <div className="flex items-center justify-center gap-4">
-        <div className="flex items-center gap-2 text-[#082545] font-medium">
+        <div className="flex items-center gap-2 text-accent font-medium">
           {isJsonTocsv ? <Braces className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
           {isJsonTocsv ? 'JSON' : 'CSV'}
         </div>
@@ -106,10 +106,10 @@ export function CsvJsonConverter() {
           className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           title="Inverser la direction"
         >
-          <ArrowLeftRight className="w-5 h-5 text-[#2EC6F3]" />
+          <ArrowLeftRight className="w-5 h-5 text-primary" />
         </button>
 
-        <div className="flex items-center gap-2 text-[#082545] font-medium">
+        <div className="flex items-center gap-2 text-accent font-medium">
           {isJsonTocsv ? <FileText className="w-5 h-5" /> : <Braces className="w-5 h-5" />}
           {isJsonTocsv ? 'CSV' : 'JSON'}
         </div>
@@ -130,7 +130,7 @@ export function CsvJsonConverter() {
               ? 'Collez votre JSON ici...\n[\n  {"nom": "John", "age": 30},\n  {"nom": "Jane", "age": 25}\n]'
               : 'Collez votre CSV ici...\nnom,age\nJohn,30\nJane,25'
             }
-            className="w-full h-64 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent font-mono text-sm"
+            className="w-full h-64 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono text-sm"
           />
         </div>
 
@@ -152,7 +152,7 @@ export function CsvJsonConverter() {
                 </button>
                 <button
                   onClick={downloadResult}
-                  className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-[#2EC6F3] text-white hover:bg-[#2EC6F3]/90 rounded transition-colors"
+                  className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-primary text-white hover:bg-primary/90 rounded transition-colors"
                 >
                   <Download className="w-4 h-4" />
                   Télécharger
@@ -174,7 +174,7 @@ export function CsvJsonConverter() {
         <button
           onClick={convert}
           disabled={!input.trim()}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#082545] text-white rounded-md hover:bg-[#082545]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-md hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <ArrowLeftRight className="w-4 h-4" />
           Convertir

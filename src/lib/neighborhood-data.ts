@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Données quartier via Google Places Nearby
 // Métros, restaurants, commerces, pharmacies, écoles...

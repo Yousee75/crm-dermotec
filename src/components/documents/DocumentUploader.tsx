@@ -214,7 +214,7 @@ export default function DocumentUploader({
   const getStatusIcon = () => {
     switch (uploadState.status) {
       case 'uploading':
-        return <Loader2 className="h-8 w-8 animate-spin text-[#2EC6F3]" />
+        return <Loader2 className="h-8 w-8 animate-spin text-primary" />
       case 'success':
         return <Check className="h-8 w-8 text-green-500" />
       case 'error':
@@ -250,7 +250,7 @@ export default function DocumentUploader({
 
   const borderColor = uploadState.status === 'error' ? 'border-red-300' :
                      uploadState.status === 'success' ? 'border-green-300' :
-                     isDragOver ? 'border-[#2EC6F3]' :
+                     isDragOver ? 'border-primary' :
                      'border-gray-300'
 
   const bgColor = uploadState.status === 'error' ? 'bg-red-50' :
@@ -267,7 +267,7 @@ export default function DocumentUploader({
           transition-all duration-200 min-h-[160px] flex flex-col items-center justify-center
           ${borderColor} ${bgColor}
           ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-          hover:${!disabled ? 'border-[#2EC6F3] bg-blue-50' : ''}
+          hover:${!disabled ? 'border-primary bg-blue-50' : ''}
         `}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -336,7 +336,7 @@ export default function DocumentUploader({
         {uploadState.status === 'uploading' && (
           <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
             <div
-              className="bg-[#2EC6F3] h-2 rounded-full transition-all duration-300"
+              className="bg-primary h-2 rounded-full transition-all duration-300"
               style={{ width: `${uploadState.progress}%` }}
             />
           </div>
@@ -376,7 +376,7 @@ export default function DocumentUploader({
                   e.stopPropagation()
                   resetUpload()
                 }}
-                className="text-xs text-[#2EC6F3] hover:text-[#082545] font-medium"
+                className="text-xs text-primary hover:text-accent font-medium"
               >
                 Remplacer
               </button>
@@ -388,7 +388,7 @@ export default function DocumentUploader({
                   e.stopPropagation()
                   resetUpload()
                 }}
-                className="text-xs text-[#2EC6F3] hover:text-[#082545] font-medium"
+                className="text-xs text-primary hover:text-accent font-medium"
               >
                 Réessayer
               </button>

@@ -441,7 +441,7 @@ export default function CadencesPage() {
             className={cn(
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'templates'
-                ? 'border-[#2EC6F3] text-[#2EC6F3]'
+                ? 'border-primary text-primary'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             )}
           >
@@ -452,7 +452,7 @@ export default function CadencesPage() {
             className={cn(
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'instances'
-                ? 'border-[#2EC6F3] text-[#2EC6F3]'
+                ? 'border-primary text-primary'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             )}
           >
@@ -514,7 +514,7 @@ export default function CadencesPage() {
                   className={cn(
                     'px-3 py-1 rounded-lg text-sm font-medium transition',
                     instancesFilter === filter.key
-                      ? 'bg-[#2EC6F3] text-white'
+                      ? 'bg-primary text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   )}
                 >

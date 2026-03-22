@@ -40,6 +40,7 @@ import { SearchInput } from '@/components/ui/Input'
 import { KpiCard } from '@/components/ui/KpiCard'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyStagiaires } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
 
@@ -215,7 +216,7 @@ export default function StagiairesPage() {
       <div className="flex items-center gap-1">
         {children}
         {sortBy === column && (
-          <span className="text-[#2EC6F3]">
+          <span className="text-primary">
             {sortOrder === 'asc' ? '↑' : '↓'}
           </span>
         )}
@@ -305,7 +306,7 @@ export default function StagiairesPage() {
         <button
           className={cn(
             "px-3 py-2 rounded-md text-sm font-medium transition-colors",
-            activeTab === 'all' ? "bg-white text-[#082545] shadow-sm" : "text-gray-600 hover:text-gray-900"
+            activeTab === 'all' ? "bg-white text-accent shadow-sm" : "text-gray-600 hover:text-gray-900"
           )}
           onClick={() => { setActiveTab('all'); setPage(1) }}
         >
@@ -314,7 +315,7 @@ export default function StagiairesPage() {
         <button
           className={cn(
             "px-3 py-2 rounded-md text-sm font-medium transition-colors",
-            activeTab === 'alumni' ? "bg-white text-[#082545] shadow-sm" : "text-gray-600 hover:text-gray-900"
+            activeTab === 'alumni' ? "bg-white text-accent shadow-sm" : "text-gray-600 hover:text-gray-900"
           )}
           onClick={() => { setActiveTab('alumni'); setPage(1) }}
         >
@@ -336,7 +337,7 @@ export default function StagiairesPage() {
           <select
             value={statutFilter}
             onChange={(e) => { setStatutFilter(e.target.value as StatutInscription | ''); setPage(1) }}
-            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Tous les statuts</option>
             {Object.entries(STATUTS_INSCRIPTION).map(([value, { label }]) => (
@@ -348,7 +349,7 @@ export default function StagiairesPage() {
         <select
           value={formationFilter}
           onChange={(e) => { setFormationFilter(e.target.value); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Toutes les formations</option>
           {formations.map(formation => (
@@ -359,7 +360,7 @@ export default function StagiairesPage() {
         <select
           value={sessionFilter}
           onChange={(e) => { setSessionFilter(e.target.value); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Toutes les sessions</option>
           {sessions.map(session => (
@@ -372,7 +373,7 @@ export default function StagiairesPage() {
         <select
           value={paiementFilter}
           onChange={(e) => { setPaiementFilter(e.target.value as PaiementStatut | ''); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Tous les paiements</option>
           {Object.entries(PAIEMENT_STATUTS).map(([value, { label }]) => (
@@ -406,6 +407,7 @@ export default function StagiairesPage() {
                   <tr>
                     <td colSpan={9}>
                       <EmptyState
+                        illustration={<IllustrationEmptyStagiaires size={120} />}
                         icon={<GraduationCap className="w-7 h-7" />}
                         title="Aucune inscription"
                         description={activeTab === 'alumni' ? 'Aucun alumni trouvé' : 'Aucune inscription trouvée'}
@@ -422,7 +424,7 @@ export default function StagiairesPage() {
                   return (
                     <tr
                       key={inscription.id}
-                      className="group hover:bg-[#2EC6F3]/[0.02] transition-colors cursor-pointer"
+                      className="group hover:bg-primary/[0.02] transition-colors cursor-pointer"
                       onClick={() => window.open(`/lead/${lead?.id}`, '_blank')}
                     >
                       <td className="px-4 py-3">
@@ -433,7 +435,7 @@ export default function StagiairesPage() {
                             size="sm"
                           />
                           <div>
-                            <p className="font-medium text-[#082545]">
+                            <p className="font-medium text-accent">
                               {lead?.prenom} {lead?.nom || ''}
                             </p>
                             <p className="text-xs text-gray-400">{lead?.email}</p>
@@ -452,7 +454,7 @@ export default function StagiairesPage() {
                         {session ? (
                           <Link
                             href={`/session/${session.id}`}
-                            className="text-[#2EC6F3] hover:underline"
+                            className="text-primary hover:underline"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <p>{formatDate(session.date_debut, { day: 'numeric', month: 'short' })}</p>

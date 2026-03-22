@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Sparkles, Copy, Check } from 'lucide-react'
+import { Wand2, Copy, Check } from 'lucide-react'
 
 const TONES = [
   { id: 'professionnel', label: 'Professionnel', emoji: '💼' },
@@ -82,7 +82,7 @@ export function TextReformulator() {
         disabled={loading || !input.trim()}
         className="w-full bg-[#A855F7] hover:bg-[#9333EA] disabled:opacity-50 text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
       >
-        <Sparkles size={16} />
+        <Wand2 size={16} />
         {loading ? 'Reformulation...' : 'Reformuler avec l\'IA'}
       </button>
 

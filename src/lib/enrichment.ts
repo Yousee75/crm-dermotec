@@ -1,3 +1,4 @@
+import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Service d'enrichissement multi-API
 // BLINDÉ : cache DB + Redis, déduplication, rate limit provider,

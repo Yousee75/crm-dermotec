@@ -78,17 +78,92 @@ function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some(path => pathname.startsWith(path))
 }
 
+// --- Honeypot endpoints (pièges pour les intrus) ---
+const HONEYPOT_PATHS = [
+  '/api/v1/admin/users', '/api/v1/admin/export-all',
+  '/api/v1/internal/debug', '/api/v1/internal/config',
+  '/api/graphql', '/api/v2/leads', '/.env', '/wp-admin',
+  '/api/v1/database/dump', '/api/v1/stripe/keys',
+  '/api/v1/enrichment/sources', '/api/v1/enrichment/algorithms',
+  '/phpmyadmin', '/admin.php', '/.git', '/xmlrpc.php',
+  '/api/v1/export/all-data', '/api/swagger.json',
+]
+
+function isHoneypot(pathname: string): boolean {
+  return HONEYPOT_PATHS.some(hp => pathname.toLowerCase().startsWith(hp.toLowerCase()))
+}
+
+// --- Request fingerprint (Edge-compatible, sans crypto lourd) ---
+function fingerprintRequest(request: NextRequest, ip: string): string {
+  const ua = request.headers.get('user-agent') || ''
+  const lang = request.headers.get('accept-language') || ''
+  const enc = request.headers.get('accept-encoding') || ''
+  // Simple hash côté Edge (pas de crypto.createHmac en Edge Runtime)
+  let hash = 0
+  const str = `${ip}|${ua}|${lang}|${enc}`
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i)
+    hash = hash & hash
+  }
+  return Math.abs(hash).toString(36)
+}
+
+// --- Bot detection (User-Agent heuristique) ---
+function isSuspectedBot(ua: string): boolean {
+  const lower = ua.toLowerCase()
+  return (
+    lower.includes('curl') || lower.includes('wget') || lower.includes('python') ||
+    lower.includes('scrapy') || lower.includes('bot') || lower.includes('crawler') ||
+    lower.includes('spider') || lower.includes('go-http') || lower.includes('java/') ||
+    lower.includes('php/') || lower.includes('ruby') || lower.includes('postman') ||
+    lower.includes('insomnia') || lower.includes('httpie') || lower.includes('axios/') ||
+    lower.includes('node-fetch') || lower.includes('undici') ||
+    ua.length < 20 // UA trop court = fake
+  )
+}
+
 // --- Middleware ---
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const nonce = generateNonce()
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous'
+  const ua = request.headers.get('user-agent') || ''
 
-  // Rate limiting (Upstash Redis — distribué, survit aux redéploiements)
+  // ============================================================
+  // COUCHE 1 : HONEYPOT — Piège les scanners et intrus
+  // ============================================================
+  if (isHoneypot(pathname)) {
+    // Log l'intrusion (async, non-bloquant)
+    // Réponse lente (3s) pour ralentir les scanners
+    await new Promise(r => setTimeout(r, 3000))
+
+    // Retourner un faux 404 qui ressemble à un vrai
+    return new NextResponse(
+      JSON.stringify({ error: 'Not Found' }),
+      { status: 404, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  // ============================================================
+  // COUCHE 2 : BOT DETECTION — Bloquer les scrapers évidents
+  // ============================================================
+  if (isSuspectedBot(ua) && pathname.startsWith('/api/') && !pathname.startsWith('/api/webhook') && !pathname.startsWith('/api/inngest') && !pathname.startsWith('/api/stripe')) {
+    // Les bots n'ont pas accès aux API (sauf webhooks)
+    return new NextResponse(
+      JSON.stringify({ error: 'Forbidden' }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  // ============================================================
+  // COUCHE 3 : RATE LIMITING (Upstash Redis)
+  // ============================================================
   const rl = await getRateLimiter()
   if (rl) {
     const isApi = pathname.startsWith('/api/')
-    const identifier = `${ip}:${isApi ? 'api' : 'page'}`
+    // Fingerprint de requête pour identifier même si IP change (proxy)
+    const fp = fingerprintRequest(request, ip)
+    const identifier = `${fp}:${isApi ? 'api' : 'page'}`
 
     const { success, limit, remaining, reset } = await rl.limit(identifier)
 
@@ -109,6 +184,18 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // ============================================================
+  // COUCHE 4 : ENRICHMENT PROTECTION — Headers anti-cache
+  // ============================================================
+  if (pathname.startsWith('/api/enrichment') || pathname.startsWith('/api/competitors')) {
+    const response = NextResponse.next({ request })
+    addSecurityHeaders(response, nonce)
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
+    response.headers.set('Pragma', 'no-cache')
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, nosnippet, noarchive')
+    return response
+  }
+
   // API routes — pass through avec security headers
   if (pathname.startsWith('/api/')) {
     const response = NextResponse.next({ request })
@@ -125,8 +212,8 @@ export async function middleware(request: NextRequest) {
     return addSecurityHeaders(response, nonce)
   }
 
-  // Demo mode: allow dashboard access without auth for demo/dev
-  const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+  // Demo mode: UNIQUEMENT en développement local (jamais en production)
+  const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === 'true' && process.env.NODE_ENV === 'development'
   if (DEMO_MODE && !isPublicPath(pathname)) {
     const response = NextResponse.next({ request })
     return addSecurityHeaders(response, nonce)

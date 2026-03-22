@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { STATUTS_LEAD } from '@/types'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyPipeline } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Kanban, TrendingUp, Users } from 'lucide-react'
 import Link from 'next/link'
@@ -49,6 +50,7 @@ export default function PipelineTab() {
   if (leads.length === 0) {
     return (
       <EmptyState
+        illustration={<IllustrationEmptyPipeline size={120} />}
         icon={<Kanban className="w-4 h-4" />}
         title="Pipeline vide"
         description="Aucun prospect dans le pipeline pour le moment."
@@ -167,7 +169,7 @@ export default function PipelineTab() {
 
       {/* Lien vers pipeline complet */}
       <div className="text-center">
-        <Link href="/pipeline" className="text-sm text-[#2EC6F3] hover:underline">
+        <Link href="/pipeline" className="text-sm text-primary hover:underline">
           Voir le pipeline complet →
         </Link>
       </div>

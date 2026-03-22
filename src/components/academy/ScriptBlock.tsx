@@ -46,8 +46,8 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
       {/* Header scénario */}
       <div className="bg-gradient-to-r from-[#082545] to-[#0F3460] px-6 py-4">
         <div className="flex items-center gap-2 mb-2">
-          <Phone className="w-5 h-5 text-[#2EC6F3]" />
-          <span className="text-[#2EC6F3] text-sm font-semibold uppercase tracking-wide">Script de vente</span>
+          <Phone className="w-5 h-5 text-primary" />
+          <span className="text-primary text-sm font-semibold uppercase tracking-wide">Script de vente</span>
         </div>
         <p className="text-white text-[15px] leading-relaxed">{scenario}</p>
         <button
@@ -70,10 +70,10 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
               <div className={`flex gap-3 ${isCommerciale ? '' : 'flex-row-reverse'}`}>
                 {/* Avatar */}
                 <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${
-                  isCommerciale ? 'bg-[#2EC6F3]/15' : 'bg-gray-100'
+                  isCommerciale ? 'bg-primary/15' : 'bg-gray-100'
                 }`}>
                   {isCommerciale ? (
-                    <Phone className="w-4 h-4 text-[#2EC6F3]" />
+                    <Phone className="w-4 h-4 text-primary" />
                   ) : (
                     <User className="w-4 h-4 text-gray-400" />
                   )}
@@ -82,13 +82,13 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
                 {/* Bulle */}
                 <div className={`flex-1 max-w-[85%] ${isCommerciale ? '' : 'text-right'}`}>
                   <span className={`text-xs font-semibold mb-1 block ${
-                    isCommerciale ? 'text-[#2EC6F3]' : 'text-gray-400'
+                    isCommerciale ? 'text-primary' : 'text-gray-400'
                   }`}>
                     {etape.role}
                   </span>
                   <div className={`relative inline-block rounded-2xl px-4 py-3 text-[14px] leading-relaxed ${
                     isCommerciale
-                      ? 'bg-[#2EC6F3]/10 text-[#082545] rounded-tl-sm'
+                      ? 'bg-primary/10 text-accent rounded-tl-sm'
                       : 'bg-gray-50 text-gray-600 rounded-tr-sm'
                   }`}>
                     <p>{etape.texte}</p>

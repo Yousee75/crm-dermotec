@@ -5,10 +5,13 @@ import { Star } from 'lucide-react'
 interface StarRatingProps {
   rating: number
   reviewsCount?: number
-  size?: number
+  size?: number | 'sm' | 'md' | 'lg'
 }
 
-export function StarRating({ rating, reviewsCount, size = 14 }: StarRatingProps) {
+const SIZE_MAP: Record<string, number> = { sm: 12, md: 14, lg: 18 }
+
+export function StarRating({ rating, reviewsCount, size: sizeProp = 14 }: StarRatingProps) {
+  const size = typeof sizeProp === 'string' ? (SIZE_MAP[sizeProp] ?? 14) : sizeProp
   const fullStars = Math.floor(rating)
   const hasHalf = rating - fullStars >= 0.3
   const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0)

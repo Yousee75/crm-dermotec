@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { SkeletonCard } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
+import { sanitizeEmail } from '@/lib/sanitize'
 import { useAcademyModule, useCompleteLesson } from '@/hooks/use-academy'
 import type { AcademyLesson } from '@/types'
 
@@ -68,7 +69,7 @@ function TexteContent({ contenu }: { contenu: any }) {
     <div className="prose prose-gray max-w-none">
       <div
         className="whitespace-pre-wrap leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: contenu.body || 'Contenu à venir...' }}
+        dangerouslySetInnerHTML={{ __html: sanitizeEmail(contenu.body || 'Contenu à venir...') }}
       />
     </div>
   )

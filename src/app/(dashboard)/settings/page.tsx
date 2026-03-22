@@ -13,7 +13,7 @@ import {
   CheckCircle2, XCircle, Upload, Download, Plus, Eye,
   ToggleLeft, ToggleRight, Edit2, Save, Trash2, Copy,
   CreditCard, MessageSquare, Smartphone, Send, Globe,
-  Shield, Clock
+  Shield, Clock, FileSignature, BarChart3, Calendar
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -78,6 +78,36 @@ const INTEGRATIONS = [
     envVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
     status: 'configured',
     projectUrl: 'https://wtbrdxijvtelluwfmgsf.supabase.co'
+  },
+  {
+    id: 'docuseal',
+    name: 'DocuSeal',
+    description: 'Signature électronique (conventions, certificats)',
+    icon: FileSignature,
+    color: 'text-sky-500',
+    bgColor: 'bg-sky-50',
+    envVars: ['DOCUSEAL_API_KEY'],
+    status: 'not_configured'
+  },
+  {
+    id: 'posthog',
+    name: 'PostHog',
+    description: 'Analytics produit + feature flags',
+    icon: BarChart3,
+    color: 'text-orange-500',
+    bgColor: 'bg-orange-50',
+    envVars: ['NEXT_PUBLIC_POSTHOG_KEY'],
+    status: 'not_configured'
+  },
+  {
+    id: 'calcom',
+    name: 'Cal.com',
+    description: 'Prise de RDV en ligne',
+    icon: Calendar,
+    color: 'text-teal-500',
+    bgColor: 'bg-teal-50',
+    envVars: ['CALCOM_API_KEY'],
+    status: 'not_configured'
   }
 ] as const
 

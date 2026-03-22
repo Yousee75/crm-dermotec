@@ -107,13 +107,13 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                   className={cn(
                     'w-full text-left p-3 rounded-xl border-2 transition',
                     isSelected
-                      ? 'border-[#2EC6F3] bg-[#2EC6F3]/5'
+                      ? 'border-primary bg-primary/5'
                       : 'border-gray-100 hover:border-gray-200'
                   )}
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="font-medium text-sm text-[#082545]">{session.formation?.nom}</p>
+                      <p className="font-medium text-sm text-accent">{session.formation?.nom}</p>
                       <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
@@ -151,7 +151,7 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                 <select
                   value={modePaiement}
                   onChange={(e) => setModePaiement(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none bg-white"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
                 >
                   <option value="carte">Carte bancaire</option>
                   <option value="virement">Virement</option>
@@ -168,7 +168,7 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                   max={montantTotal}
                   value={montantFinance}
                   onChange={(e) => setMontantFinance(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
                 />
               </div>
             </div>
@@ -187,7 +187,7 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
               )}
               <div className="flex justify-between text-sm font-bold border-t border-gray-200 pt-1 mt-1">
                 <span>Reste à charge</span>
-                <span className="text-[#082545]">{resteACharge}€</span>
+                <span className="text-accent">{resteACharge}€</span>
               </div>
             </div>
           </div>

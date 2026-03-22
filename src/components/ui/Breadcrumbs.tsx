@@ -19,7 +19,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
           {item.href ? (
             <Link
               href={item.href}
-              className="hover:text-[#2EC6F3] transition truncate max-w-[160px]"
+              className="hover:text-primary transition truncate max-w-[160px]"
             >
               {item.label}
             </Link>

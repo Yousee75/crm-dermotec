@@ -101,7 +101,7 @@ export function SocialProofToast({ inscriptions }: SocialProofToastProps) {
     >
       <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 flex items-start gap-3">
         {/* Avatar avec initiales */}
-        <div className="bg-[#2EC6F3]/20 text-[#2EC6F3] rounded-full w-10 h-10 flex items-center justify-center font-semibold text-sm shrink-0">
+        <div className="bg-primary/20 text-primary rounded-full w-10 h-10 flex items-center justify-center font-semibold text-sm shrink-0">
           {inscription.prenom[0]}{inscription.nom_initial}
         </div>
 
@@ -110,7 +110,7 @@ export function SocialProofToast({ inscriptions }: SocialProofToastProps) {
           <p className="text-sm text-gray-900 leading-relaxed">
             <span className="font-medium">{inscription.prenom} {inscription.nom_initial}.</span>
             {' '}vient de s'inscrire à{' '}
-            <span className="font-medium text-[#2EC6F3]">{inscription.formation}</span>
+            <span className="font-medium text-primary">{inscription.formation}</span>
           </p>
           <p className="text-xs text-gray-500 mt-1">
             il y a {timeAgo}

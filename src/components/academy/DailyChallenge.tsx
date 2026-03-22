@@ -52,13 +52,13 @@ export function DailyChallenge({
   return (
     <div className="bg-gradient-to-r from-[#082545] to-[#0F3460] rounded-2xl p-6 text-white relative overflow-hidden">
       {/* Glow effect */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[#2EC6F3]/10 rounded-full blur-3xl" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
 
       {/* Header */}
       <div className="flex items-center justify-between mb-4 relative">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl bg-[#2EC6F3]/20 flex items-center justify-center">
-            <Zap className="w-5 h-5 text-[#2EC6F3]" />
+          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+            <Zap className="w-5 h-5 text-primary" />
           </div>
           <div>
             <h3 className="font-bold text-sm">Challenge du jour</h3>

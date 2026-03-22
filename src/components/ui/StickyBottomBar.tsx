@@ -67,7 +67,7 @@ export function StickyBottomBar({
             <h3 className="font-semibold text-gray-900 text-sm truncate">
               {formationNom}
             </h3>
-            <p className="font-bold text-[#2EC6F3] text-lg leading-tight">
+            <p className="font-bold text-primary text-lg leading-tight">
               {formatPrice(prix)} HT
             </p>
           </div>
@@ -76,7 +76,7 @@ export function StickyBottomBar({
           <Button
             onClick={onCtaClick}
             variant="primary"
-            className="bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white font-bold rounded-xl min-h-[48px] px-6 shadow-lg active:shadow-md"
+            className="bg-primary hover:bg-primary-dark text-white font-bold rounded-xl min-h-[48px] px-6 shadow-lg active:shadow-md"
           >
             {ctaText}
           </Button>

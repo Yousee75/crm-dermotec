@@ -1,5 +1,6 @@
 // ============================================================
 // CRM DERMOTEC — Scoring Lead (probabilité d'inscription)
+// Utilisé côté client (affichage) ET serveur (calcul)
 // ============================================================
 
 import type { Lead } from '@/types'

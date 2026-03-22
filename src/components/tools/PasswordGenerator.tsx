@@ -94,7 +94,7 @@ export function PasswordGenerator() {
               type="checkbox"
               checked={options[opt.key as keyof typeof options]}
               onChange={e => setOptions(prev => ({ ...prev, [opt.key]: e.target.checked }))}
-              className="rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3]"
+              className="rounded border-gray-300 text-primary focus:ring-primary"
             />
             {opt.label}
           </label>
@@ -103,7 +103,7 @@ export function PasswordGenerator() {
 
       <button
         onClick={generate}
-        className="w-full bg-[#2EC6F3] hover:bg-[#0284C7] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
+        className="w-full bg-primary hover:bg-[#0284C7] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors"
       >
         <RefreshCw size={16} />
         Générer un mot de passe

@@ -101,10 +101,10 @@ export default function PrivacySettingsPage() {
       />
 
       {/* Banner de transparence */}
-      <Card className="bg-[#082545] text-white border-none">
+      <Card className="bg-accent text-white border-none">
         <div className="flex items-start gap-4 p-6">
-          <div className="p-3 rounded-xl bg-[#2EC6F3]/20 shrink-0">
-            <Shield className="w-6 h-6 text-[#2EC6F3]" />
+          <div className="p-3 rounded-xl bg-primary/20 shrink-0">
+            <Shield className="w-6 h-6 text-primary" />
           </div>
           <div>
             <h3 className="font-semibold text-lg mb-1">Vos données vous appartiennent</h3>
@@ -130,7 +130,7 @@ export default function PrivacySettingsPage() {
                 <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-[#082545]">{d.droit}</span>
+                    <span className="text-sm font-medium text-accent">{d.droit}</span>
                     <Badge variant="outline" size="sm">{d.article}</Badge>
                   </div>
                   <p className="text-xs text-gray-500 mt-0.5">{d.description}</p>
@@ -194,7 +194,7 @@ export default function PrivacySettingsPage() {
         <CardContent className="p-6 pt-4">
           <div className="bg-gray-50 rounded-lg p-4 mb-4">
             <div className="flex items-start gap-3">
-              <Info className="w-4 h-4 text-[#2EC6F3] mt-0.5 shrink-0" />
+              <Info className="w-4 h-4 text-primary mt-0.5 shrink-0" />
               <div className="text-sm text-gray-600">
                 <p>Satorea collecte des <strong>données d&apos;usage anonymisées</strong> pour améliorer le produit :</p>
                 <ul className="list-disc ml-4 mt-2 space-y-1 text-xs text-gray-500">
@@ -212,14 +212,14 @@ export default function PrivacySettingsPage() {
 
           <div className="flex items-center justify-between p-3 rounded-lg border border-gray-200">
             <div>
-              <p className="text-sm font-medium text-[#082545]">Collecter les données d&apos;usage</p>
+              <p className="text-sm font-medium text-accent">Collecter les données d&apos;usage</p>
               <p className="text-xs text-gray-500">Aide Satorea à améliorer le produit pour vous</p>
             </div>
             <button
               onClick={handleOptOutAnalytics}
               className={cn(
                 'shrink-0 w-12 h-7 rounded-full transition-colors relative',
-                !analyticsOptOut ? 'bg-[#2EC6F3]' : 'bg-gray-300'
+                !analyticsOptOut ? 'bg-primary' : 'bg-gray-300'
               )}
             >
               <span className={cn(
@@ -250,7 +250,7 @@ export default function PrivacySettingsPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-[#082545]">{st.nom}</span>
+                      <span className="text-sm font-medium text-accent">{st.nom}</span>
                       <Badge variant="outline" size="sm">{st.localisation}</Badge>
                     </div>
                     <p className="text-xs text-gray-500">{st.role}</p>
@@ -282,7 +282,7 @@ export default function PrivacySettingsPage() {
                 {CONSERVATION.map((c) => (
                   <tr key={c.type}>
                     <td className="py-2.5 text-gray-700">{c.type}</td>
-                    <td className="py-2.5 font-medium text-[#082545]">{c.duree}</td>
+                    <td className="py-2.5 font-medium text-accent">{c.duree}</td>
                     <td className="py-2.5 text-gray-500 hidden sm:table-cell">{c.base}</td>
                   </tr>
                 ))}
@@ -311,8 +311,8 @@ export default function PrivacySettingsPage() {
                 target="_blank"
                 className="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-gray-50 transition group"
               >
-                <span className="text-sm text-gray-700 group-hover:text-[#2EC6F3]">{doc.label}</span>
-                <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#2EC6F3]" />
+                <span className="text-sm text-gray-700 group-hover:text-primary">{doc.label}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-primary" />
               </Link>
             ))}
           </div>
@@ -320,7 +320,7 @@ export default function PrivacySettingsPage() {
           <div className="mt-4 p-3 bg-gray-50 rounded-lg">
             <p className="text-xs text-gray-500">
               <strong>DPO :</strong> dpo@satorea.fr — <strong>Réclamation CNIL :</strong>{' '}
-              <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer" className="text-[#2EC6F3] hover:underline">
+              <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 www.cnil.fr/plaintes
               </a>
             </p>
@@ -338,7 +338,7 @@ export default function PrivacySettingsPage() {
                 <div className="p-2 rounded-lg bg-red-50">
                   <AlertTriangle className="w-5 h-5 text-red-500" />
                 </div>
-                <h3 className="font-semibold text-[#082545]">Supprimer mes données</h3>
+                <h3 className="font-semibold text-accent">Supprimer mes données</h3>
               </div>
               <p className="text-sm text-gray-600 mb-2">
                 Cette action est <strong>irréversible</strong>. Toutes vos données personnelles seront supprimées conformément à l&apos;article 17 du RGPD.

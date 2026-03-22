@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { SearchInput } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyFormations } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Card } from '@/components/ui/Card'
 import { BookOpen, Plus, Eye, Edit, Clock, Users, Euro, Star } from 'lucide-react'
@@ -221,7 +222,7 @@ export default function CatalogueTab() {
           <select
             value={categorieFilter}
             onChange={(e) => setCategorieFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Toutes les catégories</option>
             <option value="maquillage">Maquillage</option>
@@ -232,7 +233,7 @@ export default function CatalogueTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="active">Active</option>
@@ -249,6 +250,7 @@ export default function CatalogueTab() {
       {/* Table des formations */}
       {formations.length === 0 ? (
         <EmptyState
+          illustration={<IllustrationEmptyFormations size={120} />}
           icon={<BookOpen className="w-4 h-4" />}
           title={search || categorieFilter || statutFilter ? "Aucune formation trouvée" : "Aucune formation"}
           description={search || categorieFilter || statutFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Créez votre première formation pour commencer."}

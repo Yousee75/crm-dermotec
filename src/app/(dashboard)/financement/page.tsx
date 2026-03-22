@@ -34,6 +34,7 @@ import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Avatar } from '@/components/ui/Avatar'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyFinancement } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Button } from '@/components/ui/Button'
 
@@ -141,7 +142,7 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
 
   return (
     <Card
-      className="p-3 cursor-pointer hover:shadow-md transition-all duration-200 hover:border-[#2EC6F3]/40 group"
+      className="p-3 cursor-pointer hover:shadow-md transition-all duration-200 hover:border-primary/40 group"
       onClick={onClick}
     >
       <div className="space-y-2">
@@ -153,10 +154,10 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
               size="xs"
             />
             <div className="min-w-0 flex-1">
-              <p className="font-medium text-sm text-[#082545] truncate">
+              <p className="font-medium text-sm text-accent truncate">
                 {financement.lead.prenom} {financement.lead.nom}
               </p>
-              {financement.inscription?.formation && (
+              {financement.inscription?.session?.formation && (
                 <p className="text-xs text-gray-500 truncate">
                   {financement.inscription?.session?.formation?.nom}
                 </p>
@@ -187,7 +188,7 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
         {/* Montant */}
         <div className="space-y-1">
           {financement.montant_demande && (
-            <p className="font-semibold text-sm text-[#082545]">
+            <p className="font-semibold text-sm text-accent">
               {formatEuro(financement.montant_demande)}
             </p>
           )}
@@ -248,7 +249,7 @@ function KanbanView({ financements }: { financements: FinancementWithLead[] }) {
             <div key={column.id} className="w-80 flex-shrink-0">
               <div className="mb-4">
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="font-semibold text-[#082545]">{column.title}</h3>
+                  <h3 className="font-semibold text-accent">{column.title}</h3>
                   <Badge variant={column.badge} size="sm">
                     {column.financements.length}
                   </Badge>
@@ -298,7 +299,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
       <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden">
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-[#082545]">Dossier de financement</h2>
+            <h2 className="text-xl font-bold text-accent">Dossier de financement</h2>
             <p className="text-gray-600">
               {financement.lead.prenom} {financement.lead.nom} · {organisme?.label}
             </p>
@@ -312,7 +313,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Informations générales */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-[#082545]">Informations générales</h3>
+              <h3 className="font-semibold text-accent">Informations générales</h3>
 
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
@@ -343,7 +344,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
                 {financement.montant_demande && (
                   <div>
                     <p className="text-gray-500">Montant demandé</p>
-                    <p className="font-semibold text-[#082545]">
+                    <p className="font-semibold text-accent">
                       {formatEuro(financement.montant_demande)}
                     </p>
                   </div>
@@ -361,7 +362,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
 
             {/* Documents requis */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-[#082545]">Documents requis</h3>
+              <h3 className="font-semibold text-accent">Documents requis</h3>
 
               <div className="space-y-2">
                 {organisme?.documents_requis.map((doc, index) => (
@@ -386,7 +387,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
             {/* Contact */}
             {(financement.contact_nom || financement.contact_email) && (
               <div className="space-y-4">
-                <h3 className="font-semibold text-[#082545]">Contact organisme</h3>
+                <h3 className="font-semibold text-accent">Contact organisme</h3>
 
                 <div className="space-y-2 text-sm">
                   {financement.contact_nom && (
@@ -413,7 +414,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
 
             {/* Dates importantes */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-[#082545]">Dates importantes</h3>
+              <h3 className="font-semibold text-accent">Dates importantes</h3>
 
               <div className="space-y-2 text-sm">
                 {financement.date_reponse && (
@@ -492,11 +493,11 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
               const organisme = ORGANISMES_FINANCEMENT[financement.organisme]
 
               return (
-                <tr key={financement.id} className="group hover:bg-[#2EC6F3]/[0.02] transition-colors">
+                <tr key={financement.id} className="group hover:bg-primary/[0.02] transition-colors">
                   <td className="px-4 py-3">
                     <Link href={`/lead/${financement.lead.id}`} className="flex items-center gap-3">
                       <Avatar name={`${financement.lead.prenom} ${financement.lead.nom}`} size="sm" />
-                      <span className="font-medium text-[#082545]">
+                      <span className="font-medium text-accent">
                         {financement.lead.prenom} {financement.lead.nom}
                       </span>
                     </Link>
@@ -515,7 +516,7 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
                     </Badge>
                   </td>
                   <td className="px-4 py-3">
-                    {financement.inscription?.formation ? (
+                    {financement.inscription?.session?.formation ? (
                       <span className="text-gray-700">{financement.inscription?.session?.formation?.nom}</span>
                     ) : (
                       <span className="text-gray-400">—</span>
@@ -708,6 +709,7 @@ export default function FinancementPage() {
       {!financements?.length ? (
         <Card className="py-12">
           <EmptyState
+            illustration={<IllustrationEmptyFinancement size={120} />}
             icon={<FileText className="w-12 h-12" />}
             title="Aucun dossier de financement"
             description="Les dossiers de financement apparaîtront ici une fois créés."

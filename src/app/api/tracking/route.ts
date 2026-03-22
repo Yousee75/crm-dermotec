@@ -6,22 +6,27 @@
 
 import { createServiceSupabase } from '@/lib/supabase-server'
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'
 
-interface TrackingEvent {
-  event: string
-  timestamp: string
-  page: string
-  user_id?: string
-  duration_ms?: number
-  target?: string
-  metadata?: Record<string, unknown>
-}
+// Validation zod stricte des événements tracking
+const trackingEventSchema = z.object({
+  event: z.string().min(1).max(100),
+  timestamp: z.string().max(50),
+  page: z.string().max(500).default(''),
+  user_id: z.string().max(100).optional(),
+  duration_ms: z.number().int().min(0).max(3600000).optional(),
+  target: z.string().max(200).optional(),
+  metadata: z.record(z.unknown()).optional(),
+})
 
-interface TrackingRequest {
-  events: TrackingEvent[]
-}
+const trackingRequestSchema = z.object({
+  events: z.array(trackingEventSchema).min(1).max(20),
+})
+
+type TrackingEvent = z.infer<typeof trackingEventSchema>
+type TrackingRequest = z.infer<typeof trackingRequestSchema>
 
 // Rate limiting simple en mémoire (pour prototypage)
 // En prod : utiliser Redis/Upstash
@@ -125,22 +130,17 @@ function parseDevice(ua: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const body: TrackingRequest = await req.json()
+    const rawBody = await req.json()
+    const parsed = trackingRequestSchema.safeParse(rawBody)
 
-    if (!body.events || !Array.isArray(body.events)) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Invalid request: events array required' },
+        { error: 'Invalid request', details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       )
     }
 
-    // Limite de sécurité : max 20 events par batch
-    if (body.events.length > 20) {
-      return NextResponse.json(
-        { error: 'Too many events in batch' },
-        { status: 400 }
-      )
-    }
+    const body = parsed.data
 
     // Rate limiting par user
     const userId = body.events[0]?.user_id

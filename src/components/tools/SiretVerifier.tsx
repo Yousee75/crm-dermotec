@@ -60,12 +60,12 @@ export function SiretVerifier() {
           onKeyDown={e => e.key === 'Enter' && search()}
           placeholder="Entrez un SIRET (14 chiffres)"
           maxLength={17}
-          className="flex-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-[#2EC6F3] focus:ring-1 focus:ring-[#2EC6F3]/30"
+          className="flex-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
         />
         <button
           onClick={search}
           disabled={loading}
-          className="bg-[#2EC6F3] hover:bg-[#2EC6F3] disabled:opacity-50 text-white rounded-lg px-4 py-2.5 transition-colors flex items-center gap-2"
+          className="bg-primary hover:bg-primary disabled:opacity-50 text-white rounded-lg px-4 py-2.5 transition-colors flex items-center gap-2"
         >
           <Search size={16} />
           {loading ? 'Recherche...' : 'Vérifier'}
@@ -82,7 +82,7 @@ export function SiretVerifier() {
       {result && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-[#082545]">{result.nom}</h3>
+            <h3 className="font-semibold text-accent">{result.nom}</h3>
             <span className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
               result.actif ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
             }`}>

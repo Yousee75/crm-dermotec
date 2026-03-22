@@ -4,7 +4,7 @@ import { useState } from 'react'
 import {
   CreditCard, Calendar, Users, Database, AlertTriangle,
   Check, ArrowUpRight, ArrowDownLeft, Download, Crown,
-  Zap, Building2, Sparkles,
+  Zap, Building2,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
@@ -57,7 +57,7 @@ const PLANS: PlanDef[] = [
     name: 'Expert',
     price: '99€',
     period: '/mois HT',
-    icon: <Sparkles className="w-5 h-5" />,
+    icon: <Crown className="w-5 h-5" />,
     maxLeads: null,
     maxUsers: 15,
     features: [
@@ -152,8 +152,8 @@ export default function SubscriptionPage() {
       {/* Page title */}
       <div>
         <h1
-          className="text-2xl font-bold text-[#082545]"
-          style={{ fontFamily: 'var(--font-heading)' }}
+          className="text-2xl font-bold text-accent"
+         
         >
           Abonnement
         </h1>
@@ -171,8 +171,8 @@ export default function SubscriptionPage() {
             <div className="flex-1">
               <p className="text-sm text-gray-500 mb-1">Vous êtes sur le plan</p>
               <p
-                className="text-2xl font-bold text-[#082545]"
-                style={{ fontFamily: 'var(--font-heading)' }}
+                className="text-2xl font-bold text-accent"
+               
               >
                 {currentPlan.name}
                 <span className="ml-2 text-base font-normal text-gray-400">
@@ -184,7 +184,7 @@ export default function SubscriptionPage() {
               <Calendar className="w-4 h-4" />
               <span>
                 Prochain paiement :{' '}
-                <span className="font-medium text-[#082545]">
+                <span className="font-medium text-accent">
                   {new Date(sub.nextBillingDate).toLocaleDateString('fr-FR', {
                     day: 'numeric',
                     month: 'long',
@@ -270,23 +270,23 @@ export default function SubscriptionPage() {
                   key={plan.id}
                   className={`relative rounded-xl border-2 p-4 transition-shadow ${
                     isCurrent
-                      ? 'border-[#2EC6F3] bg-[#2EC6F3]/5'
+                      ? 'border-primary bg-primary/5'
                       : 'border-gray-100 hover:border-gray-200'
                   }`}
                 >
                   {isCurrent && (
-                    <span className="absolute -top-2.5 left-3 inline-flex items-center rounded-full bg-[#2EC6F3] px-2 py-0.5 text-[10px] font-semibold text-white">
+                    <span className="absolute -top-2.5 left-3 inline-flex items-center rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold text-white">
                       Plan actuel
                     </span>
                   )}
 
-                  <div className="flex items-center gap-2 mb-3 text-[#082545]">
-                    <span className="text-[#2EC6F3]">{plan.icon}</span>
+                  <div className="flex items-center gap-2 mb-3 text-accent">
+                    <span className="text-primary">{plan.icon}</span>
                     <span className="font-semibold text-sm">{plan.name}</span>
                   </div>
 
                   <div className="mb-3">
-                    <span className="text-lg font-bold text-[#082545]">{plan.price}</span>
+                    <span className="text-lg font-bold text-accent">{plan.price}</span>
                     {plan.period && (
                       <span className="text-xs text-gray-400 ml-0.5">{plan.period}</span>
                     )}
@@ -295,7 +295,7 @@ export default function SubscriptionPage() {
                   <ul className="space-y-1.5 mb-4">
                     {plan.features.slice(0, 4).map((f) => (
                       <li key={f} className="flex items-start gap-1.5 text-xs text-gray-500">
-                        <Check className="w-3 h-3 text-[#2EC6F3] mt-0.5 shrink-0" />
+                        <Check className="w-3 h-3 text-primary mt-0.5 shrink-0" />
                         <span>{f}</span>
                       </li>
                     ))}
@@ -368,7 +368,7 @@ export default function SubscriptionPage() {
                         year: 'numeric',
                       })}
                     </td>
-                    <td className="py-3 pr-4 font-medium text-[#082545] tabular-nums">{inv.amount}</td>
+                    <td className="py-3 pr-4 font-medium text-accent tabular-nums">{inv.amount}</td>
                     <td className="py-3 pr-4">{invoiceStatusBadge(inv.status)}</td>
                     <td className="py-3 text-right">
                       <Button variant="ghost" size="sm" icon={<Download className="w-3.5 h-3.5" />}>

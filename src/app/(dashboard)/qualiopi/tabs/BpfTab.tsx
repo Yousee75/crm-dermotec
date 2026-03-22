@@ -119,7 +119,7 @@ export default function BpfTab() {
           <select
             value={anneeSelectionnee}
             onChange={(e) => setAnneeSelectionnee(Number(e.target.value))}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]"
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value={2024}>2024</option>
             <option value={2023}>2023</option>
@@ -204,7 +204,7 @@ export default function BpfTab() {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className="bg-[#2EC6F3] h-2 rounded-full"
+                className="bg-primary h-2 rounded-full"
                 style={{ width: `${(BPF_DATA.ca_formation_continue / BPF_DATA.ca_total) * 100}%` }}
               />
             </div>

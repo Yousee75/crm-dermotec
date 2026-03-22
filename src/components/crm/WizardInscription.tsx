@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
-// Tabs inline — pas de composant Tabs shadcn
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
 import { FORMATIONS_SEED, BRAND, TVA_TAUX } from '@/lib/constants'
 import { calculerFinancement } from '@/lib/financement-data'
 import { useLead } from '@/hooks/use-leads'
@@ -16,6 +17,9 @@ import { useSessions } from '@/hooks/use-sessions'
 import { useCreateInscription } from '@/hooks/use-inscriptions'
 import { useCreateFinancement } from '@/hooks/use-financements'
 import { cn } from '@/lib/utils'
+import { Progress } from '@/components/ui/progress'
+import { Separator } from '@/components/ui/separator'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface WizardInscriptionProps {
   leadId: string
@@ -383,7 +387,7 @@ export default function WizardInscription({
                         onClick={() => setSelectedCategory(cat)}
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                           selectedCategory === cat
-                            ? 'bg-[#2EC6F3] text-white'
+                            ? 'bg-primary text-white'
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
                       >
@@ -586,7 +590,7 @@ export default function WizardInscription({
                                     </div>
 
                                     <div className="font-semibold text-lg">
-                                      {(wizardData.formation.prix_ht * 1.2).toFixed(0)}€ TTC
+                                      {(wizardData.formation!.prix_ht * 1.2).toFixed(0)}€ TTC
                                     </div>
                                   </div>
                                 </div>
@@ -638,7 +642,7 @@ export default function WizardInscription({
                     <div className="text-right">
                       <p className="font-semibold text-lg">{wizardData.formation.prix_ht}€ HT</p>
                       <p className="text-sm text-blue-700">
-                        {(wizardData.formation.prix_ht * 1.2).toFixed(0)}€ TTC
+                        {(wizardData.formation!.prix_ht * 1.2).toFixed(0)}€ TTC
                       </p>
                     </div>
                   </div>
@@ -1000,7 +1004,7 @@ export default function WizardInscription({
                     transition={{ delay: 0.5 }}
                     className="absolute -top-2 -right-2 text-yellow-500"
                   >
-                    <Sparkles className="w-8 h-8" />
+                    <Star className="w-8 h-8" />
                   </motion.div>
                 </div>
 

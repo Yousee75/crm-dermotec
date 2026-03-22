@@ -41,7 +41,7 @@ export default function CookieConsent() {
               analytiques pour améliorer votre expérience.{' '}
               <Link
                 href="/politique-confidentialite"
-                className="text-[#2EC6F3] hover:underline font-medium"
+                className="text-primary hover:underline font-medium"
               >
                 En savoir plus
               </Link>
@@ -55,7 +55,7 @@ export default function CookieConsent() {
               </button>
               <button
                 onClick={handleAccept}
-                className="min-h-[44px] px-5 py-2 text-sm font-medium text-white bg-[#2EC6F3] rounded-lg hover:bg-[#1ab5e5] transition-colors cursor-pointer"
+                className="min-h-[44px] px-5 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-[#1ab5e5] transition-colors cursor-pointer"
               >
                 Accepter
               </button>

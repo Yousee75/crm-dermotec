@@ -8,6 +8,7 @@ import { FilterDropdown, FilterOption } from '@/components/ui/FilterDropdown'
 import { Button } from '@/components/ui/Button'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyLeads } from '@/components/ui/Illustrations'
 import { Plus, Users, Download } from 'lucide-react'
 import { STATUTS_LEAD } from '@/types'
 import type { StatutLead, SourceLead } from '@/types'
@@ -51,6 +52,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
   if (leads.length === 0 && !search && statutFilter.length === 0) {
     return (
       <EmptyState
+        illustration={<IllustrationEmptyLeads size={120} />}
         icon={<Users className="w-4 h-4" />}
         title="Aucun prospect"
         description="Commencez par créer votre premier prospect pour développer votre portefeuille client."
@@ -74,7 +76,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
             <select
               value={statutFilter[0] || ''}
               onChange={(e) => setStatutFilter(e.target.value ? [e.target.value as StatutLead] : [])}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">Tous les statuts</option>
               {statutOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -82,7 +84,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
             <select
               value={sourceFilter[0] || ''}
               onChange={(e) => setSourceFilter(e.target.value ? [e.target.value as SourceLead] : [])}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">Toutes les sources</option>
               {sourceOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -134,7 +136,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
                           {lead.prenom?.[0] || lead.nom?.[0] || 'L'}
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900 group-hover:text-[#2EC6F3] transition-colors">
+                          <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">
                             {lead.prenom} {lead.nom}
                           </p>
                           <p className="text-xs text-gray-500">{lead.email}</p>
@@ -165,7 +167,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
       {data && data.total > 10 && (
         <div className="flex justify-center">
           <p className="text-sm text-gray-500">
-            Affichage de 10 prospects · <Link href="/leads" className="text-[#2EC6F3] hover:underline">Voir tous</Link>
+            Affichage de 10 prospects · <Link href="/leads" className="text-primary hover:underline">Voir tous</Link>
           </p>
         </div>
       )}
