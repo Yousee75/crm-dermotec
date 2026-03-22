@@ -357,18 +357,18 @@ export default function DashboardPage() {
                 <span className="text-sm">Suivi commercial</span>
               </Link>
               <Link
-                href="/concurrents"
+                href="/academy"
                 className="flex items-center gap-3 p-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition min-h-[44px]"
               >
-                <Search className="w-4 h-4 shrink-0" />
-                <span className="text-sm">Analyser concurrents</span>
+                <TrendingUp className="w-4 h-4 shrink-0" />
+                <span className="text-sm">Mon coaching</span>
               </Link>
               <Link
-                href="/outils"
+                href="/financement"
                 className="flex items-center gap-3 p-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition min-h-[44px]"
               >
-                <Mail className="w-4 h-4 shrink-0" />
-                <span className="text-sm">Envoyer un email</span>
+                <Euro className="w-4 h-4 shrink-0" />
+                <span className="text-sm">Financement</span>
               </Link>
             </div>
           </div>

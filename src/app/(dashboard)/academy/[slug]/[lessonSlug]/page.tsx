@@ -583,7 +583,7 @@ export default function LessonPage() {
     <div className="space-y-6 pb-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-600">
-        <Link href="/academy" className="hover:text-gray-900">Academy</Link>
+        <Link href="/academy" className="hover:text-gray-900">Mon coaching</Link>
         <span>›</span>
         <Link href={`/academy/${slug}`} className="hover:text-gray-900">{module.titre}</Link>
         <span>›</span>

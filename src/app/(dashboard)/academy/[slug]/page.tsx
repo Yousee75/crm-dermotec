@@ -139,7 +139,7 @@ export default function ModuleDetailPage() {
         <Link href="/academy">
           <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour à l'Academy
+            Retour au coaching
           </Button>
         </Link>
 

@@ -10,7 +10,7 @@
 import {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
   WidthType, AlignmentType, HeadingLevel, BorderStyle, ShadingType,
-  Header, Footer, PageNumber, PageBreak,
+  Header, Footer, PageNumber, PageBreak, ImageRun,
 } from 'docx'
 
 // ══════════════════════════════════════════════════════════════
@@ -99,6 +99,31 @@ export interface BriefingData {
   }
   plan_action: { quand: string; action: string; si_ok: string }[]
   message_final: string
+  // NOUVELLES SECTIONS
+  avis?: {
+    total: number
+    moyenne: number
+    distribution: { stars: number; count: number; pct: number }[]
+    trend: 'improving' | 'stable' | 'declining'
+    trendDelta: number
+    ownerResponseRate: number
+    positiveKeywords: string[]
+    negativeKeywords: string[]
+    topPositive?: { author: string; text: string }
+    topNegative?: { author: string; text: string; rating: number }
+    fetchedCount: number
+    withTextPct: number
+    withPhotos: number
+  }
+  quartier?: {
+    metros: number
+    restaurants: number
+    concurrentsBeaute: number
+    pharmacies: number
+    footTrafficScore: number
+  }
+  mapImageBuffer?: Buffer // Image PNG de la carte OpenStreetMap
+  coordonnees?: { lat: number; lng: number }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -221,9 +246,11 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
         children: [
           // SOMMAIRE
           h1('Sommaire'), line(),
-          ...['1. Verdict & Score', '2. Qui est ce prospect ?', '3. Analyse 5 axes', '4. Strategie d\'approche',
-            '5. Script telephonique complet', '6. Objections & contre-arguments', '7. Douleurs & leviers psychologiques',
-            '8. Formations recommandees', '9. Strategie financement', '10. Plan d\'action',
+          ...['1. Verdict & Score', '2. Qui est ce prospect ?', '3. Analyse 5 axes',
+            '4. Analyse des avis clients', '5. Carte & environnement local',
+            '6. Strategie d\'approche', '7. Script telephonique complet',
+            '8. Objections & contre-arguments', '9. Douleurs & leviers psychologiques',
+            '10. Formations recommandees', '11. Strategie financement', '12. Plan d\'action',
           ].map(t => p(t, { bold: true, color: ACCENT })),
           pageBreak(),
 
@@ -283,8 +310,111 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           p(d.situation_business),
           pageBreak(),
 
-          // 4. STRATEGIE
-          h1('4. Strategie d\'approche'), line(),
+          // 4. ANALYSE DES AVIS CLIENTS
+          ...(d.avis ? [
+            h1('4. Analyse des Avis Clients'), line(),
+            // KPIs avis
+            new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [new TableRow({ children: [
+              kpiCell('Note moyenne', `${d.avis.moyenne}/5`, BRAND),
+              kpiCell('Total avis', `${d.avis.total}`, INDIGO),
+              kpiCell('Analysés', `${d.avis.fetchedCount}`, VIOLET),
+              kpiCell('Taux réponse', `${d.avis.ownerResponseRate}%`, GREEN),
+            ] })] }),
+            spacer(50),
+
+            // Distribution étoiles (barres textuelles)
+            h3('Distribution des étoiles'),
+            ...d.avis.distribution.slice().reverse().map(dist => {
+              const barLen = Math.round(dist.pct / 5)
+              const emptyLen = 20 - barLen
+              const barColor = dist.stars >= 4 ? GREEN : dist.stars === 3 ? AMBER : RED
+              return new Paragraph({ spacing: { after: 30 }, children: [
+                new TextRun({ text: `${dist.stars}★ `, font: 'Consolas', size: 18, bold: true, color: barColor }),
+                new TextRun({ text: '\u2588'.repeat(barLen), font: 'Consolas', size: 18, color: barColor }),
+                new TextRun({ text: '\u2591'.repeat(emptyLen), font: 'Consolas', size: 18, color: 'E2E8F0' }),
+                new TextRun({ text: `  ${dist.count} avis (${dist.pct}%)`, font: 'Calibri', size: 18, color: TEXT_MED }),
+              ] })
+            }),
+            spacer(30),
+
+            // Tendance
+            box(
+              d.avis.trend === 'improving' ? `↑ Tendance en hausse (+${d.avis.trendDelta} sur 6 mois) — Bon signe, les clients recents sont plus satisfaits`
+              : d.avis.trend === 'declining' ? `↓ Tendance en baisse (${d.avis.trendDelta} sur 6 mois) — Angle possible : l'aider a ameliorer sa reputation`
+              : `→ Tendance stable sur 6 mois — La reputation est etablie`,
+              d.avis.trend === 'improving' ? GREEN_BG : d.avis.trend === 'declining' ? 'FEF2F2' : LIGHT_BG,
+              d.avis.trend === 'improving' ? GREEN_DARK : d.avis.trend === 'declining' ? RED : TEXT_MED
+            ),
+            spacer(30),
+
+            // Mots-clés
+            ...(d.avis.positiveKeywords.length > 0 ? [
+              h3('Ce que les clients disent de positif'),
+              ...d.avis.positiveKeywords.map(kw => bullet(kw, { color: GREEN_DARK })),
+            ] : []),
+            ...(d.avis.negativeKeywords.length > 0 ? [
+              spacer(20),
+              h3('Points negatifs mentionnes'),
+              ...d.avis.negativeKeywords.map(kw => bullet(kw, { color: RED })),
+            ] : []),
+            spacer(30),
+
+            // Citations
+            ...(d.avis.topPositive ? [
+              h3('Meilleur avis (5★)'),
+              box(`"${d.avis.topPositive.text.slice(0, 300)}${d.avis.topPositive.text.length > 300 ? '...' : ''}"`, GREEN_BG, GREEN_DARK, false),
+              p(`— ${d.avis.topPositive.author}`, { italic: true, color: TEXT_LIGHT, size: 18 }),
+            ] : []),
+            ...(d.avis.topNegative ? [
+              spacer(20),
+              h3(`Avis critique (${d.avis.topNegative.rating}★)`),
+              box(`"${d.avis.topNegative.text.slice(0, 300)}${d.avis.topNegative.text.length > 300 ? '...' : ''}"`, 'FEF2F2', RED, false),
+              p(`— ${d.avis.topNegative.author}`, { italic: true, color: TEXT_LIGHT, size: 18 }),
+            ] : []),
+            spacer(20),
+
+            // Stats complémentaires
+            p(`${d.avis.withTextPct}% des avis ont un commentaire detaille • ${d.avis.withPhotos} avis avec photo`, { size: 18, color: TEXT_LIGHT }),
+            pageBreak(),
+          ] : []),
+
+          // 5. CARTE & ENVIRONNEMENT LOCAL
+          ...(d.quartier || d.mapImageBuffer ? [
+            h1('5. Carte & Environnement Local'), line(),
+
+            // Carte OSM si disponible
+            ...(d.mapImageBuffer ? [
+              new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 }, children: [
+                new ImageRun({ data: d.mapImageBuffer, transformation: { width: 520, height: 300 }, type: 'png' }),
+              ] }),
+              p('Carte OpenStreetMap — Emplacement du prospect et environnement', { italic: true, color: TEXT_LIGHT, size: 16 }),
+              spacer(30),
+            ] : []),
+
+            // Données quartier
+            ...(d.quartier ? [
+              new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+                tableRow(['INDICATEUR', 'VALEUR', 'CE QUE CA SIGNIFIE'], true),
+                tableRow(['🚇 Metros proches', `${d.quartier.metros}`, d.quartier.metros >= 2 ? 'Excellent — tres accessible' : 'Moyen — necessite voiture/bus'], false, 0),
+                tableRow(['🍽 Restaurants', `${d.quartier.restaurants}`, d.quartier.restaurants >= 10 ? 'Zone tres animee' : 'Zone calme'], false, 1),
+                tableRow(['💅 Salons beaute', `${d.quartier.concurrentsBeaute}`, d.quartier.concurrentsBeaute >= 5 ? 'Forte concurrence — besoin de se differencier' : 'Peu de concurrence — bon marche'], false, 2),
+                tableRow(['💊 Pharmacies', `${d.quartier.pharmacies}`, d.quartier.pharmacies >= 2 ? 'Quartier sante/beaute actif' : 'Peu de commerces sante'], false, 3),
+              ] }),
+              spacer(30),
+              scoreBar('Trafic pieton', d.quartier.footTrafficScore, d.quartier.footTrafficScore >= 60 ? GREEN : AMBER),
+              spacer(20),
+              box(
+                d.quartier.footTrafficScore >= 60 ? 'Zone a fort passage — ideal pour attirer des clients'
+                : d.quartier.footTrafficScore >= 30 ? 'Zone a passage modere — les formations l\'aident a se demarquer'
+                : 'Zone calme — la cliente cible vient sur rendez-vous, pas en passage',
+                BRAND_BG, ACCENT
+              ),
+            ] : []),
+            pageBreak(),
+          ] : []),
+
+          // 6. STRATEGIE (anciennement 4)
+          h1('6. Strategie d\'approche'), line(),
           new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
             tableRow(['PARAMETRE', 'RECOMMANDATION', 'POURQUOI'], true),
             ...([
@@ -300,7 +430,7 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           pageBreak(),
 
           // 5. SCRIPT
-          h1('5. Script telephonique complet'), line(),
+          h1('7. Script telephonique complet'), line(),
           p('Lis ce script avant d\'appeler. Adapte le ton mais garde la structure.'),
           spacer(50),
           // Steps
@@ -320,7 +450,7 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           pageBreak(),
 
           // 6. OBJECTIONS
-          h1('6. Objections & contre-arguments'), line(),
+          h1('8. Objections & contre-arguments'), line(),
           p('Chaque objection est un signal d\'interet deguise. Voici comment les transformer.'),
           spacer(50),
           ...d.objections.flatMap(obj => [
@@ -336,7 +466,7 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           pageBreak(),
 
           // 7. DOULEURS
-          h1('7. Douleurs & leviers psychologiques'), line(),
+          h1('9. Douleurs & leviers psychologiques'), line(),
           h3('Ses douleurs probables'),
           ...d.douleurs.map(d2 => bullet(d2, { color: RED })),
           spacer(30),
@@ -349,7 +479,7 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           pageBreak(),
 
           // 8. FORMATIONS
-          h1('8. Formations recommandees'), line(),
+          h1('10. Formations recommandees'), line(),
           ...d.formations.flatMap(f => [
             box(f.niveau_priorite === 'PRINCIPAL' ? 'RECOMMANDATION PRINCIPALE' : f.niveau_priorite === 'COMPLEMENTAIRE' ? 'COMPLEMENTAIRE' : 'UPSELL FUTUR',
               f.niveau_priorite === 'PRINCIPAL' ? BRAND_BG : f.niveau_priorite === 'COMPLEMENTAIRE' ? 'F5F3FF' : LIGHT_BG,
@@ -363,7 +493,7 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           pageBreak(),
 
           // 9. FINANCEMENT
-          h1('9. Strategie financement'), line(),
+          h1('11. Strategie financement'), line(),
           box(d.financement.option_principale, GREEN_BG, GREEN_DARK),
           spacer(30),
           p(d.financement.comment_parler),
@@ -376,7 +506,7 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           spacer(50),
 
           // 10. PLAN
-          h1('10. Plan d\'action'), line(),
+          h1('12. Plan d\'action'), line(),
           new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
             tableRow(['QUAND', 'ACTION', 'SI CA MARCHE'], true),
             ...d.plan_action.map((pa, i) => tableRow([pa.quand, pa.action, pa.si_ok], false, i)),

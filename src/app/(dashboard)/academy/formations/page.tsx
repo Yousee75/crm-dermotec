@@ -118,7 +118,7 @@ function HeroStats() {
               <GraduationCap className="w-8 h-8" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold font-heading bg-gradient-to-r from-[#2EC6F3] to-[#082545] bg-clip-text text-transparent">
-              Academy Formations
+              Parcours de formation
             </h1>
           </motion.div>
           <motion.p

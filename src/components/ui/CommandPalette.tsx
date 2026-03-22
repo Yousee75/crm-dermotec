@@ -74,28 +74,30 @@ export function CommandPalette() {
   const recentLeads = useMemo(() => getRecentLeads(), [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const pages = useMemo(() => [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/', shortcut: 'G D' },
-    { id: 'cockpit', label: 'Cockpit', icon: Zap, path: '/cockpit', shortcut: 'G C' },
-    { id: 'leads', label: 'Leads', icon: Users, path: '/leads', shortcut: 'G L' },
-    { id: 'pipeline', label: 'Pipeline', icon: Gauge, path: '/pipeline', shortcut: 'G P' },
-    { id: 'sessions', label: 'Sessions', icon: Calendar, path: '/sessions', shortcut: 'G S' },
-    { id: 'messages', label: 'Messages', icon: MessageSquare, path: '/messages' },
-    { id: 'playbook', label: 'Playbook', icon: BookOpen, path: '/playbook' },
-    { id: 'stagiaires', label: 'Stagiaires', icon: GraduationCap, path: '/stagiaires' },
+    { id: 'dashboard', label: "Aujourd'hui", icon: LayoutDashboard, path: '/', shortcut: 'G D' },
+    { id: 'leads', label: 'Prospects', icon: Users, path: '/leads', shortcut: 'G L' },
+    { id: 'pipeline', label: 'Suivi commercial', icon: Gauge, path: '/pipeline', shortcut: 'G P' },
+    { id: 'sessions', label: 'Formations', icon: Calendar, path: '/sessions', shortcut: 'G S' },
     { id: 'financement', label: 'Financement', icon: CreditCard, path: '/financement', shortcut: 'G F' },
-    { id: 'commandes', label: 'E-Shop', icon: ShoppingBag, path: '/commandes' },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics', shortcut: 'G A' },
-    { id: 'qualite', label: 'Qualité', icon: Award, path: '/qualite', shortcut: 'G Q' },
+    { id: 'analytics', label: 'Tableau de bord', icon: BarChart3, path: '/analytics', shortcut: 'G A' },
+    { id: 'qualite', label: 'Qualité', icon: Award, path: '/qualiopi', shortcut: 'G Q' },
+    { id: 'parametres', label: 'Réglages', icon: Settings, path: '/parametres', shortcut: 'G T' },
+    { id: 'academy', label: 'Mon coaching', icon: GraduationCap, path: '/academy' },
+    { id: 'messages', label: 'Messages', icon: MessageSquare, path: '/messages' },
+    { id: 'playbook', label: 'Scripts de vente', icon: BookOpen, path: '/playbook' },
+    { id: 'stagiaires', label: 'Mes stagiaires', icon: GraduationCap, path: '/stagiaires' },
+    { id: 'commandes', label: 'Commandes', icon: ShoppingBag, path: '/commandes' },
     { id: 'equipe', label: 'Équipe', icon: Phone, path: '/equipe', shortcut: 'G E' },
-    { id: 'cadences', label: 'Cadences', icon: Zap, path: '/cadences' },
-    { id: 'settings', label: 'Paramètres', icon: Settings, path: '/settings', shortcut: 'G T' },
+    { id: 'cadences', label: 'Relances auto', icon: Zap, path: '/cadences' },
+    { id: 'outils', label: 'Outils', icon: Settings, path: '/outils' },
+    { id: 'concurrents', label: 'Concurrents', icon: Users, path: '/concurrents' },
   ], [])
 
   const actions = useMemo(() => [
-    { id: 'new-lead', label: 'Créer un lead', icon: Plus, path: '/leads?new=1', shortcut: 'N', keywords: 'nouveau ajouter créer lead prospect' },
-    { id: 'new-session', label: 'Planifier une session', icon: Calendar, path: '/sessions?new=1', keywords: 'nouvelle session planifier formation' },
+    { id: 'new-lead', label: 'Nouveau prospect', icon: Plus, path: '/leads?new=1', shortcut: 'N', keywords: 'nouveau ajouter créer lead prospect' },
+    { id: 'new-session', label: 'Planifier une formation', icon: Calendar, path: '/sessions?new=1', keywords: 'nouvelle session planifier formation' },
     { id: 'send-email', label: 'Envoyer un email', icon: Send, path: '/messages', keywords: 'email envoyer message' },
-    { id: 'export', label: 'Exporter les données', icon: FileText, path: '/settings#export', keywords: 'export csv json données' },
+    { id: 'export', label: 'Exporter les données', icon: FileText, path: '/parametres', keywords: 'export csv json données' },
   ], [])
 
   // Filter pages with fuzzy matching

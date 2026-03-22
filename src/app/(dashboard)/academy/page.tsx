@@ -200,10 +200,10 @@ export default function AcademyPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight">
-                Academy Dermotec
+                Mon coaching
               </h1>
               <p className="text-blue-100 mt-1">
-                Votre plateforme de formation interne
+                Formation continue et montée en compétences
               </p>
             </div>
           </div>
