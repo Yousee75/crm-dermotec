@@ -43,7 +43,11 @@ const TAG = '[DVF]'
 const CACHE_TTL = 604800 // 7 jours
 const TIMEOUT_MS = 15_000
 
-const DVF_API = 'https://api.cquest.org/dvf'
+// API principale (cquest.org) + fallback (API gouv)
+const DVF_APIS = [
+  'https://api.cquest.org/dvf',
+  'https://apidf-preprod.cerema.fr/dvf_opendata/mutations',
+]
 const GEO_API = 'https://geo.api.gouv.fr'
 
 // Seuils prix m² pour classification standing (Ile-de-France)

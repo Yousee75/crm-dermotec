@@ -255,7 +255,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       <aside
         className={cn(
           'fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ease-in-out',
-          'bg-[#082545]',
+          'bg-sidebar-bg',
           collapsed ? 'w-[64px]' : 'w-[240px]',
           mobileOpen ? 'translate-x-0' : '-translate-x-full',
           'md:translate-x-0 md:relative'

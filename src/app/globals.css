@@ -1,103 +1,103 @@
 @import "tailwindcss";
 
 /* ============================================================
-   CRM DERMOTEC — Design System v2
-   Branding: #2EC6F3 (primary) + #082545 (accent)
+   CRM DERMOTEC — Design System v3 "Rose Gold Elegance"
+   Identité beauté/esthétique : chaleur, premium, sophistication
    Fonts: DM Sans (body) + Bricolage Grotesque (headings)
    ============================================================ */
 
 @theme {
-  /* ── PRIMARY : #2EC6F3 (couleur branding Dermotec officielle) ── */
-  --color-primary: #2EC6F3;
-  --color-primary-dark: #0284C7;
-  --color-primary-light: #7DD3FC;
-  --color-primary-50: #F0F9FF;
-  --color-primary-100: #E0F2FE;
-  --color-primary-200: #BAE6FD;
+  /* ── PRIMARY : Rose Gold (chaleur, premium, beauté) ── */
+  --color-primary: #D4A574;
+  --color-primary-dark: #B8895A;
+  --color-primary-light: #E8C9A8;
+  --color-primary-50: #FDF8F3;
+  --color-primary-100: #FAEFDF;
+  --color-primary-200: #F0D9BE;
 
-  /* ── ACCENT : slate-900 (plus profond, meilleur contraste sidebar) ── */
-  --color-accent: #0F172A;
-  --color-accent-light: #1E293B;
-  --color-accent-50: #F1F5F9;
+  /* ── ACCENT : Charcoal profond (luxe, sophistication) ── */
+  --color-accent: #1A1A2E;
+  --color-accent-light: #2A2A40;
+  --color-accent-50: #F5F5F8;
 
-  /* ── ACTION CTA : indigo-500 (distinct du primary, dit "clique") ── */
-  --color-action: #6366F1;
-  --color-action-dark: #4F46E5;
-  --color-action-light: #E0E7FF;
+  /* ── ACTION CTA : Violet doux (créativité, distinction) ── */
+  --color-action: #8B5CF6;
+  --color-action-dark: #7C3AED;
+  --color-action-light: #EDE9FE;
 
-  /* ── SÉMANTIQUE ── */
-  --color-success: #10B981;
-  --color-success-light: #D1FAE5;
-  --color-success-50: #ECFDF5;
-  --color-warning: #F59E0B;
-  --color-warning-light: #FEF3C7;
-  --color-warning-50: #FFFBEB;
-  --color-error: #EF4444;
-  --color-error-light: #FEE2E2;
-  --color-error-50: #FEF2F2;
-  --color-info: #3B82F6;
-  --color-info-light: #DBEAFE;
-  --color-info-50: #EFF6FF;
+  /* ── SÉMANTIQUE (tons adoucis pour le secteur beauté) ── */
+  --color-success: #6B9080;
+  --color-success-light: #E0EDE6;
+  --color-success-50: #F0F7F3;
+  --color-warning: #D4A754;
+  --color-warning-light: #FFF3DB;
+  --color-warning-50: #FFFBF0;
+  --color-error: #C25B68;
+  --color-error-light: #FCE4E8;
+  --color-error-50: #FEF2F4;
+  --color-info: #6B8CAE;
+  --color-info-light: #E0EBF5;
+  --color-info-50: #F0F5FA;
 
-  /* ── SURFACES ── */
+  /* ── SURFACES (crème chaud, pas gris froid) ── */
   --color-surface: #FFFFFF;
-  --color-surface-hover: #F8FAFC;
-  --color-surface-active: #F1F5F9;
+  --color-surface-hover: #FAF8F5;
+  --color-surface-active: #F5F0EA;
   --color-surface-raised: #FFFFFF;
-  --color-background: #F8FAFC;
+  --color-background: #FAF8F5;
 
   /* ── BORDERS ── */
-  --color-border: #E2E8F0;
-  --color-border-light: #F1F5F9;
-  --color-border-focus: #2EC6F3;
+  --color-border: #E8E0D8;
+  --color-border-light: #F5F0EA;
+  --color-border-focus: #D4A574;
 
-  /* ── TEXT ── */
-  --color-text: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
+  /* ── TEXT (charcoal doux, pas noir agressif) ── */
+  --color-text: #2D2D3F;
+  --color-text-secondary: #5C5C72;
+  --color-text-muted: #9090A7;
   --color-text-inverse: #FFFFFF;
 
-  /* ── SIDEBAR ── */
-  --color-sidebar-bg: #0F172A;
-  --color-sidebar-text: #CBD5E1;
-  --color-sidebar-active: #2EC6F3;
-  --color-sidebar-hover: #1E293B;
+  /* ── SIDEBAR (charcoal profond) ── */
+  --color-sidebar-bg: #1A1A2E;
+  --color-sidebar-text: #B8B8CC;
+  --color-sidebar-active: #D4A574;
+  --color-sidebar-hover: #2A2A40;
 
   /* ── PIPELINE : 5 groupes au lieu de 11 couleurs ── */
-  --color-stage-cold: #94A3B8;
-  --color-stage-active: #2EC6F3;
-  --color-stage-hot: #F59E0B;
-  --color-stage-won: #10B981;
-  --color-stage-lost: #EF4444;
+  --color-stage-cold: #9090A7;
+  --color-stage-active: #D4A574;
+  --color-stage-hot: #D4A754;
+  --color-stage-won: #6B9080;
+  --color-stage-lost: #C25B68;
 
   /* Compat : anciens noms gardés pour transition */
-  --color-status-nouveau: #94A3B8;
-  --color-status-contacte: #94A3B8;
-  --color-status-qualifie: #2EC6F3;
-  --color-status-financement: #2EC6F3;
-  --color-status-inscrit: #F59E0B;
-  --color-status-en-formation: #F59E0B;
-  --color-status-forme: #10B981;
-  --color-status-alumni: #10B981;
+  --color-status-nouveau: #9090A7;
+  --color-status-contacte: #9090A7;
+  --color-status-qualifie: #D4A574;
+  --color-status-financement: #D4A574;
+  --color-status-inscrit: #D4A754;
+  --color-status-en-formation: #D4A754;
+  --color-status-forme: #6B9080;
+  --color-status-alumni: #6B9080;
 
   --font-heading: 'Bricolage Grotesque', serif;
   --font-body: 'DM Sans', sans-serif;
 
   --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  --shadow-glow: 0 0 20px rgba(46, 198, 243, 0.15);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xs: 0 1px 2px rgba(26, 26, 46, 0.04);
+  --shadow-sm: 0 1px 3px rgba(26, 26, 46, 0.06), 0 1px 2px rgba(26, 26, 46, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(26, 26, 46, 0.08), 0 2px 4px rgba(26, 26, 46, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(26, 26, 46, 0.10), 0 4px 8px rgba(26, 26, 46, 0.04);
+  --shadow-xl: 0 24px 48px -8px rgba(26, 26, 46, 0.12), 0 8px 16px rgba(26, 26, 46, 0.04);
+  --shadow-glow: 0 0 24px rgba(212, 165, 116, 0.20);
+  --shadow-card: 0 1px 3px rgba(26, 26, 46, 0.04), 0 1px 2px rgba(26, 26, 46, 0.02);
+  --shadow-card-hover: 0 12px 32px rgba(212, 165, 116, 0.12), 0 4px 12px rgba(26, 26, 46, 0.06);
 }
 
 /* Base */
@@ -241,12 +241,12 @@ h1, h2, h3, h4, h5, h6 {
 .stagger-children > *:nth-child(7) { animation-delay: 300ms; }
 .stagger-children > *:nth-child(8) { animation-delay: 350ms; }
 
-/* Skeleton loading */
+/* Skeleton loading — warm tone */
 .skeleton {
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background: linear-gradient(90deg, #F5F0EA 25%, #E8E0D8 50%, #F5F0EA 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 /* Scale on click (mobile-friendly) */
@@ -286,63 +286,76 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-line-clamp: 3;
 }
 
-/* Card hover lift */
+/* Card hover lift — beauty premium effect */
 .hover-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hover-lift:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Glass morphism */
+/* Table row hover — beauty gradient effect */
+tr.hover-row {
+  transition: all 0.2s ease;
+}
+tr.hover-row:hover {
+  background: linear-gradient(90deg, rgba(212, 165, 116, 0.06) 0%, rgba(212, 165, 116, 0.02) 100%);
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+/* Glass morphism — warm tint */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 165, 116, 0.12);
 }
 
 .glass-dark {
-  background: rgba(8, 37, 69, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(26, 26, 46, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 165, 116, 0.08);
 }
 
-/* Gradient backgrounds */
+/* Gradient backgrounds — beauty palette */
 .gradient-primary {
-  background: linear-gradient(135deg, #2EC6F3 0%, #0284C7 100%);
+  background: linear-gradient(135deg, #D4A574 0%, #B8895A 100%);
 }
 
 .gradient-accent {
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  background: linear-gradient(135deg, #1A1A2E 0%, #2A2A40 100%);
 }
 
 .gradient-action {
-  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
 }
 
 .gradient-warm {
-  background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+  background: linear-gradient(135deg, #D4A754 0%, #C25B68 100%);
+}
+
+.gradient-beauty {
+  background: linear-gradient(135deg, #D4A574 0%, #8B5CF6 50%, #1A1A2E 100%);
 }
 
 .gradient-mesh {
   background:
-    radial-gradient(at 40% 20%, rgba(46, 198, 243, 0.08) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, rgba(59, 130, 246, 0.06) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, rgba(139, 92, 246, 0.04) 0px, transparent 50%);
+    radial-gradient(at 40% 20%, rgba(212, 165, 116, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(107, 144, 128, 0.04) 0px, transparent 50%);
 }
 
-/* Focus visible ring (a11y) */
+/* Focus visible ring (a11y) — rose gold */
 .focus-ring:focus-visible {
-  outline: 2px solid #2EC6F3;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* Text gradient */
+/* Text gradient — beauty */
 .text-gradient {
-  background: linear-gradient(135deg, #2EC6F3 0%, #6366F1 100%);
+  background: linear-gradient(135deg, #D4A574 0%, #8B5CF6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -359,9 +372,55 @@ h1, h2, h3, h4, h5, h6 {
   right: -2px;
   width: 8px;
   height: 8px;
-  background: #EF4444;
+  background: var(--color-error);
   border-radius: 50%;
   border: 2px solid white;
+}
+
+/* ============================================================
+   Beauty-specific hover & interaction effects
+   ============================================================ */
+
+/* CTA button glow on hover */
+.cta-glow {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cta-glow:hover {
+  box-shadow: 0 0 20px rgba(212, 165, 116, 0.3), 0 4px 16px rgba(212, 165, 116, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Elegant border animation on focus */
+.border-elegant {
+  position: relative;
+  overflow: hidden;
+}
+.border-elegant::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-action));
+  transition: width 0.3s ease;
+}
+.border-elegant:hover::after,
+.border-elegant:focus-within::after {
+  width: 100%;
+}
+
+/* Tabular numbers for KPIs and data */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Smooth spring transition */
+.spring-hover {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.spring-hover:hover {
+  transform: scale(1.02);
 }
 
 /* ============================================================
@@ -497,7 +556,7 @@ html {
 
 /* Pull-to-refresh feel (glow top) */
 .ptr-glow {
-  box-shadow: inset 0 4px 12px -4px rgba(46, 198, 243, 0.15);
+  box-shadow: inset 0 4px 12px -4px rgba(212, 165, 116, 0.15);
 }
 
 /* Swipe cards (pour tables en mode card sur mobile) */

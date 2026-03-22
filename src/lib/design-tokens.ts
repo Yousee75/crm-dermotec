@@ -1,86 +1,85 @@
 // ============================================================
-// CRM DERMOTEC — Design Tokens Sémantiques
+// CRM DERMOTEC — Design Tokens v3 "Rose Gold Elegance"
+// Identité beauté/esthétique : chaleur, premium, sophistication
 // ============================================================
 
-// Design tokens exportés comme constantes TypeScript
-// Basés sur le design system existant dans globals.css
 export const tokens = {
   color: {
-    // Marque principale (adaptée du existant)
+    // Marque principale — Rose Gold (beauté, premium, chaleur)
     brand: {
-      primary: '#2EC6F3',       // Couleur branding Dermotec officielle
-      hover: '#0284C7',         // sky-600 (primary-dark existant)
-      subtle: 'rgba(46,198,243,0.08)', // primary Dermotec avec alpha
+      primary: '#D4A574',
+      hover: '#B8895A',
+      subtle: 'rgba(212,165,116,0.08)',
     },
 
-    // États sémantiques
+    // États sémantiques — tons adoucis beauté
     success: {
-      default: '#10B981',       // emerald-500 (existant)
-      subtle: '#ECFDF5',        // emerald-50 (existant success-50)
-      border: '#86efac',        // emerald-300
+      default: '#6B9080',       // vert sauge (naturel, soin)
+      subtle: '#F0F7F3',
+      border: '#A8C5B5',
     },
     danger: {
-      default: '#EF4444',       // red-500 (existant)
-      subtle: '#FEF2F2',        // red-50 (existant error-50)
-      border: '#fca5a5',        // red-300
+      default: '#C25B68',       // rose foncé (pas rouge agressif)
+      subtle: '#FEF2F4',
+      border: '#E5A0AA',
     },
     warning: {
-      default: '#F59E0B',       // amber-500 (existant)
-      subtle: '#FFFBEB',        // amber-50 (existant warning-50)
-      border: '#fed7aa',        // orange-300
+      default: '#D4A754',       // ambre doux
+      subtle: '#FFFBF0',
+      border: '#E8C98A',
     },
     info: {
-      default: '#3B82F6',       // blue-500 (existant)
-      subtle: '#EFF6FF',        // blue-50 (existant info-50)
-      border: '#93c5fd',        // blue-300
+      default: '#6B8CAE',       // bleu adouci
+      subtle: '#F0F5FA',
+      border: '#A0BDD6',
     },
 
     // IA / Intelligence artificielle
     ai: {
-      default: '#a855f7',       // purple-500
-      subtle: '#f5f3ff',        // purple-50
-      border: '#c4b5fd',        // purple-300
+      default: '#8B5CF6',       // violet (action, créativité)
+      subtle: '#EDE9FE',
+      border: '#C4B5FD',
     },
 
-    // Texte (hiérarchie)
+    // Texte (hiérarchie — charcoal doux)
     text: {
-      primary: '#0F172A',       // slate-900 (existant)
-      secondary: '#475569',     // slate-600 (existant)
-      tertiary: '#94A3B8',      // slate-400 (existant text-muted)
-      disabled: '#d4d4d8',      // zinc-300
+      primary: '#2D2D3F',
+      secondary: '#5C5C72',
+      tertiary: '#9090A7',
+      disabled: '#C8C8D8',
     },
 
-    // Surfaces et fonds
+    // Surfaces et fonds (crème chaud)
     surface: {
-      default: '#FFFFFF',       // white (existant)
-      hover: '#F8FAFC',         // slate-50 (existant surface-hover)
-      active: '#F1F5F9',        // slate-100 (existant surface-active)
-      border: '#E2E8F0',        // slate-200 (existant border)
+      default: '#FFFFFF',
+      hover: '#FAF8F5',
+      active: '#F5F0EA',
+      border: '#E8E0D8',
     },
 
-    // Sidebar (design system actuel)
+    // Sidebar (charcoal profond)
     sidebar: {
-      bg: '#0F172A',            // slate-900 (existant sidebar-bg)
-      text: '#CBD5E1',          // slate-300 (existant sidebar-text)
-      active: '#2EC6F3',        // Couleur primaire Dermotec (sidebar-active)
-      hover: '#1E293B',         // slate-800 (existant sidebar-hover)
+      bg: '#1A1A2E',
+      text: '#B8B8CC',
+      active: '#D4A574',
+      hover: '#2A2A40',
     },
   },
 
   // Typographie
   font: {
-    display: "'Bricolage Grotesque', serif", // Headings (existant)
-    body: "'DM Sans', sans-serif",            // Body text (existant)
-    mono: "'Geist Mono', monospace",          // Code/data
+    display: "'Bricolage Grotesque', serif",
+    body: "'DM Sans', sans-serif",
+    mono: "'Geist Mono', monospace",
   },
 
-  // Rayons de bordure
+  // Rayons de bordure (plus arrondis pour la douceur)
   radius: {
-    sm: '6px',    // existant
-    md: '8px',    // existant
-    lg: '12px',   // existant
-    xl: '16px',   // existant
-    full: '9999px', // existant
+    sm: '6px',
+    md: '10px',
+    lg: '14px',
+    xl: '18px',
+    full: '9999px',
   },
 
   // Espacement (8px grid)
@@ -93,32 +92,33 @@ export const tokens = {
     xxl: '48px',
   },
 
-  // Ombres (existantes)
+  // Ombres — warm tint (rose gold glow)
   shadow: {
-    xs: '0 1px 2px rgba(0, 0, 0, 0.04)',
-    sm: '0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04)',
-    md: '0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
-    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)',
-    xl: '0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)',
-    glow: '0 0 20px rgba(14, 165, 233, 0.15)', // primary glow
-    card: '0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)',
-    cardHover: '0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)',
+    xs: '0 1px 2px rgba(26, 26, 46, 0.04)',
+    sm: '0 1px 3px rgba(26, 26, 46, 0.06), 0 1px 2px rgba(26, 26, 46, 0.04)',
+    md: '0 4px 12px -2px rgba(26, 26, 46, 0.08), 0 2px 4px rgba(26, 26, 46, 0.04)',
+    lg: '0 12px 24px -4px rgba(26, 26, 46, 0.10), 0 4px 8px rgba(26, 26, 46, 0.04)',
+    xl: '0 24px 48px -8px rgba(26, 26, 46, 0.12), 0 8px 16px rgba(26, 26, 46, 0.04)',
+    glow: '0 0 24px rgba(212, 165, 116, 0.20)',
+    card: '0 1px 3px rgba(26, 26, 46, 0.04), 0 1px 2px rgba(26, 26, 46, 0.02)',
+    cardHover: '0 12px 32px rgba(212, 165, 116, 0.12), 0 4px 12px rgba(26, 26, 46, 0.06)',
   },
 
-  // Animations (existantes)
+  // Animations
   animation: {
     duration: {
       fast: '0.15s',
-      normal: '0.3s',
-      slow: '0.5s',
+      normal: '0.25s',
+      slow: '0.4s',
     },
     easing: {
-      ease: 'ease-out',
-      spring: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+      ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+      smooth: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
     }
   },
 
-  // Breakpoints (Tailwind standard)
+  // Breakpoints
   breakpoint: {
     sm: '640px',
     md: '768px',
@@ -128,7 +128,7 @@ export const tokens = {
   },
 } as const
 
-// Types dérivés pour TypeScript
+// Types dérivés
 export type ColorToken = keyof typeof tokens.color
 export type FontToken = keyof typeof tokens.font
 export type RadiusToken = keyof typeof tokens.radius
@@ -141,17 +141,8 @@ export const getColorValue = (path: string): string => {
 
   for (const key of keys) {
     value = value[key]
-    if (value === undefined) {
-      console.warn(`Token couleur introuvable: ${path}`)
-      return '#000000'
-    }
+    if (value === undefined) return '#2D2D3F'
   }
 
   return value
 }
-
-// Exemples d'usage:
-// getColorValue('brand.primary') → '#2EC6F3'
-// getColorValue('success.subtle') → '#ECFDF5'
-// tokens.radius.md → '8px'
-// tokens.font.display → "'Bricolage Grotesque', serif"
