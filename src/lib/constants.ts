@@ -25,21 +25,20 @@ export const BRAND = {
   googleMaps: 'https://maps.google.com/?q=75+Boulevard+Richard+Lenoir+75011+Paris',
 } as const
 
-// Couleurs branding (v2 — optimisées contraste + action)
+// Couleurs branding v3 — "Rose Gold Elegance"
 export const COLORS = {
-  primary: '#2EC6F3',      // Bleu Dermotec officiel
-  primaryDark: 'var(--color-primary-dark)',  // sky-600 : hover
-  action: '#6366F1',       // indigo-500 : CTAs distinctes
-  accent: '#0F172A',       // slate-900 : sidebar
-  background: '#F8FAFC',   // slate-50
-  text: '#0F172A',         // slate-900
-  textSecondary: '#475569', // slate-600
-  success: '#10B981',      // emerald-500
-  warning: '#F59E0B',      // amber-500
-  error: '#EF4444',        // red-500
-  info: '#3B82F6',         // blue-500
-  // Brand legacy (pour emails, PDF, éléments marketing)
-  brand: '#2EC6F3',
+  primary: '#D4A574',      // Rose Gold — chaleur, premium
+  primaryDark: '#B8895A',  // Rose Gold hover
+  action: '#8B5CF6',       // Violet doux — CTAs distinctes
+  accent: '#1A1A2E',       // Charcoal profond — sidebar, titres
+  background: '#FAF8F5',   // Crème chaud
+  text: '#2D2D3F',         // Charcoal doux
+  textSecondary: '#5C5C72', // Gris moyen
+  success: '#6B9080',      // Vert doux (beauté)
+  warning: '#D4A754',      // Ambre chaud
+  error: '#C25B68',        // Rouge doux
+  info: '#6B8CAE',         // Bleu doux
+  brand: '#D4A574',        // = primary
 } as const
 
 // Horaires

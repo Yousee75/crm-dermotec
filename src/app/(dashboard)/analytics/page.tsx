@@ -24,9 +24,9 @@ import {
 // Couleurs branding
 // ---------------------------------------------------------------------------
 // Recharts exige des hex bruts (pas de CSS vars)
-const PRIMARY = '#2EC6F3'   // eslint-disable-line no-restricted-syntax
-const ACCENT = '#082545'    // eslint-disable-line no-restricted-syntax
-const SUCCESS = '#22C55E'   // eslint-disable-line no-restricted-syntax
+const PRIMARY = '#D4A574'   // Rose Gold — Design System v3
+const ACCENT = '#1A1A2E'    // Charcoal — Design System v3
+const SUCCESS = '#6B9080'   // Vert doux — Design System v3
 const WARNING = '#F59E0B'
 const ERROR = '#EF4444'
 
