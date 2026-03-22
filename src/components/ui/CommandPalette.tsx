@@ -83,7 +83,7 @@ export function CommandPalette() {
     { id: 'qualite', label: 'Qualité', icon: Award, path: '/qualiopi', shortcut: 'G Q' },
     { id: 'parametres', label: 'Réglages', icon: Settings, path: '/parametres', shortcut: 'G T' },
     { id: 'academy', label: 'Mon coaching', icon: GraduationCap, path: '/academy' },
-    { id: 'messages', label: 'Messages', icon: MessageSquare, path: '/messages' },
+    // Messages retiré — WhatsApp/SMS/Tel via applis natives sur la fiche lead
     { id: 'playbook', label: 'Scripts de vente', icon: BookOpen, path: '/playbook' },
     { id: 'stagiaires', label: 'Mes stagiaires', icon: GraduationCap, path: '/stagiaires' },
     { id: 'commandes', label: 'Commandes', icon: ShoppingBag, path: '/commandes' },
@@ -100,7 +100,7 @@ export function CommandPalette() {
   const actions = useMemo(() => [
     { id: 'new-lead', label: 'Nouveau prospect', icon: Plus, path: '/leads?new=1', shortcut: 'N', keywords: 'nouveau ajouter créer lead prospect' },
     { id: 'new-session', label: 'Planifier une formation', icon: Calendar, path: '/sessions?new=1', keywords: 'nouvelle session planifier formation' },
-    { id: 'send-email', label: 'Envoyer un email', icon: Send, path: '/messages', keywords: 'email envoyer message' },
+    // Envoyer email → directement via mailto sur la fiche lead
     { id: 'export', label: 'Exporter les données', icon: FileText, path: '/parametres', keywords: 'export csv json données' },
     // Actions contextuelles fiche lead
     ...(currentLeadId ? [

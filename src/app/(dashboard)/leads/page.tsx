@@ -22,6 +22,7 @@ import { EmptyState } from '@/components/ui/EmptyState'
 import { IllustrationEmptyLeads } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'
+import { getRoleView } from '@/lib/role-config'
 import { exportToCSV } from '@/lib/export-csv'
 import { ExportButton } from '@/components/ui/ExportButton'
 import type { ColumnDef } from '@/lib/export-data'
@@ -79,7 +80,9 @@ export default function LeadsPage() {
   const [formationFilter, setFormationFilter] = useState('')
   const [smartFilter, setSmartFilter] = useState<SmartFilter | null>(null)
   const [sortBy, setSortBy] = useState('created_at:desc')
-  const [showMyLeads, setShowMyLeads] = useState(false)
+  // Commercial voit "Mes leads" par défaut (gouvernance rôle)
+  const roleView = getRoleView(currentUser?.role || 'admin')
+  const [showMyLeads, setShowMyLeads] = useState(roleView.filterByCommercial)
   const [page, setPage] = useState(1)
   const [showCreate, setShowCreate] = useState(false)
   const [showCsvImport, setShowCsvImport] = useState(false)

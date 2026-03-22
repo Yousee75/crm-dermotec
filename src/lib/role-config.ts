@@ -31,10 +31,14 @@ export interface RoleView {
  * Configuration des vues par rôle
  * Principe : le commercial voit UNIQUEMENT ce qui le concerne
  */
+/**
+ * Configuration des vues par rôle — Sidebar v2 (7 items)
+ * Sidebar : Aujourd'hui, Prospects, Formations, Financement, Tableau de bord, Qualité, Réglages
+ */
 export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   admin: {
-    topItems: ['/', '/leads', '/pipeline', '/sessions'],
-    sections: ['commercial', 'formation', 'gestion'],
+    topItems: ['/', '/leads', '/sessions', '/financement', '/analytics', '/qualiopi', '/parametres'],
+    sections: [],  // Sidebar v2 : plus de sections dépliables
     hiddenPages: [],
     showGlobalKpis: true,
     showTeamSection: true,
@@ -50,8 +54,8 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   },
 
   manager: {
-    topItems: ['/', '/leads', '/pipeline', '/sessions'],
-    sections: ['commercial', 'formation', 'gestion'],
+    topItems: ['/', '/leads', '/sessions', '/financement', '/analytics', '/qualiopi', '/parametres'],
+    sections: [],
     hiddenPages: [],
     showGlobalKpis: true,
     showTeamSection: true,
@@ -67,32 +71,32 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   },
 
   commercial: {
-    topItems: ['/', '/leads', '/pipeline', '/sessions'],
-    sections: ['commercial'],  // Seulement commercial (pas formation/gestion)
+    topItems: ['/', '/leads', '/sessions', '/financement'],  // 4 items : Aujourd'hui, Prospects, Formations, Financement
+    sections: [],
     hiddenPages: [
-      '/analytics', '/equipe', '/facturation', '/qualite',
+      '/analytics', '/equipe', '/qualiopi',
       '/outils', '/commandes', '/parametres',
     ],
     showGlobalKpis: false,     // Voit SES KPIs uniquement
     showTeamSection: false,
-    filterByCommercial: true,  // NE VOIT QUE SES LEADS
+    filterByCommercial: true,  // NE VOIT QUE SES LEADS (par défaut)
     canCreateLead: true,       // Peut créer (auto-assigné)
-    canDeleteLead: false,      // Ne peut pas supprimer
-    canReassignLead: false,    // Ne peut pas réassigner
+    canDeleteLead: false,
+    canReassignLead: false,
     filterBySessions: false,
-    canCreateSession: false,   // Ne peut pas créer de session
+    canCreateSession: false,
     canModifySession: false,
     agentEnabled: true,
     agentMode: 'commercial',
   },
 
   formatrice: {
-    topItems: ['/', '/formatrice', '/sessions'],
-    sections: ['formation'],   // Seulement formation
+    topItems: ['/', '/sessions', '/qualiopi'],  // 3 items : Aujourd'hui, Formations, Qualité
+    sections: [],
     hiddenPages: [
       '/leads', '/pipeline', '/contacts', '/clients',
       '/analytics', '/equipe', '/facturation', '/commandes',
-      '/outils', '/qualite',
+      '/financement', '/outils', '/parametres',
     ],
     showGlobalKpis: false,
     showTeamSection: false,
@@ -102,15 +106,15 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
     canReassignLead: false,
     filterBySessions: true,    // Ne voit que SES sessions
     canCreateSession: false,
-    canModifySession: false,   // Peut seulement émarger
+    canModifySession: false,
     agentEnabled: true,
     agentMode: 'formation',
   },
 
   assistante: {
-    topItems: ['/', '/leads', '/sessions'],
-    sections: ['commercial', 'formation'],
-    hiddenPages: ['/equipe', '/facturation', '/outils'],
+    topItems: ['/', '/leads', '/sessions', '/financement', '/qualiopi'],  // 5 items
+    sections: [],
+    hiddenPages: ['/equipe', '/outils'],
     showGlobalKpis: true,
     showTeamSection: false,
     filterByCommercial: false,

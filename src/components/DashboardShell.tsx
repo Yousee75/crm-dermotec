@@ -229,7 +229,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
              p.startsWith('/clients') ||
              p.startsWith('/pipeline') ||
              p.startsWith('/lead/') ||
-             p.startsWith('/messages') ||
              p.startsWith('/cadences')
     }
     // Formations : sessions + inscriptions + stagiaires + émargement
@@ -630,7 +629,7 @@ function getCurrentPageTitle(pathname: string): string {
     '/pipeline': 'Suivi commercial',
     '/contacts': 'Contacts',
     '/clients': 'Clients',
-    '/messages': 'Messages',
+    // '/messages': retiré — conversations via applis natives
     '/cadences': 'Relances auto',
     '/sessions': 'Formations planifiées',
     '/inscriptions': 'Inscriptions',
