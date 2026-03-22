@@ -1,7 +1,8 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { DefaultChatTransport } from 'ai'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -488,22 +489,35 @@ export function AgentChat() {
   const [input, setInput] = useState('')
 
   // AI SDK v6 / @ai-sdk/react v3 : useChat n'a plus input/handleInputChange/handleSubmit/isLoading
-  // Il faut gérer l'input localement et utiliser sendMessage + status
+  // Il faut gérer l'input localement et utiliser sendMessage + status + transport
+  const transport = useMemo(
+    () => new DefaultChatTransport({
+      api: '/api/ai/agent-v2',
+      body: { leadId: currentLeadId, mode: agentMode },
+    }),
+    [currentLeadId, agentMode]
+  )
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const chatHelpers = (useChat as any)({
-    api: '/api/ai/agent-v2',
-    body: { leadId: currentLeadId, mode: agentMode },
-    initialMessages: [{
+    transport,
+    messages: [{
       id: 'welcome',
-      role: 'assistant',
+      role: 'assistant' as const,
       content: currentLeadId
         ? `Mode ${modeConfig.label} activé. Je suis sur la fiche de ce lead. Que veux-tu savoir ?`
         : `Mode ${modeConfig.label} — ${modeConfig.sublabel}. Comment je peux t'aider ?`,
+      parts: [{
+        type: 'text' as const,
+        text: currentLeadId
+          ? `Mode ${modeConfig.label} activé. Je suis sur la fiche de ce lead. Que veux-tu savoir ?`
+          : `Mode ${modeConfig.label} — ${modeConfig.sublabel}. Comment je peux t'aider ?`,
+      }],
     }],
     onError: (err: any) => {
       console.error('[AgentChat] Error:', err.message)
     },
-  }) // AI SDK v6 — sendMessage + status (pas handleSubmit/isLoading)
+  }) // AI SDK v6 — sendMessage + status
   const messages = chatHelpers?.messages ?? []
   const sendMessage = chatHelpers?.sendMessage ?? (async () => {})
   const status = chatHelpers?.status ?? 'ready'
@@ -523,19 +537,22 @@ export function AgentChat() {
     if (currentLeadId) {
       setMessages([{
         id: `welcome-${currentLeadId}`,
-        role: 'assistant',
+        role: 'assistant' as const,
         content: 'Je suis sur la fiche de ce lead. Analyse, financement, relance — dis-moi.',
+        parts: [{ type: 'text' as const, text: 'Je suis sur la fiche de ce lead. Analyse, financement, relance — dis-moi.' }],
       }])
     }
   }, [currentLeadId, setMessages])
 
   const clearChat = useCallback(() => {
+    const text = currentLeadId
+      ? 'Conversation effacée. Que veux-tu savoir sur ce lead ?'
+      : 'Conversation effacée. Comment je peux t\'aider ?'
     setMessages([{
       id: 'welcome-clear',
-      role: 'assistant',
-      content: currentLeadId
-        ? 'Conversation effacée. Que veux-tu savoir sur ce lead ?'
-        : 'Conversation effacée. Comment je peux t\'aider ?',
+      role: 'assistant' as const,
+      content: text,
+      parts: [{ type: 'text' as const, text }],
     }])
   }, [currentLeadId, setMessages])
 
@@ -549,7 +566,7 @@ export function AgentChat() {
     if (!trimmed || isLoading) return
     setInput('')
     try {
-      await sendMessage({ prompt: trimmed })
+      await sendMessage({ text: trimmed })
     } catch (err: any) {
       console.error('[AgentChat] sendMessage error:', err?.message)
     }
@@ -559,7 +576,7 @@ export function AgentChat() {
     if (isLoading) return
     setInput('')
     try {
-      await sendMessage({ prompt: text })
+      await sendMessage({ text })
     } catch (err: any) {
       console.error('[AgentChat] sendMessage error:', err?.message)
     }
@@ -573,7 +590,7 @@ export function AgentChat() {
         className={cn(
           'fixed z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-200',
           'md:bottom-6 md:right-6 bottom-20 right-4',
-          isOpen ? 'bg-gray-700 hover:bg-gray-800 scale-90' : 'bg-gradient-to-br from-[#2EC6F3] to-[#1BA8D4] hover:shadow-xl hover:scale-105'
+          isOpen ? 'bg-gray-700 hover:bg-gray-800 scale-90' : 'bg-gradient-to-br from-primary to-[#1BA8D4] hover:shadow-xl hover:scale-105'
         )}
       >
         {isOpen ? <X className="w-5 h-5 text-white" /> : <Bot className="w-6 h-6 text-white" />}
@@ -621,12 +638,14 @@ export function AgentChat() {
                       key={mode}
                       onClick={() => {
                         setAgentMode(mode)
+                        const modeText = currentLeadId
+                            ? `Mode ${cfg.label} activé. Que veux-tu savoir sur ce lead ?`
+                            : `Mode ${cfg.label} — ${cfg.sublabel}. Comment je peux t'aider ?`
                         setMessages([{
                           id: `welcome-${mode}-${Date.now()}`,
-                          role: 'assistant',
-                          content: currentLeadId
-                            ? `Mode ${cfg.label} activé. Que veux-tu savoir sur ce lead ?`
-                            : `Mode ${cfg.label} — ${cfg.sublabel}. Comment je peux t'aider ?`,
+                          role: 'assistant' as const,
+                          content: modeText,
+                          parts: [{ type: 'text' as const, text: modeText }],
                         }])
                       }}
                       className={cn(
@@ -662,18 +681,20 @@ export function AgentChat() {
                         ? 'bg-primary text-white rounded-br-sm'
                         : 'bg-gray-50 text-gray-800 rounded-bl-sm'
                     )}>
-                      {/* Tool invocations with visual results */}
-                      {message.toolInvocations?.map((toolInvocation: any, i: number) => {
-                        const toolInfo = TOOL_LABELS[toolInvocation.toolName] || { label: toolInvocation.toolName, icon: Wrench }
+                      {/* Tool invocations — AI SDK v6 : parts[type=tool-invocation] ou fallback toolInvocations */}
+                      {(message.toolInvocations || message.parts?.filter((p: any) => p.type === 'tool-invocation'))?.map((toolInvocation: any, i: number) => {
+                        const toolName = toolInvocation.toolName || toolInvocation.toolCallId
+                        const toolInfo = TOOL_LABELS[toolName] || { label: toolName, icon: Wrench }
                         const ToolIcon = toolInfo.icon
+                        const state = toolInvocation.state || (toolInvocation.result !== undefined ? 'result' : 'call')
 
                         // Masquer le tool "think" complètement (réflexion privée de l'agent)
-                        if (toolInfo.hidden && toolInvocation.state === 'result') return null
+                        if (toolInfo.hidden && state === 'result') return null
 
                         return (
                           <div key={i}>
                             <div className="flex items-center gap-1.5 text-[11px] text-gray-500 mb-1">
-                              {toolInvocation.state === 'result' ? (
+                              {state === 'result' ? (
                                 <CheckCircle className="w-3 h-3 text-green-500 shrink-0" />
                               ) : (
                                 <Loader2 className="w-3 h-3 text-primary animate-spin shrink-0" />
@@ -681,15 +702,18 @@ export function AgentChat() {
                               <ToolIcon className="w-3 h-3 shrink-0" />
                               <span>{toolInfo.label}</span>
                             </div>
-                            {toolInvocation.state === 'result' && (
-                              <ToolResultCard toolName={toolInvocation.toolName} result={toolInvocation.result} />
+                            {state === 'result' && (
+                              <ToolResultCard toolName={toolName} result={toolInvocation.result} />
                             )}
                           </div>
                         )
                       })}
-                      {message.content && (
-                        <div className="whitespace-pre-wrap">{message.content}</div>
-                      )}
+                      {/* AI SDK v6 : texte dans parts[].text ou fallback content */}
+                      {(() => {
+                        const textContent = message.content
+                          || message.parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('')
+                        return textContent ? <div className="whitespace-pre-wrap">{textContent}</div> : null
+                      })()}
                     </div>
                     {message.role === 'user' && (
                       <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center shrink-0 mt-0.5">
@@ -699,7 +723,9 @@ export function AgentChat() {
                   </div>
                 ))}
 
-                {isLoading && !messages.some((m: any) => m.toolInvocations?.some((t: any) => t.state !== 'result')) && (
+                {isLoading && !messages.some((m: any) =>
+                  (m.toolInvocations || m.parts?.filter((p: any) => p.type === 'tool-invocation'))?.some((t: any) => (t.state || (t.result !== undefined ? 'result' : 'call')) !== 'result')
+                ) && (
                   <div className="flex gap-2">
                     <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                       <Bot className="w-3 h-3 text-primary" />
@@ -733,12 +759,12 @@ export function AgentChat() {
               )}
 
               {/* Input */}
-              <form data-agent-form onSubmit={handleSubmit} className="px-3 py-2.5 border-t border-gray-100 flex gap-2 shrink-0">
+              <form data-agent-form onSubmit={(e) => { e.preventDefault(); handleSend() }} className="px-3 py-2.5 border-t border-gray-100 flex gap-2 shrink-0">
                 <input
                   ref={inputRef}
                   type="text"
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={(e) => setInput(e.target.value)}
                   placeholder={currentLeadId ? 'Question sur ce lead...' : 'Pose ta question...'}
                   className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none bg-gray-50"
                   disabled={isLoading}

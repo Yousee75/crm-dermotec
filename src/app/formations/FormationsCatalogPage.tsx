@@ -93,7 +93,7 @@ export default function FormationsCatalogPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#082545] to-[#0F3A6E] flex items-center justify-center">
         <div className="text-center text-white">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2EC6F3] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-blue-100">Chargement des formations...</p>
         </div>
       </div>
@@ -106,9 +106,9 @@ export default function FormationsCatalogPage() {
       <section className="relative bg-gradient-to-br from-[#082545] to-[#0F3A6E] text-white py-20 overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#2EC6F3] rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#2EC6F3] rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#2EC6F3] rounded-full blur-2xl opacity-30"></div>
+          <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary rounded-full blur-2xl opacity-30"></div>
         </div>
 
         <div className="relative container mx-auto px-4 max-w-6xl">
@@ -135,11 +135,11 @@ export default function FormationsCatalogPage() {
               className="flex flex-wrap justify-center items-center gap-6 text-sm"
             >
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                <Award size={18} className="text-[#2EC6F3]" />
+                <Award size={18} className="text-primary" />
                 <span className="font-medium">Certifié Qualiopi</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                <Euro size={18} className="text-[#2EC6F3]" />
+                <Euro size={18} className="text-primary" />
                 <span className="font-medium">Finançable OPCO / France Travail</span>
               </div>
             </motion.div>
@@ -158,7 +158,7 @@ export default function FormationsCatalogPage() {
                   placeholder="Rechercher une formation..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:ring-offset-2 focus:ring-offset-[#082545] shadow-lg text-lg"
+                  className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#082545] shadow-lg text-lg"
                 />
               </div>
             </motion.div>
@@ -181,7 +181,7 @@ export default function FormationsCatalogPage() {
               className={`
                 flex-shrink-0 px-4 py-2 rounded-full font-medium transition-all duration-300 text-sm
                 ${selectedCategory === 'all'
-                  ? 'bg-[#2EC6F3] text-white shadow-lg transform scale-105'
+                  ? 'bg-primary text-white shadow-lg transform scale-105'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }
               `}
@@ -320,7 +320,7 @@ export default function FormationsCatalogPage() {
 
                           <Link
                             href={`/formations/${formation.slug}`}
-                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#2EC6F3] hover:bg-[#2EC6F3]/90 text-white rounded-xl font-semibold transition-all duration-300 group/btn"
+                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-semibold transition-all duration-300 group/btn"
                           >
                             En savoir plus
                             <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -377,7 +377,7 @@ export default function FormationsCatalogPage() {
                       setSearchTerm('')
                       setSelectedCategory('all')
                     }}
-                    className="px-6 py-3 bg-[#2EC6F3] text-white rounded-xl hover:bg-[#2EC6F3]/90 transition-colors font-semibold"
+                    className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-semibold"
                   >
                     Voir toutes les formations
                   </button>
@@ -416,7 +416,7 @@ export default function FormationsCatalogPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:0188334343"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2EC6F3] hover:bg-[#2EC6F3]/90 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary hover:bg-primary/90 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <Phone size={20} />
                 01 88 33 43 43

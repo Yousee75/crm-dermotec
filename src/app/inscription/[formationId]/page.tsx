@@ -241,7 +241,7 @@ export default function InscriptionPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2EC6F3] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
           <p className="mt-4 text-gray-600">Chargement...</p>
         </div>
       </div>
@@ -309,7 +309,7 @@ export default function InscriptionPage() {
           </div>
           <div className="mt-4 md:mt-0">
             <div className="text-right">
-              <div className="text-2xl font-bold text-[#2EC6F3]">
+              <div className="text-2xl font-bold text-primary">
                 {formation.prix_ht.toLocaleString('fr-FR')}€ HT
               </div>
               <div className="text-sm text-gray-500">
@@ -330,7 +330,7 @@ export default function InscriptionPage() {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-[#2EC6F3] h-2 rounded-full transition-all duration-300"
+            className="bg-primary h-2 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / 4) * 100}%` }}
           ></div>
         </div>
@@ -356,7 +356,7 @@ export default function InscriptionPage() {
                         type="radio"
                         {...register('civilite')}
                         value={option}
-                        className="h-4 w-4 text-[#2EC6F3] focus:ring-[#2EC6F3] border-gray-300"
+                        className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
                       />
                       <span className="ml-2 text-sm text-gray-900">{option}</span>
                     </label>
@@ -377,7 +377,7 @@ export default function InscriptionPage() {
                   type="text"
                   id="prenom"
                   {...register('prenom')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.prenom && (
                   <p className="mt-1 text-sm text-red-600">{errors.prenom.message}</p>
@@ -392,7 +392,7 @@ export default function InscriptionPage() {
                   type="text"
                   id="nom"
                   {...register('nom')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.nom && (
                   <p className="mt-1 text-sm text-red-600">{errors.nom.message}</p>
@@ -409,7 +409,7 @@ export default function InscriptionPage() {
                   type="email"
                   id="email"
                   {...register('email')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.email && (
                   <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -425,7 +425,7 @@ export default function InscriptionPage() {
                   id="telephone"
                   placeholder="0X XX XX XX XX"
                   {...register('telephone')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.telephone && (
                   <p className="mt-1 text-sm text-red-600">{errors.telephone.message}</p>
@@ -442,7 +442,7 @@ export default function InscriptionPage() {
                 id="date_naissance"
                 {...register('date_naissance')}
                 max={new Date(new Date().setFullYear(new Date().getFullYear() - 16)).toISOString().split('T')[0]}
-                className="mt-1 block w-full md:w-auto rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                className="mt-1 block w-full md:w-auto rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
               {errors.date_naissance && (
                 <p className="mt-1 text-sm text-red-600">{errors.date_naissance.message}</p>
@@ -457,7 +457,7 @@ export default function InscriptionPage() {
                     type="text"
                     placeholder="Rue, numéro"
                     {...register('adresse.rue' as any)}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -465,13 +465,13 @@ export default function InscriptionPage() {
                     type="text"
                     placeholder="Code postal"
                     {...register('adresse.code_postal' as any)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                   <input
                     type="text"
                     placeholder="Ville"
                     {...register('adresse.ville' as any)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -493,7 +493,7 @@ export default function InscriptionPage() {
               <select
                 id="statut_pro"
                 {...register('statut_pro')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               >
                 <option value="">Sélectionnez votre statut</option>
                 {STATUTS_PRO_OPTIONS.map((option) => (
@@ -514,7 +514,7 @@ export default function InscriptionPage() {
               <select
                 id="experience_esthetique"
                 {...register('experience_esthetique')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               >
                 <option value="">Sélectionnez votre niveau</option>
                 {EXPERIENCE_OPTIONS.map((option) => (
@@ -537,7 +537,7 @@ export default function InscriptionPage() {
                 rows={4}
                 placeholder="Décrivez vos objectifs professionnels après cette formation..."
                 {...register('objectif_pro')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
               {errors.objectif_pro && (
                 <p className="mt-1 text-sm text-red-600">{errors.objectif_pro.message}</p>
@@ -567,7 +567,7 @@ export default function InscriptionPage() {
                           value={session.id}
                           className="sr-only"
                         />
-                        <div className="border-2 border-gray-200 rounded-lg p-4 hover:border-[#2EC6F3] transition-colors">
+                        <div className="border-2 border-gray-200 rounded-lg p-4 hover:border-primary transition-colors">
                           <div className="flex justify-between items-start mb-2">
                             <div className="font-medium text-gray-900">
                               {new Date(session.date_debut).toLocaleDateString('fr-FR', {
@@ -633,8 +633,8 @@ export default function InscriptionPage() {
                     />
                     <div className={`border-2 rounded-lg p-4 transition-colors ${
                       watch('type_financement') === option.value
-                        ? 'border-[#2EC6F3] bg-blue-50'
-                        : 'border-gray-200 hover:border-[#2EC6F3]'
+                        ? 'border-primary bg-blue-50'
+                        : 'border-gray-200 hover:border-primary'
                     }`}>
                       <div className="font-medium text-gray-900 mb-1">
                         {option.label}
@@ -666,7 +666,7 @@ export default function InscriptionPage() {
                         type="text"
                         id="opco_employeur_nom"
                         {...register('opco_employeur_nom')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.opco_employeur_nom && (
                         <p className="mt-1 text-sm text-red-600">{errors.opco_employeur_nom.message}</p>
@@ -682,7 +682,7 @@ export default function InscriptionPage() {
                         id="opco_employeur_siret"
                         placeholder="14 chiffres"
                         {...register('opco_employeur_siret')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.opco_employeur_siret && (
                         <p className="mt-1 text-sm text-red-600">{errors.opco_employeur_siret.message}</p>
@@ -697,7 +697,7 @@ export default function InscriptionPage() {
                     <select
                       id="opco_organisme"
                       {...register('opco_organisme')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     >
                       <option value="">Sélectionnez votre OPCO</option>
                       {OPCO_OPTIONS.map((opco) => (
@@ -719,7 +719,7 @@ export default function InscriptionPage() {
                       type="email"
                       id="opco_contact_rh_email"
                       {...register('opco_contact_rh_email')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.opco_contact_rh_email && (
                       <p className="mt-1 text-sm text-red-600">{errors.opco_contact_rh_email.message}</p>
@@ -741,7 +741,7 @@ export default function InscriptionPage() {
                       id="cpf_numero"
                       placeholder="11 chiffres"
                       {...register('cpf_numero')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.cpf_numero && (
                       <p className="mt-1 text-sm text-red-600">{errors.cpf_numero.message}</p>
@@ -763,7 +763,7 @@ export default function InscriptionPage() {
                         type="text"
                         id="ft_identifiant"
                         {...register('ft_identifiant')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.ft_identifiant && (
                         <p className="mt-1 text-sm text-red-600">{errors.ft_identifiant.message}</p>
@@ -778,7 +778,7 @@ export default function InscriptionPage() {
                         type="text"
                         id="ft_agence"
                         {...register('ft_agence')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.ft_agence && (
                         <p className="mt-1 text-sm text-red-600">{errors.ft_agence.message}</p>
@@ -794,7 +794,7 @@ export default function InscriptionPage() {
                       type="text"
                       id="ft_conseiller"
                       {...register('ft_conseiller')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.ft_conseiller && (
                       <p className="mt-1 text-sm text-red-600">{errors.ft_conseiller.message}</p>
@@ -816,7 +816,7 @@ export default function InscriptionPage() {
                         type="text"
                         id="emp_nom"
                         {...register('emp_nom')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.emp_nom && (
                         <p className="mt-1 text-sm text-red-600">{errors.emp_nom.message}</p>
@@ -832,7 +832,7 @@ export default function InscriptionPage() {
                         id="emp_siret"
                         placeholder="14 chiffres"
                         {...register('emp_siret')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.emp_siret && (
                         <p className="mt-1 text-sm text-red-600">{errors.emp_siret.message}</p>
@@ -848,7 +848,7 @@ export default function InscriptionPage() {
                       type="text"
                       id="emp_contact"
                       {...register('emp_contact')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.emp_contact && (
                       <p className="mt-1 text-sm text-red-600">{errors.emp_contact.message}</p>
@@ -908,11 +908,11 @@ export default function InscriptionPage() {
                 <input
                   type="checkbox"
                   {...register('rgpd_consent')}
-                  className="mt-1 h-4 w-4 text-[#2EC6F3] focus:ring-[#2EC6F3] border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-700">
                   J'accepte que mes données personnelles soient collectées et traitées pour le traitement de ma demande d'inscription.
-                  <a href="/politique-confidentialite" target="_blank" className="text-[#2EC6F3] hover:underline ml-1">
+                  <a href="/politique-confidentialite" target="_blank" className="text-primary hover:underline ml-1">
                     En savoir plus sur notre politique de confidentialité
                   </a> *
                 </span>
@@ -925,11 +925,11 @@ export default function InscriptionPage() {
                 <input
                   type="checkbox"
                   {...register('reglement_interieur_accepte')}
-                  className="mt-1 h-4 w-4 text-[#2EC6F3] focus:ring-[#2EC6F3] border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-700">
                   J'accepte le règlement intérieur de Dermotec Advanced.
-                  <a href="/reglement-interieur" target="_blank" className="text-[#2EC6F3] hover:underline ml-1">
+                  <a href="/reglement-interieur" target="_blank" className="text-primary hover:underline ml-1">
                     Consulter le règlement intérieur
                   </a> *
                 </span>
@@ -959,7 +959,7 @@ export default function InscriptionPage() {
             <button
               type="button"
               onClick={prevStep}
-              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:ring-offset-2"
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               Retour
             </button>
@@ -971,7 +971,7 @@ export default function InscriptionPage() {
             <button
               type="button"
               onClick={nextStep}
-              className="px-6 py-2 bg-[#2EC6F3] text-white rounded-md hover:bg-[#2EC6F3]/90 focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:ring-offset-2"
+              className="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               Continuer
             </button>
@@ -979,7 +979,7 @@ export default function InscriptionPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="px-8 py-3 bg-[#2EC6F3] text-white rounded-md hover:bg-[#2EC6F3]/90 focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              className="px-8 py-3 bg-primary text-white rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
               {submitting ? (
                 <>

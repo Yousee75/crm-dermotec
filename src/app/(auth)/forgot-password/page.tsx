@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
         {/* Back link */}
         <Link
           href="/login"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#2EC6F3] transition mb-8"
+          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition mb-8"
         >
           <ArrowLeft className="w-4 h-4" />
           Retour à la connexion
@@ -94,7 +94,7 @@ export default function ForgotPasswordPage() {
                 type="submit"
                 loading={loading}
                 disabled={!email}
-                className="w-full h-12 text-base font-semibold bg-[#2EC6F3] hover:bg-[#1BA8D4]"
+                className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4]"
               >
                 {loading ? 'Envoi...' : 'Envoyer le lien'}
               </Button>

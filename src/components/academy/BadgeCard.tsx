@@ -20,7 +20,7 @@ export function BadgeCard({ nom, description, icone, earned, earned_at, points_b
     }`}>
       {/* Badge icon */}
       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-2 ${
-        earned ? 'bg-gradient-to-br from-[#2EC6F3]/20 to-[#082545]/10' : 'bg-gray-200'
+        earned ? 'bg-gradient-to-br from-primary/20 to-[#082545]/10' : 'bg-gray-200'
       }`}>
         {earned ? icone : <Lock className="w-6 h-6 text-gray-400" />}
       </div>

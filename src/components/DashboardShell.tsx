@@ -17,7 +17,8 @@ import {
   CreditCard as PhCreditCard,
 } from '@phosphor-icons/react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
-import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
+// Rappels charges directement dans NotificationBell via use-notifications
+import { NotificationBell } from '@/components/ui/NotificationBell'
 import { createClient } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
 import { Avatar } from '@/components/ui/Avatar'
@@ -139,7 +140,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   })
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showShortcuts, setShowShortcuts] = useState(false)
-  const [notifOpen, setNotifOpen] = useState(false)
   const [compactMode, setCompactMode] = useState(() => {
     if (typeof window === 'undefined') return false
     return localStorage.getItem('density-compact') === 'true'
@@ -186,10 +186,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const router = useRouter()
   const supabase = createClient()
 
-  // Notification data
-  const { data: overdueRappels } = useOverdueRappels()
-  const { data: todayRappels } = useTodayRappels()
-  const notifCount = (overdueRappels?.length || 0) + (todayRappels?.length || 0)
+  // Notification data gere par NotificationBell (temps reel)
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -300,7 +297,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               />
             </Link>
           ) : (
-            <Link href="/" className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center font-bold text-sm text-white shadow-md shadow-[#2EC6F3]/20">
+            <Link href="/" className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center font-bold text-sm text-white shadow-md shadow-primary/20">
               <Image
                 src="/logo-dermotec.png"
                 alt="D"
@@ -534,81 +531,8 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               {/* Language Switcher */}
               <LocaleSwitcher compact />
 
-              {/* Notifications */}
-              <div className="relative">
-                <button
-                  onClick={() => setNotifOpen(prev => !prev)}
-                  className="relative p-2 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition"
-                >
-                  <Bell className="w-[18px] h-[18px]" />
-                  {notifCount > 0 && (
-                    <span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white px-1">
-                      {notifCount > 9 ? '9+' : notifCount}
-                    </span>
-                  )}
-                </button>
-
-                {/* Notification dropdown */}
-                {notifOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-                    <div className="absolute right-0 top-full mt-1 w-[calc(100vw-2rem)] sm:w-80 max-w-80 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-scaleIn origin-top-right">
-                      <div className="px-4 py-3 border-b border-gray-100">
-                        <p className="text-sm font-semibold text-gray-900">Notifications</p>
-                      </div>
-                      <div className="max-h-[320px] overflow-y-auto">
-                        {overdueRappels && overdueRappels.length > 0 && overdueRappels.slice(0, 3).map(r => (
-                          <Link
-                            key={r.id}
-                            href={r.lead_id ? `/lead/${r.lead_id}` : '/cockpit'}
-                            onClick={() => setNotifOpen(false)}
-                            className="flex items-center gap-3 px-4 py-3 hover:bg-red-50/50 transition border-b border-gray-50"
-                          >
-                            <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
-                              <Bell className="w-3.5 h-3.5 text-red-500" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs font-medium text-red-600 truncate">Rappel en retard</p>
-                              <p className="text-xs text-gray-400 truncate">{r.titre || r.type} · {r.lead?.prenom} {r.lead?.nom}</p>
-                            </div>
-                          </Link>
-                        ))}
-                        {todayRappels && todayRappels.length > 0 && todayRappels.slice(0, 3).map(r => (
-                          <Link
-                            key={r.id}
-                            href={r.lead_id ? `/lead/${r.lead_id}` : '/cockpit'}
-                            onClick={() => setNotifOpen(false)}
-                            className="flex items-center gap-3 px-4 py-3 hover:bg-amber-50/50 transition border-b border-gray-50"
-                          >
-                            <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
-                              <Bell className="w-3.5 h-3.5 text-amber-500" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs font-medium text-amber-600 truncate">Rappel aujourd&apos;hui</p>
-                              <p className="text-xs text-gray-400 truncate">{r.titre || r.type} · {r.lead?.prenom} {r.lead?.nom}</p>
-                            </div>
-                          </Link>
-                        ))}
-                        {notifCount === 0 && (
-                          <div className="py-8 text-center">
-                            <Bell className="w-6 h-6 text-gray-200 mx-auto mb-2" />
-                            <p className="text-xs text-gray-400">Aucune notification</p>
-                          </div>
-                        )}
-                      </div>
-                      {notifCount > 0 && (
-                        <Link
-                          href="/notifications"
-                          onClick={() => setNotifOpen(false)}
-                          className="block px-4 py-2.5 text-center text-xs text-primary font-medium hover:bg-gray-50 transition border-t border-gray-100"
-                        >
-                          Voir toutes les notifications
-                        </Link>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
+              {/* Notifications — temps reel */}
+              <NotificationBell />
             </div>
           </div>
         </header>

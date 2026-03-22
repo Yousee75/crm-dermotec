@@ -93,7 +93,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2EC6F3] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Chargement...</p>
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
           <p className="text-gray-600 mb-8">Désolé, cette formation n'existe pas ou n'est plus disponible.</p>
           <a
             href="/formations"
-            className="inline-flex items-center px-6 py-3 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3] transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary transition-colors"
           >
             Voir toutes les formations
           </a>
@@ -205,8 +205,8 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
 
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#2EC6F3] rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#2EC6F3] rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative container mx-auto px-4 py-20">
@@ -217,7 +217,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-block px-4 py-2 bg-[#2EC6F3] text-white rounded-full text-sm font-semibold">
+              <span className="inline-block px-4 py-2 bg-primary text-white rounded-full text-sm font-semibold">
                 {formation.categorie}
               </span>
             </motion.div>
@@ -255,7 +255,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                   À partir de {formation.prix_ht}€ HT
                 </div>
                 <div className="flex items-center justify-center gap-2 text-sm">
-                  <span className="bg-[#2EC6F3] px-2 py-1 rounded text-xs font-semibold">ALMA</span>
+                  <span className="bg-primary px-2 py-1 rounded text-xs font-semibold">ALMA</span>
                   ou 3x {Math.ceil(formation.prix_ht / 3)}€ sans frais
                 </div>
               </div>
@@ -263,14 +263,14 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <button
                   onClick={handleCTA}
-                  className="px-8 py-4 bg-[#2EC6F3] hover:bg-[#2EC6F3] text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 bg-primary hover:bg-primary text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   Réserver ma place
                 </button>
                 <div className="flex items-center gap-4 text-sm">
                   <a
                     href="tel:0188334343"
-                    className="flex items-center gap-2 hover:text-[#2EC6F3] transition-colors"
+                    className="flex items-center gap-2 hover:text-primary transition-colors"
                   >
                     <Phone size={16} />
                     01 88 33 43 43
@@ -297,15 +297,15 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               className="flex flex-wrap justify-center items-center gap-6 text-sm text-blue-100 pt-8 border-t border-white/20"
             >
               <div className="flex items-center gap-2">
-                <Award size={16} className="text-[#2EC6F3]" />
+                <Award size={16} className="text-primary" />
                 Certifié Qualiopi
               </div>
               <div className="flex items-center gap-2">
-                <Star size={16} className="text-[#2EC6F3]" />
+                <Star size={16} className="text-primary" />
                 4.9/5 Google
               </div>
               <div className="flex items-center gap-2">
-                <Users size={16} className="text-[#2EC6F3]" />
+                <Users size={16} className="text-primary" />
                 +500 stagiaires
               </div>
             </motion.div>
@@ -318,15 +318,15 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               className="grid grid-cols-3 gap-8 pt-8 max-w-md mx-auto"
             >
               <div className="text-center">
-                <div className="text-2xl font-bold text-[#2EC6F3]">{formation.duree_jours}</div>
+                <div className="text-2xl font-bold text-primary">{formation.duree_jours}</div>
                 <div className="text-sm text-blue-100">jour{formation.duree_jours > 1 ? 's' : ''}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-[#2EC6F3]">{formation.duree_heures}h</div>
+                <div className="text-2xl font-bold text-primary">{formation.duree_heures}h</div>
                 <div className="text-sm text-blue-100">intensives</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-[#2EC6F3]">{formation.places_max}</div>
+                <div className="text-2xl font-bold text-primary">{formation.places_max}</div>
                 <div className="text-sm text-blue-100">places max</div>
               </div>
             </motion.div>
@@ -396,7 +396,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                   viewport={{ once: true }}
                   className="flex gap-6 items-start"
                 >
-                  <div className="w-12 h-12 bg-[#2EC6F3] text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
                     {index + 1}
                   </div>
                   <div className="flex-1">
@@ -419,7 +419,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                   {formation.competences_acquises.map((competence, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-[#2EC6F3]/10 text-[#082545] rounded-full text-sm font-medium"
+                      className="px-3 py-1 bg-primary/10 text-[#082545] rounded-full text-sm font-medium"
                     >
                       {competence}
                     </span>
@@ -511,7 +511,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                   viewport={{ once: true }}
                   className="bg-white border border-gray-200 rounded-lg p-6 text-center hover:shadow-lg transition-shadow"
                 >
-                  <div className="text-[#2EC6F3] mb-4 flex justify-center">
+                  <div className="text-primary mb-4 flex justify-center">
                     {financement.icon}
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-2">{financement.name}</h3>
@@ -637,7 +637,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                             // Redirection vers inscription avec session pré-sélectionnée
                             window.open(`/inscription?formation=${formation.id}&session=${session.id}`, '_blank')
                           }}
-                          className="w-full py-3 bg-[#2EC6F3] hover:bg-[#2EC6F3] text-white rounded-lg font-semibold transition-colors"
+                          className="w-full py-3 bg-primary hover:bg-primary text-white rounded-lg font-semibold transition-colors"
                         >
                           S'inscrire — {formation.prix_ht}€
                         </button>
@@ -735,7 +735,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
                 onClick={handleCTA}
-                className="px-8 py-4 bg-[#2EC6F3] hover:bg-[#2EC6F3] text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="px-8 py-4 bg-primary hover:bg-primary text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Réserver ma place
               </button>

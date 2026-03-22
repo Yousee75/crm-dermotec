@@ -118,6 +118,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const [showMoreActions, setShowMoreActions] = useState(false)
   const [showWizard, setShowWizard] = useState(false)
   const [researchData, setResearchData] = useState<Record<string, unknown> | null>(null)
+  const [showCelebrate, setShowCelebrate] = useState(false)
 
   const { data: lead, isLoading } = useLead(id)
   const { data: messages = [] } = useMessages(id)
@@ -144,6 +145,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
     setShowStatutMenu(false)
     try {
       await changeStatut.mutateAsync({ id, statut: newStatut })
+      setShowCelebrate(true)
+      setTimeout(() => setShowCelebrate(false), 600)
     } catch { /* toast géré par le hook */ }
   }, [id, changeStatut])
 
@@ -224,7 +227,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             <div className="flex items-center gap-1.5 flex-wrap">
               <h1 className="text-base sm:text-lg font-bold text-accent truncate">{lead.prenom} {lead.nom}</h1>
               <div className="relative">
-                <button onClick={() => setShowStatutMenu(p => !p)} className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium text-white" style={{ backgroundColor: statut.color }}>
+                <button onClick={() => setShowStatutMenu(p => !p)} className={cn("flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium text-white", showCelebrate && "celebrate")} style={{ backgroundColor: statut.color }}>
                   {statut.label}{validTransitions.length > 0 && <ChevronDown className="w-2 h-2" />}
                 </button>
                 {showStatutMenu && validTransitions.length > 0 && (
@@ -238,7 +241,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                   </div></>
                 )}
               </div>
-              <div className="w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-sm" style={{ backgroundColor: scoreColor }} title={scoreLabel}>{lead.score_chaud}</div>
+              <div className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-sm", lead.score_chaud >= 80 && "glow-hot")} style={{ backgroundColor: scoreColor }} title={scoreLabel}>{lead.score_chaud}</div>
             </div>
             <div className="flex items-center gap-2 text-[11px] text-gray-500 mt-0.5 truncate">
               {lead.entreprise_nom && <span className="font-medium text-gray-700">{lead.entreprise_nom}</span>}
@@ -251,10 +254,10 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
         {/* Ligne 2 : Actions rapides — TOUJOURS VISIBLES */}
         <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-50">
           <div className="flex items-center gap-1">
-            {lead.telephone && <a href={`tel:${lead.telephone}`} className="flex items-center justify-center w-9 h-9 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition" title="Appeler"><Phone className="w-4 h-4" /></a>}
-            {lead.email && <a href={`mailto:${lead.email}`} className="flex items-center justify-center w-9 h-9 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition" title="Email"><Mail className="w-4 h-4" /></a>}
-            {lead.telephone && <a href={`https://wa.me/${lead.telephone.replace(/[^\d]/g, '').replace(/^0/, '33')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-9 h-9 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition" title="WhatsApp"><MessageCircle className="w-4 h-4" /></a>}
-            {process.env.NEXT_PUBLIC_CALCOM_URL && <a href={`${process.env.NEXT_PUBLIC_CALCOM_URL}?name=${encodeURIComponent(`${lead.prenom} ${lead.nom || ''}`.trim())}&email=${encodeURIComponent(lead.email || '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-9 h-9 bg-teal-50 text-teal-700 rounded-lg hover:bg-teal-100 transition" title="RDV"><Calendar className="w-4 h-4" /></a>}
+            {lead.telephone && <a href={`tel:${lead.telephone}`} className="flex items-center justify-center w-9 h-9 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition spring-hover" title="Appeler"><Phone className="w-4 h-4" /></a>}
+            {lead.email && <a href={`mailto:${lead.email}`} className="flex items-center justify-center w-9 h-9 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition spring-hover" title="Email"><Mail className="w-4 h-4" /></a>}
+            {lead.telephone && <a href={`https://wa.me/${lead.telephone.replace(/[^\d]/g, '').replace(/^0/, '33')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-9 h-9 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition spring-hover" title="WhatsApp"><MessageCircle className="w-4 h-4" /></a>}
+            {process.env.NEXT_PUBLIC_CALCOM_URL && <a href={`${process.env.NEXT_PUBLIC_CALCOM_URL}?name=${encodeURIComponent(`${lead.prenom} ${lead.nom || ''}`.trim())}&email=${encodeURIComponent(lead.email || '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-9 h-9 bg-teal-50 text-teal-700 rounded-lg hover:bg-teal-100 transition spring-hover" title="RDV"><Calendar className="w-4 h-4" /></a>}
           </div>
           {/* Micro-stepper — caché sur très petit mobile */}
           <div className="hidden sm:flex items-center gap-0.5">

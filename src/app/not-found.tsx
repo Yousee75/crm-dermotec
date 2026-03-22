@@ -7,7 +7,7 @@ export default function NotFound() {
     <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
       <div className="text-center px-6">
         <div className="w-20 h-20 rounded-2xl bg-[#082545] flex items-center justify-center mx-auto mb-6">
-          <span className="text-3xl font-bold text-[#2EC6F3]">404</span>
+          <span className="text-3xl font-bold text-primary">404</span>
         </div>
         <h1
           className="text-2xl font-bold text-[#082545] mb-2"
@@ -20,7 +20,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white rounded-lg font-medium transition"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-[#1BA8D4] text-white rounded-lg font-medium transition"
         >
           Retour au dashboard
         </Link>

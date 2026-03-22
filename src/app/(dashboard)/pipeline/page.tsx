@@ -48,8 +48,9 @@ function DraggableLeadCard({ lead, onLeadClick }: { lead: Lead; onLeadClick?: (l
       className={cn(
         "bg-white p-3 rounded-xl border border-gray-100 shadow-card",
         "hover:shadow-md hover:border-gray-200 transition-all duration-150",
-        "relative group/drag",
-        isDragging && "opacity-70 shadow-none"
+        "relative group/drag card-interactive",
+        isDragging && "opacity-70 shadow-none",
+        lead.score_chaud >= 80 && "glow-hot"
       )}
     >
       {/* Zone de drag : le grip handle */}
@@ -176,7 +177,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
             />
             <h3 className="font-semibold text-gray-900 text-sm">{phase.label}</h3>
           </div>
-          <Badge variant="default" size="sm">{leads.length}</Badge>
+          <Badge variant="default" size="sm" className="count-up tabular-nums">{leads.length}</Badge>
         </div>
         {totalValue > 0 && (
           <div className="flex items-center gap-1 text-xs text-gray-400">
@@ -191,7 +192,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
       </div>
 
       {/* Cards */}
-      <div className="flex-1 space-y-2 overflow-y-auto max-h-[calc(100dvh-320px)] pr-1">
+      <div className="flex-1 space-y-2 overflow-y-auto max-h-[calc(100dvh-320px)] pr-1 filter-reveal-stagger">
         <SortableContext items={leads.map(l => l.id)} strategy={verticalListSortingStrategy}>
           {leads.map(lead => (
             <div key={lead.id} className="group">

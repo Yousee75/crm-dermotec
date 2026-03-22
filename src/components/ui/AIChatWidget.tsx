@@ -113,7 +113,7 @@ export function AIChatWidget() {
       {/* Bouton flottant — z-[70] pour être au-dessus de tout */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[70] bg-gradient-to-br from-[#2EC6F3] to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#0284C7] text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-shadow"
+        className="fixed bottom-6 right-6 z-[70] bg-gradient-to-br from-primary to-[#0EA5E9] hover:from-[#0EA5E9] hover:to-[#0284C7] text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-shadow"
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
         initial={{ scale: 0, opacity: 0 }}
@@ -190,7 +190,7 @@ export function AIChatWidget() {
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 space-y-3" style={{ minHeight: 200 }}>
               {messages.length === 0 && (
                 <div className="text-center text-gray-400 text-sm mt-6 space-y-3">
-                  <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-[#2EC6F3]/10 to-[#0EA5E9]/10 flex items-center justify-center">
+                  <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-primary/10 to-[#0EA5E9]/10 flex items-center justify-center">
                     <Bot size={28} className="text-primary" />
                   </div>
                   <p className="font-medium text-gray-600 text-sm">

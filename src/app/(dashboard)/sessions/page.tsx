@@ -10,6 +10,17 @@ import { CreateSessionDialog } from '@/components/ui/CreateSessionDialog'
 import { Calendar, Users, QrCode } from 'lucide-react'
 import { useSessions } from '@/hooks/use-sessions'
 import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
+import { ExportButton } from '@/components/ui/ExportButton'
+import type { ColumnDef } from '@/lib/export-data'
+
+const SESSIONS_EXPORT_COLUMNS: ColumnDef[] = [
+  { header: 'Formation', accessor: (r) => r.formation?.nom || r.formation_nom || '', width: 2 },
+  { header: 'Date début', accessor: (r) => r.date_debut ? new Date(r.date_debut).toLocaleDateString('fr-FR') : '', width: 1 },
+  { header: 'Date fin', accessor: (r) => r.date_fin ? new Date(r.date_fin).toLocaleDateString('fr-FR') : '', width: 1 },
+  { header: 'Formatrice', accessor: (r) => r.formatrice?.nom || r.formatrice_nom || '', width: 1.2 },
+  { header: 'Places', accessor: (r) => `${r.inscriptions?.length || 0}/${r.places_max || '—'}`, width: 0.8 },
+  { header: 'Statut', accessor: 'statut', width: 1 },
+]
 
 // Lazy imports pour les onglets
 import nextDynamic from 'next/dynamic'
@@ -120,7 +131,14 @@ export default function SessionsPage() {
       <PageHeader
         title="Sessions de formation"
         description="Gérez vos sessions, inscriptions et émargements depuis une vue unifiée."
-      />
+      >
+        <ExportButton
+          data={allSessions || []}
+          columns={SESSIONS_EXPORT_COLUMNS}
+          filename="sessions"
+          title="Sessions de formation — CRM Dermotec"
+        />
+      </PageHeader>
 
       <TabBar
         tabs={tabs}

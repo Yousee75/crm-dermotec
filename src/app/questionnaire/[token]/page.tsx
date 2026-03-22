@@ -82,7 +82,7 @@ export default function QuestionnairePage() {
   // --- Loading ---
   if (loading) return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin w-8 h-8 border-4 border-[#2EC6F3] border-t-transparent rounded-full" />
+      <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
     </div>
   )
 
@@ -134,11 +134,11 @@ export default function QuestionnairePage() {
             </div>
             <div className="text-right">
               <p className="text-xs text-gray-400">{answeredCount}/{data.questions.length}</p>
-              <p className="text-sm font-medium text-[#2EC6F3]">{progress}%</p>
+              <p className="text-sm font-medium text-primary">{progress}%</p>
             </div>
           </div>
           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-            <div className="h-full bg-[#2EC6F3] rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+            <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
       </div>
@@ -162,7 +162,7 @@ export default function QuestionnairePage() {
         {data.questions.sort((a, b) => a.ordre - b.ordre).map((q, idx) => (
           <div key={q.id} className="bg-white rounded-xl shadow-sm border p-5">
             <div className="flex items-start gap-3 mb-4">
-              <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#2EC6F3]/10 text-[#2EC6F3] text-sm font-bold flex items-center justify-center">
+              <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary text-sm font-bold flex items-center justify-center">
                 {idx + 1}
               </span>
               <div>
@@ -180,7 +180,7 @@ export default function QuestionnairePage() {
                     onClick={() => setReponses(prev => ({ ...prev, [q.id]: n }))}
                     className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
                       reponses[q.id] === n
-                        ? 'bg-[#2EC6F3] text-white shadow-md scale-110'
+                        ? 'bg-primary text-white shadow-md scale-110'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
@@ -223,7 +223,7 @@ export default function QuestionnairePage() {
                     onClick={() => setReponses(prev => ({ ...prev, [q.id]: opt }))}
                     className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       reponses[q.id] === opt
-                        ? 'bg-[#2EC6F3] text-white shadow-md'
+                        ? 'bg-primary text-white shadow-md'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
@@ -242,7 +242,7 @@ export default function QuestionnairePage() {
                     onClick={() => setReponses(prev => ({ ...prev, [q.id]: opt }))}
                     className={`w-full text-start px-4 py-3 rounded-lg text-sm transition-all border ${
                       reponses[q.id] === opt
-                        ? 'bg-[#2EC6F3]/5 border-[#2EC6F3] text-[#2EC6F3] font-medium'
+                        ? 'bg-primary/5 border-primary text-primary font-medium'
                         : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
                     }`}
                   >
@@ -259,7 +259,7 @@ export default function QuestionnairePage() {
                 onChange={e => setReponses(prev => ({ ...prev, [q.id]: e.target.value }))}
                 placeholder="Votre réponse..."
                 rows={3}
-                className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/20 focus:border-[#2EC6F3]"
+                className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 style={{ fontSize: '16px' }}
               />
             )}
@@ -274,7 +274,7 @@ export default function QuestionnairePage() {
             onChange={e => setCommentaire(e.target.value)}
             placeholder="Autre chose à nous dire ?"
             rows={3}
-            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/20 focus:border-[#2EC6F3]"
+            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
             style={{ fontSize: '16px' }}
           />
         </div>
@@ -283,7 +283,7 @@ export default function QuestionnairePage() {
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="w-full bg-[#2EC6F3] hover:bg-[#0284C7] text-white font-medium py-4 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 text-base"
+          className="w-full bg-primary hover:bg-[#0284C7] text-white font-medium py-4 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 text-base"
           style={{ minHeight: '52px' }}
         >
           {submitting ? (

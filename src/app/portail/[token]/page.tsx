@@ -1024,9 +1024,6 @@ function CoursePlayerFullscreen({
     )
   }
 
-  // Import dynamique évité — on utilise le CoursePlayer directement
-  const CoursePlayer = require('@/components/lms/CoursePlayer').default
-
   const contenusTotal = modules.reduce((sum: number, m: any) => sum + m.contents.length, 0)
 
   return (

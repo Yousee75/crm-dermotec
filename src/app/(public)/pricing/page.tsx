@@ -145,13 +145,13 @@ export default function PricingPage() {
             key={plan.name}
             className={`relative flex flex-col bg-white rounded-2xl border-2 p-6 transition-shadow ${
               plan.highlighted
-                ? 'border-[#2EC6F3] shadow-lg shadow-[#2EC6F3]/10'
+                ? 'border-primary shadow-lg shadow-primary/10'
                 : 'border-gray-100 shadow-card'
             }`}
           >
             {/* Badge */}
             {plan.badge && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-[#2EC6F3] px-3 py-0.5 text-xs font-semibold text-white">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-white">
                 {plan.badge}
               </span>
             )}
@@ -187,7 +187,7 @@ export default function PricingPage() {
             <ul className="flex-1 space-y-3 mb-8">
               {plan.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-2 text-sm text-gray-600">
-                  <Check className="w-4 h-4 text-[#2EC6F3] mt-0.5 shrink-0" />
+                  <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <span>{feature}</span>
                 </li>
               ))}
@@ -198,7 +198,7 @@ export default function PricingPage() {
               href={plan.ctaHref}
               className={`block text-center rounded-xl py-2.5 px-4 text-sm font-medium transition-all duration-150 ${
                 plan.highlighted
-                  ? 'bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white shadow-sm hover:shadow-md'
+                  ? 'bg-primary hover:bg-[#1BA8D4] text-white shadow-sm hover:shadow-md'
                   : 'border border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
               }`}
             >

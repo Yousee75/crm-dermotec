@@ -86,7 +86,7 @@ export default function ConventionPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2EC6F3] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Chargement...</p>
         </div>
       </div>
@@ -166,14 +166,14 @@ export default function ConventionPage() {
             {/* Résumé de la formation */}
             <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
               <h2 className="text-xl font-bold text-[#082545] mb-4 flex items-center">
-                <FileText className="h-5 w-5 mr-2 text-[#2EC6F3]" />
+                <FileText className="h-5 w-5 mr-2 text-primary" />
                 Résumé de votre formation
               </h2>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
-                    <Target className="h-5 w-5 text-[#2EC6F3] mt-0.5" />
+                    <Target className="h-5 w-5 text-primary mt-0.5" />
                     <div>
                       <div className="font-medium text-gray-900">{formation.nom}</div>
                       <div className="text-sm text-gray-600">{formation.categorie}</div>
@@ -181,7 +181,7 @@ export default function ConventionPage() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Clock className="h-5 w-5 text-[#2EC6F3]" />
+                    <Clock className="h-5 w-5 text-primary" />
                     <div>
                       <div className="font-medium text-gray-900">
                         {formation.duree_jours} jour{formation.duree_jours > 1 ? 's' : ''}
@@ -194,7 +194,7 @@ export default function ConventionPage() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <MapPin className="h-5 w-5 text-[#2EC6F3]" />
+                    <MapPin className="h-5 w-5 text-primary" />
                     <div>
                       <div className="font-medium text-gray-900">{session.salle}</div>
                       <div className="text-sm text-gray-600">{session.adresse}</div>
@@ -204,7 +204,7 @@ export default function ConventionPage() {
 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <Euro className="h-5 w-5 text-[#2EC6F3]" />
+                    <Euro className="h-5 w-5 text-primary" />
                     <div>
                       <div className="font-medium text-gray-900">
                         {inscription.montant_total.toFixed(2)} € HT
@@ -216,7 +216,7 @@ export default function ConventionPage() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Users className="h-5 w-5 text-[#2EC6F3]" />
+                    <Users className="h-5 w-5 text-primary" />
                     <div>
                       <div className="font-medium text-gray-900">
                         {session.places_occupees}/{session.places_max} places
@@ -317,7 +317,7 @@ export default function ConventionPage() {
                     type="checkbox"
                     checked={rgpdConsent}
                     onChange={(e) => setRgpdConsent(e.target.checked)}
-                    className="mt-1 h-4 w-4 text-[#2EC6F3] focus:ring-[#2EC6F3] border-gray-300 rounded"
+                    className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                   />
                   <span className="text-sm text-gray-700 leading-relaxed">
                     J'ai lu et j'accepte les conditions de la convention de formation.
@@ -353,7 +353,7 @@ export default function ConventionPage() {
                 <Button
                   onClick={handleSignConvention}
                   disabled={!signatureData || !rgpdConsent || isSigningConvention}
-                  className="min-h-[44px] px-8 bg-[#2EC6F3] hover:bg-[#2EC6F3]/90 text-white"
+                  className="min-h-[44px] px-8 bg-primary hover:bg-primary/90 text-white"
                 >
                   {isSigningConvention ? (
                     <>

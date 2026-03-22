@@ -14,7 +14,7 @@ export default function MentionsLegalesPage() {
         {/* En-tête */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
-            <Badge variant="secondary" className="bg-[#2EC6F3]/10 text-[#2EC6F3] hover:bg-[#2EC6F3]/20">
+            <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
               Mis à jour mars 2026
             </Badge>
           </div>
@@ -30,8 +30,8 @@ export default function MentionsLegalesPage() {
           {/* Qui sommes-nous */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
-                <Building className="w-6 h-6 text-[#2EC6F3]" />
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Building className="w-6 h-6 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
                 Qui sommes-nous
@@ -70,7 +70,7 @@ export default function MentionsLegalesPage() {
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-gray-500">Certification</p>
-                  <p className="text-gray-900 font-medium text-[#2EC6F3]">Qualiopi</p>
+                  <p className="text-gray-900 font-medium text-primary">Qualiopi</p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-gray-500">Directeur de publication</p>
@@ -83,19 +83,19 @@ export default function MentionsLegalesPage() {
             <div className="mt-6 pt-6 border-t border-gray-100">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-[#2EC6F3]" />
+                  <MapPin className="w-5 h-5 text-primary" />
                   <div>
                     <p className="text-gray-900 font-medium">75 Boulevard Richard Lenoir</p>
                     <p className="text-gray-600">75011 Paris</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-[#2EC6F3]" />
+                  <Phone className="w-5 h-5 text-primary" />
                   <p className="text-gray-900 font-medium">01 88 33 43 43</p>
                 </div>
                 <div className="flex items-center gap-3 md:col-span-2">
-                  <Mail className="w-5 h-5 text-[#2EC6F3]" />
-                  <a href="mailto:dermotec.fr@gmail.com" className="text-[#2EC6F3] hover:underline font-medium">
+                  <Mail className="w-5 h-5 text-primary" />
+                  <a href="mailto:dermotec.fr@gmail.com" className="text-primary hover:underline font-medium">
                     dermotec.fr@gmail.com
                   </a>
                 </div>
@@ -106,8 +106,8 @@ export default function MentionsLegalesPage() {
           {/* Hébergement & Données */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
-                <Globe className="w-6 h-6 text-[#2EC6F3]" />
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Globe className="w-6 h-6 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
                 Hébergement & Données
@@ -122,7 +122,7 @@ export default function MentionsLegalesPage() {
                   <p className="text-gray-600">440 N Barranca Ave #4133</p>
                   <p className="text-gray-600">Covina, CA 91723, USA</p>
                   <a href="https://vercel.com" target="_blank" rel="noopener noreferrer"
-                     className="text-[#2EC6F3] hover:underline text-sm">
+                     className="text-primary hover:underline text-sm">
                     vercel.com ↗
                   </a>
                 </div>
@@ -135,16 +135,16 @@ export default function MentionsLegalesPage() {
                   <p className="text-gray-600"><strong>Localisation :</strong> Union Européenne (Francfort)</p>
                   <p className="text-gray-600"><strong>Conformité :</strong> RGPD</p>
                   <a href="https://supabase.com" target="_blank" rel="noopener noreferrer"
-                     className="text-[#2EC6F3] hover:underline text-sm">
+                     className="text-primary hover:underline text-sm">
                     supabase.com ↗
                   </a>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-[#2EC6F3]/5 rounded-lg border border-[#2EC6F3]/20">
+            <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
               <p className="text-sm text-gray-700">
-                <Shield className="w-4 h-4 text-[#2EC6F3] inline mr-2" />
+                <Shield className="w-4 h-4 text-primary inline mr-2" />
                 Vos données personnelles sont stockées exclusivement dans l&apos;Union Européenne et protégées par le RGPD.
               </p>
             </div>
@@ -153,8 +153,8 @@ export default function MentionsLegalesPage() {
           {/* Propriété intellectuelle */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
-                <Shield className="w-6 h-6 text-[#2EC6F3]" />
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Shield className="w-6 h-6 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
                 Propriété intellectuelle
@@ -176,8 +176,8 @@ export default function MentionsLegalesPage() {
           {/* Données personnelles */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
-                <Users className="w-6 h-6 text-[#2EC6F3]" />
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Users className="w-6 h-6 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
                 Données personnelles
@@ -190,9 +190,9 @@ export default function MentionsLegalesPage() {
                 Toutes les informations sur la collecte et le traitement sont détaillées dans notre politique dédiée.
               </p>
               <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                <Shield className="w-5 h-5 text-[#2EC6F3]" />
+                <Shield className="w-5 h-5 text-primary" />
                 <span className="text-gray-700">Pour tout savoir sur vos droits et nos pratiques : </span>
-                <a href="/politique-confidentialite" className="text-[#2EC6F3] hover:underline font-medium">
+                <a href="/politique-confidentialite" className="text-primary hover:underline font-medium">
                   Politique de confidentialité →
                 </a>
               </div>
@@ -202,8 +202,8 @@ export default function MentionsLegalesPage() {
           {/* Cookies */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-[#2EC6F3]/10 rounded-lg">
-                <Shield className="w-6 h-6 text-[#2EC6F3]" />
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Shield className="w-6 h-6 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-[#082545] font-[family-name:var(--font-heading)]">
                 Cookies
@@ -230,7 +230,7 @@ export default function MentionsLegalesPage() {
               <p className="text-gray-600 text-sm">
                 Nous n&apos;utilisons aucun cookie publicitaire ou de tracking personnel.
                 Plus de détails dans notre{' '}
-                <a href="/politique-confidentialite" className="text-[#2EC6F3] hover:underline">
+                <a href="/politique-confidentialite" className="text-primary hover:underline">
                   politique de confidentialité
                 </a>.
               </p>
@@ -238,7 +238,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Footer Une question ? */}
-          <div className="bg-gradient-to-r from-[#2EC6F3] to-[#082545] rounded-2xl text-white p-8 text-center">
+          <div className="bg-gradient-to-r from-primary to-[#082545] rounded-2xl text-white p-8 text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
               <HelpCircle className="w-6 h-6" />
               <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)]">

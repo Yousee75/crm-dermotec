@@ -91,7 +91,7 @@ export function ActivityTimeline({ leadId, sessionId, limit = 20, showFilters = 
       {/* Ligne verticale */}
       <div className="absolute left-5 top-0 bottom-0 w-px bg-gray-200" />
 
-      <div className="space-y-0">
+      <div className="space-y-0 stagger-children">
         {activities.map((activity, i) => {
           const config = resolveConfig(activity)
           const Icon = config.icon

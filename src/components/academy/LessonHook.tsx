@@ -20,7 +20,7 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
 
   if (type === 'pre_test' && preTestQuestion) {
     return (
-      <div className="bg-gradient-to-br from-[#2EC6F3]/5 to-[#082545]/5 rounded-2xl p-6 border border-primary/20">
+      <div className="bg-gradient-to-br from-primary/5 to-[#082545]/5 rounded-2xl p-6 border border-primary/20">
         <div className="flex items-center gap-2 mb-4">
           <Brain className="w-5 h-5 text-primary" />
           <span className="text-sm font-semibold text-primary uppercase tracking-wide">Testez votre intuition</span>

@@ -13,7 +13,7 @@ interface CliffhangerProps {
 export function Cliffhanger({ type, content, nextModuleSlug, nextModuleTitle }: CliffhangerProps) {
   const styles = {
     question: { bg: 'from-purple-500/10 to-indigo-500/10', border: 'border-purple-200', icon: '❓' },
-    teaser: { bg: 'from-[#2EC6F3]/10 to-blue-500/10', border: 'border-primary/30', icon: '🔮' },
+    teaser: { bg: 'from-primary/10 to-blue-500/10', border: 'border-primary/30', icon: '🔮' },
     error: { bg: 'from-amber-500/10 to-orange-500/10', border: 'border-amber-200', icon: '🔍' },
     challenge: { bg: 'from-green-500/10 to-emerald-500/10', border: 'border-green-200', icon: '🎯' },
     reveal: { bg: 'from-pink-500/10 to-rose-500/10', border: 'border-pink-200', icon: '✨' },

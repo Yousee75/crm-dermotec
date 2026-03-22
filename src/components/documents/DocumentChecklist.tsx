@@ -137,7 +137,7 @@ export function DocumentChecklist({
       <div className="mb-6">
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-gradient-to-r from-[#2EC6F3] to-[#1BA8D4] h-2 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-primary to-[#1BA8D4] h-2 rounded-full transition-all duration-300"
             style={{ width: `${pourcentageComplete}%` }}
           />
         </div>

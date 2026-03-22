@@ -25,6 +25,16 @@ import { IllustrationEmptyCommandes } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/Dialog'
 import { cn } from '@/lib/utils'
+import { ExportButton } from '@/components/ui/ExportButton'
+import type { ColumnDef } from '@/lib/export-data'
+
+const COMMANDES_EXPORT_COLUMNS: ColumnDef[] = [
+  { header: 'N°', accessor: (r) => r.numero_commande || `#${(r.id || '').slice(0, 8)}`, width: 1.2 },
+  { header: 'Date', accessor: (r) => r.created_at ? new Date(r.created_at).toLocaleDateString('fr-FR') : '', width: 1 },
+  { header: 'Client', accessor: (r) => r.client_nom || `${r.lead?.prenom || ''} ${r.lead?.nom || ''}`.trim(), width: 1.5 },
+  { header: 'Montant TTC', accessor: (r) => r.montant_ttc != null ? `${Number(r.montant_ttc).toFixed(2)} €` : '', width: 1 },
+  { header: 'Statut', accessor: 'statut', width: 1 },
+]
 
 const STATUT_CONFIG: Record<StatutCommande, {
   label: string
@@ -182,10 +192,18 @@ export default function CommandesPage() {
           title="E-Shop — Commandes"
           description={`${response?.totalCount || 0} commandes · ${formatEuro(kpis.caMois)} ce mois`}
         />
-        <Button variant="primary" size="sm" className="gap-2">
-          <Plus className="w-4 h-4" />
-          Nouvelle commande
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportButton
+            data={commandes}
+            columns={COMMANDES_EXPORT_COLUMNS}
+            filename="commandes"
+            title="Commandes E-Shop — CRM Dermotec"
+          />
+          <Button variant="primary" size="sm" className="gap-2">
+            <Plus className="w-4 h-4" />
+            Nouvelle commande
+          </Button>
+        </div>
       </div>
 
       {/* KPIs */}

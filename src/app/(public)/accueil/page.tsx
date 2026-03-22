@@ -148,7 +148,7 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-4 mb-10">
           <Link
             href="/login"
-            className="inline-flex items-center justify-center rounded-xl bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-[#1BA8D4] text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
           >
             Commencer gratuitement
           </Link>
@@ -188,9 +188,9 @@ export default function LandingPage() {
             {features.map((feature) => {
               const Icon = feature.icon
               return (
-                <div key={feature.title} className="p-6 rounded-2xl border border-gray-100 hover:border-[#2EC6F3]/30 hover:shadow-md transition-all duration-200">
-                  <div className="w-10 h-10 rounded-xl bg-[#2EC6F3]/10 flex items-center justify-center mb-4">
-                    <Icon className="w-5 h-5 text-[#2EC6F3]" />
+                <div key={feature.title} className="p-6 rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all duration-200">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <Icon className="w-5 h-5 text-primary" />
                   </div>
                   <h3
                     className="text-lg font-bold text-[#082545] mb-2"
@@ -225,12 +225,12 @@ export default function LandingPage() {
                 key={plan.name}
                 className={`relative flex flex-col bg-white rounded-2xl border-2 p-6 transition-shadow ${
                   plan.highlighted
-                    ? 'border-[#2EC6F3] shadow-lg shadow-[#2EC6F3]/10'
+                    ? 'border-primary shadow-lg shadow-primary/10'
                     : 'border-gray-100'
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-[#2EC6F3] px-3 py-0.5 text-xs font-semibold text-white">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-white">
                     Populaire
                   </span>
                 )}
@@ -254,7 +254,7 @@ export default function LandingPage() {
                 <ul className="flex-1 space-y-3 mb-8">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
-                      <Check className="w-4 h-4 text-[#2EC6F3] mt-0.5 shrink-0" />
+                      <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                       <span>{f}</span>
                     </li>
                   ))}
@@ -264,7 +264,7 @@ export default function LandingPage() {
                   href={plan.ctaHref}
                   className={`block text-center rounded-xl py-2.5 px-4 text-sm font-medium transition-all duration-150 ${
                     plan.highlighted
-                      ? 'bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white shadow-sm hover:shadow-md'
+                      ? 'bg-primary hover:bg-[#1BA8D4] text-white shadow-sm hover:shadow-md'
                       : 'border border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
                   }`}
                 >
@@ -275,7 +275,7 @@ export default function LandingPage() {
           </div>
 
           <p className="text-center">
-            <Link href="/pricing" className="text-sm text-[#2EC6F3] hover:underline font-medium">
+            <Link href="/pricing" className="text-sm text-primary hover:underline font-medium">
               Voir tous les plans &rarr;
             </Link>
           </p>
@@ -327,7 +327,7 @@ export default function LandingPage() {
           </p>
           <Link
             href="/login"
-            className="inline-flex items-center justify-center rounded-xl bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center justify-center rounded-xl bg-primary hover:bg-[#1BA8D4] text-white font-semibold px-8 py-3.5 text-base transition-all duration-150 shadow-lg hover:shadow-xl"
           >
             Créer mon compte gratuitement
           </Link>
@@ -343,17 +343,17 @@ export default function LandingPage() {
               <h4 className="text-sm font-semibold text-white mb-4">Produit</h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="/#features" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/#features" className="hover:text-primary transition-colors">
                     Features
                   </Link>
                 </li>
                 <li>
-                  <Link href="/pricing" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/pricing" className="hover:text-primary transition-colors">
                     Tarifs
                   </Link>
                 </li>
                 <li>
-                  <Link href="/aide" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/aide" className="hover:text-primary transition-colors">
                     Aide
                   </Link>
                 </li>
@@ -381,22 +381,22 @@ export default function LandingPage() {
               <h4 className="text-sm font-semibold text-white mb-4">Légal</h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="/conditions-generales" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/conditions-generales" className="hover:text-primary transition-colors">
                     CGU
                   </Link>
                 </li>
                 <li>
-                  <Link href="/politique-confidentialite" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/politique-confidentialite" className="hover:text-primary transition-colors">
                     Confidentialité
                   </Link>
                 </li>
                 <li>
-                  <Link href="/mentions-legales" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/mentions-legales" className="hover:text-primary transition-colors">
                     Mentions légales
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dpa" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/dpa" className="hover:text-primary transition-colors">
                     DPA
                   </Link>
                 </li>

@@ -37,7 +37,7 @@ export default function PolitiqueConfidentialitePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
-                <MapPin className="w-6 h-6 text-[#2EC6F3]" />
+                <MapPin className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-semibold text-[#082545] mb-2">Hébergement UE</h3>
               <p className="text-sm text-slate-600">Vos données restent en Europe (Allemagne). Aucune surprise.</p>
@@ -122,15 +122,15 @@ export default function PolitiqueConfidentialitePage() {
                 <strong>Concrètement :</strong> si vous êtes client Dermotec CRM, vous restez maître de vos données CRM.
                 Nous ne faisons que les héberger et les traiter selon vos instructions.
                 Notre Accord de Traitement des Données (DPA) est disponible à{' '}
-                <a href="/dpa" className="text-[#2EC6F3] hover:underline font-medium">/dpa</a>.
+                <a href="/dpa" className="text-primary hover:underline font-medium">/dpa</a>.
               </p>
             </div>
             <div className="mt-6 space-y-2 text-sm bg-slate-50 p-4 rounded-lg">
               <p><strong>Satorea</strong></p>
               <p>75 Boulevard Richard Lenoir, 75011 Paris</p>
-              <p>Email : <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">support@satorea.fr</a></p>
+              <p>Email : <a href="mailto:support@satorea.fr" className="text-primary hover:underline">support@satorea.fr</a></p>
               <p>Délégué à la Protection des Données (DPO) :{' '}
-                <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">dpo@satorea.fr</a>
+                <a href="mailto:dpo@satorea.fr" className="text-primary hover:underline font-medium">dpo@satorea.fr</a>
               </p>
             </div>
           </section>
@@ -588,7 +588,7 @@ export default function PolitiqueConfidentialitePage() {
               <h3 className="font-semibold text-[#082545] mb-2">Comment exercer vos droits ?</h3>
               <p className="text-[#082545] mb-3">
                 Envoyez simplement un email à{' '}
-                <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">dpo@satorea.fr</a>
+                <a href="mailto:dpo@satorea.fr" className="text-primary hover:underline font-medium">dpo@satorea.fr</a>
                 {' '}en précisant votre demande. Joignez un justificatif d'identité pour la sécurité.
               </p>
               <p className="text-[#082545] text-sm">
@@ -619,7 +619,7 @@ export default function PolitiqueConfidentialitePage() {
                   href="https://www.cnil.fr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#2EC6F3] hover:underline font-medium"
+                  className="text-primary hover:underline font-medium"
                 >
                   Commission Nationale de l'Informatique et des Libertés (CNIL)
                 </a>.
@@ -630,7 +630,7 @@ export default function PolitiqueConfidentialitePage() {
             </div>
             <p className="mt-4 text-slate-600">
               <strong>On préfère dialoguer :</strong> Contactez-nous d'abord à{' '}
-              <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">dpo@satorea.fr</a>.
+              <a href="mailto:dpo@satorea.fr" className="text-primary hover:underline">dpo@satorea.fr</a>.
               On résout souvent les problèmes plus vite que l'administration !
             </p>
           </section>
@@ -706,7 +706,7 @@ export default function PolitiqueConfidentialitePage() {
         </div>
 
         {/* Footer contact */}
-        <div className="mt-16 bg-gradient-to-r from-[#2EC6F3] to-[#082545] p-8 rounded-2xl text-white text-center">
+        <div className="mt-16 bg-gradient-to-r from-primary to-[#082545] p-8 rounded-2xl text-white text-center">
           <h2 className="text-2xl font-semibold font-[family-name:var(--font-heading)] mb-4">
             Une question sur vos données ?
           </h2>

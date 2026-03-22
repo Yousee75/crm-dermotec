@@ -10,7 +10,7 @@ const RELEASES = [
     version: '2.0.0',
     date: '21 mars 2026',
     tag: 'Majeure',
-    tagColor: 'bg-[#2EC6F3]/10 text-[#2EC6F3]',
+    tagColor: 'bg-primary/10 text-primary',
     changes: [
       { type: 'new', text: 'Multi-tenant : chaque client a son espace isolé' },
       { type: 'new', text: 'Système d\'invitation par email pour les équipes' },

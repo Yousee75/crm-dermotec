@@ -19,7 +19,7 @@ export default function ConditionsGeneralesPage() {
               Nos CGV en clair : ce que vous pouvez attendre de nous, et ce que nous attendons de vous.
             </p>
             <div className="inline-flex items-center gap-2 text-sm text-gray-500">
-              <span className="w-2 h-2 bg-[#2EC6F3] rounded-full"></span>
+              <span className="w-2 h-2 bg-primary rounded-full"></span>
               Version mars 2026
             </div>
           </div>
@@ -33,34 +33,34 @@ export default function ConditionsGeneralesPage() {
             <div className="sticky top-8">
               <h3 className="font-semibold text-[#082545] mb-4">Sommaire</h3>
               <nav className="space-y-2 text-sm">
-                <a href="#objet" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#objet" className="block text-gray-600 hover:text-primary transition-colors">
                   1. Ce que fait Dermotec CRM
                 </a>
-                <a href="#definitions" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#definitions" className="block text-gray-600 hover:text-primary transition-colors">
                   2. Les mots importants
                 </a>
-                <a href="#inscription" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#inscription" className="block text-gray-600 hover:text-primary transition-colors">
                   3. Comment ça marche
                 </a>
-                <a href="#tarifs" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#tarifs" className="block text-gray-600 hover:text-primary transition-colors">
                   4. Combien ça coûte
                 </a>
-                <a href="#donnees" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#donnees" className="block text-gray-600 hover:text-primary transition-colors">
                   5. Vos données vous appartiennent
                 </a>
-                <a href="#propriete" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#propriete" className="block text-gray-600 hover:text-primary transition-colors">
                   6. Ce qui est à vous, ce qui est à nous
                 </a>
-                <a href="#disponibilite" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#disponibilite" className="block text-gray-600 hover:text-primary transition-colors">
                   7. Notre engagement de service
                 </a>
-                <a href="#responsabilite" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#responsabilite" className="block text-gray-600 hover:text-primary transition-colors">
                   8. Nos limites
                 </a>
-                <a href="#resiliation" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#resiliation" className="block text-gray-600 hover:text-primary transition-colors">
                   9. Comment arrêter
                 </a>
-                <a href="#droit" className="block text-gray-600 hover:text-[#2EC6F3] transition-colors">
+                <a href="#droit" className="block text-gray-600 hover:text-primary transition-colors">
                   10. Droit applicable
                 </a>
               </nav>
@@ -99,23 +99,23 @@ export default function ConditionsGeneralesPage() {
                 **Pour éviter tout malentendu, voici ce que nous entendons par les termes clés.**
               </p>
               <div className="grid gap-4">
-                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                <div className="bg-white p-4 rounded border-l-4 border-primary">
                   <h3 className="font-semibold text-gray-900 mb-2">Client</h3>
                   <p className="text-gray-700">Votre centre de formation qui souscrit à un plan Dermotec CRM</p>
                 </div>
-                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                <div className="bg-white p-4 rounded border-l-4 border-primary">
                   <h3 className="font-semibold text-gray-900 mb-2">Utilisateur</h3>
                   <p className="text-gray-700">Toute personne de votre équipe qui a accès au logiciel</p>
                 </div>
-                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                <div className="bg-white p-4 rounded border-l-4 border-primary">
                   <h3 className="font-semibold text-gray-900 mb-2">Vos Données</h3>
                   <p className="text-gray-700">Tout ce que vous saisissez : leads, stagiaires, documents, sessions, etc.</p>
                 </div>
-                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                <div className="bg-white p-4 rounded border-l-4 border-primary">
                   <h3 className="font-semibold text-gray-900 mb-2">Données d'Usage</h3>
                   <p className="text-gray-700">Les informations techniques sur votre utilisation du logiciel (connexions, clics, performances)</p>
                 </div>
-                <div className="bg-white p-4 rounded border-l-4 border-[#2EC6F3]">
+                <div className="bg-white p-4 rounded border-l-4 border-primary">
                   <h3 className="font-semibold text-gray-900 mb-2">Insights</h3>
                   <p className="text-gray-700">Les scores, analyses et statistiques que génère notre intelligence artificielle</p>
                 </div>
@@ -139,7 +139,7 @@ export default function ConditionsGeneralesPage() {
                 <p>
                   Vous êtes responsable de la sécurité de vos identifiants et de toute activité sur vos comptes.
                   Si vous soupçonnez une intrusion, prévenez-nous immédiatement à{' '}
-                  <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">
+                  <a href="mailto:support@satorea.fr" className="text-primary hover:underline font-medium">
                     support@satorea.fr
                   </a>.
                 </p>
@@ -174,7 +174,7 @@ export default function ConditionsGeneralesPage() {
                   <p className="text-xs text-gray-500">Pour découvrir et tester</p>
                 </div>
 
-                <div className="bg-white p-6 rounded-lg border border-[#2EC6F3]">
+                <div className="bg-white p-6 rounded-lg border border-primary">
                   <h3 className="font-bold text-lg text-[#082545] mb-2">Pro</h3>
                   <div className="text-2xl font-bold text-gray-900 mb-1">29€ HT/mois</div>
                   <div className="text-sm text-gray-500 mb-3">35€ TTC/mois</div>
@@ -248,7 +248,7 @@ export default function ConditionsGeneralesPage() {
                 </div>
                 <p>
                   Tous les détails sont dans notre{' '}
-                  <a href="/dpa" className="text-[#2EC6F3] hover:underline font-medium">
+                  <a href="/dpa" className="text-primary hover:underline font-medium">
                     Accord de Traitement des Données (DPA)
                   </a>.
                 </p>
@@ -265,7 +265,7 @@ export default function ConditionsGeneralesPage() {
               </p>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-white p-6 rounded-lg">
-                  <h3 className="font-semibold text-[#2EC6F3] mb-3">💾 À vous</h3>
+                  <h3 className="font-semibold text-primary mb-3">💾 À vous</h3>
                   <ul className="space-y-2 text-gray-700">
                     <li>• Toutes vos données (leads, stagiaires, documents)</li>
                     <li>• Le contenu que vous créez</li>
@@ -380,7 +380,7 @@ export default function ConditionsGeneralesPage() {
                 <p>
                   Aucun engagement de durée : résiliez votre abonnement depuis les paramètres de votre compte
                   ou par email à{' '}
-                  <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline font-medium">
+                  <a href="mailto:support@satorea.fr" className="text-primary hover:underline font-medium">
                     support@satorea.fr
                   </a>.
                   L'accès continue jusqu'à la fin de votre période de facturation en cours.
@@ -432,7 +432,7 @@ export default function ConditionsGeneralesPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
                   href="mailto:support@satorea.fr"
-                  className="bg-[#2EC6F3] text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors text-center"
+                  className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors text-center"
                 >
                   support@satorea.fr
                 </a>

@@ -168,7 +168,7 @@ export default function InscriptionExpressPage() {
         <div className="mb-8 overflow-hidden rounded-2xl bg-white shadow-xl border border-gray-100">
           <div className="p-8">
             <div className="mb-4">
-              <span className="inline-flex rounded-full bg-[#2EC6F3]/10 px-4 py-1.5 text-sm font-semibold text-[#2EC6F3]">
+              <span className="inline-flex rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
                 {formation.categorie}
               </span>
             </div>
@@ -206,7 +206,7 @@ export default function InscriptionExpressPage() {
                 {montantTotal}€
                 <span className="ml-2 text-lg font-normal text-gray-500">TTC</span>
               </div>
-              <div className="text-sm text-[#2EC6F3] font-semibold">
+              <div className="text-sm text-primary font-semibold">
                 ou 3x {montant3x}€ sans frais avec Alma
               </div>
             </div>
@@ -232,7 +232,7 @@ export default function InscriptionExpressPage() {
                 <input
                   {...register('prenom')}
                   type="text"
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   placeholder="Votre prénom"
                 />
                 {errors.prenom && (
@@ -247,7 +247,7 @@ export default function InscriptionExpressPage() {
                 <input
                   {...register('nom')}
                   type="text"
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   placeholder="Votre nom"
                 />
                 {errors.nom && (
@@ -263,7 +263,7 @@ export default function InscriptionExpressPage() {
               <input
                 {...register('email')}
                 type="email"
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 placeholder="votre@email.com"
               />
               {errors.email && (
@@ -278,7 +278,7 @@ export default function InscriptionExpressPage() {
               <input
                 {...register('telephone')}
                 type="tel"
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-[#2EC6F3] focus:outline-none focus:ring-1 focus:ring-[#2EC6F3]"
+                className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 placeholder="06 XX XX XX XX"
               />
               {errors.telephone && (
@@ -346,7 +346,7 @@ export default function InscriptionExpressPage() {
                 <input
                   {...register('convention_accepted')}
                   type="checkbox"
-                  className="mt-1 h-4 w-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3]"
+                  className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <span className="text-sm text-gray-700">
                   J'ai lu et j'accepte les termes de la convention de formation
@@ -360,7 +360,7 @@ export default function InscriptionExpressPage() {
                 <input
                   {...register('reglement_accepted')}
                   type="checkbox"
-                  className="mt-1 h-4 w-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3]"
+                  className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <span className="text-sm text-gray-700">
                   J'accepte le règlement intérieur
@@ -374,7 +374,7 @@ export default function InscriptionExpressPage() {
                 <input
                   {...register('rgpd_accepted')}
                   type="checkbox"
-                  className="mt-1 h-4 w-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3]"
+                  className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <span className="text-sm text-gray-700">
                   J'accepte que mes données soient traitées conformément au RGPD
@@ -399,14 +399,14 @@ export default function InscriptionExpressPage() {
                   className="sr-only"
                 />
                 <div className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${
-                  paymentMode === 'immediate' ? 'border-[#2EC6F3] bg-[#2EC6F3]/5' : 'border-gray-200'
+                  paymentMode === 'immediate' ? 'border-primary bg-primary/5' : 'border-gray-200'
                 }`}>
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="font-semibold text-gray-900">Payer maintenant</div>
                       <div className="text-sm text-gray-600">{montantTotal}€ en une fois</div>
                     </div>
-                    <div className="text-2xl font-bold text-[#2EC6F3]">{montantTotal}€</div>
+                    <div className="text-2xl font-bold text-primary">{montantTotal}€</div>
                   </div>
                 </div>
               </label>
@@ -419,15 +419,15 @@ export default function InscriptionExpressPage() {
                   className="sr-only"
                 />
                 <div className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${
-                  paymentMode === '3x' ? 'border-[#2EC6F3] bg-[#2EC6F3]/5' : 'border-gray-200'
+                  paymentMode === '3x' ? 'border-primary bg-primary/5' : 'border-gray-200'
                 }`}>
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="font-semibold text-gray-900">Payer en 3x sans frais</div>
                       <div className="text-sm text-gray-600">3 × {montant3x}€</div>
-                      <div className="text-xs text-[#2EC6F3]">Powered by Alma</div>
+                      <div className="text-xs text-primary">Powered by Alma</div>
                     </div>
-                    <div className="text-2xl font-bold text-[#2EC6F3]">{montant3x}€</div>
+                    <div className="text-2xl font-bold text-primary">{montant3x}€</div>
                   </div>
                 </div>
               </label>
@@ -440,15 +440,15 @@ export default function InscriptionExpressPage() {
                   className="sr-only"
                 />
                 <div className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${
-                  paymentMode === '4x' ? 'border-[#2EC6F3] bg-[#2EC6F3]/5' : 'border-gray-200'
+                  paymentMode === '4x' ? 'border-primary bg-primary/5' : 'border-gray-200'
                 }`}>
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="font-semibold text-gray-900">Payer en 4x sans frais</div>
                       <div className="text-sm text-gray-600">4 × {montant4x}€</div>
-                      <div className="text-xs text-[#2EC6F3]">Powered by Alma</div>
+                      <div className="text-xs text-primary">Powered by Alma</div>
                     </div>
-                    <div className="text-2xl font-bold text-[#2EC6F3]">{montant4x}€</div>
+                    <div className="text-2xl font-bold text-primary">{montant4x}€</div>
                   </div>
                 </div>
               </label>
@@ -457,7 +457,7 @@ export default function InscriptionExpressPage() {
             <button
               type="submit"
               disabled={isSubmitting || placesRestantes === 0}
-              className="mt-8 w-full rounded-xl bg-[#2EC6F3] px-8 py-4 text-lg font-bold text-white transition-all hover:bg-[#2EC6F3]/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-8 w-full rounded-xl bg-primary px-8 py-4 text-lg font-bold text-white transition-all hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 'Redirection en cours...'
@@ -495,7 +495,7 @@ export default function InscriptionExpressPage() {
           <div className="rounded-2xl bg-white p-6 shadow-xl border border-gray-100">
             <div className="space-y-4">
               <div className="text-center">
-                <div className="text-lg font-bold text-[#2EC6F3]">12 personnes</div>
+                <div className="text-lg font-bold text-primary">12 personnes</div>
                 <div className="text-sm text-gray-600">consultent cette formation</div>
               </div>
 
@@ -513,7 +513,7 @@ export default function InscriptionExpressPage() {
               <hr className="border-gray-100" />
 
               <div className="text-center">
-                <div className="text-lg font-bold text-[#2EC6F3]">4.9/5</div>
+                <div className="text-lg font-bold text-primary">4.9/5</div>
                 <div className="text-sm text-gray-600">87 avis Google</div>
               </div>
             </div>

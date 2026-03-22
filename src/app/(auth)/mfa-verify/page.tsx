@@ -220,8 +220,8 @@ export default function MFAVerifyPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#082545] to-[#0F3460]">
       {/* Background decorations */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-[#2EC6F3]/8 blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-[#2EC6F3]/5 blur-3xl" />
+        <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-primary/8 blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-white/3 blur-2xl" />
       </div>
 
@@ -230,11 +230,11 @@ export default function MFAVerifyPage() {
         <div className="bg-white rounded-2xl shadow-2xl p-8 animate-fadeIn">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#2EC6F3]/10 rounded-2xl mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
               {factorType === 'totp' ? (
-                <Shield className="w-8 h-8 text-[#2EC6F3]" />
+                <Shield className="w-8 h-8 text-primary" />
               ) : (
-                <Smartphone className="w-8 h-8 text-[#2EC6F3]" />
+                <Smartphone className="w-8 h-8 text-primary" />
               )}
             </div>
 
@@ -263,7 +263,7 @@ export default function MFAVerifyPage() {
                   value={digit}
                   onChange={(e) => handleCodeChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-14 text-center text-2xl font-mono border-2 border-gray-200 rounded-xl focus:border-[#2EC6F3] focus:ring-0 focus:outline-none transition-colors"
+                  className="w-12 h-14 text-center text-2xl font-mono border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-0 focus:outline-none transition-colors"
                   disabled={loading}
                 />
               ))}
@@ -284,7 +284,7 @@ export default function MFAVerifyPage() {
               onClick={() => handleVerify()}
               loading={loading}
               disabled={code.some(digit => digit === '') || loading}
-              className="w-full h-12 text-base font-semibold bg-[#2EC6F3] hover:bg-[#1BA8D4] disabled:opacity-50"
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4] disabled:opacity-50"
             >
               {loading ? 'Vérification...' : 'Vérifier'}
             </Button>
@@ -301,7 +301,7 @@ export default function MFAVerifyPage() {
                   <button
                     onClick={handleResendCode}
                     disabled={loading}
-                    className="text-[#2EC6F3] hover:text-[#1BA8D4] text-sm font-medium transition disabled:opacity-50"
+                    className="text-primary hover:text-[#1BA8D4] text-sm font-medium transition disabled:opacity-50"
                   >
                     Renvoyer le code
                   </button>

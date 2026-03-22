@@ -39,7 +39,7 @@ export default function InscriptionCancelPage() {
           <div className="space-y-4">
             <Link
               href="/formations"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#2EC6F3] px-8 py-3 font-semibold text-white hover:bg-[#2EC6F3]/90"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-3 font-semibold text-white hover:bg-primary/90"
             >
               <ArrowLeft className="h-4 w-4" />
               Reprendre l'inscription
@@ -87,7 +87,7 @@ export default function InscriptionCancelPage() {
         </div>
 
         {/* Contact */}
-        <div className="rounded-2xl bg-[#2EC6F3]/5 p-8 border border-[#2EC6F3]/20 text-center">
+        <div className="rounded-2xl bg-primary/5 p-8 border border-primary/20 text-center">
           <h2 className="text-xl font-bold text-[#082545] mb-4">Besoin d'aide ?</h2>
           <p className="text-gray-600 mb-6">
             Nos conseillers sont là pour répondre à vos questions et finaliser votre inscription
@@ -96,14 +96,14 @@ export default function InscriptionCancelPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="tel:+33123456789"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#2EC6F3] px-6 py-3 font-semibold text-white hover:bg-[#2EC6F3]/90"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white hover:bg-primary/90"
             >
               <Phone className="h-4 w-4" />
               01 23 45 67 89
             </a>
             <a
               href="mailto:formation@dermotec-advanced.com"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#2EC6F3] px-6 py-3 font-semibold text-[#2EC6F3] hover:bg-[#2EC6F3]/10"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-primary px-6 py-3 font-semibold text-primary hover:bg-primary/10"
             >
               <Mail className="h-4 w-4" />
               Nous écrire

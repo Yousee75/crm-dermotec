@@ -9,10 +9,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <header className="border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-[#2EC6F3] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <span className="text-white font-bold text-sm font-[family-name:var(--font-heading)]">D</span>
             </div>
-            <span className="text-lg font-bold text-[#082545] font-[family-name:var(--font-heading)] group-hover:text-[#2EC6F3] transition-colors">
+            <span className="text-lg font-bold text-[#082545] font-[family-name:var(--font-heading)] group-hover:text-primary transition-colors">
               Dermotec Advanced
             </span>
           </Link>
@@ -34,19 +34,19 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <nav className="flex items-center gap-6">
               <Link
                 href="/mentions-legales"
-                className="text-sm text-gray-500 hover:text-[#2EC6F3] transition-colors"
+                className="text-sm text-gray-500 hover:text-primary transition-colors"
               >
                 Mentions légales
               </Link>
               <Link
                 href="/politique-confidentialite"
-                className="text-sm text-gray-500 hover:text-[#2EC6F3] transition-colors"
+                className="text-sm text-gray-500 hover:text-primary transition-colors"
               >
                 Politique de confidentialité
               </Link>
               <Link
                 href="/conditions-generales"
-                className="text-sm text-gray-500 hover:text-[#2EC6F3] transition-colors"
+                className="text-sm text-gray-500 hover:text-primary transition-colors"
               >
                 CGU / CGV
               </Link>

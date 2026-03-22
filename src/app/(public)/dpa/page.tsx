@@ -443,8 +443,8 @@ export default function DpaPage() {
           <div className="space-y-1">
             <p><strong>Satorea</strong> &mdash; &Eacute;diteur de Dermotec CRM</p>
             <p>75 Boulevard Richard Lenoir, 75011 Paris</p>
-            <p>Email&nbsp;: <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">support@satorea.fr</a></p>
-            <p>DPO&nbsp;: <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">dpo@satorea.fr</a></p>
+            <p>Email&nbsp;: <a href="mailto:support@satorea.fr" className="text-primary hover:underline">support@satorea.fr</a></p>
+            <p>DPO&nbsp;: <a href="mailto:dpo@satorea.fr" className="text-primary hover:underline">dpo@satorea.fr</a></p>
           </div>
         </section>
 

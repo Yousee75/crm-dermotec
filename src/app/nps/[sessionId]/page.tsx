@@ -124,7 +124,7 @@ export default function NPSPage() {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Votre retour nous aide à progresser..."
               rows={3}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#2EC6F3] focus:ring-2 focus:ring-[#2EC6F3]/15 outline-none resize-none"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none resize-none"
             />
           </div>
         )}
@@ -133,7 +133,7 @@ export default function NPSPage() {
         {score !== null && (
           <button
             onClick={handleSubmit}
-            className="w-full py-3 bg-[#2EC6F3] hover:bg-[#1BA8D4] text-white rounded-xl font-medium transition animate-fadeIn"
+            className="w-full py-3 bg-primary hover:bg-[#1BA8D4] text-white rounded-xl font-medium transition animate-fadeIn"
           >
             Envoyer mon avis
           </button>

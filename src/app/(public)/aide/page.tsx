@@ -17,7 +17,7 @@ const sections = [
         answer: (
           <>
             Rendez-vous sur la{' '}
-            <Link href="/login" className="text-[#2EC6F3] hover:underline">
+            <Link href="/login" className="text-primary hover:underline">
               page de connexion
             </Link>{' '}
             et cliquez sur &laquo;&nbsp;Créer un compte&nbsp;&raquo;. Renseignez votre email
@@ -31,7 +31,7 @@ const sections = [
         answer: (
           <>
             Depuis le{' '}
-            <Link href="/leads" className="text-[#2EC6F3] hover:underline">
+            <Link href="/leads" className="text-primary hover:underline">
               pipeline
             </Link>
             , cliquez sur &laquo;&nbsp;+ Nouveau lead&nbsp;&raquo; en haut à droite. Renseignez au
@@ -70,7 +70,7 @@ const sections = [
         answer: (
           <>
             Rendez-vous dans{' '}
-            <Link href="/sessions" className="text-[#2EC6F3] hover:underline">
+            <Link href="/sessions" className="text-primary hover:underline">
               Sessions &amp; Planning
             </Link>
             , cliquez sur &laquo;&nbsp;+ Nouvelle session&nbsp;&raquo;. Sélectionnez la formation, la
@@ -89,7 +89,7 @@ const sections = [
         answer: (
           <>
             Dans la fiche du lead ou de l&apos;inscription, ouvrez l&apos;onglet{' '}
-            <Link href="/financements" className="text-[#2EC6F3] hover:underline">
+            <Link href="/financements" className="text-primary hover:underline">
               Financement
             </Link>
             . Sélectionnez l&apos;organisme (OPCO, CPF, France Travail), renseignez les
@@ -112,7 +112,7 @@ const sections = [
         answer: (
           <>
             Dans{' '}
-            <Link href="/pricing" className="text-[#2EC6F3] hover:underline">
+            <Link href="/pricing" className="text-primary hover:underline">
               Paramètres &gt; Abonnement
             </Link>
             , cliquez sur &laquo;&nbsp;Changer de plan&nbsp;&raquo;. Le changement prend effet
@@ -137,11 +137,11 @@ const sections = [
           <>
             Vous pouvez exercer vos droits d&apos;accès, de rectification, de suppression et de
             portabilité en nous contactant à{' '}
-            <a href="mailto:dpo@satorea.fr" className="text-[#2EC6F3] hover:underline">
+            <a href="mailto:dpo@satorea.fr" className="text-primary hover:underline">
               dpo@satorea.fr
             </a>
             . Consultez notre{' '}
-            <Link href="/politique-confidentialite" className="text-[#2EC6F3] hover:underline">
+            <Link href="/politique-confidentialite" className="text-primary hover:underline">
               politique de confidentialité
             </Link>{' '}
             pour plus de détails. Nous répondons sous 30 jours.
@@ -173,7 +173,7 @@ export default function AidePage() {
           <input
             type="text"
             placeholder="Rechercher dans l'aide..."
-            className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/40 focus:border-[#2EC6F3]"
+            className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
             readOnly
           />
         </div>
@@ -194,7 +194,7 @@ export default function AidePage() {
                     key={item.question}
                     className="group rounded-xl border border-gray-100 bg-white"
                   >
-                    <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-[#082545] hover:text-[#2EC6F3] transition-colors [&::-webkit-details-marker]:hidden list-none">
+                    <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-[#082545] hover:text-primary transition-colors [&::-webkit-details-marker]:hidden list-none">
                       <span>{item.question}</span>
                       <span className="ml-4 text-gray-400 group-open:rotate-45 transition-transform duration-200 text-lg">
                         +
@@ -220,11 +220,11 @@ export default function AidePage() {
           </h3>
           <p className="text-sm text-gray-500">
             Contactez-nous à{' '}
-            <a href="mailto:support@satorea.fr" className="text-[#2EC6F3] hover:underline">
+            <a href="mailto:support@satorea.fr" className="text-primary hover:underline">
               support@satorea.fr
             </a>{' '}
             ou au{' '}
-            <a href="tel:+33188334343" className="text-[#2EC6F3] hover:underline">
+            <a href="tel:+33188334343" className="text-primary hover:underline">
               01 88 33 43 43
             </a>
           </p>

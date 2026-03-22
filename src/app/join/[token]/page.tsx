@@ -87,7 +87,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
-        <div className="animate-spin w-8 h-8 border-2 border-[#2EC6F3] border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
       </div>
     )
   }
@@ -101,7 +101,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
           </div>
           <h2 className="text-xl font-bold text-[#082545] mb-2">Invitation invalide</h2>
           <p className="text-gray-600 mb-6">{error}</p>
-          <Button onClick={() => router.push('/login')} className="bg-[#2EC6F3] hover:bg-[#1BA8D4]">
+          <Button onClick={() => router.push('/login')} className="bg-primary hover:bg-[#1BA8D4]">
             Aller à la connexion
           </Button>
         </div>
@@ -131,15 +131,15 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
           {/* Header */}
           <div className="bg-[#082545] px-8 py-6 text-center">
-            <h1 className="text-2xl font-bold text-[#2EC6F3] mb-1">Dermotec CRM</h1>
+            <h1 className="text-2xl font-bold text-primary mb-1">Dermotec CRM</h1>
             <p className="text-white/60 text-sm">Invitation à rejoindre l&apos;équipe</p>
           </div>
 
           {/* Content */}
           <div className="p-8">
             <div className="text-center mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-[#2EC6F3]/10 flex items-center justify-center mx-auto mb-4">
-                <Users className="w-7 h-7 text-[#2EC6F3]" />
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Users className="w-7 h-7 text-primary" />
               </div>
               <h2 className="text-lg font-semibold text-[#082545] mb-2">
                 Vous êtes invité(e)
@@ -167,7 +167,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
             <Button
               onClick={handleAccept}
               loading={accepting}
-              className="w-full h-12 text-base font-semibold bg-[#2EC6F3] hover:bg-[#1BA8D4]"
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4]"
               icon={<CheckCircle className="w-5 h-5" />}
             >
               {accepting ? 'Acceptation...' : 'Accepter l\'invitation'}
@@ -175,7 +175,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
             <p className="text-xs text-gray-400 text-center mt-4">
               En acceptant, vous acceptez les{' '}
-              <a href="/conditions-generales" target="_blank" className="text-[#2EC6F3] hover:underline">
+              <a href="/conditions-generales" target="_blank" className="text-primary hover:underline">
                 conditions générales
               </a>.
             </p>

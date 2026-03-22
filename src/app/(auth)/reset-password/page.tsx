@@ -63,7 +63,7 @@ export default function ResetPasswordPage() {
           <p className="text-gray-600 mb-4">
             Vous allez être redirigé vers le dashboard...
           </p>
-          <Link href="/" className="text-[#2EC6F3] hover:underline text-sm">
+          <Link href="/" className="text-primary hover:underline text-sm">
             Accéder au dashboard maintenant
           </Link>
         </div>
@@ -75,8 +75,8 @@ export default function ResetPasswordPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-6">
       <div className="w-full max-w-sm">
         <div className="mb-8">
-          <div className="w-12 h-12 rounded-xl bg-[#2EC6F3]/10 flex items-center justify-center mb-4">
-            <ShieldCheck className="w-6 h-6 text-[#2EC6F3]" />
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+            <ShieldCheck className="w-6 h-6 text-primary" />
           </div>
           <h2 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
             Nouveau mot de passe
@@ -150,7 +150,7 @@ export default function ResetPasswordPage() {
             type="submit"
             loading={loading}
             disabled={!password || !confirmPassword || password.length < 8}
-            className="w-full h-12 text-base font-semibold bg-[#2EC6F3] hover:bg-[#1BA8D4]"
+            className="w-full h-12 text-base font-semibold bg-primary hover:bg-[#1BA8D4]"
           >
             {loading ? 'Mise à jour...' : 'Mettre à jour le mot de passe'}
           </Button>

@@ -294,7 +294,7 @@ export default function EmargementPage() {
               <div>
                 <label className="text-sm font-medium text-gray-700">Date</label>
                 <p className="text-gray-900 flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-[#2EC6F3]" />
+                  <Calendar className="h-4 w-4 text-primary" />
                   {date ? formatDate(date) : 'Date non spécifiée'}
                 </p>
               </div>
@@ -302,7 +302,7 @@ export default function EmargementPage() {
               <div>
                 <label className="text-sm font-medium text-gray-700">Créneau</label>
                 <p className="text-gray-900 flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-[#2EC6F3]" />
+                  <Clock className="h-4 w-4 text-primary" />
                   {formatCreneau(creneau)}
                 </p>
               </div>

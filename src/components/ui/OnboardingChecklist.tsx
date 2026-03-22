@@ -100,7 +100,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
               </div>
               <div className="w-full bg-gray-100 rounded-full h-2">
                 <div
-                  className="bg-gradient-to-r from-[#2EC6F3] to-[#1DA1D4] h-2 rounded-full transition-all duration-700"
+                  className="bg-gradient-to-r from-primary to-[#1DA1D4] h-2 rounded-full transition-all duration-700"
                   style={{ width: `${progress.global.percent}%` }}
                 />
               </div>
