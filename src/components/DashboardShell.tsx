@@ -502,8 +502,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
               {/* Espace réservé — density toggle supprimé (cassait les marges) */}
 
-              {/* Theme toggle */}
-              <ThemeToggle />
+              {/* Theme toggle supprimé — Satorea light only */}
 
               {/* Language Switcher */}
               <LocaleSwitcher compact />

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* Dark mode désactivé — palette Satorea light only (règle CLAUDE.md #8) */
 
 /* ============================================================
    CRM SATOREA — Design System v5 "Palette Officielle"
@@ -118,70 +118,8 @@
   --shadow-card-hover: 0 12px 32px rgba(255, 92, 0, 0.14), 0 4px 12px rgba(26, 26, 26, 0.08);
 }
 
-/* ============================================================
-   Dark Mode — Variables override
-   La sidebar reste sombre, le contenu principal s'assombrit
-   Le primary rose gold reste identique dans les 2 modes
-   ============================================================ */
-.dark {
-  --color-surface: #111111;
-  --color-surface-hover: #1a1a1a;
-  --color-surface-active: #222222;
-  --color-surface-raised: #161616;
-  --color-background: #0a0a0a;
-
-  --color-border: #2a2a2a;
-  --color-border-light: #1f1f1f;
-  /* border-focus reste rose gold */
-
-  --color-text: #f0f0f0;
-  --color-text-secondary: #a1a1a1;
-  --color-text-muted: #888888;
-  --color-text-inverse: #111111;
-
-  /* Sémantique — tons légèrement plus vifs sur fond sombre */
-  --color-success-light: #1a2e24;
-  --color-success-50: #0f1a15;
-  --color-warning-light: #2e2510;
-  --color-warning-50: #1a1608;
-  --color-error-light: #2e1518;
-  --color-error-50: #1a0d0f;
-  --color-info-light: #15202e;
-  --color-info-50: #0d141a;
-
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 24px 48px -8px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.2);
-  --shadow-glow: 0 0 24px rgba(212, 165, 116, 0.15);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
-  --shadow-card-hover: 0 12px 32px rgba(212, 165, 116, 0.08), 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-thumb {
-  background: #333;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Dark mode skeleton */
-.dark .skeleton {
-  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-  background-size: 200% 100%;
-}
-
-/* Dark mode glass */
-.dark .glass {
-  background: rgba(17, 17, 17, 0.75);
-  border-color: rgba(212, 165, 116, 0.08);
-}
-
-/* Dark mode dot indicator border */
-.dark .dot-indicator::after {
-  border-color: #111111;
+/* Dark mode SUPPRIMÉ — palette Satorea light only */
+/* Voir règle CLAUDE.md #8 : JAMAIS de dark: classes */
 }
 
 /* Base */

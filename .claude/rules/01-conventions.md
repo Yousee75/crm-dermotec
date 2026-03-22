@@ -8,13 +8,14 @@
 - Tailwind v4 + framer-motion + sonner
 - React Query v5 + zustand + react-hook-form + zod
 
-## Couleurs branding — Palette Satorea OFFICIELLE
+## Couleurs branding — Palette Satorea v5 OFFICIELLE
 - Primary/CTA: #FF5C00 (orange Satorea)
 - Accent/Rose: #FF2D78 (rose hot pink)
-- Noir: #111111 (sidebar, texte)
-- Fond: #FAF8F5 (papier chaud)
+- Noir: #1A1A1A (sidebar, texte fort)
+- Fond page: #FAF8F5 (papier chaud, JAMAIS gris froid)
+- Texte: #111111 (principal) / #666666 (secondaire) / #999999 (muted)
 - Success: #10B981, Warning: #FF8C42, Error: #FF2D78
-- Source: satorea_light_options.html (Option B)
+- Source: globals.css @theme (fait foi, pas les anciens fichiers .md)
 - AUCUNE autre couleur autorisée en production
 
 ## Fonts
