@@ -4,6 +4,36 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
 import type { AcademyModule, AcademyLesson, AcademyProgress, AcademyBadge, AcademyUserStats } from '@/types'
 
+// Calcule le streak (jours consécutifs d'activité)
+function calculateStreak(progress: AcademyProgress[] | undefined): number {
+  if (!progress?.length) return 0
+  const dates = progress
+    .filter(p => p.statut === 'complete' && p.completed_at)
+    .map(p => new Date(p.completed_at!).toISOString().split('T')[0])
+    .filter((v, i, a) => a.indexOf(v) === i) // unique dates
+    .sort((a, b) => b.localeCompare(a)) // newest first
+
+  if (!dates.length) return 0
+
+  let streak = 0
+  const today = new Date().toISOString().split('T')[0]
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
+
+  // Le streak compte si activité aujourd'hui ou hier
+  if (dates[0] !== today && dates[0] !== yesterday) return 0
+
+  for (let i = 0; i < dates.length - 1; i++) {
+    const current = new Date(dates[i]).getTime()
+    const next = new Date(dates[i + 1]).getTime()
+    if (current - next <= 86400000) {
+      streak++
+    } else {
+      break
+    }
+  }
+  return streak + 1 // +1 pour le premier jour
+}
+
 export function useAcademyModules() {
   const supabase = createClient()
   return useQuery({
@@ -122,7 +152,7 @@ export function useAcademyStats(userId?: string) {
         modules_completed: modulesCompleted,
         modules_total: modules.length,
         badges_earned: badges.length,
-        streak_days: 0, // TODO: calculer
+        streak_days: calculateStreak(progress),
         completion_percent: totalLessons > 0 ? Math.round((completed.length / totalLessons) * 100) : 0,
       } as AcademyUserStats
     },

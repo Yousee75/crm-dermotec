@@ -58,8 +58,7 @@ export function FeatureGate({
       action: planInfo ? {
         label: `Upgrader vers ${planInfo.name}`,
         onClick: () => {
-          // TODO: redirection vers page pricing/billing
-          console.log('Redirect to billing:', upgradePlan)
+          window.location.href = '/settings/subscription'
         }
       } : undefined
     })

@@ -26,8 +26,7 @@ export interface FeatureHookResult {
 }
 
 export function useFeature(feature: Feature): FeatureHookResult {
-  // TODO: lire depuis Supabase user metadata ou table subscriptions
-  // const { plan } = useCurrentPlan()
+  // Plan lu depuis le hook useCurrentPlan (localStorage + Supabase user metadata)
   const plan = useCurrentPlan()
 
   const limit = getFeatureLimit(feature, plan)

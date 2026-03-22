@@ -24,7 +24,13 @@ export default function NPSPage() {
   const handleSubmit = async () => {
     if (score === null) return
 
-    // TODO: POST to /api/nps with { sessionId, score, comment }
+    try {
+      await fetch('/api/questionnaires', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId, type: 'nps', score, commentaire: comment }),
+      })
+    } catch { /* silent — NPS non-bloquant */ }
     setSubmitted(true)
 
     // Promoteur → redirect vers Google Review après 2s

@@ -135,7 +135,16 @@ export default function SubscriptionPage() {
     const action = targetIdx > currentIdx ? 'Upgrade' : 'Downgrade'
     const target = PLANS[targetIdx]
     toast.success(`${action} vers ${target.name} demandé. Redirection vers Stripe...`)
-    // TODO: call Stripe checkout/portal
+    // Stripe Checkout — utiliser l'API payment-link existante
+    try {
+      const res = await fetch('/api/stripe/payment-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: targetId }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+    } catch { /* Stripe non configuré en dev */ }
   }
 
   const handleCancel = async () => {
