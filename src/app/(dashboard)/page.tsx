@@ -19,6 +19,7 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCurrentUser } from '@/hooks/use-current-user'
+import { cn } from '@/lib/utils'
 import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
 
 // Composant skeleton pour le dashboard
@@ -241,7 +242,7 @@ export default function DashboardPage() {
 
       {/* FOCUS — Le message le plus important du moment */}
       {overdueCount > 0 ? (
-        <Link href="/leads" className="block bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white hover:from-red-600 hover:to-red-700 transition-all shadow-lg shadow-red-500/20 group">
+        <Link href="/leads" className="block bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white hover:from-red-600 hover:to-red-700 transition-all shadow-lg shadow-red-500/20 group pulse-urgent nudge-repeat">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
@@ -357,9 +358,9 @@ export default function DashboardPage() {
               Voir tout <ChevronRight className="w-3 h-3" />
             </Link>
           </div>
-          <div className="divide-y divide-gray-50">
+          <div className="divide-y divide-gray-50 stagger-children">
             {overdueRappels && overdueRappels.length > 0 && overdueRappels.slice(0, 3).map((r) => (
-              <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-red-50/50 transition group">
+              <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-red-50/50 transition group list-row list-row-urgent pulse-urgent">
                 <div className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
                 <Link href={`/lead/${r.lead_id}`} className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-700 truncate">{r.lead?.prenom} {r.lead?.nom}</p>
@@ -385,7 +386,7 @@ export default function DashboardPage() {
               </div>
             ))}
             {todayRappels && todayRappels.length > 0 && todayRappels.slice(0, 3).map((r) => (
-              <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-amber-50/50 transition group">
+              <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-amber-50/50 transition group list-row">
                 <div className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
                 <Link href={`/lead/${r.lead_id}`} className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-700 truncate">{r.lead?.prenom} {r.lead?.nom}</p>
@@ -436,9 +437,9 @@ export default function DashboardPage() {
               Voir tout <ChevronRight className="w-3 h-3" />
             </Link>
           </div>
-          <div className="divide-y divide-gray-50">
+          <div className="divide-y divide-gray-50 stagger-children">
             {leadsData?.leads && leadsData.leads.length > 0 ? leadsData.leads.slice(0, 5).map((lead) => (
-              <Link key={lead.id} href={`/lead/${lead.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition group">
+              <Link key={lead.id} href={`/lead/${lead.id}`} className={cn('flex items-center gap-3 px-5 py-3 transition group list-row', lead.score_chaud >= 80 && 'list-row-hot glow-hot')}>
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary shrink-0">
                   {lead.prenom?.[0]}{lead.nom?.[0]}
                 </div>
@@ -534,13 +535,13 @@ function KpiCard({
   variation?: number
 }) {
   return (
-    <div className={`bg-white rounded-xl border-l-4 border-r border-t border-b border-gray-100 shadow-sm p-4 hover:shadow-md transition`} style={{ borderLeftColor: color }}>
+    <div className="bg-white rounded-xl border-l-4 border-r border-t border-b border-gray-100 shadow-sm p-4 card-interactive" style={{ borderLeftColor: color }}>
       <div className="flex items-start justify-between mb-3">
         <div className="p-2 rounded-lg" style={{ backgroundColor: `${color}15` }}>
           <Icon className="w-5 h-5" style={{ color }} />
         </div>
         {variation !== undefined && variation !== 0 && (
-          <span className={`text-xs px-2 py-0.5 rounded-full ${
+          <span className={`text-xs px-2 py-0.5 rounded-full bounce-badge ${
             variation > 0
               ? 'bg-green-50 text-green-600'
               : 'bg-red-50 text-red-600'
@@ -550,7 +551,7 @@ function KpiCard({
         )}
       </div>
       <div>
-        <p className="text-2xl font-bold text-accent">
+        <p className="text-2xl font-bold text-accent count-up tabular-nums">
           {value}
         </p>
         <p className="text-sm text-gray-500 mt-1">{label}</p>
