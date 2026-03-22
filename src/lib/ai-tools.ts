@@ -431,6 +431,14 @@ EXEMPLE : "Envoie un email de relance à Marie" → D'ABORD getLeadDetails pour 
         return { error: 'Impossible d\'envoyer l\'email. Resend non configuré.' }
       }
 
+      // Sauvegarder dans messages (source de vérité)
+      if (lead_id) {
+        const { saveEmailSent } = await import('./message-store')
+        await saveEmailSent({
+          lead_id, sujet: subject, contenu: body,
+          destinataire: to, source: 'agent_ia',
+        })
+      }
       return { success: true, mode: 'envoye', message: `Email envoyé à ${to}. Sujet : "${subject}"` }
     } catch {
       return { error: 'Erreur lors de l\'envoi de l\'email' }

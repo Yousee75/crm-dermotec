@@ -66,7 +66,7 @@ export const sendEmail = inngest.createFunction(
       return { email_id: data?.id, sujet }
     })
 
-    // Step 3: Logger dans activités + emails_sent
+    // Step 3: Logger dans activités + emails_sent + messages (source de vérité)
     await step.run('log-activity', async () => {
       const { createClient } = await import('@supabase/supabase-js')
       const supabase = createClient(
@@ -78,11 +78,20 @@ export const sendEmail = inngest.createFunction(
       const promises: PromiseLike<unknown>[] = []
 
       if (lead_id) {
-        // Logger avec le helper omnicanal (timeline enrichie)
+        // Logger dans activites (timeline)
         const { logEmailSent } = await import('@/lib/activity-logger')
-        promises.push(
-          logEmailSent(lead_id, emailResult.sujet, to, 'resend')
-        )
+        promises.push(logEmailSent(lead_id, emailResult.sujet, to, 'resend'))
+
+        // Sauvegarder dans messages (source de vérité omnicanale)
+        const { saveEmailSent } = await import('@/lib/message-store')
+        promises.push(saveEmailSent({
+          lead_id,
+          sujet: emailResult.sujet,
+          contenu: template.contenu_html,
+          destinataire: to,
+          source: 'resend',
+          resend_id: emailResult.email_id,
+        }))
       }
 
       promises.push(
@@ -95,7 +104,7 @@ export const sendEmail = inngest.createFunction(
           resend_id: emailResult.email_id,
           variables,
           statut: 'ENVOYE',
-        })
+        }).then(() => {}) // void
       )
 
       await Promise.all(promises)

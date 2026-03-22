@@ -169,6 +169,27 @@ COMPORTEMENT en mode formation :
             total_tokens: (usage?.totalTokens) || 0,
             last_message_at: new Date().toISOString(),
           })
+
+          // Sauvegarder dans messages omnicanal (canal = agent_ia)
+          if (leadId) {
+            const { saveAgentMessage } = await import('@/lib/message-store')
+            // Question du commercial
+            await saveAgentMessage({
+              lead_id: leadId,
+              direction: 'outbound',
+              contenu: lastUserMessage.slice(0, 500),
+              metadata: { type: 'user_question', mode: mode || 'commercial' },
+            })
+            // Réponse de l'agent
+            if (text) {
+              await saveAgentMessage({
+                lead_id: leadId,
+                direction: 'inbound',
+                contenu: text.slice(0, 1000),
+                metadata: { type: 'agent_response', mode: mode || 'commercial', tokens: usage?.totalTokens },
+              })
+            }
+          }
         } catch { /* non-bloquant */ }
       },
       onError: ({ error }) => {
