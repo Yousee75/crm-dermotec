@@ -10,16 +10,8 @@ import { z } from 'zod'
 import { createServiceSupabase } from './supabase-server'
 import { hybridSearchKB } from './hybrid-search'
 
-// Helper to bypass strict overload matching on tool()
-// Fix: Anthropic API requires input_schema.type even for empty objects
-const defineTool = (config: { description: string; parameters: z.ZodObject<any>; execute: (...args: any[]) => Promise<any> }): Tool => {
-  // Si le schema est vide z.object({}), ajouter un champ optionnel pour que le SDK génère un schema valide
-  const keys = Object.keys(config.parameters.shape || {})
-  if (keys.length === 0) {
-    config.parameters = z.object({ _dummy: z.string().optional().describe('Paramètre ignoré') })
-  }
-  return tool(config as any)
-}
+// @ts-ignore — AI SDK v6 tool() has strict overloads, we need the flexible version
+const defineTool: any = tool
 
 // --- TOOL 1: Recherche de leads ---
 export const searchLeadsTool = defineTool({
@@ -290,7 +282,7 @@ export const getPipelineStatsTool = defineTool({
   description: `Donne les statistiques du pipeline commercial : nombre de leads par statut, CA prévisionnel, taux de conversion.
 QUAND L'UTILISER : quand le commercial ou manager demande "où on en est", "combien de leads", "quel est le CA".
 EXEMPLE : "Combien de leads en pipeline ?" → getPipelineStats({})`,
-  parameters: z.object({}),
+  parameters: z.object({ _context: z.string().optional().describe('Contexte optionnel') }),
   execute: async () => {
     const supabase = await createServiceSupabase() as any
     const { data: leads } = await supabase
@@ -643,7 +635,7 @@ export const getPipelineForecastTool = defineTool({
 QUAND L'UTILISER : quand le manager demande "quel CA on peut espérer", "prévisions", "forecast", "projection", "combien on va faire ce mois".
 EXEMPLE : "Quel est le forecast ?" → getPipelineForecast({})
 EXEMPLE : "Combien on devrait closer ce mois ?" → getPipelineForecast({})`,
-  parameters: z.object({}),
+  parameters: z.object({ _context: z.string().optional().describe('Contexte optionnel') }),
   execute: async () => {
     const supabase = await createServiceSupabase() as any
 
