@@ -36,6 +36,18 @@ const AI_CONFIG = {
     model: 'mistral-large-latest',
     envKey: 'MISTRAL_API_KEY',
   },
+  // Mistral Nemo (ultra cheap $0.02/M tokens)
+  mistral_nemo: {
+    baseUrl: 'https://api.mistral.ai/v1',
+    model: 'open-mistral-nemo',
+    envKey: 'MISTRAL_API_KEY',
+  },
+  // Groq (gratuit, Llama)
+  groq: {
+    baseUrl: 'https://api.groq.com/openai/v1',
+    model: 'llama-3.3-70b-versatile',
+    envKey: 'GROQ_API_KEY',
+  },
 } as const
 
 type AIProvider = keyof typeof AI_CONFIG

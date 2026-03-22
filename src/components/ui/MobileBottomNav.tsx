@@ -2,52 +2,100 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Calendar, Zap, BarChart3 } from 'lucide-react'
+import { LayoutDashboard, Users, Calendar, Plus, BarChart3 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
 
 const NAV_ITEMS = [
   { href: '/', icon: LayoutDashboard, label: 'Accueil' },
   { href: '/leads', icon: Users, label: 'Leads' },
-  { href: '/cockpit', icon: Zap, label: 'Cockpit' },
+  { href: '#fab', icon: Plus, label: '', isFab: true },
   { href: '/sessions', icon: Calendar, label: 'Sessions' },
-  { href: '/analytics', icon: BarChart3, label: 'Plus' },
+  { href: '/pipeline', icon: BarChart3, label: 'Pipeline' },
+]
+
+const QUICK_ACTIONS = [
+  { href: '/leads?action=create', label: 'Nouveau lead', icon: Users, color: '#2EC6F3' },
+  { href: '/sessions?action=create', label: 'Nouvelle session', icon: Calendar, color: '#10B981' },
 ]
 
 export function MobileBottomNav() {
   const pathname = usePathname()
+  const [fabOpen, setFabOpen] = useState(false)
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg -webkit-backdrop-blur-lg border-t border-gray-200 safe-area-bottom" style={{ WebkitBackdropFilter: 'blur(16px)' }}>
-      <div className="flex items-stretch">
-        {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && (pathname ?? '').startsWith(item.href))
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                'flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 transition-colors',
-                'min-h-[52px]',
-                'active:scale-95',
-                isActive
-                  ? 'text-[#0EA5E9]'
-                  : 'text-gray-400'
-              )}
-            >
-              <item.icon className={cn('w-5 h-5', isActive && 'drop-shadow-sm')} />
-              <span className={cn(
-                'text-[11px] leading-none',
-                isActive ? 'font-semibold' : 'font-medium'
-              )}>
-                {item.label}
-              </span>
-              {isActive && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-[#2EC6F3] rounded-full" />
-              )}
-            </Link>
-          )
-        })}
-      </div>
-    </nav>
+    <>
+      {/* Quick actions overlay */}
+      {fabOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" onClick={() => setFabOpen(false)}>
+          <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col gap-3 items-center animate-in slide-in-from-bottom-4 duration-200">
+            {QUICK_ACTIONS.map((action) => (
+              <Link
+                key={action.href}
+                href={action.href}
+                onClick={() => setFabOpen(false)}
+                className="flex items-center gap-3 bg-white rounded-full pl-4 pr-5 py-3 shadow-xl"
+              >
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: `${action.color}20` }}>
+                  <action.icon className="w-4 h-4" style={{ color: action.color }} />
+                </div>
+                <span className="text-sm font-semibold text-gray-900">{action.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Bottom navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-gray-200/60" style={{ WebkitBackdropFilter: 'blur(20px)', paddingBottom: 'env(safe-area-inset-bottom, 0)' }}>
+        <div className="flex items-stretch">
+          {NAV_ITEMS.map((item) => {
+            if (item.isFab) {
+              return (
+                <button
+                  key="fab"
+                  onClick={() => setFabOpen(!fabOpen)}
+                  className="flex-1 flex items-center justify-center -mt-5"
+                >
+                  <div className={cn(
+                    'w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-200',
+                    fabOpen
+                      ? 'bg-gray-800 rotate-45'
+                      : 'bg-[#2EC6F3]'
+                  )}>
+                    <Plus className="w-6 h-6 text-white" />
+                  </div>
+                </button>
+              )
+            }
+
+            const isActive = pathname === item.href || (item.href !== '/' && (pathname ?? '').startsWith(item.href))
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 transition-all duration-150 relative',
+                  'min-h-[52px]',
+                  'active:scale-90',
+                  isActive ? 'text-[#2EC6F3]' : 'text-gray-400'
+                )}
+              >
+                <item.icon className={cn('w-5 h-5 transition-transform', isActive && 'scale-110')} strokeWidth={isActive ? 2.5 : 2} />
+                <span className={cn(
+                  'text-[10px] leading-none tracking-wide',
+                  isActive ? 'font-bold' : 'font-medium'
+                )}>
+                  {item.label}
+                </span>
+                {isActive && (
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-[#2EC6F3] rounded-full" />
+                )}
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
+    </>
   )
 }

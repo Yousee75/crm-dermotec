@@ -36,7 +36,7 @@ interface SessionEmargement {
   inscriptions: Array<{
     id: string
     statut: string
-    apprenant: {
+    lead: {
       prenom: string
       nom: string
     }
@@ -73,18 +73,18 @@ export default function EmargementTab() {
           salle,
           statut,
           places_occupees,
-          formation:formation_id (
+          formation:formations (
             nom,
             duree_heures
           ),
-          formatrice:formatrice_id (
+          formatrice:equipe!formatrice_id (
             prenom,
             nom
           ),
           inscriptions!inner (
             id,
             statut,
-            apprenant:apprenant_id (
+            lead:leads!lead_id (
               prenom,
               nom
             )
@@ -248,7 +248,7 @@ export default function EmargementTab() {
                         <div className="flex flex-wrap gap-2">
                           {inscriptionsConfirmees.slice(0, 5).map((inscription) => (
                             <Badge key={inscription.id} variant="outline" size="sm">
-                              {inscription.apprenant?.prenom} {inscription.apprenant?.nom}
+                              {inscription.lead?.prenom} {inscription.lead?.nom}
                             </Badge>
                           ))}
                           {inscriptionsConfirmees.length > 5 && (

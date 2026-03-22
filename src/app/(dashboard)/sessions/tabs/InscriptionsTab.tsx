@@ -15,11 +15,11 @@ import { cn } from '@/lib/utils'
 
 interface Inscription {
   id: string
-  statut: 'ATTENTE' | 'CONFIRMEE' | 'EN_COURS' | 'COMPLETEE' | 'ANNULEE'
-  prix_total: number
-  paiement_statut: 'EN_ATTENTE' | 'PARTIEL' | 'COMPLET' | 'REMBOURSE'
+  statut: 'EN_ATTENTE' | 'CONFIRMEE' | 'EN_COURS' | 'COMPLETEE' | 'ANNULEE' | 'REMBOURSEE' | 'NO_SHOW'
+  montant_total: number
+  paiement_statut: 'EN_ATTENTE' | 'ACOMPTE' | 'PARTIEL' | 'PAYE' | 'REMBOURSE' | 'LITIGE'
   created_at: string
-  apprenant: {
+  lead: {
     id: string
     prenom: string
     nom: string
@@ -35,18 +35,22 @@ interface Inscription {
 }
 
 const STATUT_INSCRIPTION = {
-  ATTENTE: { label: 'En attente', color: '#F59E0B', icon: Clock },
+  EN_ATTENTE: { label: 'En attente', color: '#F59E0B', icon: Clock },
   CONFIRMEE: { label: 'Confirmée', color: '#3B82F6', icon: CheckCircle },
   EN_COURS: { label: 'En cours', color: '#10B981', icon: Clock },
   COMPLETEE: { label: 'Terminée', color: '#6366F1', icon: CheckCircle },
-  ANNULEE: { label: 'Annulée', color: '#EF4444', icon: XCircle }
+  ANNULEE: { label: 'Annulée', color: '#EF4444', icon: XCircle },
+  REMBOURSEE: { label: 'Remboursée', color: '#6B7280', icon: XCircle },
+  NO_SHOW: { label: 'No-show', color: '#EF4444', icon: XCircle }
 }
 
 const STATUT_PAIEMENT = {
   EN_ATTENTE: { label: 'En attente', color: '#F59E0B' },
+  ACOMPTE: { label: 'Acompte', color: '#F97316' },
   PARTIEL: { label: 'Partiel', color: '#FF8C00' },
-  COMPLET: { label: 'Payé', color: '#10B981' },
-  REMBOURSE: { label: 'Remboursé', color: '#6B7280' }
+  PAYE: { label: 'Payé', color: '#10B981' },
+  REMBOURSE: { label: 'Remboursé', color: '#6B7280' },
+  LITIGE: { label: 'Litige', color: '#EF4444' }
 }
 
 export default function InscriptionsTab() {
@@ -64,19 +68,19 @@ export default function InscriptionsTab() {
         .select(`
           id,
           statut,
-          prix_total,
+          montant_total,
           paiement_statut,
           created_at,
-          apprenant:apprenant_id (
+          lead:leads!lead_id (
             id,
             prenom,
             nom,
             email
           ),
-          session:session_id (
+          session:sessions!session_id (
             id,
             date_debut,
-            formation:formation_id (
+            formation:formations (
               nom
             )
           )
@@ -96,7 +100,7 @@ export default function InscriptionsTab() {
         .select(`
           id,
           date_debut,
-          formation:formation_id (nom)
+          formation:formations (nom)
         `)
         .order('date_debut', { ascending: false })
         .limit(50)
@@ -108,8 +112,8 @@ export default function InscriptionsTab() {
   // Filtrer les inscriptions
   const filteredInscriptions = inscriptions?.filter(inscription => {
     const matchSearch = search === '' ||
-      inscription.apprenant?.prenom?.toLowerCase().includes(search.toLowerCase()) ||
-      inscription.apprenant?.nom?.toLowerCase().includes(search.toLowerCase()) ||
+      inscription.lead?.prenom?.toLowerCase().includes(search.toLowerCase()) ||
+      inscription.lead?.nom?.toLowerCase().includes(search.toLowerCase()) ||
       inscription.session?.formation?.nom?.toLowerCase().includes(search.toLowerCase())
 
     const matchSession = sessionFilter === '' || inscription.session?.id === sessionFilter
@@ -216,7 +220,7 @@ export default function InscriptionsTab() {
           className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
         >
           <option value="">Tous les statuts</option>
-          <option value="ATTENTE">En attente</option>
+          <option value="EN_ATTENTE">En attente</option>
           <option value="CONFIRMEE">Confirmée</option>
           <option value="EN_COURS">En cours</option>
           <option value="COMPLETEE">Terminée</option>
@@ -261,7 +265,7 @@ export default function InscriptionsTab() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredInscriptions?.map((inscription) => {
-                  const statutConfig = STATUT_INSCRIPTION[inscription.statut] || STATUT_INSCRIPTION.ATTENTE
+                  const statutConfig = STATUT_INSCRIPTION[inscription.statut] || STATUT_INSCRIPTION.EN_ATTENTE
                   const paiementConfig = STATUT_PAIEMENT[inscription.paiement_statut] || STATUT_PAIEMENT.EN_ATTENTE
                   const StatusIcon = statutConfig.icon
 
@@ -270,14 +274,14 @@ export default function InscriptionsTab() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <Avatar
-                            name={`${inscription.apprenant?.prenom} ${inscription.apprenant?.nom}`}
+                            name={`${inscription.lead?.prenom} ${inscription.lead?.nom}`}
                             size="sm"
                           />
                           <div>
                             <p className="text-sm font-medium text-gray-900">
-                              {inscription.apprenant?.prenom} {inscription.apprenant?.nom}
+                              {inscription.lead?.prenom} {inscription.lead?.nom}
                             </p>
-                            <p className="text-xs text-gray-500">{inscription.apprenant?.email}</p>
+                            <p className="text-xs text-gray-500">{inscription.lead?.email}</p>
                           </div>
                         </div>
                       </td>
@@ -326,7 +330,7 @@ export default function InscriptionsTab() {
                             {paiementConfig.label}
                           </Badge>
                           <p className="text-xs text-gray-500">
-                            {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(inscription.prix_total || 0)}
+                            {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(inscription.montant_total || 0)}
                           </p>
                         </div>
                       </td>

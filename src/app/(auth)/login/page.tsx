@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
@@ -71,10 +72,15 @@ export default function LoginPage() {
         <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 py-16">
           {/* Logo */}
           <div className="mb-12">
-            <h1 className="text-4xl font-bold text-[#2EC6F3] mb-2" style={{ fontFamily: 'Bricolage Grotesque, system-ui' }}>
-              DERMOTEC
-            </h1>
-            <p className="text-white text-lg font-medium">
+            <Image
+              src="/logo-dermotec.png"
+              alt="Dermotec Advanced"
+              width={280}
+              height={72}
+              className="object-contain mb-4"
+              priority
+            />
+            <p className="text-white/80 text-lg font-medium">
               On vous forme. On vous équipe. On vous lance.
             </p>
           </div>
@@ -82,16 +88,16 @@ export default function LoginPage() {
           {/* Stats */}
           <div className="flex items-center gap-8 mb-16">
             <div className="flex items-center gap-3">
+              <Award className="w-6 h-6 text-[#2EC6F3]" />
+              <span className="text-white font-semibold">Certifié Qualiopi</span>
+            </div>
+            <div className="flex items-center gap-3">
               <Users className="w-6 h-6 text-[#2EC6F3]" />
-              <span className="text-white font-semibold">500+ stagiaires</span>
+              <span className="text-white font-semibold">16+ formations</span>
             </div>
             <div className="flex items-center gap-3">
               <Star className="w-6 h-6 text-[#2EC6F3]" />
-              <span className="text-white font-semibold">4.9/5 Google</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Award className="w-6 h-6 text-[#2EC6F3]" />
-              <span className="text-white font-semibold">Certifié Qualiopi</span>
+              <span className="text-white font-semibold">100% recommandent</span>
             </div>
           </div>
 
@@ -108,11 +114,15 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center px-6 sm:px-12 bg-white">
         <div className="w-full max-w-sm">
           {/* Mobile logo */}
-          <div className="lg:hidden text-center mb-10">
-            <h1 className="text-2xl font-bold text-[#082545] mb-2" style={{ fontFamily: 'Bricolage Grotesque, system-ui' }}>
-              DERMOTEC
-            </h1>
-            <p className="text-gray-600">Centre de Formation Esthétique</p>
+          <div className="lg:hidden flex justify-center mb-8">
+            <Image
+              src="/logo-dermotec.png"
+              alt="Dermotec"
+              width={200}
+              height={52}
+              className="object-contain"
+              priority
+            />
           </div>
 
           {/* Form Header */}

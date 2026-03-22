@@ -23,7 +23,7 @@ function getResend(): Resend | null {
 
 function getServiceSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !key) return null
   return createClient(url, key, { auth: { persistSession: false } })
 }
@@ -75,12 +75,17 @@ interface EmailRequest {
 export async function POST(request: NextRequest) {
   try {
     // 1. Vérifier l'authentification
-    const user = await getAuthUser(request)
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Authentification requise' },
-        { status: 401 }
-      )
+    // Mode démo : skip auth
+    const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+    let user: { id: string; email?: string } | null = null
+    if (!isDemoMode) {
+      user = await getAuthUser(request)
+      if (!user) {
+        return NextResponse.json(
+          { error: 'Authentification requise' },
+          { status: 401 }
+        )
+      }
     }
 
     const body: EmailRequest = await request.json()
@@ -174,13 +179,13 @@ export async function POST(request: NextRequest) {
       supabase.from('activites').insert({
         type: 'EMAIL',
         lead_id,
-        user_id: user.id,
+        user_id: user?.id || null,
         description: `Email envoyé: ${sujet}`,
         metadata: {
           template_slug,
           email_id: emailData?.id,
           destinataire: to,
-          sent_by: user.email,
+          sent_by: user?.email || 'demo',
         },
       }).then(({ error: actErr }) => {
         if (actErr) console.warn('[Email API] Activity log failed:', actErr.message)
@@ -221,9 +226,13 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     // Vérifier l'auth
-    const user = await getAuthUser(request)
-    if (!user) {
-      return NextResponse.json({ error: 'Authentification requise' }, { status: 401 })
+    // Mode démo : skip auth
+    const isDemoModeGet = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+    if (!isDemoModeGet) {
+      const user = await getAuthUser(request)
+      if (!user) {
+        return NextResponse.json({ error: 'Authentification requise' }, { status: 401 })
+      }
     }
 
     const { searchParams } = new URL(request.url)

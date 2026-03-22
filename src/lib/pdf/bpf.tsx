@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     padding: 8,
     backgroundColor: '#F0F9FF',
-    border: '1 solid #0EA5E9',
+    border: '1 solid #2EC6F3',
     borderRadius: 4,
   },
   qualityLabel: {
@@ -253,8 +253,8 @@ export function BpfPDF({ annee, stats }: BPFProps) {
           <Text style={styles.address}>
             Centre de Formation Certifié Qualiopi{'\n'}
             75 Boulevard Richard Lenoir, 75011 Paris{'\n'}
-            Tél. : 01 88 33 43 43 • SIRET : 123 456 789 00012{'\n'}
-            Déclaration d'activité enregistrée sous le n° 11755XXX075
+            Tél. : 01 88 33 43 43 • SIRET : 851 306 860 00012{'\n'}
+            Déclaration d'activité enregistrée sous le n° 11755959875
           </Text>
           <View style={styles.separator} />
         </View>

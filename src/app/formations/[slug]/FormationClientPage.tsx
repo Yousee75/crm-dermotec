@@ -108,7 +108,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
           <p className="text-gray-600 mb-8">Désolé, cette formation n'existe pas ou n'est plus disponible.</p>
           <a
             href="/formations"
-            className="inline-flex items-center px-6 py-3 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#0EA5E9] transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3] transition-colors"
           >
             Voir toutes les formations
           </a>
@@ -263,7 +263,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <button
                   onClick={handleCTA}
-                  className="px-8 py-4 bg-[#2EC6F3] hover:bg-[#0EA5E9] text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 bg-[#2EC6F3] hover:bg-[#2EC6F3] text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   Réserver ma place
                 </button>
@@ -637,7 +637,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                             // Redirection vers inscription avec session pré-sélectionnée
                             window.open(`/inscription?formation=${formation.id}&session=${session.id}`, '_blank')
                           }}
-                          className="w-full py-3 bg-[#2EC6F3] hover:bg-[#0EA5E9] text-white rounded-lg font-semibold transition-colors"
+                          className="w-full py-3 bg-[#2EC6F3] hover:bg-[#2EC6F3] text-white rounded-lg font-semibold transition-colors"
                         >
                           S'inscrire — {formation.prix_ht}€
                         </button>
@@ -735,7 +735,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
                 onClick={handleCTA}
-                className="px-8 py-4 bg-[#2EC6F3] hover:bg-[#0EA5E9] text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="px-8 py-4 bg-[#2EC6F3] hover:bg-[#2EC6F3] text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Réserver ma place
               </button>

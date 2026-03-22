@@ -19,13 +19,30 @@ export function CoachingCard({ className }: CoachingCardProps) {
   const supabase = createClient()
   const [currentInsightIndex, setCurrentInsightIndex] = useState(0)
 
+  // Identifier le commercial connecté
+  const { data: currentEquipe } = useQuery({
+    queryKey: ['current-equipe-coaching'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+      const { data } = await supabase
+        .from('equipe')
+        .select('id, role')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      return data as { id: string; role: string } | null
+    },
+    staleTime: 10 * 60 * 1000,
+  })
+
+  const commercialId = currentEquipe?.id || null
+
   // Récupérer les stats du commercial pour générer les insights
   const { data: coachingInsights, isLoading } = useQuery({
-    queryKey: ['coaching-insights'],
+    queryKey: ['coaching-insights', commercialId],
+    enabled: !!commercialId,
     queryFn: async () => {
-      // Pour l'instant, on simule un commercial
-      // TODO: Récupérer l'ID du commercial connecté via auth
-      const commercialId = 'current-user'
+      if (!commercialId) return []
 
       // Stats du mois en cours
       const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1)

@@ -192,32 +192,38 @@ export function useFinancementStats(filters?: Pick<FinancementFilters, 'organism
   })
 }
 
-// --- Mutation: créer financement (via API Hono) ---
+// --- Mutation: créer financement (Supabase direct — trigger cascade auto) ---
 export function useCreateFinancement() {
+  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (financement: Partial<Financement>) => {
-      const res = await fetch('/api/financements', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(financement),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
-        throw new Error(err.error || `HTTP ${res.status}`)
-      }
-      return res.json()
+      const { data, error } = await supabase
+        .from('financements')
+        .insert({
+          ...financement,
+          statut: financement.statut || 'PREPARATION',
+          montant_verse: financement.montant_verse || 0,
+          documents: financement.documents || [],
+          historique: financement.historique || [],
+        })
+        .select()
+        .single()
+      if (error) throw error
+      return data
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financements'] })
       queryClient.invalidateQueries({ queryKey: ['financement-stats'] })
+      queryClient.invalidateQueries({ queryKey: ['leads'] })
     },
   })
 }
 
-// --- Mutation: update financement (via API Hono — state machine + historique côté serveur) ---
+// --- Mutation: update financement (Supabase direct — state machine validée par trigger SQL) ---
 export function useUpdateFinancement() {
+  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -229,16 +235,25 @@ export function useUpdateFinancement() {
       id: string
       historique_entry?: { action: string; detail?: string; user?: string }
     }) => {
-      const res = await fetch(`/api/financements/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...updates, historique_entry }),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
-        throw new Error(err.error || `HTTP ${res.status}`)
+      // Si historique_entry, on l'ajoute au tableau historique existant
+      if (historique_entry) {
+        const { data: current } = await supabase
+          .from('financements')
+          .select('historique')
+          .eq('id', id)
+          .single()
+        const historique = [...(current?.historique || []), { ...historique_entry, date: new Date().toISOString() }]
+        Object.assign(updates, { historique })
       }
-      return res.json()
+
+      const { data, error } = await supabase
+        .from('financements')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+      if (error) throw error
+      return data
     },
     onSuccess: (data: { id: string }) => {
       queryClient.invalidateQueries({ queryKey: ['financements'] })
@@ -249,17 +264,18 @@ export function useUpdateFinancement() {
   })
 }
 
-// --- Mutation: supprimer financement (via API Hono) ---
+// --- Mutation: supprimer financement (Supabase direct) ---
 export function useDeleteFinancement() {
+  const supabase = createClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`/api/financements/${id}`, { method: 'DELETE' })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Erreur serveur' }))
-        throw new Error(err.error || `HTTP ${res.status}`)
-      }
+      const { error } = await supabase
+        .from('financements')
+        .delete()
+        .eq('id', id)
+      if (error) throw error
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financements'] })

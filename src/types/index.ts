@@ -850,8 +850,8 @@ export interface DashboardKPIs {
 export const STATUTS_LEAD: Record<StatutLead, { label: string; color: string; order: number }> = {
   NOUVEAU: { label: 'Nouveau', color: '#94A3B8', order: 0 },
   CONTACTE: { label: 'Contacté', color: '#94A3B8', order: 1 },
-  QUALIFIE: { label: 'Qualifié', color: '#0EA5E9', order: 2 },
-  FINANCEMENT_EN_COURS: { label: 'Financement', color: '#0EA5E9', order: 3 },
+  QUALIFIE: { label: 'Qualifié', color: '#2EC6F3', order: 2 },
+  FINANCEMENT_EN_COURS: { label: 'Financement', color: '#2EC6F3', order: 3 },
   INSCRIT: { label: 'Inscrit', color: '#F59E0B', order: 4 },
   EN_FORMATION: { label: 'En formation', color: '#F59E0B', order: 5 },
   FORME: { label: 'Formé(e)', color: '#10B981', order: 6 },
@@ -954,3 +954,31 @@ export const CATEGORIES_FORMATION: { id: CategorieFormation; label: string; icon
   { id: 'Soins Corps', label: 'Soins Corps', icon: 'Flower2', color: '#10B981' },
   { id: 'Hygiène', label: 'Hygiène', icon: 'ShieldCheck', color: '#3B82F6' },
 ]
+
+// ============================================================
+// TYPES ENRICHIS — Re-exports
+// ============================================================
+
+// Re-export des types financement enrichis
+export type {
+  ProfilFinancement,
+  StatutLigneFinancement,
+  ActionHistoriqueFinancement,
+  CoutFormation,
+  CalculMarge,
+  CalculTVA,
+  ReglementationOF,
+  FinancementLigne,
+  MultiFinancement,
+  FinancementHistoriqueEntry,
+  HistoriqueAnalytics,
+  OrganismeParametres,
+  EligibiliteFinancement,
+  FinancementEnrichi,
+  DashboardFinancement,
+  PipelineFinancement,
+  ValidationFinancement,
+  RecommandationFinancement,
+  ExportFinancement,
+  FinancementFormData
+} from './financement-enriched'

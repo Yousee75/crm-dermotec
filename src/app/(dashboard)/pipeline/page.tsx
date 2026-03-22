@@ -3,11 +3,11 @@
 export const dynamic = 'force-dynamic'
 
 import { useState } from 'react'
-import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors, DragOverlay, DragOverEvent } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye, Sparkles } from 'lucide-react'
+import { Search, Users, Euro, TrendingUp, GripVertical, Phone, Mail, Eye, Sparkles, List } from 'lucide-react'
 import { toast } from 'sonner'
 import { useLeads, useChangeStatut } from '@/hooks/use-leads'
 import { PHASES_PIPELINE, STATUTS_LEAD } from '@/types'
@@ -47,7 +47,8 @@ function DraggableLeadCard({ lead }: { lead: Lead }) {
         "bg-white p-3 rounded-xl border border-gray-100 shadow-card cursor-grab",
         "hover:shadow-md hover:border-gray-200 transition-all duration-150",
         "active:cursor-grabbing active:shadow-lg active:scale-[1.02]",
-        isDragging && "opacity-40 shadow-none"
+        "relative group/drag",
+        isDragging && "opacity-70 shadow-none"
       )}
     >
       <LeadCard lead={lead} />
@@ -61,8 +62,13 @@ function LeadCard({ lead }: { lead: Lead }) {
 
   return (
     <div className="space-y-2.5">
+      {/* Grip handle */}
+      <div className="absolute top-3 left-1 opacity-0 group-hover/drag:opacity-100 transition-opacity">
+        <GripVertical className="w-4 h-4 text-gray-300" />
+      </div>
+
       {/* Header: avatar + nom + score */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-2 pl-5">
         <div className="flex items-center gap-2 min-w-0">
           <Avatar
             name={lead.commercial_assigne ? `${lead.commercial_assigne.prenom} ${lead.commercial_assigne.nom}` : '?'}
@@ -78,24 +84,25 @@ function LeadCard({ lead }: { lead: Lead }) {
           </Link>
         </div>
         <div className="shrink-0">
-          <Badge
-            variant={lead.score_chaud >= 70 ? 'success' : lead.score_chaud >= 40 ? 'warning' : 'default'}
-            size="sm"
-          >
+          <div className={cn(
+            "w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-semibold",
+            lead.score_chaud >= 70 ? "bg-green-100 text-green-700" :
+            lead.score_chaud >= 40 ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"
+          )}>
             {lead.score_chaud}
-          </Badge>
+          </div>
         </div>
       </div>
 
       {/* Formation */}
       {lead.formation_principale && (
-        <p className="text-xs text-gray-500 truncate pl-8">
+        <p className="text-xs text-gray-500 truncate pl-5">
           {lead.formation_principale.nom}
         </p>
       )}
 
       {/* Footer: source + jours + quick actions */}
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex items-center justify-between text-xs pl-5">
         <div className="flex items-center gap-2 text-gray-400">
           <span className="capitalize">{lead.source.replace('_', ' ')}</span>
           <span className="text-gray-300">·</span>
@@ -127,16 +134,20 @@ function LeadCard({ lead }: { lead: Lead }) {
 }
 
 // --- Component: Pipeline Column ---
-function PipelineColumn({ phase, leads, totalValue }: {
+function PipelineColumn({ phase, leads, totalValue, isDropTarget }: {
   phase: typeof PHASES_PIPELINE[0]
   leads: Lead[]
   totalValue: number
+  isDropTarget?: boolean
 }) {
   const primaryStatut = phase.statuts[0]
   const statutConfig = STATUTS_LEAD[primaryStatut]
 
   return (
-    <div className="flex-shrink-0 w-[280px] flex flex-col">
+    <div className={cn(
+      "flex-shrink-0 w-[280px] flex flex-col transition-all duration-200",
+      isDropTarget && "ring-2 ring-[#2EC6F3] ring-offset-2 bg-blue-50/50 rounded-xl"
+    )}>
       {/* Header */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-card p-3.5 mb-2">
         <div className="flex items-center justify-between mb-2">
@@ -184,10 +195,88 @@ function PipelineColumn({ phase, leads, totalValue }: {
   )
 }
 
+// --- Component: Mobile List View ---
+function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: any, leads: Lead[], totalValue: number }> }) {
+  return (
+    <div className="md:hidden space-y-4">
+      <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+        <List className="w-4 h-4" />
+        <span>Vue liste mobile</span>
+      </div>
+      {leadsByPhase.map(({ phase, leads }) => (
+        <div key={phase.id} className="space-y-3">
+          {leads.length > 0 && (
+            <>
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{ backgroundColor: STATUTS_LEAD[phase.statuts[0]]?.color }}
+                />
+                <h3 className="font-semibold text-gray-900 text-sm">{phase.label}</h3>
+                <Badge variant="default" size="sm">{leads.length}</Badge>
+              </div>
+              <div className="space-y-2 pl-4">
+                {leads.map(lead => (
+                  <div key={lead.id} className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar
+                          name={lead.commercial_assigne ? `${lead.commercial_assigne.prenom} ${lead.commercial_assigne.nom}` : '?'}
+                          size="xs"
+                          color={lead.commercial_assigne?.avatar_color}
+                        />
+                        <Link
+                          href={`/lead/${lead.id}`}
+                          className="font-medium text-gray-900 text-sm hover:text-[#2EC6F3] transition"
+                        >
+                          {lead.prenom} {lead.nom}
+                        </Link>
+                      </div>
+                      <Badge
+                        variant={lead.score_chaud >= 70 ? 'success' : lead.score_chaud >= 40 ? 'warning' : 'default'}
+                        size="sm"
+                      >
+                        {lead.score_chaud}
+                      </Badge>
+                    </div>
+                    {lead.formation_principale && (
+                      <p className="text-xs text-gray-500 mb-2">{lead.formation_principale.nom}</p>
+                    )}
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2 text-gray-400">
+                        <span className="capitalize">{lead.source.replace('_', ' ')}</span>
+                        <span>·</span>
+                        <span>{daysBetween(lead.created_at, new Date())}j</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {lead.telephone && (
+                          <a href={`tel:${lead.telephone}`} className="p-1 text-gray-400 hover:text-blue-500">
+                            <Phone className="w-3 h-3" />
+                          </a>
+                        )}
+                        {lead.email && (
+                          <a href={`mailto:${lead.email}`} className="p-1 text-gray-400 hover:text-blue-500">
+                            <Mail className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // --- Main Page ---
 export default function PipelinePage() {
   const [search, setSearch] = useState('')
   const [draggedLead, setDraggedLead] = useState<Lead | null>(null)
+  const [activeDropColumn, setActiveDropColumn] = useState<string | null>(null)
 
   const { data: leadsData } = useLeads({ search, per_page: 1000 })
   const changeStatut = useChangeStatut()
@@ -213,9 +302,19 @@ export default function PipelinePage() {
     setDraggedLead(lead || null)
   }
 
+  const handleDragOver = (event: DragOverEvent) => {
+    const { over } = event
+    if (over) {
+      setActiveDropColumn(over.id as string)
+    } else {
+      setActiveDropColumn(null)
+    }
+  }
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     setDraggedLead(null)
+    setActiveDropColumn(null)
     if (!over) return
 
     const leadId = active.id as string
@@ -234,8 +333,8 @@ export default function PipelinePage() {
       notes: `Déplacé vers ${targetPhase.label} depuis le pipeline`
     }, {
       onSuccess: () => {
-        toast.success(`${currentLead.prenom} ${currentLead.nom} déplacé vers ${targetPhase.label}`, {
-          description: `${STATUTS_LEAD[previousStatut]?.label || previousStatut} → ${targetPhase.label}`,
+        toast.success(`Lead déplacé vers ${targetPhase.label}`, {
+          description: `${currentLead.prenom} ${currentLead.nom} • ${STATUTS_LEAD[previousStatut]?.label || previousStatut} → ${targetPhase.label}`,
         })
       },
       onError: () => {
@@ -277,39 +376,39 @@ export default function PipelinePage() {
         />
       </div>
 
-      {/* Pipeline Columns */}
-      <DndContext
-        sensors={sensors}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
-          {leadsByPhase.map(({ phase, leads, totalValue }) => (
-            <div key={phase.id} id={phase.id} className="droppable">
-              <PipelineColumn
-                phase={phase}
-                leads={leads}
-                totalValue={totalValue}
-              />
-            </div>
-          ))}
-        </div>
+      {/* Desktop: Pipeline Columns */}
+      <div className="hidden md:block">
+        <DndContext
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
+            {leadsByPhase.map(({ phase, leads, totalValue }) => (
+              <div key={phase.id} id={phase.id} className="droppable">
+                <PipelineColumn
+                  phase={phase}
+                  leads={leads}
+                  totalValue={totalValue}
+                  isDropTarget={activeDropColumn === phase.id}
+                />
+              </div>
+            ))}
+          </div>
 
-        <DragOverlay>
-          {draggedLead && (
-            <div className="bg-white p-3 rounded-xl shadow-xl border border-[#2EC6F3]/20 opacity-95 w-[280px]">
-              <LeadCard lead={draggedLead} />
-            </div>
-          )}
-        </DragOverlay>
-      </DndContext>
-
-      {/* Mobile tip */}
-      <div className="md:hidden p-3 bg-amber-50 border border-amber-200 rounded-xl">
-        <p className="text-xs text-amber-700">
-          💡 Utilisez un écran plus large pour glisser-déposer les leads.
-        </p>
+          <DragOverlay>
+            {draggedLead && (
+              <div className="bg-white p-3 rounded-xl shadow-xl border border-[#2EC6F3]/20 opacity-95 w-[280px]">
+                <LeadCard lead={draggedLead} />
+              </div>
+            )}
+          </DragOverlay>
+        </DndContext>
       </div>
+
+      {/* Mobile: List View */}
+      <MobileListView leadsByPhase={leadsByPhase} />
     </div>
   )
 }

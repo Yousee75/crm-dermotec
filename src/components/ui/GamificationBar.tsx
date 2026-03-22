@@ -18,13 +18,30 @@ export function GamificationBar({ className }: GamificationBarProps) {
   const supabase = createClient()
   const [showModal, setShowModal] = useState(false)
 
+  // Identifier le commercial connecté
+  const { data: currentEquipe } = useQuery({
+    queryKey: ['current-equipe-gamification'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+      const { data } = await supabase
+        .from('equipe')
+        .select('id, role, prenom, nom')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      return data as { id: string; role: string; prenom: string; nom: string } | null
+    },
+    staleTime: 10 * 60 * 1000,
+  })
+
+  const commercialId = currentEquipe?.id || null
+
   // Récupérer les données de gamification du commercial actuel
   const { data: gamificationData } = useQuery({
-    queryKey: ['gamification-current-user'],
+    queryKey: ['gamification-current-user', commercialId],
+    enabled: !!commercialId,
     queryFn: async () => {
-      // Pour l'instant, on simule un commercial
-      // TODO: Récupérer l'ID du commercial connecté via auth
-      const commercialId = 'current-user'
+      if (!commercialId) return null
 
       // Activités du commercial
       const { data: activities } = await supabase
@@ -64,7 +81,7 @@ export function GamificationBar({ className }: GamificationBarProps) {
 
       const stats: CommercialStats = {
         leads_crees,
-        appels_jour: 0, // TODO: Calculer depuis les activités du jour
+        appels_jour: (activities || []).filter((a: any) => a.type === 'CONTACT' && new Date(a.created_at).toDateString() === new Date().toDateString()).length,
         emails_envoyes: 0,
         rdv_planifies: 0,
         inscriptions_mois,

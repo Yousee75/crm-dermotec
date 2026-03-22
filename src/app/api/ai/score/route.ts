@@ -4,9 +4,12 @@ import { createServerSupabase, createServiceSupabase } from '@/lib/supabase-serv
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = await createServerSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    // Auth : skip en mode démo
+    if (process.env.NEXT_PUBLIC_DEMO_MODE !== 'true') {
+      const supabase = await createServerSupabase()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    }
 
     const body = await req.json()
     const { lead_id } = body

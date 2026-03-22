@@ -23,6 +23,8 @@ export default function FeatureGatingDemo() {
   const currentPlan = useCurrentPlan()
   const planLimits = usePlanLimits()
 
+  if (!planLimits) return <div className="p-8 text-center">Chargement...</div>
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Header avec plan actuel */}

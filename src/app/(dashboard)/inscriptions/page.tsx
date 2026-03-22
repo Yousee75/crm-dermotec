@@ -1,191 +1,246 @@
 'use client'
 
-import { UserCheck, Calendar, CreditCard, CheckCircle, Clock } from 'lucide-react'
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { createClient } from '@/lib/supabase-client'
+import { UserCheck, Calendar, CreditCard, CheckCircle, Clock, XCircle, Euro, Users } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
+import { Card } from '@/components/ui/Card'
+import { Avatar } from '@/components/ui/Avatar'
+import { SearchInput } from '@/components/ui/Input'
+import { EmptyState } from '@/components/ui/EmptyState'
+import { SkeletonTable } from '@/components/ui/Skeleton'
+import { PageHeader } from '@/components/ui/PageHeader'
+import Link from 'next/link'
+
+const STATUT_CONFIG: Record<string, { label: string; color: string; icon: typeof CheckCircle }> = {
+  EN_ATTENTE: { label: 'En attente', color: '#F59E0B', icon: Clock },
+  CONFIRMEE: { label: 'Confirmée', color: '#3B82F6', icon: CheckCircle },
+  EN_COURS: { label: 'En cours', color: '#10B981', icon: Clock },
+  COMPLETEE: { label: 'Terminée', color: '#6366F1', icon: CheckCircle },
+  ANNULEE: { label: 'Annulée', color: '#EF4444', icon: XCircle },
+  REMBOURSEE: { label: 'Remboursée', color: '#6B7280', icon: XCircle },
+  NO_SHOW: { label: 'No-show', color: '#EF4444', icon: XCircle },
+}
+
+const PAIEMENT_CONFIG: Record<string, { label: string; color: string }> = {
+  EN_ATTENTE: { label: 'En attente', color: '#F59E0B' },
+  ACOMPTE: { label: 'Acompte', color: '#F97316' },
+  PARTIEL: { label: 'Partiel', color: '#FF8C00' },
+  PAYE: { label: 'Payé', color: '#10B981' },
+  REMBOURSE: { label: 'Remboursé', color: '#6B7280' },
+  LITIGE: { label: 'Litige', color: '#EF4444' },
+}
 
 export default function InscriptionsPage() {
+  const supabase = createClient()
+  const [search, setSearch] = useState('')
+  const [statutFilter, setStatutFilter] = useState('')
+
+  const { data: inscriptions, isLoading } = useQuery({
+    queryKey: ['inscriptions-page'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('inscriptions')
+        .select(`
+          id, statut, montant_total, montant_finance, reste_a_charge,
+          mode_paiement, paiement_statut, taux_presence,
+          certificat_genere, convention_signee, created_at,
+          lead:leads!lead_id(id, prenom, nom, email, telephone),
+          session:sessions!session_id(
+            id, date_debut, date_fin, statut,
+            formation:formations(id, nom, slug, categorie, prix_ht)
+          )
+        `)
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      return data || []
+    },
+  })
+
+  const filtered = inscriptions?.filter(i => {
+    const matchSearch = !search ||
+      i.lead?.prenom?.toLowerCase().includes(search.toLowerCase()) ||
+      i.lead?.nom?.toLowerCase().includes(search.toLowerCase()) ||
+      i.session?.formation?.nom?.toLowerCase().includes(search.toLowerCase())
+    const matchStatut = !statutFilter || i.statut === statutFilter
+    return matchSearch && matchStatut
+  })
+
+  const stats = {
+    total: filtered?.length || 0,
+    confirmees: filtered?.filter(i => i.statut === 'CONFIRMEE').length || 0,
+    en_cours: filtered?.filter(i => i.statut === 'EN_COURS').length || 0,
+    completees: filtered?.filter(i => i.statut === 'COMPLETEE').length || 0,
+    ca: filtered?.reduce((sum, i) => sum + (i.montant_total || 0), 0) || 0,
+  }
+
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
-            <UserCheck className="inline w-7 h-7 mr-3 text-[#0EA5E9]" />
-            Inscriptions
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Gestion des inscriptions par session avec financement et suivi
-          </p>
-        </div>
-        <Badge variant="info" size="lg">
-          En développement
-        </Badge>
+    <div className="space-y-6">
+      <PageHeader
+        title="Inscriptions"
+        subtitle={`${stats.total} inscription${stats.total > 1 ? 's' : ''} — ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(stats.ca)} CA`}
+      />
+
+      {/* KPIs */}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Total</p>
+              <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+            </div>
+            <Users className="w-6 h-6 text-gray-400" />
+          </div>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Confirmées</p>
+              <p className="text-xl font-bold text-blue-600">{stats.confirmees}</p>
+            </div>
+            <CheckCircle className="w-6 h-6 text-blue-400" />
+          </div>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">En cours</p>
+              <p className="text-xl font-bold text-green-600">{stats.en_cours}</p>
+            </div>
+            <Clock className="w-6 h-6 text-green-400" />
+          </div>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Terminées</p>
+              <p className="text-xl font-bold text-purple-600">{stats.completees}</p>
+            </div>
+            <CheckCircle className="w-6 h-6 text-purple-400" />
+          </div>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">CA total</p>
+              <p className="text-lg font-bold text-green-600">
+                {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(stats.ca)}
+              </p>
+            </div>
+            <Euro className="w-6 h-6 text-green-400" />
+          </div>
+        </Card>
       </div>
 
-      {/* Stats preview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Total inscriptions</p>
-              <p className="text-2xl font-bold text-gray-900">--</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-              <UserCheck className="w-6 h-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 mb-1">En attente</p>
-              <p className="text-2xl font-bold text-amber-600">--</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center">
-              <Clock className="w-6 h-6 text-amber-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Confirmées</p>
-              <p className="text-2xl font-bold text-emerald-600">--</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-emerald-100 flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-emerald-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 mb-1">CA prévu</p>
-              <p className="text-2xl font-bold text-gray-900">--</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-              <CreditCard className="w-6 h-6 text-purple-600" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Example data preview */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
-            Aperçu des fonctionnalités
-          </h3>
-          <p className="text-sm text-gray-600 mt-1">
-            Gestion complète des inscriptions par session
-          </p>
-        </div>
-
-        <div className="p-6 space-y-4">
-          {/* Example inscriptions */}
-          {[
-            {
-              apprenant: 'Julie Moreau',
-              session: 'Maquillage Permanent - 15-19 Mars',
-              montant: '2 490 €',
-              financement: 'OPCO EP (80%) + Particulier (20%)',
-              statut: 'Confirmée',
-              paiement: 'Payé',
-              statusColor: 'emerald',
-            },
-            {
-              apprenant: 'Camille Dubois',
-              session: 'Microblading - 22-23 Mars',
-              montant: '1 400 €',
-              financement: 'France Travail (100%)',
-              statut: 'En attente',
-              paiement: 'En cours',
-              statusColor: 'amber',
-            },
-            {
-              apprenant: 'Sarah Martin',
-              session: 'Hygiène & Salubrité - 25-27 Mars',
-              montant: '400 €',
-              financement: 'Particulier (100%)',
-              statut: 'Confirmée',
-              paiement: 'Acompte versé',
-              statusColor: 'blue',
-            },
-          ].map((inscription, i) => (
-            <div key={i} className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors opacity-60">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-                  {inscription.apprenant.split(' ').map(n => n.charAt(0)).join('')}
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">{inscription.apprenant}</h4>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {inscription.session}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1">{inscription.financement}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-6 text-sm">
-                <div className="text-center">
-                  <p className="font-medium text-gray-900">{inscription.montant}</p>
-                  <p className="text-gray-500">{inscription.paiement}</p>
-                </div>
-                <div className="text-center">
-                  <Badge
-                    variant={inscription.statusColor === 'emerald' ? 'success' : inscription.statusColor === 'amber' ? 'warning' : 'info'}
-                    size="sm"
-                  >
-                    {inscription.statut}
-                  </Badge>
-                </div>
-              </div>
-            </div>
+      {/* Filtres */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <SearchInput
+          value={search}
+          onChange={(e: React.ChangeEvent<HTMLInputElement> | string) => setSearch(typeof e === 'string' ? e : e.target.value)}
+          placeholder="Rechercher par nom ou formation..."
+          className="sm:w-80"
+        />
+        <select
+          value={statutFilter}
+          onChange={(e) => setStatutFilter(e.target.value)}
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]"
+        >
+          <option value="">Tous les statuts</option>
+          {Object.entries(STATUT_CONFIG).map(([key, val]) => (
+            <option key={key} value={key}>{val.label}</option>
           ))}
-        </div>
+        </select>
       </div>
 
-      {/* Features preview */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-          Fonctionnalités inscriptions
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-1">Multi-financement</h4>
-              <p className="text-sm text-gray-600">Une inscription = plusieurs financeurs (OPCO + reste à charge)</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-1">Workflow automatisé</h4>
-              <p className="text-sm text-gray-600">Convocations, conventions, émargement, évaluations</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 flex-shrink-0"></div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-1">Suivi paiements</h4>
-              <p className="text-sm text-gray-600">Acomptes, échéanciers, rappels automatiques</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-amber-500 mt-2 flex-shrink-0"></div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-1">Vue par session</h4>
-              <p className="text-sm text-gray-600">Gestion groupée des inscriptions d'une même session</p>
-            </div>
+      {/* Table */}
+      {isLoading ? (
+        <SkeletonTable rows={6} cols={6} />
+      ) : filtered?.length === 0 ? (
+        <Card>
+          <EmptyState
+            icon={<UserCheck className="w-7 h-7" />}
+            title="Aucune inscription"
+            description="Les inscriptions apparaîtront ici quand des leads seront inscrits à des sessions."
+          />
+        </Card>
+      ) : (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50/50 border-b border-gray-100">
+                <tr>
+                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Stagiaire</th>
+                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Formation</th>
+                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Session</th>
+                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Statut</th>
+                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Paiement</th>
+                  <th className="text-right text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Montant</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filtered?.map((inscription) => {
+                  const sc = STATUT_CONFIG[inscription.statut] || STATUT_CONFIG.EN_ATTENTE
+                  const pc = PAIEMENT_CONFIG[inscription.paiement_statut] || PAIEMENT_CONFIG.EN_ATTENTE
+                  const Icon = sc.icon
+                  return (
+                    <tr key={inscription.id} className="hover:bg-gray-50/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <Link href={`/lead/${inscription.lead?.id}`} className="flex items-center gap-3 group">
+                          <Avatar name={`${inscription.lead?.prenom} ${inscription.lead?.nom}`} size="sm" />
+                          <div>
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-[#2EC6F3] transition">
+                              {inscription.lead?.prenom} {inscription.lead?.nom}
+                            </p>
+                            <p className="text-xs text-gray-500">{inscription.lead?.email}</p>
+                          </div>
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                          {inscription.session?.formation?.nom}
+                        </p>
+                        <p className="text-xs text-gray-500">{inscription.session?.formation?.categorie}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <Link href={`/session/${inscription.session?.id}`} className="text-sm text-[#2EC6F3] hover:text-[#082545] transition">
+                          {inscription.session?.date_debut ? new Date(inscription.session.date_debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '—'}
+                          {inscription.session?.date_fin && inscription.session.date_fin !== inscription.session.date_debut
+                            ? ` — ${new Date(inscription.session.date_fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}`
+                            : ''}
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1.5">
+                          <Icon className="w-3.5 h-3.5" style={{ color: sc.color }} />
+                          <Badge className="border-0" style={{ backgroundColor: `${sc.color}15`, color: sc.color }} size="sm">
+                            {sc.label}
+                          </Badge>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <Badge className="border-0" style={{ backgroundColor: `${pc.color}15`, color: pc.color }} size="sm">
+                          {pc.label}
+                        </Badge>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <p className="text-sm font-semibold text-gray-900">
+                          {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(inscription.montant_total)}
+                        </p>
+                        {inscription.montant_finance > 0 && (
+                          <p className="text-xs text-green-600">
+                            dont {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(inscription.montant_finance)} financé
+                          </p>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -26,8 +26,9 @@ export const PDF_CONSTANTS = {
     NOM: 'DERMOTEC ADVANCED',
     ADRESSE: '75 Boulevard Richard Lenoir, 75011 Paris',
     TELEPHONE: '01 88 33 43 43',
-    SIRET: '123 456 789 00012',
-    DECLARATION_ACTIVITE: '11755XXX075',
+    SIRET: '851 306 860 00012',
+    TVA_INTRA: 'FR26851306860',
+    DECLARATION_ACTIVITE: '11755959875',
     CERTIFICATION: 'Centre de Formation Certifié Qualiopi',
   },
 

@@ -7,8 +7,12 @@ export async function POST(req: NextRequest) {
   try {
     // Auth obligatoire (CRM interne)
     const supabase = await createServerSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    // Mode démo : skip auth
+    const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+    if (!isDemoMode) {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    }
 
     const body = await req.json()
     const { action, lead_id, input } = body as { action: AssistantAction; lead_id?: string; input?: string }

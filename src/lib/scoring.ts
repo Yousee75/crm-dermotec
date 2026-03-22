@@ -102,7 +102,28 @@ export function scoreLead(lead: Lead): ScoreBreakdown {
     details.push('+4 : tag urgent')
   }
 
-  const total = Math.min(100, completude + engagement + financement + profil + urgence)
+  // === SCORE DECAY (pénalité inactivité) ===
+  // -3pts par semaine sans activité, max -20 pts
+  // Evite les "faux chauds" qui étaient actifs il y a 6 mois
+  let decay = 0
+  const lastActivity = lead.date_dernier_contact || lead.updated_at
+  if (lastActivity) {
+    const semaines = Math.floor((Date.now() - new Date(lastActivity).getTime()) / (7 * 86400000))
+    if (semaines >= 2) {
+      decay = Math.min(20, semaines * 3)
+      if (decay > 0) details.push(`-${decay} : inactif depuis ${semaines} semaines`)
+    }
+  }
+
+  // === SCORING NÉGATIF ===
+  // Pénaliser les signaux négatifs
+  let negatif = 0
+  if (lead.statut === 'PERDU') { negatif += 15; details.push('-15 : statut PERDU') }
+  if (lead.statut === 'SPAM') { negatif += 30; details.push('-30 : statut SPAM') }
+  if (lead.tags?.includes('non_interesse')) { negatif += 10; details.push('-10 : tag non_intéressé') }
+
+  const raw = completude + engagement + financement + profil + urgence - decay - negatif
+  const total = Math.max(0, Math.min(100, raw))
 
   return { completude, engagement, financement, profil, urgence, total, details }
 }

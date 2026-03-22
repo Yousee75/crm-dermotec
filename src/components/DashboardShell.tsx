@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Users, Calendar, GraduationCap, CreditCard,
@@ -253,19 +254,25 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         )}>
           {!collapsed ? (
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center font-bold text-sm text-white shadow-md shadow-[#2EC6F3]/20 group-hover:shadow-lg group-hover:shadow-[#2EC6F3]/30 transition-shadow">
-                D
-              </div>
-              <div className="flex flex-col">
-                <span className="font-semibold text-[13px] text-white leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
-                  Dermotec
-                </span>
-                <span className="text-[10px] text-slate-500 leading-tight">CRM v2.0</span>
-              </div>
+              <Image
+                src="/logo-dermotec.png"
+                alt="Dermotec"
+                width={140}
+                height={36}
+                className="object-contain"
+                priority
+              />
             </Link>
           ) : (
             <Link href="/" className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center font-bold text-sm text-white shadow-md shadow-[#2EC6F3]/20">
-              D
+              <Image
+                src="/logo-dermotec.png"
+                alt="D"
+                width={32}
+                height={32}
+                className="object-contain rounded-lg"
+                priority
+              />
             </Link>
           )}
 

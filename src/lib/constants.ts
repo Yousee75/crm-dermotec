@@ -14,8 +14,12 @@ export const BRAND = {
   city: 'Paris',
   zipCode: '75011',
   country: 'France',
-  siret: '', // À remplir
-  nda: '', // Numéro de déclaration d'activité DIRECCTE
+  siret: '85130686000012',
+  nda: '11755959875', // Déclaration d'activité (ne vaut pas agrément de l'État)
+  tvaIntra: 'FR26851306860',
+  ape: '4775Z',
+  capitalSocial: '1 000 €',
+  formeJuridique: 'SAS',
   qualiopi: true,
   website: 'https://www.dermotec.fr',
   googleMaps: 'https://maps.google.com/?q=75+Boulevard+Richard+Lenoir+75011+Paris',
@@ -23,7 +27,7 @@ export const BRAND = {
 
 // Couleurs branding (v2 — optimisées contraste + action)
 export const COLORS = {
-  primary: '#0EA5E9',      // sky-500 : meilleur contraste que #2EC6F3
+  primary: '#2EC6F3',      // Bleu Dermotec officiel
   primaryDark: '#0284C7',  // sky-600 : hover
   action: '#6366F1',       // indigo-500 : CTAs distinctes
   accent: '#0F172A',       // slate-900 : sidebar
@@ -59,6 +63,17 @@ export const FORMATIONS_SEED = [
   { nom: 'Peeling Chimique & Dermaplaning', slug: 'peeling-dermaplaning', categorie: 'Soins Visage' as const, prix_ht: 990, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Peeling + dermaplaning 120-200€ — transformez tous types de peau.' },
   { nom: 'Détatouage & Carbon Peel', slug: 'detatouage', categorie: 'Laser & IPL' as const, prix_ht: 990, duree_jours: 1, duree_heures: 7, niveau: 'intermediaire' as const, description_commerciale: 'Détatouage laser + carbon peel — marché en pleine croissance.' },
   { nom: 'Épilation Définitive', slug: 'epilation-definitive', categorie: 'Laser & IPL' as const, prix_ht: 990, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Épilation laser — la prestation la plus demandée en institut.' },
+  // Nouvelles formations (fiches PDF mars 2026)
+  { nom: 'MasterClass HFS Moshe Alul', slug: 'masterclass-hfs', categorie: 'Dermo-Esthétique' as const, prix_ht: 2500, duree_jours: 2, duree_heures: 14, niveau: 'confirme' as const, description_commerciale: 'Masterclass exclusive Moshe Alul — micro-pigmentation capillaire méthode HFS.' },
+  { nom: 'Blanchiment Dentaire', slug: 'blanchiment-dentaire', categorie: 'Soins Visage' as const, prix_ht: 590, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Blanchiment dentaire professionnel — prestation rapide à forte marge.' },
+  { nom: 'Brow Lift & Rehaussement Cils', slug: 'brow-lift-rehaussement', categorie: 'Soins Visage' as const, prix_ht: 590, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Rehaussement sourcils + cils — technique tendance, résultat immédiat.' },
+  { nom: 'Extension de Cils & Volume Russe', slug: 'extension-cils-volume-russe', categorie: 'Soins Visage' as const, prix_ht: 890, duree_jours: 2, duree_heures: 14, niveau: 'debutant' as const, description_commerciale: 'Extension cils à cils + volume russe — prestation premium 80-150€.' },
+  { nom: 'Fil Collagène', slug: 'fil-collagene', categorie: 'Soins Visage' as const, prix_ht: 690, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Technique anti-âge par fils tenseurs — soin premium haute valeur ajoutée.' },
+  { nom: 'Drainage Lymphatique', slug: 'drainage-lymphatique', categorie: 'Soins Corps' as const, prix_ht: 590, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Drainage lymphatique professionnel — soin bien-être et minceur.' },
+  { nom: 'HIFU (Ultrasons Focalisés)', slug: 'hifu', categorie: 'Soins Corps' as const, prix_ht: 790, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'HIFU lifting sans chirurgie — prestation haut de gamme 200-500€.' },
+  { nom: 'Lifting Colombien', slug: 'lifting-colombien', categorie: 'Soins Corps' as const, prix_ht: 590, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Lifting fessier non invasif — technique tendance, forte demande.' },
+  { nom: 'Lipo, Radiofréquence & Lipolaser', slug: 'lipo-radiofrequence-lipolaser', categorie: 'Soins Corps' as const, prix_ht: 990, duree_jours: 2, duree_heures: 14, niveau: 'debutant' as const, description_commerciale: 'Triple technologie minceur — 3 appareils, résultats visibles.' },
+  { nom: 'Madérothérapie', slug: 'maderotherapie', categorie: 'Soins Corps' as const, prix_ht: 590, duree_jours: 1, duree_heures: 7, niveau: 'debutant' as const, description_commerciale: 'Massage sculptant aux instruments bois — technique colombienne tendance.' },
 ]
 
 // Pagination

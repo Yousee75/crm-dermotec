@@ -10,7 +10,7 @@ export default function ApprenantsPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
-            <GraduationCap className="inline w-7 h-7 mr-3 text-[#0EA5E9]" />
+            <GraduationCap className="inline w-7 h-7 mr-3 text-[#2EC6F3]" />
             Apprenants
           </h1>
           <p className="text-gray-600 mt-1">

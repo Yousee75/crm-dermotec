@@ -8,9 +8,9 @@ export const tokens = {
   color: {
     // Marque principale (adaptée du existant)
     brand: {
-      primary: '#0EA5E9',       // sky-500 (primary existant)
+      primary: '#2EC6F3',       // Couleur branding Dermotec officielle
       hover: '#0284C7',         // sky-600 (primary-dark existant)
-      subtle: 'rgba(14,165,233,0.08)', // primary avec alpha
+      subtle: 'rgba(46,198,243,0.08)', // primary Dermotec avec alpha
     },
 
     // États sémantiques
@@ -62,7 +62,7 @@ export const tokens = {
     sidebar: {
       bg: '#0F172A',            // slate-900 (existant sidebar-bg)
       text: '#CBD5E1',          // slate-300 (existant sidebar-text)
-      active: '#0EA5E9',        // sky-500 (existant sidebar-active)
+      active: '#2EC6F3',        // Couleur primaire Dermotec (sidebar-active)
       hover: '#1E293B',         // slate-800 (existant sidebar-hover)
     },
   },
@@ -151,7 +151,7 @@ export const getColorValue = (path: string): string => {
 }
 
 // Exemples d'usage:
-// getColorValue('brand.primary') → '#0EA5E9'
+// getColorValue('brand.primary') → '#2EC6F3'
 // getColorValue('success.subtle') → '#ECFDF5'
 // tokens.radius.md → '8px'
 // tokens.font.display → "'Bricolage Grotesque', serif"

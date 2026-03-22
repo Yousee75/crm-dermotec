@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-white">

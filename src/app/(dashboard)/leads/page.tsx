@@ -36,6 +36,7 @@ export default function LeadsPage() {
   const [page, setPage] = useState(1)
   const [showCreate, setShowCreate] = useState(false)
   const createLead = useCreateLead()
+  const changeStatut = useChangeStatut()
 
   // Form state pour nouveau lead
   const [newLead, setNewLead] = useState({ prenom: '', nom: '', email: '', telephone: '', source: 'formulaire' as const })
@@ -43,6 +44,7 @@ export default function LeadsPage() {
   const { data, isLoading } = useLeads({
     search: search || undefined,
     statut: statutFilter.length ? statutFilter : undefined,
+    source: sourceFilter.length ? sourceFilter[0] as SourceLead : undefined,
     page,
     per_page: 20,
   })
@@ -221,7 +223,7 @@ export default function LeadsPage() {
       {/* Bulk Actions Bar */}
       {someSelected && (
         <div className="flex items-center gap-3 bg-[#0F172A] text-white rounded-xl px-4 py-3 animate-in slide-in-from-bottom-2">
-          <CheckSquare className="w-4 h-4 text-[#0EA5E9]" />
+          <CheckSquare className="w-4 h-4 text-[#2EC6F3]" />
           <span className="text-sm font-medium">{selectedIds.size} sélectionné{selectedIds.size > 1 ? 's' : ''}</span>
           <div className="flex-1" />
           <select
@@ -235,20 +237,34 @@ export default function LeadsPage() {
             ))}
           </select>
           <button
-            onClick={() => {
+            onClick={async () => {
               if (!bulkStatut) { toast.error('Sélectionnez un statut'); return }
-              toast.success(`${selectedIds.size} leads → ${STATUTS_LEAD[bulkStatut as StatutLead]?.label || bulkStatut}`)
+              const target = bulkStatut as StatutLead
+              let success = 0, errors = 0
+              for (const id of selectedIds) {
+                try {
+                  await changeStatut.mutateAsync({ id, statut: target })
+                  success++
+                } catch {
+                  errors++
+                }
+              }
+              if (success > 0) toast.success(`${success} lead${success > 1 ? 's' : ''} → ${STATUTS_LEAD[target]?.label}`)
+              if (errors > 0) toast.error(`${errors} transition${errors > 1 ? 's' : ''} invalide${errors > 1 ? 's' : ''}`)
               clearSelection()
               setBulkStatut('')
             }}
-            className="px-3 py-1.5 bg-[#0EA5E9] rounded-lg text-sm font-medium hover:bg-[#0EA5E9]/80 transition"
-            disabled={!bulkStatut}
+            className="px-3 py-1.5 bg-[#2EC6F3] rounded-lg text-sm font-medium hover:bg-[#2EC6F3]/80 transition"
+            disabled={!bulkStatut || changeStatut.isPending}
           >
-            Appliquer
+            {changeStatut.isPending ? 'En cours...' : 'Appliquer'}
           </button>
           <button
             onClick={() => {
-              toast.success(`Export de ${selectedIds.size} leads lancé`)
+              if (!data?.leads) return
+              const selectedLeads = data.leads.filter(l => selectedIds.has(l.id))
+              exportToCSV(selectedLeads, `leads-selection-${new Date().toISOString().split('T')[0]}`)
+              toast.success(`${selectedLeads.length} leads exportés`)
               clearSelection()
             }}
             className="p-1.5 hover:bg-white/10 rounded-lg transition"
@@ -266,11 +282,52 @@ export default function LeadsPage() {
         </div>
       )}
 
-      {/* Table */}
+      {/* Mobile Card View */}
+      {!isLoading && data?.leads && data.leads.length > 0 && (
+        <div className="md:hidden mobile-card-stack">
+          {data.leads.map((lead) => {
+            const statut = STATUTS_LEAD[lead.statut]
+            return (
+              <Link key={lead.id} href={`/lead/${lead.id}`} className="block bg-white rounded-xl border border-gray-100 p-4 haptic-press active:bg-gray-50 transition">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="relative flex-shrink-0">
+                      <Avatar name={`${lead.prenom} ${lead.nom}`} size="sm" />
+                      <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white" style={{ backgroundColor: getScoreColor(lead.score_chaud) }} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-[#0F172A] truncate">{lead.prenom} {lead.nom}</p>
+                      <p className="text-xs text-gray-400 truncate">{lead.formation_principale?.nom || lead.statut_pro?.replace(/_/g, ' ') || '—'}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <ScoreChip score={lead.score_chaud} />
+                    <StatusBadge status={lead.statut} label={statut.label} color={statut.color} />
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 mt-3 pt-3 border-t border-gray-50">
+                  {lead.telephone && (
+                    <a href={`tel:${lead.telephone}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#2EC6F3]">
+                      <Phone className="w-3.5 h-3.5" /> {lead.telephone}
+                    </a>
+                  )}
+                  {lead.email && (
+                    <a href={`mailto:${lead.email}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#2EC6F3] truncate">
+                      <Mail className="w-3.5 h-3.5" /> <span className="truncate">{lead.email}</span>
+                    </a>
+                  )}
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Desktop Table */}
       {isLoading ? (
         <SkeletonTable rows={8} cols={6} />
       ) : (
-        <Card padding="none">
+        <Card padding="none" className="hidden md:block">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -280,7 +337,7 @@ export default function LeadsPage() {
                       type="checkbox"
                       checked={allSelected}
                       onChange={toggleAll}
-                      className="w-4 h-4 rounded border-gray-300 text-[#0EA5E9] focus:ring-[#0EA5E9] cursor-pointer"
+                      className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
                     />
                   </th>
                   <th className="px-4 py-3 text-left">
@@ -327,8 +384,8 @@ export default function LeadsPage() {
                     <tr
                       key={lead.id}
                       className={cn(
-                        "group hover:bg-[#0EA5E9]/[0.02] transition-colors cursor-pointer",
-                        selectedIds.has(lead.id) && "bg-[#0EA5E9]/[0.05]"
+                        "group hover:bg-[#2EC6F3]/[0.02] transition-colors cursor-pointer",
+                        selectedIds.has(lead.id) && "bg-[#2EC6F3]/[0.05]"
                       )}
                     >
                       <td className="w-10 px-3 py-3" onClick={e => e.stopPropagation()}>
@@ -336,7 +393,7 @@ export default function LeadsPage() {
                           type="checkbox"
                           checked={selectedIds.has(lead.id)}
                           onChange={() => toggleSelect(lead.id)}
-                          className="w-4 h-4 rounded border-gray-300 text-[#0EA5E9] focus:ring-[#0EA5E9] cursor-pointer"
+                          className="w-4 h-4 rounded border-gray-300 text-[#2EC6F3] focus:ring-[#2EC6F3] cursor-pointer"
                         />
                       </td>
                       <td className="px-4 py-3">
@@ -350,10 +407,10 @@ export default function LeadsPage() {
                             />
                           </div>
                           <div className="min-w-0">
-                            <p className="font-medium text-[#0F172A] truncate group-hover:text-[#0EA5E9] transition">{lead.prenom} {lead.nom}</p>
+                            <p className="font-medium text-[#0F172A] truncate group-hover:text-[#2EC6F3] transition">{lead.prenom} {lead.nom}</p>
                             <p className="text-[11px] text-gray-400 truncate">
                               {lead.statut_pro?.replace(/_/g, ' ') || '—'}
-                              {lead.financement_souhaite && <span className="ml-1 text-[#0EA5E9]" title="Financement souhaité">F</span>}
+                              {lead.financement_souhaite && <span className="ml-1 text-[#2EC6F3]" title="Financement souhaité">F</span>}
                             </p>
                           </div>
                         </Link>
@@ -478,7 +535,7 @@ export default function LeadsPage() {
                         className={cn(
                           'w-8 h-8 rounded-md text-xs font-medium transition',
                           pageNum === page
-                            ? 'bg-[#0EA5E9] text-white shadow-sm'
+                            ? 'bg-[#2EC6F3] text-white shadow-sm'
                             : 'text-gray-500 hover:bg-gray-100'
                         )}
                       >
@@ -517,7 +574,7 @@ export default function LeadsPage() {
                 type="text"
                 value={newLead.prenom}
                 onChange={(e) => setNewLead(prev => ({ ...prev, prenom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
                 placeholder="Marie"
                 autoFocus
               />
@@ -528,7 +585,7 @@ export default function LeadsPage() {
                 type="text"
                 value={newLead.nom}
                 onChange={(e) => setNewLead(prev => ({ ...prev, nom: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
                 placeholder="Dupont"
               />
             </div>
@@ -540,7 +597,7 @@ export default function LeadsPage() {
               type="email"
               value={newLead.email}
               onChange={(e) => setNewLead(prev => ({ ...prev, email: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
               placeholder="marie@exemple.fr"
             />
           </div>
@@ -551,7 +608,7 @@ export default function LeadsPage() {
               type="tel"
               value={newLead.telephone}
               onChange={(e) => setNewLead(prev => ({ ...prev, telephone: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9]"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3]"
               placeholder="06 12 34 56 78"
             />
           </div>
@@ -561,7 +618,7 @@ export default function LeadsPage() {
             <select
               value={newLead.source}
               onChange={(e) => setNewLead(prev => ({ ...prev, source: e.target.value as typeof prev.source }))}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/30 focus:border-[#0EA5E9] bg-white"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] bg-white"
             >
               <option value="formulaire">Formulaire</option>
               <option value="telephone">Téléphone</option>

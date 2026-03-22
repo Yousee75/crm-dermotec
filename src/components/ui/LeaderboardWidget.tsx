@@ -29,8 +29,24 @@ interface LeaderboardEntry {
 export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetProps) {
   const supabase = createClient()
 
+  // Identifier le commercial connecté pour le highlight
+  const { data: currentEquipe } = useQuery({
+    queryKey: ['current-equipe-leaderboard'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+      const { data } = await supabase
+        .from('equipe')
+        .select('id')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      return data?.id || null
+    },
+    staleTime: 10 * 60 * 1000,
+  })
+
   const { data: leaderboard, isLoading } = useQuery({
-    queryKey: ['leaderboard', limit],
+    queryKey: ['leaderboard', limit, currentEquipe],
     queryFn: async () => {
       // Récupérer tous les commerciaux
       const { data: commerciaux } = await supabase
@@ -107,7 +123,7 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
           points: gamificationData.points,
           level: gamificationData.level,
           streak: gamificationData.streak,
-          isCurrentUser: commercial.id === 'current-user', // TODO: Récupérer l'ID réel du user connecté
+          isCurrentUser: commercial.id === (currentEquipe || ''),
           rank: 0 // Sera défini après le tri
         })
       }

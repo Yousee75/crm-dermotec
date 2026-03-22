@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { use, useState, useEffect, useCallback } from 'react'
+import { use, useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import Link from 'next/link'
 import { useLead, useUpdateLead, useChangeStatut } from '@/hooks/use-leads'
 import { trackLeadView } from '@/components/ui/CommandPalette'
@@ -28,6 +28,14 @@ import {
   Sparkles, TrendingUp, Calendar, Info
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+// Briques CRM intelligentes
+import LeadActionHub from '@/components/crm/LeadActionHub'
+import ParcoursClient from '@/components/crm/ParcoursClient'
+import FormationSuggester from '@/components/crm/FormationSuggester'
+import FinancementExpress from '@/components/crm/FinancementExpress'
+// Import dynamique pour éviter les erreurs de build
+const WizardInscription = lazy(() => import('@/components/crm/WizardInscription'))
 
 type TabId = 'infos' | 'communication' | 'financement' | 'documents' | 'historique'
 
@@ -66,6 +74,21 @@ const EXPERIENCE_OPTIONS = [
   { value: 'experte', label: 'Experte' },
 ]
 
+// Transitions valides pour le statut — filtrées dans le menu
+const VALID_LEAD_TRANSITIONS: Record<StatutLead, StatutLead[]> = {
+  NOUVEAU: ['CONTACTE', 'QUALIFIE', 'PERDU', 'SPAM'],
+  CONTACTE: ['QUALIFIE', 'FINANCEMENT_EN_COURS', 'PERDU', 'REPORTE', 'SPAM'],
+  QUALIFIE: ['FINANCEMENT_EN_COURS', 'INSCRIT', 'PERDU', 'REPORTE'],
+  FINANCEMENT_EN_COURS: ['INSCRIT', 'PERDU', 'REPORTE', 'QUALIFIE'],
+  INSCRIT: ['EN_FORMATION', 'PERDU', 'REPORTE'],
+  EN_FORMATION: ['FORME', 'PERDU'],
+  FORME: ['ALUMNI', 'PERDU'],
+  ALUMNI: ['QUALIFIE'], // Re-inscription possible
+  PERDU: ['NOUVEAU', 'CONTACTE'], // Réactivation
+  REPORTE: ['CONTACTE', 'QUALIFIE', 'PERDU'],
+  SPAM: [], // Terminal
+}
+
 export default function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const [activeTab, setActiveTab] = useState<TabId>('infos')
@@ -78,6 +101,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const [showInscrire, setShowInscrire] = useState(false)
   const [showAssign, setShowAssign] = useState(false)
   const [showStatutMenu, setShowStatutMenu] = useState(false)
+  const [showWizard, setShowWizard] = useState(false)
 
   const { data: lead, isLoading } = useLead(id)
   const { data: messages = [] } = useMessages(id)
@@ -185,41 +209,37 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const scoreColor = getScoreColor(lead.score_chaud)
   const scoreLabel = getScoreLabel(lead.score_chaud)
   const completionPct = getCompletionPercent(lead)
+  const validTransitions = VALID_LEAD_TRANSITIONS[lead.statut] || []
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* ===== HEADER — Compact & actionnable ===== */}
+      {/* ===== HEADER — Mobile responsive + score proéminent ===== */}
       <div className="bg-white rounded-xl border border-gray-100 p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div className="flex flex-col gap-4">
+          {/* Ligne 1: Navigation + Nom + Score */}
           <div className="flex items-start gap-3 sm:gap-4">
             <Link href="/leads" className="p-2 hover:bg-gray-100 rounded-lg transition shrink-0 -ml-2 mt-1">
               <ArrowLeft className="w-5 h-5 text-gray-400" />
             </Link>
 
-            {/* Avatar avec score */}
-            <div className="relative shrink-0">
+            {/* Avatar */}
+            <div className="shrink-0">
               <div
                 className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-semibold text-lg"
                 style={{ backgroundColor: scoreColor }}
               >
                 {(lead.prenom[0] + (lead.nom?.[0] || '')).toUpperCase()}
               </div>
-              <div
-                className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center text-[8px] font-bold text-white"
-                style={{ backgroundColor: scoreColor }}
-                title={`Score: ${lead.score_chaud}/100`}
-              >
-                {lead.score_chaud}
-              </div>
             </div>
 
-            <div className="min-w-0 space-y-1.5">
-              <div className="flex flex-wrap items-center gap-2">
+            <div className="min-w-0 flex-1 space-y-2">
+              {/* Nom + Statut */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <h1 className="text-xl sm:text-2xl font-bold text-[#082545] truncate" style={{ fontFamily: 'var(--font-heading)' }}>
                   {lead.civilite} {lead.prenom} {lead.nom}
                 </h1>
 
-                {/* Statut cliquable — changement rapide */}
+                {/* Statut cliquable — menu filtré */}
                 <div className="relative">
                   <button
                     onClick={() => setShowStatutMenu(p => !p)}
@@ -234,27 +254,26 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                     <>
                       <div className="fixed inset-0 z-40" onClick={() => setShowStatutMenu(false)} />
                       <div className="absolute left-0 top-full mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-100 z-50 py-1 max-h-64 overflow-y-auto animate-scaleIn origin-top-left">
-                        {Object.entries(STATUTS_LEAD).map(([key, val]) => (
-                          <button
-                            key={key}
-                            onClick={() => handleChangeStatut(key as StatutLead)}
-                            className={cn(
-                              'w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50 transition text-left',
-                              key === lead.statut && 'bg-gray-50 font-medium'
-                            )}
-                          >
-                            <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: val.color }} />
-                            {val.label}
-                            {key === lead.statut && <Check className="w-3 h-3 ml-auto text-green-500" />}
-                          </button>
-                        ))}
+                        {validTransitions.map((statusKey) => {
+                          const statusConfig = STATUTS_LEAD[statusKey]
+                          return (
+                            <button
+                              key={statusKey}
+                              onClick={() => handleChangeStatut(statusKey)}
+                              className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50 transition text-left"
+                            >
+                              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: statusConfig.color }} />
+                              {statusConfig.label}
+                            </button>
+                          )
+                        })}
                       </div>
                     </>
                   )}
                 </div>
               </div>
 
-              {/* Infos rapides + copie */}
+              {/* Contact info + copie */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
                 {lead.email && (
                   <button onClick={() => handleCopy(lead.email!, 'Email')} className="flex items-center gap-1 hover:text-[#2EC6F3] transition truncate max-w-[200px]" title={lead.email}>
@@ -272,84 +291,98 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 <span className="text-gray-300">|</span>
                 <span className="text-xs">{scoreLabel} · {lead.source.replace(/_/g, ' ')} · {formatDate(lead.created_at)}</span>
               </div>
+            </div>
 
-              {/* Barre de complétion profil */}
-              <div className="flex items-center gap-2">
-                <div className="flex-1 max-w-[200px] h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${completionPct}%`,
-                      backgroundColor: completionPct >= 80 ? '#22C55E' : completionPct >= 50 ? '#F59E0B' : '#94A3B8'
-                    }}
-                  />
-                </div>
-                <span className="text-[10px] text-gray-400">Profil {completionPct}%</span>
-                {completionPct < 80 && (
-                  <button
-                    onClick={() => { setActiveTab('infos'); setIsEditing(true) }}
-                    className="text-[10px] text-[#2EC6F3] hover:underline"
-                  >
-                    Compléter
-                  </button>
-                )}
+            {/* Score proéminent - cercle 48px */}
+            <div className="shrink-0">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg border-2 border-white shadow-lg"
+                style={{ backgroundColor: scoreColor }}
+                title={`Score: ${lead.score_chaud}/100 - ${scoreLabel}`}
+              >
+                {lead.score_chaud}
               </div>
             </div>
           </div>
 
-          {/* Quick actions — gros boutons tactiles */}
-          <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
-            {lead.telephone && (
-              <a href={`tel:${lead.telephone}`} className="flex items-center gap-2 px-3 py-2.5 sm:px-4 bg-green-50 text-green-700 rounded-lg text-sm hover:bg-green-100 transition font-medium min-h-[44px]">
-                <Phone className="w-4 h-4" />
-                <span className="hidden sm:inline">Appeler</span>
-              </a>
-            )}
-            {lead.email && (
-              <a href={`mailto:${lead.email}`} className="flex items-center gap-2 px-3 py-2.5 sm:px-4 bg-blue-50 text-blue-700 rounded-lg text-sm hover:bg-blue-100 transition font-medium min-h-[44px]">
-                <Mail className="w-4 h-4" />
-                <span className="hidden sm:inline">Email</span>
-              </a>
-            )}
-            {lead.whatsapp && (
-              <a href={`https://wa.me/${lead.whatsapp.replace(/[^\d]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2.5 sm:px-4 bg-emerald-50 text-emerald-700 rounded-lg text-sm hover:bg-emerald-100 transition font-medium min-h-[44px]">
-                <MessageCircle className="w-4 h-4" />
-                <span className="hidden sm:inline">WhatsApp</span>
-              </a>
-            )}
-            <button
-              onClick={async () => {
-                if (!lead) return
-                toast.info('Recherche en cours...')
-                try {
-                  const result = await aiResearch.mutateAsync({
-                    nom: `${lead.prenom} ${lead.nom || ''}`.trim(),
-                    entreprise: lead.entreprise_nom || undefined,
-                    ville: lead.adresse?.ville || 'Paris',
-                    secteur: 'esthetique formation beaute',
-                  })
-                  setResearchData(result)
-                  toast.success('Recherche terminee')
-                } catch {
-                  toast.error('Recherche indisponible')
-                }
-              }}
-              disabled={aiResearch.isPending}
-              className="flex items-center gap-2 px-3 py-2.5 bg-cyan-50 text-cyan-700 rounded-lg text-sm hover:bg-cyan-100 transition font-medium min-h-[44px] disabled:opacity-50"
-              title="Rechercher des informations sur ce prospect"
-            >
-              <Sparkles className={cn('w-4 h-4', aiResearch.isPending && 'animate-spin')} />
-              <span className="hidden sm:inline">{aiResearch.isPending ? 'Recherche...' : 'Enrichir'}</span>
-            </button>
-            <div className="hidden sm:block w-px h-6 bg-gray-200" />
-            <button onClick={() => setShowInscrire(true)} className="flex items-center gap-2 px-3 py-2.5 sm:px-4 bg-violet-50 text-violet-700 rounded-lg text-sm hover:bg-violet-100 transition font-medium min-h-[44px]">
-              <GraduationCap className="w-4 h-4" />
-              <span className="hidden sm:inline">Inscrire</span>
-            </button>
-            <button onClick={() => setShowAssign(true)} className="flex items-center gap-2 px-3 py-2.5 bg-gray-50 text-gray-600 rounded-lg text-sm hover:bg-gray-100 transition min-h-[44px]">
-              <Target className="w-4 h-4" />
-              <span className="hidden lg:inline">{lead.commercial_assigne ? lead.commercial_assigne.prenom : 'Assigner'}</span>
-            </button>
+          {/* Ligne 2: Barre complétion + Actions tactiles */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+            {/* Barre de complétion profil */}
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="flex-1 max-w-[200px] h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${completionPct}%`,
+                    backgroundColor: completionPct >= 80 ? '#22C55E' : completionPct >= 50 ? '#F59E0B' : '#94A3B8'
+                  }}
+                />
+              </div>
+              <span className="text-[10px] text-gray-400 whitespace-nowrap">Profil {completionPct}%</span>
+              {completionPct < 80 && (
+                <button
+                  onClick={() => { setActiveTab('infos'); setIsEditing(true) }}
+                  className="text-[10px] text-[#2EC6F3] hover:underline whitespace-nowrap"
+                >
+                  Compléter
+                </button>
+              )}
+            </div>
+
+            {/* Actions rapides — 44x44px tactile */}
+            <div className="flex flex-wrap items-center gap-2">
+              {lead.telephone && (
+                <a href={`tel:${lead.telephone}`} className="flex items-center justify-center w-11 h-11 sm:w-auto sm:h-auto sm:px-3 sm:py-2.5 bg-green-50 text-green-700 rounded-lg text-sm hover:bg-green-100 transition font-medium">
+                  <Phone className="w-4 h-4" />
+                  <span className="hidden sm:inline sm:ml-2">Appeler</span>
+                </a>
+              )}
+              {lead.email && (
+                <a href={`mailto:${lead.email}`} className="flex items-center justify-center w-11 h-11 sm:w-auto sm:h-auto sm:px-3 sm:py-2.5 bg-blue-50 text-blue-700 rounded-lg text-sm hover:bg-blue-100 transition font-medium">
+                  <Mail className="w-4 h-4" />
+                  <span className="hidden sm:inline sm:ml-2">Email</span>
+                </a>
+              )}
+              {lead.whatsapp && (
+                <a href={`https://wa.me/${lead.whatsapp.replace(/[^\d]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-11 h-11 sm:w-auto sm:h-auto sm:px-3 sm:py-2.5 bg-emerald-50 text-emerald-700 rounded-lg text-sm hover:bg-emerald-100 transition font-medium">
+                  <MessageCircle className="w-4 h-4" />
+                  <span className="hidden sm:inline sm:ml-2">WhatsApp</span>
+                </a>
+              )}
+              <button
+                onClick={async () => {
+                  if (!lead) return
+                  toast.info('Recherche en cours...')
+                  try {
+                    const result = await aiResearch.mutateAsync({
+                      nom: `${lead.prenom} ${lead.nom || ''}`.trim(),
+                      entreprise: lead.entreprise_nom || undefined,
+                      ville: lead.adresse?.ville || 'Paris',
+                      secteur: 'esthetique formation beaute',
+                    })
+                    setResearchData(result)
+                    toast.success('Recherche terminee')
+                  } catch {
+                    toast.error('Recherche indisponible')
+                  }
+                }}
+                disabled={aiResearch.isPending}
+                className="flex items-center justify-center w-11 h-11 sm:w-auto sm:h-auto sm:px-3 sm:py-2.5 bg-cyan-50 text-cyan-700 rounded-lg text-sm hover:bg-cyan-100 transition font-medium disabled:opacity-50"
+                title="Rechercher des informations sur ce prospect"
+              >
+                <Sparkles className={cn('w-4 h-4', aiResearch.isPending && 'animate-spin')} />
+                <span className="hidden sm:inline sm:ml-2">{aiResearch.isPending ? 'Recherche...' : 'Enrichir'}</span>
+              </button>
+              <div className="hidden sm:block w-px h-6 bg-gray-200" />
+              <button onClick={() => setShowInscrire(true)} className="flex items-center justify-center w-11 h-11 sm:w-auto sm:h-auto sm:px-3 sm:py-2.5 bg-violet-50 text-violet-700 rounded-lg text-sm hover:bg-violet-100 transition font-medium">
+                <GraduationCap className="w-4 h-4" />
+                <span className="hidden sm:inline sm:ml-2">Inscrire</span>
+              </button>
+              <button onClick={() => setShowAssign(true)} className="flex items-center justify-center w-11 h-11 sm:w-auto sm:h-auto sm:px-3 sm:py-2.5 bg-gray-50 text-gray-600 rounded-lg text-sm hover:bg-gray-100 transition">
+                <Target className="w-4 h-4" />
+                <span className="hidden lg:inline lg:ml-2">{lead.commercial_assigne ? lead.commercial_assigne.prenom : 'Assigner'}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -398,35 +431,60 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
         </div>
       )}
 
-      {/* ===== TABS — Scrollable mobile, labels courts ===== */}
+      {/* ===== BRIQUES CRM INTELLIGENTES ===== */}
+      {/* Parcours client - barre de progression compacte */}
+      <ParcoursClient leadId={id} compact />
+
+      {/* Actions contextuelles intelligentes */}
+      <LeadActionHub
+        leadId={id}
+        onActionClick={(action) => {
+          if (action === 'inscrire' || action === 'proposer_formation') {
+            setShowWizard(true)
+          }
+          if (action === 'qualifier') {
+            setActiveTab('infos')
+            setIsEditing(true)
+          }
+          if (action === 'simuler_financement') {
+            setActiveTab('financement')
+          }
+        }}
+      />
+
+      {/* ===== TABS — Scrollable mobile avec fade gradient ===== */}
       <div className="border-b border-gray-200 -mx-4 sm:mx-0 px-4 sm:px-0">
-        <div className="flex gap-1 sm:gap-6 overflow-x-auto scrollbar-hide">
-          {TABS.map((tab) => {
-            const Icon = tab.icon
-            const count = tab.id === 'communication' ? messages.length
-              : tab.id === 'documents' ? (lead.documents?.length || 0)
-              : tab.id === 'financement' ? (lead.financements?.length || 0)
-              : undefined
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={cn(
-                  'flex items-center gap-1.5 px-2 sm:px-1 py-3 text-sm font-medium border-b-2 transition-colors min-w-max whitespace-nowrap',
-                  activeTab === tab.id
-                    ? 'border-[#2EC6F3] text-[#2EC6F3]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                )}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="hidden sm:inline">{tab.label}</span>
-                <span className="sm:hidden">{tab.mobileLabel}</span>
-                {count !== undefined && count > 0 && (
-                  <span className="px-1.5 py-0.5 bg-gray-100 text-gray-500 text-[10px] rounded-full font-medium">{count}</span>
-                )}
-              </button>
-            )
-          })}
+        <div className="relative">
+          <div className="flex gap-1 sm:gap-6 overflow-x-auto scroll-smooth scrollbar-hide -webkit-overflow-scrolling-touch">
+            {TABS.map((tab) => {
+              const Icon = tab.icon
+              const count = tab.id === 'communication' ? messages.length
+                : tab.id === 'documents' ? (lead.documents?.length || 0)
+                : tab.id === 'financement' ? (lead.financements?.length || 0)
+                : undefined
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={cn(
+                    'flex items-center gap-1.5 px-4 sm:px-1 py-3 text-sm font-medium border-b-2 transition-colors min-w-fit whitespace-nowrap',
+                    activeTab === tab.id
+                      ? 'border-[#2EC6F3] text-[#2EC6F3]'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  )}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.mobileLabel}</span>
+                  {count !== undefined && count > 0 && (
+                    <span className="px-1.5 py-0.5 bg-gray-100 text-gray-500 text-[10px] rounded-full font-medium">{count}</span>
+                  )}
+                </button>
+              )
+            })}
+          </div>
+          {/* Fade gradient à droite pour indiquer plus de tabs */}
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none sm:hidden" />
         </div>
       </div>
 
@@ -470,6 +528,29 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
       {/* Dialogs */}
       <InscrireLeadDialog open={showInscrire} onClose={() => setShowInscrire(false)} lead={lead} />
       <AssignCommercialDialog open={showAssign} onClose={() => setShowAssign(false)} lead={lead} />
+
+      {/* Wizard inscription intelligent */}
+      {showWizard && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <Suspense fallback={
+              <div className="p-8 flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-[#2EC6F3] border-t-transparent rounded-full animate-spin" />
+                <span className="ml-3 text-slate-600">Chargement du wizard...</span>
+              </div>
+            }>
+              <WizardInscription
+                leadId={id}
+                onComplete={(inscriptionId) => {
+                  setShowWizard(false)
+                  toast.success('Inscription créée avec succès')
+                }}
+                onCancel={() => setShowWizard(false)}
+              />
+            </Suspense>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -585,6 +666,16 @@ function InformationsTab({
             )}
           </Section>
 
+          {/* Formations recommandées */}
+          <FormationSuggester
+            leadId={lead.id}
+            compact
+            onSelect={(formationId) => {
+              // Ouvrir le wizard avec la formation pré-sélectionnée
+              setShowWizard(true)
+            }}
+          />
+
           {/* Adresse */}
           <Section title="Adresse" icon={<MapPin className="w-4 h-4" />}>
             <div className="space-y-3">
@@ -676,7 +767,7 @@ function InformationsTab({
   )
 }
 
-// ===== COMMUNICATION TAB =====
+// ===== COMMUNICATION TAB — Message canal UI améliorée =====
 function CommunicationTab({
   lead, messages, cadenceInstances,
   messageCanal, setMessageCanal, messageContent, setMessageContent,
@@ -691,6 +782,59 @@ function CommunicationTab({
   const sortedMessages = [...messages].sort((a, b) =>
     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   )
+
+  const renderMessageFields = () => {
+    switch (messageCanal) {
+      case 'email':
+        return (
+          <>
+            <input
+              type="text"
+              placeholder="Sujet de l'email..."
+              value={messageSubject}
+              onChange={(e) => setMessageSubject(e.target.value)}
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+            />
+            <textarea
+              placeholder="Votre message email..."
+              value={messageContent}
+              onChange={(e) => setMessageContent(e.target.value)}
+              rows={4}
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm resize-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+            />
+          </>
+        )
+      case 'appel':
+        return (
+          <div className="space-y-3">
+            <div className="text-sm text-gray-600 bg-amber-50 border border-amber-200 rounded-lg p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Phone className="w-4 h-4 text-amber-600" />
+                <span className="font-medium">Appel téléphonique</span>
+              </div>
+              <p className="text-xs">Une fois l'appel terminé, ajoutez vos notes ci-dessous et cliquez sur "Marquer comme effectué".</p>
+            </div>
+            <textarea
+              placeholder="Notes de l'appel : sujets abordés, réponses du prospect, prochaines étapes..."
+              value={messageContent}
+              onChange={(e) => setMessageContent(e.target.value)}
+              rows={3}
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm resize-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+            />
+          </div>
+        )
+      default:
+        return (
+          <textarea
+            placeholder={`Votre message ${CANAUX_MESSAGE.find(c => c.id === messageCanal)?.label.toLowerCase()}...`}
+            value={messageContent}
+            onChange={(e) => setMessageContent(e.target.value)}
+            rows={3}
+            className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm resize-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
+          />
+        )
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -719,23 +863,8 @@ function CommunicationTab({
             })}
           </div>
 
-          {messageCanal === 'email' && (
-            <input
-              type="text"
-              placeholder="Sujet de l'email..."
-              value={messageSubject}
-              onChange={(e) => setMessageSubject(e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
-            />
-          )}
-
-          <textarea
-            placeholder={`Votre message ${CANAUX_MESSAGE.find(c => c.id === messageCanal)?.label.toLowerCase()}...`}
-            value={messageContent}
-            onChange={(e) => setMessageContent(e.target.value)}
-            rows={3}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm resize-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] outline-none"
-          />
+          {/* Champs contextuels selon le canal */}
+          {renderMessageFields()}
 
           <div className="flex items-center justify-between">
             <p className="text-xs text-gray-400">
@@ -747,7 +876,7 @@ function CommunicationTab({
               className="flex items-center gap-2 px-4 py-2.5 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#2EC6F3]/90 transition disabled:opacity-50 min-h-[44px] font-medium"
             >
               {isSending ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Send className="w-4 h-4" />}
-              Envoyer
+              {messageCanal === 'appel' ? 'Marquer comme effectué' : 'Envoyer'}
             </button>
           </div>
         </div>
@@ -816,6 +945,14 @@ function CommunicationTab({
 function FinancementTab({ lead }: { lead: Lead }) {
   return (
     <div className="space-y-6">
+      {/* Financement express - simulation rapide */}
+      <FinancementExpress
+        leadId={lead.id}
+        formationPrix={lead.formation_principale?.prix_ht || 1400}
+        formationDureeHeures={lead.formation_principale?.duree_heures || 14}
+        compact
+      />
+
       <Section title="Statut financement" icon={<Wallet className="w-4 h-4" />}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>

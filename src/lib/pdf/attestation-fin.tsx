@@ -181,8 +181,8 @@ export function AttestationFinPDF({
           <Text style={styles.address}>
             Centre de Formation Certifié Qualiopi{'\n'}
             75 Boulevard Richard Lenoir, 75011 Paris{'\n'}
-            Tél. : 01 88 33 43 43 • SIRET : 123 456 789 00012{'\n'}
-            Déclaration d'activité enregistrée sous le n° 11755XXX075
+            Tél. : 01 88 33 43 43 • SIRET : 851 306 860 00012{'\n'}
+            Déclaration d'activité enregistrée sous le n° 11755959875
           </Text>
           <View style={styles.separator} />
         </View>

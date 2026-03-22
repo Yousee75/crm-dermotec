@@ -125,6 +125,13 @@ export async function middleware(request: NextRequest) {
     return addSecurityHeaders(response, nonce)
   }
 
+  // Demo mode: allow dashboard access without auth for demo/dev
+  const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+  if (DEMO_MODE && !isPublicPath(pathname)) {
+    const response = NextResponse.next({ request })
+    return addSecurityHeaders(response, nonce)
+  }
+
   // Supabase auth
   let supabaseResponse = NextResponse.next({ request })
 

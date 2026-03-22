@@ -1,115 +1,1039 @@
 'use client'
 
-import { BookOpen, Sparkles, GraduationCap, Users } from 'lucide-react'
-import { Badge } from '@/components/ui/Badge'
+import { useState, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  Search,
+  Clock,
+  Euro,
+  TrendingUp,
+  Filter,
+  ChevronRight,
+  ChevronDown,
+  Calculator,
+  BookOpen,
+  AlertTriangle,
+  Users,
+  Award,
+  Target,
+  Zap,
+  Heart,
+  Sparkles,
+  ShieldCheck,
+  X
+} from 'lucide-react'
+import {
+  FORMATIONS_ENRICHIES,
+  getFormationsByCategorie,
+  PARCOURS_RECOMMANDE,
+  TABLEAU_ROI_COMPARATIF
+} from '@/lib/formations-content-enriched'
+import type { FormationEnriched } from '@/types/formations-content'
 
-export default function CataloguePage() {
+// Types
+type CategorieFormation = FormationEnriched['categorie']
+type TabDetail = 'technique' | 'roi' | 'faq' | 'reglementation'
+
+// Configuration des catégories avec couleurs et icônes
+const CATEGORIES_CONFIG = {
+  dermopigmentation: {
+    label: 'Dermopigmentation',
+    count: 6,
+    color: 'from-pink-500 to-rose-600',
+    icon: Heart
+  },
+  'soins-visage': {
+    label: 'Soins Visage',
+    count: 2,
+    color: 'from-blue-500 to-cyan-600',
+    icon: Sparkles
+  },
+  'laser-ipl': {
+    label: 'Laser & IPL',
+    count: 1,
+    color: 'from-purple-500 to-violet-600',
+    icon: Zap
+  },
+  reglementaire: {
+    label: 'Réglementaire',
+    count: 1,
+    color: 'from-green-500 to-emerald-600',
+    icon: ShieldCheck
+  },
+  tricopigmentation: {
+    label: 'Tricopigmentation',
+    count: 1,
+    color: 'from-amber-500 to-orange-600',
+    icon: Target
+  }
+} as const
+
+// Animations
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+}
+
+// Composant Hero Section
+function HeroSection({ searchTerm, onSearchChange }: {
+  searchTerm: string
+  onSearchChange: (term: string) => void
+}) {
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
-            <BookOpen className="inline w-7 h-7 mr-3 text-[#0EA5E9]" />
-            Catalogue de formations
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Gérez vos produits de formation, programmes et tarifs
-          </p>
-        </div>
-        <Badge variant="info" size="lg">
-          <Sparkles className="w-4 h-4 mr-2" />
-          En développement
-        </Badge>
-      </div>
+    <motion.div
+      className="relative overflow-hidden bg-gradient-to-br from-[#2EC6F3] via-blue-500 to-[#082545] text-white"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="absolute inset-0 bg-black/20" />
+      <div className="relative px-6 py-16 mx-auto max-w-7xl">
+        <div className="text-center">
+          <motion.h1
+            className="mb-4 text-4xl font-heading font-bold lg:text-6xl"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+              Catalogue Formations
+            </span>
+            <br />
+            <span className="text-white">Dermotec</span>
+          </motion.h1>
 
-      {/* Preview cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Gestion formations */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
-          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4">
-            <BookOpen className="w-6 h-6 text-white" />
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
-            Gestion du catalogue
-          </h3>
-          <p className="text-gray-600 text-sm leading-relaxed mb-4">
-            Créez et modifiez vos formations, gérez les programmes, prérequis et tarifications
-          </p>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-400">Bientôt disponible</span>
-          </div>
-        </div>
+          <motion.p
+            className="mb-8 text-xl text-blue-100 lg:text-2xl"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            11 formations certifiées Qualiopi — De 450€ à 2 500€ HT
+          </motion.p>
 
-        {/* Stats formations */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
-          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4">
-            <GraduationCap className="w-6 h-6 text-white" />
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
-            Analytics formations
-          </h3>
-          <p className="text-gray-600 text-sm leading-relaxed mb-4">
-            Analysez les performances : nombre de sessions, d'inscrits et CA par formation
-          </p>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-400">Bientôt disponible</span>
-          </div>
-        </div>
+          <motion.div
+            className="max-w-2xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Rechercher une formation..."
+                value={searchTerm}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="w-full px-12 py-4 text-gray-900 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 text-lg"
+              />
+            </div>
+          </motion.div>
 
-        {/* Catalogue public */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
-          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-4">
-            <Users className="w-6 h-6 text-white" />
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
-            Catalogue public
-          </h3>
-          <p className="text-gray-600 text-sm leading-relaxed mb-4">
-            Générez automatiquement un catalogue en ligne avec inscriptions directes
-          </p>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-400">Bientôt disponible</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Features preview */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-          Fonctionnalités à venir
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+          <motion.div
+            className="flex justify-center gap-8 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
             <div>
-              <h4 className="font-medium text-gray-900 mb-1">Générateur de programmes</h4>
-              <p className="text-sm text-gray-600">Créez automatiquement des programmes PDF professionnels</p>
+              <div className="text-3xl font-bold">11</div>
+              <div className="text-blue-200">Formations</div>
             </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
             <div>
-              <h4 className="font-medium text-gray-900 mb-1">Tarification dynamique</h4>
-              <p className="text-sm text-gray-600">Ajustez les prix selon les périodes et financeurs</p>
+              <div className="text-3xl font-bold">5</div>
+              <div className="text-blue-200">Catégories</div>
             </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 flex-shrink-0"></div>
             <div>
-              <h4 className="font-medium text-gray-900 mb-1">Prérequis automatiques</h4>
-              <p className="text-sm text-gray-600">Vérifiez automatiquement les prérequis avant inscription</p>
+              <div className="text-3xl font-bold">2</div>
+              <div className="text-blue-200">Mois ROI</div>
             </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-amber-500 mt-2 flex-shrink-0"></div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-1">Catalogue public auto-généré</h4>
-              <p className="text-sm text-gray-600">Site de présentation avec inscriptions en ligne</p>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
+    </motion.div>
+  )
+}
+
+// Composant Filtres par catégorie
+function CategoryTabs({
+  selectedCategory,
+  onCategoryChange
+}: {
+  selectedCategory: string
+  onCategoryChange: (category: string) => void
+}) {
+  const categories = ['all', ...Object.keys(CATEGORIES_CONFIG)] as const
+
+  return (
+    <div className="px-6 py-8 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+          {categories.map((category) => {
+            const isActive = selectedCategory === category
+            const isAll = category === 'all'
+            const config = isAll ? null : CATEGORIES_CONFIG[category as CategorieFormation]
+            const Icon = config?.icon || Filter
+
+            return (
+              <motion.button
+                key={category}
+                onClick={() => onCategoryChange(category)}
+                className={`relative flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  isActive
+                    ? 'bg-[#2EC6F3] text-white shadow-lg'
+                    : 'bg-white text-gray-600 hover:bg-gray-100'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Icon className="w-4 h-4" />
+                <span>
+                  {isAll ? 'Toutes' : config?.label}
+                </span>
+                {!isAll && (
+                  <span className={`px-2 py-0.5 rounded-full text-xs ${
+                    isActive ? 'bg-blue-400 text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    {config?.count}
+                  </span>
+                )}
+                {isActive && (
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-blue-300 rounded-full"
+                    layoutId="activeTab"
+                  />
+                )}
+              </motion.button>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Composant Timeline Parcours Recommandé
+function ParcoursTimeline() {
+  return (
+    <div className="px-6 py-16 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+            Parcours de Formation Recommandé
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Un cheminement logique pour développer votre expertise étape par étape
+          </p>
+        </motion.div>
+
+        <div className="relative">
+          {/* Timeline line */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-gradient-to-b from-[#2EC6F3] to-[#082545] h-full hidden lg:block" />
+
+          <div className="space-y-12 lg:space-y-16">
+            {PARCOURS_RECOMMANDE.map((etape, index) => (
+              <motion.div
+                key={etape.etape}
+                className={`flex items-center ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.2 }}
+              >
+                {/* Content */}
+                <div className="flex-1 lg:px-8">
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-r from-[#2EC6F3] to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                        {etape.etape}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-heading font-bold text-[#082545]">
+                          {etape.niveau}
+                        </h3>
+                        <p className="text-gray-600">{etape.description}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {etape.formations.map((formationSlug) => {
+                        const formation = FORMATIONS_ENRICHIES.find(f => f.slug === formationSlug)
+                        if (!formation) return null
+
+                        return (
+                          <span
+                            key={formationSlug}
+                            className="px-3 py-1 bg-blue-50 text-[#2EC6F3] rounded-full text-sm font-medium"
+                          >
+                            {formation.nom}
+                          </span>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Timeline dot (desktop) */}
+                <div className="hidden lg:block w-6 h-6 bg-[#2EC6F3] rounded-full border-4 border-white shadow-lg z-10" />
+
+                {/* Spacer */}
+                <div className="flex-1 lg:px-8" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Composant Card Formation
+function FormationCard({
+  formation,
+  onClick
+}: {
+  formation: FormationEnriched
+  onClick: () => void
+}) {
+  const config = CATEGORIES_CONFIG[formation.categorie]
+  const Icon = config.icon
+
+  return (
+    <motion.div
+      className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer"
+      variants={itemVariants}
+      whileHover={{ scale: 1.02, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
+      onClick={onClick}
+    >
+      {/* Image placeholder avec gradient */}
+      <div className={`h-48 bg-gradient-to-br ${config.color} relative overflow-hidden`}>
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute top-4 left-4">
+          <span className="px-3 py-1 bg-white/90 text-gray-800 rounded-full text-sm font-medium">
+            {config.label}
+          </span>
+        </div>
+        <div className="absolute bottom-4 right-4">
+          <Icon className="w-12 h-12 text-white/80" />
+        </div>
+      </div>
+
+      {/* Contenu */}
+      <div className="p-6">
+        <div className="flex items-start justify-between mb-4">
+          <h3 className="text-xl font-heading font-bold text-[#082545] group-hover:text-[#2EC6F3] transition-colors">
+            {formation.nom}
+          </h3>
+          <span className="text-2xl font-bold text-[#2EC6F3]">
+            {formation.prix}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-4 mb-4 text-gray-600">
+          <div className="flex items-center gap-1">
+            <Clock className="w-4 h-4" />
+            <span className="text-sm">{formation.duree}</span>
+          </div>
+        </div>
+
+        {/* Mini ROI preview */}
+        {formation.roi.seuilRentabiliteSeances > 0 && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+            <div className="text-sm text-green-700">
+              <TrendingUp className="w-4 h-4 inline mr-1" />
+              Rentabilisé en {formation.roi.seuilRentabiliteSeances} séances
+            </div>
+          </div>
+        )}
+
+        <button className="w-full bg-[#2EC6F3] text-white py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors group-hover:bg-blue-500">
+          Voir détails
+          <ChevronRight className="w-4 h-4 inline ml-1" />
+        </button>
+      </div>
+    </motion.div>
+  )
+}
+
+// Composant Calculateur ROI
+function ROICalculator({ formation }: { formation: FormationEnriched }) {
+  const [clientsParSemaine, setClientsParSemaine] = useState(3)
+
+  const calculations = useMemo(() => {
+    if (formation.roi.seuilRentabiliteSeances === 0) {
+      return {
+        gainMensuel: 0,
+        gainAnnuel: 0,
+        tempsAmortissement: formation.roi.tempsAmortissement
+      }
+    }
+
+    const seancesParMois = clientsParSemaine * 4
+    const gainBrutParSeance = formation.roi.prixVenteMoyen - formation.roi.coutConsommablesParSeance
+    const gainMensuel = seancesParMois * gainBrutParSeance
+    const gainAnnuel = gainMensuel * 12
+    const moisAmortissement = Math.ceil(formation.roi.coutFormation / gainMensuel)
+
+    return {
+      gainMensuel,
+      gainAnnuel,
+      tempsAmortissement: `${moisAmortissement} mois`
+    }
+  }, [formation, clientsParSemaine])
+
+  if (formation.roi.seuilRentabiliteSeances === 0) {
+    return (
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+        <h4 className="font-bold text-amber-800 mb-2">Formation Réglementaire</h4>
+        <p className="text-amber-700">{formation.roi.tempsAmortissement}</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Nombre de clientes par semaine
+        </label>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={clientsParSemaine}
+          onChange={(e) => setClientsParSemaine(parseInt(e.target.value))}
+          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+        />
+        <div className="flex justify-between text-sm text-gray-500 mt-1">
+          <span>1</span>
+          <span className="font-bold text-[#2EC6F3]">{clientsParSemaine}</span>
+          <span>10</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <motion.div
+          className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center"
+          animate={{ scale: [1, 1.02, 1] }}
+          transition={{ duration: 0.3 }}
+          key={calculations.gainMensuel}
+        >
+          <div className="text-2xl font-bold text-blue-600">
+            {calculations.gainMensuel.toLocaleString('fr-FR')}€
+          </div>
+          <div className="text-sm text-blue-700">Gain mensuel</div>
+        </motion.div>
+
+        <motion.div
+          className="bg-green-50 border border-green-200 rounded-lg p-4 text-center"
+          animate={{ scale: [1, 1.02, 1] }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          key={calculations.gainAnnuel}
+        >
+          <div className="text-2xl font-bold text-green-600">
+            {calculations.gainAnnuel.toLocaleString('fr-FR')}€
+          </div>
+          <div className="text-sm text-green-700">Gain annuel</div>
+        </motion.div>
+
+        <motion.div
+          className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center"
+          animate={{ scale: [1, 1.02, 1] }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          key={calculations.tempsAmortissement}
+        >
+          <div className="text-2xl font-bold text-purple-600">
+            {calculations.tempsAmortissement}
+          </div>
+          <div className="text-sm text-purple-700">Amortissement</div>
+        </motion.div>
+      </div>
+
+      {/* Barre de progression */}
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm text-gray-600">
+          <span>Progression vers rentabilité</span>
+          <span>{Math.min(100, Math.round((clientsParSemaine * 4 / formation.roi.seuilRentabiliteSeances) * 100))}%</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-3">
+          <motion.div
+            className="bg-gradient-to-r from-[#2EC6F3] to-green-500 h-3 rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.min(100, (clientsParSemaine * 4 / formation.roi.seuilRentabiliteSeances) * 100)}%` }}
+            transition={{ duration: 0.5 }}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Composant Modal Détail Formation
+function FormationDetailModal({
+  formation,
+  isOpen,
+  onClose
+}: {
+  formation: FormationEnriched | null
+  isOpen: boolean
+  onClose: () => void
+}) {
+  const [activeTab, setActiveTab] = useState<TabDetail>('technique')
+
+  if (!formation) return null
+
+  const tabs = [
+    { id: 'technique', label: 'Technique', icon: BookOpen },
+    { id: 'roi', label: 'ROI', icon: Calculator },
+    { id: 'faq', label: 'FAQ', icon: Users },
+    { id: 'reglementation', label: 'Réglementation', icon: AlertTriangle },
+  ] as const
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            className="fixed inset-0 bg-black/50 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+
+          {/* Modal */}
+          <motion.div
+            className="fixed inset-x-4 top-4 bottom-4 bg-white rounded-xl shadow-2xl z-50 overflow-hidden md:inset-x-auto md:left-1/2 md:transform md:-translate-x-1/2 md:w-full md:max-w-4xl md:max-h-[90vh]"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div>
+                <h2 className="text-2xl font-heading font-bold text-[#082545]">
+                  {formation.nom}
+                </h2>
+                <div className="flex items-center gap-4 mt-2 text-gray-600">
+                  <span>{formation.duree}</span>
+                  <span>•</span>
+                  <span className="font-bold text-[#2EC6F3]">{formation.prix}</span>
+                </div>
+              </div>
+              <button
+                onClick={onClose}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex border-b border-gray-200">
+              {tabs.map((tab) => {
+                const Icon = tab.icon
+                const isActive = activeTab === tab.id
+
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-2 px-6 py-3 text-sm font-medium relative ${
+                      isActive
+                        ? 'text-[#2EC6F3] border-b-2 border-[#2EC6F3]'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Content */}
+            <div className="p-6 overflow-y-auto max-h-96">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {activeTab === 'technique' && (
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-lg font-bold text-[#082545] mb-3">Description technique</h3>
+                        <p className="text-gray-700 leading-relaxed">{formation.descriptionTechnique}</p>
+                      </div>
+
+                      {formation.techniquesComparees.length > 0 && (
+                        <div>
+                          <h3 className="text-lg font-bold text-[#082545] mb-3">Techniques comparées</h3>
+                          <div className="overflow-x-auto">
+                            <table className="w-full border border-gray-200 rounded-lg">
+                              <thead className="bg-gray-50">
+                                <tr>
+                                  <th className="px-4 py-2 text-left">Technique</th>
+                                  <th className="px-4 py-2 text-left">Méthode</th>
+                                  <th className="px-4 py-2 text-left">Rendu</th>
+                                  <th className="px-4 py-2 text-left">Peau idéale</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {formation.techniquesComparees.map((technique, index) => (
+                                  <tr key={index} className="border-t border-gray-200">
+                                    <td className="px-4 py-2 font-medium">{technique.nom}</td>
+                                    <td className="px-4 py-2">{technique.methode}</td>
+                                    <td className="px-4 py-2">{technique.rendu}</td>
+                                    <td className="px-4 py-2">{technique.peauIdeale}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+
+                      {formation.materiel.length > 0 && (
+                        <div>
+                          <h3 className="text-lg font-bold text-[#082545] mb-3">Matériel nécessaire</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {formation.materiel.map((item, index) => (
+                              <div key={index} className="border border-gray-200 rounded-lg p-4">
+                                <h4 className="font-bold text-gray-900 mb-2">{item.nom}</h4>
+                                <p className="text-gray-600 text-sm mb-2">{item.description}</p>
+                                <p className="text-[#2EC6F3] font-bold mb-2">{item.prixIndicatif}</p>
+                                <div className="flex flex-wrap gap-1">
+                                  {item.avantages.map((avantage, i) => (
+                                    <span key={i} className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
+                                      {avantage}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {activeTab === 'roi' && (
+                    <ROICalculator formation={formation} />
+                  )}
+
+                  {activeTab === 'faq' && (
+                    <div className="space-y-4">
+                      {formation.faq.map((item, index) => (
+                        <details key={index} className="border border-gray-200 rounded-lg">
+                          <summary className="px-4 py-3 font-medium text-gray-900 cursor-pointer hover:bg-gray-50">
+                            {item.question}
+                          </summary>
+                          <div className="px-4 py-3 border-t border-gray-200 text-gray-700">
+                            {item.reponse}
+                          </div>
+                        </details>
+                      ))}
+                    </div>
+                  )}
+
+                  {activeTab === 'reglementation' && (
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-lg font-bold text-[#082545] mb-3">Réglementation</h3>
+                        <p className="text-gray-700 leading-relaxed">{formation.reglementation}</p>
+                      </div>
+
+                      {formation.contreIndications.length > 0 && (
+                        <div>
+                          <h3 className="text-lg font-bold text-red-600 mb-3 flex items-center gap-2">
+                            <AlertTriangle className="w-5 h-5" />
+                            Contre-indications
+                          </h3>
+                          <ul className="space-y-2">
+                            {formation.contreIndications.map((item, index) => (
+                              <li key={index} className="flex items-center gap-2 text-red-700">
+                                <div className="w-2 h-2 bg-red-500 rounded-full" />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {formation.publicCible.length > 0 && (
+                        <div>
+                          <h3 className="text-lg font-bold text-[#082545] mb-3">Public cible</h3>
+                          <ul className="space-y-2">
+                            {formation.publicCible.map((item, index) => (
+                              <li key={index} className="flex items-center gap-2 text-gray-700">
+                                <div className="w-2 h-2 bg-green-500 rounded-full" />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
+// Composant Glossaire
+function GlossaireSection() {
+  const [searchTerm, setSearchTerm] = useState('')
+
+  // Récupérer tous les termes du glossaire
+  const allTerms = useMemo(() => {
+    const terms: Array<{ terme: string; definition: string }> = []
+    FORMATIONS_ENRICHIES.forEach(formation => {
+      formation.glossaire.forEach(item => {
+        if (!terms.find(t => t.terme === item.terme)) {
+          terms.push(item)
+        }
+      })
+    })
+    return terms.sort((a, b) => a.terme.localeCompare(b.terme))
+  }, [])
+
+  const filteredTerms = useMemo(() => {
+    if (!searchTerm) return allTerms
+    return allTerms.filter(item =>
+      item.terme.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.definition.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }, [allTerms, searchTerm])
+
+  return (
+    <div className="px-6 py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+            Glossaire Technique
+          </h2>
+          <p className="text-gray-600 text-lg mb-8">
+            Tous les termes techniques de l'esthétique professionnelle
+          </p>
+
+          <div className="max-w-md mx-auto relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Rechercher un terme..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {filteredTerms.map((item, index) => (
+            <motion.div
+              key={item.terme}
+              className="bg-white rounded-lg p-6 shadow-lg border border-gray-100"
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+            >
+              <h3 className="text-lg font-bold text-[#082545] mb-2">
+                {item.terme}
+              </h3>
+              <p className="text-gray-600">
+                {item.definition}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {filteredTerms.length === 0 && (
+          <div className="text-center text-gray-500 py-12">
+            Aucun terme trouvé pour "{searchTerm}"
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// Composant Tableau ROI Comparatif
+function ROIComparatifTable() {
+  const [sortColumn, setSortColumn] = useState<string>('')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
+
+  const sortedData = useMemo(() => {
+    if (!sortColumn) return TABLEAU_ROI_COMPARATIF
+
+    return [...TABLEAU_ROI_COMPARATIF].sort((a, b) => {
+      let aValue: any
+      let bValue: any
+
+      switch (sortColumn) {
+        case 'formation':
+          aValue = a.formation
+          bValue = b.formation
+          break
+        case 'cout':
+          aValue = a.cout
+          bValue = b.cout
+          break
+        case 'prixSeance':
+          aValue = a.prixSeance
+          bValue = b.prixSeance
+          break
+        default:
+          return 0
+      }
+
+      if (typeof aValue === 'string') {
+        return sortDirection === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue)
+      }
+
+      return sortDirection === 'asc'
+        ? aValue - bValue
+        : bValue - aValue
+    })
+  }, [sortColumn, sortDirection])
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortColumn(column)
+      setSortDirection('asc')
+    }
+  }
+
+  return (
+    <div className="px-6 py-16 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+            Comparatif ROI des Formations
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Analyse comparative pour optimiser votre investissement formation
+          </p>
+        </motion.div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full border border-gray-200 rounded-lg bg-white shadow-lg">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSort('formation')}
+                >
+                  <div className="flex items-center gap-2">
+                    Formation
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </th>
+                <th
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSort('cout')}
+                >
+                  <div className="flex items-center gap-2">
+                    Coût formation
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </th>
+                <th
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSort('prixSeance')}
+                >
+                  <div className="flex items-center gap-2">
+                    Prix séance
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </th>
+                <th className="px-6 py-4 text-left">Rentabilité</th>
+                <th className="px-6 py-4 text-left">Particularité</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedData.map((row, index) => (
+                <motion.tr
+                  key={row.formation}
+                  className="border-t border-gray-200 hover:bg-gray-50"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <td className="px-6 py-4 font-medium text-[#082545]">
+                    {row.formation}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="text-lg font-bold text-gray-900">
+                      {row.cout}€
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    {row.prixSeance > 0 ? (
+                      <span className="text-lg font-bold text-[#2EC6F3]">
+                        {row.prixSeance}€
+                      </span>
+                    ) : (
+                      <span className="text-gray-400">N/A</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                      {row.rentabilite}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-gray-600">
+                    {row.particularite}
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Composant principal
+export default function CatalogueFormationsPage() {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [selectedFormation, setSelectedFormation] = useState<FormationEnriched | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // Formations filtrées
+  const filteredFormations = useMemo(() => {
+    let formations = FORMATIONS_ENRICHIES
+
+    // Filtre par catégorie
+    if (selectedCategory !== 'all') {
+      formations = getFormationsByCategorie(selectedCategory as CategorieFormation)
+    }
+
+    // Filtre par recherche
+    if (searchTerm) {
+      formations = formations.filter(formation =>
+        formation.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        formation.descriptionTechnique.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    return formations
+  }, [selectedCategory, searchTerm])
+
+  const openFormationDetail = (formation: FormationEnriched) => {
+    setSelectedFormation(formation)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedFormation(null)
+  }
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <HeroSection searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+
+      {/* Category Tabs */}
+      <CategoryTabs
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
+
+      {/* Parcours Timeline */}
+      <ParcoursTimeline />
+
+      {/* Grid Formations */}
+      <div className="px-6 py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-heading font-bold text-[#082545] mb-4">
+              Nos Formations
+            </h2>
+            <p className="text-gray-600 text-lg">
+              {filteredFormations.length} formation{filteredFormations.length > 1 ? 's' : ''}
+              {selectedCategory !== 'all' && ` en ${CATEGORIES_CONFIG[selectedCategory as CategorieFormation]?.label}`}
+              {searchTerm && ` pour "${searchTerm}"`}
+            </p>
+          </div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {filteredFormations.map((formation) => (
+              <FormationCard
+                key={formation.slug}
+                formation={formation}
+                onClick={() => openFormationDetail(formation)}
+              />
+            ))}
+          </motion.div>
+
+          {filteredFormations.length === 0 && (
+            <div className="text-center text-gray-500 py-12">
+              <div className="text-6xl mb-4">🔍</div>
+              <h3 className="text-xl font-bold mb-2">Aucune formation trouvée</h3>
+              <p>Essayez de modifier vos critères de recherche</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Tableau ROI Comparatif */}
+      <ROIComparatifTable />
+
+      {/* Glossaire */}
+      <GlossaireSection />
+
+      {/* Modal Détail Formation */}
+      <FormationDetailModal
+        formation={selectedFormation}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     </div>
   )
 }

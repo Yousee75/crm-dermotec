@@ -10,6 +10,7 @@ import {
   Euro, CheckCircle, QrCode, FileText, Mail, Phone, Eye,
   Camera, Plus, Check, X, BookOpen, Target, BarChart3
 } from 'lucide-react'
+import { createClient } from '@/lib/supabase-client'
 import { formatEuro, formatDate, formatTime } from '@/lib/utils'
 import { toast } from 'sonner'
 import { QRCodeGenerator } from '@/components/ui/QRCodeGenerator'
@@ -67,22 +68,34 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
     emargement_pret: false
   })
 
-  // Fetch session data with all related entities
+  // Fetch session data with all related entities (Supabase direct)
+  const supabase = createClient()
   const { data: sessionData, isLoading } = useQuery({
     queryKey: ['session', id],
     queryFn: async () => {
-      const response = await fetch(`/api/sessions/${id}`)
-      if (!response.ok) throw new Error('Session non trouvée')
-      return response.json()
-    }
+      const { data, error } = await supabase
+        .from('sessions')
+        .select(`
+          *,
+          formation:formations(*),
+          formatrice:equipe!formatrice_id(*),
+          inscriptions(*, lead:leads(id, prenom, nom, email, telephone, statut_pro)),
+          modeles(*)
+        `)
+        .eq('id', id)
+        .single()
+      if (error) throw error
+      return data
+    },
+    enabled: !!id,
   })
 
-  const session = sessionData?.session
+  const session = sessionData
   const formation = sessionData?.formation
   const formatrice = sessionData?.formatrice
   const inscriptions = sessionData?.inscriptions || []
   const modeles = sessionData?.modeles || []
-  const emargements = sessionData?.emargements || []
+  const emargements: any[] = []
 
   // Initialize state when session loads
   useEffect(() => {
@@ -102,14 +115,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
     setChecklistItems(prev => ({ ...prev, [field]: newValue }))
 
     try {
-      const response = await fetch(`/api/sessions/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [field]: newValue })
-      })
-      if (!response.ok) throw new Error('Erreur lors de la mise à jour')
+      const { error } = await supabase
+        .from('sessions')
+        .update({ [field]: newValue })
+        .eq('id', id)
+      if (error) throw error
       toast.success('Checklist mise à jour')
-    } catch (error) {
+    } catch {
       setChecklistItems(prev => ({ ...prev, [field]: !newValue }))
       toast.error('Erreur lors de la mise à jour')
     }
@@ -117,14 +129,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
 
   const handleNotesUpdate = async () => {
     try {
-      const response = await fetch(`/api/sessions/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ notes })
-      })
-      if (!response.ok) throw new Error('Erreur lors de la sauvegarde')
+      const { error } = await supabase
+        .from('sessions')
+        .update({ notes })
+        .eq('id', id)
+      if (error) throw error
       toast.success('Notes sauvegardées')
-    } catch (error) {
+    } catch {
       toast.error('Erreur lors de la sauvegarde')
     }
   }

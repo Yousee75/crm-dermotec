@@ -10,7 +10,7 @@ export default function BPFPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
-            <FileBarChart className="inline w-7 h-7 mr-3 text-[#0EA5E9]" />
+            <FileBarChart className="inline w-7 h-7 mr-3 text-[#2EC6F3]" />
             BPF
           </h1>
           <p className="text-gray-600 mt-1">
@@ -22,7 +22,7 @@ export default function BPFPage() {
             <AlertTriangle className="w-4 h-4 mr-2" />
             Priorité P0
           </Badge>
-          <button className="flex items-center gap-2 bg-[#0EA5E9] hover:bg-[#0284C7] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          <button className="flex items-center gap-2 bg-[#2EC6F3] hover:bg-[#0284C7] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
             <Download className="w-4 h-4" />
             <span className="hidden sm:inline">Générer BPF 2025</span>
           </button>

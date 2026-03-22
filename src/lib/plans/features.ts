@@ -26,6 +26,9 @@ export const FEATURES = {
   custom_branding: { free: false, pro: false, expert: false, clinique: true },
   sso: { free: false, pro: false, expert: false, clinique: true },
 
+  // IA Assistant (requetes/jour)
+  ai_assistant_daily: { free: 10, pro: 50, expert: 200, clinique: Infinity },
+
   // Features avancées
   automation: { free: false, pro: true, expert: true, clinique: true },
   analytics_advanced: { free: false, pro: false, expert: true, clinique: true },

@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useState, useMemo } from 'react'
 import { createClient } from '@/lib/supabase-client'
 import type { Formation } from '@/types'
 import { CATEGORIES_FORMATION } from '@/types'
@@ -8,7 +9,6 @@ import {
   Clock,
   Users,
   Euro,
-  Filter,
   Search,
   ChevronRight,
   Star,
@@ -19,9 +19,13 @@ import {
   Sun,
   Zap,
   Flower2,
-  ShieldCheck
+  ShieldCheck,
+  Phone,
+  MessageCircle,
+  CheckCircle,
+  Tag
 } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 
 const categoryIcons = {
@@ -33,39 +37,37 @@ const categoryIcons = {
   'Hygiène': ShieldCheck
 }
 
+const categoryColors = {
+  'Dermo-Esthétique': '#E11D48',
+  'Dermo-Correctrice': '#DB2777',
+  'Soins Visage': '#F59E0B',
+  'Laser & IPL': '#7C3AED',
+  'Soins Corps': '#10B981',
+  'Hygiène': '#3B82F6'
+}
+
 export default function FormationsCatalogPage() {
-  const [formations, setFormations] = useState<Formation[]>([])
-  const [filteredFormations, setFilteredFormations] = useState<Formation[]>([])
-  const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchTerm, setSearchTerm] = useState('')
 
   const supabase = createClient()
 
-  useEffect(() => {
-    async function fetchFormations() {
-      try {
-        const { data } = await supabase
-          .from('formations')
-          .select('*')
-          .eq('is_active', true)
-          .order('sort_order', { ascending: true })
+  // Fetch formations avec React Query
+  const { data: formations = [], isLoading } = useQuery({
+    queryKey: ['formations-catalog'],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from('formations')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
 
-        if (data) {
-          setFormations(data)
-          setFilteredFormations(data)
-        }
-      } catch (error) {
-        console.error('Error fetching formations:', error)
-      } finally {
-        setLoading(false)
-      }
+      return data || []
     }
+  })
 
-    fetchFormations()
-  }, [supabase])
-
-  useEffect(() => {
+  // Filtrage côté client
+  const filteredFormations = useMemo(() => {
     let filtered = formations
 
     // Filter by category
@@ -74,23 +76,25 @@ export default function FormationsCatalogPage() {
     }
 
     // Filter by search term
-    if (searchTerm) {
+    if (searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase()
       filtered = filtered.filter(formation =>
-        formation.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        formation.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        formation.categorie.toLowerCase().includes(searchTerm.toLowerCase())
+        formation.nom.toLowerCase().includes(searchLower) ||
+        formation.description?.toLowerCase().includes(searchLower) ||
+        formation.description_commerciale?.toLowerCase().includes(searchLower) ||
+        formation.categorie.toLowerCase().includes(searchLower)
       )
     }
 
-    setFilteredFormations(filtered)
+    return filtered
   }, [formations, selectedCategory, searchTerm])
 
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#082545] to-[#0F3A6E] flex items-center justify-center">
+        <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2EC6F3] mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement des formations...</p>
+          <p className="text-blue-100">Chargement des formations...</p>
         </div>
       </div>
     )
@@ -99,323 +103,343 @@ export default function FormationsCatalogPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* HERO SECTION */}
-      <section className="relative bg-gradient-to-br from-[#082545] to-[#0F3460] text-white py-20">
-        <div className="absolute inset-0 bg-black/20"></div>
-
+      <section className="relative bg-gradient-to-br from-[#082545] to-[#0F3A6E] text-white py-20 overflow-hidden">
         {/* Background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#2EC6F3] rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#2EC6F3] rounded-full blur-3xl"></div>
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#2EC6F3] rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#2EC6F3] rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#2EC6F3] rounded-full blur-2xl opacity-30"></div>
         </div>
 
-        <div className="relative container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
+        <div className="relative container mx-auto px-4 max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center space-y-8"
+          >
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-['Bricolage_Grotesque'] leading-tight">
+                Nos Formations
+              </h1>
+              <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                Centre de formation esthétique certifié Qualiopi — {formations.length} formations professionnelles
+              </p>
+            </div>
+
+            {/* Badges trust indicators */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap justify-center items-center gap-6 text-sm"
             >
-              <h1 className="text-4xl md:text-6xl font-bold font-['Bricolage_Grotesque'] leading-tight mb-6">
-                Formations d'Excellence
-                <span className="block text-[#2EC6F3]">Esthétique & Dermo</span>
-              </h1>
-              <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-                Découvrez nos {formations.length} formations certifiées Qualiopi pour développer votre expertise et booster votre carrière
-              </p>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                <Award size={18} className="text-[#2EC6F3]" />
+                <span className="font-medium">Certifié Qualiopi</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                <Euro size={18} className="text-[#2EC6F3]" />
+                <span className="font-medium">Finançable OPCO / France Travail</span>
+              </div>
             </motion.div>
 
-            {/* Trust indicators */}
+            {/* Barre de recherche */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-wrap justify-center items-center gap-8 text-sm"
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="max-w-md mx-auto"
             >
-              <div className="flex items-center gap-2">
-                <Award size={20} className="text-[#2EC6F3]" />
-                <span>Certifié Qualiopi</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star size={20} className="text-[#2EC6F3]" />
-                <span>4.9/5 - 87 avis</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Target size={20} className="text-[#2EC6F3]" />
-                <span>+500 stagiaires formées</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Euro size={20} className="text-[#2EC6F3]" />
-                <span>Financement possible</span>
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="Rechercher une formation..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:ring-offset-2 focus:ring-offset-[#082545] shadow-lg text-lg"
+                />
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* FILTERS SECTION */}
-      <section className="py-8 bg-white border-b border-gray-200 sticky top-0 z-30">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                placeholder="Rechercher une formation..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2EC6F3] focus:border-transparent"
-              />
-            </div>
+      {/* FILTRES CATÉGORIES */}
+      <section className="py-6 bg-white border-b border-gray-100 sticky top-0 z-30 shadow-sm">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex items-center gap-3 overflow-x-auto scrollbar-hide"
+          >
+            {/* Chip "Toutes" */}
+            <button
+              onClick={() => setSelectedCategory('all')}
+              className={`
+                flex-shrink-0 px-4 py-2 rounded-full font-medium transition-all duration-300 text-sm
+                ${selectedCategory === 'all'
+                  ? 'bg-[#2EC6F3] text-white shadow-lg transform scale-105'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }
+              `}
+            >
+              Toutes <span className="ml-1 text-xs opacity-75">({formations.length})</span>
+            </button>
 
-            {/* Category filters */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Filter size={16} />
-                <span className="font-medium">Catégories :</span>
-              </div>
+            {/* Chips catégories */}
+            {CATEGORIES_FORMATION.map((category) => {
+              const count = formations.filter(f => f.categorie === category.id).length
+              if (count === 0) return null
 
-              <button
-                onClick={() => setSelectedCategory('all')}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                  selectedCategory === 'all'
-                    ? 'bg-[#2EC6F3] text-white shadow-md'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Toutes ({formations.length})
-              </button>
+              const IconComponent = categoryIcons[category.id as keyof typeof categoryIcons]
+              const isActive = selectedCategory === category.id
 
-              {CATEGORIES_FORMATION.map((category) => {
-                const count = formations.filter(f => f.categorie === category.id).length
-                if (count === 0) return null
-
-                return (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                      selectedCategory === category.id
-                        ? 'bg-[#2EC6F3] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {category.label} ({count})
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`
+                    flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-300 text-sm
+                    ${isActive
+                      ? 'text-white shadow-lg transform scale-105'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }
+                  `}
+                  style={{
+                    backgroundColor: isActive ? category.color : undefined
+                  }}
+                >
+                  <IconComponent size={14} />
+                  <span>{category.label}</span>
+                  <span className="text-xs opacity-75">({count})</span>
+                </button>
+              )
+            })}
+          </motion.div>
 
           {/* Results count */}
-          <div className="mt-4 text-sm text-gray-600">
-            {filteredFormations.length} formation{filteredFormations.length !== 1 ? 's' : ''} trouvée{filteredFormations.length !== 1 ? 's' : ''}
-            {searchTerm && (
-              <span> pour "{searchTerm}"</span>
-            )}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mt-4 text-sm text-gray-600"
+          >
+            <span className="font-medium">{filteredFormations.length}</span> formation{filteredFormations.length !== 1 ? 's' : ''}
+            {searchTerm && <span> pour "{searchTerm}"</span>}
             {selectedCategory !== 'all' && (
-              <span> dans la catégorie "{CATEGORIES_FORMATION.find(c => c.id === selectedCategory)?.label}"</span>
+              <span> • Catégorie "{CATEGORIES_FORMATION.find(c => c.id === selectedCategory)?.label}"</span>
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* FORMATIONS GRID */}
+      {/* GRID DE FORMATIONS */}
       <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          {filteredFormations.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {filteredFormations.map((formation, index) => {
-                const categoryInfo = CATEGORIES_FORMATION.find(c => c.id === formation.categorie)
-                const IconComponent = categoryIcons[formation.categorie as keyof typeof categoryIcons]
+        <div className="container mx-auto px-4 max-w-7xl">
+          <AnimatePresence mode="wait">
+            {filteredFormations.length > 0 ? (
+              <motion.div
+                key="formations-grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {filteredFormations.map((formation, index) => {
+                  const categoryInfo = CATEGORIES_FORMATION.find(c => c.id === formation.categorie)
+                  const IconComponent = categoryIcons[formation.categorie as keyof typeof categoryIcons]
+                  const isFinancable = formation.prix_ht >= 500
 
-                return (
-                  <motion.div
-                    key={formation.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
-                  >
-                    {/* Card Image/Header */}
-                    <div className="relative h-48 bg-gradient-to-br from-[#082545] to-[#0F3460] overflow-hidden">
-                      {formation.image_url ? (
-                        <img
-                          src={formation.image_url}
-                          alt={formation.nom}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-white">
-                          {IconComponent && <IconComponent size={48} className="text-[#2EC6F3]" />}
-                        </div>
-                      )}
-
-                      {/* Category badge */}
-                      <div
-                        className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                        style={{ backgroundColor: categoryInfo?.color || '#2EC6F3' }}
-                      >
-                        {formation.categorie}
-                      </div>
-
-                      {/* Level badge */}
-                      <div className="absolute top-4 right-4 px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white">
-                        {formation.niveau.charAt(0).toUpperCase() + formation.niveau.slice(1)}
-                      </div>
-                    </div>
-
-                    {/* Card Content */}
-                    <div className="p-6 space-y-4">
-                      <div>
-                        <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-[#2EC6F3] transition-colors">
-                          {formation.nom}
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-                          {formation.description_commerciale || formation.description || "Formation professionnelle certifiante"}
-                        </p>
-                      </div>
-
-                      {/* Formation details */}
-                      <div className="flex items-center justify-between text-sm text-gray-600 py-2 border-t border-gray-100">
-                        <div className="flex items-center gap-1">
-                          <Clock size={16} />
-                          <span>{formation.duree_jours} jour{formation.duree_jours > 1 ? 's' : ''}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Users size={16} />
-                          <span>{formation.places_max} places max</span>
-                        </div>
-                      </div>
-
-                      {/* Price and CTA */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                        <div>
-                          <div className="text-2xl font-bold text-[#082545]">
-                            {formation.prix_ht}€
+                  return (
+                    <motion.div
+                      key={formation.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02, y: -4 }}
+                      className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                    >
+                      {/* Badge catégorie */}
+                      <div className="relative">
+                        <div className="h-2" style={{ backgroundColor: categoryInfo?.color || '#2EC6F3' }}></div>
+                        <div className="absolute top-3 left-4">
+                          <div
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-lg"
+                            style={{ backgroundColor: categoryInfo?.color || '#2EC6F3' }}
+                          >
+                            {IconComponent && <IconComponent size={12} />}
+                            {formation.categorie}
                           </div>
-                          <div className="text-xs text-gray-500">HT • Financement possible</div>
                         </div>
-
-                        <Link
-                          href={`/formations/${formation.slug}`}
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-[#2EC6F3] hover:bg-[#0EA5E9] text-white rounded-lg font-semibold transition-colors group"
-                        >
-                          En savoir plus
-                          <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-                        </Link>
                       </div>
 
-                      {/* Skills preview */}
-                      {formation.competences_acquises && formation.competences_acquises.length > 0 && (
-                        <div className="pt-3">
-                          <div className="flex flex-wrap gap-1">
-                            {formation.competences_acquises.slice(0, 2).map((competence, idx) => (
-                              <span
-                                key={idx}
-                                className="px-2 py-1 bg-blue-50 text-[#082545] rounded text-xs font-medium"
-                              >
-                                {competence}
-                              </span>
-                            ))}
-                            {formation.competences_acquises.length > 2 && (
-                              <span className="px-2 py-1 bg-gray-50 text-gray-600 rounded text-xs">
-                                +{formation.competences_acquises.length - 2} autre{formation.competences_acquises.length > 3 ? 's' : ''}
-                              </span>
+                      {/* Contenu card */}
+                      <div className="p-6 space-y-4">
+                        <div className="space-y-3">
+                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#082545] transition-colors font-['Bricolage_Grotesque'] leading-tight">
+                            {formation.nom}
+                          </h3>
+
+                          <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 min-h-[2.5rem]">
+                            {formation.description_commerciale || formation.description || "Formation professionnelle certifiante"}
+                          </p>
+                        </div>
+
+                        {/* Infos formation */}
+                        <div className="flex items-center justify-between text-sm text-gray-500 py-2 border-t border-gray-100">
+                          <div className="flex items-center gap-1">
+                            <Clock size={14} />
+                            <span>{formation.duree_jours} jour{formation.duree_jours > 1 ? 's' : ''} • {formation.duree_heures}h</span>
+                          </div>
+                          <div className="px-2 py-1 bg-gray-100 rounded-full text-xs font-medium">
+                            {formation.niveau.charAt(0).toUpperCase() + formation.niveau.slice(1)}
+                          </div>
+                        </div>
+
+                        {/* Prix et CTA */}
+                        <div className="space-y-3 pt-2">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-2xl font-bold text-[#082545]">
+                                À partir de {formation.prix_ht}€
+                              </div>
+                              <div className="text-xs text-gray-500">HT</div>
+                            </div>
+
+                            {isFinancable && (
+                              <div className="flex items-center gap-1 px-2 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium">
+                                <CheckCircle size={12} />
+                                Finançable
+                              </div>
                             )}
                           </div>
+
+                          <Link
+                            href={`/formations/${formation.slug}`}
+                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#2EC6F3] hover:bg-[#2EC6F3]/90 text-white rounded-xl font-semibold transition-all duration-300 group/btn"
+                          >
+                            En savoir plus
+                            <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                          </Link>
                         </div>
-                      )}
-                    </div>
-                  </motion.div>
-                )
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-gray-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Aucune formation trouvée
-              </h3>
-              <p className="text-gray-600 mb-6">
-                Essayez de modifier vos critères de recherche
-              </p>
-              <div className="flex gap-4 justify-center">
-                <button
-                  onClick={() => {
-                    setSearchTerm('')
-                    setSelectedCategory('all')
-                  }}
-                  className="px-6 py-2 bg-[#2EC6F3] text-white rounded-lg hover:bg-[#0EA5E9] transition-colors"
-                >
-                  Voir toutes les formations
-                </button>
-                <a
-                  href="tel:0188334343"
-                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Nous contacter
-                </a>
-              </div>
-            </div>
-          )}
+
+                        {/* Aperçu compétences */}
+                        {formation.competences_acquises && formation.competences_acquises.length > 0 && (
+                          <div className="pt-3 border-t border-gray-100">
+                            <div className="flex flex-wrap gap-1">
+                              {formation.competences_acquises.slice(0, 2).map((competence, idx) => (
+                                <span
+                                  key={idx}
+                                  className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-[#082545] rounded-md text-xs font-medium"
+                                >
+                                  <Target size={10} />
+                                  {competence}
+                                </span>
+                              ))}
+                              {formation.competences_acquises.length > 2 && (
+                                <span className="px-2 py-1 bg-gray-50 text-gray-500 rounded-md text-xs">
+                                  +{formation.competences_acquises.length - 2} autre{formation.competences_acquises.length > 3 ? 's' : ''}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="no-results"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+                className="text-center py-16"
+              >
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-gray-400" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 font-['Bricolage_Grotesque']">
+                  Aucune formation trouvée
+                </h3>
+                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                  Essayez de modifier vos critères de recherche ou parcourez toutes nos formations
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button
+                    onClick={() => {
+                      setSearchTerm('')
+                      setSelectedCategory('all')
+                    }}
+                    className="px-6 py-3 bg-[#2EC6F3] text-white rounded-xl hover:bg-[#2EC6F3]/90 transition-colors font-semibold"
+                  >
+                    Voir toutes les formations
+                  </button>
+                  <a
+                    href="tel:0188334343"
+                    className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-semibold"
+                  >
+                    Nous contacter
+                  </a>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="py-16 bg-gradient-to-r from-[#082545] to-[#0F3460] text-white">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="space-y-4"
-            >
+      {/* SECTION CTA BOTTOM */}
+      <section className="py-16 bg-gradient-to-r from-[#082545] to-[#0F3A6E] text-white">
+        <div className="container mx-auto px-4 text-center max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-8"
+          >
+            <div className="space-y-4">
               <h2 className="text-3xl md:text-4xl font-bold font-['Bricolage_Grotesque']">
-                Besoin de conseils ?
+                Vous avez des questions ?
               </h2>
-              <p className="text-lg text-blue-100">
+              <p className="text-lg text-blue-100 max-w-2xl mx-auto leading-relaxed">
                 Notre équipe vous aide à choisir la formation la plus adaptée à votre projet professionnel
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              viewport={{ once: true }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:0188334343"
-                className="inline-flex items-center px-8 py-4 bg-[#2EC6F3] hover:bg-[#0EA5E9] text-white rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2EC6F3] hover:bg-[#2EC6F3]/90 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
-                📞 01 88 33 43 43
+                <Phone size={20} />
+                01 88 33 43 43
               </a>
               <a
                 href="https://wa.me/33188334343?text=Bonjour ! Je souhaite des conseils pour choisir ma formation esthétique."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-[#082545] rounded-lg font-bold text-lg transition-all duration-300"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-[#082545] rounded-2xl font-bold text-lg transition-all duration-300"
               >
-                💬 WhatsApp
+                <MessageCircle size={20} />
+                WhatsApp
               </a>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              viewport={{ once: true }}
-              className="text-sm text-blue-100"
-            >
-              <p>Réponse rapide • Conseils personnalisés • Étude de financement</p>
-            </motion.div>
-          </div>
+            <div className="text-sm text-blue-100 space-y-2">
+              <p className="flex items-center justify-center gap-4 flex-wrap">
+                <span>✓ Réponse rapide</span>
+                <span>✓ Conseils personnalisés</span>
+                <span>✓ Financement possible jusqu'à 100%</span>
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

@@ -3,7 +3,7 @@
 // ============================================================
 
 import { isDisposableEmail } from './disposable-emails'
-import type { StatutFinancement, StatutLead, StatutSession, StatutInscription } from '@/types'
+import type { StatutFinancement, StatutLead, StatutSession, StatutInscription, StatutLigneFinancement } from '@/types'
 
 // --- Validateurs basiques ---
 
@@ -160,6 +160,68 @@ export function validateFinancementTransition(from: StatutFinancement, to: Statu
   if (!valid || !valid.includes(to)) {
     return `Transition invalide : ${from} → ${to}`
   }
+  return null
+}
+
+const VALID_LIGNE_FINANCEMENT_TRANSITIONS: Record<StatutLigneFinancement, StatutLigneFinancement[]> = {
+  PREPARATION: ['SOUMIS'],
+  SOUMIS: ['EN_EXAMEN', 'VALIDE', 'REFUSE'],
+  EN_EXAMEN: ['VALIDE', 'REFUSE'],
+  VALIDE: ['VERSE'],
+  REFUSE: ['PREPARATION'], // Nouveau dossier possible
+  VERSE: [], // Terminal
+}
+
+export function validateLigneFinancementTransition(from: StatutLigneFinancement, to: StatutLigneFinancement): string | null {
+  if (from === to) return null
+  const valid = VALID_LIGNE_FINANCEMENT_TRANSITIONS[from]
+  if (!valid || !valid.includes(to)) {
+    return `Transition ligne financement invalide : ${from} → ${to}`
+  }
+  return null
+}
+
+// --- Validateurs financements enrichis ---
+
+export function validateTauxTVA(taux: number): string | null {
+  const tauxValides = [0, 2.1, 5.5, 10, 20]
+  if (!tauxValides.includes(taux)) {
+    return `Taux TVA invalide : ${taux}% (autorisés : ${tauxValides.join(', ')}%)`
+  }
+  return null
+}
+
+export function validateMontantFinancement(montant: number, montantMin = 100, montantMax = 50000): string | null {
+  if (montant < montantMin) return `Montant trop faible (minimum ${montantMin}€)`
+  if (montant > montantMax) return `Montant trop élevé (maximum ${montantMax}€)`
+  return null
+}
+
+export function validateCoutFormation(couts: Record<string, number>): string | null {
+  const coutsNegatifs = Object.entries(couts).filter(([, value]) => value < 0)
+  if (coutsNegatifs.length > 0) {
+    return `Coûts négatifs non autorisés : ${coutsNegatifs.map(([key]) => key).join(', ')}`
+  }
+
+  const coutTotal = Object.values(couts).reduce((sum, value) => sum + value, 0)
+  if (coutTotal > 100000) {
+    return `Coût total trop élevé : ${coutTotal}€ (maximum 100 000€)`
+  }
+
+  return null
+}
+
+export function validateRepartitionMultiFinancement(lignes: Array<{montant_demande: number}>, coutFormation: number): string | null {
+  const totalDemande = lignes.reduce((sum, ligne) => sum + ligne.montant_demande, 0)
+
+  if (totalDemande > coutFormation * 1.1) { // Tolérance 10%
+    return `Total demandé (${totalDemande}€) supérieur au coût formation (${coutFormation}€)`
+  }
+
+  if (lignes.length > 5) {
+    return 'Maximum 5 organismes de financement par dossier'
+  }
+
   return null
 }
 

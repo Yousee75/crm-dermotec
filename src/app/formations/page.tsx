@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import FormationsCatalogPage from './FormationsCatalogPage'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Formations Esthétique Professionnelles | Certifiées Qualiopi | Dermotec Advanced',
   description: 'Découvrez nos formations esthétique et dermo-correctrice certifiées Qualiopi. Financement OPCO, CPF, France Travail possible. 11 formations d\'excellence à Paris.',

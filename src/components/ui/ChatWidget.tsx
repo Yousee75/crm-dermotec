@@ -91,7 +91,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
                 <button
                   onClick={handleSend}
                   disabled={!message.trim()}
-                  className="bg-[#2EC6F3] hover:bg-[#0EA5E9] disabled:bg-gray-300 text-white rounded-lg p-2 transition-colors"
+                  className="bg-[#2EC6F3] hover:bg-[#2EC6F3] disabled:bg-gray-300 text-white rounded-lg p-2 transition-colors"
                 >
                   <Send size={16} />
                 </button>

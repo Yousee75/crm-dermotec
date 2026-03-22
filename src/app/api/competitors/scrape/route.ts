@@ -1,0 +1,45 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { scrapeCompetitorFull } from '@/lib/competitor-scraper'
+
+export const dynamic = 'force-dynamic'
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const { nom, ville, pagesJaunesUrl, planityUrl, treatwellUrl } = body
+
+    if (!nom) {
+      return NextResponse.json({ error: 'Nom requis' }, { status: 400 })
+    }
+
+    console.log(`[API Scrape] Démarrage scraping pour "${nom}" à ${ville || 'N/A'}`)
+
+    const result = await scrapeCompetitorFull({
+      nom,
+      ville: ville || '',
+      pagesJaunesUrl,
+      planityUrl,
+      treatwellUrl,
+    })
+
+    // Compter les sources trouvées
+    const sourcesFound = [
+      result.pagesJaunes?.rating ? 'PagesJaunes' : null,
+      result.planity?.found ? 'Planity' : null,
+      result.treatwell?.found ? 'Treatwell' : null,
+    ].filter(Boolean)
+
+    return NextResponse.json({
+      ...result,
+      meta: {
+        sourcesFound,
+        scrapedAt: new Date().toISOString(),
+        nom,
+        ville,
+      },
+    })
+  } catch (err) {
+    console.error('[API Scrape] Error:', err)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}

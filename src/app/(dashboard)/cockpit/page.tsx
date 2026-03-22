@@ -337,7 +337,7 @@ export default function CockpitPage() {
                 </div>
               </div>
               <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-[#0EA5E9]" />
+                <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-[#2EC6F3]" />
               </div>
             </div>
           </CardContent>
@@ -411,7 +411,7 @@ export default function CockpitPage() {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200" />
                 <XAxis dataKey="month" className="text-gray-600" />
                 <YAxis tickFormatter={(value) => formatEuro(value)} className="text-gray-600" />
-                <Bar dataKey="ca" fill="#0EA5E9" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="ca" fill="#2EC6F3" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -431,7 +431,7 @@ export default function CockpitPage() {
                   <div className="flex-1">
                     <div className="bg-gray-100 rounded-full h-2 overflow-hidden">
                       <div
-                        className="h-full transition-all duration-300 bg-[#0EA5E9]"
+                        className="h-full transition-all duration-300 bg-[#2EC6F3]"
                         style={{ width: `${stage.percentage}%` }}
                       />
                     </div>
@@ -561,7 +561,7 @@ export default function CockpitPage() {
             <div className="space-y-3">
               {topFormationsData?.map((formation, index) => (
                 <div key={formation.titre} className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-[#0EA5E9] text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
+                  <div className="w-6 h-6 bg-[#2EC6F3] text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
                     {index + 1}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -591,7 +591,7 @@ export default function CockpitPage() {
             <CardTitle icon={<Activity className="w-4 h-4" />}>
               Activité récente
             </CardTitle>
-            <Link href="/analytics" className="text-sm text-[#0EA5E9] hover:text-[#0F172A] transition flex items-center gap-1">
+            <Link href="/analytics" className="text-sm text-[#2EC6F3] hover:text-[#0F172A] transition flex items-center gap-1">
               Voir tout <ArrowRight className="w-3 h-3" />
             </Link>
           </div>

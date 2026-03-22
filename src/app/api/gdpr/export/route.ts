@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
   // 2. Vérifier le rôle (admin/manager uniquement)
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     { auth: { persistSession: false } }
   )
 

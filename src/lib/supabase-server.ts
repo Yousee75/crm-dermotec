@@ -70,9 +70,18 @@ export async function createServiceSupabase() {
   const { createClient } = await import('@supabase/supabase-js')
   const supabaseUrl = getSupabaseUrl()
 
+  // En mode démo sans service role key, utiliser l'anon key (RLS active)
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const key = serviceKey || anonKey
+
+  if (!key) {
+    throw new Error('Aucune clé Supabase disponible (ni service_role ni anon)')
+  }
+
   _serviceClient = createClient(
     supabaseUrl,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    key,
     {
       auth: { autoRefreshToken: false, persistSession: false },
       // Schema public est le defaut — pas besoin de le specifier
@@ -93,3 +102,6 @@ export async function createServiceSupabase() {
 
   return _serviceClient
 }
+
+// Alias pour compatibilité (certaines routes importent `createClient`)
+export const createClient = createServerSupabase

@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { TabBar } from '@/components/ui/TabBar'
 import { CreateSessionDialog } from '@/components/ui/CreateSessionDialog'
 import { Calendar, Users, QrCode } from 'lucide-react'
+import { useSessions } from '@/hooks/use-sessions'
 
 // Lazy imports pour les onglets
 import nextDynamic from 'next/dynamic'
@@ -40,10 +41,10 @@ export default function SessionsPage() {
     window.history.replaceState({}, '', url.toString())
   }, [activeTab])
 
-  // TODO: Récupérer les vraies données pour les compteurs
-  const sessionsCount = 0 // Mock - sera calculé depuis useSessions
-  const inscriptionsCount = 0 // Mock - sera calculé depuis les inscriptions
-  const emargementCount = 0 // Mock - sessions en émargement
+  const { data: allSessions } = useSessions()
+  const sessionsCount = allSessions?.length || 0
+  const inscriptionsCount = allSessions?.reduce((sum, s) => sum + (s.inscriptions?.length || 0), 0) || 0
+  const emargementCount = allSessions?.filter(s => s.statut === 'EN_COURS' || s.statut === 'TERMINEE').length || 0
 
   const tabs = [
     { id: 'planning', label: 'Planning' },

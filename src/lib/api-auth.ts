@@ -34,6 +34,11 @@ export async function getAuthUser(request: NextRequest): Promise<User | null> {
 export async function requireAuth(request: NextRequest): Promise<
   { user: User; error?: never } | { user?: never; error: NextResponse }
 > {
+  // Mode démo : bypass auth
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+    return { user: { id: 'demo-user', email: 'demo@dermotec.fr' } as User }
+  }
+
   const user = await getAuthUser(request)
   if (!user) {
     return {

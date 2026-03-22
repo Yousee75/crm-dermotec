@@ -3,6 +3,9 @@ import { chatWithAI } from '@/lib/ai-chatbot'
 import { createServiceSupabase } from '@/lib/supabase-server'
 import { requireAuth } from '@/lib/api-auth'
 
+export const dynamic = 'force-dynamic'
+export const maxDuration = 20
+
 export async function POST(req: NextRequest) {
   try {
     const auth = await requireAuth(req)
@@ -21,11 +24,32 @@ export async function POST(req: NextRequest) {
 
     const supabase = await createServiceSupabase()
 
-    // Charger les formations pour le contexte
+    // Charger les formations avec descriptions complètes
     const { data: formations } = await (supabase as any)
       .from('formations')
-      .select('nom, prix_ht, duree_jours, duree_heures, categorie, prerequis, description_commerciale, objectifs, niveau')
+      .select('nom, prix_ht, duree_jours, duree_heures, categorie, prerequis, description_commerciale, objectifs, niveau, materiel_details')
       .eq('is_active', true)
+      .order('sort_order')
+
+    // Charger les prochaines sessions (30 prochains jours)
+    const now = new Date().toISOString().split('T')[0]
+    const in60Days = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    const { data: sessions } = await (supabase as any)
+      .from('sessions')
+      .select('date_debut, date_fin, places_max, places_occupees, statut, formation:formations(nom)')
+      .gte('date_debut', now)
+      .lte('date_debut', in60Days)
+      .in('statut', ['PLANIFIEE', 'CONFIRMEE'])
+      .order('date_debut')
+      .limit(10)
+
+    const sessionsContext = sessions?.map((s: any) => ({
+      formation_nom: s.formation?.nom || 'Formation',
+      date_debut: s.date_debut,
+      date_fin: s.date_fin,
+      places_restantes: (s.places_max || 6) - (s.places_occupees || 0),
+      statut: s.statut,
+    })) || []
 
     // Charger le contexte du lead si disponible
     let leadContext: { prenom?: string; statut_pro?: string; experience?: string } | undefined
@@ -44,7 +68,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const result = await chatWithAI(messages, formations || [], leadContext)
+    const result = await chatWithAI(messages, formations || [], leadContext, sessionsContext)
 
     // Logger l'interaction si c'est un lead connu
     if (lead_id) {

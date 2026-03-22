@@ -5,8 +5,12 @@ import { createServiceSupabase, createServerSupabase } from '@/lib/supabase-serv
 export async function GET(req: NextRequest) {
   try {
     const supabase = await createServerSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    // Mode démo : skip auth
+    const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+    if (!isDemoMode) {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    }
 
     const { searchParams } = new URL(req.url)
     const lead_id = searchParams.get('lead_id')
@@ -64,8 +68,14 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const supabase = await createServerSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    // Mode démo : skip auth
+    const isDemoMode2 = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+    let user: { id: string; email?: string } | null = null
+    if (!isDemoMode2) {
+      const { data: { user: authUser } } = await supabase.auth.getUser()
+      if (!authUser) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+      user = authUser
+    }
 
     const body = await req.json()
     const { lead_id, canal, contenu, sujet } = body
@@ -140,11 +150,15 @@ export async function POST(req: NextRequest) {
     }
 
     // Récupérer user_id depuis equipe
-    const { data: equipeUser } = await (service as any)
-      .from('equipe')
-      .select('id')
-      .eq('auth_user_id', user.id)
-      .maybeSingle()
+    let equipeUser: { id: string } | null = null
+    if (user?.id) {
+      const { data } = await (service as any)
+        .from('equipe')
+        .select('id')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
+      equipeUser = data
+    }
 
     // Enregistrer le message
     const { data: message, error } = await (service as any)

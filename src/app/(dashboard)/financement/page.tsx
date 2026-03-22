@@ -121,8 +121,12 @@ interface FinancementWithLead extends Financement {
   }
   inscription?: {
     id: string
-    formation: {
-      titre: string
+    session?: {
+      id: string
+      formation?: {
+        nom: string
+        categorie?: string
+      }
     }
   }
 }
@@ -154,7 +158,7 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
               </p>
               {financement.inscription?.formation && (
                 <p className="text-xs text-gray-500 truncate">
-                  {financement.inscription.formation.titre}
+                  {financement.inscription?.session?.formation?.nom}
                 </p>
               )}
             </div>
@@ -512,7 +516,7 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
                   </td>
                   <td className="px-4 py-3">
                     {financement.inscription?.formation ? (
-                      <span className="text-gray-700">{financement.inscription.formation.titre}</span>
+                      <span className="text-gray-700">{financement.inscription?.session?.formation?.nom}</span>
                     ) : (
                       <span className="text-gray-400">—</span>
                     )}
@@ -566,7 +570,10 @@ export default function FinancementPage() {
           lead:leads(id, prenom, nom, email),
           inscription:inscriptions(
             id,
-            formation:formations(titre)
+            session:sessions(
+              id,
+              formation:formations(nom, categorie)
+            )
           )
         `)
         .order('created_at', { ascending: false })

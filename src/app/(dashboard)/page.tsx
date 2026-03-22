@@ -12,6 +12,7 @@ import {
   MessageCircle, Mail
 } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useCurrentUser } from '@/hooks/use-current-user'
 
 export default function DashboardPage() {
@@ -112,19 +113,71 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] space-y-6">
-      {/* Hero compact — personnalisé */}
-      <div className="bg-gradient-to-r from-[#082545] to-[#0F3A6E] rounded-2xl p-6 text-white relative overflow-hidden">
-        <div className="relative z-10">
-          <h1 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-heading)' }}>
-            {greeting}{currentUser?.prenom ? ` ${currentUser.prenom}` : ''} 👋
-          </h1>
-          <p className="text-blue-200 mt-1 text-sm">
+      {/* Header avec logo Dermotec */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Image
+            src="/logo-dermotec.png"
+            alt="Dermotec Advanced"
+            width={120}
+            height={40}
+            className="h-8 w-auto object-contain"
+          />
+          <div>
+            <h1 className="text-2xl font-bold text-[#082545]" style={{ fontFamily: 'var(--font-heading)' }}>
+              {greeting}{currentUser?.prenom ? ` ${currentUser.prenom}` : ''} 👋
+            </h1>
+            <p className="text-sm text-gray-500">
+              {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Alerte s'il y a des actions urgentes */}
+      {(overdueCount > 0 || todayCount > 0 || sessionsAVenir > 0) && (
+        <div className="bg-gradient-to-r from-[#082545] to-[#0F3A6E] rounded-xl p-4 text-white">
+          <p className="text-blue-200 text-sm">
             {overdueCount > 0 && <span className="text-amber-300">{overdueCount} rappel{overdueCount > 1 ? 's' : ''} en retard</span>}
             {overdueCount > 0 && (todayCount > 0 || sessionsAVenir > 0) && <span> · </span>}
             {todayCount > 0 && <span>{todayCount} rappel{todayCount > 1 ? 's' : ''} aujourd&apos;hui</span>}
             {todayCount > 0 && sessionsAVenir > 0 && <span> · </span>}
             {sessionsAVenir > 0 && <span>{sessionsAVenir} session{sessionsAVenir > 1 ? 's' : ''} à venir</span>}
           </p>
+        </div>
+      )}
+
+      {/* Actions rapides en haut */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <h3 className="text-sm font-semibold text-[#082545] mb-3 flex items-center gap-2">
+          <Zap className="w-4 h-4 text-[#2EC6F3]" />
+          Actions rapides
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/leads"
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#2EC6F3] text-white rounded-lg text-sm font-medium hover:bg-[#2EC6F3]/90 transition min-h-[44px]"
+          >
+            <Plus className="w-4 h-4" /> Nouveau lead
+          </Link>
+          <Link
+            href="/sessions"
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
+          >
+            <Calendar className="w-4 h-4" /> Créer session
+          </Link>
+          <Link
+            href="/pipeline"
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
+          >
+            <PieChart className="w-4 h-4" /> Voir pipeline
+          </Link>
+          <Link
+            href="/financement"
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
+          >
+            <Euro className="w-4 h-4" /> Simuler financement
+          </Link>
         </div>
       </div>
 
@@ -199,8 +252,12 @@ export default function DashboardPage() {
                 <Calendar className="w-4 h-4 text-blue-500 opacity-0 group-hover:opacity-100 transition" />
               </Link>
             ))}
-            {(!overdueRappels?.length && !todayRappels?.length) && (
-              <div className="px-5 py-8 text-center text-sm text-gray-400">Aucune action prévue aujourd&apos;hui</div>
+            {(!overdueRappels?.length && !todayRappels?.length && !sessions?.filter(s => s.statut === 'CONFIRMEE' || s.statut === 'PLANIFIEE').length) && (
+              <div className="text-center py-8 text-gray-400">
+                <Phone className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-sm">Aucune action pour le moment</p>
+                <p className="text-xs mt-1">Parfait ! Vous êtes à jour 🎉</p>
+              </div>
             )}
           </div>
         </div>
@@ -240,7 +297,13 @@ export default function DashboardPage() {
                 </div>
               </Link>
             )) : (
-              <div className="px-5 py-8 text-center text-sm text-gray-400">Aucun lead enregistré</div>
+              <div className="text-center py-8 text-gray-400">
+                <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-sm">Aucun lead enregistré</p>
+                <Link href="/leads" className="text-xs text-[#2EC6F3] hover:underline mt-1 inline-block">
+                  Créer le premier lead
+                </Link>
+              </div>
             )}
           </div>
         </div>
@@ -288,85 +351,6 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* Section leads ancienne supprimée — déjà au-dessus des KPIs */}
-      <div className="hidden">
-        <div>
-          <div className="divide-y divide-gray-50">
-            {leadsData?.leads?.slice(0, 5).map((lead) => {
-              const statutColors = {
-                NOUVEAU: 'bg-green-100 text-green-700',
-                QUALIFIE: 'bg-blue-100 text-blue-700',
-                FINANCEMENT_EN_COURS: 'bg-yellow-100 text-yellow-700',
-                INSCRIT: 'bg-purple-100 text-purple-700',
-                FORME: 'bg-emerald-100 text-emerald-700',
-                ALUMNI: 'bg-gray-100 text-gray-700',
-                SPAM: 'bg-red-100 text-red-700',
-                PERDU: 'bg-red-100 text-red-700'
-              }
-
-              return (
-                <Link key={lead.id} href={`/lead/${lead.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition group">
-                  <div className="w-10 h-10 rounded-full bg-[#2EC6F3]/10 flex items-center justify-center text-sm font-semibold text-[#2EC6F3]">
-                    {lead.prenom?.[0]}{lead.nom?.[0]}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-gray-700 truncate">{lead.prenom} {lead.nom}</p>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full ${statutColors[lead.statut] || 'bg-gray-100 text-gray-700'}`}>
-                        {lead.statut}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 mt-1">
-                      <p className="text-xs text-gray-400 truncate flex-1">{formatRelativeTime(lead.created_at)}</p>
-                      <div className="flex items-center gap-1">
-                        <div className="w-8 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full rounded-full transition-all"
-                            style={{
-                              width: `${lead.score_chaud}%`,
-                              backgroundColor: lead.score_chaud >= 70 ? '#22C55E' : lead.score_chaud >= 40 ? '#F59E0B' : '#9CA3AF',
-                            }}
-                          />
-                        </div>
-                        <span className="text-[10px] text-gray-400 tabular-nums">{lead.score_chaud}</span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              )
-            })}
-            {(!leadsData?.leads || leadsData.leads.length === 0) && (
-              <div className="px-5 py-8 text-center text-sm text-gray-400">
-                Aucun lead enregistré
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Actions rapides */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href="/leads"
-            className="flex items-center gap-2 px-4 py-2.5 border border-[#2EC6F3] text-[#2EC6F3] rounded-lg text-sm font-medium hover:bg-[#2EC6F3]/5 transition min-h-[44px]"
-          >
-            <Plus className="w-4 h-4" /> Nouveau lead
-          </Link>
-          <Link
-            href="/sessions"
-            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
-          >
-            <Calendar className="w-4 h-4" /> Créer session
-          </Link>
-          <Link
-            href="/pipeline"
-            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition min-h-[44px]"
-          >
-            <PieChart className="w-4 h-4" /> Voir pipeline
-          </Link>
-        </div>
-      </div>
     </div>
   )
 }
@@ -387,7 +371,7 @@ function KpiCard({
   variation?: number
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition">
+    <div className={`bg-white rounded-xl border-l-4 border-r border-t border-b border-gray-100 shadow-sm p-4 hover:shadow-md transition`} style={{ borderLeftColor: color }}>
       <div className="flex items-start justify-between mb-3">
         <div className="p-2 rounded-lg" style={{ backgroundColor: `${color}15` }}>
           <Icon className="w-5 h-5" style={{ color }} />
