@@ -34,9 +34,33 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Webpack — Obfuscation désactivée temporairement (crash build avec gros projet)
-  // TODO: Réactiver avec une config plus légère ou passer à SWC minifier
-  // webpack: (config, { isServer, dev }) => { ... },
+  // Webpack — Obfuscation légère du code propriétaire (prod client-side only)
+  webpack: (config, { isServer, dev }) => {
+    if (dev || isServer) return config
+    try {
+      const WebpackObfuscator = require('webpack-obfuscator')
+      config.plugins.push(
+        new WebpackObfuscator({
+          compact: true,
+          controlFlowFlattening: false,
+          deadCodeInjection: false,
+          identifierNamesGenerator: 'hexadecimal',
+          renameGlobals: false,
+          selfDefending: false,
+          stringArray: true,
+          stringArrayEncoding: ['none'],
+          stringArrayThreshold: 0.3,
+          transformObjectKeys: false,
+          unicodeEscapeSequence: false,
+          debugProtection: false,
+          disableConsoleOutput: false,
+        }, ['**/node_modules/**'])
+      )
+    } catch {
+      // webpack-obfuscator pas installé — skip
+    }
+    return config
+  },
 
   // Security headers + cache assets statiques
   headers: async () => [

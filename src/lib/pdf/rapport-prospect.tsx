@@ -546,12 +546,12 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
                 {/* Mots-clés (tags) */}
                 {e.reviews.analysis.positiveKeywords.length > 0 && (
                   <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 2, marginBottom: 3 }}>
-                    {e.reviews.analysis.positiveKeywords.slice(0, 5).map((kw, i) => (
+                    {e.reviews.analysis.positiveKeywords.slice(0, 5).map((kw: string, i: number) => (
                       <View key={i} style={{ backgroundColor: C.greenBg, paddingHorizontal: 3, paddingVertical: 1, borderRadius: 2 }}>
                         <Text style={{ fontSize: 5.5, color: C.greenDark }}>{kw}</Text>
                       </View>
                     ))}
-                    {e.reviews.analysis.negativeKeywords.slice(0, 3).map((kw, i) => (
+                    {e.reviews.analysis.negativeKeywords.slice(0, 3).map((kw: string, i: number) => (
                       <View key={`n${i}`} style={{ backgroundColor: C.amberBg, paddingHorizontal: 3, paddingVertical: 1, borderRadius: 2 }}>
                         <Text style={{ fontSize: 5.5, color: C.amberDark }}>{kw}</Text>
                       </View>

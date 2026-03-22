@@ -31,17 +31,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Lead introuvable' }, { status: 404 })
     }
 
+    const l = lead as any
+
     // ── 1. Lancer le pipeline d'enrichissement ──
     const enrichment = await runEnrichmentPipeline({
       leadId,
-      siret: lead.siret || lead.entreprise_siret,
-      nom: lead.nom,
-      prenom: lead.prenom,
-      entreprise: lead.entreprise_nom,
-      ville: (lead.adresse as any)?.ville || 'Paris',
-      email: lead.email,
-      telephone: lead.telephone,
-      codePostal: (lead.adresse as any)?.code_postal,
+      siret: l.siret || l.entreprise_siret,
+      nom: l.nom,
+      prenom: l.prenom,
+      entreprise: l.entreprise_nom,
+      ville: l.adresse?.ville || 'Paris',
+      email: l.email,
+      telephone: l.telephone,
+      codePostal: l.adresse?.code_postal,
     })
 
     // ── 1bis. Stocker les avis en base ──
@@ -59,13 +61,13 @@ export async function POST(req: NextRequest) {
     // ── 2. Générer le narratif IA ──
     const narrative = await generateProspectNarrative({
       lead: {
-        prenom: lead.prenom,
-        nom: lead.nom,
-        email: lead.email,
-        telephone: lead.telephone,
-        entreprise: lead.entreprise_nom,
-        statut_pro: lead.statut_professionnel,
-        source: lead.source,
+        prenom: l.prenom,
+        nom: l.nom,
+        email: l.email,
+        telephone: l.telephone,
+        entreprise: l.entreprise_nom,
+        statut_pro: l.statut_professionnel,
+        source: l.source,
       },
       enrichment: enrichment.aggregatedData,
       score: enrichment.totalScore,
@@ -112,7 +114,7 @@ export async function POST(req: NextRequest) {
       .update({
         score: enrichment.totalScore,
         metadata: {
-          ...(lead.metadata || {}),
+          ...(l.metadata || {}),
           last_enrichment: new Date().toISOString(),
           enrichment_classification: enrichment.classification,
         },
