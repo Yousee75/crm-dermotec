@@ -51,10 +51,10 @@ export async function POST(req: NextRequest) {
       const storable = reviewsToStorable(leadId, enrichment.aggregatedData.reviews.rawReviews)
       // Upsert — ignorer les doublons
       for (const review of storable) {
-        await supabase.from('prospect_reviews').upsert(review, {
+        await supabase.from('prospect_reviews' as any).upsert(review as any, {
           onConflict: 'lead_id,source,author_name,review_date',
           ignoreDuplicates: true,
-        }).then(() => {})
+        } as any).then(() => {})
       }
     }
 
@@ -96,12 +96,12 @@ export async function POST(req: NextRequest) {
       .limit(1)
 
     if (existing && existing.length > 0) {
-      reportData.version = existing[0].version + 1
+      reportData.version = (existing as any[])[0].version + 1
     }
 
     const { error: insertError } = await supabase
-      .from('prospect_reports')
-      .insert(reportData)
+      .from('prospect_reports' as any)
+      .insert(reportData as any)
 
     if (insertError) {
       console.error('[Pipeline] Erreur sauvegarde rapport:', insertError)
@@ -109,8 +109,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── 4. Mettre à jour le lead avec le score ──
-    await supabase
-      .from('leads')
+    await (supabase.from('leads') as any)
       .update({
         score: enrichment.totalScore,
         metadata: {

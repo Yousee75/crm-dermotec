@@ -57,6 +57,7 @@ export async function GET(req: NextRequest) {
  * Body: { leadId, narrative (modifié par le commercial) }
  */
 export async function POST(req: NextRequest) {
+  const supabase = await createServiceSupabase()
   try {
     const { leadId, narrative } = await req.json()
 
@@ -65,7 +66,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Récupérer la dernière version
-    const { data: latest } = await supabase
+    const { data: latest } = await (supabase as any)
       .from('prospect_reports')
       .select('version, enrichment_data, enrichment_steps, score, classification')
       .eq('lead_id', leadId)
@@ -74,7 +75,7 @@ export async function POST(req: NextRequest) {
 
     const newVersion = (latest && latest.length > 0) ? latest[0].version + 1 : 1
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('prospect_reports')
       .insert({
         lead_id: leadId,

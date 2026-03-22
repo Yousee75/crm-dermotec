@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
     if (!lead) {
       return NextResponse.json({ error: 'Lead introuvable' }, { status: 404 })
     }
+    const ld = lead as any
 
     // Récupérer le rapport
     let query = supabase
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { data: reports } = await query
-    const report = reports?.[0]
+    const report = (reports as any)?.[0]
 
     if (!report || !report.narrative) {
       return NextResponse.json({ error: 'Rapport non trouvé' }, { status: 404 })
@@ -71,11 +72,11 @@ export async function GET(req: NextRequest) {
     // Générer le PDF
     const element = React.createElement(RapportProspect, {
       lead: {
-        prenom: lead.prenom,
-        nom: lead.nom,
-        entreprise: lead.entreprise_nom,
-        email: lead.email,
-        telephone: lead.telephone,
+        prenom: ld.prenom,
+        nom: ld.nom,
+        entreprise: ld.entreprise_nom,
+        email: ld.email,
+        telephone: ld.telephone,
       },
       narrative: report.narrative,
       enrichment: enrichmentData,
@@ -92,7 +93,7 @@ export async function GET(req: NextRequest) {
     const buffer = await renderToBuffer(element as any)
     const uint8 = new Uint8Array(buffer)
 
-    const nomFichier = `rapport-prospect-${(lead.prenom || '').toLowerCase()}-${(lead.nom || '').toLowerCase()}-v${report.version}.pdf`
+    const nomFichier = `rapport-prospect-${(ld.prenom || '').toLowerCase()}-${(ld.nom || '').toLowerCase()}-v${report.version}.pdf`
 
     return new NextResponse(uint8, {
       headers: {

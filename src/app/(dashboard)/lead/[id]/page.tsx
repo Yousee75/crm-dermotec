@@ -17,6 +17,8 @@ import { InscrireLeadDialog } from '@/components/ui/InscrireLeadDialog'
 import { AssignCommercialDialog } from '@/components/ui/AssignCommercialDialog'
 import { PaymentLinkButton } from '@/components/ui/PaymentLinkButton'
 import { ProspectReportViewer } from '@/components/ui/ProspectReportViewer'
+import { ProspectReviewsPanel } from '@/components/ui/ProspectReviewsPanel'
+import { EnrichedDataSection } from '@/components/crm/EnrichedDataSection'
 import { SkeletonCard } from '@/components/ui/Skeleton'
 import { toast } from 'sonner'
 import {
@@ -40,13 +42,7 @@ const WizardInscription = lazy(() => import('@/components/crm/WizardInscription'
 
 // ===== TYPES & CONFIG =====
 
-type TabId = 'resume' | 'activite' | 'dossier'
-
-const TABS: { id: TabId; label: string; mobileLabel: string; icon: React.ElementType }[] = [
-  { id: 'resume', label: 'Résumé', mobileLabel: 'Résumé', icon: User },
-  { id: 'activite', label: 'Activité', mobileLabel: 'Activité', icon: Activity },
-  { id: 'dossier', label: 'Dossier', mobileLabel: 'Dossier', icon: FolderOpen },
-]
+// Layout 2 colonnes — plus de tabs
 
 const CANAUX_MESSAGE: { id: CanalMessage; label: string; icon: React.ElementType; color: string; hint: string }[] = [
   { id: 'email', label: 'Email', icon: Mail, color: '#3B82F6', hint: 'Envoi via Resend' },
@@ -110,7 +106,6 @@ function getEtapeIndex(statut: StatutLead): number {
 
 export default function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
-  const [activeTab, setActiveTab] = useState<TabId>('resume')
   const [isEditing, setIsEditing] = useState(false)
   const [editedLead, setEditedLead] = useState<Partial<Lead>>({})
   const [newTag, setNewTag] = useState('')
@@ -333,6 +328,10 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                     <button onClick={() => { setShowMoreActions(false); setShowAssign(true) }} className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm hover:bg-gray-50 transition text-left">
                       <Target className="w-4 h-4 text-gray-500" />{lead.commercial_assigne ? `Réassigner (${lead.commercial_assigne.prenom})` : 'Assigner un commercial'}
                     </button>
+                    <div className="border-t border-gray-100 my-1" />
+                    <Link href={`/lead/${id}/rapport`} target="_blank" onClick={() => setShowMoreActions(false)} className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm hover:bg-gray-50 transition text-left">
+                      <FileText className="w-4 h-4 text-[#2EC6F3]" />Briefing commercial
+                    </Link>
                   </div>
                 </>
               )}
@@ -362,39 +361,210 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
         </div>
       )}
 
-      {/* ===== 3 TABS ===== */}
-      <div className="border-b border-gray-200 -mx-4 sm:mx-0 px-4 sm:px-0">
-        <div className="flex gap-1 sm:gap-6">
-          {TABS.map((tab) => {
-            const Icon = tab.icon
-            const count = tab.id === 'activite' ? messages.length : tab.id === 'dossier' ? dossierCount : undefined
-            return (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={cn(
-                'flex items-center gap-1.5 px-4 sm:px-1 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap',
-                activeTab === tab.id ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              )}>
-                <Icon className="w-4 h-4" />
-                <span className="hidden sm:inline">{tab.label}</span>
-                <span className="sm:hidden">{tab.mobileLabel}</span>
-                {count !== undefined && count > 0 && <span className="px-1.5 py-0.5 bg-gray-100 text-gray-500 text-[10px] rounded-full font-medium">{count}</span>}
-              </button>
-            )
-          })}
+      {/* ===== LAYOUT 2 COLONNES ===== */}
+      <div className="flex flex-col lg:flex-row gap-4">
+
+        {/* ── COLONNE GAUCHE — Profil sticky ── */}
+        <div className="lg:w-[320px] lg:shrink-0 space-y-3 lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-88px)] lg:overflow-y-auto lg:scrollbar-hide">
+          {/* Contact */}
+          <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <Phone className="w-3.5 h-3.5 text-[#2EC6F3]" />
+                <span className="text-xs font-semibold text-[#082545]">Contact</span>
+              </div>
+              {isEditing ? (
+                <div className="flex gap-1">
+                  <button onClick={() => { setIsEditing(false); setEditedLead(() => ({})) }} className="px-2 py-1 text-[10px] text-gray-500 border border-gray-200 rounded hover:bg-gray-50 transition">Annuler</button>
+                  <button onClick={handleSave} disabled={updateLead.isPending} className="flex items-center gap-1 px-2 py-1 text-[10px] bg-[#2EC6F3] text-white rounded hover:bg-[#0284C7] transition disabled:opacity-50">
+                    {updateLead.isPending ? <div className="w-2.5 h-2.5 border border-white/30 border-t-white rounded-full animate-spin" /> : <Save className="w-2.5 h-2.5" />}OK
+                  </button>
+                </div>
+              ) : (
+                <button onClick={() => setIsEditing(true)} className="p-1 rounded hover:bg-gray-100 text-gray-400 transition"><Edit3 className="w-3 h-3" /></button>
+              )}
+            </div>
+            <div className="space-y-2">
+              <EditableField label="Prénom" value={lead.prenom} field="prenom" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} autoFocus />
+              <EditableField label="Nom" value={lead.nom || ''} field="nom" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} />
+              <EditableField label="Email" value={lead.email || ''} field="email" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} type="email" />
+              <EditableField label="Téléphone" value={lead.telephone || ''} field="telephone" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} type="tel" displayValue={formatPhone(lead.telephone || '')} />
+            </div>
+          </div>
+
+          {/* Profil pro */}
+          <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-2">
+            <div className="flex items-center gap-1.5 mb-1">
+              <Building2 className="w-3.5 h-3.5 text-[#2EC6F3]" />
+              <span className="text-xs font-semibold text-[#082545]">Profil</span>
+            </div>
+            <SelectField label="Statut pro" value={lead.statut_pro || ''} field="statut_pro" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} options={STATUT_PRO_OPTIONS} />
+            <SelectField label="Expérience" value={lead.experience_esthetique || ''} field="experience_esthetique" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} options={EXPERIENCE_OPTIONS} />
+            <EditableField label="Entreprise" value={lead.entreprise_nom || ''} field="entreprise_nom" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} />
+            <EditableField label="Ville" value={lead.adresse?.ville || ''} field="adresse.ville" isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} isAddress />
+          </div>
+
+          {/* Tags */}
+          <div className="bg-white rounded-xl border border-gray-100 p-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Tag className="w-3.5 h-3.5 text-[#2EC6F3]" />
+              <span className="text-xs font-semibold text-[#082545]">Tags</span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {lead.tags.map((tag) => (
+                <span key={tag} className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-700 rounded-full text-[11px] group">
+                  {tag}
+                  <button onClick={() => handleRemoveTag(tag)} className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition"><X className="w-2.5 h-2.5" /></button>
+                </span>
+              ))}
+              <input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleAddTag()} placeholder="+" className="w-10 px-1.5 py-0.5 border border-dashed border-gray-300 rounded-full text-[11px] text-center focus:border-[#2EC6F3] focus:w-24 transition-all outline-none" />
+            </div>
+          </div>
+
+          {/* Notes */}
+          <div className="bg-white rounded-xl border border-gray-100 p-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Edit3 className="w-3.5 h-3.5 text-[#2EC6F3]" />
+              <span className="text-xs font-semibold text-[#082545]">Notes</span>
+            </div>
+            <textarea value={isEditing ? (editedLead.notes ?? lead.notes ?? '') : (lead.notes || '')} onChange={(e) => setEditedLead(prev => ({ ...prev, notes: e.target.value }))} disabled={!isEditing} rows={3} placeholder={isEditing ? 'Notes internes...' : 'Aucune note'} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs disabled:bg-gray-50 disabled:text-gray-600 resize-none focus:outline-none focus:border-[#2EC6F3]" />
+          </div>
+
+          {/* Complétion */}
+          <div className="bg-white rounded-xl border border-gray-100 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] text-gray-400">Complétion fiche</span>
+              <span className={cn('text-xs font-bold', completionPct >= 80 ? 'text-emerald-600' : completionPct >= 50 ? 'text-amber-600' : 'text-gray-400')}>{completionPct}%</span>
+            </div>
+            <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-500" style={{ width: `${completionPct}%`, backgroundColor: completionPct >= 80 ? '#22C55E' : completionPct >= 50 ? '#F59E0B' : '#94A3B8' }} />
+            </div>
+          </div>
+
+          {/* Source + date */}
+          <div className="px-1 flex items-center justify-between text-[10px] text-gray-400">
+            <span>Source : {lead.source.replace(/_/g, ' ')}</span>
+            <span>Créé {formatDate(lead.created_at)}</span>
+          </div>
+        </div>
+
+        {/* ── COLONNE DROITE — Contenu scrollable ── */}
+        <div className="flex-1 min-w-0 space-y-4">
+          {/* Actions intelligentes */}
+          <LeadActionHub leadId={lead.id} onActionClick={(action) => {
+            if (action === 'inscrire' || action === 'proposer_formation') setShowWizard(true)
+            if (action === 'qualifier') setIsEditing(true)
+          }} />
+
+          {/* Formation souhaitée + suggestions */}
+          {lead.formation_principale && (
+            <div className="bg-white rounded-xl border border-gray-100 p-4">
+              <div className="flex items-center gap-1.5 mb-2">
+                <GraduationCap className="w-3.5 h-3.5 text-[#2EC6F3]" />
+                <span className="text-xs font-semibold text-[#082545]">Formation souhaitée</span>
+              </div>
+              <div className="p-3 bg-[#2EC6F3]/5 border border-[#2EC6F3]/20 rounded-lg">
+                <div className="flex items-start justify-between">
+                  <div><h4 className="font-medium text-[#082545] text-sm">{lead.formation_principale.nom}</h4><p className="text-[11px] text-gray-500 mt-0.5">{lead.formation_principale.categorie}</p></div>
+                  <span className="text-sm font-bold text-[#2EC6F3]">{formatEuro(lead.formation_principale.prix_ht)}</span>
+                </div>
+                {lead.financement_souhaite && (
+                  <div className="mt-2 flex items-center gap-1 text-[11px] text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md w-fit">
+                    <Wallet className="w-3 h-3" />Financement souhaité {lead.organisme_financement && `(${lead.organisme_financement})`}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          <FormationSuggester leadId={lead.id} compact onSelect={() => setShowWizard(true)} />
+
+          {/* Inscriptions */}
+          {lead.inscriptions && lead.inscriptions.length > 0 && (
+            <div className="bg-white rounded-xl border border-gray-100 p-4">
+              <div className="flex items-center gap-1.5 mb-2">
+                <GraduationCap className="w-3.5 h-3.5 text-[#2EC6F3]" />
+                <span className="text-xs font-semibold text-[#082545]">Inscriptions ({lead.inscriptions.length})</span>
+              </div>
+              <div className="space-y-2">
+                {lead.inscriptions.map((insc: Inscription) => (
+                  <div key={insc.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-gray-300 transition">
+                    <div className="min-w-0">
+                      <h4 className="font-medium text-[#082545] text-sm truncate">{insc.session?.formation?.nom || 'Formation'}</h4>
+                      <div className="flex items-center gap-2 mt-0.5 text-[11px] text-gray-500">
+                        {insc.session && <Link href={`/session/${insc.session.id}`} className="text-[#2EC6F3] hover:underline">{formatDate(insc.session.date_debut, { day: 'numeric', month: 'short' })}</Link>}
+                        <span>{formatEuro(insc.montant_total)}</span>
+                        <span className={cn('px-1.5 py-0.5 rounded-full text-[10px] font-medium', insc.paiement_statut === 'PAYE' ? 'bg-green-100 text-green-700' : insc.paiement_statut === 'EN_ATTENTE' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600')}>
+                          {insc.paiement_statut.replace(/_/g, ' ').toLowerCase()}
+                        </span>
+                      </div>
+                    </div>
+                    {insc.paiement_statut !== 'PAYE' && <PaymentLinkButton lead={lead} inscription={insc} />}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Financement */}
+          {lead.financements && lead.financements.length > 0 && (
+            <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <CreditCard className="w-4 h-4 text-amber-600" />
+                <span className="text-xs font-semibold text-amber-800">{lead.financements.length} dossier{lead.financements.length > 1 ? 's' : ''} financement</span>
+              </div>
+              {lead.financements.map((fin: Financement, i: number) => (
+                <div key={i} className="flex items-center justify-between text-xs text-amber-700">
+                  <span>{fin.organisme}</span>
+                  <span className="font-medium">{fin.statut.replace(/_/g, ' ')}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Briefing commercial IA */}
+          <ProspectReportViewer leadId={lead.id} leadName={`${lead.prenom || ''} ${lead.nom || ''}`.trim()} />
+
+          {/* Données enrichies */}
+          <EnrichedDataSection leadId={lead.id} />
+
+          {/* Avis clients */}
+          <ProspectReviewsPanel leadId={lead.id} />
+
+          {/* Timeline activité (anciennement onglet Communication) */}
+          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+            <div className="px-4 py-3 border-b border-gray-50 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4 text-[#2EC6F3]" />
+                <span className="text-sm font-semibold text-[#082545]">Activité & Échanges</span>
+                {messages.length > 0 && <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{messages.length}</span>}
+              </div>
+            </div>
+            {/* Formulaire envoi rapide */}
+            <div className="px-4 py-3 border-b border-gray-50 bg-gray-50/50">
+              <div className="flex items-center gap-2 mb-2">
+                {CANAUX_MESSAGE.map(c => (
+                  <button key={c.id} onClick={() => setMessageCanal(c.id)} className={cn('flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] transition', messageCanal === c.id ? 'bg-white shadow-sm font-medium' : 'text-gray-500 hover:bg-white/50')} title={c.hint}>
+                    <c.icon className="w-3 h-3" style={{ color: messageCanal === c.id ? c.color : undefined }} />{c.label}
+                  </button>
+                ))}
+              </div>
+              {messageCanal === 'email' && (
+                <input type="text" value={messageSubject} onChange={(e) => setMessageSubject(e.target.value)} placeholder="Objet..." className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-xs mb-2 focus:outline-none focus:border-[#2EC6F3]" />
+              )}
+              <div className="flex gap-2">
+                <textarea value={messageContent} onChange={(e) => setMessageContent(e.target.value)} placeholder={messageCanal === 'note_interne' ? 'Ajouter une note...' : 'Votre message...'} rows={2} className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-xs resize-none focus:outline-none focus:border-[#2EC6F3]" />
+                <button onClick={handleSendMessage} disabled={sendMessage.isPending || !messageContent.trim()} className="self-end px-3 py-2 bg-[#2EC6F3] text-white rounded-lg text-xs font-medium hover:bg-[#0284C7] transition disabled:opacity-50">
+                  {sendMessage.isPending ? <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+            </div>
+            {/* Timeline */}
+            <div className="p-4">
+              <ActivityTimeline leadId={lead.id} limit={15} />
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* ===== TAB CONTENT ===== */}
-      {activeTab === 'resume' && (
-        <ResumeTab lead={lead} isEditing={isEditing} editedLead={editedLead} setEditedLead={setEditedLead} setIsEditing={setIsEditing} handleSave={handleSave} newTag={newTag} setNewTag={setNewTag} handleAddTag={handleAddTag} handleRemoveTag={handleRemoveTag} isLoading={updateLead.isPending} completionPct={completionPct} onShowWizard={() => setShowWizard(true)} onActionClick={(action) => {
-          if (action === 'inscrire' || action === 'proposer_formation') setShowWizard(true)
-          if (action === 'qualifier') { setActiveTab('resume'); setIsEditing(true) }
-          if (action === 'simuler_financement') setActiveTab('dossier')
-        }} />
-      )}
-      {activeTab === 'activite' && (
-        <ActiviteTab lead={lead} messages={messages} cadenceInstances={cadenceInstances} messageCanal={messageCanal} setMessageCanal={setMessageCanal} messageContent={messageContent} setMessageContent={setMessageContent} messageSubject={messageSubject} setMessageSubject={setMessageSubject} handleSendMessage={handleSendMessage} isSending={sendMessage.isPending} />
-      )}
-      {activeTab === 'dossier' && <DossierTab lead={lead} />}
 
       {/* Dialogs */}
       <InscrireLeadDialog open={showInscrire} onClose={() => setShowInscrire(false)} lead={lead} />
@@ -540,6 +710,12 @@ function ResumeTab({ lead, isEditing, editedLead, setEditedLead, setIsEditing, h
 
       {/* Rapport de Prospection IA */}
       <ProspectReportViewer leadId={lead.id} leadName={`${lead.prenom || ''} ${lead.nom || ''}`.trim()} />
+
+      {/* Données enrichies (Sirene, Pappers, Google, Social, Quartier) */}
+      <EnrichedDataSection leadId={lead.id} />
+
+      {/* Avis clients récupérés */}
+      <ProspectReviewsPanel leadId={lead.id} />
     </div>
   )
 }
