@@ -8,12 +8,15 @@ import { useQuery } from '@tanstack/react-query'
 import {
   Users, UserCheck, TrendingUp, Euro,
   Calendar, Target, AlertTriangle, Clock,
-  Phone, Plus, PieChart, ChevronRight, Zap
+  Phone, Plus, PieChart, ChevronRight, Zap,
+  MessageCircle, Mail
 } from 'lucide-react'
 import Link from 'next/link'
+import { useCurrentUser } from '@/hooks/use-current-user'
 
 export default function DashboardPage() {
   const supabase = createClient()
+  const { data: currentUser } = useCurrentUser()
 
   // Données existantes
   const { data: leadsData } = useLeads({ per_page: 5 })
@@ -109,11 +112,11 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] space-y-6">
-      {/* Hero compact */}
+      {/* Hero compact — personnalisé */}
       <div className="bg-gradient-to-r from-[#082545] to-[#0F3A6E] rounded-2xl p-6 text-white relative overflow-hidden">
         <div className="relative z-10">
           <h1 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-heading)' }}>
-            {greeting}
+            {greeting}{currentUser?.prenom ? ` ${currentUser.prenom}` : ''} 👋
           </h1>
           <p className="text-blue-200 mt-1 text-sm">
             {overdueCount > 0 && <span className="text-amber-300">{overdueCount} rappel{overdueCount > 1 ? 's' : ''} en retard</span>}
@@ -140,24 +143,51 @@ export default function DashboardPage() {
           </div>
           <div className="divide-y divide-gray-50">
             {overdueRappels && overdueRappels.length > 0 && overdueRappels.slice(0, 3).map((r) => (
-              <Link key={r.id} href={`/lead/${r.lead_id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-red-50/50 transition group">
+              <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-red-50/50 transition group">
                 <div className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-700 truncate">{r.titre || r.type}</p>
-                  <p className="text-xs text-red-400">{r.lead?.prenom} {r.lead?.nom} · en retard</p>
+                <Link href={`/lead/${r.lead_id}`} className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-700 truncate">{r.lead?.prenom} {r.lead?.nom}</p>
+                  <p className="text-xs text-red-400">{r.titre || r.type} · en retard</p>
+                </Link>
+                <div className="flex items-center gap-1 shrink-0">
+                  {r.lead?.telephone && (
+                    <a href={`tel:${r.lead.telephone}`} className="p-1.5 rounded-lg hover:bg-red-100 transition" title="Appeler">
+                      <Phone className="w-3.5 h-3.5 text-red-500" />
+                    </a>
+                  )}
+                  {r.lead?.telephone && (
+                    <a href={`https://wa.me/${(r.lead.telephone || '').replace(/\s/g, '').replace(/^0/, '33')}`} target="_blank" className="p-1.5 rounded-lg hover:bg-green-100 transition" title="WhatsApp">
+                      <MessageCircle className="w-3.5 h-3.5 text-green-600" />
+                    </a>
+                  )}
+                  {r.lead?.email && (
+                    <a href={`mailto:${r.lead.email}`} className="p-1.5 rounded-lg hover:bg-blue-100 transition" title="Email">
+                      <Mail className="w-3.5 h-3.5 text-blue-500" />
+                    </a>
+                  )}
                 </div>
-                <AlertTriangle className="w-4 h-4 text-red-500 opacity-0 group-hover:opacity-100 transition" />
-              </Link>
+              </div>
             ))}
             {todayRappels && todayRappels.length > 0 && todayRappels.slice(0, 3).map((r) => (
-              <Link key={r.id} href={`/lead/${r.lead_id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-amber-50/50 transition group">
+              <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-amber-50/50 transition group">
                 <div className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-700 truncate">{r.titre || r.type}</p>
-                  <p className="text-xs text-amber-500">{r.lead?.prenom} {r.lead?.nom}</p>
+                <Link href={`/lead/${r.lead_id}`} className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-700 truncate">{r.lead?.prenom} {r.lead?.nom}</p>
+                  <p className="text-xs text-amber-500">{r.titre || r.type}</p>
+                </Link>
+                <div className="flex items-center gap-1 shrink-0">
+                  {r.lead?.telephone && (
+                    <a href={`tel:${r.lead.telephone}`} className="p-1.5 rounded-lg hover:bg-amber-100 transition" title="Appeler">
+                      <Phone className="w-3.5 h-3.5 text-amber-600" />
+                    </a>
+                  )}
+                  {r.lead?.telephone && (
+                    <a href={`https://wa.me/${(r.lead.telephone || '').replace(/\s/g, '').replace(/^0/, '33')}`} target="_blank" className="p-1.5 rounded-lg hover:bg-green-100 transition" title="WhatsApp">
+                      <MessageCircle className="w-3.5 h-3.5 text-green-600" />
+                    </a>
+                  )}
                 </div>
-                <Clock className="w-4 h-4 text-amber-500 opacity-0 group-hover:opacity-100 transition" />
-              </Link>
+              </div>
             ))}
             {sessions?.filter(s => s.statut === 'CONFIRMEE' || s.statut === 'PLANIFIEE').slice(0, 2).map((s) => (
               <Link key={s.id} href={`/session/${s.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-blue-50/50 transition group">
