@@ -657,11 +657,125 @@ Lead, Session, Inscription, Financement, Rappel, Activite, Message, Equipe, Form
 
 ---
 
-## SECTIONS EN ATTENTE
+---
 
-- Détail des 136 composants avec props (agent en cours)
-- Détail des 27 hooks
-- Détail des 141 modules lib
+## 18. COMPOSANTS — 97 fichiers, 13 dossiers
+
+### Par catégorie
+| Dossier | Composants | Exemples |
+|---------|-----------|----------|
+| **ui/** | 55 | Button, Card, Badge, Dialog, Sheet, CommandPalette, SwipeableRow, MobileBottomSheet |
+| **academy/** | 9 | ContentRenderer, QuizBlock, ScriptBlock, DailyChallenge, StreakCounter, BadgeCard |
+| **crm/** | 9 | WizardInscription, LeadActionHub, FormationSuggester, FinancementExpress, ParcoursClient |
+| **competitors/** | 7 | CompetitorCard, CompetitorMap, ScoreRadar, NeighborhoodStats, StarRating |
+| **tools/** | 11 | TvaCalculator, SiretVerifier, ImageCompressor, PdfMerger, PomodoroTimer, OcrScanner |
+| **lms/** | 3 | CoursePlayer (style Udemy), ContentUploader, ProgressDashboard |
+| **financement/** | 2 | FinancementWorkflow (1567L), FinancementDetailEnriched (1466L) |
+| **leads/** | 3 | ImportCSVDialog, GenerateDevisButton, CreateLeadDialog |
+| **documents/** | 3 | DocumentChecklist, DocumentUploader, TransitionBlocker |
+
+### Composants UI clés
+- **Button** : 7 variantes (primary, secondary, ghost, destructive, outline, link, default), 5 tailles, pill shape, ripple effect
+- **Card** : hover-lift, focus ring, 4 sous-composants (Header, Title, Content, Footer)
+- **Badge** : 10 variantes, 4 tailles, dot/pulse/bounce
+- **CommandPalette** : Ctrl+K, recherche leads live, 17 pages, 4 actions rapides
+- **SwipeableRow** : swipe gauche (appel/email/WhatsApp), swipe droite (avancer pipeline)
+- **MobileBottomSheet** : 3 snap points, drag handle, backdrop blur
+- **ScoreChip** : score coloré avec barre animée, glow si >= 80
+- **TrustBar** : 3 variantes (hero, full, compact), 6 badges confiance
+
+---
+
+## 19. HOOKS — 27 fichiers, ~60 fonctions
+
+### Hooks données (React Query)
+| Hook | Données | Table/API |
+|------|---------|-----------|
+| `useLeads(filters)` | Prospects paginés + filtres smart | leads + joins |
+| `useLead(id)` | Détail prospect complet | leads + joins |
+| `useSessions(filters)` | Sessions avec formations, formatrice | sessions + joins |
+| `useFinancements(filters)` | Dossiers financement | financements + joins |
+| `useMessages(leadId)` | Messages multicanal | /api/messages |
+| `useInbox(search)` | Conversations inbox | /api/messages |
+| `useAnalytics` | KPIs, pipeline, CA, sources | leads, sessions, inscriptions |
+| `useCommercialPerformance` | Leaderboard commerciaux | equipe, leads, activites |
+| `useAcademyModules` | Modules formation interne | academy_modules |
+| `useQualiopi` | Score conformité 7 critères | formations, sessions, qualite |
+| `useNotifications` | Notifications temps réel | notifications + Realtime |
+
+### Hooks mutations
+| Hook | Action | Table |
+|------|--------|-------|
+| `useCreateLead` | Créer prospect | leads |
+| `useChangeStatut` | Changer statut pipeline | leads |
+| `useSendMessage` | Envoyer message multicanal | /api/messages |
+| `useCreateInscription` | Inscrire + incrémenter places | inscriptions, sessions |
+| `useCompleteLesson` | Marquer leçon terminée | academy_progress |
+| `useSignEmargement` | Signer émargement | emargements |
+
+### Hooks utilitaires
+| Hook | Usage |
+|------|-------|
+| `useCurrentUser` | Auth + rôle + permissions |
+| `useFeature(feature)` | Feature gating par plan SaaS |
+| `useMFA` | Multi-factor authentication |
+| `useRealtime(table)` | Invalidation React Query sur changements Supabase |
+| `useTheme` | Forcé light (palette Satorea) |
+| `useTrack` | Tracking événements utilisateur |
+
+---
+
+## 20. MODULES LIB — 137 fichiers
+
+### Par domaine
+| Domaine | Fichiers | Exemples |
+|---------|----------|----------|
+| **IA & Agent** | 10 | ai-tools.ts (15 tools), hybrid-search.ts, semantic-cache.ts, ai-scoring.ts |
+| **Enrichissement** | 17 | enrichment-pipeline.ts (25 sources), enrichment-orchestrator.ts, 10 APIs (CPF, DVF, IRIS, DGEFP, BODACC, INPI, RNCP, OSM, PageSpeed, Aides) |
+| **Concurrence** | 8 | competitor-scraper.ts (Bright Data), competitor-scoring.ts, social-discovery.ts |
+| **CRM Core** | 15 | scoring.ts (/100), lead-score-360.ts, pipeline-forecast.ts, win-patterns.ts, smart-actions.ts |
+| **Financement** | 5 | financement-calculator.ts, financement-workflow.ts, 12 organismes |
+| **Services externes** | 10 | stripe.ts (circuit breaker), email.ts (Resend), twilio.ts, sirene-api.ts, docuseal.ts |
+| **Sécurité** | 20+ | prompt-guard.ts, anti-scraping.ts, impossible-travel.ts, device-guardian.ts, ai-guard.ts, canary-traps.ts |
+| **PDF** | 10 | attestation, certificat, BPF, convocation, émargement, devis, rapport prospect |
+| **Infra** | 10 | supabase-server.ts, inngest.ts, upstash.ts, circuit-breaker.ts, cache.ts |
+| **Utilitaires** | 15+ | utils.ts, sanitize.ts, export-csv.ts, gamification.ts, role-config.ts |
+
+### Modules les plus critiques
+1. **scoring.ts** — Scoring lead /100 (5 axes : complétude, engagement, financement, profil, urgence)
+2. **enrichment-pipeline.ts** — Pipeline 25 sources avec arbre de décision
+3. **ai-tools.ts** — 15 tools exécutables par l'agent IA (search, create, update, score...)
+4. **automations.ts** — 5 automatisations métier (onLeadCreated, onStatusChanged, onSessionFull...)
+5. **status-config.ts** — Source unique de vérité pour tous les statuts (couleurs, labels, transitions)
+
+---
+
+## RÉSUMÉ GLOBAL
+
+| Métrique | Valeur |
+|----------|--------|
+| Fichiers source | 554 |
+| Pages | 70 (64 fonctionnelles + 6 redirects) |
+| API Routes | 65 |
+| Composants | 97 |
+| Hooks | 27 (60 fonctions) |
+| Modules lib | 137 |
+| Migrations SQL | 50 (~85 tables) |
+| Jobs Inngest | 19 (12 crons + 7 events) |
+| Types | 27 enums + 41 interfaces |
+| Lignes de code pages | 27 836 |
+| Plans SaaS | 4 (0€ / 49€ / 99€ / sur devis) |
+| Formations | 11 (400-2500€ HT) |
+| Organismes financement | 12 |
+| Sources enrichissement | 25+ |
+| Couches sécurité | 7 |
+| Couleurs palette | Orange #FF5C00, Rose #FF2D78, Noir #1A1A1A |
+
+---
+
+*Document complet généré le 23 mars 2026.*
+*Source : codebase CRM Dermotec/Satorea, audits automatisés par 4 agents parallèles.*
+*Pour audit par : Gemini, GPT-4, Claude, ou tout autre LLM.*
 
 ---
 
