@@ -35,6 +35,16 @@ export function QuickAddLead() {
     }
   }, [open])
 
+  // Écouter l'événement personnalisé depuis SmartActionBar
+  useEffect(() => {
+    const handleOpenQuickAdd = () => {
+      setOpen(true)
+    }
+
+    window.addEventListener('open-quick-add-lead', handleOpenQuickAdd)
+    return () => window.removeEventListener('open-quick-add-lead', handleOpenQuickAdd)
+  }, [])
+
   const reset = () => {
     setNom('')
     setTelephone('')

@@ -152,9 +152,9 @@ function FunnelConversion({ data }: { data: { statut: string; count: number; lab
     <div>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={funnelData} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-          <XAxis dataKey="etape" tick={{ fontSize: 11, fill: '#6B7280' }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#EEEEEE" vertical={false} />
+          <XAxis dataKey="etape" tick={{ fontSize: 11, fill: '#777777' }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 11, fill: '#999999' }} axisLine={false} tickLine={false} />
           <Tooltip content={<ChartTooltip />} />
           <Bar dataKey="count" radius={[6, 6, 0, 0]} name="Leads">
             {funnelData.map((entry, i) => (
@@ -169,11 +169,11 @@ function FunnelConversion({ data }: { data: { statut: string; count: number; lab
           if (t === null || i === 0) return null
           return (
             <div key={i} className="flex items-center gap-1">
-              <span className="text-[10px] text-gray-400">{funnelData[i - 1].etape}</span>
+              <span className="text-[10px] text-[#999999]">{funnelData[i - 1].etape}</span>
               <Badge variant="outline" size="xs" className="font-mono">
                 {t}%
               </Badge>
-              <span className="text-gray-300 text-[10px]">→</span>
+              <span className="text-[#EEEEEE] text-[10px]">→</span>
             </div>
           )
         })}
@@ -393,9 +393,9 @@ export default function AnalyticsPage() {
                     <stop offset="100%" stopColor={PRIMARY} stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                <XAxis dataKey="mois" tick={{ fontSize: 11, fill: '#6B7280' }} axisLine={false} tickLine={false} />
-                <YAxis tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v} tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#EEEEEE" vertical={false} />
+                <XAxis dataKey="mois" tick={{ fontSize: 11, fill: '#777777' }} axisLine={false} tickLine={false} />
+                <YAxis tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v} tick={{ fontSize: 11, fill: '#999999' }} axisLine={false} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
                 <Area
                   type="monotone"
@@ -450,9 +450,9 @@ export default function AnalyticsPage() {
                   layout="vertical"
                   margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
-                  <XAxis type="number" tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : `${v}`} tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-                  <YAxis type="category" dataKey="nom" width={120} tick={{ fontSize: 10, fill: '#6B7280' }} axisLine={false} tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#EEEEEE" horizontal={false} />
+                  <XAxis type="number" tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : `${v}`} tick={{ fontSize: 11, fill: '#999999' }} axisLine={false} tickLine={false} />
+                  <YAxis type="category" dataKey="nom" width={120} tick={{ fontSize: 10, fill: '#777777' }} axisLine={false} tickLine={false} />
                   <Tooltip content={<ChartTooltip />} />
                   <Bar dataKey="ca" fill={PRIMARY} radius={[0, 6, 6, 0]} name="CA" barSize={24}>
                     {data.topFormations.slice(0, 5).map((_, i) => (
@@ -491,9 +491,9 @@ export default function AnalyticsPage() {
                     <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                <XAxis dataKey="semaine" tick={{ fontSize: 10, fill: '#6B7280' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#EEEEEE" vertical={false} />
+                <XAxis dataKey="semaine" tick={{ fontSize: 10, fill: '#777777' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill: '#999999' }} axisLine={false} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
                 <Area
                   type="monotone"
