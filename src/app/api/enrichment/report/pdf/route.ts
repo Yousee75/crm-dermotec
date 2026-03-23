@@ -9,6 +9,12 @@ export const dynamic = 'force-dynamic'
  * Génère et retourne le PDF du rapport prospect
  */
 export async function GET(req: NextRequest) {
+  // Auth obligatoire
+  const { createServerSupabase } = await import('@/lib/supabase-server')
+  const authSb = await createServerSupabase()
+  const { data: { user } } = await authSb.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
   const supabase = await createServiceSupabase()
   const { searchParams } = new URL(req.url)
   const leadId = searchParams.get('leadId')
@@ -52,9 +58,19 @@ export async function GET(req: NextRequest) {
 
     // Extraire les données enrichies et scores
     const enrichmentData = report.enrichment_data || {}
-    const googlePhoto = enrichmentData.google?.photos > 0 && enrichmentData.google?.placeId
-      ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${enrichmentData.google.placeId}&key=${process.env.GOOGLE_PLACES_API_KEY || ''}`
-      : undefined
+    // SÉCURITÉ : ne PAS exposer GOOGLE_PLACES_API_KEY dans l'URL du PDF
+    // Télécharger la photo côté serveur et l'intégrer en base64
+    let googlePhoto: string | undefined
+    if (enrichmentData.google?.photos > 0 && enrichmentData.google?.placeId && process.env.GOOGLE_PLACES_API_KEY) {
+      try {
+        const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${enrichmentData.google.placeId}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+        const photoRes = await fetch(photoUrl, { signal: AbortSignal.timeout(5000) })
+        if (photoRes.ok) {
+          const buf = await photoRes.arrayBuffer()
+          googlePhoto = `data:image/jpeg;base64,${Buffer.from(buf).toString('base64')}`
+        }
+      } catch { /* Photo non disponible — pas bloquant */ }
+    }
 
     // Calculer les scores par dimension si pas déjà dans le rapport
     const scores = report.scores || {

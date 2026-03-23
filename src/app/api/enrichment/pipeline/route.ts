@@ -16,6 +16,12 @@ export const dynamic = 'force-dynamic'
 export async function POST(req: NextRequest) {
   const supabase = await createServiceSupabase()
   try {
+    // Auth obligatoire
+    const { createServerSupabase } = await import('@/lib/supabase-server')
+    const authSb = await createServerSupabase()
+    const { data: { user } } = await authSb.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
     const { leadId } = await req.json()
     if (!leadId) {
       return NextResponse.json({ error: 'leadId requis' }, { status: 400 })

@@ -11,6 +11,12 @@ export const dynamic = 'force-dynamic'
  * Combine : données lead + enrichment + narrative + avis + carte OSM
  */
 export async function GET(req: NextRequest) {
+  // Auth obligatoire
+  const { createServerSupabase } = await import('@/lib/supabase-server')
+  const authSb = await createServerSupabase()
+  const { data: { user } } = await authSb.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
   const supabase = await createServiceSupabase()
   const { searchParams } = new URL(req.url)
   const leadId = searchParams.get('leadId')
