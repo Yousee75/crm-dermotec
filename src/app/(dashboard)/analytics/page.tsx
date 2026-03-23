@@ -76,7 +76,7 @@ function KpiCard({
 }) {
   const trendPositive = trend && trend.value > 0
   const trendNegative = trend && trend.value < 0
-  const trendColor = trendPositive ? SUCCESS : trendNegative ? ERROR : '#6B7280'
+  const trendColor = trendPositive ? SUCCESS : trendNegative ? ERROR : '#777777'
   const TrendIcon = trendPositive ? TrendingUp : trendNegative ? TrendingDown : null
 
   return (
@@ -93,10 +93,10 @@ function KpiCard({
           </div>
         )}
       </div>
-      <p className="text-xs text-gray-500 mb-0.5">{label}</p>
+      <p className="text-xs text-[#777777] mb-0.5">{label}</p>
       <p className="text-xl font-bold text-accent">{value}</p>
       {trend && (
-        <p className="text-[10px] text-gray-400 mt-1">{trend.label}</p>
+        <p className="text-[10px] text-[#999999] mt-1">{trend.label}</p>
       )}
     </Card>
   )
@@ -108,12 +108,12 @@ function KpiCard({
 function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100 px-4 py-3 text-sm">
-      {label && <p className="text-xs text-gray-400 mb-1.5 font-medium">{label}</p>}
+    <div className="bg-white rounded-xl shadow-lg border border-[#EEEEEE] px-4 py-3 text-sm">
+      {label && <p className="text-xs text-[#999999] mb-1.5 font-medium">{label}</p>}
       {payload.map((entry: any, i: number) => (
         <div key={i} className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-          <span className="text-gray-600">{entry.name || 'Valeur'}</span>
+          <span className="text-[#777777]">{entry.name || 'Valeur'}</span>
           <span className="font-semibold text-accent ml-auto">
             {typeof entry.value === 'number' && entry.value >= 100
               ? formatEuro(entry.value)

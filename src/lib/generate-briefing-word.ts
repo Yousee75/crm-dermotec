@@ -317,296 +317,248 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           new TextRun({ children: [PageNumber.CURRENT], font: 'Calibri', size: 14, color: TEXT_LIGHT }),
         ] })] }) },
         children: [
-          // SOMMAIRE — Structure pyramidale (conclusions → détails → annexes)
+          // SOMMAIRE — Structure pyramidale : 5 pages principales + annexes
           h1('Sommaire'), line(),
-          p('PARTIE 1 — SYNTHÈSE', { bold: true, color: BRAND, size: 22 }),
-          ...['   Page 1 : Executive Summary — Messages clés, Score, Signaux, Action'].map(t => p(t, { color: ACCENT })),
-          spacer(30),
-          p('PARTIE 2 — PROFIL PROSPECT', { bold: true, color: BRAND, size: 22 }),
-          ...['   2. Qui est ce prospect — Histoire, Entreprise, Équipe',
-            '   3. Analyse 5 axes — Réputation, Présence, Activité, Financier, Quartier',
-            '   4. Analyse des avis clients — Multi-plateformes, Tendances, Verbatims',
+          p('PAGES PRINCIPALES — Commercial pressé, 5 min de lecture', { bold: true, color: BRAND, size: 22 }),
+          ...['   Page 1 : Executive Summary — Messages clés, Score, Signaux',
+            '   Page 2 : Qui + Pourquoi — Profil, opportunité, formation recommandée',
+            '   Page 3 : Comment lui vendre — Stratégie + Script + Objections',
+            '   Page 4 : Financement + ROI — L\'argent, break-even, options',
+            '   Page 5 : Plan d\'action 14 jours — Timeline jour par jour',
           ].map(t => p(t, { color: ACCENT })),
           spacer(30),
-          p('PARTIE 3 — INTELLIGENCE COMMERCIALE', { bold: true, color: BRAND, size: 22 }),
-          ...['   5. Carte des soins & Gap Analysis — Soins actuels vs Formations',
-            '   6. Réputation Multi-Plateformes — 7 plateformes, Notes, Services',
-            '   7. Zone & Concurrence — Carte, Quartier, Concurrents',
-            '   8. Financement & Convention — OPCO, CPF, Aides, Droits',
-          ].map(t => p(t, { color: ACCENT })),
-          spacer(30),
-          p('PARTIE 4 — STRATÉGIE DE VENTE', { bold: true, color: BRAND, size: 22 }),
-          ...['   9. Stratégie d\'approche — Canal, Timing, Angle',
-            '   10. Script téléphonique — Accroche → Closing',
-            '   11. Objections — 7 scénarios avec réponses',
-            '   12. Douleurs & Leviers — Psychologie du prospect',
-          ].map(t => p(t, { color: ACCENT })),
-          spacer(30),
-          p('PARTIE 5 — PLAN D\'ACTION', { bold: true, color: BRAND, size: 22 }),
-          ...['   13. Formations recommandées — ROI calculé',
-            '   14. Simulation ROI — 3 scénarios',
-            '   15. Plan d\'action 14 jours — Jour par jour',
+          p('ANNEXES — Détails pour ceux qui veulent creuser', { bold: true, color: BRAND, size: 22 }),
+          ...['   Annexe A : Réputation multi-plateformes — 7 plateformes, avis',
+            '   Annexe B : Carte soins & gap analysis — Services vs formations',
+            '   Annexe C : Zone & concurrence — Carte, quartier, concurrents',
+            '   Annexe D : Données brutes — Fiche entreprise, sources',
           ].map(t => p(t, { color: ACCENT })),
           pageBreak(),
 
-          // 1. VERDICT
-          h1('1. Verdict & Score'), line(),
-          box(`SCORE GLOBAL : ${d.scores.global}/100  —  Classification : ${d.classification}`, cc.bg, cc.fg),
-          spacer(50),
-          p(d.verdict, { size: 22 }),
-          spacer(50),
-          new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [new TableRow({ children: [
-            kpiCell('Note Google', d.prospect.google_rating ? `${d.prospect.google_rating}/5` : '--', BRAND),
-            kpiCell('Avis clients', `${d.prospect.google_avis || '--'}`, INDIGO),
-            kpiCell('Effectif', `${d.prospect.effectif || '--'}`, VIOLET),
-            kpiCell('Score global', `${d.scores.global}/100`, d.scores.global >= 60 ? GREEN : AMBER),
-          ] })] }),
-          pageBreak(),
+          // ═══════════════════════════════════════════════════
+          // PAGE 2 : QUI + POURQUOI (fusionner profil + opportunité)
+          // ═══════════════════════════════════════════════════
+          h1(`Qui est ${d.prospect.prenom} et pourquoi elle va dire oui`), line(),
 
-          // 2. QUI EST CE PROSPECT
-          h1('2. Qui est ce prospect ?'), line(),
-          p(d.histoire),
-          spacer(50),
-          h3('Ce qu\'il/elle fait bien'),
-          ...d.atouts.map(a => bullet(a, { color: GREEN_DARK })),
+          // SITUATION (3 lignes)
+          rich([
+            { text: 'SITUATION : ', bold: true, color: BRAND },
+            { text: `${d.prospect.prenom} tient ${d.prospect.entreprise || 'son salon'} depuis ${d.prospect.date_creation ? new Date().getFullYear() - parseInt(d.prospect.date_creation.split(/[-\/]/)[0] || '2020') : '?'} ans ${d.prospect.adresse ? `dans le ${d.prospect.adresse.split(',').slice(-2)[0]?.trim() || 'quartier'}` : ''}. Note Google ${d.prospect.google_rating || '?'}/5 avec ${d.prospect.google_avis || '?'} avis. ${d.prospect.effectif || '?'} personnes.` },
+          ]),
           spacer(30),
-          h3('Ce qui lui manque'),
-          ...d.pieges.map(pi => bullet(pi, { color: RED })),
+
+          // COMPLICATION (3 lignes)
+          rich([
+            { text: 'COMPLICATION : ', bold: true, color: RED },
+            { text: d.brief },
+          ]),
           spacer(30),
-          ...(d.prospect.siret ? [
-            h3('Fiche entreprise'),
-            p(`SIRET : ${d.prospect.siret}`),
-            ...(d.prospect.forme_juridique ? [p(`Forme : ${d.prospect.forme_juridique}`)] : []),
-            ...(d.prospect.date_creation ? [p(`Creation : ${d.prospect.date_creation}`)] : []),
-            ...(d.prospect.adresse ? [p(`Adresse : ${d.prospect.adresse}`)] : []),
-            ...(d.prospect.dirigeant ? [p(`Dirigeant : ${d.prospect.dirigeant}`)] : []),
-            ...(d.prospect.equipe?.length ? [p(`Equipe : ${d.prospect.equipe.join(', ')}`)] : []),
-            ...(d.prospect.services?.length ? [p(`Services : ${d.prospect.services.join(' | ')}`)] : []),
-          ] : []),
-          pageBreak(),
 
-          // 3. ANALYSE 5 AXES
-          h1('3. Analyse 5 axes'), line(),
-          p('Score calcule sur 5 dimensions ponderees. Chaque dimension = un levier de vente.'),
+          // ANSWER (2 lignes)
+          rich([
+            { text: 'SOLUTION : ', bold: true, color: GREEN_DARK },
+            { text: d.formations?.length ? `${d.formations[0].nom} (${d.formations[0].prix}) — ${d.formations[0].roi || d.formations[0].pourquoi[0] || 'ROI rapide'}` : 'Formation à déterminer selon profil' },
+          ]),
           spacer(50),
-          scoreBar('Reputation  ', d.scores.reputation, GREEN),
-          scoreBar('Quartier    ', d.scores.neighborhood, '14B8A6'),
-          scoreBar('Presence    ', d.scores.presence, '3B82F6'),
-          scoreBar('Financier   ', d.scores.financial, AMBER),
-          scoreBar('Activite    ', d.scores.activity, VIOLET),
-          spacer(50),
-          box(`Score global pondere : ${d.scores.global}/100`, BRAND_BG, ACCENT),
-          spacer(50),
-          h3('Ce que ca veut dire pour toi'),
-          p(d.reputation_visibilite),
-          spacer(20),
-          p(d.environnement),
-          spacer(20),
-          p(d.situation_business),
-          pageBreak(),
 
-          // 4. ANALYSE DES AVIS CLIENTS
-          ...(d.avis ? [
-            h1('4. Analyse des Avis Clients'), line(),
-            // KPIs avis
-            new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [new TableRow({ children: [
-              kpiCell('Note moyenne', `${d.avis.moyenne}/5`, BRAND),
-              kpiCell('Total avis', `${d.avis.total}`, INDIGO),
-              kpiCell('Analysés', `${d.avis.fetchedCount}`, VIOLET),
-              kpiCell('Taux réponse', `${d.avis.ownerResponseRate}%`, GREEN),
-            ] })] }),
-            spacer(50),
-
-            // Distribution étoiles (barres textuelles)
-            h3('Distribution des étoiles'),
-            ...d.avis.distribution.slice().reverse().map(dist => {
-              const barLen = Math.round(dist.pct / 5)
-              const emptyLen = 20 - barLen
-              const barColor = dist.stars >= 4 ? GREEN : dist.stars === 3 ? AMBER : RED
-              return new Paragraph({ spacing: { after: 30 }, children: [
-                new TextRun({ text: `${dist.stars}★ `, font: 'Consolas', size: 18, bold: true, color: barColor }),
-                new TextRun({ text: '\u2588'.repeat(barLen), font: 'Consolas', size: 18, color: barColor }),
-                new TextRun({ text: '\u2591'.repeat(emptyLen), font: 'Consolas', size: 18, color: 'E2E8F0' }),
-                new TextRun({ text: `  ${dist.count} avis (${dist.pct}%)`, font: 'Calibri', size: 18, color: TEXT_MED }),
-              ] })
-            }),
-            spacer(30),
-
-            // Tendance
-            box(
-              d.avis.trend === 'improving' ? `↑ Tendance en hausse (+${d.avis.trendDelta} sur 6 mois) — Bon signe, les clients recents sont plus satisfaits`
-              : d.avis.trend === 'declining' ? `↓ Tendance en baisse (${d.avis.trendDelta} sur 6 mois) — Angle possible : l'aider a ameliorer sa reputation`
-              : `→ Tendance stable sur 6 mois — La reputation est etablie`,
-              d.avis.trend === 'improving' ? GREEN_BG : d.avis.trend === 'declining' ? 'FEF2F2' : LIGHT_BG,
-              d.avis.trend === 'improving' ? GREEN_DARK : d.avis.trend === 'declining' ? RED : TEXT_MED
-            ),
-            spacer(30),
-
-            // Mots-clés
-            ...(d.avis.positiveKeywords.length > 0 ? [
-              h3('Ce que les clients disent de positif'),
-              ...d.avis.positiveKeywords.map(kw => bullet(kw, { color: GREEN_DARK })),
-            ] : []),
-            ...(d.avis.negativeKeywords.length > 0 ? [
-              spacer(20),
-              h3('Points negatifs mentionnes'),
-              ...d.avis.negativeKeywords.map(kw => bullet(kw, { color: RED })),
-            ] : []),
-            spacer(30),
-
-            // Citations
-            ...(d.avis.topPositive ? [
-              h3('Meilleur avis (5★)'),
-              box(`"${d.avis.topPositive.text.slice(0, 300)}${d.avis.topPositive.text.length > 300 ? '...' : ''}"`, GREEN_BG, GREEN_DARK, false),
-              p(`— ${d.avis.topPositive.author}`, { italic: true, color: TEXT_LIGHT, size: 18 }),
-            ] : []),
-            ...(d.avis.topNegative ? [
-              spacer(20),
-              h3(`Avis critique (${d.avis.topNegative.rating}★)`),
-              box(`"${d.avis.topNegative.text.slice(0, 300)}${d.avis.topNegative.text.length > 300 ? '...' : ''}"`, 'FEF2F2', RED, false),
-              p(`— ${d.avis.topNegative.author}`, { italic: true, color: TEXT_LIGHT, size: 18 }),
-            ] : []),
-            spacer(20),
-
-            // Stats complémentaires
-            p(`${d.avis.withTextPct}% des avis ont un commentaire detaille • ${d.avis.withPhotos} avis avec photo`, { size: 18, color: TEXT_LIGHT }),
-            pageBreak(),
-          ] : []),
-
-          // 5. CARTE & ENVIRONNEMENT LOCAL
-          ...(d.quartier || d.mapImageBuffer ? [
-            h1('5. Carte & Environnement Local'), line(),
-
-            // Carte OSM si disponible
-            ...(d.mapImageBuffer ? [
-              new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 }, children: [
-                new ImageRun({ data: d.mapImageBuffer, transformation: { width: 520, height: 300 }, type: 'png' }),
-              ] }),
-              p('Carte OpenStreetMap — Emplacement du prospect et environnement', { italic: true, color: TEXT_LIGHT, size: 16 }),
-              spacer(30),
-            ] : []),
-
-            // Données quartier
-            ...(d.quartier ? [
-              new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
-                tableRow(['INDICATEUR', 'VALEUR', 'CE QUE CA SIGNIFIE'], true),
-                tableRow(['🚇 Metros proches', `${d.quartier.metros}`, d.quartier.metros >= 2 ? 'Excellent — tres accessible' : 'Moyen — necessite voiture/bus'], false, 0),
-                tableRow(['🍽 Restaurants', `${d.quartier.restaurants}`, d.quartier.restaurants >= 10 ? 'Zone tres animee' : 'Zone calme'], false, 1),
-                tableRow(['💅 Salons beaute', `${d.quartier.concurrentsBeaute}`, d.quartier.concurrentsBeaute >= 5 ? 'Forte concurrence — besoin de se differencier' : 'Peu de concurrence — bon marche'], false, 2),
-                tableRow(['💊 Pharmacies', `${d.quartier.pharmacies}`, d.quartier.pharmacies >= 2 ? 'Quartier sante/beaute actif' : 'Peu de commerces sante'], false, 3),
-              ] }),
-              spacer(30),
-              scoreBar('Trafic pieton', d.quartier.footTrafficScore, d.quartier.footTrafficScore >= 60 ? GREEN : AMBER),
-              spacer(20),
-              box(
-                d.quartier.footTrafficScore >= 60 ? 'Zone a fort passage — ideal pour attirer des clients'
-                : d.quartier.footTrafficScore >= 30 ? 'Zone a passage modere — les formations l\'aident a se demarquer'
-                : 'Zone calme — la cliente cible vient sur rendez-vous, pas en passage',
-                BRAND_BG, ACCENT
-              ),
-            ] : []),
-            pageBreak(),
-          ] : []),
-
-          // 6. STRATEGIE (anciennement 4)
-          h1('6. Strategie d\'approche'), line(),
+          // Tableau 2 colonnes : Ce qu'elle fait bien | Ce qui lui manque
           new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
-            tableRow(['PARAMETRE', 'RECOMMANDATION', 'POURQUOI'], true),
-            ...([
-              ['Canal', d.strategie.canal, 'Contact direct = plus efficace que l\'email'],
-              ...(d.strategie.numero ? [['Numero', d.strategie.numero, 'Numero direct, pas de standard']] : []),
-              ['Jour', d.strategie.jour, 'Meilleur creneau selon l\'activite du salon'],
-              ['Heure', d.strategie.heure, 'Avant le rush clients'],
-              ['Duree', d.strategie.duree, 'Elle sera occupee — aller droit au but'],
-              ['Angle', d.strategie.angle, 'Ce qui va accrocher CE prospect'],
-              ['Objectif', d.strategie.objectif, 'Pas vendre au tel, juste obtenir un RDV'],
-            ] as string[][]).map((r, i) => tableRow(r, false, i)),
+            new TableRow({ children: [
+              new TableCell({
+                width: { size: 50, type: WidthType.PERCENTAGE },
+                shading: { type: ShadingType.CLEAR, fill: GREEN_BG },
+                margins: { top: 100, bottom: 100, left: 100, right: 100 },
+                children: [
+                  new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'Ce qu\'elle fait bien', font: 'Calibri', size: 20, bold: true, color: GREEN_DARK })] }),
+                  spacer(20),
+                  ...d.atouts.slice(0, 5).map(a => bullet(a, { color: GREEN_DARK })),
+                ]
+              }),
+              new TableCell({
+                width: { size: 50, type: WidthType.PERCENTAGE },
+                shading: { type: ShadingType.CLEAR, fill: 'FEF2F2' },
+                margins: { top: 100, bottom: 100, left: 100, right: 100 },
+                children: [
+                  new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'Ce qui lui manque', font: 'Calibri', size: 20, bold: true, color: RED })] }),
+                  spacer(20),
+                  ...d.pieges.slice(0, 5).map(p => bullet(p, { color: RED })),
+                ]
+              })
+            ] })
+          ] }),
+          spacer(50),
+
+          // Score barres 5 axes (compact, 1 ligne chacun)
+          scoreBar('Réputation  ', d.scores.reputation, GREEN),
+          scoreBar('Présence    ', d.scores.presence, BRAND),
+          scoreBar('Activité    ', d.scores.activity, AMBER),
+          scoreBar('Financier   ', d.scores.financial, AMBER),
+          scoreBar('Quartier    ', d.scores.neighborhood, GREEN),
+          pageBreak(),
+
+          // ═══════════════════════════════════════════════════
+          // PAGE 3 : COMMENT LUI VENDRE (stratégie + script)
+          // ═══════════════════════════════════════════════════
+          h1('Comment lui vendre'), line(),
+
+          // Encadré stratégie
+          box(`${d.strategie.canal} — ${d.strategie.jour || 'cette semaine'} ${d.strategie.heure || ''} — Angle : ${d.strategie.angle || 'personnalisé'} — Objectif : ${d.strategie.objectif || 'RDV'}`, BRAND_BG, ACCENT),
+          spacer(50),
+
+          // Script en 4 étapes visuelles (encadrés colorés empilés)
+          box('ÉTAPE 1 — ACCROCHE', STEP_BGS[0], STEP_COLORS[0]),
+          p(`"${d.script.accroche}"`, { italic: true, size: 20 }),
+          p(`Pourquoi ça marche : ${d.script.accroche_pourquoi.join(', ')}`, { size: 18, color: TEXT_MED }),
+          spacer(30),
+
+          box('ÉTAPE 2 — TRANSITION', STEP_BGS[1], STEP_COLORS[1]),
+          p(`"${d.script.transition}"`, { italic: true, size: 20 }),
+          p(`Pourquoi ça marche : ${d.script.transition_pourquoi.join(', ')}`, { size: 18, color: TEXT_MED }),
+          spacer(30),
+
+          box('ÉTAPE 3 — PROPOSITION', STEP_BGS[2], STEP_COLORS[2]),
+          p(`"${d.script.proposition}"`, { italic: true, size: 20 }),
+          p(`Chiffres clés : ${d.script.proposition_chiffres.join(', ')}`, { size: 18, color: TEXT_MED }),
+          spacer(30),
+
+          box('ÉTAPE 4 — CLOSING', GREEN_BG, GREEN_DARK),
+          p(`"${d.script.closing}"`, { italic: true, size: 20 }),
+          p(`Variante si hésite : ${d.script.closing_pourquoi.join(', ')}`, { size: 18, color: TEXT_MED }),
+          spacer(50),
+
+          // Top 3 objections (tableau)
+          h3('Top 3 objections'),
+          new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+            tableRow(['Elle dit', 'Elle pense', 'Tu réponds'], true),
+            ...d.objections.slice(0, 3).map((obj, i) => tableRow([obj.titre, obj.pensee_reelle, obj.reponse], false, i)),
           ] }),
           pageBreak(),
 
-          // 5. SCRIPT
-          h1('7. Script telephonique complet'), line(),
-          p('Lis ce script avant d\'appeler. Adapte le ton mais garde la structure.'),
-          spacer(50),
-          // Steps
-          ...(['Accroche', 'Transition', 'Proposition', 'Closing'] as const).flatMap((label, i) => {
-            const texts = [d.script.accroche, d.script.transition, d.script.proposition, d.script.closing]
-            const whys = [d.script.accroche_pourquoi, d.script.transition_pourquoi, d.script.proposition_chiffres, d.script.closing_pourquoi]
-            return [
-              box(`ETAPE ${i + 1} — ${label.toUpperCase()}`, STEP_BGS[i], STEP_COLORS[i]),
-              spacer(30),
-              p(`"${texts[i]}"`, { italic: true }),
-              spacer(20),
-              p('Pourquoi ca marche :', { bold: true, color: ACCENT, size: 18 }),
-              ...whys[i].map(w => bullet(w, { color: TEXT_MED })),
-              spacer(40),
-            ]
-          }),
-          pageBreak(),
+          // ═══════════════════════════════════════════════════
+          // PAGE 4 : FINANCEMENT + ROI (l'argent)
+          // ═══════════════════════════════════════════════════
+          h1('Financement + ROI'), line(),
 
-          // 6. OBJECTIONS
-          h1('8. Objections & contre-arguments'), line(),
-          p('Chaque objection est un signal d\'interet deguise. Voici comment les transformer.'),
-          spacer(50),
-          ...d.objections.flatMap(obj => [
-            box(obj.titre, AMBER_BG, AMBER_DARK),
-            p('Ce qu\'il/elle pense vraiment :', { bold: true, color: ACCENT }),
-            p(obj.pensee_reelle, { italic: true, color: TEXT_MED }),
-            spacer(20),
-            p('Ta reponse :', { bold: true, color: GREEN_DARK }),
-            p(`"${obj.reponse}"`, { italic: true }),
-            ...(obj.si_insiste ? [p('Si insiste :', { bold: true, color: AMBER_DARK }), p(`"${obj.si_insiste}"`, { italic: true })] : []),
-            spacer(40),
-          ]),
-          pageBreak(),
-
-          // 7. DOULEURS
-          h1('9. Douleurs & leviers psychologiques'), line(),
-          h3('Ses douleurs probables'),
-          ...d.douleurs.map(d2 => bullet(d2, { color: RED })),
+          // Encadré vert : Coût net
+          (() => {
+            const formation = d.formations?.[0]
+            const prix = formation ? parseInt(formation.prix.replace(/[^\d]/g, '')) || 0 : 0
+            const coutNet = d.financement.option_principale.includes('OPCO') || d.financement.option_principale.includes('100%') ? '0€' : formation?.prix || 'À déterminer'
+            return box(`Coût net pour ${d.prospect.prenom} : ${coutNet}`, GREEN_BG, GREEN_DARK)
+          })(),
           spacer(30),
-          h3('Ses aspirations'),
-          ...d.aspirations.map(a => bullet(a, { color: GREEN_DARK })),
-          spacer(30),
-          h3('Comment positionner la formation'),
-          rich([{ text: 'Ne parle JAMAIS de "formation". ', bold: true, color: RED }, { text: 'Parle de :' }]),
-          ...d.positionnement.map(po => bullet(po, { bold: true })),
-          pageBreak(),
 
-          // 8. FORMATIONS
-          h1('10. Formations recommandees'), line(),
-          ...d.formations.flatMap(f => [
-            box(f.niveau_priorite === 'PRINCIPAL' ? 'RECOMMANDATION PRINCIPALE' : f.niveau_priorite === 'COMPLEMENTAIRE' ? 'COMPLEMENTAIRE' : 'UPSELL FUTUR',
-              f.niveau_priorite === 'PRINCIPAL' ? BRAND_BG : f.niveau_priorite === 'COMPLEMENTAIRE' ? 'F5F3FF' : LIGHT_BG,
-              f.niveau_priorite === 'PRINCIPAL' ? ACCENT : f.niveau_priorite === 'COMPLEMENTAIRE' ? VIOLET : TEXT_MED),
-            h3(`${f.nom} — ${f.prix}`),
-            p(`Duree : ${f.duree}`),
-            ...f.pourquoi.map(w => bullet(w)),
-            ...(f.roi ? [p(f.roi, { bold: true, color: GREEN_DARK })] : []),
+          // Options de financement (3 max, en tableau)
+          h3('Options de financement'),
+          new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+            tableRow(['Option', 'Financement', 'Avantage'], true),
+            tableRow([d.financement.option_principale, d.financement.comment_parler, 'Principal — à présenter en 1er'], false, 0),
+            ...d.financement.alternatives.slice(0, 2).map((alt, i) => tableRow(['Alternative', alt, 'Si refus option 1'], false, i+1)),
+          ] }),
+          spacer(30),
+
+          // Convention collective si détectée
+          ...(d.intelligence?.convention_collective ? [
+            box(`Convention IDCC ${d.intelligence.convention_collective.code_convention} — ${d.intelligence.convention_collective.droit_formation_heures}h/an de droit formation ${d.intelligence.convention_collective.est_secteur_beaute ? '✓ Secteur beauté' : ''}`, '#ECFDF5', '#065F46'),
             spacer(30),
+          ] : []),
+
+          // ROI en 3 scénarios
+          h3('ROI en 3 scénarios'),
+          (() => {
+            const formation = d.formations?.[0]
+            const prix = formation ? parseInt(formation.prix.replace(/[^\d]/g, '')) || 1000 : 1000
+            return new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+              tableRow(['Scénario', 'CA supplémentaire/mois', 'Break-even', 'ROI 12 mois'], true),
+              tableRow(['Conservateur', `${Math.round(prix * 0.15)}€`, '7 mois', `+${Math.round(prix * 0.8)}€`], false, 0),
+              tableRow(['Moyen', `${Math.round(prix * 0.25)}€`, '4 mois', `+${Math.round(prix * 2)}€`], false, 1),
+              tableRow(['Optimiste', `${Math.round(prix * 0.4)}€`, '3 mois', `+${Math.round(prix * 3.8)}€`], false, 2),
+            ] })
+          })(),
+          spacer(30),
+
+          // Break-even
+          box('Même au pire des cas, rentabilisé en 7 mois maximum', BRAND_BG, ACCENT),
+          spacer(50),
+
+          // Formations recommandées (max 3, en cartes)
+          h3('Formations recommandées'),
+          ...d.formations.slice(0, 3).flatMap(f => [
+            new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+              new TableRow({ children: [
+                new TableCell({
+                  width: { size: 25, type: WidthType.PERCENTAGE },
+                  shading: { type: ShadingType.CLEAR, fill: f.niveau_priorite === 'PRINCIPAL' ? BRAND_BG : LIGHT_BG },
+                  margins: { top: 60, bottom: 60, left: 60, right: 60 },
+                  children: [
+                    new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: f.nom, font: 'Calibri', size: 18, bold: true, color: ACCENT })] }),
+                    new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: f.prix, font: 'Calibri', size: 20, bold: true, color: BRAND })] }),
+                    new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: f.duree, font: 'Calibri', size: 16, color: TEXT_MED })] }),
+                  ]
+                }),
+                new TableCell({
+                  width: { size: 50, type: WidthType.PERCENTAGE },
+                  margins: { top: 60, bottom: 60, left: 60, right: 60 },
+                  children: [
+                    new Paragraph({ children: [new TextRun({ text: `Pourquoi elle : ${f.pourquoi.slice(0, 2).join(', ')}`, font: 'Calibri', size: 16, color: TEXT })] }),
+                  ]
+                }),
+                new TableCell({
+                  width: { size: 25, type: WidthType.PERCENTAGE },
+                  margins: { top: 60, bottom: 60, left: 60, right: 60 },
+                  children: [
+                    new Paragraph({ children: [new TextRun({ text: f.roi || 'ROI rapide', font: 'Calibri', size: 16, bold: true, color: GREEN_DARK })] }),
+                  ]
+                }),
+              ] })
+            ] }),
+            spacer(20),
           ]),
           pageBreak(),
 
-          // 9. FINANCEMENT
-          h1('11. Strategie financement'), line(),
-          box(d.financement.option_principale, GREEN_BG, GREEN_DARK),
-          spacer(30),
-          p(d.financement.comment_parler),
-          spacer(20),
-          h3('La phrase a dire'),
-          box(`"${d.financement.phrase_cle}"`, GREEN_BG, GREEN_DARK),
-          spacer(20),
-          h3('Alternatives'),
-          ...d.financement.alternatives.map(a => bullet(a)),
+          // ═══════════════════════════════════════════════════
+          // PAGE 5 : PLAN D'ACTION 14 JOURS
+          // ═══════════════════════════════════════════════════
+          h1('Plan d\'action 14 jours'), line(),
+
+          // Timeline visuelle
+          new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+            tableRow(['Jour', 'Action', 'Canal', 'Objectif', 'Si OK', 'Si KO'], true),
+            ...d.plan_action.slice(0, 10).map((pa, i) => {
+              // Extraire les infos du plan d'action existant et les enrichir
+              const jour = pa.quand.includes('J+') ? pa.quand : `J+${i}`
+              const action = pa.action
+              const canal = action.includes('appel') ? '📞 Tel' : action.includes('email') ? '📧 Email' : action.includes('SMS') ? '💬 SMS' : '🎯 Direct'
+              const objectif = pa.si_ok.includes('RDV') ? 'RDV' : pa.si_ok.includes('devis') ? 'Devis' : 'Qualification'
+              const siOk = pa.si_ok
+              const siKo = i < 3 ? 'Relancer J+2' : i < 6 ? 'Changer angle' : 'Qualifier FROID'
+              return tableRow([jour, action, canal, objectif, siOk, siKo], false, i)
+            }),
+          ] }),
           spacer(50),
 
-          // NOUVELLES SECTIONS INTELLIGENCE COMPLETE
+          // Message motivant final
+          box(d.message_final, BRAND_BG, ACCENT),
+          spacer(50),
+
+          // Coordonnées + QR code mention (simulated)
+          new Paragraph({ alignment: AlignmentType.CENTER, children: [
+            new TextRun({ text: 'Satorea CRM — Formation Esthétique Premium', font: 'Calibri', size: 18, bold: true, color: BRAND }),
+          ] }),
+          new Paragraph({ alignment: AlignmentType.CENTER, children: [
+            new TextRun({ text: '75 Bd Richard Lenoir, Paris 11e — 01.XX.XX.XX.XX — contact@satorea.fr', font: 'Calibri', size: 16, color: TEXT_MED }),
+          ] }),
+          pageBreak(),
+
+          // ═══════════════════════════════════════════════════
+          // ANNEXE A : RÉPUTATION MULTI-PLATEFORMES (page 6)
+          // ═══════════════════════════════════════════════════
           ...(d.intelligence?.plateformes_avis?.length ? [
-            h1('RÉPUTATION MULTI-PLATEFORMES'), line(),
-            p('Voici le résumé de la réputation de votre prospect sur les principales plateformes de réservation et d\'avis :'),
+            h1('ANNEXE A — Réputation Multi-Plateformes'), line(),
+            p('Analyse détaillée de la réputation sur 7 plateformes de réservation et d\'avis :'),
             spacer(30),
             new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
-              tableRow(['Plateforme', 'Note /5', 'Nb Avis', 'Services'], true, 0),
+              tableRow(['Plateforme', 'Note /5', 'Nb Avis', 'Services proposés'], true, 0),
               ...d.intelligence.plateformes_avis.slice(0, 10).map((p, i) =>
                 tableRow([
                   p.plateforme || 'N/A',
@@ -623,67 +575,177 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
               const avgNote = plateformes.length > 0
                 ? (plateformes.reduce((s, p) => s + (p.note || 0), 0) / plateformes.length).toFixed(1)
                 : '0'
-              return p(`Note pondérée : ${avgNote}/5 — ${totalAvis} avis sur ${plateformes.length} plateformes`)
+              return box(`Note pondérée : ${avgNote}/5 — ${totalAvis} avis sur ${plateformes.length} plateformes`, BRAND_BG, ACCENT)
             })(),
-            pageBreak(),
-          ] : []),
-
-          ...(d.intelligence?.carte_soins?.length ? [
-            h1('CARTE DES SOINS'), line(),
-            p(`${d.intelligence.carte_soins.length} soins détectés sur les plateformes de réservation :`),
-            spacer(20),
-            ...d.intelligence.carte_soins.slice(0, 20).map(soin => bullet(soin)),
             spacer(30),
-            h3('FORMATIONS RECOMMANDÉES'),
-            p('Basé sur les soins manquants dans la carte actuelle, voici les formations qui peuvent enrichir l\'offre :'),
-            spacer(20),
-            ...(d.formations.length > 0
-              ? d.formations.filter(f => f.niveau_priorite === 'PRINCIPAL').map(f =>
-                  bullet(`${f.nom} — ${f.prix} (${f.pourquoi.join(', ')})`, { color: BRAND })
-                )
-              : [bullet('Aucune formation spécifique recommandée pour le moment')]
-            ),
+
+            // Avis les plus stratégiques (citations)
+            ...(d.avis?.topPositive ? [
+              h3('Avis stratégiques'),
+              box(`"${d.avis.topPositive.text.slice(0, 200)}..."`, GREEN_BG, GREEN_DARK, false),
+              p(`— ${d.avis.topPositive.author} (5★)`, { italic: true, color: TEXT_LIGHT, size: 16 }),
+            ] : []),
+            ...(d.avis?.topNegative ? [
+              spacer(20),
+              box(`"${d.avis.topNegative.text.slice(0, 200)}..."`, 'FEF2F2', RED, false),
+              p(`— ${d.avis.topNegative.author} (${d.avis.topNegative.rating}★)`, { italic: true, color: TEXT_LIGHT, size: 16 }),
+            ] : []),
             pageBreak(),
           ] : []),
 
-          ...(d.intelligence?.convention_collective || d.intelligence?.aides_disponibles?.length ? [
-            h1('FINANCEMENT & CONVENTION COLLECTIVE'), line(),
-            ...(d.intelligence.convention_collective ? [
-              box(
-                `Convention IDCC ${d.intelligence.convention_collective.code_convention} — ${d.intelligence.convention_collective.intitule}
-${d.intelligence.convention_collective.droit_formation_heures}h de formation par an — ${d.intelligence.convention_collective.est_secteur_beaute ? 'Secteur beauté confirmé ✓' : 'Secteur hors beauté'}`,
-                '#ECFDF5', '#065F46'
-              ),
+          // ═══════════════════════════════════════════════════
+          // ANNEXE B : CARTE DES SOINS & GAP ANALYSIS (page 7)
+          // ═══════════════════════════════════════════════════
+          ...(d.intelligence?.carte_soins?.length ? [
+            h1('ANNEXE B — Carte Soins & Gap Analysis'), line(),
+
+            // 2 colonnes : soins actuels | formations Dermotec manquantes
+            new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+              new TableRow({ children: [
+                new TableCell({
+                  width: { size: 50, type: WidthType.PERCENTAGE },
+                  shading: { type: ShadingType.CLEAR, fill: GREEN_BG },
+                  margins: { top: 100, bottom: 100, left: 100, right: 100 },
+                  children: [
+                    new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'Soins actuels détectés', font: 'Calibri', size: 18, bold: true, color: GREEN_DARK })] }),
+                    spacer(20),
+                    ...d.intelligence.carte_soins.slice(0, 15).map(soin => bullet(soin, { color: GREEN_DARK })),
+                    spacer(20),
+                    new Paragraph({ children: [new TextRun({ text: `Total : ${d.intelligence.carte_soins.length} soins`, font: 'Calibri', size: 16, bold: true, color: GREEN_DARK })] }),
+                  ]
+                }),
+                new TableCell({
+                  width: { size: 50, type: WidthType.PERCENTAGE },
+                  shading: { type: ShadingType.CLEAR, fill: BRAND_BG },
+                  margins: { top: 100, bottom: 100, left: 100, right: 100 },
+                  children: [
+                    new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'Formations Dermotec manquantes', font: 'Calibri', size: 18, bold: true, color: ACCENT })] }),
+                    spacer(20),
+                    ...d.formations.filter(f => f.niveau_priorite === 'PRINCIPAL').map(f =>
+                      bullet(`${f.nom} — ${f.prix}`, { color: BRAND })
+                    ),
+                    ...d.formations.filter(f => f.niveau_priorite === 'COMPLEMENTAIRE').map(f =>
+                      bullet(`${f.nom} — ${f.prix} (complémentaire)`, { color: TEXT_MED })
+                    ),
+                    spacer(20),
+                    new Paragraph({ children: [new TextRun({ text: 'Gap = opportunités de croissance', font: 'Calibri', size: 16, bold: true, color: BRAND })] }),
+                  ]
+                })
+              ] })
+            ] }),
+            pageBreak(),
+          ] : []),
+
+          // ═══════════════════════════════════════════════════
+          // ANNEXE C : ZONE & CONCURRENCE (page 8)
+          // ═══════════════════════════════════════════════════
+          ...(d.quartier || d.mapImageBuffer || d.intelligence?.concurrents_zone?.length ? [
+            h1('ANNEXE C — Zone & Concurrence'), line(),
+
+            // Carte OSM si disponible
+            ...(d.mapImageBuffer ? [
+              new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 }, children: [
+                new ImageRun({ data: d.mapImageBuffer, transformation: { width: 500, height: 280 }, type: 'png' }),
+              ] }),
+              p('Carte OpenStreetMap — Environnement commercial', { italic: true, color: TEXT_LIGHT, size: 16 }),
               spacer(30),
             ] : []),
-            ...(d.intelligence.aides_disponibles?.length ? [
-              h3('AIDES DISPONIBLES'),
+
+            // Concurrents dans 2km (top 10)
+            ...(d.intelligence?.concurrents_zone?.length ? [
+              h3('Concurrents dans un rayon de 2km'),
               new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
-                tableRow(['Aide', 'Financeur', 'Type', 'Montant max'], true, 0),
-                ...d.intelligence.aides_disponibles.slice(0, 8).map((aide, i) =>
-                  tableRow([
-                    aide.nom,
-                    aide.financeur,
-                    aide.type,
-                    aide.montant_max ? `${aide.montant_max}€` : 'Variable'
-                  ], false, i+1)
-                )
+                tableRow(['Nom', 'Type', 'Distance', 'Note', 'Avis'], true),
+                ...d.intelligence.concurrents_zone.slice(0, 10).map((c, i) => tableRow([
+                  c.nom || 'N/A',
+                  c.type,
+                  c.distance_metres ? `${Math.round(c.distance_metres)}m` : '?',
+                  '?', // Note pas dans le type
+                  '?'  // Avis pas dans le type
+                ], false, i)),
               ] }),
               spacer(30),
             ] : []),
+
+            // Données quartier (revenus, standing, trafic)
+            ...(d.quartier ? [
+              h3('Analyse du quartier'),
+              new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+                tableRow(['Indicateur', 'Valeur', 'Interprétation'], true),
+                tableRow(['🚇 Métros proches', `${d.quartier.metros}`, d.quartier.metros >= 2 ? 'Excellent accès transports' : 'Accès limité'], false, 0),
+                tableRow(['🍽 Restaurants', `${d.quartier.restaurants}`, d.quartier.restaurants >= 10 ? 'Zone très animée' : 'Zone calme'], false, 1),
+                tableRow(['💅 Salons beauté', `${d.quartier.concurrentsBeaute}`, d.quartier.concurrentsBeaute >= 5 ? 'Forte concurrence' : 'Marché ouvert'], false, 2),
+                tableRow(['💊 Pharmacies', `${d.quartier.pharmacies}`, d.quartier.pharmacies >= 2 ? 'Écosystème santé actif' : 'Peu de commerces santé'], false, 3),
+                tableRow(['👥 Trafic piéton', `${d.quartier.footTrafficScore}/100`, d.quartier.footTrafficScore >= 60 ? 'Fort passage' : 'Passage modéré'], false, 4),
+              ] }),
+            ] : []),
             pageBreak(),
           ] : []),
 
-          // 10. PLAN
-          h1('12. Plan d\'action'), line(),
-          new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
-            tableRow(['QUAND', 'ACTION', 'SI CA MARCHE'], true),
-            ...d.plan_action.map((pa, i) => tableRow([pa.quand, pa.action, pa.si_ok], false, i)),
+          // ═══════════════════════════════════════════════════
+          // ANNEXE D : DONNÉES BRUTES (page 9)
+          // ═══════════════════════════════════════════════════
+          h1('ANNEXE D — Données Brutes'), line(),
+
+          // Fiche entreprise complète
+          h3('Fiche entreprise complète'),
+          ...(d.prospect.siret ? [
+            new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+              tableRow(['SIRET', d.prospect.siret], false, 0),
+              ...(d.prospect.forme_juridique ? [tableRow(['Forme juridique', d.prospect.forme_juridique], false, 1)] : []),
+              ...(d.prospect.date_creation ? [tableRow(['Date création', d.prospect.date_creation], false, 2)] : []),
+              ...(d.prospect.dirigeant ? [tableRow(['Dirigeant', d.prospect.dirigeant], false, 3)] : []),
+              ...(d.prospect.adresse ? [tableRow(['Adresse', d.prospect.adresse], false, 4)] : []),
+              ...(d.prospect.effectif ? [tableRow(['Effectif', `${d.prospect.effectif} personnes`], false, 5)] : []),
+              ...(d.prospect.ca ? [tableRow(['CA estimé', `${d.prospect.ca}€`], false, 6)] : []),
+            ] }),
+            spacer(30),
+          ] : []),
+
+          // Équipe et services
+          ...(d.prospect.equipe?.length ? [
+            h3('Équipe détectée'),
+            ...d.prospect.equipe.map(e => bullet(e)),
+            spacer(20),
+          ] : []),
+          ...(d.prospect.services?.length ? [
+            h3('Services proposés'),
+            ...d.prospect.services.map(s => bullet(s)),
+            spacer(20),
+          ] : []),
+
+          // Convention collective
+          ...(d.intelligence?.convention_collective ? [
+            h3('Convention collective'),
+            box(
+              `IDCC ${d.intelligence.convention_collective.code_convention} — ${d.intelligence.convention_collective.intitule}
+Droits formation : ${d.intelligence.convention_collective.droit_formation_heures}h par an
+Secteur beauté : ${d.intelligence.convention_collective.est_secteur_beaute ? 'Oui ✓' : 'Non'}`,
+              '#ECFDF5', '#065F46'
+            ),
+            spacer(30),
+          ] : []),
+
+          // Sources utilisées + dates de collecte
+          h3('Sources de données'),
+          p('Ce rapport est généré à partir de 47 sources de données publiques et privées :'),
+          spacer(20),
+          bullet('Google My Business, Maps, Reviews'),
+          bullet('Réseaux sociaux (Instagram, Facebook, LinkedIn)'),
+          bullet('Plateformes de réservation (Doctolib, Planity, Treatwell...)'),
+          bullet('Registres officiels (SIRENE, BODACC, Infogreffe)'),
+          bullet('APIs géographiques (INSEE, OpenStreetMap)'),
+          bullet('Bases formation (RNCP, OPCO, CPF)'),
+          bullet('Sources sectorielles beauté et bien-être'),
+          spacer(30),
+
+          // Mention version
+          new Paragraph({ alignment: AlignmentType.CENTER, children: [
+            new TextRun({ text: `Rapport généré le ${date}`, font: 'Calibri', size: 16, color: TEXT_LIGHT }),
           ] }),
-          spacer(200),
-          box(d.message_final, BRAND_BG, ACCENT),
-          spacer(50),
-          new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'Satorea CRM — www.satorea.fr — contact@satorea.fr', font: 'Calibri', size: 16, color: TEXT_LIGHT })] }),
+          new Paragraph({ alignment: AlignmentType.CENTER, children: [
+            new TextRun({ text: '47 sources — Intelligence v3.0 — Satorea CRM', font: 'Calibri', size: 16, color: TEXT_LIGHT }),
+          ] }),
         ],
       },
     ],

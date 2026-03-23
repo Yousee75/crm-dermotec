@@ -950,12 +950,12 @@ export const ORGANISMES_FINANCEMENT: Record<OrganismeFinancement, { label: strin
 }
 
 export const CATEGORIES_FORMATION: { id: CategorieFormation; label: string; icon: string; color: string }[] = [
-  { id: 'Dermo-Esthétique', label: 'Dermo-Esthétique', icon: 'Palette', color: '#E11D48' },
-  { id: 'Dermo-Correctrice', label: 'Dermo-Correctrice', icon: 'Heart', color: '#DB2777' },
-  { id: 'Soins Visage', label: 'Soins Visage', icon: 'Sun', color: '#F59E0B' },
-  { id: 'Laser & IPL', label: 'Laser & IPL', icon: 'Zap', color: '#7C3AED' },
+  { id: 'Dermo-Esthétique', label: 'Dermo-Esthétique', icon: 'Palette', color: '#FF5C00' },
+  { id: 'Dermo-Correctrice', label: 'Dermo-Correctrice', icon: 'Heart', color: '#FF2D78' },
+  { id: 'Soins Visage', label: 'Soins Visage', icon: 'Sun', color: '#FF8C42' },
+  { id: 'Laser & IPL', label: 'Laser & IPL', icon: 'Zap', color: '#E65200' },
   { id: 'Soins Corps', label: 'Soins Corps', icon: 'Flower2', color: '#10B981' },
-  { id: 'Hygiène', label: 'Hygiène', icon: 'ShieldCheck', color: '#3B82F6' },
+  { id: 'Hygiène', label: 'Hygiène', icon: 'ShieldCheck', color: '#3A3A3A' },
 ]
 
 // ============================================================

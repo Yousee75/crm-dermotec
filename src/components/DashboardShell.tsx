@@ -31,6 +31,7 @@ import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
 import { AgentChat } from '@/components/ui/AgentChat'
 import { QuickAddLead } from '@/components/ui/QuickAddLead'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
+import { SmartActionBar } from '@/components/ui/SmartActionBar'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { getRoleView } from '@/lib/role-config'
 import { usePageTracker } from '@/hooks/use-tracker'
@@ -532,6 +533,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       <AgentChat />
       <QuickAddLead />
       <OnboardingWizard />
+      <SmartActionBar />
 
       {/* Keyboard shortcuts modal */}
       {showShortcuts && (
