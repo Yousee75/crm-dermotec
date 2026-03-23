@@ -15,6 +15,7 @@ import {
   Send
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { logger } from '@/lib/logger'
 
 interface ActionButton {
   id: string
@@ -74,7 +75,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Implémenter l'import CSV
-            console.log('Import CSV')
+            logger.debug('Import CSV action clicked', { service: 'ui', feature: 'import-csv' })
           }
         },
         {

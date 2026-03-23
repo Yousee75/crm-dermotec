@@ -531,9 +531,9 @@ export default function AnalyticsPage() {
                   </thead>
                   <tbody>
                     {data.financement.map((item, i) => (
-                      <tr key={i} className="border-b border-gray-50 last:border-0">
+                      <tr key={i} className="border-b border-[#F4F0EB] last:border-0">
                         <td className="py-2.5 font-medium text-accent">{item.organisme}</td>
-                        <td className="text-right py-2.5 text-gray-600">{item.count}</td>
+                        <td className="text-right py-2.5 text-[#777777]">{item.count}</td>
                         <td className="text-right py-2.5 font-semibold text-accent">{formatEuro(item.montant)}</td>
                       </tr>
                     ))}
