@@ -97,6 +97,7 @@ export interface NarrativeInput {
     source?: string
   }
   enrichment: AggregatedProspectData
+  intelligence?: import('./enrichment-proxy').IntelligenceComplete
   score: number
   classification: 'CHAUD' | 'TIEDE' | 'FROID'
 }
@@ -148,6 +149,36 @@ NOS FINANCEMENTS :
 - France Travail : demandeurs d'emploi (formation financée + maintien allocations)
 - Paiement 2x/3x/4x sans frais : pour celles qui veulent payer elles-mêmes
 - Qualiopi : notre certification garantit la prise en charge par TOUS les financeurs
+
+${input.intelligence ? `
+DONNÉES 360° (INTELLIGENCE ENRICHIE) :
+
+CARTE DES SOINS ACTUELLE (scrappée depuis les plateformes de réservation) :
+${input.intelligence.carte_soins?.join(', ') || 'Non détectée — demande-lui directement quels soins elle propose'}
+→ Compare avec nos formations ci-dessus et identifie les GAPS (soins qu'elle ne propose PAS encore et qu'on peut lui apprendre)
+
+RÉPUTATION MULTI-PLATEFORMES :
+${input.intelligence.plateformes_avis?.map(p => `- ${p.plateforme}: ${p.note || '?'}/5 (${p.nb_avis || 0} avis)`).join('\n') || 'Données non disponibles'}
+→ Utilise les plateformes avec peu d'avis comme argument : "Vous êtes peu visible sur certaines plateformes, la formation vous aide à monter en gamme"
+
+CONVENTION COLLECTIVE :
+${input.intelligence.convention_collective ? `IDCC ${input.intelligence.convention_collective.code_convention} (${input.intelligence.convention_collective.intitule}) — ${input.intelligence.convention_collective.droit_formation_heures}h de formation par an
+→ ARGUMENT MASSUE : "Vous avez ${input.intelligence.convention_collective.droit_formation_heures}h de formation par an prévues par votre convention, autant en profiter plutôt que de les perdre"` : 'Non détectée'}
+
+AIDES FINANCEMENT DISPONIBLES DANS SA ZONE :
+${input.intelligence.aides_disponibles?.map(a => `- ${a.nom} (${a.financeur}) — max ${a.montant_max || '?'}€`).join('\n') || 'Aucune aide spécifique détectée'}
+
+CONCURRENTS DANS SA ZONE :
+${input.intelligence.concurrents_zone ? `${input.intelligence.concurrents_zone.length} établissements beauté dans un rayon de 2km` : 'Données non disponibles'}
+${input.intelligence.signaux?.zone_saturee ? '⚠️ ZONE SATURÉE — elle a besoin de se différencier par la qualité et les certifications' : ''}
+
+SIGNAUX COMMERCIAUX :
+${input.intelligence.signaux?.est_sur_promo ? '⚡ PROSPECT CHAUD — elle est sur une plateforme de promotions = elle cherche des clients = elle a besoin de monter en gamme' : ''}
+${input.intelligence.signaux?.est_organisme_concurrent ? '⚠️ ATTENTION — elle est ORGANISME DE FORMATION (elle a un numéro NDA). C\'est un CONCURRENT potentiel, pas un prospect classique. Adapte ton approche.' : ''}
+${input.intelligence.signaux?.droits_formation_non_consommes ? '💰 Elle a des DROITS FORMATION non consommés (convention collective). Argument financement béton.' : ''}
+${input.intelligence.signaux?.en_difficulte ? '🔴 ATTENTION — entreprise en difficulté financière (procédure collective détectée). Parle financement en priorité, pas de gros budget.' : ''}
+${input.intelligence.signaux?.avis_insuffisants ? '📊 Peu visible en ligne (< 10 avis). La formation peut l\'aider à professionnaliser son image.' : ''}
+` : ''}
 
 CE QUE ${BRAND.name} PROPOSE :
 - 23 formations de 400€ à 2500€ HT, de 1 à 5 jours

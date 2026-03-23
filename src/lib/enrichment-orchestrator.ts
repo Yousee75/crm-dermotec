@@ -61,6 +61,7 @@ interface InternalData {
   osm?: any
   convention?: any
   aides?: any
+  _signaux?: any
 }
 
 // ============================================================
@@ -122,258 +123,280 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
   const timeout = params.max_timeout_ms || 30000
   const perCallTimeout = Math.min(15000, timeout / 2)
 
+  // Initialiser les signaux d'alerte
+  data._signaux = {
+    est_organisme_concurrent: false,
+    droits_formation_non_consommes: false,
+    en_difficulte: false,
+    avis_insuffisants: false,
+    zone_saturee: false,
+    est_sur_promo: false,
+  }
+
   // ============================================================
-  // VAGUE 1 — Sources rapides en parallèle (APIs gratuites)
+  // BRANCHE 1 — Identité (si SIRET)
   // ============================================================
 
-  const wave1: Promise<void | null>[] = []
-
-  // Sirene (gratuit, rapide)
   if (params.siret) {
-    wave1.push(
-      safeCall('S1', async () => {
+    const identityBranch: Promise<void | null>[] = []
+
+    // Sirene + Convention + BODACC + DGEFP en parallèle
+    identityBranch.push(
+      safeCall('I1', async () => {
         const { verifySIRET } = await import('./sirene-api')
         const r = await verifySIRET(params.siret!)
-        if (r.valid && r.entreprise) data.sirene = r.entreprise
-      }, perCallTimeout)
-    )
-  }
-
-  // DGEFP — est-ce un organisme de formation ?
-  if (siren && !params.skip_formation) {
-    wave1.push(
-      safeCall('S2', async () => {
-        const { getOrganismeBySiren } = await import('./enrichment-dgefp')
-        data.dgefp = await getOrganismeBySiren(siren)
-      }, perCallTimeout)
-    )
-  }
-
-  // BODACC — procédures collectives
-  if (siren) {
-    wave1.push(
-      safeCall('S3', async () => {
-        const { checkProcedureCollective } = await import('./enrichment-bodacc')
-        data.bodacc = await checkProcedureCollective(siren)
-      }, perCallTimeout)
-    )
-  }
-
-  // France Travail — offres emploi zone
-  if (dept) {
-    wave1.push(
-      safeCall('S4', async () => {
-        const { getStatsEmploiZone } = await import('./enrichment-emploi')
-        data.france_travail = await getStatsEmploiZone(dept)
-      }, perCallTimeout)
-    )
-  }
-
-  // PageSpeed — maturité digitale
-  if (params.website) {
-    wave1.push(
-      safeCall('S5', async () => {
-        const { getDigitalMaturityScore, analyzePageSpeed } = await import('./enrichment-pagespeed')
-        const mobile = await analyzePageSpeed(params.website!, 'mobile')
-        const desktop = await analyzePageSpeed(params.website!, 'desktop')
-        const maturite = await getDigitalMaturityScore(params.website!)
-        data.pagespeed = {
-          score_mobile: mobile?.score,
-          score_desktop: desktop?.score,
-          lcp_ms: mobile?.lcp_ms,
-          maturite,
+        if (r.valid && r.entreprise) {
+          data.sirene = r.entreprise
+          // SI entreprise fermée → STOP early return
+          if (data.sirene.is_active === false) {
+            data._signaux.en_difficulte = true
+            return // Early stop signal
+          }
         }
       }, perCallTimeout)
     )
-  }
 
-  // Geo — code commune depuis GPS
-  if (params.lat && params.lng && !params.skip_geo) {
-    wave1.push(
-      safeCall('S6', async () => {
-        const { getRevenusQuartier } = await import('./enrichment-iris')
-        data.iris = await getRevenusQuartier({ lat: params.lat, lng: params.lng })
+    identityBranch.push(
+      safeCall('I2', async () => {
+        const { getConventionCollective } = await import('./enrichment-conventions')
+        data.convention = await getConventionCollective(params.siret!)
+        // SI Convention IDCC 3032/3050 → droits formation non consommés
+        if (data.convention?.idcc === '3032' || data.convention?.idcc === '3050') {
+          data._signaux.droits_formation_non_consommes = true
+        }
       }, perCallTimeout)
     )
 
-    wave1.push(
-      safeCall('S7', async () => {
+    identityBranch.push(
+      safeCall('I3', async () => {
+        const { checkProcedureCollective } = await import('./enrichment-bodacc')
+        data.bodacc = await checkProcedureCollective(siren!)
+        // SI BODACC procédure → en difficulté
+        if (data.bodacc?.procedure_collective) {
+          data._signaux.en_difficulte = true
+        }
+      }, perCallTimeout)
+    )
+
+    if (!params.skip_formation) {
+      identityBranch.push(
+        safeCall('I4', async () => {
+          const { getOrganismeBySiren } = await import('./enrichment-dgefp')
+          data.dgefp = await getOrganismeBySiren(siren!)
+          // SI DGEFP retourne NDA → organisme concurrent
+          if (data.dgefp?.nda) {
+            data._signaux.est_organisme_concurrent = true
+          }
+        }, perCallTimeout)
+      )
+    }
+
+    // SI Pappers API key → ajouter Pappers
+    if (process.env.PAPPERS_API_KEY) {
+      identityBranch.push(
+        safeCall('I5', async () => {
+          const { enrichWithPappers } = await import('./enrichment')
+          const r = await enrichWithPappers(params.siret!, { lead_id: params.lead_id })
+          if (r.success && r.data) data.pappers = r.data
+        }, perCallTimeout)
+      )
+    }
+
+    await Promise.allSettled(identityBranch)
+
+    // SI entreprise fermée → early return
+    if (data.sirene?.is_active === false) {
+      return assembleIntelligence(data)
+    }
+  }
+
+  // ============================================================
+  // BRANCHE 2 — Réputation (si nom)
+  // ============================================================
+
+  if (params.nom && process.env.GOOGLE_PLACES_API_KEY) {
+    // Google Places d'abord (pour récupérer website et GPS)
+    await safeCall('R1', async () => {
+      const { enrichWithGooglePlaces } = await import('./enrichment')
+      const r = await enrichWithGooglePlaces(params.nom!, params.ville, { lead_id: params.lead_id })
+      if (r.success && r.data) {
+        data.google = r.data
+        // SI < 10 avis Google → force_scraping = true
+        if (data.google.rating_count && data.google.rating_count < 10) {
+          data._signaux.avis_insuffisants = true
+        }
+      }
+    }, perCallTimeout)
+
+    // Extraire website et GPS de Google si pas fournis en params
+    const website = params.website || data.google?.website
+    const lat = params.lat || data.google?.geometry?.location?.lat || data.google?.lat
+    const lng = params.lng || data.google?.geometry?.location?.lng || data.google?.lng
+
+    // SI Google retourne website → lancer Social Discovery + PageSpeed en parallèle
+    if (website) {
+      const reputationBranch: Promise<void | null>[] = []
+
+      reputationBranch.push(
+        safeCall('R2', async () => {
+          const { discoverSocialProfiles } = await import('./social-discovery')
+          data.social = await discoverSocialProfiles(website, params.nom)
+        }, perCallTimeout)
+      )
+
+      reputationBranch.push(
+        safeCall('R3', async () => {
+          const { getDigitalMaturityScore, analyzePageSpeed } = await import('./enrichment-pagespeed')
+          const mobile = await analyzePageSpeed(website, 'mobile')
+          const desktop = await analyzePageSpeed(website, 'desktop')
+          const maturite = await getDigitalMaturityScore(website)
+          data.pagespeed = {
+            score_mobile: mobile?.score,
+            score_desktop: desktop?.score,
+            lcp_ms: mobile?.lcp_ms,
+            maturite,
+          }
+        }, perCallTimeout)
+      )
+
+      await Promise.allSettled(reputationBranch)
+
+      // SI Instagram trouvé → scrapeInstagram
+      if (data.social?.instagram) {
+        await safeCall('R4', async () => {
+          const { scrapeInstagram } = await import('./social-discovery')
+          data.instagram = await scrapeInstagram(data.social.instagram)
+        }, perCallTimeout)
+      }
+    }
+
+    // Mettre à jour les coordonnées pour les branches suivantes
+    params.lat = lat
+    params.lng = lng
+  }
+
+  // ============================================================
+  // BRANCHE 3 — Géo (si GPS fourni ou déduit de Google)
+  // ============================================================
+
+  if ((params.lat && params.lng) && !params.skip_geo) {
+    const geoBranch: Promise<void | null>[] = []
+
+    geoBranch.push(
+      safeCall('G1', async () => {
+        const { getRevenusQuartier } = await import('./enrichment-iris')
+        data.iris = await getRevenusQuartier({ lat: params.lat!, lng: params.lng! })
+      }, perCallTimeout)
+    )
+
+    geoBranch.push(
+      safeCall('G2', async () => {
         const { fetchNeighborhoodData } = await import('./neighborhood-data')
         data.neighborhood = await fetchNeighborhoodData(params.lat!, params.lng!, 500)
       }, perCallTimeout)
     )
-  }
 
-  // OSM — concurrents beauté dans la zone (gratuit, Overpass API)
-  if (params.lat && params.lng) {
-    wave1.push(
-      safeCall('S8', async () => {
+    geoBranch.push(
+      safeCall('G3', async () => {
         const { findBeautyShopsInArea } = await import('./enrichment-osm')
         data.osm = await findBeautyShopsInArea({ lat: params.lat!, lng: params.lng!, radiusMeters: 2000 })
-      }, perCallTimeout)
-    )
-  }
-
-  // Convention collective — IDCC 3032 (esthétique), droits formation (gratuit)
-  if (params.siret) {
-    wave1.push(
-      safeCall('S9', async () => {
-        const { getConventionCollective } = await import('./enrichment-conventions')
-        data.convention = await getConventionCollective(params.siret!)
-      }, perCallTimeout)
-    )
-  }
-
-  // Aides formation disponibles par zone (gratuit)
-  if (dept) {
-    wave1.push(
-      safeCall('S10', async () => {
-        const { getAidesFinancement } = await import('./enrichment-aides')
-        data.aides = await getAidesFinancement(dept)
-      }, perCallTimeout)
-    )
-  }
-
-  await Promise.allSettled(wave1)
-
-  // ============================================================
-  // VAGUE 2 — Sources payantes / lentes (en parallèle)
-  // ============================================================
-
-  const wave2: Promise<void | null>[] = []
-
-  // Pappers (payant, protégé)
-  if (params.siret && process.env.PAPPERS_API_KEY) {
-    wave2.push(
-      safeCall('P1', async () => {
-        const { enrichWithPappers } = await import('./enrichment')
-        const r = await enrichWithPappers(params.siret!, { lead_id: params.lead_id })
-        if (r.success && r.data) data.pappers = r.data
-      }, perCallTimeout)
-    )
-  }
-
-  // INPI bilans (gratuit, fallback Pappers)
-  if (siren && !data.pappers) {
-    wave2.push(
-      safeCall('P2', async () => {
-        const { getDerniersChiffres } = await import('./enrichment-inpi')
-        data.inpi = await getDerniersChiffres(siren)
-      }, perCallTimeout)
-    )
-  }
-
-  // Google Places
-  if (params.nom && process.env.GOOGLE_PLACES_API_KEY) {
-    wave2.push(
-      safeCall('P3', async () => {
-        const { enrichWithGooglePlaces } = await import('./enrichment')
-        const r = await enrichWithGooglePlaces(params.nom!, params.ville, { lead_id: params.lead_id })
-        if (r.success && r.data) data.google = r.data
-      }, perCallTimeout)
-    )
-  }
-
-  // DVF prix immobilier
-  if (!params.skip_geo) {
-    const codeCommune = (data.iris as any)?.code_commune
-    if (codeCommune) {
-      wave2.push(
-        safeCall('P4', async () => {
-          const { getPrixM2Commune } = await import('./enrichment-dvf')
-          data.dvf = await getPrixM2Commune(codeCommune)
-        }, perCallTimeout)
-      )
-    } else if (params.lat && params.lng) {
-      wave2.push(
-        safeCall('P4', async () => {
-          const { getPrixM2ParAdresse } = await import('./enrichment-dvf')
-          data.dvf = await getPrixM2ParAdresse(params.lat!, params.lng!)
-        }, perCallTimeout)
-      )
-    }
-  }
-
-  await Promise.allSettled(wave2)
-
-  // ============================================================
-  // VAGUE 3 — Sources Formation (si pertinent)
-  // ============================================================
-
-  if (!params.skip_formation && dept) {
-    const wave3: Promise<void | null>[] = []
-
-    // EDOF — formations CPF concurrentes
-    wave3.push(
-      safeCall('F1', async () => {
-        const { getFormationsCPFConcurrentes } = await import('./enrichment-cpf')
-        const r = await getFormationsCPFConcurrentes({
-          keyword: 'esthetique',
-          departement: dept,
-          excludeSiren: siren,
-        })
-        if (r.success && r.data) data.edof = r.data
-      }, perCallTimeout)
-    )
-
-    // BODACC zone — créations/radiations
-    wave3.push(
-      safeCall('F2', async () => {
-        const { getCreationsRadiationsZone } = await import('./enrichment-bodacc')
-        const zoneData = await getCreationsRadiationsZone(dept, 6)
-        if (data.bodacc) {
-          data.bodacc = { ...data.bodacc, ...zoneData }
-        } else {
-          data.bodacc = zoneData
+        // SI OSM retourne > 10 beauty shops → zone saturée
+        if (data.osm?.shops && data.osm.shops.length > 10) {
+          data._signaux.zone_saturee = true
         }
       }, perCallTimeout)
     )
 
-    await Promise.allSettled(wave3)
+    geoBranch.push(
+      safeCall('G4', async () => {
+        const { getPrixM2ParAdresse } = await import('./enrichment-dvf')
+        data.dvf = await getPrixM2ParAdresse(params.lat!, params.lng!)
+      }, perCallTimeout)
+    )
+
+    await Promise.allSettled(geoBranch)
   }
 
   // ============================================================
-  // VAGUE 4 — Scraping (optionnel, lent)
+  // BRANCHE 4 — Formation & Marché (si département)
   // ============================================================
 
-  if (!params.skip_scraping && params.nom && params.ville) {
-    const wave4: Promise<void | null>[] = []
+  if (dept) {
+    const formationBranch: Promise<void | null>[] = []
 
-    // Scraping PagesJaunes + Planity + Treatwell
-    wave4.push(
-      safeCall('X1', async () => {
-        const { scrapeCompetitorFull } = await import('./competitor-scraper')
-        const scraped = await scrapeCompetitorFull({
-          nom: params.nom!,
-          ville: params.ville!,
-        })
-        if (scraped.pagesJaunes) data.pj = scraped.pagesJaunes
-        if (scraped.planity) data.planity = scraped.planity
-        if (scraped.treatwell) data.treatwell = scraped.treatwell
-        if (scraped.tripadvisor) data.tripadvisor = scraped.tripadvisor
-        if (scraped.fresha) data.fresha = scraped.fresha
-        if (scraped.booksy) data.booksy = scraped.booksy
-        if (scraped.groupon) data.groupon = scraped.groupon
-        if (scraped.wecasa) data.wecasa = scraped.wecasa
-        if (scraped.google) data.scraper = scraped.google
-      }, 60000) // scraping = 60s max
+    formationBranch.push(
+      safeCall('F1', async () => {
+        const { getStatsEmploiZone } = await import('./enrichment-emploi')
+        data.france_travail = await getStatsEmploiZone(dept)
+      }, perCallTimeout)
     )
 
-    // Social discovery (Instagram, FB, etc.)
-    const siteWeb = params.website || data.google?.website || data.pj?.website
-    if (siteWeb) {
-      wave4.push(
-        safeCall('X2', async () => {
-          const { discoverSocialProfiles, scrapeInstagram } = await import('./social-discovery')
-          data.social = await discoverSocialProfiles(siteWeb, params.nom)
-          if (data.social?.instagram) {
-            data.instagram = await scrapeInstagram(data.social.instagram)
+    formationBranch.push(
+      safeCall('F2', async () => {
+        const { getAidesFinancement } = await import('./enrichment-aides')
+        data.aides = await getAidesFinancement(dept)
+      }, perCallTimeout)
+    )
+
+    if (!params.skip_formation) {
+      formationBranch.push(
+        safeCall('F3', async () => {
+          const { getFormationsCPFConcurrentes } = await import('./enrichment-cpf')
+          const r = await getFormationsCPFConcurrentes({
+            keyword: 'esthetique',
+            departement: dept,
+            excludeSiren: siren,
+          })
+          if (r.success && r.data) data.edof = r.data
+        }, perCallTimeout)
+      )
+
+      formationBranch.push(
+        safeCall('F4', async () => {
+          const { getCreationsRadiationsZone } = await import('./enrichment-bodacc')
+          const zoneData = await getCreationsRadiationsZone(dept, 6)
+          if (data.bodacc) {
+            data.bodacc = { ...data.bodacc, ...zoneData }
+          } else {
+            data.bodacc = zoneData
           }
-        }, 60000)
+        }, perCallTimeout)
       )
     }
 
-    await Promise.allSettled(wave4)
+    await Promise.allSettled(formationBranch)
+  }
+
+  // ============================================================
+  // BRANCHE 5 — Scraping (si nom+ville ET pas skip OU force_scraping)
+  // ============================================================
+
+  const force_scraping = data._signaux.avis_insuffisants
+  const should_scrape = params.nom && params.ville && (!params.skip_scraping || force_scraping)
+
+  if (should_scrape) {
+    await safeCall('S1', async () => {
+      const { scrapeCompetitorFull } = await import('./competitor-scraper')
+      const scraped = await scrapeCompetitorFull({
+        nom: params.nom!,
+        ville: params.ville!,
+      })
+
+      // Distribuer les résultats
+      if (scraped.pagesJaunes) data.pj = scraped.pagesJaunes
+      if (scraped.planity) data.planity = scraped.planity
+      if (scraped.treatwell) data.treatwell = scraped.treatwell
+      if (scraped.tripadvisor) data.tripadvisor = scraped.tripadvisor
+      if (scraped.fresha) data.fresha = scraped.fresha
+      if (scraped.booksy) data.booksy = scraped.booksy
+      if (scraped.groupon) {
+        data.groupon = scraped.groupon
+        // SI Groupon found → est_sur_promo = true
+        data._signaux.est_sur_promo = true
+      }
+      if (scraped.wecasa) data.wecasa = scraped.wecasa
+      if (scraped.google) data.scraper = scraped.google
+    }, 60000) // scraping = 60s max
   }
 
   // ============================================================

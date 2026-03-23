@@ -97,6 +97,56 @@ export interface IntelligenceZone {
   score_zone?: number // 0-100
 }
 
+// ============================================================
+// TYPES ENRICHIS v3 — Données 360° pour rapport complet
+// ============================================================
+
+export interface PlateformeAvis {
+  plateforme: string           // opaque : "reservation_1", "annuaire_2", etc.
+  note?: number
+  nb_avis?: number
+  services?: string[]          // carte des soins de cette plateforme
+  prix?: string[]              // tarifs de cette plateforme
+}
+
+export interface ConcurrentZone {
+  nom?: string
+  type: string                 // 'beauty' | 'hairdresser' | 'spa' | 'massage'
+  distance_metres?: number
+}
+
+export interface OffrePromo {
+  titre: string
+  prix_barre?: number
+  prix_promo?: number
+  reduction?: string
+  categorie?: string
+}
+
+export interface ConventionInfo {
+  code_convention: number
+  intitule: string
+  est_secteur_beaute: boolean
+  droit_formation_heures: number // 24h/an pour esthétique
+}
+
+export interface AideFinancement {
+  nom: string
+  financeur: string
+  type: string                 // 'subvention' | 'pret' | 'exoneration' | 'autre'
+  montant_max?: number
+  date_limite?: string
+}
+
+export interface SignauxCommerciaux {
+  est_sur_promo: boolean                  // Groupon = besoin clients
+  est_organisme_concurrent: boolean       // DGEFP = concurrent, pas prospect
+  avis_insuffisants: boolean              // < 10 avis Google
+  zone_saturee: boolean                   // > 10 beauty shops dans 2km
+  droits_formation_non_consommes: boolean // IDCC 3032/3050 = 24h/an
+  en_difficulte: boolean                  // BODACC procédure collective
+}
+
 /** Résultat complet d'enrichissement — AUCUNE trace des sources */
 export interface IntelligenceComplete {
   // Scores composites (ce que le commercial voit)
@@ -112,10 +162,19 @@ export interface IntelligenceComplete {
   digital?: IntelligenceDigitale
   zone?: IntelligenceZone
 
+  // Données 360° (v3 — rapport complet)
+  plateformes_avis?: PlateformeAvis[]       // notes/avis par plateforme (opaque)
+  carte_soins?: string[]                    // services unifiés toutes plateformes
+  concurrents_zone?: ConcurrentZone[]       // beauty shops dans 2km (OSM)
+  offres_promo?: OffrePromo[]               // offres promo détectées (opaque)
+  convention_collective?: ConventionInfo     // IDCC, droits formation/an
+  aides_disponibles?: AideFinancement[]     // aides financement par zone
+  signaux?: SignauxCommerciaux              // flags décision commerciale
+
   // Méta (sans sources)
   derniere_mise_a_jour: string // ISO date
   nb_donnees_collectees: number // nb de champs remplis
-  version: string // "v2.1" — opaque
+  version: string // "v3.0" — opaque
 }
 
 // ============================================================
@@ -216,6 +275,7 @@ export function assembleIntelligence(internal: {
   osm?: any
   convention?: any
   aides?: any
+  _signaux?: any
 }): IntelligenceComplete {
   const now = new Date().toISOString()
   let nbDonnees = 0
@@ -440,6 +500,65 @@ export function assembleIntelligence(internal: {
     ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
     : 0
 
+  // --- NOUVEAUX BLOCS v3 ---
+
+  // 1. plateformes_avis[]
+  const plateformesAvis: PlateformeAvis[] = []
+  // Google → "plateforme_principale"
+  if (internal.google?.rating) plateformesAvis.push({ plateforme: 'principale', note: internal.google.rating, nb_avis: internal.google.total_reviews })
+  // PJ → "annuaire_1"
+  if (internal.pj?.rating) plateformesAvis.push({ plateforme: 'annuaire_1', note: internal.pj.rating, nb_avis: internal.pj.reviewsCount, services: internal.pj.services })
+  // Planity → "reservation_1"
+  if (internal.planity?.found) plateformesAvis.push({ plateforme: 'reservation_1', note: internal.planity.rating, nb_avis: internal.planity.reviewsCount, services: internal.planity.services, prix: internal.planity.prix })
+  // Treatwell → "reservation_2"
+  if (internal.treatwell?.found) plateformesAvis.push({ plateforme: 'reservation_2', note: internal.treatwell.rating, nb_avis: internal.treatwell.reviewsCount, services: internal.treatwell.services, prix: internal.treatwell.prix })
+  // TripAdvisor → "avis_1"
+  if (internal.tripadvisor?.found) plateformesAvis.push({ plateforme: 'avis_1', note: internal.tripadvisor.rating, nb_avis: internal.tripadvisor.reviewsCount })
+  // Fresha → "reservation_3"
+  if (internal.fresha?.found) plateformesAvis.push({ plateforme: 'reservation_3', note: internal.fresha.rating, nb_avis: internal.fresha.reviewsCount, services: internal.fresha.services, prix: internal.fresha.prix })
+  // Booksy → "reservation_4"
+  if (internal.booksy?.found) plateformesAvis.push({ plateforme: 'reservation_4', note: internal.booksy.rating, nb_avis: internal.booksy.reviewsCount, services: internal.booksy.services, prix: internal.booksy.prix })
+
+  // 2. carte_soins[]
+  const soinsSet = new Set<string>()
+  for (const src of [internal.planity, internal.fresha, internal.booksy, internal.treatwell, internal.pj, internal.wecasa]) {
+    if (src?.services) src.services.forEach((s: string) => soinsSet.add(s.toLowerCase().trim()))
+  }
+  const carteSoins = soinsSet.size > 0 ? [...soinsSet].slice(0, 50) : undefined
+
+  // 3. concurrents_zone[]
+  const concurrentsZone = internal.osm && Array.isArray(internal.osm)
+    ? internal.osm.slice(0, 20).map((s: any) => ({ nom: s.name, type: s.type, distance_metres: s.distance_meters }))
+    : undefined
+
+  // 4. offres_promo[]
+  const offresPromo = internal.groupon?.found && internal.groupon.offres?.length
+    ? internal.groupon.offres.map((o: any) => ({ titre: o.titre, prix_barre: o.prix_barre, prix_promo: o.prix_promo, reduction: o.reduction, categorie: o.categorie }))
+    : undefined
+
+  // 5. convention_collective
+  const conventionCollective = internal.convention ? {
+    code_convention: internal.convention.idcc,
+    intitule: internal.convention.intitule,
+    est_secteur_beaute: internal.convention.est_esthetique || internal.convention.est_coiffure || false,
+    droit_formation_heures: internal.convention.droit_formation_heures || 0,
+  } : undefined
+
+  // 6. aides_disponibles[]
+  const aidesDisponibles = internal.aides?.aides?.length
+    ? internal.aides.aides.slice(0, 10).map((a: any) => ({ nom: a.nom, financeur: a.financeur, type: a.type, montant_max: a.montant_max, date_limite: a.date_limite }))
+    : undefined
+
+  // 7. signaux
+  const signaux: SignauxCommerciaux = {
+    est_sur_promo: !!(internal.groupon?.found && internal.groupon.nb_offres > 0),
+    est_organisme_concurrent: !!(internal.dgefp?.nda),
+    avis_insuffisants: !internal.google?.total_reviews || internal.google.total_reviews < 10,
+    zone_saturee: !!(internal.osm && Array.isArray(internal.osm) && internal.osm.filter((s: any) => s.type === 'beauty').length > 10),
+    droits_formation_non_consommes: !!(internal.convention?.est_esthetique || internal.convention?.est_coiffure),
+    en_difficulte: !!(internal.bodacc?.enProcedure),
+  }
+
   return {
     score_global: scoreGlobal,
     niveau: determinerNiveau(scoreGlobal),
@@ -450,6 +569,13 @@ export function assembleIntelligence(internal: {
     marche: Object.keys(marche).length > 1 ? marche : undefined,
     digital: Object.keys(digital).length > 1 ? digital : undefined,
     zone: Object.keys(zone).length > 1 ? zone : undefined,
+    plateformes_avis: plateformesAvis.length > 0 ? plateformesAvis : undefined,
+    carte_soins: carteSoins,
+    concurrents_zone: concurrentsZone,
+    offres_promo: offresPromo,
+    convention_collective: conventionCollective,
+    aides_disponibles: aidesDisponibles,
+    signaux,
     derniere_mise_a_jour: now,
     nb_donnees_collectees: nbDonnees,
     version: 'v3.0',

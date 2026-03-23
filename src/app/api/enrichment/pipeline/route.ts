@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { runEnrichmentPipeline } from '@/lib/enrichment-pipeline'
+import { enrichComplet } from '@/lib/enrichment-orchestrator'
 import { generateProspectNarrative } from '@/lib/prospect-narrator'
 import { reviewsToStorable } from '@/lib/reviews-analyzer'
 import { createServiceSupabase } from '@/lib/supabase-server'
@@ -46,7 +47,20 @@ export async function POST(req: NextRequest) {
       codePostal: l.adresse?.code_postal,
     })
 
-    // ── 1bis. Stocker les avis en base ──
+    // ── 1bis. Enrichissement 360° (orchestrateur 47 sources) ──
+    const intelligence = await enrichComplet({
+      siret: l.siret || l.entreprise_siret,
+      nom: l.entreprise_nom,
+      ville: l.adresse?.ville || 'Paris',
+      departement: l.adresse?.departement,
+      code_postal: l.adresse?.code_postal,
+      lat: l.adresse?.lat || l.metadata?.google_places?.lat,
+      lng: l.adresse?.lng || l.metadata?.google_places?.lng,
+      website: l.metadata?.google_places?.website || l.site_web,
+      lead_id: leadId,
+    })
+
+    // ── 1ter. Stocker les avis en base ──
     if (enrichment.aggregatedData.reviews?.rawReviews.length) {
       const storable = reviewsToStorable(leadId, enrichment.aggregatedData.reviews.rawReviews)
       // Upsert — ignorer les doublons
@@ -58,7 +72,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // ── 2. Générer le narratif IA ──
+    // ── 2. Générer le narratif IA (avec données 360°) ──
     const narrative = await generateProspectNarrative({
       lead: {
         prenom: l.prenom,
@@ -70,6 +84,7 @@ export async function POST(req: NextRequest) {
         source: l.source,
       },
       enrichment: enrichment.aggregatedData,
+      intelligence,
       score: enrichment.totalScore,
       classification: enrichment.classification,
     })
@@ -80,7 +95,7 @@ export async function POST(req: NextRequest) {
       version: 1,
       score: enrichment.totalScore,
       classification: enrichment.classification,
-      enrichment_data: enrichment.aggregatedData,
+      enrichment_data: { ...enrichment.aggregatedData, intelligence },
       enrichment_steps: enrichment.steps,
       narrative,
       status: 'generated',
@@ -134,6 +149,7 @@ export async function POST(req: NextRequest) {
         totalDurationMs: enrichment.totalDurationMs,
       },
       narrative,
+      intelligence,
       version: reportData.version,
     })
   } catch (error: any) {
