@@ -551,12 +551,117 @@ Lead, Session, Inscription, Financement, Rappel, Activite, Message, Equipe, Form
 
 ---
 
-## SECTIONS À COMPLÉTER (agents en cours)
+---
 
-- Détail de chaque API route (63 routes)
-- Détail de chaque composant (136 composants)
-- Détail de chaque hook (27 hooks)
-- Détail de chaque module lib (141 modules)
+## 16. API ROUTES — 65 routes, 27 catégories
+
+### Résumé par catégorie
+| Catégorie | Routes | Auth | Services externes |
+|-----------|--------|------|-------------------|
+| AI | 10 | Mixte | Anthropic, OpenAI, DeepSeek |
+| Analytics | 2 | requireAuth + role | — |
+| Automatisations/Crons | 3 | CRON_SECRET | — |
+| Briefing | 1 | supabase.auth | Anthropic, OSM |
+| Cal.com | 2 | public | Cal.com API |
+| Competitors | 6 | public | Sirene, Pappers, Google, PJ, Planity |
+| Devis | 2 | mixte | Stripe, @react-pdf |
+| Documents | 1 | public | VirusTotal, Supabase Storage |
+| DocuSeal | 3 | public | DocuSeal API |
+| Email | 2 | mixte | Resend, DNS/SMTP |
+| Émargement | 1 | token portail | — |
+| Enrichment | 6 | mixte | 25+ sources |
+| Formation/LMS | 1 | supabase.auth | — |
+| GDPR | 2 | supabase.auth + admin | — |
+| Health | 1 | public | Supabase, Stripe, Resend, Redis |
+| Inngest | 1 | Inngest signing key | Inngest |
+| Inscription | 1 | public (Zod strict) | Stripe |
+| Invitations | 2 | supabase.auth (Zod) | Resend |
+| Leads | 2 | mixte | Multi-sources |
+| Messages | 1 | supabase.auth | Resend, Twilio |
+| Portail | 2 | token portail | — |
+| Questionnaires | 2 | mixte | Resend |
+| Soft Delete | 2 | public | — |
+| Stripe | 2 | webhook sig | Stripe, Inngest |
+| Tools | 2 | public | INSEE, AI |
+| Tracking | 1 | public (Zod) | — |
+| Webhook formulaire | 1 | public (Zod + honeypot) | Inngest |
+
+### Routes IA (10)
+- `/api/ai/agent-v2` — Agent commercial v3, streaming Claude, 15 tools, hybrid search
+- `/api/ai/assistant` — Assistant général DeepSeek, rate-limité par plan SaaS
+- `/api/ai/chat` — Chatbot contextuel (formations, sessions, lead)
+- `/api/ai/commercial` — Assistant commercial (email, relance, objection, score)
+- `/api/ai/generate` — Génération email/message personnalisé (6 types)
+- `/api/ai/index-kb` — Indexation knowledge base pgvector (cron)
+- `/api/ai/objection` — Traitement objection temps réel
+- `/api/ai/playbook-suggest` — Suggestion réponse depuis playbook
+- `/api/ai/prospect-research` — Recherche enrichie avant appel
+- `/api/ai/score` — Scoring IA prédictif /100
+
+### Routes Enrichment (6)
+- `/api/enrichment` — Enrichir un lead (Pappers, Google) avec crédits
+- `/api/enrichment/full` — Pipeline 25 sources complet
+- `/api/enrichment/pipeline` — Pipeline intelligent + narrative IA
+- `/api/enrichment/report` — Récupérer rapport prospection
+- `/api/enrichment/report/pdf` — Générer PDF rapport (@react-pdf)
+- `/api/enrichment/report/word` — Générer Word (.docx) + carte OSM
+
+### ALERTES SÉCURITÉ — Routes sans auth
+10 routes manipulent des données sensibles SANS authentification :
+1. `/api/soft-delete` + `/api/soft-delete/restore` — Suppression/restauration 12 tables
+2. `/api/documents/upload` — Upload fichiers
+3. `/api/leads/[id]/enrich` — Enrichissement (coût API)
+4. `/api/enrichment/full` — Pipeline 25 sources (0.15-0.40€/appel)
+5. `/api/devis/generate` — Génération devis PDF
+6. `/api/stripe/payment-link` — Création lien paiement
+7. `/api/competitors/*` — 6 routes analyse concurrentielle
+8. `/api/ai/agent-v2` — Agent IA streaming (coût Claude)
+
+---
+
+## 17. INVENTAIRE PAGES — 70 pages, 27 836 lignes
+
+### Résumé
+| Catégorie | Pages | Fonctionnelles | Redirects | Lignes |
+|-----------|-------|---------------|-----------|--------|
+| Auth | 4 | 4 | 0 | 839 |
+| Dashboard | 46 | 40 | 6 | 19 491 |
+| Public | 8 | 8 | 0 | 3 124 |
+| Standalone | 12 | 12 | 0 | 4 382 |
+| **Total** | **70** | **64** | **6** | **27 836** |
+
+### Pages les plus volumineuses
+1. settings/security — 1 336 lignes (MFA, sessions, logs)
+2. portail/[token] — 1 045 lignes (8 onglets stagiaire)
+3. catalogue — 1 038 lignes (11 formations, filtres, FAQ)
+4. inscription/[formationId] — 997 lignes (formulaire multi-étapes)
+5. academy/formations — 923 lignes (modules interactifs, quiz)
+6. lead/[id] — 843 lignes (fiche prospect complète)
+7. leads — 794 lignes (liste avec 3 niveaux de filtres)
+
+### Toutes les pages standalone
+| Route | Description | Lignes |
+|-------|-------------|--------|
+| /formations | Catalogue public SSR | 30 |
+| /formations/[slug] | Détail formation SSR | 60 |
+| /inscription/[formationId] | Formulaire inscription complet | 997 |
+| /inscription-express/[formationId] | Inscription rapide + paiement | 524 |
+| /inscription/success | Confirmation post-paiement | 306 |
+| /inscription/cancel | Annulation paiement | 155 |
+| /join/[token] | Invitation équipe | 187 |
+| /nps/[sessionId] | Enquête satisfaction NPS | 148 |
+| /portail/[token] | Espace stagiaire 8 onglets | 1 045 |
+| /portail/[token]/convention | Signature convention | 390 |
+| /questionnaire/[token] | Évaluation stagiaire | 307 |
+| /emargement/[sessionId] | QR code émargement | (dans dashboard) |
+
+---
+
+## SECTIONS EN ATTENTE
+
+- Détail des 136 composants avec props (agent en cours)
+- Détail des 27 hooks
+- Détail des 141 modules lib
 
 ---
 
