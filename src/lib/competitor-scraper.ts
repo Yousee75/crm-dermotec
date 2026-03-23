@@ -162,7 +162,11 @@ async function fetchWithScrapingBrowser(url: string): Promise<string | null> {
       return html
     } catch (err) {
       console.warn(`[Scraper] ScrapingBrowser attempt ${attempt}/${MAX_RETRIES} failed:`, err)
-      if (attempt < MAX_RETRIES) await sleep(3000 * attempt)
+      if (attempt < MAX_RETRIES) {
+        const baseDelay = attempt === 1 ? 2000 : 4000
+        const jitter = Math.random() * 1000
+        await sleep(baseDelay + jitter)
+      }
     }
   }
   return null
@@ -200,7 +204,11 @@ async function fetchWithWebUnlocker(url: string): Promise<string | null> {
       return html
     } catch (err) {
       console.warn(`[Scraper] WebUnlocker attempt ${attempt}/${MAX_RETRIES} failed:`, err)
-      if (attempt < MAX_RETRIES) await sleep(2000 * attempt)
+      if (attempt < MAX_RETRIES) {
+        const baseDelay = attempt === 1 ? 2000 : 4000
+        const jitter = Math.random() * 1000
+        await sleep(baseDelay + jitter)
+      }
     }
   }
   return null
@@ -972,7 +980,7 @@ export async function scrapeCompetitorFull(params: {
     }),
 
     // TripAdvisor — très protégé (Cloudflare + CAPTCHA), Scraping Browser obligatoire
-    fetchWithFullFallback(tripadvisorUrl, true).then(html => {
+    fetchWithFullFallback(tripadvisorUrl, false).then(html => {
       if (html) results.tripadvisor = parseTripAdvisor(html)
     }),
 

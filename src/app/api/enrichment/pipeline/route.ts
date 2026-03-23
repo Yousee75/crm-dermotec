@@ -37,6 +37,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'leadId requis' }, { status: 400 })
     }
 
+    // Anti-doublon : lock distribué sur le lead_id (empêche 2 enrichissements simultanés)
+    try {
+      const { cacheGet, cacheSet } = await import('@/lib/upstash')
+      const lockKey = `lock:enrich:${leadId}`
+      const existing = await cacheGet(lockKey)
+      if (existing) {
+        return NextResponse.json({ error: 'Enrichissement déjà en cours pour ce lead' }, { status: 409 })
+      }
+      await cacheSet(lockKey, 'running', 120) // Lock 2 min max
+    } catch { /* Redis down — continue sans lock */ }
+
     // Récupérer les données du lead
     const { data: lead, error: leadError } = await supabase
       .from('leads')
@@ -186,6 +197,12 @@ export async function POST(req: NextRequest) {
       })
       .eq('id', leadId)
 
+    // Libérer le lock
+    try {
+      const { cacheDelete } = await import('@/lib/upstash')
+      await cacheDelete(`lock:enrich:${leadId}`)
+    } catch { /* silent */ }
+
     return NextResponse.json({
       enrichment: {
         score: enrichment.totalScore,
@@ -204,6 +221,12 @@ export async function POST(req: NextRequest) {
       version: reportData.version,
     })
   } catch (error: any) {
+    // Libérer le lock même en cas d'erreur
+    try {
+      const { cacheDelete } = await import('@/lib/upstash')
+      await cacheDelete(`lock:enrich:${leadId}`)
+    } catch { /* silent */ }
+
     console.error('[Pipeline] Erreur:', error)
     return NextResponse.json({ error: 'Erreur pipeline enrichissement' }, { status: 500 })
   }

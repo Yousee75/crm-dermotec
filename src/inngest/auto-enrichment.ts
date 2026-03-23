@@ -74,7 +74,7 @@ export const autoEnrichLead = inngest.createFunction(
       enrichmentResults.pappers = await step.run('enrich-pappers', async () => {
         try {
           const siren = siret.replace(/\D/g, '').substring(0, 9)
-          const url = `https://api.pappers.fr/v2/entreprise?siren=${siren}&api_token=${process.env.PAPPERS_API_KEY}&champs_optionnels=finances,dirigeants`
+          const url = `https://api.pappers.fr/v2/entreprise?siren=${siren}&api_token=${process.env.PAPPERS_API_KEY}&champs_optionnels=finances,dirigeants,beneficiaires`
 
           const response = await fetch(url)
           if (!response.ok) {

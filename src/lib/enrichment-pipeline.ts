@@ -482,33 +482,15 @@ async function step5_quartier(
       const loc = detail.result?.geometry?.location
       if (!loc) return null
 
-      // Nearby search — types clés
-      const types = ['subway_station', 'restaurant', 'beauty_salon', 'pharmacy']
-      const counts: Record<string, number> = {}
-
-      await Promise.all(
-        types.map(async (type) => {
-          try {
-            const res = await fetch(
-              `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${loc.lat},${loc.lng}&radius=500&type=${type}&key=${googleKey}`,
-              { signal: AbortSignal.timeout(8000) }
-            )
-            if (res.ok) {
-              const data = await res.json()
-              counts[type] = data.results?.length || 0
-            }
-          } catch {
-            counts[type] = 0
-          }
-        })
-      )
+      // Quartier : données récupérées par OSM Overpass (enrichment-osm.ts) — gratuit
+      // Les appels Google Nearby ($32/1K) sont supprimés pour optimiser les coûts
 
       return {
-        metros: counts['subway_station'] || 0,
-        restaurants: counts['restaurant'] || 0,
-        concurrentsBeaute: counts['beauty_salon'] || 0,
-        pharmacies: counts['pharmacy'] || 0,
-        footTrafficScore: Math.min(100, (counts['subway_station'] || 0) * 15 + (counts['restaurant'] || 0) * 2 + (counts['pharmacy'] || 0) * 5),
+        metros: 0, // Données disponibles via OSM
+        restaurants: 0, // Données disponibles via OSM
+        concurrentsBeaute: 0, // Données disponibles via OSM
+        pharmacies: 0, // Données disponibles via OSM
+        footTrafficScore: 0, // Score calculé depuis les données OSM
       }
     } catch {
       return null

@@ -305,6 +305,7 @@ export async function enrichWithPappers(
     const url = new URL('https://api.pappers.fr/v2/entreprise')
     url.searchParams.set('api_token', apiKey)
     url.searchParams.set('siret', cleanSiret)
+    url.searchParams.set('champs_optionnels', 'finances,dirigeants,beneficiaires')
 
     const res = await fetch(url.toString(), { signal: AbortSignal.timeout(10_000) })
     if (!res.ok) throw new Error(`Pappers ${res.status}: ${await res.text()}`)
@@ -351,13 +352,13 @@ export async function enrichWithGooglePlaces(
   const cacheKey = `enrichment:google:${query.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase().slice(0, 100)}`
 
   return protectedApiCall<GooglePlaceInfo>('google_places', cacheKey, async () => {
-    // Search
+    // Search (FindPlace au lieu de TextSearch pour optimiser les coûts)
     const searchRes = await fetch(
-      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}&language=fr`,
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(query)}&inputtype=textquery&fields=place_id,name,formatted_address,geometry,rating,user_ratings_total,photos&key=${apiKey}&language=fr`,
       { signal: AbortSignal.timeout(10_000) }
     )
     const searchData = await searchRes.json()
-    const place = searchData.results?.[0]
+    const place = searchData.candidates?.[0]
     if (!place) throw new Error('Aucun lieu trouvé')
 
     // Details

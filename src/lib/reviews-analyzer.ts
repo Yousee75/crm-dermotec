@@ -135,19 +135,25 @@ export interface OutscraperResult {
   reviewsPerScore: Record<string, number> | null
 }
 
-export async function fetchAllReviewsOutscraper(query: string): Promise<OutscraperResult> {
+export async function fetchAllReviewsOutscraper(query: string, lastEnrichmentDate?: string): Promise<OutscraperResult> {
   const apiKey = process.env.OUTSCRAPER_API_KEY
   if (!apiKey || !query) return { reviews: [], placeData: null, reviewsPerScore: null }
 
   try {
+    // Construire l'URL de base
+    let url = `https://api.app.outscraper.com/maps/reviews-v3?query=${encodeURIComponent(query)}&reviewsLimit=200&language=fr&sort=newest&async=false`
+
+    // Si on a une date de dernier enrichissement, ne scraper que les avis plus récents
+    if (lastEnrichmentDate) {
+      const cutoffTimestamp = Math.floor(new Date(lastEnrichmentDate).getTime() / 1000)
+      url += `&cutoff=${cutoffTimestamp}`
+    }
+
     // Outscraper reviews-v3 : retourne les avis + les données du lieu
-    const res = await fetch(
-      `https://api.app.outscraper.com/maps/reviews-v3?query=${encodeURIComponent(query)}&reviewsLimit=200&language=fr&sort=newest&async=false`,
-      {
-        headers: { 'X-API-KEY': apiKey },
-        signal: AbortSignal.timeout(60000), // 60s — Outscraper peut être lent
-      }
-    )
+    const res = await fetch(url, {
+      headers: { 'X-API-KEY': apiKey },
+      signal: AbortSignal.timeout(60000), // 60s — Outscraper peut être lent
+    })
 
     if (!res.ok) {
       console.error(`[Outscraper] HTTP ${res.status}`)

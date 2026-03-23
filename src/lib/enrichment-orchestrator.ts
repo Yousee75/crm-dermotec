@@ -267,15 +267,16 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
 
       reputationBranch.push(
         safeCall('R3', async () => {
-          const { getDigitalMaturityScore, analyzePageSpeed } = await import('./enrichment-pagespeed')
-          const mobile = await analyzePageSpeed(website, 'mobile')
-          const desktop = await analyzePageSpeed(website, 'desktop')
-          const maturite = await getDigitalMaturityScore(website)
+          const { analyzePageSpeed } = await import('./enrichment-pagespeed')
+          const [mobile, desktop] = await Promise.all([
+            analyzePageSpeed(website, 'mobile').catch(() => null),
+            analyzePageSpeed(website, 'desktop').catch(() => null),
+          ])
           data.pagespeed = {
             score_mobile: mobile?.score,
             score_desktop: desktop?.score,
             lcp_ms: mobile?.lcp_ms,
-            maturite,
+            maturite: Math.round(((mobile?.score || 0) * 0.6 + (desktop?.score || 0) * 0.4)),
           }
         }, perCallTimeout)
       )
