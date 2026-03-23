@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { PageHeader } from '@/components/ui/PageHeader'
-import { TabBar } from '@/components/ui/TabBar'
 import { CreateLeadDialog } from '@/components/ui/CreateLeadDialog'
 import { useLeads } from '@/hooks/use-leads'
+import { cn } from '@/lib/utils'
 
 // Lazy imports pour les onglets
 import dynamic from 'next/dynamic'
@@ -32,6 +32,7 @@ export default function ContactsPage() {
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState(searchParams?.get('tab') || 'prospects')
   const [showCreateLead, setShowCreateLead] = useState(false)
+  const [viewMode, setViewMode] = useState<'table' | 'kanban'>('table') // Pour toggle vue prospects
 
   // Récupérer les données pour les compteurs
   const { data: leadsData } = useLeads({ per_page: 1000 })
@@ -50,28 +51,28 @@ export default function ContactsPage() {
   // Calculer les compteurs pour chaque onglet
   const leads = leadsData?.leads || []
   const prospectCount = leads.filter((l: any) => !['inscrit', 'forme'].includes(l.statut || '')).length
-  const pipelineCount = leads.filter((l: any) => l.statut && ['qualifie', 'devis_envoye', 'financement'].includes(l.statut)).length
 
-  // Compteurs clients/apprenants — a brancher sur vrais hooks quand les tables seront creees
-  const clientCount = 0
-  const apprenantCount = 0
+  // Stagiaires = leads inscrits en formation
+  const stagiaireCount = leads.filter((l: any) => l.statut === 'inscrit').length
+
+  // Alumni = leads formés
+  const alumniCount = leads.filter((l: any) => l.statut === 'forme').length
 
   const tabs = [
     { id: 'prospects', label: 'Prospects', count: prospectCount },
-    { id: 'pipeline', label: 'Pipeline', count: pipelineCount },
-    { id: 'clients', label: 'Clients', count: clientCount },
-    { id: 'apprenants', label: 'Apprenants', count: apprenantCount },
+    { id: 'stagiaires', label: 'Stagiaires', count: stagiaireCount },
+    { id: 'alumni', label: 'Alumni', count: alumniCount },
   ]
 
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'prospects':
-        return <ProspectsTab onCreateLead={() => setShowCreateLead(true)} />
-      case 'pipeline':
-        return <PipelineTab />
-      case 'clients':
+        return viewMode === 'table'
+          ? <ProspectsTab onCreateLead={() => setShowCreateLead(true)} />
+          : <PipelineTab />
+      case 'stagiaires':
         return <ClientsTab onCreateClient={() => {}} />
-      case 'apprenants':
+      case 'alumni':
         return <ApprenantsTab onCreateApprenant={() => {}} />
       default:
         return <ProspectsTab onCreateLead={() => setShowCreateLead(true)} />
@@ -85,11 +86,61 @@ export default function ContactsPage() {
         description="Gérez vos prospects, clients et apprenants depuis une vue unifiée."
       />
 
-      <TabBar
-        tabs={tabs}
-        activeTab={activeTab}
-        onChange={setActiveTab}
-      />
+      {/* Toggle personnalisé Satorea - 3 onglets */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-xl">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                'px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200',
+                activeTab === tab.id
+                  ? 'bg-[#FF5C00] text-white shadow-sm'
+                  : 'bg-white text-gray-600 hover:text-gray-800 hover:bg-gray-50 border border-gray-200'
+              )}
+            >
+              {tab.label}
+              {tab.count !== undefined && (
+                <span className={cn(
+                  'ml-1.5 text-xs',
+                  activeTab === tab.id ? 'text-orange-100' : 'text-gray-400'
+                )}>
+                  ({tab.count})
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Toggle vue table/kanban pour l'onglet Prospects */}
+        {activeTab === 'prospects' && (
+          <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-lg">
+            <button
+              onClick={() => setViewMode('table')}
+              className={cn(
+                'px-3 py-2 text-xs font-medium rounded-md transition-all',
+                viewMode === 'table'
+                  ? 'bg-[#FF5C00] text-white'
+                  : 'text-gray-600 hover:text-gray-800'
+              )}
+            >
+              Table
+            </button>
+            <button
+              onClick={() => setViewMode('kanban')}
+              className={cn(
+                'px-3 py-2 text-xs font-medium rounded-md transition-all',
+                viewMode === 'kanban'
+                  ? 'bg-[#FF5C00] text-white'
+                  : 'text-gray-600 hover:text-gray-800'
+              )}
+            >
+              Kanban
+            </button>
+          </div>
+        )}
+      </div>
 
       <div className="min-h-[600px]">
         {renderActiveTab()}
