@@ -14,12 +14,44 @@
 **GitHub** : https://github.com/Yousee75/crm-dermotec
 **Supabase** : `wtbrdxijvtelluwfmgsf` | **Stripe** : `acct_1RpvbQ1NzDARltfq`
 
-## Chiffres du projet (mis à jour 2026-03-23)
+## Chiffres du projet (mis à jour 2026-03-23 session DB)
 
 - **554 fichiers source** | **71 pages** | **63 API routes** | **136 composants**
-- **27 hooks** | **141 modules lib** | **54 migrations SQL** | **20 tests**
+- **27 hooks** | **141 modules lib** | **42 migrations SQL (Supabase MCP)** | **20 tests**
 - **15 jobs Inngest** | **30 fichiers DDD server**
 - **11 produits Stripe** avec prix | **4 plans SaaS** (Decouverte/Pro/Expert/Clinique)
+
+## Architecture DB (mis à jour 2026-03-23)
+
+- **61 tables** | **9 materialized views** | **7 views** | **250 index**
+- **132+ fonctions RPC** | **57+ triggers** | **118 policies RLS** | **4 cron jobs pg_cron**
+- Cache hit ratio: 99.97% | Status: HEALTHY | DB: 19 MB
+
+### Tables par domaine (61)
+- **CRM Core (29)** : leads, equipe, formations, sessions, inscriptions, financements, activites, rappels, messages, notes_lead, commandes, factures, devis, documents, modeles, qualite, partenaires, email_templates, cadence_templates, cadence_instances, agent_conversations, upsell_rules, competitor_profiles, competitor_reviews, auto_enrichment_log, weekly_reports, kpi_snapshots, failed_operations, health_checks
+- **Event sourcing (2)** : crm_events (immutable), lead_stage_transitions
+- **Comptabilité (5)** : ledger_accounts, ledger_entries (immutable), factures_electroniques, factures_auto_rules, relances_paiement
+- **Communication (2)** : conversations, notifications
+- **Documents (1)** : document_versions (versioning + FTS)
+- **Monitoring (2)** : db_health_snapshots, idempotency_keys
+- **Qualiopi (9)** : evaluations, reclamations, accessibilite, ameliorations, formateur_qualifications, evaluation_competences, formation_versions, veille_pedagogique, incidents_formation
+- **Compétences (3)** : competences (ltree), formation_competences, stagiaire_competences
+- **EDOF/CPF (2)** : edof_config, edof_dossiers
+- **Workflows (3)** : workflows, workflow_steps, workflow_executions
+- **Learning (1)** : learning_events (xAPI)
+- **Business (2)** : entreprises, lead_merges
+
+### Materialized Views (9)
+mv_revenue_graph, mv_pipeline_forecast, mv_win_patterns, mv_pipeline_velocity, mv_pipeline_funnel, mv_cohort_analysis, mv_qualiopi_dashboard, mv_lead_health_signals (churn), mv_conversion_rates (scoring)
+
+### Fonctions RPC clés
+get_full_db_audit, capture_db_health, get_dashboard_stats, compute_predictive_score, calculate_lead_score_4axes, get_leads_at_risk, search_crm, recommend_formations, get_stagiaire_progression, get_commercial_stats, emit_crm_event, send_notification, create_ledger_transaction, start_workflow, get_pending_workflow_steps, get_relances_pending, safe_inscription, acquire_idempotency_lock, dequeue_failed_operation, refresh_all_materialized_views, cleanup_expired_data, kill_idle_connections
+
+### Cron jobs pg_cron (4)
+- refresh-mvs: */5 * * * * (refresh 9 MVs)
+- health-hourly: 0 * * * * (snapshot santé)
+- cleanup-nightly: 0 3 * * * (purge données expirées)
+- kill-zombies: */10 * * * * (connexions idle)
 
 ## Architecture
 
@@ -138,10 +170,17 @@ npx vercel --prod        # Deploy production
 
 ## Derniere mise a jour
 
+**2026-03-23 — Méga-session Architecture DB 100%**
+- 24 migrations Supabase MCP en 1 session (18→42 migrations)
+- 32 nouvelles tables : event store, ledger, Qualiopi, compétences, workflows, EDOF, Factur-X
+- 9 MVs : revenue, forecast, patterns, velocity, funnel, cohort, qualiopi, churn, conversion
+- Scoring prédictif auto-calibré + churn prediction + graphe compétences ltree
+- Moteur workflows configurables + facturation auto + relances impayés
+- pg_cron 4 jobs (refresh MVs, health, cleanup, zombie killer)
+- RLS 118 policies, 0 faille, advisory locks, idempotency keys, FTS français
+- Étude marché : 5 concurrents analysés, 20 features gap, 5 APIs institutionnelles
+
 **2026-03-22 — Batch Gong/Klaviyo : Revenue Intelligence**
-- Revenue Graph (MV unifiee lead 360°) + Pipeline Forecast (probabilites, velocity, CA 30/60/90j)
-- Win Patterns (coaching IA depuis leads gagnes) + Lead Score 360° (4 axes : engagement, LTV, health, churn)
-- Timeline omnicanale (7 canaux : email, SMS, WhatsApp, cadence, agent IA, portail, formation)
+- Revenue Graph + Pipeline Forecast + Win Patterns + Lead Score 360°
 - Agent dual-mode (commercial + formation/Qualiopi) avec 15 tools
-- Proactive Agent Inngest (cron L-V 8h : leads chauds, financements stagnants, sessions proches, recovery)
-- 37 migrations SQL, 10 jobs Inngest, 80 libs
+- Proactive Agent Inngest + 37 migrations SQL, 10 jobs Inngest, 80 libs

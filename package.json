@@ -8,8 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\"",
+    "check": "biome check src/",
+    "check:fix": "biome check --fix src/",
+    "format": "biome format --write src/",
+    "format:check": "biome format src/",
     "type-check": "tsc --noEmit",
     "analyze": "ANALYZE=true next build",
     "db:migrate": "supabase db push",
@@ -26,11 +28,11 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
-      "prettier --write",
-      "next lint --fix --file"
+      "biome check --fix --no-errors-on-unmatched",
+      "biome format --write --no-errors-on-unmatched"
     ],
     "src/**/*.{css,json}": [
-      "prettier --write"
+      "biome format --write --no-errors-on-unmatched"
     ]
   },
   "dependencies": {
@@ -47,7 +49,6 @@
     "@phosphor-icons/react": "^2.1.10",
     "@react-google-maps/api": "^2.20.8",
     "@react-pdf/renderer": "^4.3.2",
-    "@sentry/nextjs": "^10.45.0",
     "@stripe/stripe-js": "^5.0.0",
     "@supabase/ssr": "^0.6.0",
     "@supabase/supabase-js": "^2.49.0",
@@ -95,8 +96,15 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.8",
+    "@commitlint/cli": "20.5.0",
+    "@commitlint/config-conventional": "20.5.0",
     "@eslint/eslintrc": "^3.0.0",
     "@next/bundle-analyzer": "^15.3.0",
+    "@playwright/test": "1.58.2",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/git": "10.0.1",
+    "@sentry/nextjs": "10.45.0",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^22.0.0",
@@ -110,7 +118,7 @@
     "happy-dom": "^20.8.4",
     "husky": "^9.0.0",
     "javascript-obfuscator": "^5.4.1",
-    "lint-staged": "^16.0.0",
+    "lint-staged": "16.4.0",
     "msw": "^2.12.14",
     "postcss": "^8.5.0",
     "prettier": "^3.5.0",
