@@ -55,6 +55,24 @@ export function getPageRateLimiter(): Ratelimit | null {
 }
 
 /**
+ * Rate limiter STRICT pour les routes d'enrichissement coûteuses (3 req/min par user)
+ * Protège contre l'abus de crédits API externes (Pappers, Google, Outscraper, Bright Data)
+ */
+let _rateLimitEnrich: Ratelimit | null = null
+export function getEnrichmentRateLimiter(): Ratelimit | null {
+  if (_rateLimitEnrich) return _rateLimitEnrich
+  const redis = getRedis()
+  if (!redis) return null
+  _rateLimitEnrich = new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(3, '60 s'),
+    prefix: 'rl:enrich',
+    analytics: true,
+  })
+  return _rateLimitEnrich
+}
+
+/**
  * Cache simple avec TTL (en secondes)
  */
 export async function cacheGet<T>(key: string): Promise<T | null> {

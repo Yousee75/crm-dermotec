@@ -26,10 +26,25 @@ export async function POST(req: NextRequest) {
   const supabase = await createServiceSupabase()
 
   try {
+    // Auth obligatoire
+    const { createServerSupabase } = await import('@/lib/supabase-server')
+    const authSb = await createServerSupabase()
+    const { data: { user } } = await authSb.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
+    // Rate limiting strict (3 req/min — routes coûteuses)
+    const { getEnrichmentRateLimiter } = await import('@/lib/upstash')
+    const limiter = getEnrichmentRateLimiter()
+    if (limiter) {
+      const { success } = await limiter.limit(user.id)
+      if (!success) {
+        return NextResponse.json({ error: 'Trop de requêtes. Maximum 3 enrichissements par minute.' }, { status: 429 })
+      }
+    }
+
     const body = await req.json()
     const { leadId, siret, nom, ville, website, skip_scraping, skip_formation, skip_geo } = body
 
-    // Si leadId → récupérer les données du lead
     let leadData: any = null
     if (leadId) {
       const { data } = await supabase.from('leads').select('*').eq('id', leadId).single()

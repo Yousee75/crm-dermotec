@@ -22,6 +22,16 @@ export async function POST(req: NextRequest) {
     const { data: { user } } = await authSb.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
 
+    // Rate limiting strict (3 req/min — route coûteuse)
+    const { getEnrichmentRateLimiter } = await import('@/lib/upstash')
+    const limiter = getEnrichmentRateLimiter()
+    if (limiter) {
+      const { success } = await limiter.limit(user.id)
+      if (!success) {
+        return NextResponse.json({ error: 'Trop de requêtes. Maximum 3 enrichissements par minute.' }, { status: 429 })
+      }
+    }
+
     const { leadId } = await req.json()
     if (!leadId) {
       return NextResponse.json({ error: 'leadId requis' }, { status: 400 })
