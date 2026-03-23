@@ -66,75 +66,78 @@ export async function POST(req: NextRequest) {
     console.log(`[Enrichment Full] Terminé en ${durationMs}ms`)
 
     // ═══ STOCKER DANS SUPABASE ═══
+    // Mapping CORRECT des propriétés IntelligenceComplete
+    // Type réel : { score_global, niveau, fiabilite, financier, reputation, formation, marche, digital, zone, signaux, ... }
     if (leadId) {
-      // Upsert dans prospect_data
       const prospectData = {
         lead_id: leadId,
-        // Identité
-        siret: (intel as any).identite?.siret || params.siret,
-        siren: (intel as any).identite?.siren,
-        nom_entreprise: (intel as any).identite?.denomination || params.nom,
-        forme_juridique: (intel as any).identite?.forme_juridique,
-        capital: (intel as any).financier?.capital,
-        date_creation: (intel as any).identite?.date_creation,
-        code_naf: (intel as any).identite?.code_naf,
-        libelle_naf: (intel as any).identite?.libelle_naf,
-        convention_collective: (intel as any).identite?.convention?.nom,
-        convention_idcc: (intel as any).identite?.convention?.idcc,
-        effectif_tranche: (intel as any).identite?.effectif,
-        dirigeant_nom: (intel as any).identite?.dirigeant?.nom,
-        dirigeant_fonction: (intel as any).identite?.dirigeant?.fonction,
-        ca_dernier_connu: (intel as any).financier?.chiffre_affaires,
-        resultat_net: (intel as any).financier?.resultat_net,
-        procedure_collective: (intel as any).signaux?.en_difficulte || false,
-        // Localisation
-        adresse_complete: (intel as any).identite?.adresse || params.ville,
+        // Financier (identité est DANS financier — pas de champ "identite")
+        siret: params.siret,
+        siren: params.siret?.slice(0, 9),
+        nom_entreprise: params.nom,
+        forme_juridique: intel.financier?.forme_juridique,
+        capital: intel.financier?.capital_social,
+        date_creation: intel.financier?.date_creation,
+        effectif_tranche: intel.financier?.effectif ? String(intel.financier.effectif) : undefined,
+        dirigeant_nom: intel.financier?.dirigeants?.[0]?.nom,
+        dirigeant_fonction: intel.financier?.dirigeants?.[0]?.fonction,
+        ca_dernier_connu: intel.financier?.chiffre_affaires,
+        resultat_net: intel.financier?.resultat_net,
+        procedure_collective: intel.signaux?.en_difficulte || false,
+        // Convention collective
+        convention_collective: intel.convention_collective?.intitule,
+        convention_idcc: intel.convention_collective?.code_convention,
+        // Localisation (zone, pas geo)
+        adresse_complete: params.ville,
         code_postal: params.code_postal,
         ville: params.ville,
-        latitude: (intel as any).geo?.lat || (intel as any).identite?.lat,
-        longitude: (intel as any).geo?.lng || (intel as any).identite?.lng,
-        // Google
-        google_place_id: (intel as any).reputation?.google?.place_id,
-        google_rating: (intel as any).reputation?.google?.rating,
-        google_reviews_count: (intel as any).reputation?.google?.reviews_count,
-        google_website: (intel as any).reputation?.google?.website,
-        google_phone: (intel as any).reputation?.google?.phone,
-        // Réseaux sociaux
-        instagram_username: (intel as any).digital?.instagram?.username,
-        instagram_followers: (intel as any).digital?.instagram?.followers,
-        instagram_posts: (intel as any).digital?.instagram?.posts,
-        facebook_url: (intel as any).digital?.facebook?.url,
-        facebook_followers: (intel as any).digital?.facebook?.followers,
-        site_web: website || (intel as any).reputation?.google?.website,
-        // Quartier
-        quartier_metros: (intel as any).geo?.neighborhood?.metros,
-        quartier_restaurants: (intel as any).geo?.neighborhood?.restaurants,
-        quartier_concurrents_beaute: (intel as any).geo?.neighborhood?.beauty_salons,
-        quartier_pharmacies: (intel as any).geo?.neighborhood?.pharmacies,
-        quartier_score_trafic: (intel as any).geo?.neighborhood?.foot_traffic_score,
+        latitude: params.lat,
+        longitude: params.lng,
+        // Réputation (opaque — pas de .google sous-objet)
+        google_rating: intel.reputation?.note_globale,
+        google_reviews_count: intel.reputation?.nb_avis_total,
+        // Digital (opaque — pas de .instagram sous-objet)
+        site_web: website,
+        // Quartier (zone, pas geo)
+        quartier_metros: intel.zone?.transports_proches,
+        quartier_concurrents_beaute: intel.concurrents_zone?.length || 0,
+        quartier_score_trafic: intel.zone?.score_trafic_pieton,
         // Scores
-        score_global: (intel as any).score_global,
-        classification: (intel as any).classification,
-        // Meta
-        sources_utilisees: (intel as any)._meta?.sources || [],
+        score_reputation: intel.reputation?.score_reputation,
+        score_presence: intel.digital?.score_digital,
+        score_financier: intel.financier?.score_financier,
+        score_quartier: intel.zone?.score_zone,
+        score_global: intel.score_global,
+        // Classification : niveau A/B/C/D → CHAUD/TIEDE/FROID
+        classification: intel.niveau === 'A' || intel.niveau === 'B' ? 'CHAUD'
+          : intel.niveau === 'C' ? 'TIEDE' : 'FROID',
+        // Plateformes avis (JSONB)
+        plateformes_avis: intel.plateformes_avis ? JSON.stringify(intel.plateformes_avis) : undefined,
+        total_avis: intel.reputation?.nb_avis_total,
+        note_ponderee: intel.reputation?.note_globale,
+        // Services et marques
+        services: intel.carte_soins || [],
+        // Signaux
+        sources_utilisees: [],
         cout_enrichissement: 0.15,
         duree_enrichissement_ms: durationMs,
         updated_at: new Date().toISOString(),
       }
 
-      // Upsert (créer ou mettre à jour)
       await supabase.from('prospect_data' as any).upsert(prospectData as any, {
         onConflict: 'lead_id',
       })
 
       // Mettre à jour le lead avec le score
       await supabase.from('leads').update({
-        score_chaud: (intel as any).score_global || 50,
+        score_chaud: intel.score_global || 50,
         metadata: {
           ...(leadData?.metadata || {}),
           last_full_enrichment: new Date().toISOString(),
           enrichment_duration_ms: durationMs,
-          enrichment_sources: (intel as any)._meta?.sources?.length || 0,
+          enrichment_niveau: intel.niveau,
+          enrichment_fiabilite: intel.fiabilite,
+          nb_donnees_collectees: intel.nb_donnees_collectees,
         },
       }).eq('id', leadId)
 
@@ -143,20 +146,24 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      score: (intel as any).score_global,
-      classification: (intel as any).classification,
+      score: intel.score_global,
+      niveau: intel.niveau,
+      fiabilite: intel.fiabilite,
+      classification: intel.niveau === 'A' || intel.niveau === 'B' ? 'CHAUD'
+        : intel.niveau === 'C' ? 'TIEDE' : 'FROID',
       duration_ms: durationMs,
-      sources: (intel as any)._meta?.sources || [],
-      signaux: (intel as any).signaux || {},
-      // Résumé des données récupérées
+      nb_donnees: intel.nb_donnees_collectees,
+      signaux: intel.signaux || {},
       summary: {
-        identite: !!(intel as any).identite,
-        financier: !!(intel as any).financier,
-        reputation: !!(intel as any).reputation,
-        digital: !!(intel as any).digital,
-        geo: !!(intel as any).geo,
-        formation: !!(intel as any).formation,
-        scraping: !!(intel as any).scraping,
+        financier: !!intel.financier,
+        reputation: !!intel.reputation,
+        formation: !!intel.formation,
+        marche: !!intel.marche,
+        digital: !!intel.digital,
+        zone: !!intel.zone,
+        plateformes_avis: intel.plateformes_avis?.length || 0,
+        concurrents_zone: intel.concurrents_zone?.length || 0,
+        aides_disponibles: intel.aides_disponibles?.length || 0,
       },
     })
   } catch (error: any) {
