@@ -47,6 +47,7 @@ export interface ScrapedCompetitor {
     adresse?: string
     telephone?: string
     horaires?: string[]
+    reviews?: PlatformReview[]
   }
   treatwell?: {
     found: boolean
@@ -56,6 +57,7 @@ export interface ScrapedCompetitor {
     services?: string[]
     prix?: string[]
     adresse?: string
+    reviews?: PlatformReview[]
   }
   tripadvisor?: {
     found: boolean
@@ -87,6 +89,7 @@ export interface ScrapedCompetitor {
     adresse?: string
     telephone?: string
     photos?: string[]
+    reviews?: PlatformReview[]
   }
   booksy?: {
     found: boolean
@@ -97,6 +100,7 @@ export interface ScrapedCompetitor {
     prix?: string[]
     adresse?: string
     specialites?: string[]
+    reviews?: PlatformReview[]
   }
   groupon?: {
     found: boolean
@@ -424,6 +428,48 @@ function parsePlanity(html: string): ScrapedCompetitor['planity'] {
     .match(/(?:Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche)[^<]{5,50}/gi)
     ?.map(h => h.trim()).slice(0, 7) || []
 
+  // Avis texte — Planity utilise des blocs review dans le HTML rendu
+  result.reviews = []
+  // JSON-LD d'abord
+  const planityLdBlocks = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi) || []
+  for (const block of planityLdBlocks) {
+    try {
+      const data = JSON.parse(block.replace(/<\/?script[^>]*>/gi, ''))
+      if (data?.review && Array.isArray(data.review)) {
+        for (const r of data.review) {
+          if (result.reviews.length >= 30) break
+          result.reviews.push({
+            platform: 'planity',
+            author: r.author?.name || r.author || 'Client',
+            rating: parseInt(r.reviewRating?.ratingValue || '5'),
+            text: (r.reviewBody || '').slice(0, 500),
+            date: r.datePublished,
+          })
+        }
+      }
+    } catch { /* skip */ }
+  }
+  // HTML fallback — chercher les blocs d'avis rendus
+  if (result.reviews.length === 0) {
+    const reviewBlocks = html.matchAll(
+      /class="[^"]*(?:review|avis|comment|testimonial)[^"]*"[^>]*>([\s\S]{10,600}?)<\/(?:div|p|span)>/gi
+    )
+    for (const m of reviewBlocks) {
+      if (result.reviews.length >= 30) break
+      const text = m[1]?.replace(/<[^>]+>/g, '').trim()
+      if (text && text.length > 15) {
+        // Chercher une note à proximité
+        const ratingNear = m[0].match(/(\d)\s*(?:\/\s*5|étoile|star)/i)
+        result.reviews.push({
+          platform: 'planity',
+          author: 'Client Planity',
+          rating: ratingNear ? parseInt(ratingNear[1]) : 5,
+          text: text.slice(0, 500),
+        })
+      }
+    }
+  }
+
   return result
 }
 
@@ -467,6 +513,42 @@ function parseTreatwell(html: string): ScrapedCompetitor['treatwell'] {
   const addrMatch = html.match(/(?:class="[^"]*address[^"]*"[^>]*>|<address[^>]*>)([\s\S]*?)<\//i)
   if (addrMatch) result.adresse = addrMatch[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 
+  // Avis texte — Treatwell format
+  result.reviews = []
+  // JSON-LD
+  const treatwellLdBlocks = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi) || []
+  for (const block of treatwellLdBlocks) {
+    try {
+      const data = JSON.parse(block.replace(/<\/?script[^>]*>/gi, ''))
+      const reviews = data?.review || data?.reviews || []
+      if (Array.isArray(reviews)) {
+        for (const r of reviews) {
+          if (result.reviews.length >= 30) break
+          result.reviews.push({
+            platform: 'treatwell',
+            author: r.author?.name || r.author || 'Client',
+            rating: parseInt(r.reviewRating?.ratingValue || '5'),
+            text: (r.reviewBody || r.description || '').slice(0, 500),
+            date: r.datePublished,
+          })
+        }
+      }
+    } catch { /* skip */ }
+  }
+  // HTML fallback
+  if (result.reviews.length === 0) {
+    const reviewBlocks = html.matchAll(
+      /class="[^"]*(?:review|Review|comment)[^"]*"[^>]*>[\s\S]{0,200}?(?:class="[^"]*(?:text|body|content)[^"]*"[^>]*>)([\s\S]{15,600}?)<\//gi
+    )
+    for (const m of reviewBlocks) {
+      if (result.reviews.length >= 30) break
+      const text = m[1]?.replace(/<[^>]+>/g, '').trim()
+      if (text && text.length > 15) {
+        result.reviews.push({ platform: 'treatwell', author: 'Client', rating: 5, text: text.slice(0, 500) })
+      }
+    }
+  }
+
   return result
 }
 
@@ -503,7 +585,7 @@ function parseTripAdvisor(html: string): ScrapedCompetitor['tripadvisor'] {
       if (data?.priceRange) result.priceRange = data.priceRange
       // Reviews JSON-LD
       if (data?.review && Array.isArray(data.review)) {
-        result.reviews = data.review.slice(0, 15).map((r: any) => ({
+        result.reviews = data.review.slice(0, 50).map((r: any) => ({
           platform: 'tripadvisor',
           author: r.author?.name || r.author || 'Anonyme',
           rating: parseInt(r.reviewRating?.ratingValue || '5'),
@@ -572,7 +654,7 @@ function parseTripAdvisor(html: string): ScrapedCompetitor['tripadvisor'] {
       /class="[^"]*(?:review-title|title)[^"]*"[^>]*>([^<]{5,200})<[\s\S]{0,800}?class="[^"]*(?:review-body|entry|partial_entry)[^"]*"[^>]*>([\s\S]{10,800}?)<\//gi
     )
     for (const m of reviewBlocks) {
-      if (reviews.length >= 10) break
+      if (reviews.length >= 50) break
       reviews.push({
         platform: 'tripadvisor',
         author: 'Voyageur',
@@ -681,6 +763,48 @@ function parseFresha(html: string): ScrapedCompetitor['fresha'] {
     photoMatches.map(m => m.match(/https?:\/\/[^"]+/)?.[0]).filter(Boolean) as string[]
   )].slice(0, 6)
 
+  // Avis texte — Fresha format (SPA React, data souvent en JSON-LD)
+  result.reviews = []
+  // JSON-LD d'abord (souvent complet sur Fresha)
+  const freshaLdBlocks = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi) || []
+  for (const block of freshaLdBlocks) {
+    try {
+      const data = JSON.parse(block.replace(/<\/?script[^>]*>/gi, ''))
+      if (data?.review && Array.isArray(data.review)) {
+        for (const r of data.review) {
+          if (result.reviews.length >= 30) break
+          result.reviews.push({
+            platform: 'fresha',
+            author: r.author?.name || r.author || 'Client',
+            rating: parseInt(r.reviewRating?.ratingValue || '5'),
+            text: (r.reviewBody || '').slice(0, 500),
+            date: r.datePublished,
+          })
+        }
+      }
+    } catch { /* skip */ }
+  }
+  // HTML fallback — chercher les blocs d'avis rendus
+  if (result.reviews.length === 0) {
+    const reviewBlocks = html.matchAll(
+      /class="[^"]*(?:review|avis|comment|testimonial)[^"]*"[^>]*>([\s\S]{10,600}?)<\/(?:div|p|span)>/gi
+    )
+    for (const m of reviewBlocks) {
+      if (result.reviews.length >= 30) break
+      const text = m[1]?.replace(/<[^>]+>/g, '').trim()
+      if (text && text.length > 15) {
+        // Chercher une note à proximité
+        const ratingNear = m[0].match(/(\d)\s*(?:\/\s*5|étoile|star)/i)
+        result.reviews.push({
+          platform: 'fresha',
+          author: 'Client Fresha',
+          rating: ratingNear ? parseInt(ratingNear[1]) : 5,
+          text: text.slice(0, 500),
+        })
+      }
+    }
+  }
+
   return result
 }
 
@@ -737,6 +861,42 @@ function parseBooksy(html: string): ScrapedCompetitor['booksy'] {
   // Adresse
   const addrMatch = html.match(/(?:class="[^"]*address[^"]*"[^>]*>|<address[^>]*>)([\s\S]*?)<\//i)
   if (addrMatch) result.adresse = addrMatch[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+
+  // Avis texte — Booksy format
+  result.reviews = []
+  // JSON-LD
+  const booksyLdBlocks = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi) || []
+  for (const block of booksyLdBlocks) {
+    try {
+      const data = JSON.parse(block.replace(/<\/?script[^>]*>/gi, ''))
+      const reviews = data?.review || data?.reviews || []
+      if (Array.isArray(reviews)) {
+        for (const r of reviews) {
+          if (result.reviews.length >= 30) break
+          result.reviews.push({
+            platform: 'booksy',
+            author: r.author?.name || r.author || 'Client',
+            rating: parseInt(r.reviewRating?.ratingValue || '5'),
+            text: (r.reviewBody || r.description || '').slice(0, 500),
+            date: r.datePublished,
+          })
+        }
+      }
+    } catch { /* skip */ }
+  }
+  // HTML fallback
+  if (result.reviews.length === 0) {
+    const reviewBlocks = html.matchAll(
+      /class="[^"]*(?:review|Review|comment)[^"]*"[^>]*>[\s\S]{0,200}?(?:class="[^"]*(?:text|body|content)[^"]*"[^>]*>)([\s\S]{15,600}?)<\//gi
+    )
+    for (const m of reviewBlocks) {
+      if (result.reviews.length >= 30) break
+      const text = m[1]?.replace(/<[^>]+>/g, '').trim()
+      if (text && text.length > 15) {
+        result.reviews.push({ platform: 'booksy', author: 'Client', rating: 5, text: text.slice(0, 500) })
+      }
+    }
+  }
 
   return result
 }

@@ -141,7 +141,7 @@ export async function fetchAllReviewsOutscraper(query: string, lastEnrichmentDat
 
   try {
     // Construire l'URL de base
-    let url = `https://api.app.outscraper.com/maps/reviews-v3?query=${encodeURIComponent(query)}&reviewsLimit=200&language=fr&sort=newest&async=false`
+    let url = `https://api.app.outscraper.com/maps/reviews-v3?query=${encodeURIComponent(query)}&reviewsLimit=500&language=fr&sort=newest&async=false`
 
     // Si on a une date de dernier enrichissement, ne scraper que les avis plus récents
     if (lastEnrichmentDate) {
