@@ -6,7 +6,8 @@ import {
   FileText, Download, Save, RefreshCw, Loader2,
   Sparkles, Phone, Target, MessageSquare,
   GraduationCap, Wallet, Edit3, Zap, Shield,
-  MapPin, TrendingUp, Clock, ChevronDown, ChevronUp
+  MapPin, TrendingUp, Clock, ChevronDown, ChevronUp,
+  Star, Scissors
 } from 'lucide-react'
 import { Badge } from '@/components/ui'
 import { toast } from 'sonner'
@@ -317,6 +318,184 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
             </div>
           )}
         </CollapsibleSection>
+
+        {/* ── RÉPUTATION MULTI-PLATEFORMES ── */}
+        {reportData?.intelligence?.plateformes_avis?.length > 0 && (
+          <CollapsibleSection icon={<Star />} title="Réputation Multi-Plateformes" id="reputation-plateformes" expanded={expandedSections} toggle={toggleSection}>
+            <div className="space-y-2">
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-1 text-gray-600 font-medium">Plateforme</th>
+                      <th className="text-left py-1 text-gray-600 font-medium">Note</th>
+                      <th className="text-left py-1 text-gray-600 font-medium">Nb Avis</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {reportData.intelligence.plateformes_avis.map((p, i) => (
+                      <tr key={i} className="border-b border-gray-100">
+                        <td className="py-2 font-medium text-gray-800">{p.plateforme}</td>
+                        <td className="py-2">
+                          {p.note && (
+                            <div className="flex items-center gap-2">
+                              <div className="w-12 bg-gray-200 rounded-full h-1.5">
+                                <div
+                                  className={cn("h-1.5 rounded-full", p.note >= 4 ? "bg-orange-500" : "bg-gray-400")}
+                                  style={{ width: `${(p.note / 5) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-xs font-medium">{p.note}/5</span>
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-2 text-gray-600">{p.nb_avis || '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="text-xs text-gray-500 pt-2 border-t border-gray-100">
+                Total avis : {reportData.intelligence.plateformes_avis.reduce((acc, p) => acc + (p.nb_avis || 0), 0)}
+              </div>
+            </div>
+          </CollapsibleSection>
+        )}
+
+        {/* ── CARTE DES SOINS ── */}
+        {reportData?.intelligence?.carte_soins?.length > 0 && (
+          <CollapsibleSection icon={<Scissors />} title="Carte des Soins" id="carte-soins" expanded={expandedSections} toggle={toggleSection}>
+            <div className="space-y-2">
+              <p className="text-xs text-gray-600">
+                {reportData.intelligence.carte_soins.length} soins détectés sur les plateformes de réservation
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {reportData.intelligence.carte_soins.map((soin, i) => (
+                  <span
+                    key={i}
+                    className="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full border border-primary/20"
+                  >
+                    {soin}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </CollapsibleSection>
+        )}
+
+        {/* ── CONCURRENCE LOCALE ── */}
+        {reportData?.intelligence?.concurrents_zone?.length > 0 && (
+          <CollapsibleSection icon={<MapPin />} title="Concurrence Locale" id="concurrence" expanded={expandedSections} toggle={toggleSection}>
+            <div className="space-y-2">
+              <p className="text-xs text-gray-600">
+                {reportData.intelligence.concurrents_zone.length} établissements beauté dans un rayon de 2km
+              </p>
+              {reportData.intelligence.signaux?.zone_saturee && (
+                <div className="inline-flex items-center px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded-full border border-orange-200">
+                  Zone saturée
+                </div>
+              )}
+              <div className="space-y-1">
+                {reportData.intelligence.concurrents_zone.slice(0, 5).map((c, i) => (
+                  <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-gray-50 rounded-lg">
+                    <div>
+                      <span className="text-xs font-medium text-gray-800">{c.nom || 'Sans nom'}</span>
+                      <span className="ml-2 text-xs text-gray-500 capitalize">{c.type}</span>
+                    </div>
+                    {c.distance_metres && (
+                      <span className="text-xs text-gray-600">{c.distance_metres}m</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CollapsibleSection>
+        )}
+
+        {/* ── FINANCEMENT & CONVENTION ── */}
+        {(reportData?.intelligence?.convention_collective || reportData?.intelligence?.aides_disponibles?.length > 0) && (
+          <CollapsibleSection icon={<Wallet />} title="Financement & Convention" id="financement-convention" expanded={expandedSections} toggle={toggleSection}>
+            <div className="space-y-3">
+              {reportData.intelligence.convention_collective && (
+                <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-semibold text-blue-800">
+                      IDCC {reportData.intelligence.convention_collective.code_convention} — {reportData.intelligence.convention_collective.intitule}
+                    </span>
+                    {reportData.intelligence.convention_collective.est_secteur_beaute && (
+                      <span className="px-1.5 py-0.5 text-[10px] bg-emerald-200 text-emerald-800 rounded font-medium">
+                        Secteur beauté
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-blue-700">
+                    {reportData.intelligence.convention_collective.droit_formation_heures}h/an de formation
+                  </p>
+                </div>
+              )}
+
+              {reportData.intelligence.aides_disponibles?.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold text-gray-700 mb-2">Aides disponibles :</p>
+                  <div className="space-y-2">
+                    {reportData.intelligence.aides_disponibles.map((aide, i) => (
+                      <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-green-50 rounded-lg border border-green-200">
+                        <div>
+                          <span className="text-xs font-medium text-green-800">{aide.nom}</span>
+                          <span className="ml-2 text-xs text-green-600">{aide.financeur}</span>
+                        </div>
+                        {aide.montant_max && (
+                          <span className="text-xs font-bold text-green-800">{aide.montant_max}€</span>
+                        )}
+                      </div>
+                    ))}
+                    <div className="text-xs text-green-700 font-medium pt-1 border-t border-green-200">
+                      Total cumulé : {reportData.intelligence.aides_disponibles.reduce((acc, a) => acc + (a.montant_max || 0), 0)}€
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </CollapsibleSection>
+        )}
+
+        {/* ── SIGNAUX COMMERCIAUX ── */}
+        {reportData?.intelligence?.signaux && (
+          <CollapsibleSection icon={<Zap />} title="Signaux Commerciaux" id="signaux" expanded={expandedSections} toggle={toggleSection}>
+            <div className="flex flex-wrap gap-2">
+              {reportData.intelligence.signaux.est_sur_promo && (
+                <span className="px-2 py-1 text-xs bg-pink-100 text-pink-800 rounded-full border border-pink-200">
+                  Sur plateforme promo
+                </span>
+              )}
+              {reportData.intelligence.signaux.est_organisme_concurrent && (
+                <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full border border-red-200">
+                  Concurrent OF
+                </span>
+              )}
+              {reportData.intelligence.signaux.avis_insuffisants && (
+                <span className="px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded-full border border-orange-200">
+                  Peu d'avis en ligne
+                </span>
+              )}
+              {reportData.intelligence.signaux.zone_saturee && (
+                <span className="px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded-full border border-orange-200">
+                  Zone saturée
+                </span>
+              )}
+              {reportData.intelligence.signaux.droits_formation_non_consommes && (
+                <span className="px-2 py-1 text-xs bg-emerald-100 text-emerald-800 rounded-full border border-emerald-200">
+                  Droits formation dispo
+                </span>
+              )}
+              {reportData.intelligence.signaux.en_difficulte && (
+                <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full border border-red-200">
+                  Difficulté financière
+                </span>
+              )}
+            </div>
+          </CollapsibleSection>
+        )}
       </div>
     </div>
   )

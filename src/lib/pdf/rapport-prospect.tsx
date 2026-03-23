@@ -18,13 +18,22 @@ interface RapportProspectProps {
   version?: number
   photoUrl?: string
   mapUrl?: string
+  intelligence?: {
+    plateformes_avis?: Array<{ plateforme: string; note?: number; nb_avis?: number; services?: string[]; prix?: string[] }>
+    carte_soins?: string[]
+    concurrents_zone?: Array<{ nom?: string; type: string; distance_metres?: number }>
+    offres_promo?: Array<{ titre: string; prix_barre?: number; prix_promo?: number; reduction?: string }>
+    convention_collective?: { code_convention: number; intitule: string; est_secteur_beaute: boolean; droit_formation_heures: number }
+    aides_disponibles?: Array<{ nom: string; financeur: string; type: string; montant_max?: number }>
+    signaux?: { est_sur_promo: boolean; est_organisme_concurrent: boolean; avis_insuffisants: boolean; zone_saturee: boolean; droits_formation_non_consommes: boolean; en_difficulte: boolean }
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
 // PALETTE PREMIUM
 // ══════════════════════════════════════════════════════════════
 const C = {
-  brand: '#2EC6F3', brandDark: '#0891B2', accent: '#082545', accentMed: '#0F3460',
+  brand: '#FF5C00', brandDark: '#0891B2', accent: '#1A1A1A', accentMed: '#0F3460',
   white: '#FFFFFF', bg: '#FAFBFC', bgWarm: '#F8FAFC', card: '#F1F5F9',
   border: '#E2E8F0', borderSoft: '#F1F5F9',
   text: '#1E293B', textMed: '#475569', textLight: '#94A3B8', textXLight: '#CBD5E1',
@@ -233,13 +242,13 @@ function buildMapUrl(lat?: number, lng?: number, placeId?: string): string | nul
 // DOCUMENT
 // ══════════════════════════════════════════════════════════════
 
-export function RapportProspect({ lead, narrative: n, enrichment, scores, generatedAt, version = 1, photoUrl, mapUrl }: RapportProspectProps) {
+export function RapportProspect({ lead, narrative: n, enrichment, scores, generatedAt, version = 1, photoUrl, mapUrl, intelligence }: RapportProspectProps) {
   const nom = `${lead.prenom || ''} ${lead.nom || ''}`.trim() || 'Prospect'
   const sc = scoreColor(n.score_chaleur)
   const cc = classColor(n.classification)
   const e = enrichment || {} as any
   const dims = scores || { reputation: 50, presence: 40, activity: 30, financial: 50, neighborhood: 50 }
-  const T = 3
+  const T = 6
 
   const globalScore = Math.round(dims.reputation * 0.30 + dims.presence * 0.25 + dims.activity * 0.20 + dims.financial * 0.15 + dims.neighborhood * 0.10)
   const radarData = [
@@ -597,6 +606,312 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
           </View>
         )}
 
+        <Ftr date={generatedAt} p={2} t={T} />
+      </Page>
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PAGE 3: RÉPUTATION MULTI-PLATEFORMES */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {intelligence?.plateformes_avis?.length ? (
+        <Page size="A4" style={s.page}>
+          <Hdr date={generatedAt} p={3} t={T} />
+
+          <Text style={s.sTitle}>Réputation Multi-Plateformes</Text>
+          <View style={s.sBar} />
+
+          <View style={{ marginBottom: 16 }}>
+            {intelligence.plateformes_avis.map((plateforme, idx) => (
+              <View key={idx} style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 8,
+                padding: 8,
+                backgroundColor: C.card,
+                borderRadius: 6,
+                borderLeftWidth: 3,
+                borderLeftColor: plateforme.note && plateforme.note >= 4 ? C.green : plateforme.note && plateforme.note >= 3 ? C.amber : C.red
+              }}>
+                <View style={{ flex: 2 }}>
+                  <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.accent }}>
+                    {plateforme.plateforme}
+                  </Text>
+                </View>
+
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                  <View style={{
+                    width: 60,
+                    height: 8,
+                    backgroundColor: C.border,
+                    borderRadius: 4,
+                    overflow: 'hidden'
+                  }}>
+                    <View style={{
+                      height: '100%',
+                      width: `${((plateforme.note || 0) / 5) * 100}%`,
+                      backgroundColor: plateforme.note && plateforme.note >= 4 ? C.green : plateforme.note && plateforme.note >= 3 ? C.amber : C.red,
+                      borderRadius: 4
+                    }} />
+                  </View>
+                  <Text style={{ fontSize: 8, fontWeight: 'bold', color: C.text, marginTop: 2 }}>
+                    {plateforme.note?.toFixed(1) || '--'}/5
+                  </Text>
+                </View>
+
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                  <Text style={{ fontSize: 8, fontWeight: 'bold', color: C.textMed }}>
+                    {plateforme.nb_avis || 0} avis
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          {/* Footer résumé */}
+          <View style={{
+            backgroundColor: C.skyBg,
+            padding: 10,
+            borderRadius: 8,
+            borderLeftWidth: 3,
+            borderLeftColor: C.brand,
+            marginTop: 16
+          }}>
+            <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.accent }}>
+              Note globale : {(intelligence.plateformes_avis.reduce((acc, p) => acc + (p.note || 0), 0) / intelligence.plateformes_avis.length).toFixed(1)}/5
+            </Text>
+            <Text style={{ fontSize: 8, color: C.textMed, marginTop: 2 }}>
+              Total : {intelligence.plateformes_avis.reduce((acc, p) => acc + (p.nb_avis || 0), 0)} avis sur {intelligence.plateformes_avis.length} plateformes
+            </Text>
+          </View>
+
+          <Ftr date={generatedAt} p={3} t={T} />
+        </Page>
+      ) : null}
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PAGE 4: CARTE DES SOINS & GAP ANALYSIS */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {intelligence?.carte_soins?.length ? (
+        <Page size="A4" style={s.page}>
+          <Hdr date={generatedAt} p={4} t={T} />
+
+          <Text style={s.sTitle}>Soins Proposés vs Formations Dermotec</Text>
+          <View style={s.sBar} />
+
+          <View style={{ flexDirection: 'row', gap: 12, marginBottom: 16 }}>
+            {/* Soins actuels */}
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.accent, marginBottom: 8 }}>
+                Soins Actuels
+              </Text>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
+                {intelligence.carte_soins.map((soin, idx) => (
+                  <View key={idx} style={{
+                    backgroundColor: C.tealBg,
+                    paddingHorizontal: 6,
+                    paddingVertical: 3,
+                    borderRadius: 8,
+                    marginBottom: 4
+                  }}>
+                    <Text style={{ fontSize: 7, color: C.teal, fontWeight: 'bold' }}>
+                      {soin}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            {/* Formations recommandées */}
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.accent, marginBottom: 8 }}>
+                Formations Recommandées
+              </Text>
+              {n.formations_recommandees?.slice(0, 5).map((formation, idx) => (
+                <View key={idx} style={{
+                  backgroundColor: C.brand,
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 6,
+                  marginBottom: 4
+                }}>
+                  <Text style={{ fontSize: 8, color: C.white, fontWeight: 'bold' }}>
+                    {formation.nom}
+                  </Text>
+                  <Text style={{ fontSize: 6, color: C.white, opacity: 0.9 }}>
+                    {formation.prix} HT
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          {/* Gap Analysis */}
+          <View style={{
+            backgroundColor: C.indigoBg,
+            padding: 10,
+            borderRadius: 8,
+            borderLeftWidth: 3,
+            borderLeftColor: C.indigo,
+            marginTop: 16
+          }}>
+            <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.indigo }}>
+              Gap Analysis
+            </Text>
+            <Text style={{ fontSize: 8, color: C.text, marginTop: 2 }}>
+              {intelligence.carte_soins.length} soins détectés • {n.formations_recommandees?.length || 0} opportunités de formation identifiées
+            </Text>
+          </View>
+
+          <Ftr date={generatedAt} p={4} t={T} />
+        </Page>
+      ) : null}
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PAGE 5: FINANCEMENT & AIDES */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {(intelligence?.convention_collective || intelligence?.aides_disponibles?.length) ? (
+        <Page size="A4" style={s.page}>
+          <Hdr date={generatedAt} p={5} t={T} />
+
+          <Text style={s.sTitle}>Financement & Convention Collective</Text>
+          <View style={s.sBar} />
+
+          {/* Convention Collective */}
+          {intelligence.convention_collective && (
+            <View style={{ marginBottom: 16 }}>
+              <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.accent, marginBottom: 8 }}>
+                Convention Collective
+              </Text>
+              <View style={{
+                backgroundColor: intelligence.convention_collective.est_secteur_beaute ? C.greenBg : C.card,
+                padding: 10,
+                borderRadius: 8,
+                borderLeftWidth: 3,
+                borderLeftColor: intelligence.convention_collective.est_secteur_beaute ? C.green : C.border
+              }}>
+                <Text style={{ fontSize: 8, fontWeight: 'bold', color: C.text }}>
+                  IDCC {intelligence.convention_collective.code_convention}
+                </Text>
+                <Text style={{ fontSize: 8, color: C.textMed, marginTop: 1 }}>
+                  {intelligence.convention_collective.intitule}
+                </Text>
+                <View style={{ flexDirection: 'row', marginTop: 4, gap: 8 }}>
+                  <View style={{
+                    backgroundColor: C.skyBg,
+                    paddingHorizontal: 6,
+                    paddingVertical: 2,
+                    borderRadius: 4
+                  }}>
+                    <Text style={{ fontSize: 7, color: C.sky, fontWeight: 'bold' }}>
+                      {intelligence.convention_collective.droit_formation_heures}h/an
+                    </Text>
+                  </View>
+                  {intelligence.convention_collective.est_secteur_beaute && (
+                    <View style={{
+                      backgroundColor: C.greenBg,
+                      paddingHorizontal: 6,
+                      paddingVertical: 2,
+                      borderRadius: 4
+                    }}>
+                      <Text style={{ fontSize: 7, color: C.green, fontWeight: 'bold' }}>
+                        Secteur Beauté
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </View>
+          )}
+
+          {/* Aides disponibles */}
+          {intelligence.aides_disponibles?.length ? (
+            <View style={{ marginBottom: 16 }}>
+              <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.accent, marginBottom: 8 }}>
+                Aides Disponibles
+              </Text>
+              {intelligence.aides_disponibles.map((aide, idx) => (
+                <View key={idx} style={{
+                  flexDirection: 'row',
+                  padding: 8,
+                  marginBottom: 6,
+                  backgroundColor: C.card,
+                  borderRadius: 6,
+                  borderLeftWidth: 2,
+                  borderLeftColor: C.brand
+                }}>
+                  <View style={{ flex: 2 }}>
+                    <Text style={{ fontSize: 8, fontWeight: 'bold', color: C.text }}>
+                      {aide.nom}
+                    </Text>
+                    <Text style={{ fontSize: 7, color: C.textMed }}>
+                      {aide.financeur}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    <Text style={{ fontSize: 7, color: C.textMed }}>
+                      {aide.type}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                    <Text style={{ fontSize: 8, fontWeight: 'bold', color: C.brand }}>
+                      {aide.montant_max ? `${aide.montant_max}€` : 'Variable'}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          ) : null}
+
+          {/* Signaux */}
+          {intelligence.signaux && (
+            <View style={{ marginTop: 16 }}>
+              <Text style={{ fontSize: 9, fontWeight: 'bold', color: C.accent, marginBottom: 8 }}>
+                Signaux d'Alerte
+              </Text>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
+                {intelligence.signaux.est_sur_promo && (
+                  <View style={{ backgroundColor: C.greenBg, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6 }}>
+                    <Text style={{ fontSize: 7, color: C.green, fontWeight: 'bold' }}>🎯 En promo</Text>
+                  </View>
+                )}
+                {intelligence.signaux.est_organisme_concurrent && (
+                  <View style={{ backgroundColor: C.redBg, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6 }}>
+                    <Text style={{ fontSize: 7, color: C.red, fontWeight: 'bold' }}>⚠️ Concurrent</Text>
+                  </View>
+                )}
+                {intelligence.signaux.avis_insuffisants && (
+                  <View style={{ backgroundColor: C.amberBg, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6 }}>
+                    <Text style={{ fontSize: 7, color: C.amber, fontWeight: 'bold' }}>📊 Peu d'avis</Text>
+                  </View>
+                )}
+                {intelligence.signaux.zone_saturee && (
+                  <View style={{ backgroundColor: C.redBg, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6 }}>
+                    <Text style={{ fontSize: 7, color: C.red, fontWeight: 'bold' }}>🏢 Zone saturée</Text>
+                  </View>
+                )}
+                {intelligence.signaux.droits_formation_non_consommes && (
+                  <View style={{ backgroundColor: C.greenBg, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6 }}>
+                    <Text style={{ fontSize: 7, color: C.green, fontWeight: 'bold' }}>💰 Droits disponibles</Text>
+                  </View>
+                )}
+                {intelligence.signaux.en_difficulte && (
+                  <View style={{ backgroundColor: C.redBg, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6 }}>
+                    <Text style={{ fontSize: 7, color: C.red, fontWeight: 'bold' }}>📉 Difficultés</Text>
+                  </View>
+                )}
+              </View>
+            </View>
+          )}
+
+          <Ftr date={generatedAt} p={5} t={T} />
+        </Page>
+      ) : null}
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PAGE 6: CONCLUSION (ancienne page 2) */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      <Page size="A4" style={s.pageAlt}>
+        <Hdr date={generatedAt} p={6} t={T} />
+
         {/* Quartier + Digital */}
         <View style={{ flexDirection: 'row', gap: 8, marginBottom: 10 }}>
           <View style={{ flex: 1 }}>
@@ -655,7 +970,7 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
           <Text style={s.ctaContact}>Satorea CRM — www.satorea.fr — contact@satorea.fr</Text>
         </View>
 
-        <Ftr date={generatedAt} p={2} t={T} />
+        <Ftr date={generatedAt} p={6} t={T} />
       </Page>
     </Document>
   )
