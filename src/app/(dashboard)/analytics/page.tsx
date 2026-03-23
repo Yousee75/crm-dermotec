@@ -230,7 +230,7 @@ function SourcesDonut({ data }: { data: { source: string; count: number }[] }) {
           return (
             <div key={item.name} className="flex items-center gap-2 text-xs">
               <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
-              <span className="text-gray-600 truncate">{item.name}</span>
+              <span className="text-[#777777] truncate">{item.name}</span>
               <span className="font-semibold text-accent ml-auto">{pct}%</span>
             </div>
           )
@@ -335,7 +335,7 @@ export default function AnalyticsPage() {
           label="Leads total"
           value={data.totalLeads}
           trend={{ value: data.leadsTrend, label: 'vs mois precedent' }}
-          color="#3B82F6"
+          color="#6B8CAE"
         />
         <KpiCard
           icon={Percent}
@@ -428,7 +428,7 @@ export default function AnalyticsPage() {
             {data.sources.length > 0 ? (
               <SourcesDonut data={data.sources} />
             ) : (
-              <div className="flex items-center justify-center h-[260px] text-gray-400 text-sm">
+              <div className="flex items-center justify-center h-[260px] text-[#999999] text-sm">
                 Aucune donnee de source
               </div>
             )}
