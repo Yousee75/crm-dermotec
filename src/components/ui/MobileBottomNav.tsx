@@ -2,22 +2,22 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Calendar, Plus, BarChart3, CreditCard } from 'lucide-react'
+import { BarChart3, Users, Calendar, Plus, MessageSquare, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 const NAV_ITEMS = [
-  { href: '/', icon: LayoutDashboard, label: "Aujourd'hui" },
-  { href: '/leads', icon: Users, label: 'Prospects' },
+  { href: '/', icon: BarChart3, label: "Tableau" },
+  { href: '/contacts', icon: Users, label: 'Contacts' },
   { href: '#fab', icon: Plus, label: '', isFab: true },
   { href: '/sessions', icon: Calendar, label: 'Formations' },
-  { href: '/analytics', icon: BarChart3, label: 'Stats' },
+  { href: '/reglages', icon: Settings, label: 'Réglages' },
 ]
 
 const QUICK_ACTIONS = [
-  { href: '/leads?action=create', label: 'Nouveau prospect', icon: Users, color: 'var(--color-primary)' },
+  { href: '/contacts?action=create', label: 'Nouveau contact', icon: Users, color: 'var(--color-primary)' },
   { href: '/sessions?action=create', label: 'Nouvelle formation', icon: Calendar, color: '#10B981' },
-  { href: '/financement', label: 'Financement', icon: CreditCard, color: '#F59E0B' },
+  { href: '/messages', label: 'Messages', icon: MessageSquare, color: '#FF2D78' },
 ]
 
 export function MobileBottomNav() {
@@ -70,7 +70,11 @@ export function MobileBottomNav() {
               )
             }
 
-            const isActive = pathname === item.href || (item.href !== '/' && (pathname ?? '').startsWith(item.href))
+            const isActive = pathname === item.href || (item.href !== '/' && (pathname ?? '').startsWith(item.href)) ||
+              // Logique spéciale pour correspondre à la sidebar
+              (item.href === '/contacts' && ((pathname ?? '').startsWith('/leads') || (pathname ?? '').startsWith('/pipeline') || (pathname ?? '').startsWith('/clients') || (pathname ?? '').startsWith('/apprenants') || (pathname ?? '').startsWith('/stagiaires'))) ||
+              (item.href === '/sessions' && ((pathname ?? '').startsWith('/inscriptions') || (pathname ?? '').startsWith('/emargement') || (pathname ?? '').startsWith('/catalogue') || (pathname ?? '').startsWith('/financement') || (pathname ?? '').startsWith('/bpf') || (pathname ?? '').startsWith('/qualiopi'))) ||
+              (item.href === '/reglages' && ((pathname ?? '').startsWith('/parametres') || (pathname ?? '').startsWith('/settings') || (pathname ?? '').startsWith('/equipe') || (pathname ?? '').startsWith('/facturation') || (pathname ?? '').startsWith('/commandes')))
             return (
               <Link
                 key={item.href}

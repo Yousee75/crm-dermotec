@@ -32,13 +32,13 @@ export interface RoleView {
  * Principe : le commercial voit UNIQUEMENT ce qui le concerne
  */
 /**
- * Configuration des vues par rôle — Sidebar v2 (7 items)
- * Sidebar : Aujourd'hui, Prospects, Formations, Financement, Tableau de bord, Qualité, Réglages
+ * Configuration des vues par rôle — Sidebar v3 (5 items)
+ * Sidebar : Tableau de bord, Contacts, Formations, Messages, Réglages
  */
 export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   admin: {
-    topItems: ['/', '/leads', '/sessions', '/financement', '/analytics', '/qualiopi', '/parametres'],
-    sections: [],  // Sidebar v2 : plus de sections dépliables
+    topItems: ['/', '/contacts', '/sessions', '/messages', '/reglages'],
+    sections: [],  // Sidebar v3 : navigation simplifiée
     hiddenPages: [],
     showGlobalKpis: true,
     showTeamSection: true,
@@ -54,7 +54,7 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   },
 
   manager: {
-    topItems: ['/', '/leads', '/sessions', '/financement', '/analytics', '/qualiopi', '/parametres'],
+    topItems: ['/', '/contacts', '/sessions', '/messages', '/reglages'],
     sections: [],
     hiddenPages: [],
     showGlobalKpis: true,
@@ -71,11 +71,11 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   },
 
   commercial: {
-    topItems: ['/', '/leads', '/sessions', '/financement'],  // 4 items : Aujourd'hui, Prospects, Formations, Financement
+    topItems: ['/', '/contacts', '/sessions'],  // 3 items : Tableau de bord, Contacts, Formations
     sections: [],
     hiddenPages: [
-      '/analytics', '/equipe', '/qualiopi',
-      '/outils', '/commandes', '/parametres',
+      '/analytics', '/equipe', '/qualiopi', '/messages', '/reglages',
+      '/outils', '/commandes', '/parametres', '/facturation',
     ],
     showGlobalKpis: false,     // Voit SES KPIs uniquement
     showTeamSection: false,
@@ -91,12 +91,12 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   },
 
   formatrice: {
-    topItems: ['/', '/sessions', '/qualiopi'],  // 3 items : Aujourd'hui, Formations, Qualité
+    topItems: ['/', '/sessions'],  // 2 items : Tableau de bord, Formations
     sections: [],
     hiddenPages: [
-      '/leads', '/pipeline', '/contacts', '/clients',
+      '/leads', '/pipeline', '/contacts', '/clients', '/messages', '/reglages',
       '/analytics', '/equipe', '/facturation', '/commandes',
-      '/financement', '/outils', '/parametres',
+      '/financement', '/outils', '/parametres', '/qualiopi',
     ],
     showGlobalKpis: false,
     showTeamSection: false,
@@ -112,9 +112,9 @@ export const ROLE_VIEWS: Record<RoleEquipe, RoleView> = {
   },
 
   assistante: {
-    topItems: ['/', '/leads', '/sessions', '/financement', '/qualiopi'],  // 5 items
+    topItems: ['/', '/contacts', '/sessions', '/messages'],  // 4 items
     sections: [],
-    hiddenPages: ['/equipe', '/outils'],
+    hiddenPages: ['/equipe', '/outils', '/reglages', '/parametres'],
     showGlobalKpis: true,
     showTeamSection: false,
     filterByCommercial: false,

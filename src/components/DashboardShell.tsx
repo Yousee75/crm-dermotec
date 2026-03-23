@@ -75,14 +75,11 @@ function PhIcon(PhComponent: React.ElementType) {
 }
 
 const TOP_ITEMS: NavItem[] = [
-  { href: '/', icon: PhIcon(HouseSimple), label: "Aujourd'hui" },
-  { href: '/formatrice', icon: PhIcon(Chalkboard), label: 'Mon espace' },
-  { href: '/leads', icon: PhIcon(UsersThree), label: 'Prospects' },
+  { href: '/', icon: PhIcon(ChartBar), label: 'Tableau de bord' },
+  { href: '/contacts', icon: PhIcon(UsersThree), label: 'Contacts' },
   { href: '/sessions', icon: PhIcon(CalendarBlank), label: 'Formations' },
-  { href: '/financement', icon: PhIcon(PhCreditCard), label: 'Financement' },
-  { href: '/analytics', icon: PhIcon(ChartBar), label: 'Tableau de bord' },
-  { href: '/qualiopi', icon: PhIcon(Certificate), label: 'Qualite' },
-  { href: '/parametres', icon: PhIcon(GearSix), label: 'Reglages' },
+  { href: '/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '/reglages', icon: PhIcon(GearSix), label: 'Réglages' },
 ]
 
 // Plus de sections dépliables — tout est accessible via les pages hub
@@ -206,48 +203,54 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
   const isActive = (href: string): boolean => {
     if (pathname === href) return true
-    if (href === '/') return pathname === '/' || pathname === '/cockpit'
 
     const p = pathname ?? ''
 
-    // Prospects : leads + pipeline + contacts + clients + fiche lead
-    if (href === '/leads') {
-      return p.startsWith('/leads') ||
-             p.startsWith('/contacts') ||
-             p.startsWith('/clients') ||
+    // Tableau de bord : / + cockpit + analytics + performance + audit + formatrice
+    if (href === '/') {
+      return pathname === '/' ||
+             p.startsWith('/cockpit') ||
+             p.startsWith('/analytics') ||
+             p.startsWith('/performance') ||
+             p.startsWith('/audit') ||
+             p.startsWith('/formatrice')
+    }
+
+    // Contacts : leads + pipeline + contacts + clients + apprenants + stagiaires + alumni + cadences + fiche lead
+    if (href === '/contacts') {
+      return p.startsWith('/contacts') ||
+             p.startsWith('/leads') ||
              p.startsWith('/pipeline') ||
+             p.startsWith('/clients') ||
+             p.startsWith('/apprenants') ||
+             p.startsWith('/stagiaires') ||
              p.startsWith('/lead/') ||
              p.startsWith('/cadences')
     }
-    // Formations : sessions + inscriptions + stagiaires + émargement
+
+    // Formations : sessions + inscriptions + emargement + catalogue + financement + bpf + qualiopi
     if (href === '/sessions') {
       return p.startsWith('/sessions') ||
              p.startsWith('/session/') ||
              p.startsWith('/inscriptions') ||
-             p.startsWith('/apprenants') ||
-             p.startsWith('/stagiaires') ||
              p.startsWith('/emargement') ||
-             p.startsWith('/catalogue')
-    }
-    // Financement : financement + BPF
-    if (href === '/financement') {
-      return p.startsWith('/financement') ||
-             p.startsWith('/bpf')
-    }
-    // Tableau de bord : analytics + performance + cockpit + audit
-    if (href === '/analytics') {
-      return p.startsWith('/analytics') ||
-             p.startsWith('/performance') ||
-             p.startsWith('/audit')
-    }
-    // Qualité : qualiopi + qualite
-    if (href === '/qualiopi') {
-      return p.startsWith('/qualiopi') ||
+             p.startsWith('/catalogue') ||
+             p.startsWith('/financement') ||
+             p.startsWith('/bpf') ||
+             p.startsWith('/qualiopi') ||
              p.startsWith('/qualite')
     }
-    // Réglages : parametres + settings + equipe + facturation + commandes
-    if (href === '/parametres') {
-      return p.startsWith('/parametres') ||
+
+    // Messages : messages + notifications
+    if (href === '/messages') {
+      return p.startsWith('/messages') ||
+             p.startsWith('/notifications')
+    }
+
+    // Réglages : reglages + parametres + settings + equipe + facturation + commandes + onboarding
+    if (href === '/reglages') {
+      return p.startsWith('/reglages') ||
+             p.startsWith('/parametres') ||
              p.startsWith('/settings') ||
              p.startsWith('/equipe') ||
              p.startsWith('/facturation') ||
@@ -558,14 +561,11 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Navigation (G puis...)</p>
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-                    <ShortcutRow keys={['G', 'D']} label="Aujourd'hui" />
-                    <ShortcutRow keys={['G', 'L']} label="Prospects" />
-                    <ShortcutRow keys={['G', 'P']} label="Pipeline" />
+                    <ShortcutRow keys={['G', 'D']} label="Tableau de bord" />
+                    <ShortcutRow keys={['G', 'C']} label="Contacts" />
                     <ShortcutRow keys={['G', 'S']} label="Formations" />
-                    <ShortcutRow keys={['G', 'F']} label="Financement" />
-                    <ShortcutRow keys={['G', 'A']} label="Tableau de bord" />
-                    <ShortcutRow keys={['G', 'Q']} label="Qualité" />
-                    <ShortcutRow keys={['G', 'T']} label="Réglages" />
+                    <ShortcutRow keys={['G', 'M']} label="Messages" />
+                    <ShortcutRow keys={['G', 'R']} label="Réglages" />
                   </div>
                 </div>
               </div>
@@ -594,37 +594,39 @@ function ShortcutRow({ keys, label }: { keys: string[]; label: string }) {
 
 function getCurrentPageTitle(pathname: string): string {
   const titles: Record<string, string> = {
-    '/': "Aujourd'hui",
-    '/cockpit': "Aujourd'hui",
-    '/leads': 'Prospects',
-    '/pipeline': 'Suivi commercial',
-    '/contacts': 'Contacts',
-    '/clients': 'Clients',
-    // '/messages': retiré — conversations via applis natives
-    '/cadences': 'Relances auto',
-    '/sessions': 'Formations planifiées',
-    '/inscriptions': 'Inscriptions',
-    '/apprenants': 'Mes stagiaires',
-    '/stagiaires': 'Mes stagiaires',
-    '/emargement': 'Émargement',
-    '/catalogue': 'Catalogue formations',
-    '/financement': 'Financement',
-    '/bpf': 'Bilan pédagogique',
-    '/analytics': 'Tableau de bord',
+    '/': "Tableau de bord",
+    '/cockpit': "Tableau de bord",
+    '/analytics': 'Analytics',
     '/performance': 'Performance',
     '/audit': 'Audit',
-    '/qualiopi': 'Qualité Qualiopi',
+    '/formatrice': 'Mon espace',
+    '/contacts': 'Contacts',
+    '/leads': 'Prospects',
+    '/pipeline': 'Pipeline',
+    '/clients': 'Clients',
+    '/apprenants': 'Stagiaires',
+    '/stagiaires': 'Stagiaires',
+    '/cadences': 'Cadences',
+    '/sessions': 'Formations',
+    '/inscriptions': 'Inscriptions',
+    '/emargement': 'Émargement',
+    '/catalogue': 'Catalogue',
+    '/financement': 'Financement',
+    '/bpf': 'BPF',
+    '/qualiopi': 'Qualiopi',
     '/qualite': 'Qualité',
+    '/messages': 'Messages',
+    '/notifications': 'Notifications',
+    '/reglages': 'Réglages',
     '/parametres': 'Réglages',
     '/settings': 'Réglages',
     '/equipe': 'Équipe',
     '/facturation': 'Facturation',
     '/commandes': 'Commandes',
-    '/academy': 'Mon coaching',
-    '/playbook': 'Scripts de vente',
+    '/academy': 'Academy',
+    '/playbook': 'Playbook',
     '/outils': 'Outils',
     '/concurrents': 'Concurrents',
-    '/notifications': 'Notifications',
   }
 
   for (const [path, title] of Object.entries(titles)) {
