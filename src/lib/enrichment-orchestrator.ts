@@ -204,6 +204,25 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
       )
     }
 
+    // INPI — fallback si Pappers échoue (données publiques gratuites)
+    identityBranch.push(
+      safeCall('I6', async () => {
+        const { getDerniersChiffres } = await import('./enrichment-inpi')
+        data.inpi = await getDerniersChiffres(siren!)
+      }, perCallTimeout)
+    )
+
+    // RNCP — certifications professionnelles (si secteur formation)
+    if (!params.skip_formation) {
+      identityBranch.push(
+        safeCall('I7', async () => {
+          const { getRNCPData } = await import('./enrichment-rncp')
+          const rncp = await getRNCPData({ siret: params.siret!, keyword: 'esthetique' })
+          if (rncp) data._signaux.est_organisme_concurrent = true
+        }, perCallTimeout)
+      )
+    }
+
     await Promise.allSettled(identityBranch)
 
     // SI entreprise fermée → early return

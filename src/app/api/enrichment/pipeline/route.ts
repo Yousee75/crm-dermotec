@@ -78,6 +78,41 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // ── 1quater. Stocker avis détaillés dans prospect_reviews_detailed ──
+    if (enrichment.aggregatedData.reviews?.rawReviews?.length) {
+      for (const review of enrichment.aggregatedData.reviews.rawReviews.slice(0, 50)) {
+        await supabase.from('prospect_reviews_detailed' as any).upsert({
+          lead_id: leadId,
+          plateforme: 'google',
+          auteur: review.author_name || review.author_title || 'Anonyme',
+          note: review.rating || review.review_rating,
+          texte: review.text || review.review_text,
+          date_avis: review.time ? new Date(review.time * 1000).toISOString().split('T')[0] : null,
+          date_avis_relative: review.relative_time_description || review.review_datetime_utc,
+          reponse_proprietaire: review.owner_answer || null,
+          sentiment: (review.rating || review.review_rating) >= 4 ? 'positif' : (review.rating || review.review_rating) <= 2 ? 'negatif' : 'neutre',
+        } as any, {
+          onConflict: 'lead_id,plateforme,auteur,date_avis',
+          ignoreDuplicates: true,
+        } as any).then(() => {})
+      }
+    }
+
+    // ── 1quinquies. Stocker photos dans prospect_photos ──
+    if (enrichment.aggregatedData.google?.photos) {
+      const photoCount = enrichment.aggregatedData.google.photos
+      // Stocker le nombre de photos comme métadonnée (les URLs nécessitent Place Photos API)
+      await supabase.from('prospect_photos' as any).upsert({
+        lead_id: leadId,
+        source: 'google',
+        url_originale: `google_photos_count:${photoCount}`,
+        type: 'metadata',
+      } as any, {
+        onConflict: 'lead_id,source,type',
+        ignoreDuplicates: true,
+      } as any).then(() => {})
+    }
+
     // ── 2. Générer le narratif IA (avec données 360°) ──
     const narrative = await generateProspectNarrative({
       lead: {
