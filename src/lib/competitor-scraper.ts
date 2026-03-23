@@ -1,7 +1,7 @@
 import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Scraping Production via Bright Data
-// PagesJaunes + Planity + Treatwell + Google Avis
+// PagesJaunes + Planity + Treatwell + TripAdvisor + Fresha + Booksy + Groupon + Wecasa
 // Scraping Browser (anti-CAPTCHA, JS rendering, Cloudflare bypass)
 // Web Unlocker (fallback) → Scrape.do (fallback 2)
 // ============================================================
@@ -76,6 +76,46 @@ export interface ScrapedCompetitor {
     rating?: number
     reviewsCount?: number
     reviews?: PlatformReview[]
+  }
+  fresha?: {
+    found: boolean
+    nom?: string
+    rating?: number
+    reviewsCount?: number
+    services?: string[]
+    prix?: string[]
+    adresse?: string
+    telephone?: string
+    photos?: string[]
+  }
+  booksy?: {
+    found: boolean
+    nom?: string
+    rating?: number
+    reviewsCount?: number
+    services?: string[]
+    prix?: string[]
+    adresse?: string
+    specialites?: string[]
+  }
+  groupon?: {
+    found: boolean
+    offres?: Array<{
+      titre: string
+      prix_barre?: number
+      prix_promo?: number
+      reduction?: string
+      categorie?: string
+    }>
+    nb_offres?: number
+  }
+  wecasa?: {
+    found: boolean
+    nom?: string
+    services?: string[]
+    prix?: string[]
+    rating?: number
+    zone?: string
   }
 }
 
@@ -539,6 +579,294 @@ function parseTripAdvisor(html: string): ScrapedCompetitor['tripadvisor'] {
   return result
 }
 
+function parseFresha(html: string): ScrapedCompetitor['fresha'] {
+  // Fresha est une SPA React — vérifier que le contenu est rendu
+  const hasContent = html.length > 8000
+    && (html.includes('fresha') || html.includes('Fresha') || html.includes('Book now'))
+    && !html.includes('404')
+
+  if (!hasContent) return { found: false }
+
+  const result: NonNullable<ScrapedCompetitor['fresha']> = { found: true }
+
+  // Nom salon — JSON-LD ou H1
+  const ldBlocks = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi) || []
+  for (const block of ldBlocks) {
+    try {
+      const data = JSON.parse(block.replace(/<\/?script[^>]*>/gi, ''))
+      if (data?.name && !result.nom) result.nom = data.name
+      if (data?.aggregateRating) {
+        result.rating = parseFloat(data.aggregateRating.ratingValue)
+        result.reviewsCount = parseInt(data.aggregateRating.reviewCount || '0')
+      }
+      if (data?.address && typeof data.address === 'string') {
+        result.adresse = data.address
+      } else if (data?.address?.streetAddress) {
+        const addr = data.address
+        result.adresse = [addr.streetAddress, addr.postalCode, addr.addressLocality]
+          .filter(Boolean).join(', ')
+      }
+      if (data?.telephone) result.telephone = data.telephone
+    } catch { /* skip */ }
+  }
+
+  // Fallback nom depuis HTML
+  if (!result.nom) {
+    const nameMatch = html.match(/<h1[^>]*>([^<]+)<\/h1>/i)
+      || html.match(/class="[^"]*salon-name[^"]*"[^>]*>([^<]+)/i)
+    if (nameMatch) result.nom = nameMatch[1].replace(/<[^>]+>/g, '').trim()
+  }
+
+  // Rating fallback
+  if (!result.rating) {
+    const ratingMatch = html.match(/(\d[.,]\d+)\s*(?:\/\s*5|sur\s*5)/i)
+      || html.match(/data-rating="([^"]*)"/)
+    if (ratingMatch) result.rating = parseFloat(ratingMatch[1].replace(',', '.'))
+  }
+
+  if (!result.reviewsCount) {
+    const reviewsMatch = html.match(/(\d+)\s*(?:reviews?|avis)/i)
+    if (reviewsMatch) result.reviewsCount = parseInt(reviewsMatch[1])
+  }
+
+  // Services et prix — Fresha a des blocs service avec pricing
+  const services: string[] = []
+  const prix: string[] = []
+  const serviceBlocks = html.matchAll(/(?:class="[^"]*service[^"]*"[\s\S]{0,500}?>|data-testid="service-card"[\s\S]{0,500}?)([\s\S]{5,150}?)(?:£|€|From\s*)(\d+(?:[.,]\d+)?)/gi)
+  for (const m of serviceBlocks) {
+    const serviceName = m[1]?.replace(/<[^>]+>/g, '').trim()
+    const priceValue = m[2]
+    if (serviceName && serviceName.length > 3) services.push(serviceName)
+    if (priceValue) prix.push(`${priceValue}€`)
+  }
+
+  // Fallback services sans prix
+  if (services.length === 0) {
+    const serviceMatches = html.matchAll(/(?:class="[^"]*(?:service|treatment)[^"]*"[^>]*>|<li[^>]*>)\s*([^<]{5,80})\s*</gi)
+    for (const m of serviceMatches) {
+      const name = m[1]?.replace(/<[^>]+>/g, '').trim()
+      if (name && name.length > 3 && /beauté|soin|massage|épil|ongle|visage|corps|maquillage|pédicure/i.test(name)) {
+        services.push(name)
+      }
+    }
+  }
+
+  if (services.length) result.services = [...new Set(services)].slice(0, 20)
+  if (prix.length) result.prix = [...new Set(prix)].slice(0, 20)
+
+  // Adresse fallback
+  if (!result.adresse) {
+    const addrMatch = html.match(/(?:class="[^"]*address[^"]*"[^>]*>|<address[^>]*>)([\s\S]*?)<\//i)
+    if (addrMatch) result.adresse = addrMatch[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+  }
+
+  // Téléphone fallback
+  if (!result.telephone) {
+    const telMatch = html.match(/(?:0[1-9])(?:[\s.-]?\d{2}){4}/)
+      || html.match(/\+33\s*[1-9](?:[\s.-]?\d{2}){4}/)
+    if (telMatch) result.telephone = telMatch[0].replace(/[\s.-]/g, '').replace(/\+33/, '0')
+  }
+
+  // Photos — og:image ou images dans les galleries
+  const photoMatches = html.match(/(?:content="(https?:\/\/[^"]*fresha[^"]*\.(?:jpg|jpeg|png|webp))"|src="(https?:\/\/[^"]*(?:photo|image|media)[^"]*\.(?:jpg|jpeg|png|webp)))/gi) || []
+  result.photos = [...new Set(
+    photoMatches.map(m => m.match(/https?:\/\/[^"]+/)?.[0]).filter(Boolean) as string[]
+  )].slice(0, 6)
+
+  return result
+}
+
+function parseBooksy(html: string): ScrapedCompetitor['booksy'] {
+  // Booksy est une SPA React — vérification contenu
+  const hasContent = html.length > 7000
+    && (html.includes('booksy') || html.includes('Booksy') || html.includes('Book appointment'))
+    && !html.includes('No results')
+
+  if (!hasContent) return { found: false }
+
+  const result: NonNullable<ScrapedCompetitor['booksy']> = { found: true }
+
+  // Nom salon
+  const nameMatch = html.match(/<h1[^>]*>([^<]+)<\/h1>/i)
+    || html.match(/class="[^"]*business-name[^"]*"[^>]*>([^<]+)/i)
+    || html.match(/data-testid="business-name"[^>]*>([^<]+)/i)
+  if (nameMatch) result.nom = nameMatch[1].replace(/<[^>]+>/g, '').trim()
+
+  // Rating
+  const ratingMatch = html.match(/(\d[.,]\d+)\s*(?:\/\s*5|★)/i)
+    || html.match(/class="[^"]*rating[^"]*"[^>]*>(\d[.,]\d+)/i)
+  if (ratingMatch) result.rating = parseFloat(ratingMatch[1].replace(',', '.'))
+
+  // Nb avis
+  const reviewsMatch = html.match(/(\d+)\s*(?:reviews?|avis|opinions)/i)
+  if (reviewsMatch) result.reviewsCount = parseInt(reviewsMatch[1])
+
+  // Services et prix — Booksy structure différente
+  const services: string[] = []
+  const prix: string[] = []
+  const priceMatches = html.matchAll(/([\w\sÀ-ÿ'-]{5,100})\s*(?:from\s*|à partir de\s*|dès\s*)?(\d+(?:[.,]\d+)?)\s*(?:€|PLN|USD)/gi)
+  for (const m of priceMatches) {
+    const serviceName = m[1].trim()
+    const priceValue = m[2]
+    if (serviceName.length > 3) services.push(serviceName)
+    if (priceValue) prix.push(`${priceValue}€`)
+  }
+
+  // Spécialités — tags/catégories Booksy
+  const specialites: string[] = []
+  const specMatches = html.matchAll(/(?:class="[^"]*(?:tag|specialty|category)[^"]*"[^>]*>|data-category="[^"]*">)([^<]{3,50})</gi)
+  for (const m of specMatches) {
+    const spec = m[1]?.trim()
+    if (spec && spec.length > 2 && !/booksy|appointment|book/i.test(spec)) {
+      specialites.push(spec)
+    }
+  }
+
+  if (services.length) result.services = [...new Set(services)].slice(0, 20)
+  if (prix.length) result.prix = [...new Set(prix)].slice(0, 20)
+  if (specialites.length) result.specialites = [...new Set(specialites)].slice(0, 15)
+
+  // Adresse
+  const addrMatch = html.match(/(?:class="[^"]*address[^"]*"[^>]*>|<address[^>]*>)([\s\S]*?)<\//i)
+  if (addrMatch) result.adresse = addrMatch[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+
+  return result
+}
+
+function parseGroupon(html: string): ScrapedCompetitor['groupon'] {
+  // Groupon — détection offres beauté/bien-être
+  const hasOffers = html.length > 5000
+    && (html.includes('groupon') || html.includes('deal') || html.includes('discount'))
+
+  if (!hasOffers) return { found: false }
+
+  const result: NonNullable<ScrapedCompetitor['groupon']> = { found: true }
+
+  const offres: Array<{
+    titre: string
+    prix_barre?: number
+    prix_promo?: number
+    reduction?: string
+    categorie?: string
+  }> = []
+
+  // Pattern Groupon : titre deal + prix barré + prix promo + % réduction
+  const dealMatches = html.matchAll(
+    /(?:class="[^"]*(?:deal-title|offer-title)[^"]*"[^>]*>|<h[2-4][^>]*>)\s*([^<]{10,150})\s*<[\s\S]{0,800}?(?:was|était)\s*(\d+(?:[.,]\d+)?)\s*€[\s\S]{0,200}?(?:now|maintenant)?\s*(\d+(?:[.,]\d+)?)\s*€/gi
+  )
+
+  for (const m of dealMatches) {
+    const titre = m[1]?.replace(/<[^>]+>/g, '').trim()
+    const prixBarre = parseFloat(m[2]?.replace(',', '.') || '0')
+    const prixPromo = parseFloat(m[3]?.replace(',', '.') || '0')
+
+    if (titre && prixBarre && prixPromo && prixBarre > prixPromo) {
+      const reduction = Math.round(((prixBarre - prixPromo) / prixBarre) * 100)
+
+      // Filtrer les offres beauté/bien-être
+      if (/beauté|esthétique|spa|massage|soin|épilation|manucure|pédicure|visage|corps|détente|relaxation/i.test(titre)) {
+        offres.push({
+          titre,
+          prix_barre: prixBarre,
+          prix_promo: prixPromo,
+          reduction: `${reduction}%`,
+          categorie: 'Beauté & Bien-être'
+        })
+      }
+    }
+  }
+
+  // Fallback : prix seul avec % affiché
+  if (offres.length === 0) {
+    const simpleDeals = html.matchAll(
+      /(?:class="[^"]*(?:deal|offer)[^"]*"[\s\S]{0,300}?)([^<]{10,100})[\s\S]{0,200}?(\d+)%\s*(?:off|de réduction|d'économie)[\s\S]{0,200}?(\d+(?:[.,]\d+)?)\s*€/gi
+    )
+
+    for (const m of simpleDeals) {
+      const titre = m[1]?.replace(/<[^>]+>/g, '').trim()
+      const reduction = m[2]
+      const prixPromo = parseFloat(m[3]?.replace(',', '.') || '0')
+
+      if (titre && /beauté|esthétique|spa|massage|soin/i.test(titre)) {
+        offres.push({
+          titre,
+          prix_promo: prixPromo,
+          reduction: `${reduction}%`,
+          categorie: 'Beauté & Bien-être'
+        })
+      }
+    }
+  }
+
+  if (offres.length) {
+    result.offres = offres.slice(0, 10)
+    result.nb_offres = offres.length
+  } else {
+    // Compter les deals sans extraction détaillée
+    const dealCount = (html.match(/class="[^"]*(?:deal|offer|discount)[^"]*"/gi) || []).length
+    if (dealCount > 0) result.nb_offres = dealCount
+  }
+
+  return result
+}
+
+function parseWecasa(html: string): ScrapedCompetitor['wecasa'] {
+  // Wecasa — esthéticiennes à domicile
+  const hasContent = html.length > 4000
+    && (html.includes('wecasa') || html.includes('Wecasa') || html.includes('à domicile'))
+
+  if (!hasContent) return { found: false }
+
+  const result: NonNullable<ScrapedCompetitor['wecasa']> = { found: true }
+
+  // Nom esthéticienne — premiers résultats de recherche
+  const nameMatch = html.match(/<h[2-4][^>]*>([^<]{5,60})<\/h[2-4]>/i)
+    || html.match(/class="[^"]*(?:professional|esthetician|name)[^"]*"[^>]*>([^<]+)/i)
+  if (nameMatch) result.nom = nameMatch[1].replace(/<[^>]+>/g, '').trim()
+
+  // Rating
+  const ratingMatch = html.match(/(\d[.,]\d+)\s*(?:\/\s*5|★|étoiles)/i)
+  if (ratingMatch) result.rating = parseFloat(ratingMatch[1].replace(',', '.'))
+
+  // Services et prix Wecasa — structure spécifique
+  const services: string[] = []
+  const prix: string[] = []
+
+  // Pattern: service + prix + durée
+  const wecasaServices = html.matchAll(/([\w\sÀ-ÿ'-]{5,80})\s*(?:-|·|•)\s*(\d+(?:[.,]\d+)?)\s*€\s*(?:\(\s*(\d+)\s*(?:min|h)\s*\))?/gi)
+  for (const m of wecasaServices) {
+    const serviceName = m[1].trim()
+    const priceValue = m[2]
+    const duration = m[3] ? ` (${m[3]}min)` : ''
+
+    if (serviceName.length > 3 && /soin|beauté|épilation|massage|visage|ongle|pédicure|manucure/i.test(serviceName)) {
+      services.push(serviceName + duration)
+      prix.push(`${priceValue}€`)
+    }
+  }
+
+  // Services sans prix
+  if (services.length === 0) {
+    const serviceMatches = html.matchAll(/(?:class="[^"]*service[^"]*"[^>]*>|<li[^>]*>)\s*([^<]{5,60})/gi)
+    for (const m of serviceMatches) {
+      const name = m[1]?.replace(/<[^>]+>/g, '').trim()
+      if (name && /beauté|soin|épilation|massage|ongle|visage/i.test(name)) {
+        services.push(name)
+      }
+    }
+  }
+
+  if (services.length) result.services = [...new Set(services)].slice(0, 15)
+  if (prix.length) result.prix = [...new Set(prix)].slice(0, 15)
+
+  // Zone de déplacement
+  const zoneMatch = html.match(/(?:Zone de déplacement|Intervient dans|Secteur)[^<]*<[^>]*>([^<]{5,100})/i)
+    || html.match(/class="[^"]*(?:zone|area|location)[^"]*"[^>]*>([^<]+)/i)
+  if (zoneMatch) result.zone = zoneMatch[1].replace(/<[^>]+>/g, '').trim()
+
+  return result
+}
+
 function parseGoogleReviews(html: string): ScrapedCompetitor['google'] {
   const result: NonNullable<ScrapedCompetitor['google']> = {}
 
@@ -578,6 +906,10 @@ export async function scrapeCompetitorFull(params: {
   treatwellUrl?: string
   tripadvisorUrl?: string
   googleMapsUrl?: string
+  freshaUrl?: string
+  booksyUrl?: string
+  grouponUrl?: string
+  wecasaUrl?: string
 }): Promise<ScrapedCompetitor> {
   const results: ScrapedCompetitor = {}
 
@@ -606,6 +938,22 @@ export async function scrapeCompetitorFull(params: {
   const tripadvisorUrl = params.tripadvisorUrl ||
     `https://www.tripadvisor.fr/Search?q=${encodeURIComponent(params.nom + ' ' + params.ville)}&searchSessionId=&sid=&blockRedirect=true&ssrc=A&isSingleSearch=true`
 
+  // Fresha — SPA React, Scraping Browser obligatoire
+  const freshaUrl = params.freshaUrl ||
+    `https://www.fresha.com/fr/search/${encodeURIComponent(params.nom)}-${villeSlug}`
+
+  // Booksy — SPA React
+  const booksyUrl = params.booksyUrl ||
+    `https://booksy.com/fr-fr/s/${encodeURIComponent(params.nom + ' ' + params.ville)}`
+
+  // Groupon — détection offres promo
+  const grouponUrl = params.grouponUrl ||
+    `https://www.groupon.fr/search?query=${encodeURIComponent(params.nom + ' beauté ' + params.ville)}`
+
+  // Wecasa — esthéticiennes à domicile
+  const wecasaUrl = params.wecasaUrl ||
+    `https://www.wecasa.fr/estheticiennes/${villeSlug}`
+
   // Lancer TOUS les scrapings en parallèle (Promise.allSettled = pas de crash si un échoue)
   await Promise.allSettled([
     // PagesJaunes — Cloudflare protégé, besoin Scraping Browser
@@ -626,6 +974,26 @@ export async function scrapeCompetitorFull(params: {
     // TripAdvisor — très protégé (Cloudflare + CAPTCHA), Scraping Browser obligatoire
     fetchWithFullFallback(tripadvisorUrl, true).then(html => {
       if (html) results.tripadvisor = parseTripAdvisor(html)
+    }),
+
+    // Fresha — SPA React, Scraping Browser obligatoire
+    fetchWithFullFallback(freshaUrl, true).then(html => {
+      if (html) results.fresha = parseFresha(html)
+    }),
+
+    // Booksy — SPA React
+    fetchWithFullFallback(booksyUrl, true).then(html => {
+      if (html) results.booksy = parseBooksy(html)
+    }),
+
+    // Groupon — détection offres promo
+    fetchWithFullFallback(grouponUrl, false).then(html => {
+      if (html) results.groupon = parseGroupon(html)
+    }),
+
+    // Wecasa — esthéticiennes à domicile
+    fetchWithFullFallback(wecasaUrl, false).then(html => {
+      if (html) results.wecasa = parseWecasa(html)
     }),
   ])
 

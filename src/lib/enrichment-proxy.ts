@@ -196,6 +196,10 @@ export function assembleIntelligence(internal: {
   planity?: any
   treatwell?: any
   tripadvisor?: any
+  fresha?: any
+  booksy?: any
+  groupon?: any
+  wecasa?: any
   instagram?: any
   social?: any
   scraper?: any
@@ -209,6 +213,9 @@ export function assembleIntelligence(internal: {
   iris?: any
   dvf?: any
   neighborhood?: any
+  osm?: any
+  convention?: any
+  aides?: any
 }): IntelligenceComplete {
   const now = new Date().toISOString()
   let nbDonnees = 0
@@ -260,6 +267,9 @@ export function assembleIntelligence(internal: {
   if (internal.planity?.found) { plateformes++; if (internal.planity.rating) notes.push(internal.planity.rating); if (internal.planity.reviewsCount) avisTotal.push(internal.planity.reviewsCount) }
   if (internal.treatwell?.found) { plateformes++; if (internal.treatwell.rating) notes.push(internal.treatwell.rating); if (internal.treatwell.reviewsCount) avisTotal.push(internal.treatwell.reviewsCount) }
   if (internal.tripadvisor?.found) { plateformes++; if (internal.tripadvisor.rating) notes.push(internal.tripadvisor.rating); if (internal.tripadvisor.reviewsCount) avisTotal.push(internal.tripadvisor.reviewsCount) }
+  if (internal.fresha?.found) { plateformes++; if (internal.fresha.rating) notes.push(internal.fresha.rating); if (internal.fresha.reviewsCount) avisTotal.push(internal.fresha.reviewsCount) }
+  if (internal.booksy?.found) { plateformes++; if (internal.booksy.rating) notes.push(internal.booksy.rating); if (internal.booksy.reviewsCount) avisTotal.push(internal.booksy.reviewsCount) }
+  if (internal.wecasa?.found) plateformes++
   if (internal.instagram?.followers) plateformes++
 
   if (notes.length > 0) {
@@ -309,8 +319,23 @@ export function assembleIntelligence(internal: {
     }
   }
 
-  formation.score_formation = formation.est_organisme_formation ? 80
-    : formation.formations_catalogue?.length ? 50 : 0
+  // Convention collective — droits formation
+  if (internal.convention) {
+    if (internal.convention.est_esthetique || internal.convention.est_coiffure) {
+      formation.specialites = formation.specialites || []
+      if (internal.convention.est_esthetique) formation.specialites.push('esthétique (IDCC 3032)')
+      if (internal.convention.est_coiffure) formation.specialites.push('coiffure (IDCC 3050)')
+    }
+  }
+
+  // Groupon — signal besoin clients (prospect chaud)
+  if (internal.groupon?.found && internal.groupon.nb_offres > 0) {
+    // Institut sur Groupon = besoin de visibilité = prospect formation
+    formation.score_formation = Math.min(100, (formation.score_formation || 0) + 15)
+  }
+
+  formation.score_formation = formation.score_formation || (formation.est_organisme_formation ? 80
+    : formation.formations_catalogue?.length ? 50 : 0)
   nbDonnees += Object.values(formation).filter(Boolean).length
 
   // --- MARCHE ---
@@ -385,6 +410,14 @@ export function assembleIntelligence(internal: {
     zone.densite_commerces = (internal.neighborhood.restaurants || 0) +
       (internal.neighborhood.cafes || 0) + (internal.neighborhood.supermarkets || 0)
   }
+  // OSM — densité concurrentielle (beauty shops dans 2km)
+  if (internal.osm && Array.isArray(internal.osm)) {
+    const beautyCount = internal.osm.filter((s: any) => s.type === 'beauty').length
+    zone.densite_commerces = (zone.densite_commerces || 0) + internal.osm.length
+    // Zone saturée = besoin de se différencier par la formation
+    if (beautyCount > 10) zone.score_trafic_pieton = Math.min(100, (zone.score_trafic_pieton || 0) + 15)
+  }
+
   zone.standing = determinerStanding(zone.revenu_median_quartier, zone.prix_immobilier_m2)
   zone.score_zone = Math.min(100, Math.round(
     ((zone.revenu_median_quartier || 0) > 25000 ? 30 : 15) +
@@ -419,7 +452,7 @@ export function assembleIntelligence(internal: {
     zone: Object.keys(zone).length > 1 ? zone : undefined,
     derniere_mise_a_jour: now,
     nb_donnees_collectees: nbDonnees,
-    version: 'v2.1',
+    version: 'v3.0',
   }
 }
 
@@ -435,6 +468,9 @@ const PROVIDER_NAMES = [
   'edof', 'mon compte formation', 'rncp', 'carif', 'oref', 'pagespeed',
   'openrouter', 'deepseek', 'anthropic', 'openai', 'dvf', 'etalab',
   'societe.com', 'verif.com', 'apify', 'twilio', 'resend',
+  'fresha', 'booksy', 'groupon', 'wecasa', 'tripadvisor',
+  'overpass', 'openstreetmap', 'osm', 'nominatim',
+  'aides-territoires', 'conventions collectives', 'idcc',
 ]
 
 /** Nettoie un objet de toute référence aux providers */

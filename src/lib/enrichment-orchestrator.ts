@@ -41,6 +41,10 @@ interface InternalData {
   planity?: any
   treatwell?: any
   tripadvisor?: any
+  fresha?: any
+  booksy?: any
+  groupon?: any
+  wecasa?: any
   instagram?: any
   social?: any
   scraper?: any
@@ -54,6 +58,9 @@ interface InternalData {
   iris?: any
   dvf?: any
   neighborhood?: any
+  osm?: any
+  convention?: any
+  aides?: any
 }
 
 // ============================================================
@@ -197,6 +204,36 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
     )
   }
 
+  // OSM — concurrents beauté dans la zone (gratuit, Overpass API)
+  if (params.lat && params.lng) {
+    wave1.push(
+      safeCall('S8', async () => {
+        const { findBeautyShopsInArea } = await import('./enrichment-osm')
+        data.osm = await findBeautyShopsInArea({ lat: params.lat!, lng: params.lng!, radiusMeters: 2000 })
+      }, perCallTimeout)
+    )
+  }
+
+  // Convention collective — IDCC 3032 (esthétique), droits formation (gratuit)
+  if (params.siret) {
+    wave1.push(
+      safeCall('S9', async () => {
+        const { getConventionCollective } = await import('./enrichment-conventions')
+        data.convention = await getConventionCollective(params.siret!)
+      }, perCallTimeout)
+    )
+  }
+
+  // Aides formation disponibles par zone (gratuit)
+  if (dept) {
+    wave1.push(
+      safeCall('S10', async () => {
+        const { getAidesFinancement } = await import('./enrichment-aides')
+        data.aides = await getAidesFinancement(dept)
+      }, perCallTimeout)
+    )
+  }
+
   await Promise.allSettled(wave1)
 
   // ============================================================
@@ -314,6 +351,10 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
         if (scraped.planity) data.planity = scraped.planity
         if (scraped.treatwell) data.treatwell = scraped.treatwell
         if (scraped.tripadvisor) data.tripadvisor = scraped.tripadvisor
+        if (scraped.fresha) data.fresha = scraped.fresha
+        if (scraped.booksy) data.booksy = scraped.booksy
+        if (scraped.groupon) data.groupon = scraped.groupon
+        if (scraped.wecasa) data.wecasa = scraped.wecasa
         if (scraped.google) data.scraper = scraped.google
       }, 60000) // scraping = 60s max
     )
