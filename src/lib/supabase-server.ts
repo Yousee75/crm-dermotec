@@ -80,7 +80,10 @@ export async function createServiceSupabase() {
     if (process.env.NODE_ENV === 'development') {
       const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
       if (anonKey) {
-        console.warn('[SECURITY] SUPABASE_SERVICE_ROLE_KEY manquante — fallback anon key (dev only)')
+        logger.warn('SUPABASE_SERVICE_ROLE_KEY missing - using anon key fallback in dev', {
+          service: 'supabase',
+          security: 'degraded'
+        })
         _serviceClient = (await import('@supabase/supabase-js')).createClient(supabaseUrl, anonKey, {
           auth: { autoRefreshToken: false, persistSession: false },
         })

@@ -498,12 +498,12 @@ export default function AnalyticsPage() {
                 <Area
                   type="monotone"
                   dataKey="leads"
-                  stroke="#8B5CF6"
+                  stroke="#FF2D78"
                   strokeWidth={2.5}
                   fill="url(#gradientLeads)"
                   name="Nouveaux leads"
-                  dot={{ r: 3, fill: '#8B5CF6', strokeWidth: 0 }}
-                  activeDot={{ r: 5, fill: '#8B5CF6', strokeWidth: 2, stroke: '#fff' }}
+                  dot={{ r: 3, fill: '#FF2D78', strokeWidth: 0 }}
+                  activeDot={{ r: 5, fill: '#FF2D78', strokeWidth: 2, stroke: '#fff' }}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -523,10 +523,10 @@ export default function AnalyticsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-gray-100">
-                      <th className="text-left py-2.5 text-xs text-gray-500 font-medium">Organisme</th>
-                      <th className="text-right py-2.5 text-xs text-gray-500 font-medium">Dossiers</th>
-                      <th className="text-right py-2.5 text-xs text-gray-500 font-medium">Montant</th>
+                    <tr className="border-b border-[#EEEEEE]">
+                      <th className="text-left py-2.5 text-xs text-[#777777] font-medium">Organisme</th>
+                      <th className="text-right py-2.5 text-xs text-[#777777] font-medium">Dossiers</th>
+                      <th className="text-right py-2.5 text-xs text-[#777777] font-medium">Montant</th>
                     </tr>
                   </thead>
                   <tbody>
