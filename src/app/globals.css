@@ -17,10 +17,10 @@
   --color-primary-100: #FFE0CC;
   --color-primary-200: #FFCAAA;
 
-  /* ── ACCENT : Noir profond Satorea ── */
+  /* ── ACCENT : Noir Satorea (Option B : #1a1a1a, #3a3a3a) ── */
   --color-accent: #1A1A1A;
   --color-accent-light: #3A3A3A;
-  --color-accent-50: #F5F5F5;
+  --color-accent-50: #F7F7F7;
 
   /* ── ACTION CTA : Rose Hot Pink Satorea (accent, distinction, beauté) ── */
   --color-action: #FF2D78;
@@ -53,17 +53,17 @@
   --color-border-light: #F4F0EB;
   --color-border-focus: #FF5C00;
 
-  /* ── TEXT ── */
-  --color-text: #111111;
+  /* ── TEXT (Option B : #1a1a1a primary, #3a3a3a secondary) ── */
+  --color-text: #1A1A1A;
   --color-text-secondary: #3A3A3A;
   --color-text-muted: #777777;
   --color-text-inverse: #FFFFFF;
 
-  /* ── SIDEBAR ── */
-  --color-sidebar-bg: #111111;
+  /* ── SIDEBAR (Option B : bg #1a1a1a, hover #3a3a3a) ── */
+  --color-sidebar-bg: #1A1A1A;
   --color-sidebar-text: #999999;
   --color-sidebar-active: #FF5C00;
-  --color-sidebar-hover: #222222;
+  --color-sidebar-hover: #3A3A3A;
 
   /* ── PIPELINE : gris → orange → rose → vert ── */
   --color-stage-cold: #999999;
@@ -120,7 +120,6 @@
 
 /* Dark mode SUPPRIMÉ — palette Satorea light only */
 /* Voir règle CLAUDE.md #8 : JAMAIS de dark: classes */
-}
 
 /* Base */
 body {
