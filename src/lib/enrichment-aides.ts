@@ -72,7 +72,6 @@ export async function getAidesFormation(params: {
   const { code_commune, departement } = params
 
   if (!code_commune && !departement) {
-    console.log('[AIDES] Paramètre territoire manquant')
     return []
   }
 
@@ -84,17 +83,14 @@ export async function getAidesFormation(params: {
     try {
       const cached = await redis.get(cacheKey)
       if (cached) {
-        console.log('[AIDES] Cache hit:', territory)
         return cached
       }
     } catch (error) {
-      console.log('[AIDES] Cache read error (continue):', String(error))
+      // Cache read error — continue without cache
     }
   }
 
   try {
-    console.log('[AIDES] Fetching aides formation:', territory)
-
     const searchParams = new URLSearchParams({
       targeted_audiences: 'private_sector',
       categories: 'formation',
@@ -121,14 +117,12 @@ export async function getAidesFormation(params: {
     clearTimeout(timeoutId)
 
     if (!response.ok) {
-      console.log('[AIDES] API error:', response.status, response.statusText)
       return []
     }
 
     const data: AidesApiResponse = await response.json()
 
     if (!data || !Array.isArray(data.results)) {
-      console.log('[AIDES] Invalid response format:', data)
       return []
     }
 
@@ -154,20 +148,18 @@ export async function getAidesFormation(params: {
     if (redis) {
       try {
         await redis.setex(cacheKey, CACHE_TTL, aidesRelevantes)
-        console.log('[AIDES] Cached for 24h:', territory, '→', aidesRelevantes.length, 'aides')
       } catch (error) {
-        console.log('[AIDES] Cache write error (continue):', String(error))
+        // Cache write error — continue
       }
     }
 
-    console.log('[AIDES] Success:', territory, '→', aidesRelevantes.length, 'aides relevantes')
     return aidesRelevantes
 
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
-      console.log('[AIDES] Timeout after 15s:', territory)
+      // Timeout after 15s
     } else {
-      console.log('[AIDES] Fetch error (silent):', territory, String(error))
+      // Fetch error — silent fallback
     }
     return []
   }
@@ -188,8 +180,6 @@ export async function getAidesFinancement(departement: string): Promise<{
     (sum, aide) => sum + (aide.montant_max || 0),
     0
   )
-
-  console.log('[AIDES] Résumé financement:', departement, '→', aides.length, 'aides, montant max cumulé:', montantMaxCumule)
 
   return {
     aides,
@@ -280,8 +270,6 @@ function isRelevantForBeautySector(nom: string, description: string): boolean {
  * Batch enrichment pour plusieurs territoires
  */
 export async function getAidesMultipleTerritoires(territoires: string[]): Promise<Record<string, AideFormation[]>> {
-  console.log('[AIDES] Batch enrichment:', territoires.length, 'territoires')
-
   const results: Record<string, AideFormation[]> = {}
 
   // Process in parallel with max 3 concurrent requests (rate limiting)
@@ -310,6 +298,5 @@ export async function getAidesMultipleTerritoires(territoires: string[]): Promis
     }
   }
 
-  console.log('[AIDES] Batch completed:', Object.keys(results).length, 'territoires')
   return results
 }

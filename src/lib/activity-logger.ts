@@ -47,11 +47,6 @@ export async function logActivity(params: LogActivityParams): Promise<void> {
     // Never throw — logging must not break the app
   }
 
-  // Always console log as fallback
-  console.log(`[Activity] ${params.type}: ${params.description}`, {
-    lead_id: params.lead_id,
-    session_id: params.session_id,
-  })
 }
 
 /**

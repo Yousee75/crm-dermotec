@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createServerClient } from '@supabase/ssr'
@@ -226,12 +225,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const categorie = searchParams.get('categorie')
 
-    const supabase = getServiceSupabase()
-    if (!supabase) {
-      return NextResponse.json({ error: 'Service indisponible' }, { status: 503 })
-    }
+    const supabase = await createServiceSupabase()
 
-    let query = supabase
+    let query = (supabase as any)
       .from('email_templates')
       .select('id, nom, slug, sujet, variables, categorie')
       .eq('is_active', true)

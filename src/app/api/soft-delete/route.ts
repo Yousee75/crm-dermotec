@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
 import { requireAuth } from '@/lib/api-auth'
@@ -34,7 +33,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createServiceSupabase()
 
     // 1. Vérifier que l'enregistrement existe et n'est pas déjà supprimé
-    const { data: record, error: fetchError } = await supabase
+    const { data: record, error: fetchError } = await (supabase as any)
       .from(table)
       .select('*')
       .eq('id', id)
@@ -46,7 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Marquer comme supprimé (soft delete)
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from(table)
       .update({
         deleted_at: new Date().toISOString(),

@@ -92,7 +92,7 @@ async function getINPIToken(): Promise<string | null> {
 
     // Token JWT valide ~1h, on garde 55 min
     cachedToken = { jwt, expiresAt: Date.now() + 55 * 60 * 1000 }
-    console.log(TAG, 'Token INPI obtenu avec succès')
+    // Token INPI obtained
     return jwt
   } catch (err) {
     console.error(TAG, 'Erreur login INPI:', err)
@@ -151,7 +151,6 @@ async function fetchBilansINPI(siren: string): Promise<BilanINPI[] | null> {
     const bilans = json.bilans || json.comptes || json.results || []
 
     if (!Array.isArray(bilans) || bilans.length === 0) {
-      console.log(TAG, `Aucun bilan INPI pour ${siren}`)
       return []
     }
 
@@ -192,7 +191,6 @@ async function fetchFinancesRechercheEntreprises(siren: string): Promise<BilanIN
     const entreprise = results.find((r: any) => r.siren === siren) || results[0]
 
     if (!entreprise) {
-      console.log(TAG, `Aucun résultat Recherche Entreprises pour ${siren}`)
       return []
     }
 
@@ -224,7 +222,6 @@ async function fetchFinancesRechercheEntreprises(siren: string): Promise<BilanIN
 
       if (bilans.length > 0) {
         bilans.sort((a, b) => b.annee_cloture - a.annee_cloture)
-        console.log(TAG, `${bilans.length} exercices via Recherche Entreprises pour ${siren}`)
         return bilans
       }
     }
@@ -255,7 +252,6 @@ export async function getBilansINPI(siren: string): Promise<BilanINPI[]> {
   // Check cache
   const cached = await getCached<BilanINPI[]>(key)
   if (cached) {
-    console.log(TAG, 'Cache hit bilans:', sirenClean)
     return cached
   }
 
@@ -264,7 +260,6 @@ export async function getBilansINPI(siren: string): Promise<BilanINPI[]> {
 
   // Fallback Recherche Entreprises
   if (bilans === null || bilans.length === 0) {
-    console.log(TAG, 'Fallback Recherche Entreprises pour', sirenClean)
     bilans = await fetchFinancesRechercheEntreprises(sirenClean)
   }
 
@@ -273,7 +268,6 @@ export async function getBilansINPI(siren: string): Promise<BilanINPI[]> {
   // Cache 7 jours
   await setCache(key, result)
 
-  console.log(TAG, `${result.length} bilans pour ${sirenClean}`)
   return result
 }
 
@@ -292,7 +286,6 @@ export async function getDerniersChiffres(siren: string): Promise<DerniersChiffr
   // Check cache
   const cached = await getCached<DerniersChiffres>(key)
   if (cached) {
-    console.log(TAG, 'Cache hit derniers chiffres:', sirenClean)
     return cached
   }
 
@@ -312,7 +305,6 @@ export async function getDerniersChiffres(siren: string): Promise<DerniersChiffr
   // Cache 7 jours
   await setCache(key, result)
 
-  console.log(TAG, `Derniers chiffres ${sirenClean}: CA=${result.ca}, RN=${result.resultat_net}, année=${result.annee}`)
   return result
 }
 
@@ -338,7 +330,6 @@ export async function comparerFinances(siren1: string, siren2: string): Promise<
   // Check cache
   const cached = await getCached<ComparisonResult>(key)
   if (cached) {
-    console.log(TAG, 'Cache hit comparaison:', s1, 'vs', s2)
     return cached
   }
 
@@ -394,7 +385,6 @@ export async function comparerFinances(siren1: string, siren2: string): Promise<
   // Cache 7 jours
   await setCache(key, result)
 
-  console.log(TAG, `Comparaison ${s1} vs ${s2} terminée`)
   return result
 }
 

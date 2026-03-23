@@ -189,7 +189,7 @@ export async function validateWithAI(data: {
       try {
         const json = JSON.parse(result.value)
         parsed.push({ source, data: json })
-        console.log(`[AIValidator] ${source}: confidence=${json.confidence}, match=${json.isValidMatch}, menace=${json.niveauMenace}`)
+        // AI validation result parsed
       } catch {
         console.warn(`[AIValidator] ${source}: JSON parse failed`)
         parsed.push({ source, data: null })

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
 import { requireAuth } from '@/lib/api-auth'
@@ -35,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Restaurer (enlever deleted_at)
-    const { error: restoreError } = await supabase
+    const { error: restoreError } = await (supabase as any)
       .from(entry.table_name)
       .update({
         deleted_at: null,

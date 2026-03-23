@@ -1,4 +1,3 @@
-// @ts-nocheck — Tables LMS pas encore dans database.ts (types Supabase non générés)
 // ============================================================
 // CRM DERMOTEC — Formation LMS Backend
 // Upload/download fichiers, signed URLs, progression stagiaire
@@ -155,16 +154,8 @@ async function getSupabase() {
 }
 
 /** Log non-bloquant */
-function log(message: string, data?: unknown) {
-  try {
-    if (data) {
-      console.log(`${LOG_PREFIX} ${message}`, data)
-    } else {
-      console.log(`${LOG_PREFIX} ${message}`)
-    }
-  } catch {
-    // silencieux
-  }
+function log(_message: string, _data?: unknown) {
+  // Debug logging disabled in production
 }
 
 function logError(message: string, err?: unknown) {

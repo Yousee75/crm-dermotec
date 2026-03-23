@@ -79,7 +79,6 @@ export interface CreateBookingParams {
 async function calcomFetch<T>(path: string, options?: RequestInit): Promise<T | null> {
   const headers = getHeaders()
   if (!headers) {
-    console.log('[Cal.com] API key non configurée — skip')
     return null
   }
 

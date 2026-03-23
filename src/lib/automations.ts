@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Automatisations métier
 // Règles qui se déclenchent sur les changements de statut/données

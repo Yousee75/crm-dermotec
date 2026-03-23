@@ -96,7 +96,7 @@ export async function circuitBreaker<T>(
       circuit.state = 'HALF_OPEN'
       circuit.halfOpenAttempts = 0
       opts.onHalfOpen?.(serviceName)
-      console.log(`[CircuitBreaker] ${serviceName}: OPEN -> HALF_OPEN`)
+      // Circuit state transition: OPEN -> HALF_OPEN
     } else {
       throw new CircuitOpenError(
         serviceName,
@@ -126,7 +126,7 @@ export async function circuitBreaker<T>(
         circuit.failures = 0
         circuit.successes = 0
         opts.onClose?.(serviceName)
-        console.log(`[CircuitBreaker] ${serviceName}: HALF_OPEN -> CLOSED`)
+        // Circuit state transition: HALF_OPEN -> CLOSED
       }
     } else {
       // Reset failures on success in CLOSED state

@@ -557,54 +557,23 @@ export function AgentChat() {
   const modeConfig = MODE_CONFIG[agentMode]
 
   const [input, setInput] = useState('')
-
-  // Transport avec body dynamique (leadId + mode)
-  const transport = useMemo(
-    () =>
-      new DefaultChatTransport({
-        api: '/api/ai/agent-v2',
-        body: { leadId: currentLeadId, mode: agentMode },
-        credentials: 'same-origin',
-      }),
-    [currentLeadId, agentMode]
-  )
-
-  const {
-    messages,
-    sendMessage: chatSendMessage,
-    status,
-    setMessages,
-    error,
-  } = useChat({
-    transport,
-    onError: (err: Error) => {
-      console.error('[AgentChat] Error:', err.message)
-    },
-  })
-
-  const isLoading = status === 'streaming' || status === 'submitted'
+  const [messages, setMessages] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const abortRef = useRef<AbortController | null>(null)
 
   // Message de bienvenue
   const welcomeText = currentLeadId
     ? `Mode ${modeConfig.label} activé. Je suis sur la fiche de ce lead. Que veux-tu savoir ?`
     : `Mode ${modeConfig.label} — ${modeConfig.sublabel}. Comment je peux t'aider ?`
 
-  const welcomeMessage = useMemo<UIMessage>(() => ({
-    id: 'welcome',
-    role: 'assistant' as const,
-    parts: [{ type: 'text' as const, text: welcomeText }],
-  }), [welcomeText])
-
   const displayMessages = useMemo(() => {
-    return [welcomeMessage, ...messages]
-  }, [messages, welcomeMessage])
-
-  // Afficher l'erreur en toast
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || 'Erreur de connexion')
+    const welcome = {
+      id: 'welcome',
+      role: 'assistant' as const,
+      parts: [{ type: 'text' as const, text: welcomeText }],
     }
-  }, [error])
+    return [welcome, ...messages]
+  }, [messages, welcomeText])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -614,11 +583,108 @@ export function AgentChat() {
     if (isOpen && !isMinimized) setTimeout(() => inputRef.current?.focus(), 100)
   }, [isOpen, isMinimized])
 
-  const clearChat = useCallback(() => {
-    setMessages([])
-  }, [setMessages])
+  // Cleanup abort on unmount
+  useEffect(() => {
+    return () => { abortRef.current?.abort() }
+  }, [])
 
-  // Suggestions contextuelles dynamiques (basées sur le mode + contexte lead)
+  const clearChat = useCallback(() => { setMessages([]) }, [])
+
+  // Envoyer un message — fetch direct + parse SSE UIMessage stream
+  const doSend = useCallback(async (text: string) => {
+    if (!text.trim() || isLoading) return
+
+    const userMsg = {
+      id: `u-${Date.now()}`,
+      role: 'user' as const,
+      parts: [{ type: 'text' as const, text }],
+    }
+    const assistantMsg = {
+      id: `a-${Date.now()}`,
+      role: 'assistant' as const,
+      parts: [] as any[],
+    }
+
+    setMessages(prev => [...prev, userMsg, assistantMsg])
+    setIsLoading(true)
+
+    // Préparer l'historique pour l'API
+    const history = [...messages, userMsg].map(m => ({
+      role: m.role,
+      content: m.parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('') || '',
+    }))
+
+    abortRef.current = new AbortController()
+
+    try {
+      const res = await fetch('/api/ai/agent-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        signal: abortRef.current.signal,
+        body: JSON.stringify({
+          messages: history,
+          leadId: currentLeadId,
+          mode: agentMode,
+        }),
+      })
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => 'Erreur')
+        throw new Error(`${res.status}: ${errText}`)
+      }
+
+      const reader = res.body?.getReader()
+      if (!reader) throw new Error('Pas de stream')
+
+      const decoder = new TextDecoder()
+      let fullText = ''
+      let buffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || '' // garder la dernière ligne incomplète
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ') || line === 'data: [DONE]') continue
+          try {
+            const chunk = JSON.parse(line.slice(6))
+            if (chunk.type === 'text-delta' && chunk.delta) {
+              fullText += chunk.delta
+              // Mettre à jour le message assistant avec le nouveau texte
+              setMessages(prev => {
+                const updated = prev.map((m, i) =>
+                  i === prev.length - 1 && m.role === 'assistant'
+                    ? { ...m, parts: [{ type: 'text' as const, text: fullText }] }
+                    : m
+                )
+                return updated
+              })
+            }
+          } catch { /* chunk invalide — skip */ }
+        }
+      }
+    } catch (err: any) {
+      if (err.name === 'AbortError') return
+      console.error('[AgentChat]', err.message)
+      setMessages(prev => {
+        const updated = prev.map((m, i) =>
+          i === prev.length - 1 && m.role === 'assistant'
+            ? { ...m, parts: [{ type: 'text' as const, text: `Erreur : ${err.message}` }] }
+            : m
+        )
+        return updated
+      })
+    } finally {
+      setIsLoading(false)
+      abortRef.current = null
+    }
+  }, [messages, isLoading, currentLeadId, agentMode])
+
   const suggestions = currentLeadId
     ? modeConfig.suggestionsLead
     : modeConfig.suggestions
@@ -627,13 +693,13 @@ export function AgentChat() {
     const trimmed = input.trim()
     if (!trimmed || isLoading) return
     setInput('')
-    await chatSendMessage({ text: trimmed })
-  }, [input, isLoading, chatSendMessage])
+    await doSend(trimmed)
+  }, [input, isLoading, doSend])
 
   const submitSuggestion = useCallback(async (text: string) => {
     if (isLoading) return
-    await chatSendMessage({ text })
-  }, [isLoading, chatSendMessage])
+    await doSend(text)
+  }, [isLoading, doSend])
 
   return (
     <>

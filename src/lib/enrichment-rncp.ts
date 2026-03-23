@@ -77,8 +77,8 @@ const FORMATIONS_RNCP_MAP: Record<string, { rncp?: string; rs?: string }> = {
 
 // ── Helpers ──────────────────────────────────────────────────
 
-function log(...args: unknown[]) {
-  console.log(LOG_PREFIX, ...args)
+function log(..._args: unknown[]) {
+  // Debug logging disabled in production
 }
 
 function warn(...args: unknown[]) {

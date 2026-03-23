@@ -15,8 +15,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Nom requis' }, { status: 400 })
     }
 
-    console.log(`[API Scrape] Démarrage scraping pour "${nom}" à ${ville || 'N/A'}`)
-
     const result = await scrapeCompetitorFull({
       nom,
       ville: ville || '',

@@ -272,7 +272,6 @@ export async function POST(request: NextRequest) {
       })
     } catch { /* silent */ }
 
-    console.log(`[Devis] Cree ${devisNumber} pour lead ${lead_id} — ${formationNom} ${montantTtc}\u20AC TTC`)
 
     return NextResponse.json({
       devisId: devis.id,

@@ -211,8 +211,6 @@ export async function fetchAllReviewsOutscraper(query: string, lastEnrichmentDat
       owner_answer_date: r.owner_answer_timestamp_datetime_utc,
     }))
 
-    console.log(`[Outscraper] ${reviews.length} avis récupérés pour "${place.name}", distribution: ${JSON.stringify(reviewsPerScore)}`)
-
     return { reviews, placeData, reviewsPerScore }
   } catch (err) {
     console.error('[Outscraper] Erreur:', err)

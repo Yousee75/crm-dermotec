@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
 import { sendBienvenueEmail, sendRappelNotification } from '@/lib/email'
@@ -204,7 +203,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log('[Cadence] Run complete:', results)
     return NextResponse.json({ success: true, results })
   } catch (err) {
     console.error('[Cadence] Fatal error:', err)

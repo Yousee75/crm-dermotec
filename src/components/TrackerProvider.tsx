@@ -37,7 +37,7 @@ export function TrackerProvider({ children }: TrackerProviderProps) {
             timestamp: new Date().toISOString()
           })
 
-          console.log('[TrackerProvider] Tracking initialized for user:', user.email)
+          // Tracking initialized
         }
       } catch (error) {
         console.warn('[TrackerProvider] Failed to initialize tracking:', error)

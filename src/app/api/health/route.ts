@@ -54,9 +54,6 @@ export async function GET(request: NextRequest) {
     const health = await performHealthChecks()
     const duration = Date.now() - start
 
-    // Log des résultats pour monitoring
-    console.log(formatHealthForLogs(health))
-
     const status = health.overall_status === 'healthy' ? 200 : 503
 
     if (format === 'text') {

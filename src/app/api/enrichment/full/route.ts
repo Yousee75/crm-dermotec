@@ -70,7 +70,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Nom ou SIRET requis' }, { status: 400 })
     }
 
-    console.log(`[Enrichment Full] Démarrage pour ${params.nom} (${params.siret || 'pas de SIRET'})`)
     const startTime = Date.now()
 
     // ═══ LANCER L'ORCHESTRATEUR 25 SOURCES ═══
@@ -78,7 +77,6 @@ export async function POST(req: NextRequest) {
     const intel = await enrichComplet(params)
 
     const durationMs = Date.now() - startTime
-    console.log(`[Enrichment Full] Terminé en ${durationMs}ms`)
 
     // ═══ STOCKER DANS SUPABASE ═══
     // Mapping CORRECT des propriétés IntelligenceComplete
@@ -156,7 +154,6 @@ export async function POST(req: NextRequest) {
         },
       }).eq('id', leadId)
 
-      console.log(`[Enrichment Full] Stocké dans prospect_data pour lead ${leadId}`)
     }
 
     return NextResponse.json({

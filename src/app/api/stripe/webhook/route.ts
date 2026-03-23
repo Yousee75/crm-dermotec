@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createServiceSupabase } from '@/lib/supabase-server'
@@ -77,7 +76,7 @@ export async function POST(request: NextRequest) {
     },
   }, { onConflict: 'event_id' })
 
-  console.log(`[Stripe Webhook] Event: ${event.type} (${event.id})`)
+  // Event received and verified
 
   // 4. Envoyer à Inngest pour traitement async
   try {
@@ -350,7 +349,7 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
     }
 
     default:
-      console.log(`[Stripe Webhook] Event non géré: ${event.type}`)
+      // Event non géré
   }
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

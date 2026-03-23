@@ -28,8 +28,7 @@ export async function generateStaticMap(params: {
 
   try {
     // Import dynamique — staticmaps utilise sharp qui peut crasher au SSG
-    // @ts-ignore - no types for staticmaps
-    const StaticMaps = (await import('staticmaps')).default
+    const StaticMaps = ((await import('staticmaps')) as any).default
 
     const map = new StaticMaps({
       width,

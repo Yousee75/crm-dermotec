@@ -60,7 +60,6 @@ export async function getAnnoncesBySiren(siren: string): Promise<AnnonceBodacc[]
     const { cacheGet } = await import('./upstash')
     const cached = await cacheGet<AnnonceBodacc[]>(key)
     if (cached) {
-      console.log(TAG, 'Cache hit:', sirenClean)
       return cached
     }
   } catch { /* Redis down */ }
@@ -101,7 +100,6 @@ export async function getAnnoncesBySiren(siren: string): Promise<AnnonceBodacc[]
       await cacheSet(key, annonces, CACHE_TTL)
     } catch { /* Silent */ }
 
-    console.log(TAG, `${annonces.length} annonces trouvées pour SIREN ${sirenClean}`)
     return annonces
   } catch (err) {
     console.error(TAG, 'Fetch failed:', err)
@@ -124,7 +122,6 @@ export async function checkProcedureCollective(siren: string): Promise<Procedure
     const { cacheGet } = await import('./upstash')
     const cached = await cacheGet<ProcedureCollective>(key)
     if (cached) {
-      console.log(TAG, 'Procedure cache hit:', sirenClean)
       return cached
     }
   } catch { /* Redis down */ }
@@ -185,7 +182,6 @@ export async function getCreationsRadiationsZone(
     const { cacheGet } = await import('./upstash')
     const cached = await cacheGet<CreationsRadiationsZone>(key)
     if (cached) {
-      console.log(TAG, 'Zone cache hit:', departement)
       return cached
     }
   } catch { /* Redis down */ }
@@ -214,7 +210,6 @@ export async function getCreationsRadiationsZone(
       await cacheSet(key, result, CACHE_TTL)
     } catch { /* Silent */ }
 
-    console.log(TAG, `Zone ${departement} (${derniersMois}m): ${result.creations} créa, ${result.radiations} rad, ${result.procedures} proc`)
     return result
   } catch (err) {
     console.error(TAG, 'Zone fetch failed:', err)

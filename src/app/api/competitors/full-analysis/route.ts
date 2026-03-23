@@ -24,8 +24,6 @@ export async function POST(request: NextRequest) {
 
     const max = Math.min(maxCompetitors || 5, 10)
 
-    console.log(`[FullAnalysis] Démarrage pour ${nom || siret}, rayon ${radiusM || 1000}m, max ${max}`)
-
     // PHASE 1 : Discovery + Analyse de base
     const discovery = await discoverCompetitors({ siret, nom, ville, radiusM })
     if (!discovery) {
@@ -45,8 +43,6 @@ export async function POST(request: NextRequest) {
     const enrichedCompetitors = []
 
     for (const comp of analysis.competitors.slice(0, max)) {
-      console.log(`[FullAnalysis] Enrichissement ${comp.nom}...`)
-
       // 3a. Scraping plateformes (PJ, Planity, Treatwell)
       let scraped = null
       try {

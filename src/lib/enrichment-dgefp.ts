@@ -64,7 +64,6 @@ async function cacheGet(key: string): Promise<unknown | null> {
     const { cacheGet: redisGet } = await import('./upstash')
     const cached = await redisGet(key)
     if (cached) {
-      console.log(`[DGEFP] Cache hit (Redis) : ${key}`)
       return cached
     }
   } catch { /* Redis down — fallback DB */ }
@@ -80,7 +79,6 @@ async function cacheGet(key: string): Promise<unknown | null> {
       .gt('expires_at', new Date().toISOString())
       .single()
     if ((data as any)?.data) {
-      console.log(`[DGEFP] Cache hit (DB) : ${key}`)
       return (data as any).data
     }
   } catch { /* Silent */ }
@@ -123,7 +121,6 @@ function buildUrl(params: Record<string, string | number | undefined>): string {
 }
 
 async function fetchDGEFP<T>(url: string): Promise<T> {
-  console.log(`[DGEFP] Requête : ${url}`)
   const start = Date.now()
 
   const res = await fetch(url, {
@@ -137,7 +134,6 @@ async function fetchDGEFP<T>(url: string): Promise<T> {
   }
 
   const data = await res.json()
-  console.log(`[DGEFP] Réponse en ${Date.now() - start}ms — ${data.total_count ?? '?'} résultats`)
   return data as T
 }
 
@@ -285,7 +281,6 @@ export async function getOrganismeByNDA(
   nda: string
 ): Promise<OrganismeFormation | null> {
   if (!nda || nda.trim().length === 0) {
-    console.log('[DGEFP] getOrganismeByNDA : NDA vide')
     return null
   }
 
@@ -312,7 +307,6 @@ export async function getOrganismeBySiren(
   siren: string
 ): Promise<OrganismeFormation | null> {
   if (!siren || siren.trim().length === 0) {
-    console.log('[DGEFP] getOrganismeBySiren : SIREN vide')
     return null
   }
 

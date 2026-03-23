@@ -57,8 +57,8 @@ const LOG_PREFIX = '[EDOF]'
 
 // ── Helpers ──────────────────────────────────────────────────
 
-function log(...args: unknown[]) {
-  console.log(LOG_PREFIX, ...args)
+function log(..._args: unknown[]) {
+  // Debug logging disabled in production
 }
 
 function buildUrl(params: Record<string, string | number | undefined>): string {

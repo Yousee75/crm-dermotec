@@ -403,7 +403,7 @@ export async function fullSelfCheck(
   if (!result.healthy) {
     console.error(`[AI SELF-CHECK] UNHEALTHY: ${issues.join(' | ')}`)
   } else {
-    console.log(`[AI SELF-CHECK] Healthy (${result.duration_ms}ms)`)
+    // AI self-check healthy
   }
 
   return result

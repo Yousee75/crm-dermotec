@@ -31,21 +31,21 @@ const defaultLeftActions: SwipeAction[] = [
     label: 'Appeler',
     icon: <Phone size={18} />,
     color: 'success',
-    onClick: () => console.log('Call action')
+    onClick: () => {}
   },
   {
     key: 'email',
     label: 'Email',
     icon: <Mail size={18} />,
     color: 'action',
-    onClick: () => console.log('Email action')
+    onClick: () => {}
   },
   {
     key: 'whatsapp',
     label: 'WhatsApp',
     icon: <MessageCircle size={18} />,
     color: 'success',
-    onClick: () => console.log('WhatsApp action')
+    onClick: () => {}
   }
 ]
 

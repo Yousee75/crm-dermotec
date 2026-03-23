@@ -230,7 +230,7 @@ async function checkStorageHealth(): Promise<HealthCheck> {
  * Effectue tous les health checks
  */
 export async function performHealthChecks(): Promise<HealthStatus> {
-  console.log('[Health] Starting health checks...')
+  // Starting health checks
 
   // Exécuter tous les checks en parallèle pour la performance
   const [supabaseCheck, stripeCheck, resendCheck, storageCheck] = await Promise.all([
@@ -270,7 +270,6 @@ export async function performHealthChecks(): Promise<HealthStatus> {
     environment: process.env.VERCEL_ENV || process.env.NODE_ENV || 'development'
   }
 
-  console.log(`[Health] Overall status: ${overallStatus} (${checks.length} checks)`)
   return result
 }
 

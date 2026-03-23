@@ -132,10 +132,6 @@ export async function fetchNeighborhoodData(
   // Trier landmarks par distance
   landmarks.sort((a, b) => a.distance - b.distance)
 
-  console.log(`[Neighborhood] ${lat},${lng} r=${radiusM}m : ` +
-    `métros=${counts.metros || 0} restos=${counts.restaurants || 0} ` +
-    `beauté=${counts.beautyCompetitors || 0} score=${footTrafficScore}`)
-
   return {
     metros: counts.metros || 0,
     restaurants: counts.restaurants || 0,

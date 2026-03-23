@@ -77,7 +77,7 @@ export default function ConcurrentsPage() {
       const fullData = await res.json()
       if (res.ok) {
         // TODO: afficher les résultats complets dans un dialog/sheet
-        console.log('Full analysis:', fullData)
+        // TODO: afficher les résultats complets dans un dialog/sheet
       }
     } catch { /* silent */ } finally {
       setFullAnalysisLoading(false)

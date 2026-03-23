@@ -32,21 +32,14 @@ export async function POST(req: NextRequest) {
 
     // 1. Identifier ce qui manque
     const manquantes = identifierDonneesManquantes(data)
-    console.log(`[Briefing] Prospect: ${data.prospect.entreprise}`)
-    console.log(`[Briefing] Données manquantes: ${manquantes.length ? manquantes.join(', ') : 'aucune'}`)
-
     // 2. Calculer la note pondérée
     const { note, total } = calculerNotePonderee(data.plateformes)
-    console.log(`[Briefing] Note pondérée: ${note}/5 sur ${total} avis`)
 
     // 3. Déterminer les graphiques à générer
     const graphiques = determinerGraphiques(data)
-    console.log(`[Briefing] Graphiques: ${graphiques.join(', ')}`)
 
     // 4. Analyser avec Claude
-    console.log(`[Briefing] Analyse Claude en cours...`)
     const analysis: BriefingAnalysis = await analyzeBriefing(data)
-    console.log(`[Briefing] Score: ${analysis.scores.global}/100 — ${analysis.classification}`)
 
     // 5. Générer la carte OSM
     let mapBuffer: Buffer | undefined

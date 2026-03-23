@@ -220,7 +220,7 @@ export const stripeWebhookProcessor = inngest.createFunction(
       }
 
       default:
-        console.log(`[Stripe Processor] Event non géré: ${eventType}`)
+        // Event non géré
     }
 
     // Marquer comme traité

@@ -73,7 +73,7 @@ export class ConsoleEventBus implements EventBus {
 
   async publish(event: CRMDomainEvent): Promise<void> {
     this.events.push(event)
-    console.log(`[EventBus:Console] ${event.name}`, JSON.stringify(event.data, null, 2))
+    // Event published to console bus
   }
 
   async publishMany(events: CRMDomainEvent[]): Promise<void> {

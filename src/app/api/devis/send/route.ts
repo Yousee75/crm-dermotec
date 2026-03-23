@@ -156,8 +156,6 @@ export async function POST(request: NextRequest) {
       metadata: { devis_id, email: lead.email },
     })
 
-    console.log(`[Devis] Envoyé ${devisRef} à ${lead.email}`)
-
     return NextResponse.json({ success: true, sentTo: lead.email })
   } catch (err) {
     console.error('[Devis] Send error:', err)

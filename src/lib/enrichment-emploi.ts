@@ -95,7 +95,6 @@ export async function getToken(): Promise<string | null> {
     const json = await res.json()
     _cachedToken = json.access_token
     _tokenExpiresAt = Date.now() + TOKEN_TTL * 1000
-    console.log(TAG, 'Token obtenu, expire dans', TOKEN_TTL, 's')
     return _cachedToken
   } catch (err) {
     console.error(TAG, 'Token fetch failed:', err)
@@ -122,7 +121,6 @@ export async function searchOffresEmploi(params: SearchParams = {}): Promise<Off
     const { cacheGet } = await import('./upstash')
     const cached = await cacheGet<OffreEmploi[]>(key)
     if (cached) {
-      console.log(TAG, 'Cache hit:', key)
       return cached
     }
   } catch { /* Redis down */ }
@@ -180,7 +178,6 @@ export async function searchOffresEmploi(params: SearchParams = {}): Promise<Off
       await cacheSet(key, offres, CACHE_TTL)
     } catch { /* Silent */ }
 
-    console.log(TAG, `${offres.length} offres trouvées (${departement}, ${codeRome})`)
     return offres
   } catch (err) {
     console.error(TAG, 'Search failed:', err)
@@ -201,7 +198,6 @@ export async function getStatsEmploiZone(departement: string): Promise<StatsEmpl
     const { cacheGet } = await import('./upstash')
     const cached = await cacheGet<StatsEmploiZone>(key)
     if (cached) {
-      console.log(TAG, 'Stats cache hit:', departement)
       return cached
     }
   } catch { /* Redis down */ }
@@ -234,7 +230,6 @@ export async function getStatsEmploiZone(departement: string): Promise<StatsEmpl
     await cacheSet(key, stats, CACHE_TTL)
   } catch { /* Silent */ }
 
-  console.log(TAG, `Stats ${departement}: ${stats.nb_offres} offres, ${nb_cdi} CDI, salaire moy ${salaire_moyen}`)
   return stats
 }
 

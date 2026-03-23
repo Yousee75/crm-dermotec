@@ -43,7 +43,6 @@ const TIMEOUT_MS = 15000
  */
 export async function getConventionCollective(siret: string): Promise<ConventionCollective | null> {
   if (!siret || siret.length !== 14) {
-    console.log('[CONV] SIRET invalide:', siret)
     return null
   }
 
@@ -54,17 +53,14 @@ export async function getConventionCollective(siret: string): Promise<Convention
     try {
       const cached = await redis.get(cacheKey)
       if (cached) {
-        console.log('[CONV] Cache hit:', siret)
         return cached
       }
     } catch (error) {
-      console.log('[CONV] Cache read error (continue):', String(error))
+      // Cache read error — continue
     }
   }
 
   try {
-    console.log('[CONV] Fetching convention collective:', siret)
-
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS)
 
@@ -82,14 +78,12 @@ export async function getConventionCollective(siret: string): Promise<Convention
     clearTimeout(timeoutId)
 
     if (!response.ok) {
-      console.log('[CONV] API error:', response.status, response.statusText)
       return null
     }
 
     const data = await response.json()
 
     if (!data || typeof data.idcc !== 'number') {
-      console.log('[CONV] Invalid response format:', data)
       return null
     }
 
@@ -106,20 +100,18 @@ export async function getConventionCollective(siret: string): Promise<Convention
     if (redis) {
       try {
         await redis.setex(cacheKey, CACHE_TTL, convention)
-        console.log('[CONV] Cached for 24h:', siret)
       } catch (error) {
-        console.log('[CONV] Cache write error (continue):', String(error))
+        // Cache write error — continue
       }
     }
 
-    console.log('[CONV] Success:', siret, '→ IDCC', data.idcc)
     return convention
 
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
-      console.log('[CONV] Timeout after 15s:', siret)
+      // Timeout after 15s
     } else {
-      console.log('[CONV] Fetch error (silent):', siret, String(error))
+      // Fetch error — silent fallback
     }
     return null
   }
@@ -151,8 +143,6 @@ export async function isSecteurBeaute(siret: string): Promise<boolean> {
  * Batch enrichment pour plusieurs SIRETs
  */
 export async function getConventionsCollectives(sirets: string[]): Promise<Record<string, ConventionCollective | null>> {
-  console.log('[CONV] Batch enrichment:', sirets.length, 'SIRETs')
-
   const results: Record<string, ConventionCollective | null> = {}
 
   // Process in parallel with max 5 concurrent requests
@@ -181,6 +171,5 @@ export async function getConventionsCollectives(sirets: string[]): Promise<Recor
     }
   }
 
-  console.log('[CONV] Batch completed:', Object.keys(results).length, 'results')
   return results
 }

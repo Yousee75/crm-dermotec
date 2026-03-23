@@ -201,8 +201,6 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    console.log(`[Tracking] Inserted ${count} events for user ${userId}`)
-
     return NextResponse.json({
       success: true,
       inserted: count,

@@ -47,7 +47,7 @@ export async function sendTemplateEmail<T extends EmailTemplateName>(
         'X-Dermotec-CRM': 'true',
       },
     })
-    console.log(`[Email] ${template} envoyé à ${to}`, result.data?.id)
+    // Email sent successfully
     return result.data?.id || null
   } catch (err) {
     console.error(`[Email] Erreur ${template}:`, err)

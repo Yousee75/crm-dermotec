@@ -76,8 +76,6 @@ export async function sendSMS(to: string, message: string): Promise<{ success: b
     phone = '+' + phone
   }
 
-  console.log(`[SMS] Envoi à ${phone}: ${message.slice(0, 50)}...`)
-
   return twilioRequest('/Messages.json', {
     From: config.phoneNumber,
     To: phone,
@@ -98,8 +96,6 @@ export async function sendWhatsApp(to: string, message: string): Promise<{ succe
   if (!phone.startsWith('+')) {
     phone = '+' + phone
   }
-
-  console.log(`[WhatsApp] Envoi à ${phone}: ${message.slice(0, 50)}...`)
 
   return twilioRequest('/Messages.json', {
     From: config.whatsappNumber || `whatsapp:${config.phoneNumber}`,

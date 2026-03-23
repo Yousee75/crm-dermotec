@@ -96,7 +96,7 @@ export function DocumentChecklist({
     setUploadingType(type)
     try {
       // Ici vous implémenterez l'upload du fichier
-      console.log(`Upload ${file.name} pour ${type}`)
+      // TODO: Implement file upload
       onDocumentUpload?.()
     } catch (error) {
       console.error('Erreur upload:', error)
@@ -108,7 +108,7 @@ export function DocumentChecklist({
   const handleDelete = async (documentId: string) => {
     try {
       // Ici vous implémenterez la suppression
-      console.log(`Suppression document ${documentId}`)
+      // TODO: Implement document deletion
       onDocumentUpload?.()
     } catch (error) {
       console.error('Erreur suppression:', error)

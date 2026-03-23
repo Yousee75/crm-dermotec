@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // Inngest Function: Auto-enrichment Lead
 // Enrichit automatiquement un lead avec des données externes

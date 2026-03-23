@@ -91,7 +91,6 @@ async function getCachedData(key: string): Promise<any> {
     if (upstashClient) {
       const cached = await upstashClient.get(key)
       if (cached) {
-        console.log(`[OSM] Cache hit Upstash: ${key}`)
         return cached
       }
     }
@@ -106,7 +105,6 @@ async function getCachedData(key: string): Promise<any> {
         .single()
 
       if (data?.data) {
-        console.log(`[OSM] Cache hit Supabase: ${key}`)
         return data.data
       }
     }
@@ -125,7 +123,6 @@ async function setCachedData(key: string, data: any): Promise<void> {
     // Sauver dans Upstash
     if (upstashClient) {
       await upstashClient.setex(key, CACHE_TTL, data)
-      console.log(`[OSM] Cache set Upstash: ${key}`)
     }
 
     // Sauver dans Supabase
@@ -138,7 +135,6 @@ async function setCachedData(key: string, data: any): Promise<void> {
           provider: 'osm',
           expires_at: expiresAt.toISOString(),
         })
-      console.log(`[OSM] Cache set Supabase: ${key}`)
     }
   } catch (error) {
     console.warn(`[OSM] Erreur cache écriture ${key}:`, error)
@@ -242,8 +238,6 @@ export async function findBeautyShopsInArea(params: {
       return cached
     }
 
-    console.log(`[OSM] Recherche instituts beauté: lat=${lat}, lng=${lng}, rayon=${radiusMeters}m`)
-
     // Construire la requête Overpass QL
     const query = `
 [out:json][timeout:25];
@@ -277,8 +271,6 @@ out center body;
 
     // Trier par distance
     beautyShops.sort((a, b) => (a.distance_meters || 0) - (b.distance_meters || 0))
-
-    console.log(`[OSM] Trouvé ${beautyShops.length} instituts dans ${radiusMeters}m`)
 
     // Mettre en cache
     await setCachedData(cacheKey, beautyShops)
@@ -317,8 +309,6 @@ export async function countCompetitorsByPostalCode(codePostal: string): Promise<
       return cached
     }
 
-    console.log(`[OSM] Comptage concurrents pour code postal: ${codePostal}`)
-
     // Pour un vrai projet, il faudrait une API de géocodage pour obtenir
     // les coordonnées du centroïde du code postal. Ici on utilise une approximation.
     // En France, on peut utiliser l'API gouvernementale : api-adresse.data.gouv.fr
@@ -338,8 +328,6 @@ export async function countCompetitorsByPostalCode(codePostal: string): Promise<
       spas: shops.filter(s => s.type === 'spa').length,
       density_per_km2: Math.round(shops.length / (Math.PI * 3 * 3)) // approximation
     }
-
-    console.log(`[OSM] Code postal ${codePostal}: ${counts.total} instituts trouvés`)
 
     // Mettre en cache
     await setCachedData(cacheKey, counts)

@@ -239,7 +239,6 @@ export async function getPrixM2Commune(
   // Check cache
   const cached = await getCached<PrixDVF>(key)
   if (cached) {
-    console.log(TAG, 'Cache hit commune:', codeCommune)
     return cached
   }
 
@@ -248,17 +247,14 @@ export async function getPrixM2Commune(
   if (mutations.length === 0) {
     // Essayer l'année précédente si pas de données
     if (!annee) {
-      console.log(TAG, `Pas de données ${anneeEffective}, essai ${anneeEffective - 1}`)
       const mutationsPrev = await fetchMutations(codeCommune, anneeEffective - 1)
       if (mutationsPrev.length > 0) {
         const result = calculerPrix(mutationsPrev, anneeEffective - 1)
         result.code_commune = codeCommune
         await setCache(key, result)
-        console.log(TAG, `${result.nb_transactions} transactions pour ${codeCommune} (${result.annee})`)
         return result
       }
     }
-    console.log(TAG, `Aucune mutation DVF pour ${codeCommune}`)
     return null
   }
 
@@ -268,7 +264,6 @@ export async function getPrixM2Commune(
   // Cache 7 jours
   await setCache(key, result)
 
-  console.log(TAG, `${result.nb_transactions} transactions, médian ${result.prix_m2_median} EUR/m² pour ${codeCommune}`)
   return result
 }
 
@@ -294,7 +289,6 @@ export async function getPrixM2ParAdresse(
   // Check cache
   const cached = await getCached<PrixDVF>(key)
   if (cached) {
-    console.log(TAG, 'Cache hit adresse:', latRound, lngRound)
     return cached
   }
 
@@ -314,7 +308,7 @@ export async function getPrixM2ParAdresse(
       const communes = await res.json()
       if (Array.isArray(communes) && communes.length > 0) {
         codeCommune = communes[0].code
-        console.log(TAG, `Commune trouvée: ${communes[0].nom} (${codeCommune})`)
+        // Commune found
       }
     }
   } catch (err) {
@@ -354,13 +348,11 @@ export async function getStandingQuartier(
   // Check cache
   const cached = await getCached<StandingQuartier>(key)
   if (cached) {
-    console.log(TAG, 'Cache hit standing:', codeCommune)
     return cached
   }
 
   const prix = await getPrixM2Commune(codeCommune)
   if (!prix || prix.nb_transactions < 5) {
-    console.log(TAG, `Pas assez de transactions pour classifier ${codeCommune}`)
     return null
   }
 
@@ -379,6 +371,5 @@ export async function getStandingQuartier(
   // Cache 7 jours
   await setCache(key, standing)
 
-  console.log(TAG, `Standing ${codeCommune}: ${standing} (${prix.prix_m2_median} EUR/m²)`)
   return standing
 }

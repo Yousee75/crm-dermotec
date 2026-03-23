@@ -1495,7 +1495,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         <div className="px-6">
           <PipelineBar
             currentStep={currentStep}
-            onStepClick={(step) => console.log('Step clicked:', step)}
+            onStepClick={() => {}}
           />
         </div>
 

@@ -254,8 +254,6 @@ export const proactiveAgent = inngest.createFunction(
       total_actions: leadsChaudsSansContact.length + financementsStagnants.length + leadsRecuperables.length,
     }
 
-    console.log('[ProactiveAgent] Summary:', summary)
-
     // ============================================
     // STEP 6: Email récap aux admins
     // ============================================

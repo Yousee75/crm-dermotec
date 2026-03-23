@@ -65,7 +65,6 @@ export async function analyzePageSpeed(
     const { cacheGet } = await import('./upstash')
     const cached = await cacheGet<PageSpeedResult>(key)
     if (cached) {
-      console.log(TAG, 'Cache hit:', normalizedUrl, strategy)
       return cached
     }
   } catch { /* Redis down */ }
@@ -143,7 +142,6 @@ export async function analyzePageSpeed(
       await cacheSet(key, result, CACHE_TTL)
     } catch { /* Silent */ }
 
-    console.log(TAG, `${strategy} score: ${result.score}/100 pour ${normalizedUrl}`)
     return result
   } catch (err) {
     console.error(TAG, 'Analyse failed:', err)
@@ -164,7 +162,6 @@ export async function getDigitalMaturityScore(url: string): Promise<number> {
     const { cacheGet } = await import('./upstash')
     const cached = await cacheGet<number>(key)
     if (cached !== null && cached !== undefined) {
-      console.log(TAG, 'Maturity cache hit:', normalizedUrl)
       return cached
     }
   } catch { /* Redis down */ }
@@ -197,7 +194,6 @@ export async function getDigitalMaturityScore(url: string): Promise<number> {
     await cacheSet(key, score, CACHE_TTL)
   } catch { /* Silent */ }
 
-  console.log(TAG, `Maturité digitale: ${score}/100 (mobile=${mobileScore}, desktop=${desktopScore})`)
   return score
 }
 

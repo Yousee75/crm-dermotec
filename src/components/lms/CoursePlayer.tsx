@@ -1,4 +1,3 @@
-// @ts-nocheck — Types LMS non générés
 'use client'
 // ============================================================
 // CRM SATOREA — Course Player (style Udemy)
@@ -49,6 +48,8 @@ interface Content {
   // Audio
   audio_url?: string
   audio_duration_seconds?: number
+  // Thumbnail
+  video_thumbnail_url?: string
   // Inline
   contenu?: any
   // Config

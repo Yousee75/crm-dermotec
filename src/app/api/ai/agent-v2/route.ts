@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ============================================================
 // CRM DERMOTEC — Agent IA Commercial v3 (Vercel AI SDK)
 // POST /api/ai/agent-v2

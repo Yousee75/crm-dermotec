@@ -439,8 +439,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
 // ===== LEGACY — Anciennes fonctions tab-based (plus appelées, layout 2 colonnes inline) =====
 
-// @ts-ignore — dead code, kept for reference
-function ResumeTab({ lead, isEditing, editedLead, setEditedLead, setIsEditing, handleSave, newTag, setNewTag, handleAddTag, handleRemoveTag, isLoading, completionPct, onShowWizard, onActionClick }: {
+// Legacy dead code, kept for reference
+function _ResumeTab({ lead, isEditing, editedLead, setEditedLead, setIsEditing, handleSave, newTag, setNewTag, handleAddTag, handleRemoveTag, isLoading, completionPct, onShowWizard, onActionClick }: {
   lead: Lead; isEditing: boolean; editedLead: Partial<Lead>; setEditedLead: (fn: (prev: Partial<Lead>) => Partial<Lead>) => void; setIsEditing: (v: boolean) => void; handleSave: () => void; newTag: string; setNewTag: (v: string) => void; handleAddTag: () => void; handleRemoveTag: (t: string) => void; isLoading: boolean; completionPct: number; onShowWizard: () => void; onActionClick: (a: string) => void
 }) {
   return (

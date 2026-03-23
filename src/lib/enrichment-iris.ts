@@ -1,4 +1,3 @@
-// @ts-nocheck
 import 'server-only'
 // ============================================================
 // CRM DERMOTEC — Enrichissement IRIS (revenus par quartier INSEE)

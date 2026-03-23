@@ -80,7 +80,6 @@ export interface CreateSubmissionParams {
 async function docusealFetch<T>(path: string, options?: RequestInit): Promise<T | null> {
   const headers = getHeaders()
   if (!headers) {
-    console.log('[DocuSeal] API key non configurée — skip')
     return null
   }
 

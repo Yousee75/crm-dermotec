@@ -216,7 +216,6 @@ export async function createCommission(input: CommissionInput): Promise<void> {
       metadata: result,
     })
 
-    console.log(`[Commission] ${input.commercial_nom}: ${result.total_commission.toFixed(2)} EUR sur ${input.formation_nom}`)
   } catch (err) {
     console.error('[Commission] Erreur creation:', err)
   }
@@ -238,7 +237,6 @@ export async function annulerCommission(inscriptionId: string, raison: string): 
       })
       .eq('inscription_id', inscriptionId)
 
-    console.log(`[Commission] Annulee pour inscription ${inscriptionId}: ${raison}`)
   } catch (err) {
     console.error('[Commission] Erreur annulation:', err)
   }
