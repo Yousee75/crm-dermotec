@@ -1,54 +1,24 @@
 // ============================================================
 // CRM DERMOTEC — AI SDK Configuration
-// Provider: Claude Sonnet 4.6 (meilleur agent commercial)
+// Provider: Claude Sonnet 3.5 (meilleur agent commercial)
 // Fallback: Mistral Large (RGPD EU) → OpenAI GPT-4o
 // ============================================================
 import 'server-only'
 
-import { anthropic } from '@ai-sdk/anthropic'
-import { mistral } from '@ai-sdk/mistral'
-import { openai } from '@ai-sdk/openai'
-
-// Provider par defaut: Claude Sonnet 4.6 (best tool calling + français)
+// Provider par défaut: Claude Sonnet 3.5 (best tool calling + français)
 export function getModel(tier: 'best' | 'fast' | 'eu' = 'best') {
   switch (tier) {
     case 'best':
-      // Claude Sonnet 4.6 — meilleur agent avec tools, français excellent
-      if (process.env.ANTHROPIC_API_KEY) {
-        return anthropic('claude-sonnet-4-6')
-      }
-      // Fallback Mistral si pas de clé Anthropic
-      if (process.env.MISTRAL_API_KEY) {
-        return mistral('mistral-large-latest')
-      }
-      // Fallback OpenAI
-      if (process.env.OPENAI_API_KEY) {
-        return openai('gpt-4o')
-      }
-      throw new Error('Aucune clé API configurée (ANTHROPIC_API_KEY, MISTRAL_API_KEY, ou OPENAI_API_KEY)')
+      // Claude Sonnet 3.5 — meilleur agent avec tools, français excellent
+      return 'anthropic/claude-3-5-sonnet-20241022'
 
     case 'fast':
-      // Claude Haiku 4.5 — rapide et peu cher pour les tâches simples
-      if (process.env.ANTHROPIC_API_KEY) {
-        return anthropic('claude-haiku-4-5-20251001')
-      }
-      if (process.env.MISTRAL_API_KEY) {
-        return mistral('mistral-small-latest')
-      }
-      if (process.env.OPENAI_API_KEY) {
-        return openai('gpt-4o-mini')
-      }
-      throw new Error('Aucune clé API configurée')
+      // Claude Haiku — rapide et peu cher pour les tâches simples
+      return 'anthropic/claude-3-haiku-20240307'
 
     case 'eu':
       // Mistral Large — données traitées en EU (RGPD natif)
-      if (process.env.MISTRAL_API_KEY) {
-        return mistral('mistral-large-latest')
-      }
-      if (process.env.ANTHROPIC_API_KEY) {
-        return anthropic('claude-sonnet-4-6')
-      }
-      throw new Error('MISTRAL_API_KEY requis pour le mode EU/RGPD')
+      return 'mistral/mistral-large-latest'
   }
 }
 

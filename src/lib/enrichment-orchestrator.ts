@@ -447,7 +447,72 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
   // ASSEMBLAGE — Transformer en IntelligenceComplete opaque
   // ============================================================
 
-  return assembleIntelligence(data)
+  const intelligence = assembleIntelligence(data)
+
+  // ============================================================
+  // STOCKAGE — Sauvegarder dans prospect_data (si lead_id fourni)
+  // ============================================================
+
+  if (params.lead_id) {
+    try {
+      const { createClient } = await import('@supabase/supabase-js')
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+      )
+
+      // Collecter tous les avis de toutes les plateformes
+      const allReviews: any[] = []
+      for (const src of [data.pj, data.planity, data.treatwell, data.tripadvisor, data.fresha, data.booksy]) {
+        if (src?.reviews) allReviews.push(...src.reviews)
+      }
+      if (data.outscraper?.reviews) {
+        allReviews.push(...data.outscraper.reviews.map((r: any) => ({
+          platform: 'google',
+          author: r.author_title,
+          rating: r.review_rating,
+          text: r.review_text,
+          date: r.review_datetime_utc
+        })))
+      }
+
+      await supabase.from('prospect_data').upsert({
+        lead_id: params.lead_id,
+        intelligence_complete: intelligence,
+        carte_soins: intelligence.carte_soins,
+        signaux_commerciaux: intelligence.signaux,
+        convention_idcc: data.convention?.idcc,
+        convention_droit_heures: data.convention?.droit_formation_heures,
+        concurrents_osm_count: data.osm?.length || 0,
+        enrichment_version: 'v3.0',
+        last_scraping_at: new Date().toISOString(),
+        sources_count: intelligence.nb_donnees_collectees,
+      }, { onConflict: 'lead_id' })
+
+      // Stocker les avis individuels dans prospect_reviews
+      if (allReviews.length > 0) {
+        const reviewRows = allReviews.slice(0, 200).map(r => ({
+          lead_id: params.lead_id,
+          source: r.platform,
+          author_name: r.author || 'Anonyme',
+          rating: r.rating,
+          text: (r.text || '').slice(0, 1000),
+          review_date: r.date ? new Date(r.date).toISOString().split('T')[0] : null,
+        }))
+
+        for (const review of reviewRows) {
+          await supabase.from('prospect_reviews').upsert(review, {
+            onConflict: 'lead_id,source,author_name,review_date',
+            ignoreDuplicates: true,
+          }).then(() => {})
+        }
+      }
+    } catch (err) {
+      console.warn('[Enrichment] Erreur stockage prospect_data:', err)
+    }
+  }
+
+  return intelligence
 }
 
 /**
