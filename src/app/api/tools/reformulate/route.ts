@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { chatCompletion } from '@/lib/ai'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth(request)
+    if (auth.error) return auth.error
     const { text, tone } = await request.json()
 
     if (!text || typeof text !== 'string' || text.length > 5000) {

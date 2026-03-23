@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { scrapeCompetitorFull } from '@/lib/competitor-scraper'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth(request)
+    if (auth.error) return auth.error
     const body = await request.json()
     const { nom, ville, pagesJaunesUrl, planityUrl, treatwellUrl } = body
 

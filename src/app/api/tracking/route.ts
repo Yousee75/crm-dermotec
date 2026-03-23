@@ -7,6 +7,7 @@
 import { createServiceSupabase } from '@/lib/supabase-server'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -130,6 +131,9 @@ function parseDevice(ua: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    const auth = await requireAuth(req)
+    if (auth.error) return auth.error
+
     const rawBody = await req.json()
     const parsed = trackingRequestSchema.safeParse(rawBody)
 

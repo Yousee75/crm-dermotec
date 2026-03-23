@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { discoverCompetitors } from '@/lib/competitor-discovery'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth(request)
+    if (auth.error) return auth.error
     const body = await request.json()
     const { siret, nom, ville, radiusM } = body
 

@@ -4,8 +4,8 @@
   "description": "CRM intelligent pour centres de formation esthétique",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#082545",
-  "theme_color": "#2EC6F3",
+  "background_color": "#FAF8F5",
+  "theme_color": "#FF5C00",
   "orientation": "any",
   "categories": ["business", "productivity"],
   "icons": [

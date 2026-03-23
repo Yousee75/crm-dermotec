@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { listBookings, createBooking, isCalComConfigured } from '@/lib/calcom'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
 /** GET — Lister les réservations Cal.com */
 export async function GET(req: NextRequest) {
+  const auth = await requireAuth(req)
+  if (auth.error) return auth.error
+
   if (!isCalComConfigured()) {
     return NextResponse.json({ error: 'Cal.com non configuré' }, { status: 503 })
   }

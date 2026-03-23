@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
+  const auth = await requireAuth(request)
+  if (auth.error) return auth.error
+
   const siret = request.nextUrl.searchParams.get('siret')
 
   if (!siret || siret.length !== 14) {

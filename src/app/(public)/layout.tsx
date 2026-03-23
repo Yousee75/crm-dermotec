@@ -1,7 +1,5 @@
 'use client'
 
-export const dynamic = 'force-dynamic'
-
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -20,23 +18,23 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <header className="border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/accueil" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-[#2EC6F3] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#FF5C00] flex items-center justify-center">
               <span className="text-white font-bold text-sm font-[family-name:var(--font-heading)]">D</span>
             </div>
-            <span className="text-lg font-bold text-[#082545] font-[family-name:var(--font-heading)] group-hover:text-[#2EC6F3] transition-colors">
+            <span className="text-lg font-bold text-[#1A1A1A] font-[family-name:var(--font-heading)] group-hover:text-[#FF5C00] transition-colors">
               Dermotec Advanced
             </span>
           </Link>
           <nav className="flex items-center gap-4">
-            <Link href="/formations" className="text-sm text-gray-600 hover:text-[#2EC6F3] transition-colors hidden sm:block">
+            <Link href="/formations" className="text-sm text-gray-600 hover:text-[#FF5C00] transition-colors hidden sm:block">
               Formations
             </Link>
-            <Link href="/pricing" className="text-sm text-gray-600 hover:text-[#2EC6F3] transition-colors hidden sm:block">
+            <Link href="/pricing" className="text-sm text-gray-600 hover:text-[#FF5C00] transition-colors hidden sm:block">
               Tarifs
             </Link>
             <Link
               href="/login"
-              className="text-sm font-semibold text-white bg-[#2EC6F3] hover:bg-[#1ab5e2] rounded-lg px-4 py-2 transition-colors"
+              className="text-sm font-semibold text-white bg-[#FF5C00] hover:bg-[#1ab5e2] rounded-lg px-4 py-2 transition-colors"
             >
               Connexion
             </Link>
@@ -59,19 +57,19 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <nav className="flex items-center gap-6">
               <Link
                 href="/mentions-legales"
-                className="text-sm text-gray-500 hover:text-[#2EC6F3] transition-colors"
+                className="text-sm text-gray-500 hover:text-[#FF5C00] transition-colors"
               >
                 Mentions l&eacute;gales
               </Link>
               <Link
                 href="/politique-confidentialite"
-                className="text-sm text-gray-500 hover:text-[#2EC6F3] transition-colors"
+                className="text-sm text-gray-500 hover:text-[#FF5C00] transition-colors"
               >
                 Confidentialit&eacute;
               </Link>
               <Link
                 href="/conditions-generales"
-                className="text-sm text-gray-500 hover:text-[#2EC6F3] transition-colors"
+                className="text-sm text-gray-500 hover:text-[#FF5C00] transition-colors"
               >
                 CGU / CGV
               </Link>
