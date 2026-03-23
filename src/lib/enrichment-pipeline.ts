@@ -6,6 +6,7 @@
 
 import { verifySIRET, verifySIREN, getOPCOFromNAF, type EntrepriseSirene } from './sirene-api'
 import { fetchGoogleReviews, fetchAllReviewsOutscraper, analyzeReviews, type GoogleReview, type ReviewAnalysis, type OutscraperPlaceData } from './reviews-analyzer'
+import { verifyEmail, type EmailVerificationResult } from './email-verify'
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -32,6 +33,9 @@ export interface EnrichmentResult {
 }
 
 export interface AggregatedProspectData {
+  // Étape 0 : Vérification email
+  emailVerification?: EmailVerificationResult
+
   // Étape 1 : SIRET/Sirene
   sirene?: EntrepriseSirene
   opco?: string | null
@@ -541,6 +545,31 @@ export async function runEnrichmentPipeline(config: PipelineConfig): Promise<Enr
   const steps: StepResult[] = []
   let totalScore = 10 // Score de base pour tout lead
   const aggregatedData: AggregatedProspectData = {}
+
+  // ── ÉTAPE 0 : VÉRIFICATION EMAIL (gratuit, open source, 0 API) ──
+  if (config.email) {
+    const { result: emailResult, durationMs: emailDuration } = await timed(async () => {
+      return verifyEmail(config.email!)
+    })
+
+    aggregatedData.emailVerification = emailResult
+    let emailScoreImpact = 0
+    if (emailResult.valid) emailScoreImpact = 5
+    else if (!emailResult.checks.disposable) emailScoreImpact = -20 // Email jetable = prospect bidon
+    else if (!emailResult.checks.mx) emailScoreImpact = -15 // Domaine inexistant
+    else if (emailResult.checks.smtp === false) emailScoreImpact = -10 // Boîte inexistante
+
+    steps.push({
+      step: 'email_verification',
+      status: emailResult.valid ? 'success' : 'failed',
+      decision: !emailResult.checks.disposable ? 'CONTINUE' : 'CONTINUE', // On continue même si email invalide
+      data: { ...emailResult },
+      scoreImpact: emailScoreImpact,
+      durationMs: emailDuration,
+      reason: emailResult.reason,
+    })
+    totalScore += emailScoreImpact
+  }
 
   // ── ÉTAPE 1 : SIRET ──
   const step1 = await step1_sirene(config)
