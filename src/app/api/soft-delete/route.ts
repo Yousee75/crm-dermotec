@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Table non autorisée' }, { status: 403 })
     }
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // 1. Vérifier que l'enregistrement existe et n'est pas déjà supprimé
     const { data: record, error: fetchError } = await (supabase as any)

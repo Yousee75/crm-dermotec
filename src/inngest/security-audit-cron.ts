@@ -15,13 +15,13 @@ import { inngest } from '../lib/inngest'
 // JOB 1 : Audit sécurité complet — TOUTES LES HEURES
 // ============================================================
 
-export const securityAuditHourly = inngest.createFunction(
+export const securityAuditHourly = (inngest as any).createFunction(
   {
     id: 'security-audit-hourly',
     name: 'Security Audit — Hourly Check',
   },
   { cron: '0 * * * *' }, // Chaque heure pile
-  async ({ step }) => {
+  async ({ step }: { step: any }) => {
     const results: Record<string, any> = {}
     const issues: string[] = []
 
@@ -117,7 +117,7 @@ export const securityAuditHourly = inngest.createFunction(
 
       // Stripe
       try {
-        const stripe = (await import('../lib/stripe')).default
+        const stripe = (await import('../lib/stripe') as any).default
         if (stripe) {
           await stripe.balance.retrieve()
           health.stripe = true
@@ -160,7 +160,7 @@ export const securityAuditHourly = inngest.createFunction(
 
         // Email à l'admin
         try {
-          const { sendEmail } = await import('../lib/email')
+          const { sendEmail } = await import('../lib/email') as any
           await sendEmail({
             to: process.env.ADMIN_EMAIL || 'admin@satorea.com',
             subject: `[${severity}] Audit sécurité CRM — ${issues.length} problème(s) détecté(s)`,
@@ -219,13 +219,13 @@ export const securityAuditHourly = inngest.createFunction(
 // JOB 2 : Monitoring uptime — TOUTES LES 5 MINUTES
 // ============================================================
 
-export const uptimeMonitor = inngest.createFunction(
+export const uptimeMonitor = (inngest as any).createFunction(
   {
     id: 'uptime-monitor',
     name: 'Uptime Monitor — 5min',
   },
   { cron: '*/5 * * * *' }, // Toutes les 5 minutes
-  async ({ step }) => {
+  async ({ step }: { step: any }) => {
     const endpoints = [
       { name: 'CRM Homepage', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://crm-dermotec.vercel.app'}/` },
       { name: 'API Health', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://crm-dermotec.vercel.app'}/api/health` },
@@ -271,7 +271,7 @@ export const uptimeMonitor = inngest.createFunction(
         console.error(`[UPTIME] ${down.length} endpoint(s) DOWN:`, down.map((d: any) => d.name).join(', '))
 
         try {
-          const { sendEmail } = await import('../lib/email')
+          const { sendEmail } = await import('../lib/email') as any
           await sendEmail({
             to: process.env.ADMIN_EMAIL || 'admin@satorea.com',
             subject: `[DOWNTIME] ${down.length} endpoint(s) inaccessible(s)`,
@@ -302,13 +302,13 @@ export const uptimeMonitor = inngest.createFunction(
 // JOB 3 : Rapport quotidien — CHAQUE MATIN 8H
 // ============================================================
 
-export const dailySecurityReport = inngest.createFunction(
+export const dailySecurityReport = (inngest as any).createFunction(
   {
     id: 'daily-security-report',
     name: 'Daily Security Report — 8h',
   },
   { cron: '0 7 * * *' }, // 7h UTC = 8h Paris
-  async ({ step }) => {
+  async ({ step }: { step: any }) => {
     const report = await step.run('generate-report', async () => {
       try {
         const { createServiceSupabase } = await import('../lib/supabase-server')
@@ -342,7 +342,7 @@ export const dailySecurityReport = inngest.createFunction(
     // Envoyer le rapport par email
     await step.run('send-daily-report', async () => {
       try {
-        const { sendEmail } = await import('../lib/email')
+        const { sendEmail } = await import('../lib/email') as any
         const r = report as any
 
         await sendEmail({

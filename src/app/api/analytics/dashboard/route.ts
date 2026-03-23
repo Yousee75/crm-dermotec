@@ -54,8 +54,8 @@ export async function GET(request: NextRequest) {
     ])
 
     // Métriques calculées
-    const stats = statsRes.data || {}
-    const funnel = funnelRes.data || {}
+    const stats: any = statsRes.data || {}
+    const funnel: any = funnelRes.data || {}
 
     return NextResponse.json({
       success: true,

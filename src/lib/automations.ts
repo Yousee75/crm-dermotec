@@ -15,7 +15,7 @@ import { createServiceSupabase } from './supabase-server'
 // ============================================================
 
 export async function onLeadCreated(leadId: string) {
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   const { data: lead } = await supabase
     .from('leads')
@@ -88,7 +88,7 @@ export async function onLeadCreated(leadId: string) {
 // ============================================================
 
 export async function onLeadStatusChanged(leadId: string, oldStatus: string, newStatus: string) {
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   const { data: lead } = await supabase
     .from('leads')
@@ -232,7 +232,7 @@ export async function onLeadStatusChanged(leadId: string, oldStatus: string, new
 // ============================================================
 
 export async function onSessionAlmostFull(sessionId: string) {
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   const { data: session } = await supabase
     .from('sessions')
@@ -256,10 +256,10 @@ export async function onSessionAlmostFull(sessionId: string) {
   if (!leadsInteressees?.length) return
 
   // Créer rappels urgents pour chaque commercial
-  const commerciauxUniques = [...new Set(leadsInteressees.map(l => l.commercial_assigne_id).filter(Boolean))]
+  const commerciauxUniques = [...new Set(leadsInteressees.map((l: any) => l.commercial_assigne_id).filter(Boolean))]
 
   for (const commercialId of commerciauxUniques) {
-    const leadsCommercial = leadsInteressees.filter(l => l.commercial_assigne_id === commercialId)
+    const leadsCommercial = leadsInteressees.filter((l: any) => l.commercial_assigne_id === commercialId)
     await supabase.from('rappels').insert({
       lead_id: leadsCommercial[0].id,
       user_id: commercialId,
@@ -268,7 +268,7 @@ export async function onSessionAlmostFull(sessionId: string) {
       statut: 'EN_ATTENTE',
       priorite: 'URGENTE',
       titre: `URGENCE — ${(session.formation as any)?.nom} : ${placesRestantes} place(s) restante(s)`,
-      description: `Session du ${new Date(session.date_debut).toLocaleDateString('fr-FR')} presque complète. Leads en attente : ${leadsCommercial.map(l => `${l.prenom} ${l.nom}`).join(', ')}. Appeler MAINTENANT.`,
+      description: `Session du ${new Date(session.date_debut).toLocaleDateString('fr-FR')} presque complète. Leads en attente : ${leadsCommercial.map((l: any) => `${l.prenom} ${l.nom}`).join(', ')}. Appeler MAINTENANT.`,
     })
   }
 
@@ -276,7 +276,7 @@ export async function onSessionAlmostFull(sessionId: string) {
   await supabase.from('activites').insert({
     type: 'SYSTEME',
     session_id: sessionId,
-    description: `Session ${(session.formation as any)?.nom} presque pleine (${placesRestantes} place(s)). ${leadsInteressees.length} leads en pipeline alertées.`,
+    description: `Session ${(session.formation as any)?.nom} presque pleine (${placesRestantes} place(s)). ${leadsInteressees!.length} leads en pipeline alertées.`,
   })
 }
 
@@ -286,7 +286,7 @@ export async function onSessionAlmostFull(sessionId: string) {
 // ============================================================
 
 export async function onFinancementStatusChanged(financementId: string, oldStatus: string, newStatus: string) {
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   const { data: financement } = await supabase
     .from('financements')
@@ -354,7 +354,7 @@ export async function onFinancementStatusChanged(financementId: string, oldStatu
 // ============================================================
 
 export async function dailyAutomations() {
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
   const results = { stagnant_alerts: 0, session_alerts: 0, financement_alerts: 0 }
 
   // A. Leads stagnantes : CONTACTÉ/QUALIFIÉ sans contact > 7 jours

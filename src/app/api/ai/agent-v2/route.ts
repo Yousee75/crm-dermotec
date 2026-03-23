@@ -197,15 +197,15 @@ COMPORTEMENT en mode formation :
     // Tools réactivés — fix: defineTool retourne un objet brut avec jsonSchema() au lieu de tool()
     const useTools = !(body as any).noTools
 
-    const result = streamText({
+    const result = (streamText as any)({
       model: getModel('best'),
       system: systemPrompt,
       messages,
       ...(useTools ? { tools: crmTools } : {}),
-      maxSteps: useTools ? (10 as any) : 1,
+      maxSteps: useTools ? 10 : 1,
       maxRetries: 2,
       temperature: 0.4,
-      onFinish: async ({ text, usage }) => {
+      onFinish: async ({ text, usage }: { text: string; usage?: { totalTokens?: number } }) => {
         fullResponse = text
         // Sauvegarder dans le semantic cache (seulement questions génériques)
         if (!leadId && lastUserMessage.length > 10 && text.length > 50) {
@@ -253,7 +253,7 @@ COMPORTEMENT en mode formation :
           console.error('[Agent v3] Conversation save failed:', saveErr)
         }
       },
-      onError: ({ error }) => {
+      onError: ({ error }: { error: unknown }) => {
         console.error('[Agent v3] Stream error:', error)
       },
     })

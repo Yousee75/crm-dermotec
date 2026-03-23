@@ -156,7 +156,7 @@ export default function CoursePlayer({
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set(modules.map(m => m.id)))
   const [focusMode, setFocusMode] = useState(false)
-  const viewTimerRef = useRef<ReturnType<typeof setInterval>>()
+  const viewTimerRef = useRef<ReturnType<typeof setInterval>>(undefined)
   const viewSecondsRef = useRef(0)
 
   // Trouver le contenu actuel

@@ -11,7 +11,7 @@ export async function GET(
     const { token } = await params
 
     const { createServiceSupabase } = await import('@/lib/supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Récupérer l'envoi + template
     const { data: envoi } = await supabase
@@ -86,7 +86,7 @@ export async function POST(
     }
 
     const { createServiceSupabase } = await import('@/lib/supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Récupérer l'envoi
     const { data: envoi } = await supabase

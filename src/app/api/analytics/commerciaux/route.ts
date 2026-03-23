@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   const auth = await requireAuth(request)
   if (auth.error) return auth.error
 
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   // Vérifier rôle admin/manager
   const { data: equipeUser } = await supabase
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
     }
 
     // 2. Pré-charger les IDs leads par commercial (évite N+1 queries)
-    const commercialIds = commerciaux.map(c => c.id)
+    const commercialIds = commerciaux.map((c: any) => c.id)
     const { data: allLeads } = await supabase
       .from('leads')
       .select('id, commercial_assigne_id')
@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
 
     // Pour chaque commercial, récupérer ses métriques (queries parallèles, pas de N+1)
     const performances = await Promise.all(
-      commerciaux.map(async (commercial) => {
+      commerciaux.map(async (commercial: any) => {
         const commercialLeadIds = leadIdsByCommercial.get(commercial.id) || []
 
         const [
@@ -148,8 +148,8 @@ export async function GET(request: NextRequest) {
             .in('statut', ['NOUVEAU', 'CONTACTE', 'QUALIFIE', 'FINANCEMENT_EN_COURS']),
         ])
 
-        const caTotal = caRes.data?.reduce((sum, i) => sum + (i.montant_total || 0), 0) || 0
-        const caPrecedent = caPrecedentRes.data?.reduce((sum, i) => sum + (i.montant_total || 0), 0) || 0
+        const caTotal = caRes.data?.reduce((sum: number, i: any) => sum + (i.montant_total || 0), 0) || 0
+        const caPrecedent = caPrecedentRes.data?.reduce((sum: number, i: any) => sum + (i.montant_total || 0), 0) || 0
         const leadsTotal = leadsRes.count || 0
         const leadsPeriode = leadsPeriodeRes.count || 0
         const conversionsPeriode = conversionsRes.count || 0
@@ -158,7 +158,7 @@ export async function GET(request: NextRequest) {
 
         // Score pipeline moyen
         const pipelineScoreMoyen = pipelineRes.data?.length
-          ? Math.round(pipelineRes.data.reduce((sum, l) => sum + (l.score_chaud || 0), 0) / pipelineRes.data.length)
+          ? Math.round(pipelineRes.data.reduce((sum: number, l: any) => sum + (l.score_chaud || 0), 0) / pipelineRes.data.length)
           : 0
 
         // Taux de conversion
@@ -219,9 +219,9 @@ export async function GET(request: NextRequest) {
 
     // Enrichir chaque commercial avec forecast + temps réponse + objectifs
     const enriched = performances.map(p => {
-      const forecast = forecastRes.data?.find(f => f.equipe_id === p.id)
-      const responseTime = responseTimeRes.data?.find(r => r.equipe_id === p.id)
-      const objectifs = objectifsRes.data?.filter(o => o.membre_id === p.id) || []
+      const forecast = forecastRes.data?.find((f: any) => f.equipe_id === p.id)
+      const responseTime = responseTimeRes.data?.find((r: any) => r.equipe_id === p.id)
+      const objectifs = objectifsRes.data?.filter((o: any) => o.membre_id === p.id) || []
 
       return {
         ...p,

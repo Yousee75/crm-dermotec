@@ -148,7 +148,7 @@ const BLOCKED_EXTENSIONS = new Set([
 // ---------------------------------------------------------------------------
 
 /** Lazy import du service client Supabase */
-async function getSupabase() {
+async function getSupabase(): Promise<any> {
   const { createServiceSupabase } = await import('./supabase-server')
   return createServiceSupabase()
 }
@@ -640,7 +640,7 @@ export async function trackContentView(params: TrackViewParams): Promise<void> {
         .select('vues_totales')
         .eq('id', contentId)
         .single()
-        .then(({ data }) => {
+        .then(({ data }: { data: any }) => {
           if (data) {
             supabase
               .from('formation_contents')

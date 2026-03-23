@@ -43,7 +43,7 @@ async function logEnrichment(
   })
 }
 
-export const autoEnrichLead = inngest.createFunction(
+export const autoEnrichLead = (inngest as any).createFunction(
   {
     id: 'auto-enrich-lead',
     name: 'Auto-enrich Lead',

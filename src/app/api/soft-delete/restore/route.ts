@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'corbeille_id requis' }, { status: 400 })
     }
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // 1. Trouver l'entrée corbeille
     const { data: entry, error } = await supabase

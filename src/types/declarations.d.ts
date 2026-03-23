@@ -21,6 +21,25 @@ declare module 'ai/react' {
   }
 }
 
+declare module 'qrcode' {
+  const QRCode: {
+    toDataURL(text: string, options?: any): Promise<string>
+    toCanvas(canvas: any, text: string, options?: any): Promise<void>
+    toString(text: string, options?: any): Promise<string>
+  }
+  export default QRCode
+}
+
+declare module 'staticmaps' {
+  class StaticMaps {
+    constructor(options: any)
+    addMarker(options: any): void
+    render(center?: [number, number], zoom?: number): Promise<void>
+    image: { buffer(format?: string): Promise<Buffer> }
+  }
+  export default StaticMaps
+}
+
 declare module '@react-pdf/renderer' {
   import { ComponentType, ReactElement } from 'react'
 

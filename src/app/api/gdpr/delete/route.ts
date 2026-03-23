@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 2. Vérifier le rôle (admin uniquement)
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   const { data: equipe } = await supabase
     .from('equipe')
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
 
   if (documents?.length) {
     const paths = documents
-      .map(d => d.storage_path)
+      .map((d: any) => d.storage_path)
       .filter(Boolean) as string[]
 
     if (paths.length) {

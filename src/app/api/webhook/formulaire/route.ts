@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 5. Supabase
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // 6. Construire le lead avec sanitization
     const prenom = sanitizeString(body.prenom || body.firstName || body.name || 'Inconnu')

@@ -113,7 +113,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         .select('*')
         .eq('inscription_id', inscriptionId)
 
-      const progressMap = new Map(
+      const progressMap = new Map<string, any>(
         (progressRows || []).map((p: any) => [p.contenu_id, p])
       )
 

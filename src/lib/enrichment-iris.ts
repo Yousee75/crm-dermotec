@@ -131,7 +131,7 @@ export async function getCodeCommuneFromGPS(
 async function lookupIRISFromDB(codeCommune: string): Promise<RevenusIRIS | null> {
   try {
     const { createServiceSupabase } = await import('./supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     const { data, error } = await supabase
       .from('iris_revenus')
@@ -291,7 +291,7 @@ export async function getScoreZoneChalandise(lat: number, lng: number): Promise<
 
   // 4. Bonus Google Nearby si disponible (0-25 points)
   try {
-    const { getNearbyBusinesses } = await import('./enrichment')
+    const { getNearbyBusinesses } = await import('./enrichment') as any
     const nearby = await getNearbyBusinesses(lat, lng)
     if (nearby && typeof nearby === 'object') {
       // Présence de commerces/salons = zone dynamique

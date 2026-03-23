@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const { createServiceSupabase } = await import('@/lib/supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     const { searchParams } = new URL(request.url)
     const type = searchParams.get('type')
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { createServiceSupabase } = await import('@/lib/supabase-server')
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Récupérer le template
     const { data: template } = await supabase

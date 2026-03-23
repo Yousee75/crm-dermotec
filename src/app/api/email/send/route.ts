@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // 4. Récupérer le template
     const { data: template, error: templateError } = await supabase
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
           destinataire: to,
           sent_by: user?.email || 'demo',
         },
-      }).then(({ error: actErr }) => {
+      }).then(({ error: actErr }: { error: any }) => {
         if (actErr) console.warn('[Email API] Activity log failed:', actErr.message)
       })
     }
@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
       resend_id: emailData?.id,
       variables: safeVars,
       statut: 'ENVOYE',
-    }).then(({ error: insertError }) => {
+    }).then(({ error: insertError }: { error: any }) => {
       if (insertError) console.warn('[Email API] emails_sent insert failed:', insertError.message)
     })
 

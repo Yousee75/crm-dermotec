@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Données invalides', details: parsed.error.flatten() }, { status: 400 })
     }
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Récupérer l'org de l'utilisateur
     const { data: membership } = await supabase
@@ -148,7 +148,7 @@ export async function GET(request: NextRequest) {
     const user = await getAuthUser(request)
     if (!user) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     const { data: membership } = await supabase
       .from('org_members')

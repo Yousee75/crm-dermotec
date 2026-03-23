@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabaseAuth.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Connexion requise' }, { status: 401 })
 
-    const supabase = await createServiceSupabase()
+    const supabase = await createServiceSupabase() as any
 
     // Récupérer l'invitation
     const { data: invitation, error: invError } = await supabase

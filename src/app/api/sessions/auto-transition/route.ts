@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   }
 
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   const today = new Date().toISOString().split('T')[0]
   let transitioned = 0
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     .gte('date_fin', today)
 
   if (!startError && toStart && toStart.length > 0) {
-    const ids = toStart.map(s => s.id)
+    const ids = toStart.map((s: any) => s.id)
 
     const { error: updateError } = await supabase
       .from('sessions')
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 
       // Logger les transitions
       await supabase.from('activites').insert(
-        toStart.map(s => ({
+        toStart.map((s: any) => ({
           type: 'SESSION' as const,
           session_id: s.id,
           description: 'Transition automatique : session démarrée',
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
     .lt('date_fin', today)
 
   if (!endError && toEnd && toEnd.length > 0) {
-    const ids = toEnd.map(s => s.id)
+    const ids = toEnd.map((s: any) => s.id)
 
     const { error: updateError } = await supabase
       .from('sessions')
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       transitioned += ids.length
 
       await supabase.from('activites').insert(
-        toEnd.map(s => ({
+        toEnd.map((s: any) => ({
           type: 'SESSION' as const,
           session_id: s.id,
           description: 'Transition automatique : session terminée',

@@ -73,7 +73,7 @@ export default function EmargementLivePage() {
   }
 
   const { session, emargements } = data
-  const inscriptions = session.inscriptions?.filter(i =>
+  const inscriptions = session.inscriptions?.filter((i: any) =>
     ['CONFIRMEE', 'EN_COURS', 'COMPLETEE'].includes(i.statut)
   ) || []
 
@@ -156,7 +156,7 @@ export default function EmargementLivePage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {inscriptions.map(inscription => {
+            {inscriptions.map((inscription: any) => {
               const lead = inscription.lead
               const emargementMatin = emargements.find(
                 e => e.inscription_id === inscription.id && e.creneau === 'matin'

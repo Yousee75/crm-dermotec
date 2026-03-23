@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   }
 
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
   if (!supabase) {
     return NextResponse.json({ error: 'DB non configurée' }, { status: 503 })
   }

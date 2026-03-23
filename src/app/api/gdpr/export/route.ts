@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
   }
 
   // 2. Vérifier le rôle (admin/manager uniquement)
-  const supabase = await createServiceSupabase()
+  const supabase = await createServiceSupabase() as any
 
   const { data: equipe } = await supabase
     .from('equipe')
