@@ -52,7 +52,7 @@ function summarize(name: string, data: any): string {
     return `Note: ${data.rating || 'N/A'}/5 (${data.rating_count || 0} avis) — ${data.name || 'N/A'}`
   }
   if (name === 'Outscraper') {
-    return `${data.length || 0} avis récupérés`
+    return `${data.reviews_count || 0} avis récupérés (${data.total_known || '?'} total) — Note: ${data.rating || 'N/A'}/5 — ${data.place_name || 'N/A'}`
   }
   if (name === 'PageSpeed') {
     return `Mobile: ${data.mobile_score || 'N/A'}/100 — Desktop: ${data.desktop_score || 'N/A'}/100`
@@ -199,7 +199,7 @@ async function main() {
   // 3. BODACC (Procédures collectives)
   // ============================================================
   await testSource('BODACC', async () => {
-    const query = `siren=${PROSPECT.siren}`
+    const query = `search(commercant, "LATITUDE ZEN") OR search(registre, "${PROSPECT.siren}")`
     const res = await fetch(`https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records?where=${encodeURIComponent(query)}&limit=10`)
     if (!res.ok) throw new Error(`BODACC ${res.status}`)
     const data = await res.json()
@@ -252,23 +252,42 @@ async function main() {
     const apiKey = process.env.OUTSCRAPER_API_KEY
     if (!apiKey) throw new Error('OUTSCRAPER_API_KEY manquante')
 
-    const query = encodeURIComponent(`${PROSPECT.nom} Paris 11e`)
-    const res = await fetch(`https://api.app.outscraper.com/maps/reviews-v3?query=${query}&reviewsLimit=50&language=fr`, {
+    // Utiliser le place_id Google si disponible (plus fiable que la recherche texte)
+    const googleResult = results.find(r => r.source === 'Google Places' && r.status === 'OK')
+    const placeId = googleResult?.raw?.place_id
+    const query = placeId || encodeURIComponent(`Latitude Zen Institut Paris 11e`)
+
+    const url = placeId
+      ? `https://api.app.outscraper.com/maps/reviews-v3?query=${placeId}&reviewsLimit=50&language=fr&sort=newest&async=false`
+      : `https://api.app.outscraper.com/maps/reviews-v3?query=${query}&reviewsLimit=50&language=fr&sort=newest&async=false`
+
+    const res = await fetch(url, {
       headers: { 'X-API-KEY': apiKey }
     })
     if (!res.ok) throw new Error(`Outscraper ${res.status}`)
     const data = await res.json()
 
-    const reviews = data.data?.[0]?.reviews_data || []
-    return reviews
+    // Outscraper retourne data[0] avec place_data + reviews_data
+    const placeData = data.data?.[0]
+    const reviews = placeData?.reviews_data || []
+    const reviewsPerScore = placeData?.reviews_per_score || {}
+
+    return {
+      reviews_count: reviews.length,
+      total_known: placeData?.reviews || 0,
+      rating: placeData?.rating,
+      reviews_per_score: reviewsPerScore,
+      place_name: placeData?.name,
+      reviews: reviews.slice(0, 5), // Garder 5 exemples dans le résumé
+    }
   })
 
   // ============================================================
   // 6. PAGESPEED
   // ============================================================
   await testSource('PageSpeed', async () => {
-    const apiKey = process.env.GOOGLE_PAGESPEED_API_KEY
-    if (!apiKey) throw new Error('GOOGLE_PAGESPEED_API_KEY manquante')
+    const apiKey = process.env.GOOGLE_PAGESPEED_API_KEY || process.env.GOOGLE_API_KEY || process.env.GOOGLE_PLACES_API_KEY
+    if (!apiKey) throw new Error('Aucune clé Google API trouvée (GOOGLE_PAGESPEED_API_KEY, GOOGLE_API_KEY, GOOGLE_PLACES_API_KEY)')
 
     const url = encodeURIComponent(PROSPECT.website)
 
@@ -345,8 +364,13 @@ async function main() {
   // 9. DVF (Données valeurs foncières)
   // ============================================================
   await testSource('DVF', async () => {
-    const res = await fetch(`https://api.cquest.org/dvf?lat=${PROSPECT.lat}&lon=${PROSPECT.lng}&dist=500`)
-    if (!res.ok) throw new Error(`DVF ${res.status}`)
+    // Essayer api.cquest.org, fallback sur DVF etalab
+    let res = await fetch(`https://api.cquest.org/dvf?lat=${PROSPECT.lat}&lon=${PROSPECT.lng}&dist=500`).catch(() => null)
+    if (!res || !res.ok) {
+      // Fallback : API DVF Cerema
+      res = await fetch(`https://apidf-preprod.cerema.fr/dvf_opendata/mutations?lat=${PROSPECT.lat}&lon=${PROSPECT.lng}&dist=500&nature_mutation=Vente`)
+    }
+    if (!res || !res.ok) throw new Error(`DVF ${res?.status || 'offline'} (cquest + cerema)`)
     const data = await res.json()
 
     const features = data.features || []
@@ -381,7 +405,12 @@ async function main() {
   // 11. AIDES (Aides aux entreprises)
   // ============================================================
   await testSource('Aides', async () => {
-    const res = await fetch('https://aides-territoires.beta.gouv.fr/api/aids/?targeted_audiences=private_sector&categories=formation&perimeter=75056&limit=20')
+    // Aides-Territoires requiert un JWT depuis 2026 — skip si pas de token
+    const aidesToken = process.env.AIDES_TERRITOIRES_TOKEN
+    if (!aidesToken) throw new Error('AIDES_TERRITOIRES_TOKEN manquant (JWT requis depuis 2026)')
+    const res = await fetch('https://aides-territoires.beta.gouv.fr/api/aids/?text=formation+professionnelle&targeted_audiences=private_sector&is_live=true&order_by=-date_created&limit=20', {
+      headers: { 'Authorization': `Bearer ${aidesToken}` }
+    })
     if (!res.ok) throw new Error(`Aides ${res.status}`)
     const data = await res.json()
 
