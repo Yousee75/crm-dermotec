@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -33,8 +34,8 @@ function getInitialsFromName(name: string): string {
 
 function getColorFromName(name: string): string {
   const colors = [
-    'var(--color-primary)', '#8B5CF6', '#F59E0B', 'var(--color-success)', '#EF4444',
-    '#EC4899', '#6366F1', '#14B8A6', '#F97316', '#3B82F6',
+    'var(--color-primary)', '#FF2D78', '#F59E0B', 'var(--color-success)', '#EF4444',
+    '#EC4899', '#FF2D78', '#14B8A6', '#F97316', '#3B82F6',
   ]
   let hash = 0
   for (let i = 0; i < name.length; i++) {
@@ -51,10 +52,13 @@ function Avatar({ name = '?', src, size = 'md', color, status, className, ...pro
   return (
     <div className={cn('relative inline-flex shrink-0', className)} {...props}>
       {src ? (
-        <img
+        <Image
           src={src}
           alt={name}
+          width={size === 'xs' ? 24 : size === 'sm' ? 32 : size === 'md' ? 40 : size === 'lg' ? 48 : 64}
+          height={size === 'xs' ? 24 : size === 'sm' ? 32 : size === 'md' ? 40 : size === 'lg' ? 48 : 64}
           className={cn(s.container, 'rounded-full object-cover ring-2 ring-white')}
+          unoptimized
         />
       ) : (
         <div

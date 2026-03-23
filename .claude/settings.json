@@ -1,21 +1,87 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run *)",
-      "Bash(npx *)",
-      "Bash(git *)",
-      "Bash(ls *)",
-      "Bash(find *)",
-      "Bash(cat *)",
       "Read",
       "Write",
       "Edit",
+      "MultiEdit",
       "Glob",
-      "Grep"
+      "Grep",
+      "WebSearch",
+      "WebFetch",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(tsx *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add *)",
+      "Bash(git commit*)",
+      "Bash(git branch*)",
+      "Bash(git stash*)",
+      "Bash(git show*)",
+      "Bash(git remote*)",
+      "Bash(git fetch*)",
+      "Bash(git worktree*)",
+      "Bash(git rev-parse*)",
+      "Bash(git ls-files*)",
+      "Bash(git blame*)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(echo *)",
+      "Bash(tsc *)",
+      "Bash(eslint *)",
+      "Bash(prettier *)",
+      "Bash(gh issue*)",
+      "Bash(gh pr*)",
+      "Bash(gh run*)",
+      "Bash(vercel *)",
+      "Bash(curl *)",
+      "Bash(powershell*)",
+      "mcp__stripe__*",
+      "mcp__supabase__*",
+      "mcp__context7__*",
+      "mcp__filesystem__*",
+      "mcp__sequential-thinking__*",
+      "mcp__dermotec-crm__*",
+      "mcp__vercel__*",
+      "mcp__github__*"
     ],
     "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(git push --force *)",
+      "Bash(git reset --hard *)",
+      "Bash(DROP DATABASE*)",
+      "Bash(DROP TABLE*)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(git checkout*)",
+      "Bash(git merge*)",
       "Bash(rm -rf *)",
-      "Bash(git push --force *)"
+      "Bash(rm -r *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '✓ Bash command approved'"
+          }
+        ]
+      }
     ]
   }
 }

@@ -205,9 +205,9 @@ export async function sendRappelNotification(data: {
       subject: `Rappel — ${data.type_rappel} ${data.prenom_lead}`,
       html: `<!DOCTYPE html><html lang="fr"><body style="margin:0;padding:24px;background:#f8fafc;font-family:DM Sans,sans-serif">
 <div style="max-width:500px;margin:0 auto;background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:24px">
-<h2 style="color:#082545;margin:0 0 12px;font-size:18px">Rappel à traiter</h2>
+<h2 style="color:#1A1A1A;margin:0 0 12px;font-size:18px">Rappel à traiter</h2>
 <p style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:12px;font-size:14px;color:#1E293B"><strong>${data.type_rappel}</strong> — ${data.prenom_lead}${data.description ? `<br>${data.description}` : ''}</p>
-<p style="text-align:center;margin:20px 0"><a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}" style="background:#2EC6F3;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Ouvrir le CRM</a></p>
+<p style="text-align:center;margin:20px 0"><a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}" style="background:#FF5C00;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Ouvrir le CRM</a></p>
 </div></body></html>`,
     })
     return result.data?.id || null
@@ -228,7 +228,7 @@ export async function sendAdminNotification(subject: string, content: string) {
       subject: `[CRM] ${subject}`,
       html: `<!DOCTYPE html><html lang="fr"><body style="margin:0;padding:24px;background:#f8fafc;font-family:DM Sans,sans-serif">
 <div style="max-width:500px;margin:0 auto;background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:24px">
-<h2 style="color:#082545;margin:0 0 12px;font-size:18px">${subject}</h2>
+<h2 style="color:#1A1A1A;margin:0 0 12px;font-size:18px">${subject}</h2>
 <div style="color:#334155;font-size:14px;line-height:1.6">${content}</div>
 </div></body></html>`,
     })

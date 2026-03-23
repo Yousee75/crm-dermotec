@@ -4,11 +4,17 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth obligatoire
+    const authSupabase = await createServerSupabase()
+    const { data: { user } } = await authSupabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
     const body = await request.json()
     const { devis_id } = body
 
@@ -57,13 +63,13 @@ export async function POST(request: NextRequest) {
 
     const htmlContent = `
     <div style="font-family: 'DM Sans', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
-      <div style="background: linear-gradient(135deg, #082545, #0F3460); padding: 30px; border-radius: 12px 12px 0 0;">
-        <h1 style="color: #2EC6F3; margin: 0; font-size: 24px;">Dermotec Advanced</h1>
+      <div style="background: linear-gradient(135deg, #1A1A1A, #333333); padding: 30px; border-radius: 12px 12px 0 0;">
+        <h1 style="color: #FF5C00; margin: 0; font-size: 24px;">Dermotec Advanced</h1>
         <p style="color: rgba(255,255,255,0.7); margin: 5px 0 0; font-size: 13px;">Centre de Formation Esthétique — Certifié Qualiopi</p>
       </div>
 
       <div style="padding: 30px; border: 1px solid #E5E7EB; border-top: none; border-radius: 0 0 12px 12px;">
-        <h2 style="color: #082545; margin: 0 0 20px;">Votre devis N° ${devisRef}</h2>
+        <h2 style="color: #1A1A1A; margin: 0 0 20px;">Votre devis N° ${devisRef}</h2>
 
         <p style="color: #374151; line-height: 1.6;">
           Bonjour ${lead.prenom || lead.nom || 'Madame, Monsieur'},
@@ -77,19 +83,19 @@ export async function POST(request: NextRequest) {
           <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
             <tr>
               <td style="padding: 8px 0; color: #6B7280;">Formation</td>
-              <td style="padding: 8px 0; text-align: right; font-weight: 600; color: #082545;">${devis.formation_nom}</td>
+              <td style="padding: 8px 0; text-align: right; font-weight: 600; color: #1A1A1A;">${devis.formation_nom}</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; color: #6B7280;">Montant HT</td>
-              <td style="padding: 8px 0; text-align: right; color: #082545;">${devis.montant_ht} €</td>
+              <td style="padding: 8px 0; text-align: right; color: #1A1A1A;">${devis.montant_ht} €</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; color: #6B7280;">TVA (20%)</td>
-              <td style="padding: 8px 0; text-align: right; color: #082545;">${devis.montant_tva} €</td>
+              <td style="padding: 8px 0; text-align: right; color: #1A1A1A;">${devis.montant_tva} €</td>
             </tr>
-            <tr style="border-top: 2px solid #2EC6F3;">
-              <td style="padding: 12px 0; font-weight: 700; color: #082545; font-size: 16px;">Total TTC</td>
-              <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #2EC6F3; font-size: 16px;">${devis.montant_ttc} €</td>
+            <tr style="border-top: 2px solid #FF5C00;">
+              <td style="padding: 12px 0; font-weight: 700; color: #1A1A1A; font-size: 16px;">Total TTC</td>
+              <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #FF5C00; font-size: 16px;">${devis.montant_ttc} €</td>
             </tr>
             ${devis.financement_montant > 0 ? `
             <tr>
@@ -97,15 +103,15 @@ export async function POST(request: NextRequest) {
               <td style="padding: 8px 0; text-align: right; color: #22C55E;">-${devis.financement_montant} €</td>
             </tr>
             <tr>
-              <td style="padding: 8px 0; font-weight: 600; color: #082545;">Reste à charge</td>
-              <td style="padding: 8px 0; text-align: right; font-weight: 600; color: #082545;">${devis.reste_a_charge} €</td>
+              <td style="padding: 8px 0; font-weight: 600; color: #1A1A1A;">Reste à charge</td>
+              <td style="padding: 8px 0; text-align: right; font-weight: 600; color: #1A1A1A;">${devis.reste_a_charge} €</td>
             </tr>` : ''}
           </table>
         </div>
 
         ${devis.stripe_payment_link ? `
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${devis.stripe_payment_link}" style="background: #2EC6F3; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; display: inline-block;">
+          <a href="${devis.stripe_payment_link}" style="background: #FF5C00; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; display: inline-block;">
             Procéder au paiement →
           </a>
         </div>` : ''}

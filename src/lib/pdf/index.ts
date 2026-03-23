@@ -13,8 +13,8 @@ export { BpfPDF, generateBPFProps, calculateBPFStats } from './bpf'
 export const PDF_CONSTANTS = {
   // Couleurs de marque
   COLORS: {
-    PRIMARY: '#2EC6F3',
-    ACCENT: '#082545',
+    PRIMARY: '#FF5C00',
+    ACCENT: '#1A1A1A',
     TEXT_PRIMARY: '#1F2937',
     TEXT_SECONDARY: '#6B7280',
     BACKGROUND: '#FFFFFF',

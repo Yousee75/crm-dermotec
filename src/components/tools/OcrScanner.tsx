@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import Image from 'next/image'
 import { Upload, FileImage, Type, Copy, Loader2 } from 'lucide-react'
 
 export function OcrScanner() {
@@ -81,10 +82,13 @@ export function OcrScanner() {
       >
         {image ? (
           <div className="space-y-4">
-            <img
+            <Image
               src={imageUrl}
               alt="Image à analyser"
-              className="max-w-full max-h-64 mx-auto rounded-lg shadow-lg"
+              width={400}
+              height={256}
+              className="max-w-full max-h-64 mx-auto rounded-lg shadow-lg object-contain"
+              unoptimized
             />
             <p className="text-sm text-gray-600">{image.name}</p>
           </div>

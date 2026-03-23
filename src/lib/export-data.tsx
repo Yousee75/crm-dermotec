@@ -106,7 +106,7 @@ export async function exportToPDF(
     },
     headerSection: {
       marginBottom: 20,
-      borderBottom: '2px solid #2EC6F3',
+      borderBottom: '2px solid #FF5C00',
       paddingBottom: 10,
     },
     headerTitle: {

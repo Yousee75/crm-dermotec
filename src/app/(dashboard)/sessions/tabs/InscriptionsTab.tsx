@@ -39,7 +39,7 @@ const STATUT_INSCRIPTION = {
   EN_ATTENTE: { label: 'En attente', color: '#F59E0B', icon: Clock },
   CONFIRMEE: { label: 'Confirmée', color: '#3B82F6', icon: CheckCircle },
   EN_COURS: { label: 'En cours', color: '#10B981', icon: Clock },
-  COMPLETEE: { label: 'Terminée', color: '#6366F1', icon: CheckCircle },
+  COMPLETEE: { label: 'Terminée', color: '#FF2D78', icon: CheckCircle },
   ANNULEE: { label: 'Annulée', color: '#EF4444', icon: XCircle },
   REMBOURSEE: { label: 'Remboursée', color: '#6B7280', icon: XCircle },
   NO_SHOW: { label: 'No-show', color: '#EF4444', icon: XCircle }

@@ -74,6 +74,7 @@ const LEADS_EXPORT_COLUMNS: ColumnDef[] = [
 export default function LeadsPage() {
   const t = useTranslations('leads')
   const tc = useTranslations('common')
+  const { data: currentUser } = useCurrentUser()
   const [search, setSearch] = useState('')
   const [statutFilter, setStatutFilter] = useState<StatutLead[]>([])
   const [sourceFilter, setSourceFilter] = useState<SourceLead[]>([])
@@ -89,7 +90,6 @@ export default function LeadsPage() {
   const [showSortMenu, setShowSortMenu] = useState(false)
   const changeStatut = useChangeStatut()
   const queryClient = useQueryClient()
-  const { data: currentUser } = useCurrentUser()
   const isAdminOrManager = currentUser?.isAdmin || currentUser?.role === 'manager'
 
   // Form state pour nouveau lead — géré par CreateLeadDialog

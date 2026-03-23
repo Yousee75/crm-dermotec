@@ -301,10 +301,10 @@ function formatEmailHTML(body: string, leadName: string): string {
     body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 20px; }
     .container { max-width: 600px; margin: 0 auto; }
     .header { text-align: center; margin-bottom: 30px; }
-    .logo { color: #2EC6F3; font-size: 24px; font-weight: bold; }
+    .logo { color: #FF5C00; font-size: 24px; font-weight: bold; }
     .content { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
     .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }
-    .cta { background: #2EC6F3; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; display: inline-block; margin: 20px 0; }
+    .cta { background: #FF5C00; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; display: inline-block; margin: 20px 0; }
   </style>
 </head>
 <body>

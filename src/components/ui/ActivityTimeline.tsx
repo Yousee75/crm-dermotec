@@ -14,11 +14,11 @@ import {
 const TYPE_CONFIG: Record<string, { icon: React.ElementType; color: string; label: string }> = {
   LEAD_CREE: { icon: UserPlus, color: 'var(--color-success)', label: 'Lead créé' },
   LEAD_MAJ: { icon: Cog, color: '#3B82F6', label: 'Modifié' },
-  STATUT_CHANGE: { icon: ArrowRightLeft, color: '#8B5CF6', label: 'Statut changé' },
+  STATUT_CHANGE: { icon: ArrowRightLeft, color: '#FF2D78', label: 'Statut changé' },
   CONTACT: { icon: Phone, color: '#06B6D4', label: 'Contact' },
   INSCRIPTION: { icon: Calendar, color: 'var(--color-success)', label: 'Inscription' },
   FINANCEMENT: { icon: CreditCard, color: '#F59E0B', label: 'Financement' },
-  SESSION: { icon: GraduationCap, color: '#6366F1', label: 'Formation' },
+  SESSION: { icon: GraduationCap, color: '#FF2D78', label: 'Formation' },
   PAIEMENT: { icon: CreditCard, color: '#10B981', label: 'Paiement' },
   DOCUMENT: { icon: FileText, color: '#64748B', label: 'Document' },
   EMAIL: { icon: Mail, color: '#3B82F6', label: 'Email' },
@@ -33,10 +33,10 @@ const CANAL_ICON: Record<string, { icon: React.ElementType; color: string; label
   email: { icon: Send, color: '#3B82F6', label: 'Email envoyé' },
   sms: { icon: Smartphone, color: 'var(--color-success)', label: 'SMS' },
   whatsapp: { icon: MessageCircle, color: '#25D366', label: 'WhatsApp' },
-  cadence: { icon: Cog, color: '#8B5CF6', label: 'Cadence auto' },
+  cadence: { icon: Cog, color: '#FF2D78', label: 'Cadence auto' },
   agent_ia: { icon: Bot, color: 'var(--color-primary)', label: 'Agent IA' },
   portail: { icon: PenTool, color: '#F59E0B', label: 'Portail stagiaire' },
-  formation: { icon: GraduationCap, color: '#6366F1', label: 'Formation' },
+  formation: { icon: GraduationCap, color: '#FF2D78', label: 'Formation' },
 }
 
 /**

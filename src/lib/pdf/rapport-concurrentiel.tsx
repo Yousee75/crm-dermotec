@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 20,
     marginBottom: 20,
-    borderBottom: '2px solid #2EC6F3'
+    borderBottom: '2px solid #FF5C00'
   },
   headerLogo: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#2EC6F3'
+    color: '#FF5C00'
   },
   footer: {
     position: 'absolute',
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
   coverTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#2EC6F3',
+    color: '#FF5C00',
     marginBottom: 10
   },
   coverSubtitle: {
     fontSize: 18,
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 30
   },
   coverProspect: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   coverLine: {
     width: 100,
     height: 3,
-    backgroundColor: '#2EC6F3',
+    backgroundColor: '#FF5C00',
     marginVertical: 20
   },
   coverConfidential: {
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 20
   },
   // KPIs
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: '#082545',
+    backgroundColor: '#1A1A1A',
     paddingVertical: 8,
     paddingHorizontal: 5
   },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   rankBadge: {
-    backgroundColor: '#082545',
+    backgroundColor: '#1A1A1A',
     color: 'white',
     paddingHorizontal: 6,
     paddingVertical: 3,
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 9,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 5
   },
   infoRow: {
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   aiTitle: {
     fontSize: 9,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 5
   },
   aiDescription: {
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#082545'
+    color: '#1A1A1A'
   },
   statLabel: {
     fontSize: 9,
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   scoreBarFill: {
     height: '100%',
-    backgroundColor: '#2EC6F3'
+    backgroundColor: '#FF5C00'
   },
   // Glossaire
   glossary: {
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
   glossaryTitle: {
     fontSize: 9,
     fontWeight: 'bold',
-    color: '#082545'
+    color: '#1A1A1A'
   },
   glossaryDefinition: {
     fontSize: 9,
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
   },
   // Contact
   contact: {
-    backgroundColor: '#2EC6F3',
+    backgroundColor: '#FF5C00',
     padding: 20,
     borderRadius: 8,
     alignItems: 'center'

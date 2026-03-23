@@ -58,11 +58,11 @@ export function ScoreChip({ score, size = 'sm', showLabel = false, showBar = fal
             style={{
               width: `${Math.min(100, score)}%`,
               background: isHot
-                ? 'linear-gradient(90deg, #D4A574, #C25B68)'
+                ? 'linear-gradient(90deg, #FF5C00, #FF2D78)'
                 : score >= 60
-                ? 'linear-gradient(90deg, #D4A754, #D4A574)'
+                ? 'linear-gradient(90deg, #FF8C42, #FF5C00)'
                 : score >= 40
-                ? 'linear-gradient(90deg, #6B8CAE, #8B5CF6)'
+                ? 'linear-gradient(90deg, #6B8CAE, #FF2D78)'
                 : '#E8E0D8',
             }}
           />

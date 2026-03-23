@@ -25,20 +25,20 @@ export const BRAND = {
   googleMaps: 'https://maps.google.com/?q=75+Boulevard+Richard+Lenoir+75011+Paris',
 } as const
 
-// Couleurs branding v3 — "Rose Gold Elegance"
+// Couleurs branding v5 — "Palette Officielle Satorea"
 export const COLORS = {
-  primary: '#D4A574',      // Rose Gold — chaleur, premium
-  primaryDark: '#B8895A',  // Rose Gold hover
-  action: '#8B5CF6',       // Violet doux — CTAs distinctes
-  accent: '#1A1A2E',       // Charcoal profond — sidebar, titres
-  background: '#FAF8F5',   // Crème chaud
-  text: '#2D2D3F',         // Charcoal doux
-  textSecondary: '#5C5C72', // Gris moyen
-  success: '#6B9080',      // Vert doux (beauté)
-  warning: '#D4A754',      // Ambre chaud
-  error: '#C25B68',        // Rouge doux
+  primary: '#FF5C00',      // Orange Satorea — énergie, CTA
+  primaryDark: '#E65200',  // Orange hover
+  action: '#FF2D78',       // Rose hot pink — accent beauté
+  accent: '#1A1A1A',       // Noir — sidebar, titres
+  background: '#FAF8F5',   // Papier chaud
+  text: '#111111',         // Noir principal
+  textSecondary: '#3A3A3A', // Gris foncé
+  success: '#10B981',      // Vert
+  warning: '#FF8C42',      // Orange clair
+  error: '#FF2D78',        // Rose = action
   info: '#6B8CAE',         // Bleu doux
-  brand: '#D4A574',        // = primary
+  brand: '#FF5C00',        // = primary
 } as const
 
 // Horaires

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   logo: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 6,
   },
   address: {
@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 2,
-    backgroundColor: '#2EC6F3',
+    backgroundColor: '#FF5C00',
     marginBottom: 15,
   },
   title: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   signatureLabel: {
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#082545',
+    color: '#1A1A1A',
   },
   signatureLine: {
     borderBottom: '1 solid #9CA3AF',

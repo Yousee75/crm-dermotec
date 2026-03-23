@@ -34,6 +34,8 @@ export type OrganismeFinancement = 'OPCO_EP' | 'AKTO' | 'FAFCEA' | 'FIFPL' | 'FR
 
 export type StatutFinancement = 'PREPARATION' | 'DOCUMENTS_REQUIS' | 'DOSSIER_COMPLET' | 'SOUMIS' | 'EN_EXAMEN' | 'COMPLEMENT_DEMANDE' | 'VALIDE' | 'REFUSE' | 'VERSE' | 'CLOTURE'
 
+export type StatutLigneFinancement = 'PREPARATION' | 'SOUMIS' | 'EN_EXAMEN' | 'VALIDE' | 'REFUSE' | 'VERSE'
+
 export type TypeRappel = 'APPEL' | 'EMAIL' | 'WHATSAPP' | 'SMS' | 'RDV' | 'RELANCE' | 'SUIVI' | 'ADMIN'
 
 export type StatutRappel = 'EN_ATTENTE' | 'FAIT' | 'ANNULE' | 'REPORTE' | 'MANQUE'

@@ -18,6 +18,12 @@ export const maxDuration = 60 // 60 secondes max (Vercel Pro)
  */
 export async function POST(req: NextRequest) {
   try {
+    // Auth obligatoire
+    const { createServerSupabase } = await import('@/lib/supabase-server')
+    const authSupabase = await createServerSupabase()
+    const { data: { user } } = await authSupabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
     const data: CollectedData = await req.json()
 
     if (!data.prospect?.entreprise) {

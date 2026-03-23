@@ -102,14 +102,14 @@ export const PAIEMENT_STATUS: Record<PaiementStatut, StatusConfig> = {
 // COULEURS BRANDING CENTRALISÉES
 // ============================================
 export const BRAND = {
-  primary: '#D4A574',        // Rose Gold — Design System v3
-  primaryHover: '#B8895A',
-  primaryDark: '#B8895A',
-  accent: '#1A1A2E',         // Charcoal profond
-  accentLight: '#2A2A40',
-  success: '#6B9080',        // Vert doux
-  warning: '#D4A754',        // Ambre chaud
-  error: '#C25B68',          // Rouge doux
+  primary: '#FF5C00',        // Orange Satorea — Palette v5
+  primaryHover: '#E65200',
+  primaryDark: '#E65200',
+  accent: '#1A1A1A',         // Noir Satorea
+  accentLight: '#3A3A3A',
+  success: '#10B981',        // Vert
+  warning: '#FF8C42',        // Orange clair
+  error: '#FF2D78',          // Rose hot pink
   info: '#6B8CAE',           // Bleu doux
 } as const
 

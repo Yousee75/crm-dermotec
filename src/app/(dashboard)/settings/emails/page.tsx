@@ -27,12 +27,12 @@ const CATEGORY_CONFIG: Record<string, { label: string; color: string; bgColor: s
   relance:      { label: 'Relance',      color: '#F59E0B', bgColor: '#FEF3C7' },
   confirmation: { label: 'Confirmation', color: '#22C55E', bgColor: '#DCFCE7' },
   convocation:  { label: 'Convocation',  color: '#3B82F6', bgColor: '#DBEAFE' },
-  rappel:       { label: 'Rappel',       color: '#8B5CF6', bgColor: '#EDE9FE' },
-  bienvenue:    { label: 'Bienvenue',    color: '#2EC6F3', bgColor: '#E0F7FF' },
+  rappel:       { label: 'Rappel',       color: '#FF2D78', bgColor: '#EDE9FE' },
+  bienvenue:    { label: 'Bienvenue',    color: '#FF5C00', bgColor: '#E0F7FF' },
   satisfaction: { label: 'Satisfaction',  color: '#EC4899', bgColor: '#FCE7F3' },
   financement:  { label: 'Financement',  color: '#F97316', bgColor: '#FFF7ED' },
   certificat:   { label: 'Certificat',   color: '#14B8A6', bgColor: '#CCFBF1' },
-  eshop:        { label: 'E-shop',       color: '#6366F1', bgColor: '#E0E7FF' },
+  eshop:        { label: 'E-shop',       color: '#FF2D78', bgColor: '#E0E7FF' },
   autre:        { label: 'Autre',        color: '#6B7280', bgColor: '#F3F4F6' },
 }
 
@@ -485,8 +485,8 @@ export default function EmailTemplatesPage() {
                 dangerouslySetInnerHTML={{
                   __html: `
                     <div style="font-family:'DM Sans',system-ui,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.6;font-size:14px;">
-                      <div style="border-bottom:3px solid #2EC6F3;padding-bottom:12px;margin-bottom:20px;">
-                        <strong style="color:#082545;font-size:16px;">Dermotec Advanced</strong>
+                      <div style="border-bottom:3px solid #FF5C00;padding-bottom:12px;margin-bottom:20px;">
+                        <strong style="color:#1A1A1A;font-size:16px;">Dermotec Advanced</strong>
                       </div>
                       ${previewTemplate.contenu_html}
                       <div style="border-top:1px solid #e5e7eb;padding-top:12px;margin-top:24px;font-size:11px;color:#9ca3af;">

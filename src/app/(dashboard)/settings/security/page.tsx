@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useMFA } from '@/hooks/use-mfa'
 import { createClient } from '@/lib/supabase-client'
@@ -965,10 +966,13 @@ export default function SecuritySettingsPage() {
                     <div>
                       <h5 className="font-medium text-gray-900 mb-3">1. Scannez le QR Code</h5>
                       <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-                        <img
-                          src={enrollmentData.totp?.qr_code}
+                        <Image
+                          src={enrollmentData.totp?.qr_code || ''}
                           alt="QR Code"
-                          className="w-40 h-40 mx-auto"
+                          width={160}
+                          height={160}
+                          className="mx-auto"
+                          unoptimized
                         />
                       </div>
                       <p className="text-xs text-gray-500 mt-2">

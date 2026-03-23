@@ -310,12 +310,12 @@ export const proactiveAgent = inngest.createFunction(
             subject: `[Agent IA] ${summary.total_actions} action(s) automatique(s) — ${new Date().toLocaleDateString('fr-FR')}`,
             html: `
               <div style="font-family:sans-serif;max-width:600px">
-                <h2 style="color:#082545">🤖 Rapport Agent IA Proactif</h2>
+                <h2 style="color:#1A1A1A">🤖 Rapport Agent IA Proactif</h2>
                 <p style="color:#6B7280">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 ${sections.join('<hr style="border:none;border-top:1px solid #E5E7EB;margin:16px 0">')}
                 <p style="margin-top:24px">
                   <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}"
-                     style="background:#2EC6F3;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold">
+                     style="background:#FF5C00;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold">
                     Ouvrir le CRM
                   </a>
                 </p>

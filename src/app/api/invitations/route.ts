@@ -108,16 +108,16 @@ export async function POST(request: NextRequest) {
         subject: 'Vous êtes invité(e) sur Dermotec CRM',
         html: `
           <div style="font-family:'DM Sans',Arial,sans-serif;max-width:500px;margin:0 auto;">
-            <div style="background:#082545;padding:24px;text-align:center;border-radius:12px 12px 0 0;">
-              <h1 style="color:#2EC6F3;margin:0;font-size:24px;">Dermotec CRM</h1>
+            <div style="background:#1A1A1A;padding:24px;text-align:center;border-radius:12px 12px 0 0;">
+              <h1 style="color:#FF5C00;margin:0;font-size:24px;">Dermotec CRM</h1>
             </div>
             <div style="padding:32px;background:white;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
-              <h2 style="color:#082545;margin:0 0 16px;">Vous êtes invité(e) !</h2>
+              <h2 style="color:#1A1A1A;margin:0 0 16px;">Vous êtes invité(e) !</h2>
               <p style="color:#64748b;line-height:1.6;">
                 Vous avez été invité(e) à rejoindre le CRM Dermotec en tant que <strong>${parsed.data.role === 'admin' ? 'Administrateur' : parsed.data.role === 'viewer' ? 'Lecteur' : 'Membre'}</strong>.
               </p>
               <div style="text-align:center;margin:32px 0;">
-                <a href="${joinUrl}" style="background:#2EC6F3;color:white;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:bold;display:inline-block;">
+                <a href="${joinUrl}" style="background:#FF5C00;color:white;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:bold;display:inline-block;">
                   Accepter l'invitation
                 </a>
               </div>

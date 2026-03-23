@@ -183,9 +183,9 @@ export const weeklyReport = inngest.createFunction(
 <div style="max-width:680px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08)">
 
   <!-- Header -->
-  <div style="background:linear-gradient(135deg,#082545 0%,#0f3a6b 100%);padding:32px;color:#fff">
+  <div style="background:linear-gradient(135deg,#1A1A1A 0%,#333333 100%);padding:32px;color:#fff">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-      <div style="width:40px;height:40px;background:#2EC6F3;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px">D</div>
+      <div style="width:40px;height:40px;background:#FF5C00;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px">D</div>
       <div>
         <h1 style="margin:0;font-size:24px;font-weight:700">Rapport Hebdomadaire</h1>
         <p style="margin:4px 0 0;opacity:0.7;font-size:14px">Semaine ${d.numero_semaine} · ${dateRange}</p>
@@ -217,7 +217,7 @@ export const weeklyReport = inngest.createFunction(
     <table style="width:100%;border-collapse:collapse;font-size:14px">
       <tr style="border-bottom:1px solid #e2e8f0">
         <td style="padding:10px 0;color:#6b7280">Pipeline prévisionnel</td>
-        <td style="padding:10px 0;text-align:right;font-weight:600;color:#2EC6F3">${formatEuro(d.ca_previsionnel)}</td>
+        <td style="padding:10px 0;text-align:right;font-weight:600;color:#FF5C00">${formatEuro(d.ca_previsionnel)}</td>
       </tr>
       <tr style="border-bottom:1px solid #e2e8f0">
         <td style="padding:10px 0;color:#6b7280">Sessions terminées</td>
@@ -246,21 +246,21 @@ export const weeklyReport = inngest.createFunction(
   <div style="padding:0 24px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
     <div style="background:#f8fafc;border-radius:10px;padding:12px;text-align:center">
       <p style="margin:0;font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:1px">Top Commercial</p>
-      <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#082545">${d.top_commercial}</p>
+      <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#1A1A1A">${d.top_commercial}</p>
     </div>
     <div style="background:#f8fafc;border-radius:10px;padding:12px;text-align:center">
       <p style="margin:0;font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:1px">Top Formation</p>
-      <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#082545">${d.top_formation}</p>
+      <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#1A1A1A">${d.top_formation}</p>
     </div>
     <div style="background:#f8fafc;border-radius:10px;padding:12px;text-align:center">
       <p style="margin:0;font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:1px">Top Source</p>
-      <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#082545">${d.top_source}</p>
+      <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#1A1A1A">${d.top_source}</p>
     </div>
   </div>
 
   <!-- CTA -->
   <div style="padding:0 24px 32px;text-align:center">
-    <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}/analytics" style="display:inline-block;background:#2EC6F3;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px">
+    <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}/analytics" style="display:inline-block;background:#FF5C00;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px">
       Voir les analytics complets
     </a>
   </div>

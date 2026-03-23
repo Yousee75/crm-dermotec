@@ -23,15 +23,15 @@ import {
 // ---------------------------------------------------------------------------
 // Couleurs branding
 // ---------------------------------------------------------------------------
-// Recharts exige des hex bruts (pas de CSS vars)
-const PRIMARY = '#D4A574'   // Rose Gold — Design System v3
-const ACCENT = '#1A1A2E'    // Charcoal — Design System v3
-const SUCCESS = '#6B9080'   // Vert doux — Design System v3
-const WARNING = '#F59E0B'
-const ERROR = '#EF4444'
+// Recharts exige des hex bruts (pas de CSS vars) — Palette Satorea v5
+const PRIMARY = '#FF5C00'   // Orange Satorea
+const ACCENT = '#1A1A1A'    // Noir Satorea
+const SUCCESS = '#10B981'   // Vert
+const WARNING = '#FF8C42'   // Orange clair
+const ERROR = '#FF2D78'     // Rose hot pink
 
-const FUNNEL_COLORS = ['#6B7280', '#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', '#22C55E']
-const PIE_COLORS = [PRIMARY, '#8B5CF6', '#F59E0B', '#EF4444', '#10B981', '#EC4899', '#6366F1', '#F97316']
+const FUNNEL_COLORS = ['#999999', '#FF5C00', '#FF8C42', '#FF2D78', '#10B981', '#10B981']
+const PIE_COLORS = [PRIMARY, '#FF2D78', '#FF8C42', '#10B981', '#6B8CAE', '#999999', '#E65200', '#FFE0EF']
 
 const SOURCE_LABELS: Record<string, string> = {
   formulaire: 'Site web',

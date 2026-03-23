@@ -95,7 +95,7 @@ export const dailyRappels = inngest.createFunction(
           </table>
           <p style="margin-top:16px">
             <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm.dermotec.fr'}"
-               style="background:#2EC6F3;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none">
+               style="background:#FF5C00;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none">
               Ouvrir le CRM
             </a>
           </p>

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   logo: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 8,
   },
   address: {
@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 2,
-    backgroundColor: '#2EC6F3',
+    backgroundColor: '#FF5C00',
     marginBottom: 20,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     textAlign: 'center',
     marginBottom: 30,
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 15,
     backgroundColor: '#F8FAFC',
     padding: 8,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 4,
   },
   statLabel: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: '#082545',
+    backgroundColor: '#1A1A1A',
     padding: 8,
   },
   tableHeaderText: {
@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     padding: 8,
     backgroundColor: '#F0F9FF',
-    border: '1 solid #2EC6F3',
+    border: '1 solid #FF5C00',
     borderRadius: 4,
   },
   qualityLabel: {
     fontSize: 10,
-    color: '#082545',
+    color: '#1A1A1A',
     fontWeight: 'bold',
   },
   qualityValue: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   signatureLabel: {
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#082545',
+    color: '#1A1A1A',
   },
   signatureDate: {
     fontSize: 9,

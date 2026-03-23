@@ -9,14 +9,14 @@ import { X, Loader2, Users } from 'lucide-react'
 import type { RoleEquipe } from '@/types'
 
 const ROLES: { value: RoleEquipe; label: string; color: string }[] = [
-  { value: 'admin', label: 'Administrateur', color: '#8B5CF6' },
+  { value: 'admin', label: 'Administrateur', color: '#FF2D78' },
   { value: 'manager', label: 'Manager', color: '#F97316' },
   { value: 'commercial', label: 'Commercial(e)', color: '#3B82F6' },
   { value: 'formatrice', label: 'Formatrice', color: '#E11D48' },
   { value: 'assistante', label: 'Assistante', color: 'var(--color-success)' },
 ]
 
-const AVATAR_COLORS = ['var(--color-primary)', '#8B5CF6', '#E11D48', '#F59E0B', 'var(--color-success)', '#F97316', '#6366F1', '#14B8A6', 'var(--color-accent)']
+const AVATAR_COLORS = ['var(--color-primary)', '#FF2D78', '#E11D48', '#F59E0B', 'var(--color-success)', '#F97316', '#FF2D78', '#14B8A6', 'var(--color-accent)']
 
 interface Props {
   open: boolean

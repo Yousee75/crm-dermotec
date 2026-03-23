@@ -17,6 +17,8 @@ const inscriptionExpressSchema = z.object({
   rgpd_accepted: z.boolean().refine(val => val, 'RGPD obligatoire'),
 })
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

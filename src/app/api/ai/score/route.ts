@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { scoreLead } from '@/lib/ai-scoring'
 import { createServerSupabase, createServiceSupabase } from '@/lib/supabase-server'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   try {
     // Auth : skip en mode démo

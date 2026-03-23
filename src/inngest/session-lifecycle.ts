@@ -262,11 +262,11 @@ export const sessionLifecycle = inngest.createFunction(
               <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
               <body style="margin:0;padding:0;background:#f8fafc;font-family:'DM Sans',Arial,sans-serif">
               <div style="max-width:600px;margin:0 auto;padding:24px">
-                <div style="background:#082545;padding:16px;border-radius:12px 12px 0 0;text-align:center">
-                  <h1 style="color:#2EC6F3;font-size:18px;margin:0">Dermotec Advanced</h1>
+                <div style="background:#1A1A1A;padding:16px;border-radius:12px 12px 0 0;text-align:center">
+                  <h1 style="color:#FF5C00;font-size:18px;margin:0">Dermotec Advanced</h1>
                 </div>
                 <div style="background:#ffffff;padding:24px;border-radius:0 0 12px 12px;border:1px solid #e2e8f0;border-top:0">
-                  <p style="color:#082545;font-size:16px;font-weight:600;margin:0 0 12px">
+                  <p style="color:#1A1A1A;font-size:16px;font-weight:600;margin:0 0 12px">
                     ${lead.prenom}, c'est après-demain !
                   </p>
                   <p style="color:#334155;line-height:1.6">

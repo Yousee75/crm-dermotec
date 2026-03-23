@@ -182,7 +182,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
 
                 {/* Badge avis insuffisants */}
                 {intelligence.signaux?.avis_insuffisants && (
-                  <Badge variant="warning">Peu d'avis en ligne (< 10)</Badge>
+                  <Badge variant="warning">{"Peu d'avis en ligne (< 10)"}</Badge>
                 )}
               </>
             ) : (
@@ -276,7 +276,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
 
             {/* Signal zone saturée */}
             {intelligence.signaux?.zone_saturee && (
-              <Badge variant="warning">Zone saturée (> 10 beauty shops)</Badge>
+              <Badge variant="warning">Zone satur&eacute;e (&gt; 10 beauty shops)</Badge>
             )}
           </div>
         )}
@@ -367,13 +367,13 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
 
                 {intelligence.signaux.avis_insuffisants && (
                   <Badge variant="warning">
-                    Peu d'avis en ligne (< 10)
+                    {"Peu d'avis en ligne (< 10)"}
                   </Badge>
                 )}
 
                 {intelligence.signaux.zone_saturee && (
                   <Badge variant="warning">
-                    Zone saturée (> 10 beauty shops)
+                    {"Zone saturée (> 10 beauty shops)"}
                   </Badge>
                 )}
 

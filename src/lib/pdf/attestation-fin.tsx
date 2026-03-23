@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   logo: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 8,
   },
   address: {
@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 2,
-    backgroundColor: '#2EC6F3',
+    backgroundColor: '#FF5C00',
     marginBottom: 20,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     textAlign: 'center',
     marginBottom: 40,
     textDecoration: 'underline',
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
   },
   section: {
     marginBottom: 25,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 10,
     textDecoration: 'underline',
   },
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   signatureLabel: {
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#082545',
+    color: '#1A1A1A',
   },
   signatureDate: {
     fontSize: 9,

@@ -401,7 +401,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
               className={`
                 px-4 py-1.5 text-xs font-medium transition-colors
                 ${view === v
-                  ? 'bg-[#082545] text-white'
+                  ? 'bg-[#1A1A1A] text-white'
                   : 'bg-white text-gray-600 hover:bg-gray-50'
                 }
               `}
@@ -437,14 +437,14 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                   className={`
                     min-h-[100px] border-b border-r border-gray-50 p-1
                     ${!inMonth ? 'bg-gray-50/50' : ''}
-                    ${today ? 'ring-2 ring-inset ring-[#2EC6F3]/40 bg-cyan-50/30' : ''}
+                    ${today ? 'ring-2 ring-inset ring-[#FF5C00]/40 bg-cyan-50/30' : ''}
                     ${i % 7 === 0 ? 'border-l border-gray-50' : ''}
                   `}
                 >
                   <div className={`
                     text-xs font-medium mb-1 px-1
                     ${today
-                      ? 'text-[#2EC6F3] font-bold'
+                      ? 'text-[#FF5C00] font-bold'
                       : inMonth ? 'text-gray-700' : 'text-gray-300'
                     }
                   `}>
@@ -490,7 +490,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                   <div className="text-xs text-gray-500 uppercase">{JOURS[i]}</div>
                   <div className={`
                     text-sm font-semibold
-                    ${today ? 'text-[#2EC6F3]' : 'text-gray-800'}
+                    ${today ? 'text-[#FF5C00]' : 'text-gray-800'}
                   `}>
                     {date.getDate()}
                   </div>

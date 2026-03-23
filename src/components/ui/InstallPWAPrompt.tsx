@@ -55,9 +55,9 @@ export default function InstallPWAPrompt() {
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-md animate-in slide-in-from-bottom-4 duration-300">
-      <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#082545] px-4 py-3 shadow-2xl">
+      <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#1A1A1A] px-4 py-3 shadow-2xl">
         {/* Icone */}
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#2EC6F3]">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FF5C00]">
           <Download className="h-5 w-5 text-white" />
         </div>
 
@@ -70,7 +70,7 @@ export default function InstallPWAPrompt() {
         {/* Bouton installer */}
         <button
           onClick={handleInstall}
-          className="shrink-0 rounded-lg bg-[#2EC6F3] px-3 py-1.5 text-sm font-semibold text-[#082545] transition-opacity hover:opacity-85"
+          className="shrink-0 rounded-lg bg-[#FF5C00] px-3 py-1.5 text-sm font-semibold text-[#1A1A1A] transition-opacity hover:opacity-85"
         >
           Installer
         </button>

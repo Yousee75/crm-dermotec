@@ -70,9 +70,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ commerciaux: [], totaux: {}, classement: [] })
     }
 
-    // 2. Pour chaque commercial, récupérer ses métriques
+    // 2. Pré-charger les IDs leads par commercial (évite N+1 queries)
+    const commercialIds = commerciaux.map(c => c.id)
+    const { data: allLeads } = await supabase
+      .from('leads')
+      .select('id, commercial_assigne_id')
+      .in('commercial_assigne_id', commercialIds)
+
+    const leadIdsByCommercial = new Map<string, string[]>()
+    for (const lead of allLeads || []) {
+      const ids = leadIdsByCommercial.get(lead.commercial_assigne_id) || []
+      ids.push(lead.id)
+      leadIdsByCommercial.set(lead.commercial_assigne_id, ids)
+    }
+
+    // Pour chaque commercial, récupérer ses métriques (queries parallèles, pas de N+1)
     const performances = await Promise.all(
       commerciaux.map(async (commercial) => {
+        const commercialLeadIds = leadIdsByCommercial.get(commercial.id) || []
+
         const [
           leadsRes,
           leadsPeriodeRes,
@@ -98,26 +114,22 @@ export async function GET(request: NextRequest) {
             .in('statut', ['INSCRIT', 'EN_FORMATION', 'FORME', 'ALUMNI'])
             .gte('updated_at', dateDebut),
 
-          // CA cette période
-          supabase.from('inscriptions').select('montant_total')
-            .eq('paiement_statut', 'PAYE')
-            .gte('updated_at', dateDebut)
-            .in('lead_id', (await supabase
-              .from('leads')
-              .select('id')
-              .eq('commercial_assigne_id', commercial.id)
-            ).data?.map(l => l.id) || []),
+          // CA cette période (utilise les IDs pré-chargés)
+          commercialLeadIds.length > 0
+            ? supabase.from('inscriptions').select('montant_total')
+                .eq('paiement_statut', 'PAYE')
+                .gte('updated_at', dateDebut)
+                .in('lead_id', commercialLeadIds)
+            : Promise.resolve({ data: [], error: null }),
 
-          // CA période précédente (pour tendance)
-          supabase.from('inscriptions').select('montant_total')
-            .eq('paiement_statut', 'PAYE')
-            .gte('updated_at', dateDebutPrecedent)
-            .lt('updated_at', dateDebut)
-            .in('lead_id', (await supabase
-              .from('leads')
-              .select('id')
-              .eq('commercial_assigne_id', commercial.id)
-            ).data?.map(l => l.id) || []),
+          // CA période précédente (utilise les IDs pré-chargés)
+          commercialLeadIds.length > 0
+            ? supabase.from('inscriptions').select('montant_total')
+                .eq('paiement_statut', 'PAYE')
+                .gte('updated_at', dateDebutPrecedent)
+                .lt('updated_at', dateDebut)
+                .in('lead_id', commercialLeadIds)
+            : Promise.resolve({ data: [], error: null }),
 
           // Rappels en retard
           supabase.from('rappels').select('id', { count: 'exact', head: true })

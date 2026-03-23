@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase, createServerSupabase } from '@/lib/supabase-server'
 
+export const dynamic = 'force-dynamic'
+
 // GET : messages d'un lead ou inbox
 export async function GET(req: NextRequest) {
   try {

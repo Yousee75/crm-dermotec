@@ -137,9 +137,9 @@ export function renderDigestHTML(data: DigestData): string {
   `).join('')
 
   return `
-    <div style="max-width:600px;margin:0 auto;font-family:'DM Sans',Arial,sans-serif;color:#082545">
-      <div style="background:#082545;padding:20px 24px;border-radius:12px 12px 0 0">
-        <h1 style="color:#2EC6F3;font-size:20px;margin:0">Dermotec CRM — Briefing du jour</h1>
+    <div style="max-width:600px;margin:0 auto;font-family:'DM Sans',Arial,sans-serif;color:#1A1A1A">
+      <div style="background:#1A1A1A;padding:20px 24px;border-radius:12px 12px 0 0">
+        <h1 style="color:#FF5C00;font-size:20px;margin:0">Dermotec CRM — Briefing du jour</h1>
         <p style="color:#94A3B8;font-size:13px;margin:4px 0 0">${data.date}</p>
       </div>
 
@@ -148,7 +148,7 @@ export function renderDigestHTML(data: DigestData): string {
         <!-- KPIs -->
         <div style="display:flex;gap:12px;margin-bottom:24px">
           <div style="flex:1;background:#F8FAFC;padding:12px;border-radius:8px;text-align:center">
-            <div style="font-size:24px;font-weight:700;color:#2EC6F3">${data.kpis.leads_nouveaux_24h}</div>
+            <div style="font-size:24px;font-weight:700;color:#FF5C00">${data.kpis.leads_nouveaux_24h}</div>
             <div style="font-size:11px;color:#64748b;text-transform:uppercase">Nouveaux leads</div>
           </div>
           <div style="flex:1;background:#F8FAFC;padding:12px;border-radius:8px;text-align:center">
@@ -163,7 +163,7 @@ export function renderDigestHTML(data: DigestData): string {
 
         ${data.smart_actions.length > 0 ? `
         <!-- Actions prioritaires -->
-        <h2 style="font-size:16px;margin:0 0 12px;color:#082545">Actions prioritaires (${data.smart_actions.length})</h2>
+        <h2 style="font-size:16px;margin:0 0 12px;color:#1A1A1A">Actions prioritaires (${data.smart_actions.length})</h2>
         <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
           ${actionRows}
         </table>
@@ -179,14 +179,14 @@ export function renderDigestHTML(data: DigestData): string {
 
         ${data.sessions_prochaines.length > 0 ? `
         <!-- Sessions -->
-        <h2 style="font-size:16px;margin:0 0 12px;color:#082545">Sessions à venir</h2>
+        <h2 style="font-size:16px;margin:0 0 12px;color:#1A1A1A">Sessions à venir</h2>
         <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
           ${sessionRows}
         </table>
         ` : ''}
 
         <div style="text-align:center;margin-top:24px">
-          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm.dermotec.fr'}" style="display:inline-block;background:#2EC6F3;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Ouvrir le CRM</a>
+          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm.dermotec.fr'}" style="display:inline-block;background:#FF5C00;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Ouvrir le CRM</a>
         </div>
       </div>
 

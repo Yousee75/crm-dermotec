@@ -557,13 +557,13 @@ export default function FormatricePage() {
           icon={Calendar}
           label="Sessions ce mois"
           value={stats.sessionsMois}
-          color="#2EC6F3"
+          color="#FF5C00"
         />
         <KpiCard
           icon={Users}
           label="Stagiaires formes"
           value={stats.stagiairesFormes}
-          color="#8B5CF6"
+          color="#FF2D78"
         />
         <KpiCard
           icon={Star}

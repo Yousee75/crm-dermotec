@@ -2,6 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { QrCode, Copy, Check, ExternalLink, Download, Printer, RefreshCw } from 'lucide-react'
@@ -100,12 +101,12 @@ export function QRCodeGenerator({
     if (!w) return
     w.document.write(`<!DOCTYPE html><html><head><title>QR Émargement</title>
       <style>body{font-family:sans-serif;text-align:center;padding:40px}
-      h1{color:#082545;font-size:22px;margin-bottom:4px}
+      h1{color:#1A1A1A;font-size:22px;margin-bottom:4px}
       .info{color:#475569;font-size:15px;margin-bottom:20px}
       .qr{margin:20px auto}
       .box{color:#64748B;font-size:13px;margin-top:20px;padding:14px;border:1px dashed #CBD5E1;border-radius:10px}
       .ft{margin-top:28px;color:#94A3B8;font-size:11px}
-      .logo{color:#2EC6F3;font-weight:bold;font-size:18px;margin-bottom:12px}</style></head>
+      .logo{color:#FF5C00;font-weight:bold;font-size:18px;margin-bottom:12px}</style></head>
       <body><div class="logo">Dermotec Advanced</div>
       <h1>${sessionInfo?.formationNom || 'Émargement'}</h1>
       <div class="info">${sessionInfo?.date || ''} ${sessionInfo?.horaires ? '&bull; ' + sessionInfo.horaires : ''}
@@ -140,7 +141,7 @@ export function QRCodeGenerator({
         <div className="flex justify-center">
           <div className="p-4 bg-white border-2 border-gray-100 rounded-xl shadow-sm">
             {qrDataUrl ? (
-              <img src={qrDataUrl} alt="QR Code émargement" style={{ width: size, height: size }} />
+              <Image src={qrDataUrl} alt="QR Code émargement" width={size} height={size} unoptimized />
             ) : (
               <div style={{ width: size, height: size }} className="bg-gray-100 animate-pulse rounded-lg" />
             )}

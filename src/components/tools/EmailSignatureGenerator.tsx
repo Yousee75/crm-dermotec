@@ -18,21 +18,21 @@ export function EmailSignatureGenerator() {
     setForm(prev => ({ ...prev, [field]: value }))
 
   const signatureHtml = `
-<table cellpadding="0" cellspacing="0" style="font-family:'DM Sans',Arial,sans-serif;font-size:13px;color:#082545;line-height:1.5">
+<table cellpadding="0" cellspacing="0" style="font-family:'DM Sans',Arial,sans-serif;font-size:13px;color:#1A1A1A;line-height:1.5">
   <tr>
-    <td style="padding-right:16px;border-right:3px solid #2EC6F3">
-      <div style="width:60px;height:60px;background:#2EC6F3;border-radius:12px;display:flex;align-items:center;justify-content:center">
+    <td style="padding-right:16px;border-right:3px solid #FF5C00">
+      <div style="width:60px;height:60px;background:#FF5C00;border-radius:12px;display:flex;align-items:center;justify-content:center">
         <span style="color:white;font-size:24px;font-weight:bold">D</span>
       </div>
     </td>
     <td style="padding-left:16px">
-      <p style="margin:0;font-size:15px;font-weight:700;color:#082545">${form.nom || 'Votre Nom'}</p>
-      <p style="margin:0;font-size:12px;color:#2EC6F3;font-weight:600">${form.poste || 'Votre Poste'}</p>
+      <p style="margin:0;font-size:15px;font-weight:700;color:#1A1A1A">${form.nom || 'Votre Nom'}</p>
+      <p style="margin:0;font-size:12px;color:#FF5C00;font-weight:600">${form.poste || 'Votre Poste'}</p>
       <p style="margin:4px 0 0;font-size:12px;color:#64748b">
         ${form.telephone ? `📞 ${form.telephone}` : ''}${form.telephone && form.email ? ' · ' : ''}${form.email ? `✉️ ${form.email}` : ''}
       </p>
       <p style="margin:2px 0 0;font-size:12px">
-        <a href="https://${form.site}" style="color:#2EC6F3;text-decoration:none;font-weight:600">🌐 ${form.site}</a>
+        <a href="https://${form.site}" style="color:#FF5C00;text-decoration:none;font-weight:600">🌐 ${form.site}</a>
       </p>
       <p style="margin:6px 0 0;font-size:10px;color:#94a3b8">Dermotec Advanced · Centre de Formation Esthétique · Certifié Qualiopi</p>
     </td>

@@ -281,9 +281,9 @@ export async function analyzeBriefing(data: CollectedData): Promise<BriefingAnal
   const prompt = buildPrompt(data)
 
   const { text } = await generateText({
-    model: getModel('smart'), // Claude Sonnet pour la qualité
+    model: getModel('best'), // Claude Sonnet pour la qualité
     prompt,
-    maxTokens: 8000,
+    maxTokens: 8000 as any,
     temperature: 0.3, // Peu de créativité, beaucoup de rigueur
   })
 

@@ -280,8 +280,8 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
     const replaced = replaceVariables(corps)
     return `
       <div style="font-family:'DM Sans',system-ui,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1f2937;line-height:1.6;font-size:14px;">
-        <div style="border-bottom:3px solid #2EC6F3;padding-bottom:16px;margin-bottom:24px;">
-          <strong style="color:#082545;font-size:18px;">Dermotec Advanced</strong>
+        <div style="border-bottom:3px solid #FF5C00;padding-bottom:16px;margin-bottom:24px;">
+          <strong style="color:#1A1A1A;font-size:18px;">Dermotec Advanced</strong>
         </div>
         ${replaced}
         <div style="border-top:1px solid #e5e7eb;padding-top:16px;margin-top:32px;font-size:12px;color:#9ca3af;">

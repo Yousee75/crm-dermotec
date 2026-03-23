@@ -101,7 +101,8 @@ export function CreateLeadDialog({ open, onClose }: CreateLeadDialogProps) {
       source: data.source as SourceLead,
       entreprise_nom: data.entreprise_nom?.trim() || undefined,
       siret: data.siret?.trim() || undefined,
-      ville: data.ville?.trim() || undefined,
+      // ville stockée dans metadata (pas de colonne dédiée dans le type Lead)
+      metadata: { ville: data.ville?.trim() || undefined },
       notes: data.notes?.trim() || undefined,
       formations_interessees: formation ? [formation.nom] : [],
       statut: 'NOUVEAU',

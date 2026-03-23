@@ -160,8 +160,8 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                 <div className="space-y-1.5">
                   {[
                     { n: 1, l: 'Accroche', t: `Bonjour ${lead.prenom}, je suis [Prenom] de Dermotec Advanced, centre certifie Qualiopi a Paris 11e.`, c: 'var(--color-primary)' },
-                    { n: 2, l: 'Transition', t: formation ? `On forme des professionnelles au ${formation.nom} — une prestation tres demandee.` : 'On propose des formations courtes certifiees en esthetique.', c: '#6366F1' },
-                    { n: 3, l: 'Proposition', t: formation ? `En ${formation.duree_jours || 2} jours, vous maitrisez la technique. ${formation.prix_ht}\u20acHT, financable OPCO/CPF.` : 'Nos formations durent 1 a 5 jours et sont financables OPCO/CPF.', c: '#8B5CF6' },
+                    { n: 2, l: 'Transition', t: formation ? `On forme des professionnelles au ${formation.nom} — une prestation tres demandee.` : 'On propose des formations courtes certifiees en esthetique.', c: '#FF2D78' },
+                    { n: 3, l: 'Proposition', t: formation ? `En ${formation.duree_jours || 2} jours, vous maitrisez la technique. ${formation.prix_ht}\u20acHT, financable OPCO/CPF.` : 'Nos formations durent 1 a 5 jours et sont financables OPCO/CPF.', c: '#FF2D78' },
                     { n: 4, l: 'Closing', t: 'Est-ce qu\'on pourrait se voir 15 min cette semaine ? Je vous montre les chiffres concrets.', c: '#059669' },
                   ].map(step => (
                     <div key={step.n} className="flex gap-1.5 items-start">
@@ -219,7 +219,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                     {/* Points */}
                     {scores && (() => {
                       const vals = [scores.reputation, scores.presence, scores.activity, scores.financial, scores.neighborhood]
-                      const colors = ['#10B981', '#3B82F6', '#8B5CF6', '#F59E0B', '#14B8A6']
+                      const colors = ['#10B981', '#3B82F6', '#FF2D78', '#F59E0B', '#14B8A6']
                       return pentagonVerticesScaled(vals, 100, 100, 70).map((v, i) => (
                         <circle key={i} cx={v[0]} cy={v[1]} r="3" fill={colors[i]} />
                       ))
@@ -244,7 +244,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                       { l: 'Quartier', v: scores.neighborhood, c: '#14B8A6' },
                       { l: 'Presence', v: scores.presence, c: '#3B82F6' },
                       { l: 'Financier', v: scores.financial, c: '#F59E0B' },
-                      { l: 'Activite', v: scores.activity, c: '#8B5CF6' },
+                      { l: 'Activite', v: scores.activity, c: '#FF2D78' },
                     ].map((d, i) => (
                       <div key={i} className="flex items-center gap-1">
                         <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: d.c }} />
@@ -323,8 +323,8 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
             <div className="flex items-center gap-1.5">
               {[
                 { n: '1', t: 'Appeler', c: 'var(--color-primary)' },
-                { n: '2', t: 'SMS si absent', c: '#6366F1' },
-                { n: '3', t: 'Envoyer programme', c: '#8B5CF6' },
+                { n: '2', t: 'SMS si absent', c: '#FF2D78' },
+                { n: '3', t: 'Envoyer programme', c: '#FF2D78' },
               ].map(s => (
                 <div key={s.n} className="flex items-center gap-1">
                   <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-white text-[7px] font-bold" style={{ background: s.c }}>{s.n}</div>

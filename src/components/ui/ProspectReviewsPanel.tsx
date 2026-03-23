@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase-client'
 import { Star, MessageSquare, TrendingUp, TrendingDown, Minus, User, ThumbsUp, Camera, Clock, ChevronDown, ChevronUp } from 'lucide-react'
@@ -155,7 +156,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
             <div className="flex items-start justify-between mb-1.5">
               <div className="flex items-center gap-2">
                 {review.metadata?.author_image ? (
-                  <img src={review.metadata.author_image} alt="" className="w-6 h-6 rounded-full" />
+                  <Image src={review.metadata.author_image} alt="" width={24} height={24} className="rounded-full" unoptimized />
                 ) : (
                   <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
                     <User className="w-3 h-3 text-gray-400" />
@@ -189,7 +190,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
             {review.metadata?.review_img_urls && review.metadata.review_img_urls.length > 0 && (
               <div className="flex gap-1.5 mb-1.5">
                 {review.metadata.review_img_urls.slice(0, 3).map((url: string, i: number) => (
-                  <img key={i} src={url} alt="" className="w-16 h-16 rounded-lg object-cover" />
+                  <Image key={i} src={url} alt="" width={64} height={64} className="rounded-lg object-cover" unoptimized />
                 ))}
                 {review.metadata.review_img_urls.length > 3 && (
                   <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">

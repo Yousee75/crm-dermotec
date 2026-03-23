@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   logo: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     marginBottom: 8,
   },
   address: {
@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 2,
-    backgroundColor: '#2EC6F3',
+    backgroundColor: '#FF5C00',
     marginBottom: 20,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     textAlign: 'center',
     marginBottom: 40,
     textDecoration: 'underline',
@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
   },
   presenceBox: {
     backgroundColor: '#F0F9FF',
-    border: '2 solid #2EC6F3',
+    border: '2 solid #FF5C00',
     padding: 20,
     marginVertical: 25,
     borderRadius: 8,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   presenceTitle: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
     textAlign: 'center',
     marginBottom: 15,
   },
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   presenceValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#082545',
+    color: '#1A1A1A',
   },
   presenceLabel: {
     fontSize: 9,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   signatureLabel: {
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#082545',
+    color: '#1A1A1A',
   },
   signatureDate: {
     fontSize: 9,

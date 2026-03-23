@@ -14,11 +14,11 @@
 **GitHub** : https://github.com/Yousee75/crm-dermotec
 **Supabase** : `wtbrdxijvtelluwfmgsf` | **Stripe** : `acct_1RpvbQ1NzDARltfq`
 
-## Chiffres du projet
+## Chiffres du projet (mis à jour 2026-03-23)
 
-- **384 fichiers source** | **64 pages** | **38 API routes** | **72 composants**
-- **20 hooks** | **77 modules lib** | **36 migrations SQL** | **15 tests**
-- **9 jobs Inngest** | **28 fichiers DDD server**
+- **554 fichiers source** | **71 pages** | **63 API routes** | **136 composants**
+- **27 hooks** | **141 modules lib** | **54 migrations SQL** | **20 tests**
+- **15 jobs Inngest** | **30 fichiers DDD server**
 - **11 produits Stripe** avec prix | **4 plans SaaS** (Decouverte/Pro/Expert/Clinique)
 
 ## Architecture

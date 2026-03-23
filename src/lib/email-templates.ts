@@ -324,7 +324,7 @@ export function emailCertificat(data: {
       paragraph(`Maintenant, c'est à vous de jouer ! Voici de quoi bien démarrer :`),
       iconList([
         { icon: '📖', text: 'Guide "Lancer votre activité" (dans votre espace)' },
-        { icon: '🛒', text: '<a href="https://www.dermotec.fr" style="color:#2EC6F3">Matériel NPM professionnel</a> sur notre e-shop' },
+        { icon: '🛒', text: '<a href="https://www.dermotec.fr" style="color:#FF5C00">Matériel NPM professionnel</a> sur notre e-shop' },
         { icon: '👥', text: 'Rejoignez notre communauté alumni sur WhatsApp' },
       ]),
       signature(),

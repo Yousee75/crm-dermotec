@@ -18,14 +18,57 @@ export const maxDuration = 60
 
 export async function POST(request: Request) {
   try {
+    // Auth — obligatoire en prod, optionnel en dev/demo
+    let user: { id: string } | null = null
+    try {
+      const { createServerSupabase } = await import('@/lib/supabase-server')
+      const supabase = await createServerSupabase()
+      const { data } = await supabase.auth.getUser()
+      user = data.user
+    } catch {
+      // Supabase non configuré — mode demo
+    }
+
+    // En production, bloquer si pas connecté
+    if (!user && process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return new Response(JSON.stringify({ error: 'Non autorisé' }), { status: 401 })
+    }
+
+    // Fallback user ID pour le mode demo
+    const userId = user?.id || 'demo-user'
+
     const body = await request.json()
-    const { messages, leadId, mode } = body as {
-      messages: Array<{ role: 'user' | 'assistant'; content: string }>
+    const { leadId, mode } = body as {
+      messages?: any[]
       leadId?: string
       mode?: 'commercial' | 'formation'
     }
 
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    // AI SDK v6 : useChat envoie des UIMessages (avec parts, id, etc.)
+    // Compatibilité : accepter les 2 formats (UIMessage v6 ET legacy {role, content})
+    let rawMessages = body.messages || []
+    if (!Array.isArray(rawMessages) || rawMessages.length === 0) {
+      return new Response(JSON.stringify({ error: 'Messages requis' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    // Normaliser les messages : extraire role + content depuis UIMessage v6 ou format legacy
+    const messages = rawMessages.map((m: any) => {
+      const role = m.role || 'user'
+      // AI SDK v6 UIMessage : le texte est dans parts[].text OU content
+      let content = m.content || ''
+      if (!content && m.parts && Array.isArray(m.parts)) {
+        content = m.parts
+          .filter((p: any) => p.type === 'text')
+          .map((p: any) => p.text)
+          .join('\n')
+      }
+      return { role, content }
+    }).filter((m: any) => m.content) // Filtrer les messages vides
+
+    if (messages.length === 0) {
       return new Response(JSON.stringify({ error: 'Messages requis' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -33,7 +76,7 @@ export async function POST(request: Request) {
     }
 
     // Dernier message de l'utilisateur
-    const lastUserMessage = messages.filter(m => m.role === 'user').pop()?.content || ''
+    const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop()?.content || ''
 
     // Semantic cache : si question identique récemment posée, retourner le cache
     // (seulement pour les questions génériques, pas les questions avec lead_id spécifique)
@@ -166,6 +209,7 @@ COMPORTEMENT en mode formation :
           const { createServiceSupabase } = await import('@/lib/supabase-server')
           const sb = await createServiceSupabase() as any
           await sb.from('agent_conversations').insert({
+            user_id: userId,
             lead_id: leadId || null,
             mode: mode || 'commercial',
             messages: messages.concat([{ role: 'assistant', content: text }]),

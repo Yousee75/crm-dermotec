@@ -133,7 +133,7 @@ export const monthlySnapshot = inngest.createFunction(
           subject: `[CRM] Bilan mensuel — ${new Date(s.mois).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}`,
           html: `
             <div style="font-family:sans-serif;max-width:600px">
-              <h2 style="color:#082545">📊 Bilan mensuel CRM</h2>
+              <h2 style="color:#1A1A1A">📊 Bilan mensuel CRM</h2>
               <table style="width:100%;border-collapse:collapse">
                 <tr><td style="padding:8px;border-bottom:1px solid #e2e8f0"><strong>Total leads</strong></td><td style="text-align:right">${s.total_leads}</td></tr>
                 <tr><td style="padding:8px;border-bottom:1px solid #e2e8f0"><strong>Nouveaux ce mois</strong></td><td style="text-align:right">${s.nouveaux_leads}</td></tr>
@@ -146,7 +146,7 @@ export const monthlySnapshot = inngest.createFunction(
               ${upsells.upsells_detected > 0 ? `<p style="margin-top:16px;color:#F59E0B">🎯 ${upsells.upsells_detected} opportunité(s) upsell détectée(s)</p>` : ''}
               <p style="margin-top:24px">
                 <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}/analytics"
-                   style="background:#2EC6F3;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none">
+                   style="background:#FF5C00;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none">
                   Voir les analytics
                 </a>
               </p>

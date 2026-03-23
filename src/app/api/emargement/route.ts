@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
 
+export const dynamic = 'force-dynamic'
+
 const CONSENT_TEXT = "En signant, je certifie ma présence effective à cette séance et j'accepte que mes données (signature, IP, horodatage) soient conservées 5 ans conformément au RGPD."
 
 function computeHash(data: string): string {

@@ -152,7 +152,7 @@ export function OnboardingWizard() {
       particleCount: 150,
       spread: 80,
       origin: { y: 0.6 },
-      colors: ['#2EC6F3', '#22C55E', '#F59E0B', '#8B5CF6', '#EF4444'],
+      colors: ['#FF5C00', '#22C55E', '#F59E0B', '#FF2D78', '#EF4444'],
     })
     setTimeout(() => setVisible(false), 2000)
   }, [markStepDone])
@@ -240,7 +240,7 @@ export function OnboardingWizard() {
         {/* Progress bar */}
         <div className="h-1 bg-gray-100">
           <motion.div
-            className="h-full bg-gradient-to-r from-[#2EC6F3] to-[#22C55E]"
+            className="h-full bg-gradient-to-r from-[#FF5C00] to-[#22C55E]"
             initial={{ width: 0 }}
             animate={{ width: `${progressPercent}%` }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
@@ -254,7 +254,7 @@ export function OnboardingWizard() {
               key={idx}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                 idx === currentIndex
-                  ? 'bg-[#2EC6F3] scale-125 shadow-md shadow-[#2EC6F3]/30'
+                  ? 'bg-[#FF5C00] scale-125 shadow-md shadow-[#FF5C00]/30'
                   : idx < currentIndex
                   ? 'bg-[#22C55E]'
                   : 'bg-gray-200'
@@ -325,7 +325,7 @@ export function OnboardingWizard() {
             {currentStep === 'ready' ? (
               <button
                 onClick={finish}
-                className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#2EC6F3] to-[#22C55E] text-white text-sm font-medium rounded-xl hover:shadow-lg hover:shadow-[#2EC6F3]/25 transition-all duration-200"
+                className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#FF5C00] to-[#22C55E] text-white text-sm font-medium rounded-xl hover:shadow-lg hover:shadow-[#FF5C00]/25 transition-all duration-200"
               >
                 Commencer a travailler
                 <Rocket className="w-4 h-4" />
@@ -333,7 +333,7 @@ export function OnboardingWizard() {
             ) : (
               <button
                 onClick={goNext}
-                className="flex items-center gap-2 px-6 py-2.5 bg-[#2EC6F3] text-white text-sm font-medium rounded-xl hover:bg-[#1ab5e2] hover:shadow-lg hover:shadow-[#2EC6F3]/25 transition-all duration-200"
+                className="flex items-center gap-2 px-6 py-2.5 bg-[#FF5C00] text-white text-sm font-medium rounded-xl hover:bg-[#1ab5e2] hover:shadow-lg hover:shadow-[#FF5C00]/25 transition-all duration-200"
               >
                 {currentStep === 'welcome' ? "C'est parti !" : 'Suivant'}
                 <ArrowRight className="w-4 h-4" />
@@ -354,8 +354,8 @@ function StepWelcome() {
   return (
     <div className="text-center space-y-6">
       <div className="flex justify-center">
-        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#2EC6F3]/10 to-[#22C55E]/10 flex items-center justify-center">
-          <Sparkles className="w-10 h-10 text-[#2EC6F3]" />
+        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FF5C00]/10 to-[#22C55E]/10 flex items-center justify-center">
+          <Sparkles className="w-10 h-10 text-[#FF5C00]" />
         </div>
       </div>
       <div>
@@ -369,7 +369,7 @@ function StepWelcome() {
       <div className="space-y-3 text-left max-w-sm mx-auto">
         <BulletPoint
           icon={Users}
-          color="#2EC6F3"
+          color="#FF5C00"
           text="Gerez vos leads et suivez chaque prospect"
         />
         <BulletPoint
@@ -407,8 +407,8 @@ function StepCreateLead({
     <div className="space-y-5">
       <div className="text-center">
         <div className="flex justify-center mb-3">
-          <div className="w-16 h-16 rounded-2xl bg-[#2EC6F3]/10 flex items-center justify-center">
-            <Users className="w-8 h-8 text-[#2EC6F3]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FF5C00]/10 flex items-center justify-center">
+            <Users className="w-8 h-8 text-[#FF5C00]" />
           </div>
         </div>
         <h2 className="text-xl font-bold text-gray-900 font-heading">
@@ -468,7 +468,7 @@ function StepCreateLead({
           <button
             onClick={onCreate}
             disabled={creating || !form.prenom.trim() || (!form.email.trim() && !form.telephone.trim())}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#2EC6F3] text-white text-sm font-medium rounded-xl hover:bg-[#1ab5e2] disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#FF5C00] text-white text-sm font-medium rounded-xl hover:bg-[#1ab5e2] disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             {creating ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -488,7 +488,7 @@ function StepCreateLead({
 function StepPipeline() {
   const columns = [
     { label: 'Nouveau', color: '#64748B', count: 3 },
-    { label: 'Contacte', color: '#2EC6F3', count: 2 },
+    { label: 'Contacte', color: '#FF5C00', count: 2 },
     { label: 'Qualifie', color: '#F59E0B', count: 1 },
     { label: 'Gagne', color: '#22C55E', count: 1 },
   ]
@@ -540,8 +540,8 @@ function StepPipeline() {
         ))}
       </div>
 
-      <div className="bg-[#2EC6F3]/5 border border-[#2EC6F3]/20 rounded-xl p-3">
-        <p className="text-xs text-[#2EC6F3] text-center">
+      <div className="bg-[#FF5C00]/5 border border-[#FF5C00]/20 rounded-xl p-3">
+        <p className="text-xs text-[#FF5C00] text-center">
           Glissez-deposez vos leads entre les colonnes pour mettre a jour leur statut en un clic
         </p>
       </div>
@@ -569,8 +569,8 @@ function StepProfile({
     <div className="space-y-5">
       <div className="text-center">
         <div className="flex justify-center mb-3">
-          <div className="w-16 h-16 rounded-2xl bg-[#8B5CF6]/10 flex items-center justify-center">
-            <UserCircle className="w-8 h-8 text-[#8B5CF6]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FF2D78]/10 flex items-center justify-center">
+            <UserCircle className="w-8 h-8 text-[#FF2D78]" />
           </div>
         </div>
         <h2 className="text-xl font-bold text-gray-900 font-heading">
@@ -617,7 +617,7 @@ function StepProfile({
             <select
               value={form.role}
               onChange={(e) => update('role', e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] transition"
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition"
             >
               <option value="">Selectionnez</option>
               <option value="admin">Administrateur</option>
@@ -635,7 +635,7 @@ function StepProfile({
           <button
             onClick={onSave}
             disabled={saving}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#8B5CF6] text-white text-sm font-medium rounded-xl hover:bg-[#7C3AED] disabled:opacity-50 transition"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#FF2D78] text-white text-sm font-medium rounded-xl hover:bg-[#7C3AED] disabled:opacity-50 transition"
           >
             {saving ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -654,9 +654,9 @@ function StepProfile({
 
 function StepReady() {
   const links = [
-    { href: '/leads', label: 'Ajouter un lead', icon: Users, color: '#2EC6F3' },
+    { href: '/leads', label: 'Ajouter un lead', icon: Users, color: '#FF5C00' },
     { href: '/pipeline', label: 'Voir le pipeline', icon: Kanban, color: '#F59E0B' },
-    { href: '/academy', label: "Explorer l'Academy", icon: BookOpen, color: '#8B5CF6' },
+    { href: '/academy', label: "Explorer l'Academy", icon: BookOpen, color: '#FF2D78' },
   ]
 
   return (
@@ -757,7 +757,7 @@ function InputField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2EC6F3]/30 focus:border-[#2EC6F3] transition ${
+          className={`w-full px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition ${
             Icon ? 'pl-9' : ''
           }`}
         />

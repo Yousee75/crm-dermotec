@@ -1,7 +1,5 @@
 'use client'
 
-export const dynamic = 'force-dynamic'
-
 import Link from 'next/link'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
@@ -28,7 +26,7 @@ import {
 // ─── Animation variants ───
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' as const } },
 }
 
 const stagger = {
@@ -144,12 +142,12 @@ export default function LandingPage() {
         <div
           className="absolute inset-0 -z-10"
           style={{
-            background: 'linear-gradient(135deg, #082545 0%, #0a3a6b 40%, #0e4d8f 70%, #1a6fb5 100%)',
+            background: 'linear-gradient(135deg, #1A1A1A 0%, #0a3a6b 40%, #0e4d8f 70%, #1a6fb5 100%)',
           }}
         />
         {/* Decorative orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[#2EC6F3]/20 rounded-full blur-[120px] -z-[5]" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#2EC6F3]/10 rounded-full blur-[150px] -z-[5]" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#FF5C00]/20 rounded-full blur-[120px] -z-[5]" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#FF5C00]/10 rounded-full blur-[150px] -z-[5]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full -z-[5]" />
 
         <motion.div
@@ -165,7 +163,7 @@ export default function LandingPage() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-1.5 mb-8"
           >
-            <Sparkles className="w-4 h-4 text-[#2EC6F3]" />
+            <Sparkles className="w-4 h-4 text-[#FF5C00]" />
             <span className="text-sm text-white/80">Propuls&eacute; par l&apos;IA</span>
           </motion.div>
 
@@ -174,7 +172,7 @@ export default function LandingPage() {
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Le CRM intelligent pour les{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2EC6F3] to-[#6DD5FA]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5C00] to-[#6DD5FA]">
               centres de formation esth&eacute;tique
             </span>
           </h1>
@@ -188,7 +186,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
               href="/login"
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#2EC6F3] hover:bg-[#1ab5e2] text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-lg shadow-[#2EC6F3]/25 hover:shadow-xl hover:shadow-[#2EC6F3]/30"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#FF5C00] hover:bg-[#1ab5e2] text-white font-semibold px-8 py-4 text-base transition-all duration-200 shadow-lg shadow-[#FF5C00]/25 hover:shadow-xl hover:shadow-[#FF5C00]/30"
             >
               Essai gratuit
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -210,7 +208,7 @@ export default function LandingPage() {
           className="w-full max-w-5xl mx-auto mt-4"
         >
           <div className="relative rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-sm p-1 shadow-2xl">
-            <div className="rounded-xl bg-gradient-to-br from-[#082545]/80 to-[#0e4d8f]/60 aspect-[16/9] flex flex-col">
+            <div className="rounded-xl bg-gradient-to-br from-[#1A1A1A]/80 to-[#0e4d8f]/60 aspect-[16/9] flex flex-col">
               {/* Fake titlebar */}
               <div className="flex items-center gap-2 px-5 py-3 border-b border-white/10">
                 <div className="w-3 h-3 rounded-full bg-red-400/60" />
@@ -248,7 +246,7 @@ export default function LandingPage() {
                           <div className="w-3/4 h-2 sm:h-2.5 rounded bg-white/15 mb-1.5 sm:mb-2" />
                           <div className="w-1/2 h-1.5 sm:h-2 rounded bg-white/10 mb-2 sm:mb-3" />
                           <div className="flex gap-1">
-                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#2EC6F3]/20" />
+                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#FF5C00]/20" />
                             <div className="flex-1 h-1.5 sm:h-2 rounded bg-white/[0.08] mt-1.5 sm:mt-2" />
                           </div>
                         </div>
@@ -274,10 +272,10 @@ export default function LandingPage() {
                   variants={fadeUp}
                   className="flex items-center gap-3"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#2EC6F3]/10 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-[#2EC6F3]" />
+                  <div className="w-10 h-10 rounded-xl bg-[#FF5C00]/10 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-[#FF5C00]" />
                   </div>
-                  <span className="text-sm font-semibold text-[#082545]">{badge.label}</span>
+                  <span className="text-sm font-semibold text-[#1A1A1A]">{badge.label}</span>
                 </motion.div>
               )
             })}
@@ -289,13 +287,13 @@ export default function LandingPage() {
       <section className="bg-white py-20 sm:py-28 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection className="text-center mb-16">
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full bg-[#2EC6F3]/10 px-4 py-1.5 mb-6">
-              <Zap className="w-4 h-4 text-[#2EC6F3]" />
-              <span className="text-sm font-medium text-[#2EC6F3]">6 modules puissants</span>
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full bg-[#FF5C00]/10 px-4 py-1.5 mb-6">
+              <Zap className="w-4 h-4 text-[#FF5C00]" />
+              <span className="text-sm font-medium text-[#FF5C00]">6 modules puissants</span>
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#082545] mb-4"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               Tout ce dont votre centre a besoin
@@ -312,19 +310,19 @@ export default function LandingPage() {
                 <motion.div
                   key={feature.title}
                   variants={fadeUp}
-                  className="group relative p-6 rounded-2xl border border-gray-100 bg-white hover:border-[#2EC6F3]/30 hover:shadow-lg hover:shadow-[#2EC6F3]/5 transition-all duration-300"
+                  className="group relative p-6 rounded-2xl border border-gray-100 bg-white hover:border-[#FF5C00]/30 hover:shadow-lg hover:shadow-[#FF5C00]/5 transition-all duration-300"
                 >
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-5 shadow-sm`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   <h3
-                    className="text-lg font-bold text-[#082545] mb-2"
+                    className="text-lg font-bold text-[#1A1A1A] mb-2"
                     style={{ fontFamily: 'var(--font-heading)' }}
                   >
                     {feature.title}
                   </h3>
                   <p className="text-sm text-gray-500 leading-relaxed">{feature.description}</p>
-                  <div className="mt-4 flex items-center gap-1 text-sm font-medium text-[#2EC6F3] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="mt-4 flex items-center gap-1 text-sm font-medium text-[#FF5C00] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     En savoir plus <ChevronRight className="w-4 h-4" />
                   </div>
                 </motion.div>
@@ -346,11 +344,11 @@ export default function LandingPage() {
                   variants={fadeUp}
                   className="text-center"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#2EC6F3]/10 flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-6 h-6 text-[#2EC6F3]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#FF5C00]/10 flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-6 h-6 text-[#FF5C00]" />
                   </div>
                   <div
-                    className="text-3xl sm:text-4xl font-bold text-[#082545] mb-1"
+                    className="text-3xl sm:text-4xl font-bold text-[#1A1A1A] mb-1"
                     style={{ fontFamily: 'var(--font-heading)' }}
                   >
                     {stat.value}{stat.suffix || ''}
@@ -367,13 +365,13 @@ export default function LandingPage() {
       <section className="bg-white py-20 sm:py-28 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <AnimatedSection className="text-center mb-16">
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full bg-[#2EC6F3]/10 px-4 py-1.5 mb-6">
-              <TrendingUp className="w-4 h-4 text-[#2EC6F3]" />
-              <span className="text-sm font-medium text-[#2EC6F3]">Tarifs transparents</span>
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full bg-[#FF5C00]/10 px-4 py-1.5 mb-6">
+              <TrendingUp className="w-4 h-4 text-[#FF5C00]" />
+              <span className="text-sm font-medium text-[#FF5C00]">Tarifs transparents</span>
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#082545] mb-4"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               Des tarifs pens&eacute;s pour les TPE
@@ -390,25 +388,25 @@ export default function LandingPage() {
                 variants={fadeUp}
                 className={`relative flex flex-col bg-white rounded-2xl border-2 p-7 transition-all duration-300 ${
                   plan.highlighted
-                    ? 'border-[#2EC6F3] shadow-xl shadow-[#2EC6F3]/10 md:scale-[1.03]'
+                    ? 'border-[#FF5C00] shadow-xl shadow-[#FF5C00]/10 md:scale-[1.03]'
                     : 'border-gray-100 hover:border-gray-200 hover:shadow-md'
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-[#2EC6F3] px-4 py-1 text-xs font-bold text-white tracking-wide uppercase">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full bg-[#FF5C00] px-4 py-1 text-xs font-bold text-white tracking-wide uppercase">
                     Populaire
                   </span>
                 )}
 
                 <h3
-                  className="text-xl font-bold text-[#082545] mb-1"
+                  className="text-xl font-bold text-[#1A1A1A] mb-1"
                   style={{ fontFamily: 'var(--font-heading)' }}
                 >
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mb-6">
                   <span
-                    className="text-4xl font-bold text-[#082545]"
+                    className="text-4xl font-bold text-[#1A1A1A]"
                     style={{ fontFamily: 'var(--font-heading)' }}
                   >
                     {plan.price}
@@ -419,7 +417,7 @@ export default function LandingPage() {
                 <ul className="flex-1 space-y-3 mb-8">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-sm text-gray-600">
-                      <Check className="w-4 h-4 text-[#2EC6F3] mt-0.5 shrink-0" />
+                      <Check className="w-4 h-4 text-[#FF5C00] mt-0.5 shrink-0" />
                       <span>{f}</span>
                     </li>
                   ))}
@@ -429,8 +427,8 @@ export default function LandingPage() {
                   href={plan.ctaHref}
                   className={`block text-center rounded-xl py-3 px-4 text-sm font-semibold transition-all duration-200 ${
                     plan.highlighted
-                      ? 'bg-[#2EC6F3] hover:bg-[#1ab5e2] text-white shadow-sm hover:shadow-md'
-                      : 'border-2 border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-[#082545]'
+                      ? 'bg-[#FF5C00] hover:bg-[#1ab5e2] text-white shadow-sm hover:shadow-md'
+                      : 'border-2 border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-[#1A1A1A]'
                   }`}
                 >
                   {plan.cta}
@@ -440,7 +438,7 @@ export default function LandingPage() {
           </AnimatedSection>
 
           <motion.p variants={fadeUp} className="text-center">
-            <Link href="/pricing" className="inline-flex items-center gap-1 text-sm text-[#2EC6F3] hover:underline font-semibold">
+            <Link href="/pricing" className="inline-flex items-center gap-1 text-sm text-[#FF5C00] hover:underline font-semibold">
               Voir tous les plans <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.p>
@@ -452,11 +450,11 @@ export default function LandingPage() {
         <div
           className="absolute inset-0 -z-10"
           style={{
-            background: 'linear-gradient(135deg, #082545 0%, #0a3a6b 50%, #0e4d8f 100%)',
+            background: 'linear-gradient(135deg, #1A1A1A 0%, #0a3a6b 50%, #0e4d8f 100%)',
           }}
         />
-        <div className="absolute top-10 right-10 w-72 h-72 bg-[#2EC6F3]/15 rounded-full blur-[100px] -z-[5]" />
-        <div className="absolute bottom-10 left-10 w-64 h-64 bg-[#2EC6F3]/10 rounded-full blur-[80px] -z-[5]" />
+        <div className="absolute top-10 right-10 w-72 h-72 bg-[#FF5C00]/15 rounded-full blur-[100px] -z-[5]" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-[#FF5C00]/10 rounded-full blur-[80px] -z-[5]" />
 
         <AnimatedSection className="max-w-3xl mx-auto text-center">
           <motion.h2
@@ -472,7 +470,7 @@ export default function LandingPage() {
           <motion.div variants={fadeUp}>
             <Link
               href="/login"
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#2EC6F3] hover:bg-[#1ab5e2] text-white font-semibold px-10 py-4 text-lg transition-all duration-200 shadow-lg shadow-[#2EC6F3]/25 hover:shadow-xl hover:shadow-[#2EC6F3]/30"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#FF5C00] hover:bg-[#1ab5e2] text-white font-semibold px-10 py-4 text-lg transition-all duration-200 shadow-lg shadow-[#FF5C00]/25 hover:shadow-xl hover:shadow-[#FF5C00]/30"
             >
               Commencer gratuitement
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -485,7 +483,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════ FOOTER ════════════════ */}
-      <footer className="bg-[#082545] text-gray-400 pt-16 pb-8 px-4 sm:px-6">
+      <footer className="bg-[#1A1A1A] text-gray-400 pt-16 pb-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Produit */}
@@ -495,22 +493,22 @@ export default function LandingPage() {
               </h4>
               <ul className="space-y-2.5 text-sm">
                 <li>
-                  <Link href="/formations" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/formations" className="hover:text-[#FF5C00] transition-colors">
                     Formations
                   </Link>
                 </li>
                 <li>
-                  <Link href="/pricing" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/pricing" className="hover:text-[#FF5C00] transition-colors">
                     Tarifs
                   </Link>
                 </li>
                 <li>
-                  <Link href="/aide" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/aide" className="hover:text-[#FF5C00] transition-colors">
                     Aide
                   </Link>
                 </li>
                 <li>
-                  <Link href="/changelog" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/changelog" className="hover:text-[#FF5C00] transition-colors">
                     Changelog
                   </Link>
                 </li>
@@ -524,7 +522,7 @@ export default function LandingPage() {
               </h4>
               <ul className="space-y-2.5 text-sm">
                 <li>
-                  <Link href="/formations" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/formations" className="hover:text-[#FF5C00] transition-colors">
                     Catalogue
                   </Link>
                 </li>
@@ -544,22 +542,22 @@ export default function LandingPage() {
               </h4>
               <ul className="space-y-2.5 text-sm">
                 <li>
-                  <Link href="/conditions-generales" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/conditions-generales" className="hover:text-[#FF5C00] transition-colors">
                     CGV
                   </Link>
                 </li>
                 <li>
-                  <Link href="/mentions-legales" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/mentions-legales" className="hover:text-[#FF5C00] transition-colors">
                     Mentions l&eacute;gales
                   </Link>
                 </li>
                 <li>
-                  <Link href="/politique-confidentialite" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/politique-confidentialite" className="hover:text-[#FF5C00] transition-colors">
                     Confidentialit&eacute;
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dpa" className="hover:text-[#2EC6F3] transition-colors">
+                  <Link href="/dpa" className="hover:text-[#FF5C00] transition-colors">
                     DPA
                   </Link>
                 </li>
@@ -582,7 +580,7 @@ export default function LandingPage() {
 
           <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-[#2EC6F3] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-[#FF5C00] flex items-center justify-center">
                 <span className="text-white font-bold text-xs" style={{ fontFamily: 'var(--font-heading)' }}>D</span>
               </div>
               <span className="text-sm font-semibold text-white" style={{ fontFamily: 'var(--font-heading)' }}>

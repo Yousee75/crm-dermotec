@@ -63,12 +63,12 @@ export const postFormationCadence = inngest.createFunction(
           <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
           <body style="margin:0;padding:0;background:#f8fafc;font-family:'DM Sans',Arial,sans-serif">
           <div style="max-width:600px;margin:0 auto;padding:24px">
-            <div style="background:#082545;padding:20px 24px;border-radius:12px 12px 0 0;text-align:center">
-              <h1 style="color:#2EC6F3;font-size:20px;margin:0;font-weight:600">Dermotec Advanced</h1>
+            <div style="background:#1A1A1A;padding:20px 24px;border-radius:12px 12px 0 0;text-align:center">
+              <h1 style="color:#FF5C00;font-size:20px;margin:0;font-weight:600">Dermotec Advanced</h1>
               <p style="color:#94a3b8;font-size:12px;margin:4px 0 0">Centre de Formation Esthétique Certifié Qualiopi</p>
             </div>
             <div style="background:#ffffff;padding:24px;border-radius:0 0 12px 12px;border:1px solid #e2e8f0;border-top:0">
-              <h2 style="color:#082545;margin:0 0 12px">${prenom}, merci pour ces jours ensemble !</h2>
+              <h2 style="color:#1A1A1A;margin:0 0 12px">${prenom}, merci pour ces jours ensemble !</h2>
               <p style="color:#334155;line-height:1.6">
                 Vous avez terminé la formation <strong>${formation_nom}</strong> et nous espérons
                 qu'elle vous a donné les clés pour lancer ou développer votre activité.
@@ -79,7 +79,7 @@ export const postFormationCadence = inngest.createFunction(
               </p>
               <div style="text-align:center;margin:24px 0">
                 <a href="https://g.page/r/dermotec-advanced/review"
-                   style="display:inline-block;background:linear-gradient(135deg,#2EC6F3,#1DA1D4);color:white;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:600;font-size:15px;box-shadow:0 4px 12px rgba(46,198,243,0.3)">
+                   style="display:inline-block;background:linear-gradient(135deg,#FF5C00,#E05200);color:white;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:600;font-size:15px;box-shadow:0 4px 12px rgba(255,92,0,0.3)">
                   Laisser un avis Google
                 </a>
               </div>
@@ -167,7 +167,7 @@ export const postFormationCadence = inngest.createFunction(
 
       const suggestionsHtml = suggestions.map(s => `
         <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:16px;margin:8px 0">
-          <p style="margin:0 0 4px;font-weight:600;color:#082545">${s.nom}</p>
+          <p style="margin:0 0 4px;font-weight:600;color:#1A1A1A">${s.nom}</p>
           <p style="margin:0;color:#334155;font-size:14px">${s.prix} TTC — ROI : ${s.roi}</p>
         </div>
       `).join('')
@@ -185,11 +185,11 @@ export const postFormationCadence = inngest.createFunction(
           <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
           <body style="margin:0;padding:0;background:#f8fafc;font-family:'DM Sans',Arial,sans-serif">
           <div style="max-width:600px;margin:0 auto;padding:24px">
-            <div style="background:#082545;padding:20px 24px;border-radius:12px 12px 0 0;text-align:center">
-              <h1 style="color:#2EC6F3;font-size:20px;margin:0;font-weight:600">Dermotec Advanced</h1>
+            <div style="background:#1A1A1A;padding:20px 24px;border-radius:12px 12px 0 0;text-align:center">
+              <h1 style="color:#FF5C00;font-size:20px;margin:0;font-weight:600">Dermotec Advanced</h1>
             </div>
             <div style="background:#ffffff;padding:24px;border-radius:0 0 12px 12px;border:1px solid #e2e8f0;border-top:0">
-              <h2 style="color:#082545;margin:0 0 12px">${prenom}, 1 mois déjà !</h2>
+              <h2 style="color:#1A1A1A;margin:0 0 12px">${prenom}, 1 mois déjà !</h2>
               <p style="color:#334155;line-height:1.6">
                 Comment se passe le lancement de votre activité depuis la formation
                 <strong>${formation_nom}</strong> ?
@@ -282,18 +282,18 @@ export const postFormationCadence = inngest.createFunction(
           <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
           <body style="margin:0;padding:0;background:#f8fafc;font-family:'DM Sans',Arial,sans-serif">
           <div style="max-width:600px;margin:0 auto;padding:24px">
-            <div style="background:#082545;padding:20px 24px;border-radius:12px 12px 0 0;text-align:center">
-              <h1 style="color:#2EC6F3;font-size:20px;margin:0;font-weight:600">Dermotec Advanced</h1>
+            <div style="background:#1A1A1A;padding:20px 24px;border-radius:12px 12px 0 0;text-align:center">
+              <h1 style="color:#FF5C00;font-size:20px;margin:0;font-weight:600">Dermotec Advanced</h1>
             </div>
             <div style="background:#ffffff;padding:24px;border-radius:0 0 12px 12px;border:1px solid #e2e8f0;border-top:0">
-              <h2 style="color:#082545;margin:0 0 12px">${prenom}, comment ça se passe ?</h2>
+              <h2 style="color:#1A1A1A;margin:0 0 12px">${prenom}, comment ça se passe ?</h2>
               <p style="color:#334155;line-height:1.6">
                 3 mois depuis votre formation <strong>${formation_nom}</strong>.
                 Avez-vous lancé votre activité ? On aimerait savoir !
               </p>
 
               <div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:16px;margin:16px 0">
-                <p style="margin:0 0 8px;font-weight:600;color:#082545">Parrainage — Gagnez 100€</p>
+                <p style="margin:0 0 8px;font-weight:600;color:#1A1A1A">Parrainage — Gagnez 100€</p>
                 <p style="margin:0 0 8px;color:#334155;font-size:14px">
                   Recommandez Dermotec à une amie ou collègue :
                 </p>
@@ -301,13 +301,13 @@ export const postFormationCadence = inngest.createFunction(
                   <strong>Vous gagnez 100€</strong> sur votre prochaine formation<br>
                   <strong>Elle gagne 50€</strong> sur sa première inscription
                 </p>
-                <div style="background:#082545;color:#2EC6F3;text-align:center;padding:12px;border-radius:8px;margin-top:12px;font-family:monospace;font-size:16px;letter-spacing:2px">
+                <div style="background:#1A1A1A;color:#FF5C00;text-align:center;padding:12px;border-radius:8px;margin-top:12px;font-family:monospace;font-size:16px;letter-spacing:2px">
                   ${referralCode}
                 </div>
               </div>
 
               <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin:16px 0">
-                <p style="margin:0 0 8px;font-weight:600;color:#082545">E-Shop — Matériel pro</p>
+                <p style="margin:0 0 8px;font-weight:600;color:#1A1A1A">E-Shop — Matériel pro</p>
                 <p style="margin:0;color:#334155;font-size:14px">
                   En tant qu'ancienne stagiaire, vous bénéficiez de <strong>-10%</strong>
                   sur tout le matériel NPM. Besoin de recharges, aiguilles, pigments ?
@@ -320,7 +320,7 @@ export const postFormationCadence = inngest.createFunction(
                   Commander du matériel
                 </a>
                 <a href="tel:+33188334343"
-                   style="display:inline-block;background:linear-gradient(135deg,#2EC6F3,#1DA1D4);color:white;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px">
+                   style="display:inline-block;background:linear-gradient(135deg,#FF5C00,#E05200);color:white;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px">
                   Nous appeler
                 </a>
               </div>

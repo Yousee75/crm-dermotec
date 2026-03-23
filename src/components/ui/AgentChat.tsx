@@ -1,7 +1,5 @@
 'use client'
 
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
@@ -15,6 +13,9 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { useChat } from '@ai-sdk/react'
+import { DefaultChatTransport } from 'ai'
+import type { UIMessage } from 'ai'
 
 // --- Tool Result Renderers ---
 // Cartes visuelles pour les résultats des tools (au lieu de JSON brut)
@@ -473,6 +474,75 @@ const MODE_CONFIG: Record<AgentMode, {
   },
 }
 
+// --- Markdown basique (gras, listes, liens) ---
+function RenderMarkdown({ text }: { text: string }) {
+  // Découper en lignes pour gérer les listes
+  const lines = text.split('\n')
+  const elements: React.ReactNode[] = []
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    // Liste à puces
+    if (/^[-*]\s+/.test(line)) {
+      const content = line.replace(/^[-*]\s+/, '')
+      elements.push(
+        <div key={i} className="flex gap-1.5 items-start">
+          <span className="text-gray-400 mt-0.5 shrink-0">{'•'}</span>
+          <span>{renderInline(content)}</span>
+        </div>
+      )
+    } else {
+      elements.push(<span key={i}>{renderInline(line)}{i < lines.length - 1 ? '\n' : ''}</span>)
+    }
+  }
+
+  return <>{elements}</>
+}
+
+// Rendu inline : **gras**, [lien](url)
+function renderInline(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = []
+  // Pattern : **bold** ou [text](url)
+  const regex = /(\*\*(.+?)\*\*)|(\[([^\]]+)\]\(([^)]+)\))/g
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(text)) !== null) {
+    // Texte avant le match
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index))
+    }
+    if (match[1]) {
+      // **bold**
+      parts.push(<strong key={match.index} className="font-semibold">{match[2]}</strong>)
+    } else if (match[3]) {
+      // [text](url)
+      parts.push(
+        <a key={match.index} href={match[5]} target="_blank" rel="noopener noreferrer"
+          className="text-primary underline hover:text-primary-dark">
+          {match[4]}
+        </a>
+      )
+    }
+    lastIndex = match.index + match[0].length
+  }
+  // Texte restant
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex))
+  }
+  return parts.length > 0 ? parts : [text]
+}
+
+// Extraire un timestamp depuis l'ID du message (u-{timestamp} ou a-{timestamp})
+function formatTime(id: string): string {
+  const tsMatch = id.match(/\d{13,}/)
+  if (tsMatch) {
+    const date = new Date(parseInt(tsMatch[0]))
+    return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+  }
+  return ''
+}
+
 // --- Main Component ---
 export function AgentChat() {
   const [isOpen, setIsOpen] = useState(false)
@@ -488,42 +558,53 @@ export function AgentChat() {
 
   const [input, setInput] = useState('')
 
-  // AI SDK v6 / @ai-sdk/react v3 : useChat n'a plus input/handleInputChange/handleSubmit/isLoading
-  // Il faut gérer l'input localement et utiliser sendMessage + status + transport
+  // Transport avec body dynamique (leadId + mode)
   const transport = useMemo(
-    () => new DefaultChatTransport({
-      api: '/api/ai/agent-v2',
-      body: { leadId: currentLeadId, mode: agentMode },
-    }),
+    () =>
+      new DefaultChatTransport({
+        api: '/api/ai/agent-v2',
+        body: { leadId: currentLeadId, mode: agentMode },
+        credentials: 'same-origin',
+      }),
     [currentLeadId, agentMode]
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const chatHelpers = (useChat as any)({
+  const {
+    messages,
+    sendMessage: chatSendMessage,
+    status,
+    setMessages,
+    error,
+  } = useChat({
     transport,
-    messages: [{
-      id: 'welcome',
-      role: 'assistant' as const,
-      content: currentLeadId
-        ? `Mode ${modeConfig.label} activé. Je suis sur la fiche de ce lead. Que veux-tu savoir ?`
-        : `Mode ${modeConfig.label} — ${modeConfig.sublabel}. Comment je peux t'aider ?`,
-      parts: [{
-        type: 'text' as const,
-        text: currentLeadId
-          ? `Mode ${modeConfig.label} activé. Je suis sur la fiche de ce lead. Que veux-tu savoir ?`
-          : `Mode ${modeConfig.label} — ${modeConfig.sublabel}. Comment je peux t'aider ?`,
-      }],
-    }],
-    onError: (err: any) => {
+    onError: (err: Error) => {
       console.error('[AgentChat] Error:', err.message)
     },
-  }) // AI SDK v6 — sendMessage + status
-  const messages = chatHelpers?.messages ?? []
-  const sendMessage = chatHelpers?.sendMessage ?? (async () => {})
-  const status = chatHelpers?.status ?? 'ready'
+  })
+
   const isLoading = status === 'streaming' || status === 'submitted'
-  const setMessages = chatHelpers?.setMessages ?? (() => {})
-  const regenerate = chatHelpers?.regenerate ?? (() => {})
+
+  // Message de bienvenue
+  const welcomeText = currentLeadId
+    ? `Mode ${modeConfig.label} activé. Je suis sur la fiche de ce lead. Que veux-tu savoir ?`
+    : `Mode ${modeConfig.label} — ${modeConfig.sublabel}. Comment je peux t'aider ?`
+
+  const welcomeMessage = useMemo<UIMessage>(() => ({
+    id: 'welcome',
+    role: 'assistant' as const,
+    parts: [{ type: 'text' as const, text: welcomeText }],
+  }), [welcomeText])
+
+  const displayMessages = useMemo(() => {
+    return [welcomeMessage, ...messages]
+  }, [messages, welcomeMessage])
+
+  // Afficher l'erreur en toast
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || 'Erreur de connexion')
+    }
+  }, [error])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -533,28 +614,9 @@ export function AgentChat() {
     if (isOpen && !isMinimized) setTimeout(() => inputRef.current?.focus(), 100)
   }, [isOpen, isMinimized])
 
-  useEffect(() => {
-    if (currentLeadId) {
-      setMessages([{
-        id: `welcome-${currentLeadId}`,
-        role: 'assistant' as const,
-        content: 'Je suis sur la fiche de ce lead. Analyse, financement, relance — dis-moi.',
-        parts: [{ type: 'text' as const, text: 'Je suis sur la fiche de ce lead. Analyse, financement, relance — dis-moi.' }],
-      }])
-    }
-  }, [currentLeadId, setMessages])
-
   const clearChat = useCallback(() => {
-    const text = currentLeadId
-      ? 'Conversation effacée. Que veux-tu savoir sur ce lead ?'
-      : 'Conversation effacée. Comment je peux t\'aider ?'
-    setMessages([{
-      id: 'welcome-clear',
-      role: 'assistant' as const,
-      content: text,
-      parts: [{ type: 'text' as const, text }],
-    }])
-  }, [currentLeadId, setMessages])
+    setMessages([])
+  }, [setMessages])
 
   // Suggestions contextuelles dynamiques (basées sur le mode + contexte lead)
   const suggestions = currentLeadId
@@ -565,22 +627,13 @@ export function AgentChat() {
     const trimmed = input.trim()
     if (!trimmed || isLoading) return
     setInput('')
-    try {
-      await sendMessage({ text: trimmed })
-    } catch (err: any) {
-      console.error('[AgentChat] sendMessage error:', err?.message)
-    }
-  }, [input, isLoading, sendMessage])
+    await chatSendMessage({ text: trimmed })
+  }, [input, isLoading, chatSendMessage])
 
   const submitSuggestion = useCallback(async (text: string) => {
     if (isLoading) return
-    setInput('')
-    try {
-      await sendMessage({ text })
-    } catch (err: any) {
-      console.error('[AgentChat] sendMessage error:', err?.message)
-    }
-  }, [isLoading, sendMessage])
+    await chatSendMessage({ text })
+  }, [isLoading, chatSendMessage])
 
   return (
     <>
@@ -644,9 +697,8 @@ export function AgentChat() {
                         setMessages([{
                           id: `welcome-${mode}-${Date.now()}`,
                           role: 'assistant' as const,
-                          content: modeText,
                           parts: [{ type: 'text' as const, text: modeText }],
-                        }])
+                        }] as UIMessage[])
                       }}
                       className={cn(
                         'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all',
@@ -668,83 +720,107 @@ export function AgentChat() {
             <>
               {/* Messages */}
               <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-[200px]">
-                {messages.map((message: any) => (
-                  <div key={message.id} className={cn('flex gap-2', message.role === 'user' ? 'justify-end' : 'justify-start')}>
-                    {message.role === 'assistant' && (
-                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <Bot className="w-3 h-3 text-primary" />
-                      </div>
-                    )}
-                    <div className={cn(
-                      'max-w-[85%] rounded-2xl px-3 py-2 text-[13px] leading-relaxed',
-                      message.role === 'user'
-                        ? 'bg-primary text-white rounded-br-sm'
-                        : 'bg-gray-50 text-gray-800 rounded-bl-sm'
-                    )}>
-                      {/* Tool invocations — AI SDK v6 : parts[type=tool-invocation] ou fallback toolInvocations */}
-                      {(message.toolInvocations || message.parts?.filter((p: any) => p.type === 'tool-invocation'))?.map((toolInvocation: any, i: number) => {
-                        const toolName = toolInvocation.toolName || toolInvocation.toolCallId
-                        const toolInfo = TOOL_LABELS[toolName] || { label: toolName, icon: Wrench }
-                        const ToolIcon = toolInfo.icon
-                        const state = toolInvocation.state || (toolInvocation.result !== undefined ? 'result' : 'call')
+                {displayMessages.map((message: any) => {
+                  // Extraire le texte et les tool parts depuis message.parts
+                  const textParts = (message.parts || []).filter((p: any) => p.type === 'text')
+                  const toolParts = (message.parts || []).filter((p: any) =>
+                    p.type === 'dynamic-tool' || (typeof p.type === 'string' && p.type.startsWith('tool-'))
+                  )
+                  const textContent = textParts.map((p: any) => p.text).join('')
+                  const hasContent = textContent.length > 0
+                  const hasToolParts = toolParts.length > 0
 
-                        // Masquer le tool "think" complètement (réflexion privée de l'agent)
-                        if (toolInfo.hidden && state === 'result') return null
+                  return (
+                    <div key={message.id} className={cn('flex gap-2', message.role === 'user' ? 'justify-end' : 'justify-start')}>
+                      {message.role === 'assistant' && (
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                          <Bot className="w-3 h-3 text-primary" />
+                        </div>
+                      )}
+                      <div className={cn(
+                        'max-w-[85%] rounded-2xl px-3 py-2 text-[13px] leading-relaxed',
+                        message.role === 'user'
+                          ? 'bg-primary text-white rounded-br-sm'
+                          : 'bg-gray-50 text-gray-800 rounded-bl-sm'
+                      )}>
+                        {/* Tool invocations (agent tools) */}
+                        {hasToolParts && message.role === 'assistant' && (
+                          <div className="space-y-1.5 mb-1">
+                            {toolParts.map((part: any, idx: number) => {
+                              const toolName = part.toolName
+                              const toolInfo = TOOL_LABELS[toolName]
+                              if (toolInfo?.hidden) return null
 
-                        return (
-                          <div key={i}>
-                            <div className="flex items-center gap-1.5 text-[11px] text-gray-500 mb-1">
-                              {state === 'result' ? (
-                                <CheckCircle className="w-3 h-3 text-green-500 shrink-0" />
-                              ) : (
-                                <Loader2 className="w-3 h-3 text-primary animate-spin shrink-0" />
-                              )}
-                              <ToolIcon className="w-3 h-3 shrink-0" />
-                              <span>{toolInfo.label}</span>
-                            </div>
-                            {state === 'result' && (
-                              <ToolResultCard toolName={toolName} result={toolInvocation.result} />
-                            )}
+                              const ToolIcon = toolInfo?.icon || Wrench
+                              const isComplete = part.state === 'output-available'
+                              const hasError = part.state === 'output-error'
+
+                              return (
+                                <div key={part.toolCallId || idx}>
+                                  {/* Tool call indicator */}
+                                  <div className="flex items-center gap-1.5 text-[10px] text-gray-400 mb-0.5">
+                                    {isComplete ? (
+                                      <CheckCircle className="w-3 h-3 text-green-500" />
+                                    ) : hasError ? (
+                                      <AlertTriangle className="w-3 h-3 text-red-500" />
+                                    ) : (
+                                      <Loader2 className="w-3 h-3 animate-spin text-primary" />
+                                    )}
+                                    <ToolIcon className="w-3 h-3" />
+                                    <span>{toolInfo?.label || toolName}</span>
+                                  </div>
+                                  {/* Tool result card */}
+                                  {isComplete && part.output && (
+                                    <ToolResultCard toolName={toolName} result={part.output} />
+                                  )}
+                                  {hasError && (
+                                    <div className="text-xs text-red-500 bg-red-50 rounded-lg px-2.5 py-1.5 mt-1">
+                                      {part.errorText || 'Erreur'}
+                                    </div>
+                                  )}
+                                </div>
+                              )
+                            })}
                           </div>
-                        )
-                      })}
-                      {/* AI SDK v6 : texte dans parts[].text ou fallback content */}
-                      {(() => {
-                        const textContent = message.content
-                          || message.parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('')
-                        return textContent ? <div className="whitespace-pre-wrap">{textContent}</div> : null
-                      })()}
-                    </div>
-                    {message.role === 'user' && (
-                      <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center shrink-0 mt-0.5">
-                        <User className="w-3 h-3 text-white" />
+                        )}
+                        {/* Contenu texte du message avec rendu Markdown basique */}
+                        {hasContent && (
+                          <div className="whitespace-pre-wrap">
+                            <RenderMarkdown text={textContent} />
+                          </div>
+                        )}
+                        {/* Timestamp */}
+                        {message.id !== 'welcome' && hasContent && (
+                          <div className={cn(
+                            'text-[9px] mt-1 opacity-50',
+                            message.role === 'user' ? 'text-white/70 text-right' : 'text-gray-400'
+                          )}>
+                            {formatTime(message.id)}
+                          </div>
+                        )}
+                        {/* Message vide en cours de streaming = dots */}
+                        {message.role === 'assistant' && !hasContent && !hasToolParts && message.id !== 'welcome' && (
+                          <div className="flex items-center gap-1">
+                            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                ))}
-
-                {isLoading && !messages.some((m: any) =>
-                  (m.toolInvocations || m.parts?.filter((p: any) => p.type === 'tool-invocation'))?.some((t: any) => (t.state || (t.result !== undefined ? 'result' : 'call')) !== 'result')
-                ) && (
-                  <div className="flex gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <Bot className="w-3 h-3 text-primary" />
+                      {message.role === 'user' && (
+                        <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center shrink-0 mt-0.5">
+                          <User className="w-3 h-3 text-white" />
+                        </div>
+                      )}
                     </div>
-                    <div className="bg-gray-50 rounded-2xl rounded-bl-sm px-3 py-2">
-                      <div className="flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  )
+                })}
 
                 <div ref={messagesEndRef} />
               </div>
 
               {/* Quick suggestions */}
-              {messages.length <= 2 && !isLoading && (
+              {displayMessages.length <= 2 && !isLoading && (
                 <div className="px-4 pb-2 flex flex-wrap gap-1.5">
                   {suggestions.map((s) => (
                     <button

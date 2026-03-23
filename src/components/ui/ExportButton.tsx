@@ -41,7 +41,7 @@ export function ExportButton({ data, columns, filename, title, disabled }: Expor
     }
     setLoading('csv')
     try {
-      exportToCSV(data, columns, filename, currentUser?.id)
+      exportToCSV(data, columns, filename, currentUser?.equipe_id || undefined)
       toast.success(`${data.length} lignes exportées en CSV`)
     } catch {
       toast.error("Erreur lors de l'export CSV")

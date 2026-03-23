@@ -66,8 +66,8 @@ export const EMETTEUR_DERMOTEC = {
   tva_intracom: 'FR 85 851306860',
 };
 
-const PRIMARY = '#2EC6F3';
-const ACCENT = '#082545';
+const PRIMARY = '#FF5C00';
+const ACCENT = '#1A1A1A';
 const GRAY_500 = '#6B7280';
 const GRAY_300 = '#D1D5DB';
 const GRAY_100 = '#F3F4F6';

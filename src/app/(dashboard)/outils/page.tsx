@@ -94,7 +94,7 @@ const TOOLS = [
     icon: KeyRound,
     title: 'Générateur mot de passe',
     description: 'Mot de passe sécurisé avec indicateur de force',
-    color: '#6366F1',
+    color: '#FF2D78',
     component: PasswordGenerator,
   },
   {
