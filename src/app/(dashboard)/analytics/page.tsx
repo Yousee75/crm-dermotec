@@ -462,7 +462,7 @@ export default function AnalyticsPage() {
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex items-center justify-center h-[280px] text-gray-400 text-sm">
+              <div className="flex items-center justify-center h-[280px] text-[#999999] text-sm">
                 Aucune inscription completee
               </div>
             )}
@@ -487,8 +487,8 @@ export default function AnalyticsPage() {
               <AreaChart data={weeklyLeads} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
                 <defs>
                   <linearGradient id="gradientLeads" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.25} />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.02} />
+                    <stop offset="0%" stopColor="#FF2D78" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#FF2D78" stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#EEEEEE" vertical={false} />

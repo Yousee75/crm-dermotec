@@ -7,6 +7,7 @@ import 'server-only'
 
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { logger } from './logger'
 
 /**
  * URL Supabase pour le client serveur.
@@ -107,7 +108,11 @@ export async function createServiceSupabase() {
 
   // Log de debug en dev
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[Supabase Service] Initialized with ${supabaseUrl.includes(':6543') ? 'POOLER' : 'DIRECT'} connection`)
+    logger.debug('Supabase Service initialized', {
+      service: 'supabase',
+      connectionType: supabaseUrl.includes(':6543') ? 'POOLER' : 'DIRECT',
+      url: supabaseUrl
+    })
   }
 
   return _serviceClient
