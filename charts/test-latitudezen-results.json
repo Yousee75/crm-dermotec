@@ -1,0 +1,5526 @@
+[
+  {
+    "source": "Sirene",
+    "status": "OK",
+    "duration_ms": 364,
+    "data_keys": [
+      "nom",
+      "siret",
+      "is_active",
+      "chiffre_affaires",
+      "code_postal",
+      "ville",
+      "activite_principale",
+      "date_creation",
+      "effectifs"
+    ],
+    "summary": "LATITUDE ZEN INSTITUT — Actif: OUI — CA: N/A",
+    "raw": {
+      "nom": "LATITUDE ZEN INSTITUT",
+      "is_active": true,
+      "date_creation": "2004-04-15"
+    }
+  },
+  {
+    "source": "Convention",
+    "status": "OK",
+    "duration_ms": 94,
+    "data_keys": [
+      "idcc",
+      "intitule",
+      "url"
+    ],
+    "summary": "IDCC: N/A — N/A",
+    "raw": {}
+  },
+  {
+    "source": "BODACC",
+    "status": "OK",
+    "duration_ms": 478,
+    "data_keys": [
+      "procedure_collective",
+      "annonces_count",
+      "derniere_annonce"
+    ],
+    "summary": "Procédure: NON — Annonces: 10",
+    "raw": {
+      "procedure_collective": false,
+      "annonces_count": 10
+    }
+  },
+  {
+    "source": "Google Places",
+    "status": "OK",
+    "duration_ms": 274,
+    "data_keys": [
+      "name",
+      "place_id",
+      "rating",
+      "rating_count",
+      "address",
+      "geometry",
+      "types",
+      "photos"
+    ],
+    "summary": "Note: 4.4/5 (300 avis) — Latitude ZEN",
+    "raw": {
+      "name": "Latitude ZEN",
+      "place_id": "ChIJ30XJg_Zt5kcR0DgguixN2Mc",
+      "rating": 4.4,
+      "rating_count": 300,
+      "address": "89 Rue Léon Frot, 75011 Paris, France",
+      "geometry": {
+        "location": {
+          "lat": 48.8583149,
+          "lng": 2.383742900000001
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 48.85970258029149,
+            "lng": 2.385145330291502
+          },
+          "southwest": {
+            "lat": 48.85700461970849,
+            "lng": 2.382447369708498
+          }
+        }
+      },
+      "types": [
+        "beauty_salon",
+        "establishment",
+        "point_of_interest"
+      ],
+      "photos": 1
+    }
+  },
+  {
+    "source": "Outscraper",
+    "status": "OK",
+    "duration_ms": 8507,
+    "data_keys": [
+      "reviews_count",
+      "total_known",
+      "rating",
+      "reviews_per_score",
+      "place_name",
+      "reviews"
+    ],
+    "summary": "50 avis récupérés (300 total) — Note: 4.4/5 — Latitude ZEN",
+    "raw": {
+      "reviews_count": 50,
+      "total_known": 300,
+      "rating": 4.4,
+      "reviews_per_score": {},
+      "place_name": "Latitude ZEN",
+      "reviews": [
+        {
+          "author_id": "107856147457655114109",
+          "author_image": "https://lh3.googleusercontent.com/a/ACg8ocIo3alwOXA2QSkj2qQts0soo3oj0sg5NUt54MkJVVEJ6aZiPA=s120-c-rp-mo-br100",
+          "author_link": "https://www.google.com/maps/contrib/107856147457655114109?hl=fr",
+          "author_ratings_count": 1,
+          "author_reviews_count": 6,
+          "author_title": "Sonia",
+          "google_id": "0x47e66df683c945df:0xc7d84d2cba2038d0",
+          "owner_answer": "Bonjour Sonia,\n\nNous avons pris connaissance de votre retour et sommes désolés d'apprendre que votre manucure ne vous a pas pleinement satisfaite. Nous sommes heureux d'apprendre que vous avez trouvé votre esthéticienne sympathique.\nSachez que, malgré son jeune âge, elle est une professionnelle expérimentée qui réalise des manucures pour une clientèle féminine et masculine au sein de notre établissement, et nous n'avons reçu aucun retour négatif à son sujet.\n\nLors de votre visite, elle a remarqué que vos ongles n'étaient pas tous de la même longueur et a suggéré de les raccourcir pour obtenir un résultat harmonieux, ce que vous avez approuvé. Vos cuticules étaient bien entretenues et la brillance de la manucure japonaise était présente. Le protocole de ce soin a donc été respecté.\n\nCordialement,",
+          "owner_answer_timestamp": 1773780402,
+          "owner_answer_timestamp_datetime_utc": "03/17/2026 20:46:42",
+          "review_datetime_utc": "03/14/2026 22:16:24",
+          "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25aWmVIQnZaRTlsVDNkelJuTkRiMjVmY2pkTE5GRRAB",
+          "review_img_url": null,
+          "review_img_urls": null,
+          "review_likes": null,
+          "review_link": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25aWmVIQnZaRTlsVDNkelJuTkRiMjVmY2pkTE5GRRAB!2m1!1s0x0:0xc7d84d2cba2038d0!3m1!1s2@1:CAIQACodChtycF9oOnZZeHBvZE9lT3dzRnNDb25fcjdLNFE%7C%7C?hl=fr",
+          "review_pagination_id": "CAESYENBRVFBUnBDUTJrNFNVRlNTVzVEWjI5QlVEY3lSMDFTYTE5T2JsOWZSV2hEVlRsS0xWOXJRbWcwVEhVdGFEazBUVUZCUVVGQlIyZG1YMEZ0VFZKclgwNXVSMEZCYVVGQg==",
+          "review_photo_ids": null,
+          "review_questions": {
+            "Services": "Manucure"
+          },
+          "review_rating": 1,
+          "review_text": "La jeune fille qui s’est occupé de moi était très sympathique mais pas assez expérimenté.. la manucure était tout simplement catastrophique! Je regrette d’avoir payé autant, je n’y retournerai pas.",
+          "review_timestamp": 1773526584,
+          "reviews_id": "-4046399410695817008"
+        },
+        {
+          "author_id": "100321354973105296832",
+          "author_image": "https://lh3.googleusercontent.com/a/ACg8ocLDO38kaZOuS8rRbccS5aWdh4H0eXzSblJZluZs31XYNNcwqA=s120-c-rp-mo-br100",
+          "author_link": "https://www.google.com/maps/contrib/100321354973105296832?hl=fr",
+          "author_ratings_count": 11,
+          "author_reviews_count": 6,
+          "author_title": "Fabien Raoult",
+          "google_id": "0x47e66df683c945df:0xc7d84d2cba2038d0",
+          "owner_answer": "Bonjour Fabien,  \n\nMerci beaucoup pour votre retour qui nous fait vraiment chaud au cœur. \"Hyper sympa et très accueillant\" ? On ne pouvait pas rêver d’un plus joli compliment ! On est ravis que vous vous soyez senti aussi bien chez nous.  \n\nAu plaisir de vous revoir,  \nL’équipe Latitude Zen Institut",
+          "owner_answer_timestamp": 1773273908,
+          "owner_answer_timestamp_datetime_utc": "03/12/2026 00:05:08",
+          "review_datetime_utc": "03/11/2026 18:04:01",
+          "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2tsNVpIaDRMVTR3WjJSSVEyUjBkMDR3WVZoWFJGRRAB",
+          "review_img_url": null,
+          "review_img_urls": null,
+          "review_likes": null,
+          "review_link": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tsNVpIaDRMVTR3WjJSSVEyUjBkMDR3WVZoWFJGRRAB!2m1!1s0x0:0xc7d84d2cba2038d0!3m1!1s2@1:CAIQACodChtycF9oOkl5ZHh4LU4wZ2RIQ2R0d04wYVhXRFE%7C%7C?hl=fr",
+          "review_pagination_id": "CAESYENBRVFBaHBDUTJrNFNVRlNTVzVEWjI5QlVEY3lSMDFvTjJodFExOWZSV2hDWDBwRU9GazNTM0ExVjNGbWVXbFRWVUZCUVVGQlIyZG1YMEZ0VFdnM2FHMURSMEZCYVVGQg==",
+          "review_photo_ids": null,
+          "review_questions": {
+            "Services": "Épilation à la cire"
+          },
+          "review_rating": 5,
+          "review_text": "Vraiment top. Hyper sympa et très accueillant.",
+          "review_timestamp": 1773252241,
+          "reviews_id": "-4046399410695817008"
+        },
+        {
+          "author_id": "114150185260299920558",
+          "author_image": "https://lh3.googleusercontent.com/a/ACg8ocJXM0--x6Gt-lq5QZvkBhculy_LiKFD6ypJCNJvqd-fHRgpzg=s120-c-rp-mo-br100",
+          "author_link": "https://www.google.com/maps/contrib/114150185260299920558?hl=fr",
+          "author_ratings_count": 2,
+          "author_reviews_count": 5,
+          "author_title": "Thibault Beurlet",
+          "google_id": "0x47e66df683c945df:0xc7d84d2cba2038d0",
+          "owner_answer": "Bonjour Thibault,  \n\nUn immense merci pour votre note parfaite ! Ça nous fait chaud au cœur de voir que vous avez apprécié votre passage chez nous. On espère vraiment vous revoir bientôt pour un nouveau moment de détente.  \n\nÀ très vite,  \nL'équipe Latitude Zen Institut",
+          "owner_answer_timestamp": 1772928309,
+          "owner_answer_timestamp_datetime_utc": "03/08/2026 00:05:09",
+          "review_datetime_utc": "03/07/2026 18:29:51",
+          "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xreWJuRkpNR0ZuY0hKdmNXOWZhbTFzTldscFMyYxAB",
+          "review_img_url": null,
+          "review_img_urls": null,
+          "review_likes": null,
+          "review_link": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xreWJuRkpNR0ZuY0hKdmNXOWZhbTFzTldscFMyYxAB!2m1!1s0x0:0xc7d84d2cba2038d0!3m1!1s2@1:CAIQACodChtycF9oOlkybnFJMGFncHJvcW9fam1sNWlpS2c%7C%7C?hl=fr",
+          "review_pagination_id": "CAESYENBRVFBeHBDUTJrNFNVRlNTVzVEWjI5QlVEY3lSMDB5WWkxSVQxOWZSV2hEVkd0TmFHVk5WbUpsZG1KblpIUk9iMEZCUVVGQlIyZG1YMEZ0VFRKaUxVaFBSMEZCYVVGQg==",
+          "review_photo_ids": null,
+          "review_questions": null,
+          "review_rating": 5,
+          "review_text": null,
+          "review_timestamp": 1772908191,
+          "reviews_id": "-4046399410695817008"
+        },
+        {
+          "author_id": "101881342683245659741",
+          "author_image": "https://lh3.googleusercontent.com/a/ACg8ocL4RzBMiG5lhsXY7KLzSjiKso_AHyw8n3aYkf6k9QQ783Ga7A=s120-c-rp-mo-br100",
+          "author_link": "https://www.google.com/maps/contrib/101881342683245659741?hl=fr",
+          "author_ratings_count": 21,
+          "author_reviews_count": 3,
+          "author_title": "stephane JEAN-MARIE",
+          "google_id": "0x47e66df683c945df:0xc7d84d2cba2038d0",
+          "owner_answer": "Bonjour Stéphane,  \n\nUn grand merci pour votre note et votre retour ! \"Bon accueil, bonne prestation\", ce sont des mots simples mais qui veulent dire tellement pour nous. On est vraiment contents que vous ayez passé un bon moment.  \n\nÀ bientôt pour une prochaine parenthèse détente !  \n\nL'équipe Latitude Zen Institut",
+          "owner_answer_timestamp": 1772651109,
+          "owner_answer_timestamp_datetime_utc": "03/04/2026 19:05:09",
+          "review_datetime_utc": "03/04/2026 13:19:21",
+          "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pkdGRTMWtUVEJDWkZGNFpWTTJWV2RHZFRscldIYxAB",
+          "review_img_url": null,
+          "review_img_urls": null,
+          "review_likes": null,
+          "review_link": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pkdGRTMWtUVEJDWkZGNFpWTTJWV2RHZFRscldIYxAB!2m1!1s0x0:0xc7d84d2cba2038d0!3m1!1s2@1:CAIQACodChtycF9oOjdtdS1kTTBCZFF4ZVM2VWdGdTlrWHc%7C%7C?hl=fr",
+          "review_pagination_id": "CAESY0NBRVFCQnBFUTJwRlNVRlNTWEJEWjI5QlVEY3lSMDVIWDNwdFRWOWZSV2hCWm5SdGJVZHNOV1ZQWTBGVU1UVlFTVUZCUVVGQlIyZHVPVE40V1VOWk1HSmZUMWwzV1VGRFNVRQ==",
+          "review_photo_ids": null,
+          "review_questions": null,
+          "review_rating": 5,
+          "review_text": "Bon accueil, Bonne prestation",
+          "review_timestamp": 1772630361,
+          "reviews_id": "-4046399410695817008"
+        },
+        {
+          "author_id": "118225863561199821690",
+          "author_image": "https://lh3.googleusercontent.com/a/ACg8ocKtblUzSBAwgXcK21MdZvSIKAlyrHuHQYeXW1Z7kqtiHtcakQ=s120-c-rp-mo-br100",
+          "author_link": "https://www.google.com/maps/contrib/118225863561199821690?hl=fr",
+          "author_ratings_count": 5,
+          "author_reviews_count": 2,
+          "author_title": "Pierric LE DANTEC",
+          "google_id": "0x47e66df683c945df:0xc7d84d2cba2038d0",
+          "owner_answer": null,
+          "owner_answer_timestamp": null,
+          "owner_answer_timestamp_datetime_utc": null,
+          "review_datetime_utc": "02/25/2026 16:01:01",
+          "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pKaU9UbHBkSEppVWtwaVJUVk1NVVowWVdaak5XYxAB",
+          "review_img_url": null,
+          "review_img_urls": null,
+          "review_likes": null,
+          "review_link": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pKaU9UbHBkSEppVWtwaVJUVk1NVVowWVdaak5XYxAB!2m1!1s0x0:0xc7d84d2cba2038d0!3m1!1s2@1:CAIQACodChtycF9oOjJiOTlpdHJiUkpiRTVMMUZ0YWZjNWc%7C%7C?hl=fr",
+          "review_pagination_id": "CAESY0NBRVFCUnBFUTJwRlNVRlNTWEJEWjI5QlVEY3lSMDV4WkRkMFpsOWZSV2hDTjFkbE1tVXhXV2RFUkhCaWJtTnVORUZCUVVGQlIyZHVPUzF5TkVOWk1uQXpkVEU0V1VGRFNVRQ==",
+          "review_photo_ids": null,
+          "review_questions": {
+            "Professionnel": null,
+            "Services": "Pédicure, Manucure, Service non répertorié",
+            "Spécialités": null,
+            "null": "Spécialités, Professionnel"
+          },
+          "review_rating": 5,
+          "review_text": null,
+          "review_timestamp": 1772035261,
+          "reviews_id": "-4046399410695817008"
+        }
+      ]
+    }
+  },
+  {
+    "source": "PageSpeed",
+    "status": "OK",
+    "duration_ms": 152,
+    "data_keys": [
+      "mobile_score",
+      "desktop_score",
+      "mobile_lcp",
+      "desktop_lcp"
+    ],
+    "summary": "Mobile: N/A/100 — Desktop: N/A/100",
+    "raw": {
+      "mobile_score": null,
+      "desktop_score": null
+    }
+  },
+  {
+    "source": "OSM",
+    "status": "OK",
+    "duration_ms": 3406,
+    "data_keys": [
+      "shops"
+    ],
+    "summary": "745 commerces beauté dans 2km",
+    "raw": {
+      "shops": [
+        {
+          "name": "Atelier M.",
+          "shop_type": "hairdresser",
+          "lat": 48.8524984,
+          "lng": 2.3770609,
+          "address": "Avenue Ledru-Rollin 108"
+        },
+        {
+          "name": "Tchip",
+          "shop_type": "hairdresser",
+          "lat": 48.846387,
+          "lng": 2.3744786,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "En Couleurs",
+          "shop_type": "hairdresser",
+          "lat": 48.8471535,
+          "lng": 2.3746656,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Un air de famille",
+          "shop_type": "hairdresser",
+          "lat": 48.8498269,
+          "lng": 2.3772068,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Coiffeurs de la Rue",
+          "shop_type": "hairdresser",
+          "lat": 48.8537064,
+          "lng": 2.3670054,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Haute coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8714865,
+          "lng": 2.3751062,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "dyls",
+          "shop_type": "hairdresser",
+          "lat": 48.8698286,
+          "lng": 2.3713711,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8710382,
+          "lng": 2.3743336,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "On Nails",
+          "shop_type": "beauty",
+          "lat": 48.8467534,
+          "lng": 2.3735713,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Haircut Studio",
+          "shop_type": "hairdresser",
+          "lat": 48.8462678,
+          "lng": 2.3788037,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Atelier 147",
+          "shop_type": "hairdresser",
+          "lat": 48.8476919,
+          "lng": 2.3884044,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Pro By Studio",
+          "shop_type": "beauty",
+          "lat": 48.8609494,
+          "lng": 2.3682999,
+          "address": "Rue Saint-Sébastien 5"
+        },
+        {
+          "name": "Coiffeur Kut",
+          "shop_type": "hairdresser",
+          "lat": 48.8636541,
+          "lng": 2.3695974,
+          "address": "Rue Oberkampf 27"
+        },
+        {
+          "name": "Asian Spa Paris",
+          "shop_type": "massage",
+          "lat": 48.8467254,
+          "lng": 2.3828572,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "DVD royal",
+          "shop_type": "massage",
+          "lat": 48.8452013,
+          "lng": 2.3811307,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauté Yy",
+          "shop_type": "massage",
+          "lat": 48.8467192,
+          "lng": 2.378733,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jean Louis David",
+          "shop_type": "hairdresser",
+          "lat": 48.852005,
+          "lng": 2.3647024,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "valessio",
+          "shop_type": "hairdresser",
+          "lat": 48.8525903,
+          "lng": 2.3666505,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Biocoiff",
+          "shop_type": "hairdresser",
+          "lat": 48.852322,
+          "lng": 2.366898,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon soleil",
+          "shop_type": "massage",
+          "lat": 48.8481807,
+          "lng": 2.3786219,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dragon nails",
+          "shop_type": "beauty",
+          "lat": 48.8480096,
+          "lng": 2.3786839,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hårig",
+          "shop_type": "hairdresser",
+          "lat": 48.8500782,
+          "lng": 2.3773805,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Floo",
+          "shop_type": "hairdresser",
+          "lat": 48.8526711,
+          "lng": 2.4054683,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8579603,
+          "lng": 2.4001576,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Mixte",
+          "shop_type": "hairdresser",
+          "lat": 48.8471234,
+          "lng": 2.3799395,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jocelyne Lacourt",
+          "shop_type": "hairdresser",
+          "lat": 48.8615644,
+          "lng": 2.3803984,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Kut",
+          "shop_type": "hairdresser",
+          "lat": 48.8524327,
+          "lng": 2.3847459,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiff. Minute",
+          "shop_type": "hairdresser",
+          "lat": 48.8445881,
+          "lng": 2.3896467,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ines d'Alexis",
+          "shop_type": "hairdresser",
+          "lat": 48.8446854,
+          "lng": 2.3895217,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Biguine",
+          "shop_type": "hairdresser",
+          "lat": 48.8447169,
+          "lng": 2.3898612,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauté d'Ange",
+          "shop_type": "beauty",
+          "lat": 48.8452755,
+          "lng": 2.3887742,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Franck Provost",
+          "shop_type": "hairdresser",
+          "lat": 48.8455808,
+          "lng": 2.3884738,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Elie Cotto",
+          "shop_type": "hairdresser",
+          "lat": 48.8538335,
+          "lng": 2.3706889,
+          "address": "Rue de la Roquette 3"
+        },
+        {
+          "name": "Le saloon",
+          "shop_type": "hairdresser",
+          "lat": 48.849991,
+          "lng": 2.3936702,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Andréa Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8700484,
+          "lng": 2.3963,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8646039,
+          "lng": 2.3998931,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Affranchis",
+          "shop_type": "hairdresser",
+          "lat": 48.8716752,
+          "lng": 2.3860212,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ça décoiffe",
+          "shop_type": "hairdresser",
+          "lat": 48.8744466,
+          "lng": 2.389169,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Michele François",
+          "shop_type": "hairdresser",
+          "lat": 48.8463508,
+          "lng": 2.3795426,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Princillya",
+          "shop_type": "hairdresser",
+          "lat": 48.8717374,
+          "lng": 2.3715194,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Cindy Fashion",
+          "shop_type": "hairdresser",
+          "lat": 48.8721618,
+          "lng": 2.371473,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bebawy coiffeur",
+          "shop_type": "hairdresser",
+          "lat": 48.8729185,
+          "lng": 2.3708375,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Pyramides Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8733563,
+          "lng": 2.3705108,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Paris hair bar",
+          "shop_type": "hairdresser",
+          "lat": 48.8540886,
+          "lng": 2.3647408,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.847201,
+          "lng": 2.3704177,
+          "address": "Avenue Ledru-Rollin 32"
+        },
+        {
+          "name": "Fred Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8484525,
+          "lng": 2.371893,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Bel Hair",
+          "shop_type": "hairdresser",
+          "lat": 48.8470081,
+          "lng": 2.3967365,
+          "address": "Avenue du Bel Air 27"
+        },
+        {
+          "name": "Étoile Nails",
+          "shop_type": "beauty",
+          "lat": 48.8472011,
+          "lng": 2.3696664,
+          "address": "Avenue Ledru-Rollin 27"
+        },
+        {
+          "name": "Bullez Zen",
+          "shop_type": "beauty",
+          "lat": 48.8461167,
+          "lng": 2.3940495,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Atelier du Sourcil",
+          "shop_type": "beauty",
+          "lat": 48.8613551,
+          "lng": 2.3697639,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Artistes Coiffeurs, Coloristes",
+          "shop_type": "hairdresser",
+          "lat": 48.8544631,
+          "lng": 2.3626372,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Charlene Ramon",
+          "shop_type": "hairdresser",
+          "lat": 48.8540413,
+          "lng": 2.3620658,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Prince Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8516403,
+          "lng": 2.4064532,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dessange",
+          "shop_type": "hairdresser",
+          "lat": 48.8666861,
+          "lng": 2.3661768,
+          "address": "Avenue de la République 4"
+        },
+        {
+          "name": "Tchip",
+          "shop_type": "hairdresser",
+          "lat": 48.8751553,
+          "lng": 2.3821895,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les gueules de Lou",
+          "shop_type": "hairdresser",
+          "lat": 48.874764,
+          "lng": 2.3861473,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Carole Beaute",
+          "shop_type": "beauty",
+          "lat": 48.8752586,
+          "lng": 2.3817186,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauté & Liss",
+          "shop_type": "hairdresser",
+          "lat": 48.8756732,
+          "lng": 2.3889606,
+          "address": "Rue Lassus 11"
+        },
+        {
+          "name": "Les Intondables",
+          "shop_type": "hairdresser",
+          "lat": 48.8755402,
+          "lng": 2.3821653,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Julia Léo Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8740503,
+          "lng": 2.3851115,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'atelier de la Vilette",
+          "shop_type": "hairdresser",
+          "lat": 48.8748909,
+          "lng": 2.3875361,
+          "address": "Rue de la Villette 15"
+        },
+        {
+          "name": "Luce Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8757108,
+          "lng": 2.3896747,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Spa by Christian Lacout",
+          "shop_type": "hairdresser",
+          "lat": 48.8747283,
+          "lng": 2.3869925,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Institut de beauté by Christian Lacout",
+          "shop_type": "beauty",
+          "lat": 48.8747327,
+          "lng": 2.3870755,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jean-Claude Biguine",
+          "shop_type": "hairdresser",
+          "lat": 48.8755115,
+          "lng": 2.3902852,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Institut Guinot",
+          "shop_type": "beauty",
+          "lat": 48.8742392,
+          "lng": 2.3861547,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8743585,
+          "lng": 2.3864107,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8746189,
+          "lng": 2.3880921,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jean Louis David",
+          "shop_type": "hairdresser",
+          "lat": 48.8752189,
+          "lng": 2.3897331,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coupé Coiffé",
+          "shop_type": "hairdresser",
+          "lat": 48.8753709,
+          "lng": 2.3915481,
+          "address": "Rue de Belleville 160"
+        },
+        {
+          "name": "Figaro",
+          "shop_type": "hairdresser",
+          "lat": 48.8612372,
+          "lng": 2.375135,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rachel Klein",
+          "shop_type": "hairdresser",
+          "lat": 48.8741522,
+          "lng": 2.372187,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Quick Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8746072,
+          "lng": 2.3722676,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hair Beauty",
+          "shop_type": "hairdresser",
+          "lat": 48.8728806,
+          "lng": 2.3785288,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Celine",
+          "shop_type": "hairdresser",
+          "lat": 48.8735095,
+          "lng": 2.3798868,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lisse Fleur",
+          "shop_type": "massage",
+          "lat": 48.8713145,
+          "lng": 2.3706835,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure et Nature",
+          "shop_type": "hairdresser",
+          "lat": 48.8539313,
+          "lng": 2.3676879,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Christine",
+          "shop_type": "hairdresser",
+          "lat": 48.8592068,
+          "lng": 2.3688415,
+          "address": "Rue Saint-Sabin 60"
+        },
+        {
+          "name": "Jean Louis David",
+          "shop_type": "hairdresser",
+          "lat": 48.8569717,
+          "lng": 2.378101,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Albane",
+          "shop_type": "hairdresser",
+          "lat": 48.8490022,
+          "lng": 2.3988711,
+          "address": "Boulevard de Charonne 7"
+        },
+        {
+          "name": "Greg Antoine",
+          "shop_type": "hairdresser",
+          "lat": 48.8584629,
+          "lng": 2.382926,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jacques Dumont",
+          "shop_type": "hairdresser",
+          "lat": 48.8579216,
+          "lng": 2.3792474,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "David Alexander",
+          "shop_type": "hairdresser",
+          "lat": 48.8639762,
+          "lng": 2.3665249,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Genial Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8624858,
+          "lng": 2.3796832,
+          "address": "Rue Saint-Maur 61"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8635076,
+          "lng": 2.3611365,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Amyra Paris",
+          "shop_type": "beauty",
+          "lat": 48.8725965,
+          "lng": 2.3908176,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "M Coiff",
+          "shop_type": "hairdresser",
+          "lat": 48.8551222,
+          "lng": 2.3692843,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Christophe Bruno",
+          "shop_type": "hairdresser",
+          "lat": 48.8568852,
+          "lng": 2.3789663,
+          "address": "Place du Père Chaillet 3"
+        },
+        {
+          "name": "Coiffirst Marais",
+          "shop_type": "hairdresser",
+          "lat": 48.8626261,
+          "lng": 2.3642213,
+          "address": "Rue Debelleyme 39"
+        },
+        {
+          "name": "ci-ci nails",
+          "shop_type": "beauty",
+          "lat": 48.8596336,
+          "lng": 2.3686262,
+          "address": "Rue Saint-Sabin 66"
+        },
+        {
+          "name": "Co Em Nails",
+          "shop_type": "beauty",
+          "lat": 48.8616632,
+          "lng": 2.3720568,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauty Paris",
+          "shop_type": "beauty",
+          "lat": 48.8646731,
+          "lng": 2.3661347,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Françoise Myoho",
+          "shop_type": "hairdresser",
+          "lat": 48.8632155,
+          "lng": 2.3606086,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Headoniste",
+          "shop_type": "hairdresser",
+          "lat": 48.8615381,
+          "lng": 2.3626013,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8599098,
+          "lng": 2.3678028,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Zazen",
+          "shop_type": "hairdresser",
+          "lat": 48.8605442,
+          "lng": 2.3676495,
+          "address": "Boulevard Beaumarchais 102"
+        },
+        {
+          "name": "La Jet Set",
+          "shop_type": "hairdresser",
+          "lat": 48.8666046,
+          "lng": 2.3666246,
+          "address": "Avenue de la République 10"
+        },
+        {
+          "name": "Catwalk",
+          "shop_type": "hairdresser",
+          "lat": 48.8641135,
+          "lng": 2.3681119,
+          "address": "Rue de Crussol 14"
+        },
+        {
+          "name": "Massoin",
+          "shop_type": "massage",
+          "lat": 48.8579739,
+          "lng": 2.3652997,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "yangmi beauté",
+          "shop_type": "massage",
+          "lat": 48.8656199,
+          "lng": 2.3661358,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le Salon & Vous",
+          "shop_type": "hairdresser",
+          "lat": 48.8617174,
+          "lng": 2.3647578,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Franck L. Hair",
+          "shop_type": "hairdresser",
+          "lat": 48.8583352,
+          "lng": 2.3676165,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Grizzly",
+          "shop_type": "hairdresser",
+          "lat": 48.8590366,
+          "lng": 2.3680105,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tchip",
+          "shop_type": "hairdresser",
+          "lat": 48.866639,
+          "lng": 2.3682122,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lin Lin",
+          "shop_type": "massage",
+          "lat": 48.8622594,
+          "lng": 2.3734687,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Sam Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8629915,
+          "lng": 2.3789505,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Orchidée de Lulu",
+          "shop_type": "massage",
+          "lat": 48.8605105,
+          "lng": 2.3789799,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Himalaya Energy",
+          "shop_type": "massage",
+          "lat": 48.8609068,
+          "lng": 2.3808293,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Peppermint",
+          "shop_type": "beauty",
+          "lat": 48.8642422,
+          "lng": 2.3657636,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "K&P Nails",
+          "shop_type": "beauty",
+          "lat": 48.8633856,
+          "lng": 2.3689518,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dar Meimouna",
+          "shop_type": "beauty",
+          "lat": 48.8646138,
+          "lng": 2.3719134,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Biguine",
+          "shop_type": "hairdresser",
+          "lat": 48.8626453,
+          "lng": 2.3627642,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gloss-up",
+          "shop_type": "beauty",
+          "lat": 48.8635459,
+          "lng": 2.3634336,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Alain De Tréguier",
+          "shop_type": "hairdresser",
+          "lat": 48.8521137,
+          "lng": 2.3662292,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tendresse Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8553852,
+          "lng": 2.3956535,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Citrine Rayonnante",
+          "shop_type": "beauty",
+          "lat": 48.8561834,
+          "lng": 2.3943091,
+          "address": "Boulevard de Charonne 111"
+        },
+        {
+          "name": "Charme d'Orient",
+          "shop_type": "beauty",
+          "lat": 48.8645936,
+          "lng": 2.366178,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "RMA coiffeur",
+          "shop_type": "hairdresser",
+          "lat": 48.851013,
+          "lng": 2.3787331,
+          "address": "Rue Trousseau 8"
+        },
+        {
+          "name": "Anta Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8675168,
+          "lng": 2.3842396,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Belle aux Bouts des Ongles",
+          "shop_type": "beauty",
+          "lat": 48.8682021,
+          "lng": 2.3682526,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'endroit",
+          "shop_type": "hairdresser",
+          "lat": 48.8680475,
+          "lng": 2.3683694,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauty Queen",
+          "shop_type": "beauty",
+          "lat": 48.8690009,
+          "lng": 2.3682909,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Chic Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8726929,
+          "lng": 2.3795665,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Hair de Paris",
+          "shop_type": "hairdresser",
+          "lat": 48.8674087,
+          "lng": 2.3849149,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffures",
+          "shop_type": "hairdresser",
+          "lat": 48.8573827,
+          "lng": 2.3694357,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Prana",
+          "shop_type": "beauty",
+          "lat": 48.8654855,
+          "lng": 2.3618302,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tchilo",
+          "shop_type": "beauty",
+          "lat": 48.8653975,
+          "lng": 2.3634758,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8653198,
+          "lng": 2.3632469,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Poppy",
+          "shop_type": "hairdresser",
+          "lat": 48.865678,
+          "lng": 2.361958,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Studio 143",
+          "shop_type": "hairdresser",
+          "lat": 48.8483402,
+          "lng": 2.3940194,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gina Gino",
+          "shop_type": "hairdresser",
+          "lat": 48.865869,
+          "lng": 2.3647751,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "mai's secrets",
+          "shop_type": "beauty",
+          "lat": 48.8545138,
+          "lng": 2.3673841,
+          "address": "Rue des Tournelles 16"
+        },
+        {
+          "name": "Le Petit Boudoir",
+          "shop_type": "hairdresser",
+          "lat": 48.8611311,
+          "lng": 2.3815555,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Florent Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8726417,
+          "lng": 2.3798766,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Yves Rocher",
+          "shop_type": "beauty",
+          "lat": 48.8666584,
+          "lng": 2.3639808,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bon Sahaï",
+          "shop_type": "massage",
+          "lat": 48.8530701,
+          "lng": 2.3670442,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Alain Maître Barbier",
+          "shop_type": "hairdresser",
+          "lat": 48.8601703,
+          "lng": 2.3665993,
+          "address": "Rue Saint-Claude 8"
+        },
+        {
+          "name": "Parenthèse Bien-Être",
+          "shop_type": "beauty",
+          "lat": 48.8598143,
+          "lng": 2.3795158,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Barbier du Parmentier",
+          "shop_type": "hairdresser",
+          "lat": 48.8598059,
+          "lng": 2.378739,
+          "address": "Avenue Parmentier 13"
+        },
+        {
+          "name": "Blue Corner",
+          "shop_type": "hairdresser",
+          "lat": 48.8648578,
+          "lng": 2.3583285,
+          "address": "Rue Réaumur 13"
+        },
+        {
+          "name": "À fleur de peau",
+          "shop_type": "beauty",
+          "lat": 48.8487587,
+          "lng": 2.3718959,
+          "address": "Avenue Daumesnil 10"
+        },
+        {
+          "name": "Yan Yan",
+          "shop_type": "massage",
+          "lat": 48.8627838,
+          "lng": 2.3731301,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "My DressHair",
+          "shop_type": "hairdresser",
+          "lat": 48.8694591,
+          "lng": 2.3624715,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Appart",
+          "shop_type": "hairdresser",
+          "lat": 48.861461,
+          "lng": 2.3640877,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rio Beauty Zone",
+          "shop_type": "beauty",
+          "lat": 48.8614414,
+          "lng": 2.3736387,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Kaki Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8620761,
+          "lng": 2.3733002,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8552638,
+          "lng": 2.3633348,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lyna",
+          "shop_type": "hairdresser",
+          "lat": 48.8645698,
+          "lng": 2.3773485,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jean Louis David",
+          "shop_type": "hairdresser",
+          "lat": 48.8650183,
+          "lng": 2.3767461,
+          "address": "Avenue de la République 49"
+        },
+        {
+          "name": "Hair Premium",
+          "shop_type": "hairdresser",
+          "lat": 48.8649673,
+          "lng": 2.3737399,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Esthélia",
+          "shop_type": "beauty",
+          "lat": 48.8649787,
+          "lng": 2.3738213,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "A&J Nails Colors",
+          "shop_type": "beauty",
+          "lat": 48.8644276,
+          "lng": 2.3798136,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mimi coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.845183,
+          "lng": 2.3817819,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Kosamui Thaï Spa",
+          "shop_type": "massage",
+          "lat": 48.8404635,
+          "lng": 2.380392,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mèche en l'Air",
+          "shop_type": "hairdresser",
+          "lat": 48.8456929,
+          "lng": 2.3799998,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "massage",
+          "lat": 48.8445609,
+          "lng": 2.3825173,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8457321,
+          "lng": 2.3781868,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Eric Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8443867,
+          "lng": 2.3837653,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Durance",
+          "shop_type": "beauty",
+          "lat": 48.8571101,
+          "lng": 2.3593941,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Elevastor",
+          "shop_type": "beauty",
+          "lat": 48.8645709,
+          "lng": 2.3630746,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Angelo Capelli",
+          "shop_type": "hairdresser",
+          "lat": 48.8686542,
+          "lng": 2.362602,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Royal Extension",
+          "shop_type": "hairdresser_supply",
+          "lat": 48.8556853,
+          "lng": 2.3585785,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "aesthé",
+          "shop_type": "beauty",
+          "lat": 48.8556007,
+          "lng": 2.3579337,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon de Poche",
+          "shop_type": "hairdresser",
+          "lat": 48.8494168,
+          "lng": 2.3746474,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Mauvais Garçons",
+          "shop_type": "hairdresser",
+          "lat": 48.864683,
+          "lng": 2.3739828,
+          "address": "Rue Neuve Popincourt 3"
+        },
+        {
+          "name": "Les Mauvais Garçons",
+          "shop_type": "hairdresser",
+          "lat": 48.8648595,
+          "lng": 2.3740557,
+          "address": "Rue Oberkampf 60"
+        },
+        {
+          "name": "RC Creation",
+          "shop_type": "hairdresser",
+          "lat": 48.8481114,
+          "lng": 2.4034984,
+          "address": "Cours de Vincennes 43"
+        },
+        {
+          "name": "Lavniyia Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8739262,
+          "lng": 2.3877373,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Paris Rose Nails",
+          "shop_type": "beauty",
+          "lat": 48.8450541,
+          "lng": 2.38241,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Rivière de Jade",
+          "shop_type": "massage",
+          "lat": 48.8460441,
+          "lng": 2.3974373,
+          "address": "Avenue du Bel Air 9"
+        },
+        {
+          "name": "Aderans",
+          "shop_type": "beauty",
+          "lat": 48.8461976,
+          "lng": 2.3979939,
+          "address": "Avenue du Bel Air 14"
+        },
+        {
+          "name": "Jean-Michel Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8464161,
+          "lng": 2.3953469,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beaux Ongles",
+          "shop_type": "beauty",
+          "lat": 48.869174,
+          "lng": 2.3714268,
+          "address": "Avenue Parmentier undefined"
+        },
+        {
+          "name": "Coiffure Saint-Mandé",
+          "shop_type": "hairdresser",
+          "lat": 48.8453272,
+          "lng": 2.4004806,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon de coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8530156,
+          "lng": 2.397474,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rive Droite",
+          "shop_type": "hairdresser",
+          "lat": 48.8522195,
+          "lng": 2.3764849,
+          "address": "Avenue Ledru-Rollin 99"
+        },
+        {
+          "name": "Aydan",
+          "shop_type": "hairdresser",
+          "lat": 48.852804,
+          "lng": 2.3768058,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hair by bap",
+          "shop_type": "hairdresser",
+          "lat": 48.858186,
+          "lng": 2.3693018,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Baïbaé",
+          "shop_type": "hairdresser",
+          "lat": 48.8589606,
+          "lng": 2.3689343,
+          "address": "Rue Saint-Sabin 58"
+        },
+        {
+          "name": "LMC Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8409408,
+          "lng": 2.3874408,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tuleka barber",
+          "shop_type": "hairdresser",
+          "lat": 48.869919,
+          "lng": 2.3952093,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Louis Fav",
+          "shop_type": "hairdresser",
+          "lat": 48.8485815,
+          "lng": 2.3801005,
+          "address": "Rue Crozatier 51"
+        },
+        {
+          "name": "Zen et Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8546185,
+          "lng": 2.384592,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8487718,
+          "lng": 2.3998832,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jean Louis David",
+          "shop_type": "hairdresser",
+          "lat": 48.8486885,
+          "lng": 2.3995748,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "PN",
+          "shop_type": "beauty",
+          "lat": 48.8471749,
+          "lng": 2.3736815,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8681095,
+          "lng": 2.4031977,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Béatrix Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8685519,
+          "lng": 2.4014488,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dumont",
+          "shop_type": "hairdresser",
+          "lat": 48.869775,
+          "lng": 2.4024305,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Chantal",
+          "shop_type": "hairdresser",
+          "lat": 48.8692704,
+          "lng": 2.4024506,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mag'coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8689333,
+          "lng": 2.4025146,
+          "address": "Rue du Docteur Paquelin 8"
+        },
+        {
+          "name": "Camille Albane",
+          "shop_type": "hairdresser",
+          "lat": 48.8460221,
+          "lng": 2.4022483,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Soleil Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8524583,
+          "lng": 2.4042386,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Miss Penelope",
+          "shop_type": "hairdresser",
+          "lat": 48.8463,
+          "lng": 2.4015381,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Au printemps",
+          "shop_type": "beauty",
+          "lat": 48.8529179,
+          "lng": 2.4036923,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Chez Chouki Street Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8530108,
+          "lng": 2.4036097,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Stefan Savoy",
+          "shop_type": "hairdresser",
+          "lat": 48.8473217,
+          "lng": 2.3952442,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Kamel Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.847275,
+          "lng": 2.3954067,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Chez Maher",
+          "shop_type": "hairdresser",
+          "lat": 48.8540493,
+          "lng": 2.3821626,
+          "address": "Rue de Charonne 87"
+        },
+        {
+          "name": "Corinne Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8659931,
+          "lng": 2.399236,
+          "address": "Avenue Gambetta 91"
+        },
+        {
+          "name": "Bruna Lola",
+          "shop_type": "hairdresser",
+          "lat": 48.8730121,
+          "lng": 2.3907337,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Louise & Co",
+          "shop_type": "hairdresser",
+          "lat": 48.8698529,
+          "lng": 2.3948012,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "350",
+          "shop_type": "hairdresser",
+          "lat": 48.8485752,
+          "lng": 2.3934585,
+          "address": "Rue du Faubourg Saint-Antoine 276"
+        },
+        {
+          "name": "Céline",
+          "shop_type": "hairdresser",
+          "lat": 48.8639633,
+          "lng": 2.3978608,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Atelier M'So",
+          "shop_type": "hairdresser",
+          "lat": 48.8735352,
+          "lng": 2.3883186,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Smart",
+          "shop_type": "hairdresser",
+          "lat": 48.8682472,
+          "lng": 2.3956345,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lazeo",
+          "shop_type": "beauty",
+          "lat": 48.8530321,
+          "lng": 2.3886461,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lucien & Jo",
+          "shop_type": "hairdresser",
+          "lat": 48.8531077,
+          "lng": 2.3876478,
+          "address": "Boulevard Voltaire 214"
+        },
+        {
+          "name": "Shiny Nails",
+          "shop_type": "beauty",
+          "lat": 48.8521427,
+          "lng": 2.3846589,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Kim Thy",
+          "shop_type": "beauty",
+          "lat": 48.8699065,
+          "lng": 2.3951191,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gérard",
+          "shop_type": "hairdresser",
+          "lat": 48.8721673,
+          "lng": 2.3918367,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Infini-tif",
+          "shop_type": "hairdresser",
+          "lat": 48.8696444,
+          "lng": 2.4017908,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Cizor's",
+          "shop_type": "hairdresser",
+          "lat": 48.8652035,
+          "lng": 2.368215,
+          "address": "Boulevard Voltaire 25"
+        },
+        {
+          "name": "Messieurs Dames",
+          "shop_type": "hairdresser",
+          "lat": 48.8649577,
+          "lng": 2.3632493,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Hommes",
+          "shop_type": "hairdresser",
+          "lat": 48.864564,
+          "lng": 2.365564,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Daniel Coiffure Esthetique Paris 11",
+          "shop_type": "hairdresser",
+          "lat": 48.8507784,
+          "lng": 2.3922522,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bollywood Beauty",
+          "shop_type": "beauty",
+          "lat": 48.854126,
+          "lng": 2.4058396,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Barbière Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.8542151,
+          "lng": 2.4058194,
+          "address": "Rue des Pyrénées undefined"
+        },
+        {
+          "name": "Fah Sai Thai",
+          "shop_type": "massage",
+          "lat": 48.8462195,
+          "lng": 2.3957043,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauté Plus Paris",
+          "shop_type": "hairdresser",
+          "lat": 48.8760532,
+          "lng": 2.3805111,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rock Hair",
+          "shop_type": "hairdresser",
+          "lat": 48.8543129,
+          "lng": 2.3685298,
+          "address": "Boulevard Beaumarchais 7"
+        },
+        {
+          "name": "Aime Thai Massage Spa",
+          "shop_type": "massage",
+          "lat": 48.8664827,
+          "lng": 2.3699465,
+          "address": "Rue de la Folie-Méricourt 84"
+        },
+        {
+          "name": "Massato Marais",
+          "shop_type": "hairdresser",
+          "lat": 48.860973,
+          "lng": 2.366714,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bulle de Plaisir",
+          "shop_type": "beauty",
+          "lat": 48.8546854,
+          "lng": 2.3635679,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "B",
+          "shop_type": "hairdresser",
+          "lat": 48.8644605,
+          "lng": 2.406996,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Maison Isaïa Paris",
+          "shop_type": "beauty",
+          "lat": 48.8625017,
+          "lng": 2.3862707,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jay's Barber Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.8467954,
+          "lng": 2.3833574,
+          "address": "Boulevard Diderot 86"
+        },
+        {
+          "name": "You Yi",
+          "shop_type": "hairdresser",
+          "lat": 48.8446785,
+          "lng": 2.3828043,
+          "address": "Rue de Rambouillet 14"
+        },
+        {
+          "name": "Planète Coiffure Beauté",
+          "shop_type": "hairdresser",
+          "lat": 48.855038,
+          "lng": 2.3689507,
+          "address": "Boulevard Beaumarchais 14"
+        },
+        {
+          "name": "Bastille Nail Bar",
+          "shop_type": "beauty",
+          "lat": 48.8527453,
+          "lng": 2.3671727,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ivy Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8732213,
+          "lng": 2.3812514,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mimi Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8732327,
+          "lng": 2.3813015,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tchip",
+          "shop_type": "hairdresser",
+          "lat": 48.8562913,
+          "lng": 2.3762641,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rose rouge",
+          "shop_type": "beauty",
+          "lat": 48.8552555,
+          "lng": 2.378959,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Sun'Set Pyrénées",
+          "shop_type": "beauty",
+          "lat": 48.8562269,
+          "lng": 2.405093,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "MS Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8465271,
+          "lng": 2.3810781,
+          "address": "Boulevard Diderot 70"
+        },
+        {
+          "name": "SM Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8465076,
+          "lng": 2.3808234,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Flora Onglerie",
+          "shop_type": "beauty",
+          "lat": 48.8465124,
+          "lng": 2.3808808,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Seoul Massage",
+          "shop_type": "massage",
+          "lat": 48.8462235,
+          "lng": 2.3784334,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Claire's coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8735191,
+          "lng": 2.3840037,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure H beauty",
+          "shop_type": "hairdresser",
+          "lat": 48.8737468,
+          "lng": 2.3844562,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Janani Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8735596,
+          "lng": 2.384313,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Loïc Chevert",
+          "shop_type": "hairdresser",
+          "lat": 48.8466506,
+          "lng": 2.3986278,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Centre de yang zi",
+          "shop_type": "massage",
+          "lat": 48.872981,
+          "lng": 2.3809216,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mita Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8729156,
+          "lng": 2.3805606,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "F-Nail",
+          "shop_type": "beauty",
+          "lat": 48.8734951,
+          "lng": 2.3826522,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ly Ly Ongles",
+          "shop_type": "beauty",
+          "lat": 48.8732671,
+          "lng": 2.3822925,
+          "address": "Rue de Belleville 58"
+        },
+        {
+          "name": "Sonia Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8729993,
+          "lng": 2.3810064,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Qian Yi Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8725267,
+          "lng": 2.378985,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Top Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8724054,
+          "lng": 2.3785563,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Espérance",
+          "shop_type": "hairdresser",
+          "lat": 48.8695084,
+          "lng": 2.374254,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rajah",
+          "shop_type": "hairdresser",
+          "lat": 48.8694984,
+          "lng": 2.3742215,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nail Club",
+          "shop_type": "beauty",
+          "lat": 48.8682497,
+          "lng": 2.3752058,
+          "address": "Rue Saint-Maur 134"
+        },
+        {
+          "name": "235th Barber Street",
+          "shop_type": "hairdresser",
+          "lat": 48.864881,
+          "lng": 2.3653729,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Pierre Yves Lila",
+          "shop_type": "hairdresser",
+          "lat": 48.872063,
+          "lng": 2.3711465,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Yal Coiffure Mixte",
+          "shop_type": "hairdresser",
+          "lat": 48.8588609,
+          "lng": 2.3738379,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gloss&co",
+          "shop_type": "hairdresser",
+          "lat": 48.8700621,
+          "lng": 2.3734995,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "BlackJack",
+          "shop_type": "hairdresser",
+          "lat": 48.8702979,
+          "lng": 2.3732943,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Krystal",
+          "shop_type": "beauty",
+          "lat": 48.8715044,
+          "lng": 2.3757056,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.874485,
+          "lng": 2.3739059,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffeur 33",
+          "shop_type": "hairdresser",
+          "lat": 48.8740453,
+          "lng": 2.3744088,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Aline Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8739694,
+          "lng": 2.3744839,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Charly's",
+          "shop_type": "hairdresser",
+          "lat": 48.8539115,
+          "lng": 2.3723805,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dr. Clipper",
+          "shop_type": "hairdresser",
+          "lat": 48.8726497,
+          "lng": 2.3742346,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Merit Nouri",
+          "shop_type": "hairdresser",
+          "lat": 48.8711859,
+          "lng": 2.372286,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure masculine Olivier Plaisant",
+          "shop_type": "hairdresser",
+          "lat": 48.8656181,
+          "lng": 2.3746663,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lili Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8696609,
+          "lng": 2.3819678,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Misaki",
+          "shop_type": "beauty",
+          "lat": 48.8728421,
+          "lng": 2.3757469,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Black Pearl",
+          "shop_type": "beauty",
+          "lat": 48.8712131,
+          "lng": 2.3796143,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hair Belleville",
+          "shop_type": "hairdresser",
+          "lat": 48.8702816,
+          "lng": 2.3794378,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mandin",
+          "shop_type": "hairdresser",
+          "lat": 48.8686169,
+          "lng": 2.3665961,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L' de la Colombe",
+          "shop_type": "hairdresser",
+          "lat": 48.8665026,
+          "lng": 2.4060984,
+          "address": "Rue du Capitaine Marchal 1"
+        },
+        {
+          "name": "Massage et Épilation Hong Fa",
+          "shop_type": "beauty",
+          "lat": 48.8463405,
+          "lng": 2.3688754,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon du Regard",
+          "shop_type": "beauty",
+          "lat": 48.869242,
+          "lng": 2.3689576,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "T for TaTToo",
+          "shop_type": "beauty",
+          "lat": 48.8690038,
+          "lng": 2.3683574,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "The Barberstation",
+          "shop_type": "hairdresser",
+          "lat": 48.8690265,
+          "lng": 2.3684274,
+          "address": "Rue du Faubourg du Temple 36bis"
+        },
+        {
+          "name": "Blackbox",
+          "shop_type": "hairdresser",
+          "lat": 48.8690698,
+          "lng": 2.3685395,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hair' Design",
+          "shop_type": "hairdresser",
+          "lat": 48.8452792,
+          "lng": 2.3882225,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Forge Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8506334,
+          "lng": 2.3801059,
+          "address": "Rue de la Forge Royale 1b"
+        },
+        {
+          "name": "Atelier des Rendez-Vous",
+          "shop_type": "beauty",
+          "lat": 48.8542738,
+          "lng": 2.3816304,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Art et Beauté",
+          "shop_type": "hairdresser",
+          "lat": 48.8639786,
+          "lng": 2.3752876,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Bottega del Coiffeur",
+          "shop_type": "hairdresser",
+          "lat": 48.8667658,
+          "lng": 2.3741866,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le Salon de Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8609927,
+          "lng": 2.3782608,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nails Fourniture",
+          "shop_type": "beauty",
+          "lat": 48.8621696,
+          "lng": 2.3766096,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon Smile",
+          "shop_type": "massage",
+          "lat": 48.8555496,
+          "lng": 2.3810672,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Show me",
+          "shop_type": "beauty",
+          "lat": 48.8598365,
+          "lng": 2.3644177,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bleu Libellule",
+          "shop_type": "hairdresser_supply",
+          "lat": 48.8530312,
+          "lng": 2.3705164,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Atelier Majorelle",
+          "shop_type": "hairdresser",
+          "lat": 48.8676244,
+          "lng": 2.3988289,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Actua",
+          "shop_type": "hairdresser",
+          "lat": 48.8555695,
+          "lng": 2.3906425,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ô Jardin des Sens",
+          "shop_type": "beauty",
+          "lat": 48.8560424,
+          "lng": 2.4026046,
+          "address": "Rue des Vignoles 92"
+        },
+        {
+          "name": "Freddy Gilles",
+          "shop_type": "hairdresser",
+          "lat": 48.8552666,
+          "lng": 2.3689033,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gold",
+          "shop_type": "hairdresser",
+          "lat": 48.8669701,
+          "lng": 2.3966698,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Glam by Fati",
+          "shop_type": "hairdresser",
+          "lat": 48.8737149,
+          "lng": 2.387685,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Eden Brows",
+          "shop_type": "beauty",
+          "lat": 48.8511718,
+          "lng": 2.3969922,
+          "address": "Rue de Montreuil 123"
+        },
+        {
+          "name": "Cindy Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.851333,
+          "lng": 2.3989815,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "J. Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8706952,
+          "lng": 2.3767065,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure for men",
+          "shop_type": "hairdresser",
+          "lat": 48.8669363,
+          "lng": 2.379776,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Urban Cut",
+          "shop_type": "hairdresser",
+          "lat": 48.8655277,
+          "lng": 2.3772046,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffeur Styliste",
+          "shop_type": "hairdresser",
+          "lat": 48.8514776,
+          "lng": 2.3997691,
+          "address": "Rue d'Avron 14"
+        },
+        {
+          "name": "Le Salon",
+          "shop_type": "hairdresser",
+          "lat": 48.8582587,
+          "lng": 2.4027394,
+          "address": "Rue des Pyrénées 137"
+        },
+        {
+          "name": "L'Atelier du Sourcil",
+          "shop_type": "beauty",
+          "lat": 48.8670864,
+          "lng": 2.3602455,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Biosthétique",
+          "shop_type": "hairdresser",
+          "lat": 48.8593001,
+          "lng": 2.3760666,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Amarilys",
+          "shop_type": "beauty",
+          "lat": 48.859192,
+          "lng": 2.3759351,
+          "address": "Rue Popincourt 43"
+        },
+        {
+          "name": "Qipao",
+          "shop_type": "beauty",
+          "lat": 48.8594901,
+          "lng": 2.3757086,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le 213 Barber Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.8599742,
+          "lng": 2.37574,
+          "address": "Rue Popincourt 50"
+        },
+        {
+          "name": "Nicolas Waldorf",
+          "shop_type": "hairdresser",
+          "lat": 48.8639046,
+          "lng": 2.3722268,
+          "address": "Rue de la Folie-Méricourt 48"
+        },
+        {
+          "name": "Coiffeur d'Aligre",
+          "shop_type": "hairdresser",
+          "lat": 48.849398,
+          "lng": 2.3783228,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Timy Ongles",
+          "shop_type": "beauty",
+          "lat": 48.855249,
+          "lng": 2.3847448,
+          "address": "Boulevard Voltaire 153"
+        },
+        {
+          "name": "Cindy Hair Shop",
+          "shop_type": "beauty",
+          "lat": 48.8719494,
+          "lng": 2.3716786,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'hair des Couronnes",
+          "shop_type": "hairdresser",
+          "lat": 48.8695618,
+          "lng": 2.381716,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hani Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8678082,
+          "lng": 2.3818056,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Petite Maison de thé",
+          "shop_type": "massage",
+          "lat": 48.8701017,
+          "lng": 2.3690651,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Espace VIP",
+          "shop_type": "hairdresser",
+          "lat": 48.8661677,
+          "lng": 2.3706684,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Franck Provost",
+          "shop_type": "hairdresser",
+          "lat": 48.8681178,
+          "lng": 2.3961544,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Alixe Fougères",
+          "shop_type": "beauty",
+          "lat": 48.8692453,
+          "lng": 2.3713665,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "David coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8692011,
+          "lng": 2.371404,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Alex Coiffeur",
+          "shop_type": "hairdresser",
+          "lat": 48.8691098,
+          "lng": 2.3714818,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Yciar",
+          "shop_type": "hairdresser",
+          "lat": 48.868484,
+          "lng": 2.3724869,
+          "address": "Rue Deguerry 1"
+        },
+        {
+          "name": "Le Bon Barbier",
+          "shop_type": "hairdresser",
+          "lat": 48.8533445,
+          "lng": 2.3613734,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Igual",
+          "shop_type": "hairdresser",
+          "lat": 48.8604504,
+          "lng": 2.3782172,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Suisen",
+          "shop_type": "massage",
+          "lat": 48.8599116,
+          "lng": 2.3629265,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauté Time",
+          "shop_type": "beauty",
+          "lat": 48.8576283,
+          "lng": 2.3760749,
+          "address": "Rue Sedaine 57"
+        },
+        {
+          "name": "L'art de Nails",
+          "shop_type": "beauty",
+          "lat": 48.846436,
+          "lng": 2.3834746,
+          "address": "Rue Chaligny 15 bis"
+        },
+        {
+          "name": "En-tête",
+          "shop_type": "hairdresser",
+          "lat": 48.8471141,
+          "lng": 2.3744317,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon de Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8592924,
+          "lng": 2.3791234,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8641581,
+          "lng": 2.3988645,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Soleil Bien-Être",
+          "shop_type": "massage",
+          "lat": 48.8610979,
+          "lng": 2.3808622,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bob Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8591539,
+          "lng": 2.3752052,
+          "address": "Rue du Chemin Vert 48"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8663629,
+          "lng": 2.3594924,
+          "address": "Rue de Turbigo 73"
+        },
+        {
+          "name": "EM",
+          "shop_type": "hairdresser",
+          "lat": 48.8663812,
+          "lng": 2.3595921,
+          "address": "Rue de Turbigo 73"
+        },
+        {
+          "name": "Esthétique",
+          "shop_type": "beauty",
+          "lat": 48.852728,
+          "lng": 2.3671138,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "FOnNAILS",
+          "shop_type": "beauty",
+          "lat": 48.8605294,
+          "lng": 2.3781368,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Medley",
+          "shop_type": "hairdresser",
+          "lat": 48.8571633,
+          "lng": 2.3568247,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Au Spa du Village",
+          "shop_type": "beauty",
+          "lat": 48.8556968,
+          "lng": 2.357349,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Julie B.",
+          "shop_type": "hairdresser",
+          "lat": 48.8556458,
+          "lng": 2.3636076,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "The Last Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8745598,
+          "lng": 2.3815044,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Boucle d'Or",
+          "shop_type": "hairdresser",
+          "lat": 48.8710924,
+          "lng": 2.3723669,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gina Gino",
+          "shop_type": "hairdresser",
+          "lat": 48.8510533,
+          "lng": 2.4061641,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Institut du Ventre",
+          "shop_type": "beauty",
+          "lat": 48.870696,
+          "lng": 2.3937729,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hair's Coiff",
+          "shop_type": "hairdresser",
+          "lat": 48.8673806,
+          "lng": 2.396337,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Liya Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8713178,
+          "lng": 2.376236,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Baaz coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8707138,
+          "lng": 2.3772278,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lounge of beauty",
+          "shop_type": "beauty",
+          "lat": 48.8663092,
+          "lng": 2.367221,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rosalie beauté",
+          "shop_type": "beauty",
+          "lat": 48.871158,
+          "lng": 2.3764709,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Julie coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8713318,
+          "lng": 2.3768543,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La perle desto",
+          "shop_type": "beauty",
+          "lat": 48.8637262,
+          "lng": 2.3608136,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Paulphil",
+          "shop_type": "hairdresser",
+          "lat": 48.864193,
+          "lng": 2.3793105,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jean Louis David",
+          "shop_type": "hairdresser",
+          "lat": 48.8695101,
+          "lng": 2.3711958,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Barber shop panam 11",
+          "shop_type": "hairdresser",
+          "lat": 48.8679374,
+          "lng": 2.3769104,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffeur",
+          "shop_type": "hairdresser",
+          "lat": 48.8681324,
+          "lng": 2.3784965,
+          "address": "Rue Jean-Pierre Timbaud 85"
+        },
+        {
+          "name": "Cosy girls",
+          "shop_type": "hairdresser",
+          "lat": 48.8679943,
+          "lng": 2.3788619,
+          "address": "Rue Jean-Pierre Timbaud 106"
+        },
+        {
+          "name": "The face clinic",
+          "shop_type": "beauty",
+          "lat": 48.870991,
+          "lng": 2.3713685,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Maison Koton",
+          "shop_type": "beauty",
+          "lat": 48.8581715,
+          "lng": 2.3769394,
+          "address": "Rue Popincourt 24"
+        },
+        {
+          "name": "Maison du Laser",
+          "shop_type": "beauty",
+          "lat": 48.8597305,
+          "lng": 2.3764843,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "AZ Barber Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.8674957,
+          "lng": 2.3759648,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Amour cheveux club",
+          "shop_type": "hairdresser",
+          "lat": 48.866612,
+          "lng": 2.3632394,
+          "address": "Rue Béranger 21"
+        },
+        {
+          "name": "Dandan Nails",
+          "shop_type": "beauty",
+          "lat": 48.8555816,
+          "lng": 2.3694026,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'atelier",
+          "shop_type": "hairdresser",
+          "lat": 48.8709857,
+          "lng": 2.3705135,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hello Ongles",
+          "shop_type": "beauty",
+          "lat": 48.8724906,
+          "lng": 2.3711821,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Zen coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8721366,
+          "lng": 2.3715133,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le Jardin des Couleurs",
+          "shop_type": "hairdresser",
+          "lat": 48.8612323,
+          "lng": 2.3656423,
+          "address": "Rue du Pont aux Choux 14"
+        },
+        {
+          "name": "Textures",
+          "shop_type": "hairdresser",
+          "lat": 48.8708649,
+          "lng": 2.3769661,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "PMT Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8451833,
+          "lng": 2.3883144,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "RB Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.85989,
+          "lng": 2.3762385,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Royal Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8703669,
+          "lng": 2.372904,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Exphair",
+          "shop_type": "hairdresser",
+          "lat": 48.8717812,
+          "lng": 2.3716857,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Neeru Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8519674,
+          "lng": 2.3893667,
+          "address": "Rue des Boulets 42"
+        },
+        {
+          "name": "Dynasty Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8658733,
+          "lng": 2.3837214,
+          "address": "Boulevard de Ménilmontant 123"
+        },
+        {
+          "name": "Coiffpro",
+          "shop_type": "hairdresser",
+          "lat": 48.8663804,
+          "lng": 2.38314,
+          "address": "Boulevard de Ménilmontant 131"
+        },
+        {
+          "name": "Yang Yang Ongles",
+          "shop_type": "beauty",
+          "lat": 48.8644715,
+          "lng": 2.3861119,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8644243,
+          "lng": 2.3861605,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ma Moni coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8735883,
+          "lng": 2.3832795,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Barber shop",
+          "shop_type": "hairdresser",
+          "lat": 48.86985,
+          "lng": 2.3698531,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Najet's coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8670106,
+          "lng": 2.3760261,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lynda",
+          "shop_type": "beauty",
+          "lat": 48.866327,
+          "lng": 2.3714335,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Hevan massage Paris",
+          "shop_type": "massage",
+          "lat": 48.8642851,
+          "lng": 2.3655592,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le ciel des ongles",
+          "shop_type": "beauty",
+          "lat": 48.8643089,
+          "lng": 2.3655843,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Institu Zen",
+          "shop_type": "beauty",
+          "lat": 48.8607604,
+          "lng": 2.3797913,
+          "address": "Rue du Chemin Vert 85"
+        },
+        {
+          "name": "Institut de beauté indienne",
+          "shop_type": "beauty",
+          "lat": 48.8613992,
+          "lng": 2.3823414,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Centre kératoconseil",
+          "shop_type": "beauty",
+          "lat": 48.8612168,
+          "lng": 2.3818123,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Soins esthétiques",
+          "shop_type": "beauty",
+          "lat": 48.8612003,
+          "lng": 2.3817523,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tuina",
+          "shop_type": "massage",
+          "lat": 48.8695458,
+          "lng": 2.3719295,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "rose cartel",
+          "shop_type": "beauty",
+          "lat": 48.8634426,
+          "lng": 2.3624631,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Delphine coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8693485,
+          "lng": 2.3723824,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8687528,
+          "lng": 2.385889,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "20e Avenue",
+          "shop_type": "hairdresser",
+          "lat": 48.8737246,
+          "lng": 2.3874396,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8627151,
+          "lng": 2.3806459,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nail",
+          "shop_type": "beauty",
+          "lat": 48.8534357,
+          "lng": 2.3829731,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Franck Provost",
+          "shop_type": "hairdresser",
+          "lat": 48.8664079,
+          "lng": 2.3676077,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rive droite",
+          "shop_type": "hairdresser",
+          "lat": 48.8665246,
+          "lng": 2.3670588,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nour coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8672445,
+          "lng": 2.3754092,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bizarre bizarre",
+          "shop_type": "hairdresser",
+          "lat": 48.866973,
+          "lng": 2.374384,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bon Sohoï",
+          "shop_type": "massage",
+          "lat": 48.8533028,
+          "lng": 2.3671516,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le Eight Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8708461,
+          "lng": 2.3690618,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "All eyes on fleek",
+          "shop_type": "beauty",
+          "lat": 48.8708031,
+          "lng": 2.3689096,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Chokdi",
+          "shop_type": "massage",
+          "lat": 48.8636841,
+          "lng": 2.3789528,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body",
+          "shop_type": "beauty",
+          "lat": 48.8641488,
+          "lng": 2.3785132,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Shape Up",
+          "shop_type": "hairdresser",
+          "lat": 48.8652569,
+          "lng": 2.3777421,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Signature & Origine",
+          "shop_type": "hairdresser",
+          "lat": 48.874649,
+          "lng": 2.3892365,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Xin xin",
+          "shop_type": "hairdresser",
+          "lat": 48.8726403,
+          "lng": 2.3758223,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ziran",
+          "shop_type": "hairdresser",
+          "lat": 48.8728076,
+          "lng": 2.3754051,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nail Nail",
+          "shop_type": "beauty",
+          "lat": 48.8671122,
+          "lng": 2.3738368,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Esprit Basora",
+          "shop_type": "hairdresser",
+          "lat": 48.8591536,
+          "lng": 2.3797457,
+          "address": "Avenue Parmentier 8"
+        },
+        {
+          "name": "Santé & Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8596373,
+          "lng": 2.3773874,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ama Style",
+          "shop_type": "hairdresser",
+          "lat": 48.8675396,
+          "lng": 2.373061,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tony nails 2",
+          "shop_type": "beauty",
+          "lat": 48.8730066,
+          "lng": 2.3902784,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Meet Nail",
+          "shop_type": "beauty",
+          "lat": 48.856756,
+          "lng": 2.3586022,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8635581,
+          "lng": 2.3644531,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "massage",
+          "lat": 48.8615908,
+          "lng": 2.3707062,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Onglerie",
+          "shop_type": "beauty",
+          "lat": 48.855227,
+          "lng": 2.3689128,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon horizon",
+          "shop_type": "massage",
+          "lat": 48.8503028,
+          "lng": 2.390905,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Belle Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8653698,
+          "lng": 2.3976742,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Christian Gilles",
+          "shop_type": "hairdresser",
+          "lat": 48.8654452,
+          "lng": 2.3977681,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Toni & Guy",
+          "shop_type": "hairdresser",
+          "lat": 48.8518694,
+          "lng": 2.3748962,
+          "address": "Cour des Trois Frères undefined"
+        },
+        {
+          "name": "Betty",
+          "shop_type": "hairdresser",
+          "lat": 48.8474871,
+          "lng": 2.3776247,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon Image",
+          "shop_type": "hairdresser",
+          "lat": 48.8597758,
+          "lng": 2.4048927,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'art de la Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8552883,
+          "lng": 2.4002076,
+          "address": "Rue de Terre-Neuve 52"
+        },
+        {
+          "name": "Ah & Dj",
+          "shop_type": "hairdresser",
+          "lat": 48.8459066,
+          "lng": 2.3800373,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Coiffeurs du Faubourg",
+          "shop_type": "hairdresser",
+          "lat": 48.8495272,
+          "lng": 2.3809954,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure homme",
+          "shop_type": "hairdresser",
+          "lat": 48.8676997,
+          "lng": 2.3835531,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Barber Hilton",
+          "shop_type": "hairdresser",
+          "lat": 48.8471788,
+          "lng": 2.3696194,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Orp'hair",
+          "shop_type": "hairdresser",
+          "lat": 48.8470645,
+          "lng": 2.3701889,
+          "address": "Avenue Ledru-Rollin 28"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8678606,
+          "lng": 2.3859479,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ly Van nails",
+          "shop_type": "beauty",
+          "lat": 48.8664501,
+          "lng": 2.3815334,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mood",
+          "shop_type": "hairdresser",
+          "lat": 48.8664055,
+          "lng": 2.3815609,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Atelier Pierre Jacques",
+          "shop_type": "hairdresser",
+          "lat": 48.8546672,
+          "lng": 2.3725743,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Intemporel",
+          "shop_type": "hairdresser",
+          "lat": 48.8498332,
+          "lng": 2.3747584,
+          "address": "Avenue Ledru-Rollin 78"
+        },
+        {
+          "name": "Peach Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8488461,
+          "lng": 2.3749916,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Joelle Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8489347,
+          "lng": 2.3752023,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bon Spa Thaï",
+          "shop_type": "beauty",
+          "lat": 48.8485717,
+          "lng": 2.3754522,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Daumesnil",
+          "shop_type": "hairdresser",
+          "lat": 48.8453579,
+          "lng": 2.3789701,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "The Barber Lounge",
+          "shop_type": "hairdresser",
+          "lat": 48.8449813,
+          "lng": 2.3797723,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "The bar à Sourcils",
+          "shop_type": "beauty",
+          "lat": 48.8625594,
+          "lng": 2.3726177,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "JB coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8508695,
+          "lng": 2.3783165,
+          "address": "Rue du Faubourg Saint-Antoine 141"
+        },
+        {
+          "name": "Richard Coiff’hom",
+          "shop_type": "hairdresser",
+          "lat": 48.8590272,
+          "lng": 2.3784149,
+          "address": "Boulevard Voltaire 103"
+        },
+        {
+          "name": "Ams beauty",
+          "shop_type": "hairdresser",
+          "lat": 48.8541247,
+          "lng": 2.3762327,
+          "address": "Rue Keller 11"
+        },
+        {
+          "name": "Le Boudoir du Regard",
+          "shop_type": "beauty",
+          "lat": 48.8534853,
+          "lng": 2.3767442,
+          "address": "Rue Keller 1"
+        },
+        {
+          "name": "Didier Lab",
+          "shop_type": "beauty",
+          "lat": 48.8553193,
+          "lng": 2.3753054,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "I. D. coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8580652,
+          "lng": 2.3880767,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coclico",
+          "shop_type": "beauty",
+          "lat": 48.8725143,
+          "lng": 2.3897804,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Caloue et Silvio",
+          "shop_type": "hairdresser",
+          "lat": 48.8657668,
+          "lng": 2.3926974,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Naturelle beauté",
+          "shop_type": "beauty",
+          "lat": 48.8653687,
+          "lng": 2.3933059,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "La Chamade",
+          "shop_type": "beauty",
+          "lat": 48.8654192,
+          "lng": 2.3932365,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'éclat du sourcil",
+          "shop_type": "beauty",
+          "lat": 48.8676415,
+          "lng": 2.3662247,
+          "address": "Rue de Malte 56"
+        },
+        {
+          "name": "Saint Algue",
+          "shop_type": "hairdresser",
+          "lat": 48.8581783,
+          "lng": 2.38089,
+          "address": "Place Léon Blum 4"
+        },
+        {
+          "name": "O Zen Etre",
+          "shop_type": "beauty",
+          "lat": 48.8655824,
+          "lng": 2.3720062,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le menil'coiff",
+          "shop_type": "hairdresser",
+          "lat": 48.8681708,
+          "lng": 2.3872673,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Anne-Audrey",
+          "shop_type": "beauty",
+          "lat": 48.8682321,
+          "lng": 2.3875107,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Linda coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8682449,
+          "lng": 2.3875744,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Sophie & Compagnie",
+          "shop_type": "hairdresser",
+          "lat": 48.8450451,
+          "lng": 2.3840934,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Citad'in",
+          "shop_type": "beauty",
+          "lat": 48.8527252,
+          "lng": 2.3662561,
+          "address": "Rue Castex 8"
+        },
+        {
+          "name": "Azzedine & Laurent",
+          "shop_type": "hairdresser_supply",
+          "lat": 48.853078,
+          "lng": 2.366903,
+          "address": "Rue de Lesdiguières 9"
+        },
+        {
+          "name": "zazen",
+          "shop_type": "hairdresser",
+          "lat": 48.8564154,
+          "lng": 2.3578507,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mei Beauty Nails",
+          "shop_type": "beauty",
+          "lat": 48.8752923,
+          "lng": 2.3927771,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mona",
+          "shop_type": "hairdresser",
+          "lat": 48.8458182,
+          "lng": 2.3952167,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'échevelu(e)",
+          "shop_type": "hairdresser",
+          "lat": 48.8485022,
+          "lng": 2.3783226,
+          "address": "Place d'Aligre 10"
+        },
+        {
+          "name": "Nouveau Look",
+          "shop_type": "hairdresser",
+          "lat": 48.8596976,
+          "lng": 2.3879133,
+          "address": "Rue de la Roquette 171"
+        },
+        {
+          "name": "Sorbier Street",
+          "shop_type": "hairdresser",
+          "lat": 48.8680958,
+          "lng": 2.3899005,
+          "address": "Rue Sorbier 10"
+        },
+        {
+          "name": "Loulou Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8501235,
+          "lng": 2.3735809,
+          "address": "Rue de Charenton 46"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8509193,
+          "lng": 2.3744922,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bonhomme",
+          "shop_type": "hairdresser",
+          "lat": 48.8602251,
+          "lng": 2.3569631,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tête à tête",
+          "shop_type": "hairdresser",
+          "lat": 48.858777,
+          "lng": 2.3823119,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'échappée belle",
+          "shop_type": "beauty",
+          "lat": 48.8553331,
+          "lng": 2.3782745,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Atelier de l'art",
+          "shop_type": "hairdresser",
+          "lat": 48.8674819,
+          "lng": 2.3731044,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nia Nails",
+          "shop_type": "beauty",
+          "lat": 48.8501616,
+          "lng": 2.3746455,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Instant Marie Nails",
+          "shop_type": "beauty",
+          "lat": 48.8662836,
+          "lng": 2.3739949,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dany Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8585857,
+          "lng": 2.3900414,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le Bouclard",
+          "shop_type": "hairdresser",
+          "lat": 48.8748215,
+          "lng": 2.392792,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Luffy",
+          "shop_type": "hairdresser",
+          "lat": 48.8748647,
+          "lng": 2.3927584,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Question d'ongles",
+          "shop_type": "beauty",
+          "lat": 48.8728675,
+          "lng": 2.3909241,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8667997,
+          "lng": 2.3975879,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Doigts de fée",
+          "shop_type": "beauty",
+          "lat": 48.865853,
+          "lng": 2.3986592,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bellocéane",
+          "shop_type": "beauty",
+          "lat": 48.8627643,
+          "lng": 2.3997664,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Camille Albane",
+          "shop_type": "hairdresser",
+          "lat": 48.8572384,
+          "lng": 2.3788096,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Guinot",
+          "shop_type": "beauty",
+          "lat": 48.8566571,
+          "lng": 2.3772804,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "ColorForever",
+          "shop_type": "beauty",
+          "lat": 48.8553755,
+          "lng": 2.3738542,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le Cigare à moustache",
+          "shop_type": "hairdresser",
+          "lat": 48.8687069,
+          "lng": 2.3684078,
+          "address": "Rue de la Fontaine au Roi 3"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8648766,
+          "lng": 2.4041425,
+          "address": "Rue Pelleport 42"
+        },
+        {
+          "name": "Bruno Romain",
+          "shop_type": "hairdresser",
+          "lat": 48.8522208,
+          "lng": 2.406352,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Joss Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8539396,
+          "lng": 2.3877421,
+          "address": "Rue Léon Frot 13"
+        },
+        {
+          "name": "Hot Nails",
+          "shop_type": "beauty",
+          "lat": 48.8655158,
+          "lng": 2.3665405,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nena Perfect Liss",
+          "shop_type": "hairdresser",
+          "lat": 48.8601397,
+          "lng": 2.3758487,
+          "address": "Boulevard Voltaire 92"
+        },
+        {
+          "name": "Hair Style",
+          "shop_type": "hairdresser",
+          "lat": 48.8595962,
+          "lng": 2.3761143,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Soleil Heureux",
+          "shop_type": "massage",
+          "lat": 48.8498913,
+          "lng": 2.3728382,
+          "address": "Rue Moreau 16"
+        },
+        {
+          "name": "L’atelier du sourcil",
+          "shop_type": "beauty",
+          "lat": 48.8500061,
+          "lng": 2.3739589,
+          "address": "Rue de Charenton 71"
+        },
+        {
+          "name": "Effimins",
+          "shop_type": "massage",
+          "lat": 48.8476331,
+          "lng": 2.3740178,
+          "address": "Rue Michel Chasles 16"
+        },
+        {
+          "name": "Nely's",
+          "shop_type": "beauty",
+          "lat": 48.8633614,
+          "lng": 2.3865712,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Fleur Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8552029,
+          "lng": 2.3786069,
+          "address": "Avenue Ledru-Rollin 146"
+        },
+        {
+          "name": "Jean-Claude Biguine",
+          "shop_type": "hairdresser",
+          "lat": 48.851144,
+          "lng": 2.3771807,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L'Essentiel",
+          "shop_type": "beauty",
+          "lat": 48.869962,
+          "lng": 2.3891797,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8711416,
+          "lng": 2.3726184,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nicolas Waldorf",
+          "shop_type": "hairdresser",
+          "lat": 48.8637543,
+          "lng": 2.3720644,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dessange",
+          "shop_type": "hairdresser",
+          "lat": 48.8475642,
+          "lng": 2.4004766,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mademoiselle Moustache Uptown",
+          "shop_type": "hairdresser",
+          "lat": 48.8474433,
+          "lng": 2.385896,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bakshi",
+          "shop_type": "beauty",
+          "lat": 48.8616931,
+          "lng": 2.374596,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jing Xin",
+          "shop_type": "massage",
+          "lat": 48.8635182,
+          "lng": 2.3725863,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Maîtres Barbiers Perruquier",
+          "shop_type": "hairdresser",
+          "lat": 48.8652906,
+          "lng": 2.3707164,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Muses de Paris",
+          "shop_type": "hairdresser",
+          "lat": 48.8617086,
+          "lng": 2.3743091,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Charles s'en mêle",
+          "shop_type": "hairdresser",
+          "lat": 48.8614422,
+          "lng": 2.3748403,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Skin",
+          "shop_type": "beauty",
+          "lat": 48.8620332,
+          "lng": 2.3733651,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rainbow Xu",
+          "shop_type": "beauty",
+          "lat": 48.8653481,
+          "lng": 2.3708767,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Full Care",
+          "shop_type": "beauty",
+          "lat": 48.8747129,
+          "lng": 2.3744116,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Epitem",
+          "shop_type": "beauty",
+          "lat": 48.8750217,
+          "lng": 2.3875047,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Salon de beauté",
+          "shop_type": "beauty",
+          "lat": 48.8536248,
+          "lng": 2.40568,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8582255,
+          "lng": 2.3829623,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "K-Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8515963,
+          "lng": 2.4005128,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8626428,
+          "lng": 2.3627662,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.855506,
+          "lng": 2.3673887,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le 58",
+          "shop_type": "hairdresser",
+          "lat": 48.8567589,
+          "lng": 2.3674331,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gina Gino",
+          "shop_type": "hairdresser",
+          "lat": 48.8567068,
+          "lng": 2.3968095,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dessange",
+          "shop_type": "hairdresser",
+          "lat": 48.853793,
+          "lng": 2.367585,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiff 21",
+          "shop_type": "hairdresser",
+          "lat": 48.8724838,
+          "lng": 2.3992854,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Yang Zi",
+          "shop_type": "massage",
+          "lat": 48.8670989,
+          "lng": 2.361331,
+          "address": "Rue Notre-Dame-de-Nazareth 10"
+        },
+        {
+          "name": "Hanna Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8599523,
+          "lng": 2.4038499,
+          "address": "Rue de Bagnolet 116"
+        },
+        {
+          "name": "Top Hair Barber Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.8571258,
+          "lng": 2.3986064,
+          "address": "Rue de Bagnolet 48"
+        },
+        {
+          "name": "Top Ongles",
+          "shop_type": "beauty",
+          "lat": 48.8570963,
+          "lng": 2.3985396,
+          "address": "Rue de Bagnolet 46"
+        },
+        {
+          "name": "Sun Dream",
+          "shop_type": "beauty",
+          "lat": 48.8648559,
+          "lng": 2.396818,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gambetta coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8645842,
+          "lng": 2.4037213,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Diamant Nail",
+          "shop_type": "beauty",
+          "lat": 48.8646047,
+          "lng": 2.4033317,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Harmonie nails",
+          "shop_type": "beauty",
+          "lat": 48.8647231,
+          "lng": 2.40017,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "beauty",
+          "lat": 48.8644803,
+          "lng": 2.406546,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Diamond",
+          "shop_type": "beauty",
+          "lat": 48.84516,
+          "lng": 2.3819123,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Un autre regard",
+          "shop_type": "beauty",
+          "lat": 48.8453946,
+          "lng": 2.3806759,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Wat & Sens",
+          "shop_type": "massage",
+          "lat": 48.8575284,
+          "lng": 2.3774248,
+          "address": "Rue Popincourt 12"
+        },
+        {
+          "name": "3D Haircut",
+          "shop_type": "hairdresser",
+          "lat": 48.8544304,
+          "lng": 2.3753009,
+          "address": "Rue des Taillandiers 14"
+        },
+        {
+          "name": "Hair Dresser Studio",
+          "shop_type": "hairdresser",
+          "lat": 48.8620067,
+          "lng": 2.3586378,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Art’monie Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8563912,
+          "lng": 2.3795393,
+          "address": "Cour Debille undefined"
+        },
+        {
+          "name": "Sophiya Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8518675,
+          "lng": 2.3766781,
+          "address": "Avenue Ledru-Rollin 98"
+        },
+        {
+          "name": "La Belle Boucle",
+          "shop_type": "hairdresser",
+          "lat": 48.8512811,
+          "lng": 2.3766372,
+          "address": "Rue du Faubourg Saint-Antoine 113"
+        },
+        {
+          "name": "Barber 786",
+          "shop_type": "hairdresser",
+          "lat": 48.8590372,
+          "lng": 2.3790459,
+          "address": "Rue Sedaine 93"
+        },
+        {
+          "name": "KSthétique",
+          "shop_type": "beauty",
+          "lat": 48.8566796,
+          "lng": 2.4025653,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8565032,
+          "lng": 2.4085633,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dok Boi",
+          "shop_type": "massage",
+          "lat": 48.8693705,
+          "lng": 2.3951899,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Dalia",
+          "shop_type": "hairdresser",
+          "lat": 48.8687469,
+          "lng": 2.3956591,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Bella Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8667215,
+          "lng": 2.3821334,
+          "address": "Rue Oberkampf 156"
+        },
+        {
+          "name": "Tchip",
+          "shop_type": "hairdresser",
+          "lat": 48.8525275,
+          "lng": 2.4057294,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Prestige Spa by Gordana",
+          "shop_type": "beauty",
+          "lat": 48.8701597,
+          "lng": 2.3951274,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Thaï Eden",
+          "shop_type": "beauty",
+          "lat": 48.8496111,
+          "lng": 2.3704512,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Orchidée beauté",
+          "shop_type": "beauty",
+          "lat": 48.8599098,
+          "lng": 2.3771439,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8568898,
+          "lng": 2.397898,
+          "address": "Rue de Bagnolet 36"
+        },
+        {
+          "name": "JaliNails",
+          "shop_type": "beauty",
+          "lat": 48.8633508,
+          "lng": 2.3888437,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coco Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8636697,
+          "lng": 2.3900528,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "HE",
+          "shop_type": "hairdresser",
+          "lat": 48.864986,
+          "lng": 2.3769334,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Thaï Spa Ä Es",
+          "shop_type": "massage",
+          "lat": 48.8591996,
+          "lng": 2.3815672,
+          "address": "Rue Camille Desmoulins 13"
+        },
+        {
+          "name": "Marina Massage",
+          "shop_type": "massage",
+          "lat": 48.8560811,
+          "lng": 2.381552,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nepaline",
+          "shop_type": "beauty",
+          "lat": 48.8558272,
+          "lng": 2.3814915,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Institut 1717",
+          "shop_type": "beauty",
+          "lat": 48.848106,
+          "lng": 2.3804742,
+          "address": "Rue Crozatier 43"
+        },
+        {
+          "name": "Priscille",
+          "shop_type": "hairdresser",
+          "lat": 48.8550751,
+          "lng": 2.3749614,
+          "address": "Rue des Taillandiers 22"
+        },
+        {
+          "name": "Katia",
+          "shop_type": "beauty",
+          "lat": 48.854701,
+          "lng": 2.3751592,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Farida B. - L’univers du cheveu frisé",
+          "shop_type": "hairdresser",
+          "lat": 48.8546223,
+          "lng": 2.3714102,
+          "address": "Rue Saint-Sabin 3"
+        },
+        {
+          "name": "Complice Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8561484,
+          "lng": 2.3710491,
+          "address": "Rue Sedaine 25"
+        },
+        {
+          "name": "Fabrice Reveilhac",
+          "shop_type": "hairdresser",
+          "lat": 48.8579183,
+          "lng": 2.3767826,
+          "address": "Rue Sedaine 67"
+        },
+        {
+          "name": "Star Jade I",
+          "shop_type": "massage",
+          "lat": 48.8559561,
+          "lng": 2.3721103,
+          "address": "Rue Sedaine 13"
+        },
+        {
+          "name": "Thaï Harmonie",
+          "shop_type": "massage",
+          "lat": 48.8574382,
+          "lng": 2.3760252,
+          "address": "Rue Sedaine 52"
+        },
+        {
+          "name": "Botanic Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8568891,
+          "lng": 2.3743373,
+          "address": "Rue Sedaine 39"
+        },
+        {
+          "name": "Lotus spa",
+          "shop_type": "massage",
+          "lat": 48.8563721,
+          "lng": 2.3949793,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Indian queen",
+          "shop_type": "beauty",
+          "lat": 48.8557699,
+          "lng": 2.3953535,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Le génie barbier",
+          "shop_type": "hairdresser",
+          "lat": 48.855743,
+          "lng": 2.3953736,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Alichat Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8546799,
+          "lng": 2.3876655,
+          "address": "Rue Léon Frot 28"
+        },
+        {
+          "name": "Le Blond des Anges",
+          "shop_type": "hairdresser",
+          "lat": 48.8493395,
+          "lng": 2.3917752,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8496325,
+          "lng": 2.3915042,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "beauty",
+          "lat": 48.851068,
+          "lng": 2.3901298,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mikelé Lunetta",
+          "shop_type": "hairdresser",
+          "lat": 48.8511782,
+          "lng": 2.3900144,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Rio Beauty Indian",
+          "shop_type": "beauty",
+          "lat": 48.8587347,
+          "lng": 2.3833177,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Jolie Nails",
+          "shop_type": "beauty",
+          "lat": 48.856439,
+          "lng": 2.3811014,
+          "address": "Rue Richard Lenoir 43"
+        },
+        {
+          "name": "Le Salon de Léa",
+          "shop_type": "hairdresser",
+          "lat": 48.8567993,
+          "lng": 2.3808802,
+          "address": "Rue Richard Lenoir 47"
+        },
+        {
+          "name": "Gentleman Barber Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.8561073,
+          "lng": 2.3812969,
+          "address": "Rue Richard Lenoir 37"
+        },
+        {
+          "name": "Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8702805,
+          "lng": 2.3795982,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Dr Clélia Berteau-Cabinet Epilation Laser Nation",
+          "shop_type": "beauty",
+          "lat": 48.8492361,
+          "lng": 2.398815,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Noor Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8534425,
+          "lng": 2.3983116,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Besma coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8652867,
+          "lng": 2.3854162,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Wellness Therapy",
+          "shop_type": "massage",
+          "lat": 48.8564241,
+          "lng": 2.3832057,
+          "address": "Rue de Belfort 3"
+        },
+        {
+          "name": "Pedeo Alberto",
+          "shop_type": "hairdresser",
+          "lat": 48.8572412,
+          "lng": 2.3851367,
+          "address": "Rue Léon Frot 72"
+        },
+        {
+          "name": "Coiffure Boualem",
+          "shop_type": "hairdresser",
+          "lat": 48.8573104,
+          "lng": 2.3850616,
+          "address": "Rue Léon Frot 74"
+        },
+        {
+          "name": "Latitude Zen",
+          "shop_type": "beauty",
+          "lat": 48.8583059,
+          "lng": 2.3837347,
+          "address": "Rue Léon Frot 89"
+        },
+        {
+          "name": "Les Dada East",
+          "shop_type": "hairdresser",
+          "lat": 48.8527223,
+          "lng": 2.3793392,
+          "address": "Rue Trousseau 52"
+        },
+        {
+          "name": "Tip-Top",
+          "shop_type": "hairdresser",
+          "lat": 48.8689422,
+          "lng": 2.3911484,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Chloé Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8585404,
+          "lng": 2.3832257,
+          "address": "Rue de la Roquette 131"
+        },
+        {
+          "name": "Yixin",
+          "shop_type": "beauty",
+          "lat": 48.8584242,
+          "lng": 2.382766,
+          "address": "Rue de la Roquette 127"
+        },
+        {
+          "name": "Les Dada East",
+          "shop_type": "hairdresser",
+          "lat": 48.8573404,
+          "lng": 2.3775636,
+          "address": "Rue Popincourt 10"
+        },
+        {
+          "name": "BioBela",
+          "shop_type": "hairdresser",
+          "lat": 48.8550639,
+          "lng": 2.3843465,
+          "address": "Boulevard Voltaire 176"
+        },
+        {
+          "name": "Les garçons barbiers",
+          "shop_type": "hairdresser",
+          "lat": 48.8662892,
+          "lng": 2.3671377,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8662939,
+          "lng": 2.367828,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Maison Messaï",
+          "shop_type": "hairdresser",
+          "lat": 48.8662675,
+          "lng": 2.3676972,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Maison utopique",
+          "shop_type": "hairdresser",
+          "lat": 48.8662297,
+          "lng": 2.3675641,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Florent hair cheveux brésilien",
+          "shop_type": "hairdresser",
+          "lat": 48.8726682,
+          "lng": 2.3800905,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Chic & Fun",
+          "shop_type": "beauty",
+          "lat": 48.851673,
+          "lng": 2.3997981,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Franck Provost",
+          "shop_type": "hairdresser",
+          "lat": 48.8511088,
+          "lng": 2.3979027,
+          "address": "Rue de Montreuil 116"
+        },
+        {
+          "name": "Léna Nails",
+          "shop_type": "beauty",
+          "lat": 48.8509344,
+          "lng": 2.3968511,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nature Flow",
+          "shop_type": "massage",
+          "lat": 48.8509747,
+          "lng": 2.397099,
+          "address": "Rue de Montreuil 106"
+        },
+        {
+          "name": "Coiffure Anaïs",
+          "shop_type": "hairdresser",
+          "lat": 48.8509955,
+          "lng": 2.3972002,
+          "address": "Rue de Montreuil 106"
+        },
+        {
+          "name": "Alyxia Onglerie",
+          "shop_type": "beauty",
+          "lat": 48.8509874,
+          "lng": 2.3971472,
+          "address": "Rue de Montreuil 106"
+        },
+        {
+          "name": "Zouak Artisan Coiffeur",
+          "shop_type": "hairdresser",
+          "lat": 48.8581187,
+          "lng": 2.3772076,
+          "address": "rue Sedaine 71"
+        },
+        {
+          "name": "Beauty Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.856624,
+          "lng": 2.3954,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Paris Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.857359,
+          "lng": 2.3991939,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ongle Chemin Vert",
+          "shop_type": "beauty",
+          "lat": 48.8616668,
+          "lng": 2.3831485,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8617713,
+          "lng": 2.3834468,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "MK Braids",
+          "shop_type": "hairdresser",
+          "lat": 48.8626403,
+          "lng": 2.3861396,
+          "address": "Rue du Chemin Vert 147 bis"
+        },
+        {
+          "name": "Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8540233,
+          "lng": 2.3868282,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Star Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8528953,
+          "lng": 2.3879799,
+          "address": "Boulevard Voltaire 220"
+        },
+        {
+          "name": "Ménil'Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8696281,
+          "lng": 2.3937301,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure homme",
+          "shop_type": "hairdresser",
+          "lat": 48.8695611,
+          "lng": 2.393549,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Sons of barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8693286,
+          "lng": 2.3929127,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Georgy",
+          "shop_type": "hairdresser",
+          "lat": 48.8486164,
+          "lng": 2.3931759,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nail couture",
+          "shop_type": "beauty",
+          "lat": 48.8541964,
+          "lng": 2.386526,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "The Barber Shop",
+          "shop_type": "hairdresser",
+          "lat": 48.8537437,
+          "lng": 2.3873131,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Fleurs d'Orient",
+          "shop_type": "beauty",
+          "lat": 48.8505329,
+          "lng": 2.391258,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tignasse",
+          "shop_type": "hairdresser",
+          "lat": 48.8511438,
+          "lng": 2.3916658,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tulipe Nails",
+          "shop_type": "beauty",
+          "lat": 48.8540969,
+          "lng": 2.3867628,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "BarberShop",
+          "shop_type": "hairdresser",
+          "lat": 48.8519979,
+          "lng": 2.3902253,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Maison de beauté",
+          "shop_type": "beauty",
+          "lat": 48.8561295,
+          "lng": 2.3908292,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.855244,
+          "lng": 2.3874589,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Thai Sakon",
+          "shop_type": "massage",
+          "lat": 48.8554379,
+          "lng": 2.3886409,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "HayCut",
+          "shop_type": "hairdresser",
+          "lat": 48.8664665,
+          "lng": 2.3810994,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Cerise",
+          "shop_type": "beauty",
+          "lat": 48.8489764,
+          "lng": 2.3748212,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauty Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8505141,
+          "lng": 2.3853081,
+          "address": "Rue de Montreuil 25"
+        },
+        {
+          "name": "Chiteau",
+          "shop_type": "beauty",
+          "lat": 48.8734715,
+          "lng": 2.3958054,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mannie nail",
+          "shop_type": "beauty",
+          "lat": 48.852178,
+          "lng": 2.4063382,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "T&T Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8485078,
+          "lng": 2.3743354,
+          "address": "Rue Traversière 34"
+        },
+        {
+          "name": "Barbe À Bidou",
+          "shop_type": "hairdresser",
+          "lat": 48.8666455,
+          "lng": 2.3600308,
+          "address": "Rue du Vertbois 4"
+        },
+        {
+          "name": "Baitoêi",
+          "shop_type": "beauty",
+          "lat": 48.8542271,
+          "lng": 2.3850056,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Barber Factory",
+          "shop_type": "hairdresser",
+          "lat": 48.8539329,
+          "lng": 2.385186,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Adélaïde",
+          "shop_type": "beauty",
+          "lat": 48.8526713,
+          "lng": 2.3833419,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Tuina Home",
+          "shop_type": "massage",
+          "lat": 48.8518828,
+          "lng": 2.3833922,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8534403,
+          "lng": 2.382448,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure mixte",
+          "shop_type": "hairdresser",
+          "lat": 48.853698,
+          "lng": 2.3823032,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Alixe Fougères",
+          "shop_type": "beauty",
+          "lat": 48.854092,
+          "lng": 2.3823746,
+          "address": "Rue de Charonne 89"
+        },
+        {
+          "name": "Cizors",
+          "shop_type": "hairdresser",
+          "lat": 48.8512017,
+          "lng": 2.3842256,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "I & M",
+          "shop_type": "hairdresser",
+          "lat": 48.8625813,
+          "lng": 2.3818378,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Lazeo",
+          "shop_type": "beauty",
+          "lat": 48.8637459,
+          "lng": 2.398684,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Paris Nails",
+          "shop_type": "beauty",
+          "lat": 48.8648727,
+          "lng": 2.3678937,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Daba",
+          "shop_type": "hairdresser",
+          "lat": 48.858516,
+          "lng": 2.382392,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Stella Yato",
+          "shop_type": "hairdresser",
+          "lat": 48.8472241,
+          "lng": 2.3697082,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Papillon Doré",
+          "shop_type": "beauty",
+          "lat": 48.8475797,
+          "lng": 2.3710896,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Akash Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8562347,
+          "lng": 2.3931161,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Maîtres Barbiers Perruquiers",
+          "shop_type": "hairdresser",
+          "lat": 48.860335,
+          "lng": 2.3641399,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Fémina",
+          "shop_type": "beauty",
+          "lat": 48.8676856,
+          "lng": 2.387156,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Raouf coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8712698,
+          "lng": 2.3813563,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Phi Nong Thai Massage",
+          "shop_type": "massage",
+          "lat": 48.8521102,
+          "lng": 2.3995327,
+          "address": "Rue des Haies 5"
+        },
+        {
+          "name": "Korean Cosmetics",
+          "shop_type": "beauty",
+          "lat": 48.8576572,
+          "lng": 2.3565059,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Soso Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8464575,
+          "lng": 2.3821831,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8574624,
+          "lng": 2.3683921,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Karamel",
+          "shop_type": "hairdresser",
+          "lat": 48.857267,
+          "lng": 2.3773766,
+          "address": "Rue Popincourt 7 bis"
+        },
+        {
+          "name": "The Beauty Zone",
+          "shop_type": "beauty",
+          "lat": 48.8587681,
+          "lng": 2.3832807,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Esprit de coupe",
+          "shop_type": "hairdresser",
+          "lat": 48.8632783,
+          "lng": 2.378989,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Gerden barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8589162,
+          "lng": 2.3831327,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Cryobar",
+          "shop_type": "beauty",
+          "lat": 48.8552411,
+          "lng": 2.3885411,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "relooking",
+          "shop_type": "beauty",
+          "lat": 48.8663182,
+          "lng": 2.3641815,
+          "address": "Passage Vendôme 22"
+        },
+        {
+          "name": "MHB Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8494375,
+          "lng": 2.3899021,
+          "address": "Rue du Faubourg Saint-Antoine 283"
+        },
+        {
+          "name": "Gents Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8503488,
+          "lng": 2.39139,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Diamond, Institut de beauté indienne",
+          "shop_type": "beauty",
+          "lat": 48.848848,
+          "lng": 2.3798772,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Saji & Asif",
+          "shop_type": "hairdresser",
+          "lat": 48.8492089,
+          "lng": 2.3913849,
+          "address": "Rue du Faubourg Saint-Antoine 299"
+        },
+        {
+          "name": "Papillons",
+          "shop_type": "massage",
+          "lat": 48.8493503,
+          "lng": 2.3919104,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Focus studio",
+          "shop_type": "hairdresser",
+          "lat": 48.8499114,
+          "lng": 2.3920568,
+          "address": "Rue Chevreul 14"
+        },
+        {
+          "name": "Monsieur Anthony",
+          "shop_type": "hairdresser",
+          "lat": 48.8550932,
+          "lng": 2.3813748,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Phi Nail Bar",
+          "shop_type": "beauty",
+          "lat": 48.8506425,
+          "lng": 2.3949423,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mini Nail",
+          "shop_type": "beauty",
+          "lat": 48.8562737,
+          "lng": 2.3594019,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Manhattan Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8586134,
+          "lng": 2.3814908,
+          "address": "Rue Pétion 9"
+        },
+        {
+          "shop_type": "massage",
+          "lat": 48.8588868,
+          "lng": 2.3815188,
+          "address": "Rue Pétion 16"
+        },
+        {
+          "name": "Hui Hui Ongles",
+          "shop_type": "beauty",
+          "lat": 48.8587946,
+          "lng": 2.3815934,
+          "address": "Rue Pétion 14"
+        },
+        {
+          "name": "Naj",
+          "shop_type": "beauty",
+          "lat": 48.8549025,
+          "lng": 2.4037077,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Botanic Barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8739612,
+          "lng": 2.3841225,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "NailsWork",
+          "shop_type": "beauty",
+          "lat": 48.8635739,
+          "lng": 2.3694001,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Louis nails",
+          "shop_type": "beauty",
+          "lat": 48.8537708,
+          "lng": 2.3878493,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ju Bao Peng",
+          "shop_type": "massage",
+          "lat": 48.8497548,
+          "lng": 2.3877633,
+          "address": "Rue du Faubourg Saint-Antoine 265"
+        },
+        {
+          "name": "Beauty Queen",
+          "shop_type": "beauty",
+          "lat": 48.8506563,
+          "lng": 2.3794235,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Pyrène",
+          "shop_type": "beauty",
+          "lat": 48.8496386,
+          "lng": 2.3884796,
+          "address": "Rue du Faubourg Saint-Antoine 273"
+        },
+        {
+          "name": "Oui nails",
+          "shop_type": "beauty",
+          "lat": 48.8505866,
+          "lng": 2.3799959,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Princesse Beauté Indienne",
+          "shop_type": "beauty",
+          "lat": 48.8494676,
+          "lng": 2.3894824,
+          "address": "Rue du Faubourg Saint-Antoine 279"
+        },
+        {
+          "name": "214",
+          "shop_type": "hairdresser",
+          "lat": 48.849648,
+          "lng": 2.3867535,
+          "address": "Rue du Faubourg Saint-Antoine 214"
+        },
+        {
+          "name": "Shu Yuan",
+          "shop_type": "massage",
+          "lat": 48.8500188,
+          "lng": 2.3860369,
+          "address": "Rue du Faubourg Saint-Antoine 251"
+        },
+        {
+          "name": "Le Cinquante",
+          "shop_type": "hairdresser",
+          "lat": 48.8537851,
+          "lng": 2.3940209,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Todoki",
+          "shop_type": "massage",
+          "lat": 48.8496007,
+          "lng": 2.3928286,
+          "address": "Rue des Immeubles Industriels 12"
+        },
+        {
+          "name": "Institut Corpo",
+          "shop_type": "massage",
+          "lat": 48.8500375,
+          "lng": 2.3899246,
+          "address": "Rue Marguerite Gonnet 7"
+        },
+        {
+          "name": "LMN",
+          "shop_type": "hairdresser",
+          "lat": 48.8557739,
+          "lng": 2.3838733,
+          "address": "Boulevard Voltaire 141"
+        },
+        {
+          "name": "Biguine",
+          "shop_type": "hairdresser",
+          "lat": 48.8575656,
+          "lng": 2.3808914,
+          "address": "Boulevard Voltaire 109"
+        },
+        {
+          "name": "Elite Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8551953,
+          "lng": 2.3848274,
+          "address": "Boulevard Voltaire 157"
+        },
+        {
+          "name": "French Cut",
+          "shop_type": "hairdresser",
+          "lat": 48.8537127,
+          "lng": 2.3814873,
+          "address": "Rue de Charonne 86"
+        },
+        {
+          "name": "Lynna Nails",
+          "shop_type": "beauty",
+          "lat": 48.8408158,
+          "lng": 2.3875496,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ô Majorelle",
+          "shop_type": "beauty",
+          "lat": 48.8589872,
+          "lng": 2.3762953,
+          "address": "Rue Popincourt 36"
+        },
+        {
+          "name": "My Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8647734,
+          "lng": 2.3687583,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ak'hair",
+          "shop_type": "hairdresser",
+          "lat": 48.8488331,
+          "lng": 2.3761699,
+          "address": "Rue de Prague 6"
+        },
+        {
+          "name": "Valessio",
+          "shop_type": "hairdresser",
+          "lat": 48.8554619,
+          "lng": 2.3900487,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "O'natty",
+          "shop_type": "hairdresser",
+          "lat": 48.8552116,
+          "lng": 2.3883257,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Esthena",
+          "shop_type": "beauty",
+          "lat": 48.8490893,
+          "lng": 2.3737556,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Zen Floral",
+          "shop_type": "massage",
+          "lat": 48.8491661,
+          "lng": 2.373881,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "beauty",
+          "lat": 48.8720951,
+          "lng": 2.3715535,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8525906,
+          "lng": 2.4037541,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Kattié Beauté",
+          "shop_type": "hairdresser",
+          "lat": 48.8526744,
+          "lng": 2.4036837,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Fais ta coupe",
+          "shop_type": "hairdresser",
+          "lat": 48.8737597,
+          "lng": 2.395761,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Aux ongles des Parisiens",
+          "shop_type": "beauty",
+          "lat": 48.8554216,
+          "lng": 2.3918149,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Brando",
+          "shop_type": "hairdresser",
+          "lat": 48.8559485,
+          "lng": 2.3914876,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8552954,
+          "lng": 2.3918898,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Stanly coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8518259,
+          "lng": 2.3674679,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "beauty",
+          "lat": 48.8468464,
+          "lng": 2.3756076,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Aubrina Skin",
+          "shop_type": "beauty",
+          "lat": 48.8746733,
+          "lng": 2.3805993,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Volume",
+          "shop_type": "hairdresser",
+          "lat": 48.8588046,
+          "lng": 2.3832473,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "O Hair Design",
+          "shop_type": "hairdresser",
+          "lat": 48.8633698,
+          "lng": 2.3689052,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Harmonie",
+          "shop_type": "beauty",
+          "lat": 48.8659755,
+          "lng": 2.3636567,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8657271,
+          "lng": 2.3921864,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Aux Bons Soins",
+          "shop_type": "beauty",
+          "lat": 48.8497728,
+          "lng": 2.3947944,
+          "address": "Avenue Philippe Auguste 5"
+        },
+        {
+          "name": "Alexandre Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8499312,
+          "lng": 2.3951952,
+          "address": "Avenue Philippe Auguste 8"
+        },
+        {
+          "name": "Atelier Nation",
+          "shop_type": "hairdresser",
+          "lat": 48.8509856,
+          "lng": 2.3945693,
+          "address": "Avenue Philippe Auguste 24"
+        },
+        {
+          "name": "Zen Zen",
+          "shop_type": "massage",
+          "lat": 48.8504264,
+          "lng": 2.3948882,
+          "address": "Avenue Philippe Auguste 18 bis"
+        },
+        {
+          "name": "Lohenna",
+          "shop_type": "massage",
+          "lat": 48.8498952,
+          "lng": 2.3947245,
+          "address": "Avenue Philippe Auguste 7"
+        },
+        {
+          "name": "Blitz",
+          "shop_type": "hairdresser",
+          "lat": 48.8504666,
+          "lng": 2.3948656,
+          "address": "Avenue Philippe Auguste 18 bis"
+        },
+        {
+          "name": "Rong Fa",
+          "shop_type": "massage",
+          "lat": 48.8509536,
+          "lng": 2.3958703,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Innerskin",
+          "shop_type": "beauty",
+          "lat": 48.8598468,
+          "lng": 2.3570451,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ma Ressource Minérale",
+          "shop_type": "massage",
+          "lat": 48.8584128,
+          "lng": 2.3777884,
+          "address": "Rue Sedaine 79"
+        },
+        {
+          "name": "Zhao bien-être",
+          "shop_type": "massage",
+          "lat": 48.852508,
+          "lng": 2.384029,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Relax Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8465327,
+          "lng": 2.3740588,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Boobeaty",
+          "shop_type": "beauty",
+          "lat": 48.852025,
+          "lng": 2.4029178,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Les Bulles à Flotter",
+          "shop_type": "beauty",
+          "lat": 48.8497035,
+          "lng": 2.3686048,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Laure Coiffure Mixte",
+          "shop_type": "hairdresser",
+          "lat": 48.8433715,
+          "lng": 2.3876662,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Holy Regard",
+          "shop_type": "beauty",
+          "lat": 48.8567279,
+          "lng": 2.3802852,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Victoria Nails",
+          "shop_type": "beauty",
+          "lat": 48.8555206,
+          "lng": 2.3810828,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8548571,
+          "lng": 2.3815126,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "L’Atelier du 8",
+          "shop_type": "hairdresser",
+          "lat": 48.8531292,
+          "lng": 2.3614068,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ongle Girl",
+          "shop_type": "beauty",
+          "lat": 48.845771,
+          "lng": 2.3823085,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Guillaume",
+          "shop_type": "hairdresser",
+          "lat": 48.8497163,
+          "lng": 2.379172,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Body Minute",
+          "shop_type": "beauty",
+          "lat": 48.8478934,
+          "lng": 2.386496,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Mina beauté",
+          "shop_type": "massage",
+          "lat": 48.8462948,
+          "lng": 2.3744168,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Los Santos",
+          "shop_type": "hairdresser",
+          "lat": 48.8633821,
+          "lng": 2.3835835,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffeur, coloriste Vladimir Eroshenko",
+          "shop_type": "hairdresser",
+          "lat": 48.8719621,
+          "lng": 2.3723227,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Saloco",
+          "shop_type": "hairdresser",
+          "lat": 48.8562546,
+          "lng": 2.3857968,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Proxi-Ongles",
+          "shop_type": "beauty",
+          "lat": 48.8464621,
+          "lng": 2.3733186,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Höma",
+          "shop_type": "hairdresser",
+          "lat": 48.865595,
+          "lng": 2.3597317,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "CM",
+          "shop_type": "hairdresser",
+          "lat": 48.8529053,
+          "lng": 2.4062087,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8556736,
+          "lng": 2.4053387,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Sailu Beauty Center",
+          "shop_type": "massage",
+          "lat": 48.8505597,
+          "lng": 2.4020641,
+          "address": "Rue de Buzenval 10"
+        },
+        {
+          "name": "Merci Beauté",
+          "shop_type": "beauty",
+          "lat": 48.8710235,
+          "lng": 2.3998761,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Coiffure Yasmine",
+          "shop_type": "hairdresser",
+          "lat": 48.8553413,
+          "lng": 2.3838762,
+          "address": "Boulevard Voltaire 168"
+        },
+        {
+          "name": "B’Coiff",
+          "shop_type": "hairdresser",
+          "lat": 48.8496498,
+          "lng": 2.3773714,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.8697622,
+          "lng": 2.3629611,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Asian Spa",
+          "shop_type": "massage",
+          "lat": 48.847194,
+          "lng": 2.3749137,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauty Touch",
+          "shop_type": "beauty",
+          "lat": 48.8472785,
+          "lng": 2.3749515,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Ultra",
+          "shop_type": "hairdresser",
+          "lat": 48.8547294,
+          "lng": 2.3715147,
+          "address": "undefined undefined"
+        },
+        {
+          "shop_type": "hairdresser",
+          "lat": 48.868956,
+          "lng": 2.363646,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "King Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8710125,
+          "lng": 2.3991744,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Nyxia Beauty",
+          "shop_type": "beauty",
+          "lat": 48.8642726,
+          "lng": 2.4079868,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Legend's barber",
+          "shop_type": "hairdresser",
+          "lat": 48.8501473,
+          "lng": 2.3934185,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "My Nails",
+          "shop_type": "beauty",
+          "lat": 48.8499489,
+          "lng": 2.3937331,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Beauty N’Diary",
+          "shop_type": "beauty",
+          "lat": 48.8461239,
+          "lng": 2.3795884,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Sam Coiffure",
+          "shop_type": "hairdresser",
+          "lat": 48.8585449,
+          "lng": 2.386134,
+          "address": "undefined undefined"
+        },
+        {
+          "name": "Yves Rocher",
+          "shop_type": "beauty",
+          "address": "undefined undefined"
+        }
+      ]
+    }
+  },
+  {
+    "source": "IRIS",
+    "status": "OK",
+    "duration_ms": 133,
+    "data_keys": [
+      "commune_nom",
+      "commune_code",
+      "population",
+      "revenus_medians"
+    ],
+    "summary": "Revenus: 28500€ — Pop: 2103778",
+    "raw": {
+      "commune_nom": "Paris",
+      "commune_code": "75056",
+      "population": 2103778,
+      "revenus_medians": 28500
+    }
+  },
+  {
+    "source": "DVF",
+    "status": "FAIL",
+    "duration_ms": 3333,
+    "error": "DVF 403 (cquest + cerema)"
+  },
+  {
+    "source": "France Travail",
+    "status": "OK",
+    "duration_ms": 3,
+    "data_keys": [
+      "taux_chomage",
+      "offres_count",
+      "offres_esthetique",
+      "derniere_maj"
+    ],
+    "summary": "Chômage: 7.2% — Offres: 234",
+    "raw": {
+      "taux_chomage": 7.2,
+      "offres_count": 234,
+      "offres_esthetique": 12,
+      "derniere_maj": "2026-03-23T22:02:18.917Z"
+    }
+  },
+  {
+    "source": "Aides",
+    "status": "FAIL",
+    "duration_ms": 0,
+    "error": "AIDES_TERRITOIRES_TOKEN manquant (JWT requis depuis 2026)"
+  },
+  {
+    "source": "Bright Data PJ",
+    "status": "OK",
+    "duration_ms": 1854,
+    "data_keys": [
+      "html_length",
+      "has_results",
+      "sample"
+    ],
+    "summary": "272 caractères HTML",
+    "raw": {
+      "html_length": 52966,
+      "has_results": false,
+      "sample": "\n<!doctype html>\n<html class=\"no-js\" lang=\"fr\">\n\n<head id=\"head\">\n                <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <meta charset=\"UTF-8\">    <link rel=\"pr"
+    }
+  }
+]
