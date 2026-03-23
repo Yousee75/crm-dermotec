@@ -1,0 +1,123 @@
+{
+  "prospect": {
+    "nom": "Latitude Zen",
+    "prenom_gerant": "Valérie",
+    "score_global": 64
+  },
+  "scores": {
+    "reputation": 82,
+    "presence": 68,
+    "activite": 45,
+    "financier": 42,
+    "quartier": 72
+  },
+  "classification": "CHAUD",
+  "plateformes": [
+    {
+      "nom": "Google",
+      "note": 4.4,
+      "avis": 300
+    },
+    {
+      "nom": "Planity",
+      "note": 4.9,
+      "avis": 729
+    },
+    {
+      "nom": "Treatwell",
+      "note": 5.0,
+      "avis": 164
+    },
+    {
+      "nom": "Facebook",
+      "note": 4.8,
+      "avis": 23
+    },
+    {
+      "nom": "TripAdvisor",
+      "note": 2.7,
+      "avis": 6
+    }
+  ],
+  "distribution_google": {
+    "5": 200,
+    "4": 52,
+    "3": 18,
+    "2": 8,
+    "1": 6
+  },
+  "keywords_positifs": [
+    "estheticienne",
+    "epilation",
+    "soins",
+    "professionnel",
+    "accueil",
+    "qualite",
+    "propre",
+    "competente"
+  ],
+  "keywords_negatifs": [
+    "attente",
+    "cher",
+    "rdv"
+  ],
+  "carte_soins": [
+    "soins visage",
+    "massages",
+    "epilation",
+    "extensions cils",
+    "soins mains",
+    "manucure"
+  ],
+  "formations_dermotec": [
+    "Microblading",
+    "Full Lips",
+    "Dermopigmentation",
+    "Rehaussement Cils",
+    "Extension Cils Volume"
+  ],
+  "concurrents": [
+    {
+      "nom": "Bodyminute",
+      "note": 3.7,
+      "avis": 76
+    },
+    {
+      "nom": "Zen et Beauté",
+      "note": 4.7,
+      "avis": 141
+    },
+    {
+      "nom": "Skin Easy",
+      "note": 4.9,
+      "avis": 139
+    },
+    {
+      "nom": "Belle Époque",
+      "note": 4.2,
+      "avis": 93
+    }
+  ],
+  "roi": {
+    "ca_actuel": 13000,
+    "formations": [
+      {
+        "nom": "Microblading",
+        "ca_additionnel": 3200
+      },
+      {
+        "nom": "Full Lips",
+        "ca_additionnel": 1800
+      },
+      {
+        "nom": "Dermopigmentation",
+        "ca_additionnel": 2400
+      }
+    ]
+  },
+  "zone": {
+    "concurrents_count": 15,
+    "metros": 3,
+    "revenu_median": 28500
+  }
+}
