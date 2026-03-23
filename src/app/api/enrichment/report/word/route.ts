@@ -188,6 +188,19 @@ export async function GET(req: NextRequest) {
 
       mapImageBuffer: mapBuffer || undefined,
       coordonnees: coords || undefined,
+
+      // INTELLIGENCE COMPLETE
+      intelligence: e.intelligence ? {
+        plateformes_avis: e.intelligence.plateformes_avis || [],
+        carte_soins: e.intelligence.carte_soins || [],
+        concurrents_zone: e.intelligence.concurrents_zone || [],
+        offres_promo: e.intelligence.offres_promo || [],
+        convention_collective: e.intelligence.convention_collective || undefined,
+        aides_disponibles: e.intelligence.aides_disponibles || [],
+        signaux: e.intelligence.signaux || undefined,
+        score_global: e.intelligence.score_global || undefined,
+        niveau: e.intelligence.niveau || undefined,
+      } : undefined,
     }
 
     // 5. Générer le Word

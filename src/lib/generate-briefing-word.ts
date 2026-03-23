@@ -99,6 +99,18 @@ export interface BriefingData {
   }
   plan_action: { quand: string; action: string; si_ok: string }[]
   message_final: string
+  // INTELLIGENCE COMPLETE
+  intelligence?: {
+    plateformes_avis?: Array<{ plateforme: string; note?: number; nb_avis?: number; services?: string[]; prix?: string[] }>
+    carte_soins?: string[]
+    concurrents_zone?: Array<{ nom?: string; type: string; distance_metres?: number }>
+    offres_promo?: Array<{ titre: string; prix_barre?: number; prix_promo?: number; reduction?: string }>
+    convention_collective?: { code_convention: number; intitule: string; est_secteur_beaute: boolean; droit_formation_heures: number }
+    aides_disponibles?: Array<{ nom: string; financeur: string; type: string; montant_max?: number }>
+    signaux?: { est_sur_promo: boolean; est_organisme_concurrent: boolean; avis_insuffisants: boolean; zone_saturee: boolean; droits_formation_non_consommes: boolean; en_difficulte: boolean }
+    score_global?: number
+    niveau?: string
+  }
   // NOUVELLES SECTIONS
   avis?: {
     total: number
@@ -504,6 +516,80 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           h3('Alternatives'),
           ...d.financement.alternatives.map(a => bullet(a)),
           spacer(50),
+
+          // NOUVELLES SECTIONS INTELLIGENCE COMPLETE
+          ...(d.intelligence?.plateformes_avis?.length ? [
+            h1('RÉPUTATION MULTI-PLATEFORMES'), line(),
+            p('Voici le résumé de la réputation de votre prospect sur les principales plateformes de réservation et d\'avis :'),
+            spacer(30),
+            new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+              tableRow(['Plateforme', 'Note /5', 'Nb Avis', 'Services'], true, 0),
+              ...d.intelligence.plateformes_avis.slice(0, 10).map((p, i) =>
+                tableRow([
+                  p.plateforme || 'N/A',
+                  p.note ? `${p.note}/5` : '?',
+                  `${p.nb_avis || 0}`,
+                  (p.services || []).slice(0, 3).join(', ')
+                ], false, i+1)
+              )
+            ] }),
+            spacer(30),
+            (() => {
+              const plateformes = d.intelligence.plateformes_avis.filter(p => p.note)
+              const totalAvis = d.intelligence.plateformes_avis.reduce((s, p) => s + (p.nb_avis || 0), 0)
+              const avgNote = plateformes.length > 0
+                ? (plateformes.reduce((s, p) => s + (p.note || 0), 0) / plateformes.length).toFixed(1)
+                : '0'
+              return p(`Note pondérée : ${avgNote}/5 — ${totalAvis} avis sur ${plateformes.length} plateformes`)
+            })(),
+            pageBreak(),
+          ] : []),
+
+          ...(d.intelligence?.carte_soins?.length ? [
+            h1('CARTE DES SOINS'), line(),
+            p(`${d.intelligence.carte_soins.length} soins détectés sur les plateformes de réservation :`),
+            spacer(20),
+            ...d.intelligence.carte_soins.slice(0, 20).map(soin => bullet(soin)),
+            spacer(30),
+            h3('FORMATIONS RECOMMANDÉES'),
+            p('Basé sur les soins manquants dans la carte actuelle, voici les formations qui peuvent enrichir l\'offre :'),
+            spacer(20),
+            ...(d.formations.length > 0
+              ? d.formations.filter(f => f.niveau_priorite === 'PRINCIPAL').map(f =>
+                  bullet(`${f.nom} — ${f.prix} (${f.pourquoi.join(', ')})`, { color: BRAND })
+                )
+              : [bullet('Aucune formation spécifique recommandée pour le moment')]
+            ),
+            pageBreak(),
+          ] : []),
+
+          ...(d.intelligence?.convention_collective || d.intelligence?.aides_disponibles?.length ? [
+            h1('FINANCEMENT & CONVENTION COLLECTIVE'), line(),
+            ...(d.intelligence.convention_collective ? [
+              box(
+                `Convention IDCC ${d.intelligence.convention_collective.code_convention} — ${d.intelligence.convention_collective.intitule}
+${d.intelligence.convention_collective.droit_formation_heures}h de formation par an — ${d.intelligence.convention_collective.est_secteur_beaute ? 'Secteur beauté confirmé ✓' : 'Secteur hors beauté'}`,
+                '#ECFDF5', '#065F46'
+              ),
+              spacer(30),
+            ] : []),
+            ...(d.intelligence.aides_disponibles?.length ? [
+              h3('AIDES DISPONIBLES'),
+              new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [
+                tableRow(['Aide', 'Financeur', 'Type', 'Montant max'], true, 0),
+                ...d.intelligence.aides_disponibles.slice(0, 8).map((aide, i) =>
+                  tableRow([
+                    aide.nom,
+                    aide.financeur,
+                    aide.type,
+                    aide.montant_max ? `${aide.montant_max}€` : 'Variable'
+                  ], false, i+1)
+                )
+              ] }),
+              spacer(30),
+            ] : []),
+            pageBreak(),
+          ] : []),
 
           // 10. PLAN
           h1('12. Plan d\'action'), line(),

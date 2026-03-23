@@ -19,6 +19,7 @@ import { PaymentLinkButton } from '@/components/ui/PaymentLinkButton'
 import { ProspectReportViewer } from '@/components/ui/ProspectReportViewer'
 import { ProspectReviewsPanel } from '@/components/ui/ProspectReviewsPanel'
 import { EnrichedDataSection } from '@/components/crm/EnrichedDataSection'
+import { EnrichmentTabs } from '@/components/ui/EnrichmentTabs'
 import { SkeletonCard } from '@/components/ui/Skeleton'
 import { toast } from 'sonner'
 import {
@@ -382,8 +383,8 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           {/* Briefing commercial IA — LE PLUS IMPORTANT EN PREMIER */}
           <ProspectReportViewer leadId={lead.id} leadName={`${lead.prenom || ''} ${lead.nom || ''}`.trim()} />
 
-          {/* Données enrichies */}
-          <EnrichedDataSection leadId={lead.id} />
+          {/* Intelligence commerciale - Données enrichies */}
+          <EnrichmentTabs leadId={lead.id} />
 
           {/* Avis clients */}
           <ProspectReviewsPanel leadId={lead.id} />
@@ -567,8 +568,8 @@ function ResumeTab({ lead, isEditing, editedLead, setEditedLead, setIsEditing, h
       {/* Rapport de Prospection IA */}
       <ProspectReportViewer leadId={lead.id} leadName={`${lead.prenom || ''} ${lead.nom || ''}`.trim()} />
 
-      {/* Données enrichies (Sirene, Pappers, Google, Social, Quartier) */}
-      <EnrichedDataSection leadId={lead.id} />
+      {/* Intelligence commerciale - Données enrichies */}
+      <EnrichmentTabs leadId={lead.id} />
 
       {/* Avis clients récupérés */}
       <ProspectReviewsPanel leadId={lead.id} />
