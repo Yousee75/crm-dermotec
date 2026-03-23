@@ -48,6 +48,8 @@ interface InternalData {
   instagram?: any
   social?: any
   scraper?: any
+  outscraper?: any
+  outscraper_analysis?: any
   edof?: any
   dgefp?: any
   rncp?: any
@@ -268,6 +270,28 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
           data.instagram = await scrapeInstagram(data.social.instagram)
         }, perCallTimeout)
       }
+    }
+
+    // Outscraper — 200 avis Google si > 10 avis et API key dispo
+    if (data.google?.total_reviews > 10 && process.env.OUTSCRAPER_API_KEY) {
+      await safeCall('R-OUT', async () => {
+        const { fetchAllReviewsOutscraper, analyzeReviews } = await import('./reviews-analyzer')
+        const query = `${params.nom} ${params.ville}`
+        const outscraper = await fetchAllReviewsOutscraper(query)
+        if (outscraper) {
+          data.outscraper = outscraper
+          // Si outscraper a des reviews_per_score, analyser
+          if (outscraper.reviewsPerScore) {
+            const analysis = analyzeReviews(
+              outscraper.reviews || [],
+              outscraper.reviewsPerScore,
+              data.google.total_reviews,
+              outscraper.placeData
+            )
+            data.outscraper_analysis = analysis
+          }
+        }
+      }, 60000) // Outscraper peut être lent
     }
 
     // Mettre à jour les coordonnées pour les branches suivantes
