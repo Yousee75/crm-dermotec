@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { triggerLeadEnrichment, getEnrichmentStatus } from '@/lib/auto-enrichment'
+import { requireAuth } from '@/lib/api-auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,6 +22,9 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const auth = await requireAuth(request)
+  if (auth.error) return auth.error
+
   try {
     const { id: leadId } = await params
     const supabase = await getSupabase()
@@ -74,6 +78,9 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const auth = await requireAuth(request)
+  if (auth.error) return auth.error
+
   try {
     const { id: leadId } = await params
     const status = await getEnrichmentStatus(leadId)

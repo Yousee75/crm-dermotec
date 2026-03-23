@@ -72,6 +72,16 @@ export async function POST(req: NextRequest) {
       .maybeSingle()
 
     if (is_formateur) {
+      // Signature formateur — auth obligatoire (le formateur doit être connecté)
+      if (process.env.NEXT_PUBLIC_DEMO_MODE !== 'true') {
+        const { createServerSupabase } = await import('@/lib/supabase-server')
+        const authSb = await createServerSupabase()
+        const { data: { user: formateurUser } } = await authSb.auth.getUser()
+        if (!formateurUser) {
+          return NextResponse.json({ error: 'Authentification formateur requise' }, { status: 401 })
+        }
+      }
+
       // Signature formateur
       if (existing?.formateur_signed_at) {
         return NextResponse.json({ error: 'Le formateur a déjà signé cet émargement' }, { status: 409 })
@@ -194,6 +204,16 @@ async function logActivity(
 }
 
 export async function GET(req: NextRequest) {
+  // Auth obligatoire pour lister les émargements
+  if (process.env.NEXT_PUBLIC_DEMO_MODE !== 'true') {
+    const { createServerSupabase } = await import('@/lib/supabase-server')
+    const authSb = await createServerSupabase()
+    const { data: { user } } = await authSb.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: 'Authentification requise' }, { status: 401 })
+    }
+  }
+
   try {
     const { searchParams } = new URL(req.url)
     const session_id = searchParams.get('session_id')

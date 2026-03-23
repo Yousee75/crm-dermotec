@@ -18,24 +18,32 @@ export const maxDuration = 60
 
 export async function POST(request: Request) {
   try {
-    // Auth — obligatoire en prod, optionnel en dev/demo
-    let user: { id: string } | null = null
+    // Auth obligatoire — vérifier l'utilisateur connecté
+    let userId = 'anonymous'
     try {
       const { createServerSupabase } = await import('@/lib/supabase-server')
       const supabase = await createServerSupabase()
       const { data } = await supabase.auth.getUser()
-      user = data.user
+      if (!data.user) {
+        // Mode démo : bypass
+        if (process.env.NEXT_PUBLIC_DEMO_MODE !== 'true') {
+          return new Response(JSON.stringify({ error: 'Authentification requise' }), {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        }
+        userId = 'demo-user'
+      } else {
+        userId = data.user.id
+      }
     } catch {
-      // Supabase non configuré — mode demo
+      if (process.env.NEXT_PUBLIC_DEMO_MODE !== 'true') {
+        return new Response(JSON.stringify({ error: 'Authentification requise' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
     }
-
-    // En production, bloquer si pas connecté
-    if (!user && process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return new Response(JSON.stringify({ error: 'Non autorisé' }), { status: 401 })
-    }
-
-    // Fallback user ID pour le mode demo
-    const userId = user?.id || 'demo-user'
 
     const body = await request.json()
     const { leadId, mode } = body as {

@@ -258,6 +258,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
 
 // Méthode GET pour récupérer les documents d'un lead
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  // Auth obligatoire pour lister les documents
+  if (process.env.NEXT_PUBLIC_DEMO_MODE !== 'true') {
+    const { createServerSupabase } = await import('@/lib/supabase-server')
+    const authSb = await createServerSupabase()
+    const { data: { user: authUser } } = await authSb.auth.getUser()
+    if (!authUser) {
+      return NextResponse.json({ error: 'Authentification requise' }, { status: 401 })
+    }
+  }
+
   try {
     const { searchParams } = new URL(request.url)
     const leadId = searchParams.get('leadId')
