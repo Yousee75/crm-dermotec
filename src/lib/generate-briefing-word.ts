@@ -141,22 +141,23 @@ export interface BriefingData {
 // ══════════════════════════════════════════════════════════════
 // COULEURS
 // ══════════════════════════════════════════════════════════════
-const BRAND = '2EC6F3'
-const ACCENT = '082545'
+// Palette Satorea OFFICIELLE
+const BRAND = 'FF5C00'    // Orange Satorea
+const ACCENT = '111111'   // Noir
 const GREEN = '10B981'
 const GREEN_DARK = '059669'
-const AMBER = 'F59E0B'
-const AMBER_DARK = 'D97706'
-const RED = 'EF4444'
-const INDIGO = '6366F1'
-const VIOLET = '8B5CF6'
-const TEXT = '1E293B'
-const TEXT_MED = '475569'
-const TEXT_LIGHT = '94A3B8'
-const LIGHT_BG = 'F8FAFC'
-const BRAND_BG = 'F0F9FF'
+const AMBER = 'FF8C42'    // Orange clair
+const AMBER_DARK = 'E65200'
+const RED = 'FF2D78'      // Rose
+const INDIGO = 'FF5C00'   // Orange (pas de violet)
+const VIOLET = 'FF2D78'   // Rose (pas de violet)
+const TEXT = '111111'
+const TEXT_MED = '3A3A3A'
+const TEXT_LIGHT = '777777'
+const LIGHT_BG = 'FAF8F5'  // Papier chaud
+const BRAND_BG = 'FFF0E5'  // Orange très léger
 const GREEN_BG = 'ECFDF5'
-const AMBER_BG = 'FFFBEB'
+const AMBER_BG = 'FFF3E8'
 
 // ══════════════════════════════════════════════════════════════
 // HELPERS
@@ -222,26 +223,86 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
   const doc = new Document({
     styles: { default: { document: { run: { font: 'Calibri', size: 21, color: TEXT } } } },
     sections: [
-      // ═══ COUVERTURE ═══
+      // ═══ PAGE 1 : COUVERTURE + EXECUTIVE SUMMARY (style pyramide inversée) ═══
       {
-        properties: { page: { margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 } } },
+        properties: { page: { margin: { top: 1000, bottom: 1000, left: 1200, right: 1200 } } },
         footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'Document confidentiel — Usage interne Satorea CRM', font: 'Calibri', size: 14, color: TEXT_LIGHT })] })] }) },
         children: [
-          spacer(600),
-          new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'SATOREA', font: 'Calibri', size: 56, bold: true, color: BRAND })] }),
-          new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: [new TextRun({ text: 'Briefing Commercial Intelligence', font: 'Calibri', size: 24, color: TEXT_LIGHT })] }),
-          spacer(200),
-          new Paragraph({ alignment: AlignmentType.CENTER, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: BRAND, space: 1 } }, children: [] }),
-          spacer(200),
-          new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'Rapport Prospect', font: 'Calibri', size: 36, bold: true, color: ACCENT })] }),
-          spacer(100),
-          new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: nom, font: 'Calibri', size: 28, color: TEXT })] }),
-          ...(d.prospect.entreprise ? [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: d.prospect.entreprise, font: 'Calibri', size: 24, color: TEXT_MED })] })] : []),
-          ...(d.prospect.adresse ? [new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 }, children: [new TextRun({ text: d.prospect.adresse, font: 'Calibri', size: 20, color: TEXT_LIGHT })] })] : []),
-          spacer(200),
-          box(`   SCORE : ${d.scores.global}/100  —  ${d.classification}   `, cc.bg, cc.fg),
-          spacer(300),
-          new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: date, font: 'Calibri', size: 20, color: TEXT_LIGHT })] }),
+          // HEADER : Logo + Classification
+          new Paragraph({ alignment: AlignmentType.LEFT, children: [
+            new TextRun({ text: 'SATOREA', font: 'Calibri', size: 36, bold: true, color: BRAND }),
+            new TextRun({ text: '  Intelligence Commerciale', font: 'Calibri', size: 20, color: TEXT_LIGHT }),
+          ] }),
+          new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: BRAND, space: 1 } }, spacing: { after: 200 }, children: [] }),
+
+          // NOM + ENTREPRISE + SCORE (gros, visible)
+          new Paragraph({ spacing: { before: 100 }, children: [
+            new TextRun({ text: nom, font: 'Calibri', size: 32, bold: true, color: ACCENT }),
+            new TextRun({ text: d.prospect.entreprise ? `  —  ${d.prospect.entreprise}` : '', font: 'Calibri', size: 24, color: TEXT_MED }),
+          ] }),
+          ...(d.prospect.adresse ? [p(d.prospect.adresse, { color: TEXT_LIGHT, size: 18 })] : []),
+          spacer(50),
+
+          // CLASSIFICATION — le message le plus important en premier
+          box(`  ${d.classification}  —  Score ${d.scores.global}/100  —  ${d.classification === 'CHAUD' ? 'Appeler aujourd\'hui' : d.classification === 'TIEDE' ? 'Email personnalisé puis relance J+3' : 'Qualifier d\'abord'}  `, cc.bg, cc.fg),
+          spacer(50),
+
+          // ═══ EXECUTIVE SUMMARY — 5 messages clés (pyramide inversée) ═══
+          h2('Messages clés'),
+          rich([
+            { text: '1. VERDICT : ', bold: true, color: BRAND },
+            { text: d.verdict },
+          ]),
+          rich([
+            { text: '2. OPPORTUNITÉ : ', bold: true, color: BRAND },
+            { text: d.brief },
+          ]),
+          rich([
+            { text: '3. FORMATION : ', bold: true, color: BRAND },
+            { text: d.formations?.length ? `${d.formations[0].nom} (${d.formations[0].prix}) — ${d.formations[0].argument_roi || d.formations[0].pourquoi}` : 'À déterminer selon profil' },
+          ]),
+          rich([
+            { text: '4. FINANCEMENT : ', bold: true, color: BRAND },
+            { text: d.financement?.option_principale || 'OPCO / CPF / Échelonnement — à qualifier' },
+          ]),
+          rich([
+            { text: '5. ACTION : ', bold: true, color: BRAND },
+            { text: d.strategie ? `${d.strategie.canal} — ${d.strategie.jour || 'cette semaine'} ${d.strategie.heure || ''} — Angle : ${d.strategie.angle || 'personnalisé'}` : 'Appeler pour qualifier' },
+          ]),
+          spacer(50),
+
+          // KPIs EN 1 LIGNE
+          new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [new TableRow({ children: [
+            kpiCell('Score', `${d.scores.global}/100`, d.scores.global >= 60 ? GREEN : d.scores.global >= 30 ? AMBER : RED),
+            kpiCell('Note Google', d.prospect.google_rating ? `${d.prospect.google_rating}/5` : '--', BRAND),
+            kpiCell('Avis total', `${d.prospect.google_avis || (d.avis?.total || '--')}`, BRAND),
+            kpiCell('Ancienneté', d.prospect.date_creation ? `${new Date().getFullYear() - parseInt(d.prospect.date_creation.split(/[-\/]/)[0] || '2020')} ans` : '--', ACCENT),
+            kpiCell('Effectif', `${d.prospect.effectif || '--'}`, ACCENT),
+          ] })] }),
+          spacer(50),
+
+          // SIGNAUX (si disponibles)
+          ...(d.intelligence?.signaux ? [
+            h3('Signaux détectés'),
+            ...(d.intelligence.signaux.est_sur_promo ? [bullet('Sur plateforme promo — prospect cherche des clients', { color: RED, bold: true })] : []),
+            ...(d.intelligence.signaux.est_organisme_concurrent ? [bullet('ATTENTION : Organisme de formation concurrent', { color: RED, bold: true })] : []),
+            ...(d.intelligence.signaux.droits_formation_non_consommes ? [bullet('Droits formation non consommés — argument financement béton', { color: GREEN_DARK, bold: true })] : []),
+            ...(d.intelligence.signaux.zone_saturee ? [bullet('Zone saturée (>10 beauty shops) — besoin de se différencier', { color: AMBER_DARK })] : []),
+            ...(d.intelligence.signaux.en_difficulte ? [bullet('Entreprise en difficulté financière — parler financement en priorité', { color: RED, bold: true })] : []),
+            ...(d.intelligence.signaux.avis_insuffisants ? [bullet('Peu visible en ligne (<10 avis) — besoin de professionnaliser', { color: AMBER_DARK })] : []),
+          ] : []),
+          spacer(30),
+
+          // RÉSUMÉ SCORES 5 AXES
+          h3('Profil en 5 axes'),
+          scoreBar('Réputation  ', d.scores.reputation, GREEN),
+          scoreBar('Présence    ', d.scores.presence, BRAND),
+          scoreBar('Activité    ', d.scores.activity, AMBER),
+          scoreBar('Financier   ', d.scores.financial, AMBER),
+          scoreBar('Quartier    ', d.scores.neighborhood, GREEN),
+          spacer(50),
+
+          new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: `Rapport généré le ${date} — 47 sources de données — v3.0`, font: 'Calibri', size: 14, color: TEXT_LIGHT })] }),
         ],
       },
       // ═══ CONTENU ═══
@@ -256,14 +317,36 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           new TextRun({ children: [PageNumber.CURRENT], font: 'Calibri', size: 14, color: TEXT_LIGHT }),
         ] })] }) },
         children: [
-          // SOMMAIRE
+          // SOMMAIRE — Structure pyramidale (conclusions → détails → annexes)
           h1('Sommaire'), line(),
-          ...['1. Verdict & Score', '2. Qui est ce prospect ?', '3. Analyse 5 axes',
-            '4. Analyse des avis clients', '5. Carte & environnement local',
-            '6. Strategie d\'approche', '7. Script telephonique complet',
-            '8. Objections & contre-arguments', '9. Douleurs & leviers psychologiques',
-            '10. Formations recommandees', '11. Strategie financement', '12. Plan d\'action',
-          ].map(t => p(t, { bold: true, color: ACCENT })),
+          p('PARTIE 1 — SYNTHÈSE', { bold: true, color: BRAND, size: 22 }),
+          ...['   Page 1 : Executive Summary — Messages clés, Score, Signaux, Action'].map(t => p(t, { color: ACCENT })),
+          spacer(30),
+          p('PARTIE 2 — PROFIL PROSPECT', { bold: true, color: BRAND, size: 22 }),
+          ...['   2. Qui est ce prospect — Histoire, Entreprise, Équipe',
+            '   3. Analyse 5 axes — Réputation, Présence, Activité, Financier, Quartier',
+            '   4. Analyse des avis clients — Multi-plateformes, Tendances, Verbatims',
+          ].map(t => p(t, { color: ACCENT })),
+          spacer(30),
+          p('PARTIE 3 — INTELLIGENCE COMMERCIALE', { bold: true, color: BRAND, size: 22 }),
+          ...['   5. Carte des soins & Gap Analysis — Soins actuels vs Formations',
+            '   6. Réputation Multi-Plateformes — 7 plateformes, Notes, Services',
+            '   7. Zone & Concurrence — Carte, Quartier, Concurrents',
+            '   8. Financement & Convention — OPCO, CPF, Aides, Droits',
+          ].map(t => p(t, { color: ACCENT })),
+          spacer(30),
+          p('PARTIE 4 — STRATÉGIE DE VENTE', { bold: true, color: BRAND, size: 22 }),
+          ...['   9. Stratégie d\'approche — Canal, Timing, Angle',
+            '   10. Script téléphonique — Accroche → Closing',
+            '   11. Objections — 7 scénarios avec réponses',
+            '   12. Douleurs & Leviers — Psychologie du prospect',
+          ].map(t => p(t, { color: ACCENT })),
+          spacer(30),
+          p('PARTIE 5 — PLAN D\'ACTION', { bold: true, color: BRAND, size: 22 }),
+          ...['   13. Formations recommandées — ROI calculé',
+            '   14. Simulation ROI — 3 scénarios',
+            '   15. Plan d\'action 14 jours — Jour par jour',
+          ].map(t => p(t, { color: ACCENT })),
           pageBreak(),
 
           // 1. VERDICT
