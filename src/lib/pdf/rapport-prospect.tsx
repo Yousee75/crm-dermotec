@@ -291,9 +291,11 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
         <View style={s.coverBottom} />
       </Page>
 
-      {/* ═══ PAGE 1 — BRIEFING COMMERCIAL COMPLET ═══ */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PAGE 2 : EXECUTIVE SUMMARY — "Voici l'essentiel" */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        <Hdr date={generatedAt} p={1} t={T} />
+        <Hdr date={generatedAt} p={2} t={T} />
 
         {/* Hero */}
         <View style={s.heroRow}>
@@ -311,131 +313,7 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
           <Text style={[s.verdictText, { color: cc === C.green ? C.greenDark : cc === C.amber ? C.amberDark : C.textMed }]}>{n.verdict}</Text>
         </View>
 
-        {/* Brief */}
-        <View style={s.section}><Text style={s.sTitle}>Le Brief</Text><View style={s.sBar} /><Text style={s.body}>{n.brief_commercial}</Text></View>
-
-        {/* 4 cards en 2x2 */}
-        <View style={s.row}>
-          <View style={s.col}><View style={s.card}><Text style={s.cardLabel}>Qui est ce prospect ?</Text><Text style={s.cardText}>{n.histoire_prospect}</Text></View></View>
-          <View style={s.col}><View style={s.card}><Text style={s.cardLabel}>Situation Business</Text><Text style={s.cardText}>{n.situation_business}</Text></View></View>
-        </View>
-        <View style={s.row}>
-          <View style={s.col}><View style={s.card}><Text style={s.cardLabel}>Reputation & Visibilite</Text><Text style={s.cardText}>{n.reputation_visibilite}</Text></View></View>
-          <View style={s.col}><View style={s.card}><Text style={s.cardLabel}>Son Quartier</Text><Text style={s.cardText}>{n.environnement}</Text></View></View>
-        </View>
-
-        {/* Atouts / Pieges */}
-        <View style={s.row}>
-          <View style={s.col}>
-            <Text style={[s.pointTitle, { backgroundColor: C.greenBg, color: C.greenDark }]}>Tes atouts pour vendre</Text>
-            {n.atouts_vente.map((a, i) => <Text key={i} style={[s.point, { color: C.greenDark }]}>+ {a}</Text>)}
-          </View>
-          <View style={s.col}>
-            <Text style={[s.pointTitle, { backgroundColor: C.amberBg, color: C.amberDark }]}>Pieges a eviter</Text>
-            {n.pieges_eviter.map((p, i) => <Text key={i} style={[s.point, { color: C.amberDark }]}>! {p}</Text>)}
-          </View>
-        </View>
-
-        {/* Stratégie d'approche */}
-        {n.strategie && (
-          <View style={s.stratBlock}>
-            <Text style={[s.sTitle, { color: C.indigo, fontSize: 9, marginBottom: 6 }]}>Strategie d'approche</Text>
-            <View style={[s.row, { gap: 4, marginBottom: 2 }]}>
-              <View style={s.col}><Text style={s.stratLabel}>Canal</Text><Text style={s.stratValue}>{n.strategie.canal}</Text></View>
-              <View style={s.col}><Text style={s.stratLabel}>Meilleur moment</Text><Text style={s.stratValue}>{n.strategie.meilleur_moment}</Text></View>
-              <View style={s.col}><Text style={s.stratLabel}>Duree estimee</Text><Text style={s.stratValue}>{n.strategie.duree_estimee}</Text></View>
-            </View>
-            <Text style={s.stratLabel}>Angle d'attaque</Text><Text style={s.stratValue}>{n.strategie.angle_attaque}</Text>
-            <Text style={[s.stratLabel, { marginTop: 3 }]}>Objectif de l'appel</Text><Text style={s.stratValue}>{n.strategie.objectif_appel}</Text>
-          </View>
-        )}
-
-        {/* Script 4 étapes */}
-        {n.script_telephone && (
-          <View style={s.section}>
-            <Text style={s.sTitle}>Script Telephonique</Text><View style={s.sBar} />
-            {[
-              { n: 1, l: 'Accroche', t: n.script_telephone.accroche, c: C.brand },
-              { n: 2, l: 'Transition', t: n.script_telephone.transition, c: C.indigo },
-              { n: 3, l: 'Proposition', t: n.script_telephone.proposition, c: C.violet },
-              { n: 4, l: 'Closing', t: n.script_telephone.closing, c: C.greenDark },
-            ].map((st) => (
-              <View key={st.n} style={s.scriptStep}>
-                <View style={[s.scriptNum, { backgroundColor: st.c }]}><Text style={s.scriptNumT}>{st.n}</Text></View>
-                <View style={{ flex: 1 }}><Text style={s.scriptLabel}>{st.l}</Text><Text style={s.scriptText}>{st.t}</Text></View>
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* 3 objections */}
-        {n.script_telephone && (
-          <View style={s.objGrid}>
-            <View style={s.objCard}><Text style={s.objTitle}>Si "trop cher"</Text><Text style={s.objText}>{n.script_telephone.si_objection_prix}</Text></View>
-            <View style={s.objCard}><Text style={s.objTitle}>Si "pas le temps"</Text><Text style={s.objText}>{n.script_telephone.si_objection_temps}</Text></View>
-            <View style={s.objCard}><Text style={s.objTitle}>Si "pas besoin"</Text><Text style={s.objText}>{n.script_telephone.si_objection_besoin}</Text></View>
-          </View>
-        )}
-
-        {/* Formations + Financement + Plan */}
-        <View style={s.row}>
-          <View style={[s.col, { flex: 1.3 }]}>
-            <Text style={s.sTitle}>Formations recommandees</Text><View style={s.sBar} />
-            {n.formations_recommandees?.slice(0, 3).map((f, i) => (
-              <View key={i} style={[s.formCard, f.niveau_priorite === 'principal' ? s.formMain : s.formAlt]}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Text style={s.formName}>{f.nom}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                    <View style={[s.formBadge, { backgroundColor: f.niveau_priorite === 'principal' ? C.brand : f.niveau_priorite === 'complementaire' ? C.violet : C.textLight }]}>
-                      <Text>{f.niveau_priorite === 'principal' ? 'PRINCIPAL' : f.niveau_priorite === 'complementaire' ? 'COMPLEM.' : 'UPSELL'}</Text>
-                    </View>
-                    <Text style={s.formPrix}>{f.prix}</Text>
-                  </View>
-                </View>
-                <Text style={s.formWhy}>{f.pourquoi_elle}</Text>
-                <Text style={s.formROI}>{f.argument_roi}</Text>
-              </View>
-            ))}
-          </View>
-          <View style={[s.col, { flex: 0.7 }]}>
-            {n.strategie_financement && (
-              <View style={s.finBlock}>
-                <Text style={s.finLabel}>Strategie Financement</Text>
-                <Text style={s.finText}>{n.strategie_financement.option_principale}</Text>
-                <Text style={[s.finText, { marginTop: 2 }]}>{n.strategie_financement.comment_presenter}</Text>
-                <Text style={s.finPhrase}>{n.strategie_financement.phrase_cle}</Text>
-                {n.strategie_financement.alternatives?.length > 0 && (
-                  <View style={{ marginTop: 3 }}><Text style={[s.finLabel, { marginBottom: 1 }]}>Alternatives</Text>
-                    {n.strategie_financement.alternatives.map((a, i) => <Text key={i} style={[s.finText, { fontSize: 6.5 }]}>- {a}</Text>)}
-                  </View>
-                )}
-              </View>
-            )}
-            {n.plan_action && (
-              <View><Text style={s.sTitle}>Plan d'action</Text><View style={s.sBar} />
-                {[
-                  { n: '1', t: n.plan_action.action_1, c: C.brand },
-                  { n: '2', t: n.plan_action.action_2, c: C.indigo },
-                  { n: '3', t: n.plan_action.action_3, c: C.violet },
-                ].map((st) => (
-                  <View key={st.n} style={s.planStep}><View style={[s.planDot, { backgroundColor: st.c }]}><Text style={s.planDotT}>{st.n}</Text></View><Text style={s.planText}>{st.t}</Text></View>
-                ))}
-                <View style={{ backgroundColor: C.amberBg, padding: 4, borderRadius: 3, marginTop: 2 }}>
-                  <Text style={{ fontSize: 6.5, color: C.amberDark, fontWeight: 'bold' }}>Rappel : {n.plan_action.rappel}</Text>
-                </View>
-              </View>
-            )}
-          </View>
-        </View>
-
-        <Ftr date={generatedAt} p={1} t={T} />
-      </Page>
-
-      {/* ═══ PAGE 2 — DASHBOARD INTELLIGENCE ═══ */}
-      <Page size="A4" style={s.pageAlt}>
-        <Hdr date={generatedAt} p={2} t={T} />
-
-        {/* KPIs */}
+        {/* KPIs en ligne */}
         <View style={s.kpiRow}>
           <View style={[s.kpiBox, { backgroundColor: C.skyBg }]}>
             <Text style={[s.kpiValue, { color: C.brandDark }]}>{e.google?.rating ? `${e.google.rating}` : '--'}</Text>
@@ -444,179 +322,183 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
           </View>
           <View style={[s.kpiBox, { backgroundColor: C.indigoBg }]}>
             <Text style={[s.kpiValue, { color: C.indigo }]}>{e.google?.reviewsCount ?? '--'}</Text>
-            <Text style={s.kpiLabel}>Avis clients</Text>
+            <Text style={s.kpiLabel}>Avis total</Text>
           </View>
           <View style={[s.kpiBox, { backgroundColor: C.greenBg }]}>
-            <Text style={[s.kpiValue, { color: C.greenDark }]}>{e.pappers?.chiffreAffaires ? `${Math.round(e.pappers.chiffreAffaires / 1000)}K` : '--'}</Text>
-            <Text style={s.kpiLabel}>CA annuel</Text>
+            <Text style={[s.kpiValue, { color: C.greenDark }]}>{e.sirene?.dateCreation ? `${new Date().getFullYear() - parseInt(e.sirene.dateCreation.substring(0, 4))}` : '--'}</Text>
+            <Text style={s.kpiLabel}>Ancienneté</Text>
+            <Text style={s.kpiSub}>années</Text>
           </View>
           <View style={[s.kpiBox, { backgroundColor: C.violetBg }]}>
             <Text style={[s.kpiValue, { color: C.violet }]}>{e.pappers?.effectif ?? '--'}</Text>
             <Text style={s.kpiLabel}>Effectif</Text>
           </View>
-        </View>
-
-        {/* Charts */}
-        <View style={s.chartRow}>
-          <View style={s.chartCol}>
-            <Text style={s.chartTitle}>Score Multi-Axes</Text>
-            <ReactPDFChart>
-              <RadarChart width={210} height={150} data={radarData} cx={105} cy={75} outerRadius={55}>
-                <PolarGrid stroke={C.borderSoft} />
-                <PolarAngleAxis dataKey="axis" tick={{ fontSize: 7, fill: C.textMed }} />
-                <Radar dataKey="value" stroke={C.brand} fill={C.brand} fillOpacity={0.2} strokeWidth={2} isAnimationActive={false} />
-              </RadarChart>
-            </ReactPDFChart>
-          </View>
-          <View style={s.chartCol}>
-            <Text style={s.chartTitle}>Detail par Dimension</Text>
-            <ReactPDFChart>
-              <BarChart width={250} height={150} data={barData} layout="vertical" margin={{ left: 5, right: 15, top: 5, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={C.borderSoft} />
-                <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 7, fill: C.textLight }} />
-                <YAxis dataKey="name" type="category" tick={{ fontSize: 7, fill: C.textMed }} width={40} />
-                <Bar dataKey="score" radius={[0, 4, 4, 0]} isAnimationActive={false}>
-                  {barData.map((entry, idx) => <Cell key={idx} fill={entry.fill} />)}
-                </Bar>
-              </BarChart>
-            </ReactPDFChart>
+          <View style={[s.kpiBox, { backgroundColor: C.amberBg }]}>
+            <Text style={[s.kpiValue, { color: C.amber }]}>{n.score_chaleur}</Text>
+            <Text style={s.kpiLabel}>Score</Text>
+            <Text style={s.kpiSub}>/100</Text>
           </View>
         </View>
 
-        {/* Score global + Pie + Légende avec mini barres */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-          <View style={{ alignItems: 'center' }}><ScoreBlock value={globalScore} color={scoreColor(globalScore)} /><Text style={{ fontSize: 5.5, color: C.textLight, marginTop: 3, textTransform: 'uppercase', letterSpacing: 0.5 }}>Score Global</Text></View>
-          <View style={{ flex: 1 }}>
-            <ReactPDFChart>
-              <PieChart width={120} height={80}>
-                <Pie data={pieData} cx={60} cy={40} innerRadius={22} outerRadius={35} paddingAngle={2} dataKey="value" isAnimationActive={false}>
-                  <Cell fill={scoreColor(globalScore)} /><Cell fill={C.card} />
-                </Pie>
-              </PieChart>
-            </ReactPDFChart>
-          </View>
-          <View style={{ flex: 2 }}>
-            {[
-              { label: 'Reputation (30%)', value: dims.reputation, color: C.dRep },
-              { label: 'Presence (25%)', value: dims.presence, color: C.dPres },
-              { label: 'Activite (20%)', value: dims.activity, color: C.dAct },
-              { label: 'Financier (15%)', value: dims.financial, color: C.dFin },
-              { label: 'Quartier (10%)', value: dims.neighborhood, color: C.dQrt },
-            ].map((d, i) => (
-              <View key={i} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2.5 }}>
-                <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: d.color, marginRight: 4 }} />
-                <Text style={{ fontSize: 6.5, color: C.textMed, flex: 1 }}>{d.label}</Text>
-                <View style={{ width: 40, height: 4, backgroundColor: C.card, borderRadius: 2, marginRight: 4, overflow: 'hidden' }}>
-                  <View style={{ width: `${d.value}%`, height: '100%', backgroundColor: d.color, borderRadius: 2 }} />
-                </View>
-                <Text style={{ fontSize: 7, fontWeight: 'bold', color: d.color, width: 18, textAlign: 'right' }}>{d.value}</Text>
-              </View>
-            ))}
-          </View>
+        {/* Brief commercial */}
+        <View style={s.section}>
+          <Text style={s.sTitle}>Brief Commercial</Text>
+          <View style={s.sBar} />
+          <Text style={s.body}>{n.brief_commercial}</Text>
         </View>
 
-        {/* Analyse des avis */}
-        {e.reviews?.analysis && (
-          <View style={{ marginBottom: 8 }}>
-            <Text style={s.chartTitle}>Analyse des Avis Clients ({e.reviews.analysis.totalReviews} avis)</Text>
-            <View style={{ flexDirection: 'row', gap: 8 }}>
-              {/* Distribution étoiles — barres horizontales */}
-              <View style={{ flex: 1 }}>
-                {e.reviews.analysis.distribution.slice().reverse().map((d: { stars: number; count: number; percentage: number }, i: number) => (
-                  <View key={i} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2.5 }}>
-                    <Text style={{ fontSize: 7, width: 18, textAlign: 'right', color: C.textMed }}>{d.stars}★</Text>
-                    <View style={{ flex: 1, height: 8, backgroundColor: C.card, borderRadius: 4, marginHorizontal: 4, overflow: 'hidden' }}>
-                      <View style={{ width: `${d.percentage}%`, height: '100%', borderRadius: 4, backgroundColor: d.stars >= 4 ? C.green : d.stars === 3 ? C.amber : C.red }} />
-                    </View>
-                    <Text style={{ fontSize: 6.5, width: 24, color: C.textMed }}>{d.count} ({d.percentage}%)</Text>
-                  </View>
-                ))}
-              </View>
-
-              {/* KPIs + tendance + réponses proprio */}
-              <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', gap: 3, marginBottom: 4 }}>
-                  <View style={{ flex: 1, backgroundColor: C.skyBg, padding: 5, borderRadius: 4, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: C.brandDark }}>{e.reviews.analysis.averageRating}/5</Text>
-                    <Text style={{ fontSize: 5, color: C.textLight }}>MOYENNE</Text>
-                  </View>
-                  <View style={{ flex: 1, backgroundColor: e.reviews.analysis.trend === 'improving' ? C.greenBg : e.reviews.analysis.trend === 'declining' ? C.redBg : C.bgWarm, padding: 5, borderRadius: 4, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: e.reviews.analysis.trend === 'improving' ? C.green : e.reviews.analysis.trend === 'declining' ? C.red : C.textMed }}>
-                      {e.reviews.analysis.trend === 'improving' ? '↑' : e.reviews.analysis.trend === 'declining' ? '↓' : '→'}{e.reviews.analysis.trendDelta > 0 ? '+' : ''}{e.reviews.analysis.trendDelta}
-                    </Text>
-                    <Text style={{ fontSize: 5, color: C.textLight }}>TENDANCE 6M</Text>
-                  </View>
-                  <View style={{ flex: 1, backgroundColor: C.indigoBg, padding: 5, borderRadius: 4, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: C.indigo }}>{e.reviews.analysis.ownerResponseRate}%</Text>
-                    <Text style={{ fontSize: 5, color: C.textLight }}>REP. PROPRIO</Text>
-                  </View>
-                </View>
-
-                {/* Mots-clés (tags) */}
-                {e.reviews.analysis.positiveKeywords.length > 0 && (
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 2, marginBottom: 3 }}>
-                    {e.reviews.analysis.positiveKeywords.slice(0, 5).map((kw: string, i: number) => (
-                      <View key={i} style={{ backgroundColor: C.greenBg, paddingHorizontal: 3, paddingVertical: 1, borderRadius: 2 }}>
-                        <Text style={{ fontSize: 5.5, color: C.greenDark }}>{kw}</Text>
-                      </View>
-                    ))}
-                    {e.reviews.analysis.negativeKeywords.slice(0, 3).map((kw: string, i: number) => (
-                      <View key={`n${i}`} style={{ backgroundColor: C.amberBg, paddingHorizontal: 3, paddingVertical: 1, borderRadius: 2 }}>
-                        <Text style={{ fontSize: 5.5, color: C.amberDark }}>{kw}</Text>
-                      </View>
-                    ))}
-                  </View>
-                )}
-
-                {/* Stats compactes */}
-                <Text style={{ fontSize: 5.5, color: C.textLight }}>
-                  {e.reviews.analysis.fetchedCount} avis analysés • {e.reviews.analysis.withTextPercentage}% avec texte • {e.reviews.analysis.reviewsWithPhotos} avec photo
-                </Text>
-              </View>
-            </View>
-
-            {/* Citations (compact) */}
-            <View style={{ flexDirection: 'row', gap: 5, marginTop: 4 }}>
-              {e.reviews.analysis.topPositiveReview && (
-                <View style={{ flex: 1, backgroundColor: C.greenBg, padding: 5, borderRadius: 3, borderLeftWidth: 2, borderLeftColor: C.green }}>
-                  <Text style={{ fontSize: 6.5, color: '#14532D', fontStyle: 'italic', lineHeight: 1.3 }}>
-                    « {e.reviews.analysis.topPositiveReview.text.slice(0, 120)}{e.reviews.analysis.topPositiveReview.text.length > 120 ? '...' : ''} »
-                  </Text>
-                  <Text style={{ fontSize: 5, color: C.textLight, marginTop: 1 }}>— {e.reviews.analysis.topPositiveReview.author_name} ★★★★★</Text>
-                </View>
-              )}
-              {e.reviews.analysis.topNegativeReview && (
-                <View style={{ flex: 1, backgroundColor: C.redBg, padding: 5, borderRadius: 3, borderLeftWidth: 2, borderLeftColor: C.red }}>
-                  <Text style={{ fontSize: 6.5, color: '#7F1D1D', fontStyle: 'italic', lineHeight: 1.3 }}>
-                    « {e.reviews.analysis.topNegativeReview.text.slice(0, 120)}{e.reviews.analysis.topNegativeReview.text.length > 120 ? '...' : ''} »
-                  </Text>
-                  <Text style={{ fontSize: 5, color: C.textLight, marginTop: 1 }}>— {e.reviews.analysis.topNegativeReview.author_name} ★{'☆'.repeat(5 - e.reviews.analysis.topNegativeReview.rating)}</Text>
-                </View>
-              )}
-            </View>
-          </View>
-        )}
-
-        {/* Map */}
-        {staticMapUrl && (
-          <View style={{ marginBottom: 12 }}>
-            <Text style={s.chartTitle}>Localisation</Text>
-            <Image style={s.mapImg} src={staticMapUrl} />
-            <Text style={s.mapCap}>{e.sirene?.adresse ? `${e.sirene.adresse}, ${e.sirene.code_postal} ${e.sirene.ville}` : nom}</Text>
-          </View>
-        )}
+        {/* Radar 5 axes */}
+        <View style={{ marginBottom: 12 }}>
+          <Text style={s.chartTitle}>Score Multi-Axes</Text>
+          <ReactPDFChart>
+            <RadarChart width={420} height={200} data={radarData} cx={210} cy={100} outerRadius={80}>
+              <PolarGrid stroke={C.borderSoft} />
+              <PolarAngleAxis dataKey="axis" tick={{ fontSize: 8, fill: C.textMed }} />
+              <Radar dataKey="value" stroke={C.brand} fill={C.brand} fillOpacity={0.2} strokeWidth={2} isAnimationActive={false} />
+            </RadarChart>
+          </ReactPDFChart>
+        </View>
 
         <Ftr date={generatedAt} p={2} t={T} />
       </Page>
 
       {/* ═══════════════════════════════════════════════════════════ */}
-      {/* PAGE 3: RÉPUTATION MULTI-PLATEFORMES */}
+      {/* PAGE 3 : QUI + POURQUOI — "Pourquoi ce prospect va dire oui" */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      <Page size="A4" style={s.page}>
+        <Hdr date={generatedAt} p={3} t={T} />
+
+        {/* Accroche */}
+        <View style={[s.verdict, { backgroundColor: C.skyBg, borderLeftColor: C.brand, marginBottom: 16 }]}>
+          <Text style={[s.verdictText, { color: C.brandDark }]}>
+            {n.classification === 'PROSPECT CHAUD' ? '🔥 Prospect premium avec potentiel immédiat !' :
+             n.classification === 'PROSPECT TIÈDE' ? '⚡ Bon prospect à approcher avec la bonne stratégie' :
+             '💪 Prospect à convaincre - challenge commercial'}
+          </Text>
+        </View>
+
+        {/* SCQA compact */}
+        <View style={s.section}>
+          <Text style={s.sTitle}>Situation / Complication / Answer</Text>
+          <View style={s.sBar} />
+          <View style={s.row}>
+            <View style={s.col}>
+              <View style={s.card}>
+                <Text style={s.cardLabel}>Situation</Text>
+                <Text style={s.cardText}>{n.situation_business}</Text>
+              </View>
+            </View>
+            <View style={s.col}>
+              <View style={s.card}>
+                <Text style={s.cardLabel}>Qui est-ce ?</Text>
+                <Text style={s.cardText}>{n.histoire_prospect}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Tableau Atouts vs Manques */}
+        <View style={s.section}>
+          <Text style={s.sTitle}>Analyse Atouts vs Manques</Text>
+          <View style={s.sBar} />
+          <View style={s.row}>
+            <View style={s.col}>
+              <Text style={[s.pointTitle, { backgroundColor: C.greenBg, color: C.greenDark }]}>✅ Atouts pour vendre</Text>
+              {n.atouts_vente.map((a, i) => <Text key={i} style={[s.point, { color: C.greenDark }]}>+ {a}</Text>)}
+            </View>
+            <View style={s.col}>
+              <Text style={[s.pointTitle, { backgroundColor: C.amberBg, color: C.amberDark }]}>⚠️ Points d'attention</Text>
+              {n.pieges_eviter.map((p, i) => <Text key={i} style={[s.point, { color: C.amberDark }]}>! {p}</Text>)}
+            </View>
+          </View>
+        </View>
+
+        {/* Réputation & Environnement */}
+        <View style={s.row}>
+          <View style={s.col}>
+            <View style={s.card}>
+              <Text style={s.cardLabel}>Réputation & Visibilité</Text>
+              <Text style={s.cardText}>{n.reputation_visibilite}</Text>
+            </View>
+          </View>
+          <View style={s.col}>
+            <View style={s.card}>
+              <Text style={s.cardLabel}>Son Quartier</Text>
+              <Text style={s.cardText}>{n.environnement}</Text>
+            </View>
+          </View>
+        </View>
+
+        <Ftr date={generatedAt} p={3} t={T} />
+      </Page>
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PAGE 4 : COMMENT VENDRE — "Voici ton arme" */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      <Page size="A4" style={s.page}>
+        <Hdr date={generatedAt} p={4} t={T} />
+
+        {/* Stratégie d'approche */}
+        {n.strategie && (
+          <View style={s.stratBlock}>
+            <Text style={[s.sTitle, { color: C.indigo, fontSize: 10, marginBottom: 8 }]}>🎯 Stratégie d'approche</Text>
+            <View style={[s.row, { gap: 6, marginBottom: 4 }]}>
+              <View style={s.col}><Text style={s.stratLabel}>Canal prioritaire</Text><Text style={s.stratValue}>{n.strategie.canal}</Text></View>
+              <View style={s.col}><Text style={s.stratLabel}>Meilleur moment</Text><Text style={s.stratValue}>{n.strategie.meilleur_moment}</Text></View>
+              <View style={s.col}><Text style={s.stratLabel}>Durée estimée</Text><Text style={s.stratValue}>{n.strategie.duree_estimee}</Text></View>
+            </View>
+            <Text style={s.stratLabel}>Angle d'attaque</Text><Text style={s.stratValue}>{n.strategie.angle_attaque}</Text>
+            <Text style={[s.stratLabel, { marginTop: 3 }]}>Objectif de l'appel</Text><Text style={s.stratValue}>{n.strategie.objectif_appel}</Text>
+            <Text style={[s.stratLabel, { marginTop: 3 }]}>⚠️ Ne jamais dire</Text><Text style={[s.stratValue, { color: C.red, fontStyle: 'italic' }]}>{n.strategie.ne_jamais_dire || 'Éviter les termes techniques trop complexes'}</Text>
+          </View>
+        )}
+
+        {/* Script 4 étapes */}
+        {n.script_telephone && (
+          <View style={s.section}>
+            <Text style={s.sTitle}>📞 Script Téléphonique (4 étapes)</Text>
+            <View style={s.sBar} />
+            {[
+              { n: 1, l: 'Accroche', t: n.script_telephone.accroche, c: C.brand },
+              { n: 2, l: 'Transition', t: n.script_telephone.transition, c: C.indigo },
+              { n: 3, l: 'Proposition', t: n.script_telephone.proposition, c: C.violet },
+              { n: 4, l: 'Closing', t: n.script_telephone.closing, c: C.greenDark },
+            ].map((st) => (
+              <View key={st.n} style={s.scriptStep}>
+                <View style={[s.scriptNum, { backgroundColor: st.c }]}><Text style={s.scriptNumT}>{st.n}</Text></View>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.scriptLabel}>{st.l}</Text>
+                  <Text style={s.scriptText}>{st.t}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Top 3 Objections */}
+        {n.script_telephone && (
+          <View style={s.section}>
+            <Text style={s.sTitle}>🛡️ Top 3 Objections</Text>
+            <View style={s.sBar} />
+            <View style={s.objGrid}>
+              <View style={s.objCard}><Text style={s.objTitle}>Il dit: « Trop cher »</Text><Text style={s.objText}>Il pense: Mon budget est serré</Text><Text style={[s.objText, { fontWeight: 'bold', marginTop: 2 }]}>Tu réponds: {n.script_telephone.si_objection_prix}</Text></View>
+              <View style={s.objCard}><Text style={s.objTitle}>Il dit: « Pas le temps »</Text><Text style={s.objText}>Il pense: Je suis débordé</Text><Text style={[s.objText, { fontWeight: 'bold', marginTop: 2 }]}>Tu réponds: {n.script_telephone.si_objection_temps}</Text></View>
+              <View style={s.objCard}><Text style={s.objTitle}>Il dit: « Pas besoin »</Text><Text style={s.objText}>Il pense: Je doute de l'utilité</Text><Text style={[s.objText, { fontWeight: 'bold', marginTop: 2 }]}>Tu réponds: {n.script_telephone.si_objection_besoin}</Text></View>
+            </View>
+          </View>
+        )}
+
+        <Ftr date={generatedAt} p={4} t={T} />
+      </Page>
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* ANNEXE A : RÉPUTATION MULTI-PLATEFORMES */}
       {/* ═══════════════════════════════════════════════════════════ */}
       {intelligence?.plateformes_avis?.length ? (
         <Page size="A4" style={s.page}>
-          <Hdr date={generatedAt} p={3} t={T} />
+          <Hdr date={generatedAt} p={7} t={T} />
 
-          <Text style={s.sTitle}>Réputation Multi-Plateformes</Text>
+          <Text style={s.sTitle}>Annexe A: Réputation Multi-Plateformes</Text>
           <View style={s.sBar} />
 
           <View style={{ marginBottom: 16 }}>
@@ -683,18 +565,18 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
             </Text>
           </View>
 
-          <Ftr date={generatedAt} p={3} t={T} />
+          <Ftr date={generatedAt} p={7} t={T} />
         </Page>
       ) : null}
 
       {/* ═══════════════════════════════════════════════════════════ */}
-      {/* PAGE 4: CARTE DES SOINS & GAP ANALYSIS */}
+      {/* ANNEXE C : CARTE DES SOINS & GAP ANALYSIS */}
       {/* ═══════════════════════════════════════════════════════════ */}
       {intelligence?.carte_soins?.length ? (
         <Page size="A4" style={s.page}>
-          <Hdr date={generatedAt} p={4} t={T} />
+          <Hdr date={generatedAt} p={9} t={T} />
 
-          <Text style={s.sTitle}>Soins Proposés vs Formations Dermotec</Text>
+          <Text style={s.sTitle}>Annexe C: Carte des Soins & Gap Analysis</Text>
           <View style={s.sBar} />
 
           <View style={{ flexDirection: 'row', gap: 12, marginBottom: 16 }}>
@@ -761,18 +643,168 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
             </Text>
           </View>
 
-          <Ftr date={generatedAt} p={4} t={T} />
+          <Ftr date={generatedAt} p={9} t={T} />
         </Page>
       ) : null}
 
       {/* ═══════════════════════════════════════════════════════════ */}
-      {/* PAGE 5: FINANCEMENT & AIDES */}
+      {/* PAGE 5 : L'ARGENT — "Ça ne coûte rien et ça rapporte gros" */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      <Page size="A4" style={s.page}>
+        <Hdr date={generatedAt} p={5} t={T} />
+
+        {/* Encadré coût net : 0€ */}
+        {intelligence?.convention_collective?.est_secteur_beaute && (
+          <View style={s.finBlock}>
+            <Text style={s.finLabel}>💰 Coût net : 0€</Text>
+            <Text style={s.finText}>Formation 100% prise en charge par l'OPCO. Votre cliente ne paie rien.</Text>
+            <Text style={s.finPhrase}>« Imaginez développer vos compétences sans rien débourser... »</Text>
+          </View>
+        )}
+
+        {/* ROI 3 scénarios */}
+        <View style={s.section}>
+          <Text style={s.sTitle}>📈 Retour sur Investissement</Text>
+          <View style={s.sBar} />
+          <View style={s.row}>
+            <View style={s.col}>
+              <View style={[s.card, { backgroundColor: C.greenBg, borderLeftWidth: 2, borderLeftColor: C.green }]}>
+                <Text style={s.cardLabel}>CONSERVATEUR</Text>
+                <Text style={[s.cardText, { color: C.greenDark, fontWeight: 'bold' }]}>+2 clients/mois</Text>
+                <Text style={s.cardText}>= +1 200€/mois</Text>
+                <Text style={s.cardText}>ROI: 12 mois</Text>
+              </View>
+            </View>
+            <View style={s.col}>
+              <View style={[s.card, { backgroundColor: C.brand, borderLeftWidth: 2, borderLeftColor: C.brandDark }]}>
+                <Text style={[s.cardLabel, { color: C.white }]}>RÉALISTE</Text>
+                <Text style={[s.cardText, { color: C.white, fontWeight: 'bold' }]}>+5 clients/mois</Text>
+                <Text style={[s.cardText, { color: C.white }]}>= +3 000€/mois</Text>
+                <Text style={[s.cardText, { color: C.white }]}>ROI: 4 mois</Text>
+              </View>
+            </View>
+            <View style={s.col}>
+              <View style={[s.card, { backgroundColor: C.violet, borderLeftWidth: 2, borderLeftColor: C.violetBg }]}>
+                <Text style={[s.cardLabel, { color: C.white }]}>OPTIMISTE</Text>
+                <Text style={[s.cardText, { color: C.white, fontWeight: 'bold' }]}>+10 clients/mois</Text>
+                <Text style={[s.cardText, { color: C.white }]}>= +6 000€/mois</Text>
+                <Text style={[s.cardText, { color: C.white }]}>ROI: 2 mois</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Formations recommandées (max 3 cards) */}
+        {n.formations_recommandees?.length > 0 && (
+          <View style={s.section}>
+            <Text style={s.sTitle}>🎓 Formations Recommandées</Text>
+            <View style={s.sBar} />
+            {n.formations_recommandees.slice(0, 3).map((f, i) => (
+              <View key={i} style={[s.formCard, f.niveau_priorite === 'principal' ? s.formMain : s.formAlt]}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Text style={s.formName}>{f.nom}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <View style={[s.formBadge, { backgroundColor: f.niveau_priorite === 'principal' ? C.brand : f.niveau_priorite === 'complementaire' ? C.violet : C.textLight }]}>
+                      <Text>{f.niveau_priorite === 'principal' ? 'PRINCIPAL' : f.niveau_priorite === 'complementaire' ? 'COMPLEM.' : 'UPSELL'}</Text>
+                    </View>
+                    <Text style={s.formPrix}>{f.prix}</Text>
+                  </View>
+                </View>
+                <Text style={s.formWhy}>{f.pourquoi_elle}</Text>
+                <Text style={s.formROI}>{f.argument_roi}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Financement (OPCO + alternative) */}
+        {n.strategie_financement && (
+          <View style={s.finBlock}>
+            <Text style={s.finLabel}>💳 Financement</Text>
+            <Text style={s.finText}>{n.strategie_financement.option_principale}</Text>
+            <Text style={[s.finText, { marginTop: 2 }]}>{n.strategie_financement.comment_presenter}</Text>
+            <Text style={s.finPhrase}>{n.strategie_financement.phrase_cle}</Text>
+            {n.strategie_financement.alternatives?.length > 0 && (
+              <View style={{ marginTop: 3 }}>
+                <Text style={[s.finLabel, { marginBottom: 1 }]}>Alternatives</Text>
+                {n.strategie_financement.alternatives.map((a, i) => <Text key={i} style={[s.finText, { fontSize: 6.5 }]}>- {a}</Text>)}
+              </View>
+            )}
+          </View>
+        )}
+
+        {/* Convention collective si détectée */}
+        {intelligence?.convention_collective && (
+          <View style={[s.card, { backgroundColor: C.indigoBg, borderLeftWidth: 2, borderLeftColor: C.indigo }]}>
+            <Text style={s.cardLabel}>⚖️ CONVENTION COLLECTIVE</Text>
+            <Text style={s.cardText}>{intelligence.convention_collective.intitule}</Text>
+            <Text style={s.cardText}>Droit à {intelligence.convention_collective.droit_formation_heures}h de formation/an</Text>
+          </View>
+        )}
+
+        <Ftr date={generatedAt} p={8} t={T} />
+      </Page>
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PAGE 6 : PLAN D'ACTION — "Voici exactement quoi faire" */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      <Page size="A4" style={s.page}>
+        <Hdr date={generatedAt} p={6} t={T} />
+
+        {/* Timeline 14 jours */}
+        {n.plan_action && (
+          <View style={s.section}>
+            <Text style={s.sTitle}>📅 Timeline 14 jours</Text>
+            <View style={s.sBar} />
+            {[
+              { n: '1', t: n.plan_action.action_1, c: C.brand },
+              { n: '2', t: n.plan_action.action_2, c: C.indigo },
+              { n: '3', t: n.plan_action.action_3, c: C.violet },
+              { n: '4', t: 'Relance téléphonique si pas de réponse sous 48h', c: C.amber },
+              { n: '5', t: 'Proposition personnalisée avec 3 créneaux de formation', c: C.green },
+              { n: '6', t: 'Closing et signature convention OPCO', c: C.greenDark },
+            ].map((st) => (
+              <View key={st.n} style={s.planStep}>
+                <View style={[s.planDot, { backgroundColor: st.c }]}><Text style={s.planDotT}>{st.n}</Text></View>
+                <Text style={s.planText}>{st.t}</Text>
+              </View>
+            ))}
+
+            {/* Rappel important */}
+            <View style={{ backgroundColor: C.amberBg, padding: 6, borderRadius: 4, marginTop: 6 }}>
+              <Text style={{ fontSize: 7, color: C.amberDark, fontWeight: 'bold' }}>
+                💡 Rappel : {n.plan_action?.rappel || 'Toujours finir par un bénéfice client, jamais par une caractéristique produit'}
+              </Text>
+            </View>
+          </View>
+        )}
+
+        {/* Message motivant final */}
+        <View style={[s.verdict, { backgroundColor: C.greenBg, borderLeftColor: C.green, marginTop: 16 }]}>
+          <Text style={[s.verdictText, { color: C.greenDark }]}>
+            🚀 Ce prospect a toutes les cartes en main pour réussir. Ton job : lui montrer le chemin vers son succès !
+          </Text>
+        </View>
+
+        {/* Coordonnées Satorea */}
+        <View style={[s.card, { marginTop: 16, backgroundColor: C.bgWarm }]}>
+          <Text style={s.cardLabel}>📞 CONTACT SATOREA</Text>
+          <Text style={s.cardText}>Support commercial : 01 84 88 36 12</Text>
+          <Text style={s.cardText}>Email : contact@satorea.fr</Text>
+          <Text style={s.cardText}>Mon CRM : https://crm-dermotec.vercel.app</Text>
+        </View>
+
+        <Ftr date={generatedAt} p={6} t={T} />
+      </Page>
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* ANNEXE B : FINANCEMENT & AIDES DÉTAILLÉES */}
       {/* ═══════════════════════════════════════════════════════════ */}
       {(intelligence?.convention_collective || intelligence?.aides_disponibles?.length) ? (
         <Page size="A4" style={s.page}>
-          <Hdr date={generatedAt} p={5} t={T} />
+          <Hdr date={generatedAt} p={8} t={T} />
 
-          <Text style={s.sTitle}>Financement & Convention Collective</Text>
+          <Text style={s.sTitle}>Annexe B: Financement & Aides Détaillées</Text>
           <View style={s.sBar} />
 
           {/* Convention Collective */}
@@ -902,15 +934,19 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
             </View>
           )}
 
-          <Ftr date={generatedAt} p={5} t={T} />
+          <Ftr date={generatedAt} p={9} t={T} />
         </Page>
       ) : null}
 
       {/* ═══════════════════════════════════════════════════════════ */}
-      {/* PAGE 6: CONCLUSION (ancienne page 2) */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* ANNEXE D : DONNÉES BRUTES */}
       {/* ═══════════════════════════════════════════════════════════ */}
       <Page size="A4" style={s.pageAlt}>
-        <Hdr date={generatedAt} p={6} t={T} />
+        <Hdr date={generatedAt} p={10} t={T} />
+
+        <Text style={s.sTitle}>Annexe D: Données Brutes</Text>
+        <View style={s.sBar} />
 
         {/* Quartier + Digital */}
         <View style={{ flexDirection: 'row', gap: 8, marginBottom: 10 }}>
@@ -970,7 +1006,7 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
           <Text style={s.ctaContact}>Satorea CRM — www.satorea.fr — contact@satorea.fr</Text>
         </View>
 
-        <Ftr date={generatedAt} p={6} t={T} />
+        <Ftr date={generatedAt} p={10} t={T} />
       </Page>
     </Document>
   )
