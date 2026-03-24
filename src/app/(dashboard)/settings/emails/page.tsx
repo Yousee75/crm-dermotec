@@ -213,14 +213,14 @@ export default function EmailTemplatesPage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: 'Total', value: stats.total, color: 'text-gray-900' },
-          { label: 'Actifs', value: stats.active, color: 'text-green-600' },
-          { label: 'Inactifs', value: stats.inactive, color: 'text-gray-400' },
+          { label: 'Total', value: stats.total, color: 'text-[#111111]' },
+          { label: 'Actifs', value: stats.active, color: 'text-[#10B981]' },
+          { label: 'Inactifs', value: stats.inactive, color: 'text-[#999999]' },
         ].map(s => (
           <Card key={s.label} padding="sm">
             <div className="text-center">
               <p className={cn('text-2xl font-bold', s.color)}>{s.value}</p>
-              <p className="text-xs text-gray-500 mt-1">{s.label}</p>
+              <p className="text-xs text-[#777777] mt-1">{s.label}</p>
             </div>
           </Card>
         ))}
@@ -249,11 +249,11 @@ export default function EmailTemplatesPage() {
               <ChevronDown className="w-3 h-3 ml-1" />
             </Button>
             {showFilterMenu && (
-              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
+              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-[#EEEEEE] py-1 z-20">
                 <button
                   onClick={() => { setFilterCategory(null); setShowFilterMenu(false) }}
                   className={cn(
-                    'w-full text-left px-3 py-2 text-sm hover:bg-gray-50 transition',
+                    'w-full text-left px-3 py-2 text-sm hover:bg-[#FAF8F5] transition',
                     !filterCategory && 'font-medium text-primary'
                   )}
                 >
@@ -266,7 +266,7 @@ export default function EmailTemplatesPage() {
                       key={cat}
                       onClick={() => { setFilterCategory(cat); setShowFilterMenu(false) }}
                       className={cn(
-                        'w-full text-left px-3 py-2 text-sm hover:bg-gray-50 transition flex items-center gap-2',
+                        'w-full text-left px-3 py-2 text-sm hover:bg-[#FAF8F5] transition flex items-center gap-2',
                         filterCategory === cat && 'font-medium text-primary'
                       )}
                     >
@@ -301,17 +301,17 @@ export default function EmailTemplatesPage() {
         <Card>
           <div className="text-center py-12">
             <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mx-auto" />
-            <p className="text-sm text-gray-500 mt-3">Chargement des templates...</p>
+            <p className="text-sm text-[#777777] mt-3">Chargement des templates...</p>
           </div>
         </Card>
       ) : filteredTemplates.length === 0 ? (
         <Card>
           <div className="text-center py-12">
-            <Mail className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+            <Mail className="w-12 h-12 text-[#999999] mx-auto mb-3" />
+            <h3 className="text-lg font-semibold text-[#111111] mb-1">
               {search || filterCategory ? 'Aucun template trouve' : 'Aucun template email'}
             </h3>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-[#777777] mb-4">
               {search || filterCategory
                 ? 'Modifiez vos filtres pour voir plus de resultats.'
                 : 'Commencez par creer votre premier template ou chargez les modeles par defaut.'}
@@ -345,7 +345,7 @@ export default function EmailTemplatesPage() {
                     {/* Left */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1.5">
-                        <h4 className="font-semibold text-gray-900 truncate">{template.nom}</h4>
+                        <h4 className="font-semibold text-[#111111] truncate">{template.nom}</h4>
                         <Badge
                           variant="custom"
                           size="sm"
@@ -361,19 +361,19 @@ export default function EmailTemplatesPage() {
                           <Badge variant="default" size="xs">Inactif</Badge>
                         )}
                       </div>
-                      <p className="text-sm text-gray-600 mb-2 truncate">{template.sujet}</p>
+                      <p className="text-sm text-[#777777] mb-2 truncate">{template.sujet}</p>
                       {template.variables && template.variables.length > 0 && (
                         <div className="flex flex-wrap gap-1">
                           {template.variables.slice(0, 6).map(v => (
                             <code
                               key={v}
-                              className="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-[10px] rounded font-mono"
+                              className="px-1.5 py-0.5 bg-[#E0EBF5] text-[#6B8CAE] text-[10px] rounded font-mono"
                             >
                               {`{${v}}`}
                             </code>
                           ))}
                           {template.variables.length > 6 && (
-                            <span className="text-[10px] text-gray-400">
+                            <span className="text-[10px] text-[#999999]">
                               +{template.variables.length - 6}
                             </span>
                           )}
@@ -412,8 +412,8 @@ export default function EmailTemplatesPage() {
                         className={cn(
                           'p-2 rounded-lg transition',
                           template.is_active
-                            ? 'text-green-500 hover:bg-green-50'
-                            : 'text-gray-300 hover:bg-gray-50'
+                            ? 'text-[#10B981] hover:bg-[#ECFDF5]'
+                            : 'text-[#999999] hover:bg-[#FAF8F5]'
                         )}
                         title={template.is_active ? 'Desactiver' : 'Activer'}
                       >
@@ -433,7 +433,7 @@ export default function EmailTemplatesPage() {
                           }
                         }}
                       >
-                        <Trash2 className="w-4 h-4 text-red-400" />
+                        <Trash2 className="w-4 h-4 text-[#FF2D78]" />
                       </Button>
                     </div>
                   </div>
@@ -469,7 +469,7 @@ export default function EmailTemplatesPage() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-accent">{previewTemplate.nom}</h3>
-                <p className="text-sm text-gray-500 mt-0.5">{previewTemplate.sujet}</p>
+                <p className="text-sm text-[#777777] mt-0.5">{previewTemplate.sujet}</p>
               </div>
               <Button variant="outline" size="sm" onClick={() => {
                 setPreviewTemplate(null)
@@ -479,7 +479,7 @@ export default function EmailTemplatesPage() {
                 Editer
               </Button>
             </div>
-            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
+            <div className="border border-[#EEEEEE] rounded-lg overflow-hidden bg-white">
               <div
                 className="p-6"
                 dangerouslySetInnerHTML={{
@@ -499,7 +499,7 @@ export default function EmailTemplatesPage() {
             </div>
             <div className="mt-4 flex flex-wrap gap-1">
               {previewTemplate.variables?.map(v => (
-                <code key={v} className="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded font-mono">
+                <code key={v} className="px-2 py-1 bg-[#E0EBF5] text-[#6B8CAE] text-xs rounded font-mono">
                   {`{${v}}`}
                 </code>
               ))}

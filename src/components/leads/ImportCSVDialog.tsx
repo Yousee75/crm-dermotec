@@ -74,8 +74,8 @@ function Stepper({ currentStep }: { currentStep: Step }) {
             <div className={cn(
               'flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium transition-colors',
               isActive && 'bg-primary/10 text-primary',
-              isDone && 'bg-green-50 text-green-700',
-              !isActive && !isDone && 'text-gray-400',
+              isDone && 'bg-[#ECFDF5] text-[#10B981]',
+              !isActive && !isDone && 'text-[#999999]',
             )}>
               {isDone ? (
                 <CheckCircle2 className="w-3.5 h-3.5" />
@@ -87,7 +87,7 @@ function Stepper({ currentStep }: { currentStep: Step }) {
             {i < STEPS.length - 1 && (
               <div className={cn(
                 'flex-1 h-px mx-1',
-                i < currentIndex ? 'bg-green-300' : 'bg-gray-200',
+                i < currentIndex ? 'bg-green-300' : 'bg-[#EEEEEE]',
               )} />
             )}
           </div>
@@ -370,7 +370,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                 'relative border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition',
                 isDragging
                   ? 'border-primary bg-primary/5'
-                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50/50',
+                  : 'border-[#EEEEEE] hover:border-[#EEEEEE] hover:bg-[#FAF8F5]/50',
               )}
             >
               <input
@@ -385,25 +385,25 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
               {isProcessing ? (
                 <Loader2 className="w-12 h-12 text-primary mx-auto mb-4 animate-spin" />
               ) : (
-                <Upload className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                <Upload className="w-12 h-12 text-[#999999] mx-auto mb-4" />
               )}
 
               <h3 className="font-medium text-accent">
                 {isProcessing ? 'Analyse en cours...' : 'Glissez votre fichier ici'}
               </h3>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-[#777777] mt-1">
                 ou cliquez pour selectionner
               </p>
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs text-[#999999] mt-2">
                 CSV, Excel (.xlsx), TXT — max 10 Mo
               </p>
             </div>
 
-            <Card className="p-4 bg-blue-50 border-blue-200">
+            <Card className="p-4 bg-[#E0EBF5] border-[#6B8CAE]/30">
               <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                <div className="text-sm text-blue-700 space-y-1">
-                  <p className="font-medium text-blue-900">Format attendu</p>
+                <AlertCircle className="w-5 h-5 text-[#6B8CAE] flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-[#6B8CAE] space-y-1">
+                  <p className="font-medium text-[#6B8CAE]">Format attendu</p>
                   <p>La premiere ligne doit contenir les en-tetes de colonnes.</p>
                   <p>Colonne obligatoire : <strong>nom</strong>. Optionnelles : prenom, email, telephone, entreprise, ville, source.</p>
                   <p>Delimiteur auto-detecte (virgule, point-virgule, tab).</p>
@@ -422,10 +422,10 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
       {step === 'mapping' && csvData && (
         <>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg">
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-green-600" />
-                <span className="text-sm font-medium text-green-900">{filename}</span>
+                <Check className="w-4 h-4 text-[#10B981]" />
+                <span className="text-sm font-medium text-[#10B981]">{filename}</span>
               </div>
               <Badge variant="success">
                 {csvData.rows.length} ligne{csvData.rows.length > 1 ? 's' : ''}
@@ -434,7 +434,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
 
             <div>
               <h3 className="font-medium text-accent mb-3">Correspondance des colonnes</h3>
-              <p className="text-xs text-gray-500 mb-3">
+              <p className="text-xs text-[#777777] mb-3">
                 Associez les colonnes de votre fichier aux champs du CRM. Le mapping a ete auto-detecte.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -442,7 +442,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                   <div key={key}>
                     <label className={cn(
                       'block text-xs font-medium mb-1',
-                      required ? 'text-red-600' : 'text-gray-600',
+                      required ? 'text-[#FF2D78]' : 'text-[#777777]',
                     )}>
                       {label}{required && ' *'}
                     </label>
@@ -453,7 +453,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                         'w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30',
                         required && !mapping[key]
                           ? 'border-red-300 focus:border-red-500'
-                          : 'border-gray-200 focus:border-primary',
+                          : 'border-[#EEEEEE] focus:border-primary',
                       )}
                     >
                       <option value="">-- Non mappe --</option>
@@ -467,9 +467,9 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
             </div>
 
             {!canProceedFromMapping && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <XCircle className="w-4 h-4 text-red-500" />
-                <span className="text-sm text-red-700">
+              <div className="flex items-center gap-2 p-3 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg">
+                <XCircle className="w-4 h-4 text-[#FF2D78]" />
+                <span className="text-sm text-[#FF2D78]">
                   Le champ <strong>Nom</strong> est obligatoire.
                 </span>
               </div>
@@ -495,17 +495,17 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
       {step === 'preview' && csvData && (
         <>
           <div className="space-y-4">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-[#777777]">
               Voici les 5 premieres lignes telles qu'elles seront importees :
             </p>
 
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-[#EEEEEE]">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="px-3 py-2 text-left font-medium text-gray-500 w-10">#</th>
+                  <tr className="bg-[#FAF8F5] border-b border-[#EEEEEE]">
+                    <th className="px-3 py-2 text-left font-medium text-[#777777] w-10">#</th>
                     {CRM_FIELDS.filter(f => mapping[f.key]).map(f => (
-                      <th key={f.key} className="px-3 py-2 text-left font-medium text-gray-700">
+                      <th key={f.key} className="px-3 py-2 text-left font-medium text-[#3A3A3A]">
                         {f.label}
                       </th>
                     ))}
@@ -513,11 +513,11 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                 </thead>
                 <tbody>
                   {previewRows.map((row, i) => (
-                    <tr key={i} className="border-b border-gray-100 hover:bg-gray-50/50">
-                      <td className="px-3 py-2 text-gray-400">{i + 1}</td>
+                    <tr key={i} className="border-b border-[#F4F0EB] hover:bg-[#FAF8F5]/50">
+                      <td className="px-3 py-2 text-[#999999]">{i + 1}</td>
                       {CRM_FIELDS.filter(f => mapping[f.key]).map(f => (
-                        <td key={f.key} className="px-3 py-2 text-gray-700">
-                          {getMappedValue(row, f.key) || <span className="text-gray-300">—</span>}
+                        <td key={f.key} className="px-3 py-2 text-[#3A3A3A]">
+                          {getMappedValue(row, f.key) || <span className="text-[#999999]">—</span>}
                         </td>
                       ))}
                     </tr>
@@ -527,7 +527,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
             </div>
 
             {csvData.rows.length > 5 && (
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[#777777]">
                 ... et {csvData.rows.length - 5} ligne{csvData.rows.length - 5 > 1 ? 's' : ''} de plus
               </p>
             )}
@@ -550,27 +550,27 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
           <div className="space-y-4">
             {/* Stats cards */}
             <div className="grid grid-cols-3 gap-3">
-              <Card className="p-3 text-center bg-green-50 border-green-200">
-                <CheckCircle2 className="w-5 h-5 text-green-600 mx-auto mb-1" />
-                <div className="text-lg font-bold text-green-700">{validationStats.valid}</div>
-                <div className="text-xs text-green-600">Valides</div>
+              <Card className="p-3 text-center bg-[#ECFDF5] border-[#10B981]/30">
+                <CheckCircle2 className="w-5 h-5 text-[#10B981] mx-auto mb-1" />
+                <div className="text-lg font-bold text-[#10B981]">{validationStats.valid}</div>
+                <div className="text-xs text-[#10B981]">Valides</div>
               </Card>
-              <Card className="p-3 text-center bg-amber-50 border-amber-200">
-                <AlertTriangle className="w-5 h-5 text-amber-600 mx-auto mb-1" />
-                <div className="text-lg font-bold text-amber-700">{validationStats.duplicates}</div>
-                <div className="text-xs text-amber-600">Doublons</div>
+              <Card className="p-3 text-center bg-[#FFF3E8] border-[#FF8C42]/30">
+                <AlertTriangle className="w-5 h-5 text-[#FF8C42] mx-auto mb-1" />
+                <div className="text-lg font-bold text-[#FF8C42]">{validationStats.duplicates}</div>
+                <div className="text-xs text-[#FF8C42]">Doublons</div>
               </Card>
-              <Card className="p-3 text-center bg-red-50 border-red-200">
-                <XCircle className="w-5 h-5 text-red-500 mx-auto mb-1" />
-                <div className="text-lg font-bold text-red-700">{validationStats.errors}</div>
-                <div className="text-xs text-red-600">Erreurs</div>
+              <Card className="p-3 text-center bg-[#FFE0EF] border-[#FF2D78]/30">
+                <XCircle className="w-5 h-5 text-[#FF2D78] mx-auto mb-1" />
+                <div className="text-lg font-bold text-[#FF2D78]">{validationStats.errors}</div>
+                <div className="text-xs text-[#FF2D78]">Erreurs</div>
               </Card>
             </div>
 
             {/* Erreurs détaillées */}
             {validationStats.errors > 0 && (
-              <div className="max-h-40 overflow-y-auto rounded-lg border border-red-200 bg-red-50 p-3">
-                <h4 className="text-xs font-medium text-red-700 mb-2">
+              <div className="max-h-40 overflow-y-auto rounded-lg border border-[#FF2D78]/30 bg-[#FFE0EF] p-3">
+                <h4 className="text-xs font-medium text-[#FF2D78] mb-2">
                   Lignes en erreur (seront ignorees) :
                 </h4>
                 <div className="space-y-1">
@@ -578,13 +578,13 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                     .filter(r => r.errors.length > 0)
                     .slice(0, 20)
                     .map(r => (
-                      <div key={r.rowIndex} className="text-xs text-red-600">
+                      <div key={r.rowIndex} className="text-xs text-[#FF2D78]">
                         <strong>Ligne {r.rowIndex}</strong> : {r.errors.join(', ')}
                         {r.data.nom && ` (${r.data.nom})`}
                       </div>
                     ))}
                   {validationStats.errors > 20 && (
-                    <div className="text-xs text-red-500 italic">
+                    <div className="text-xs text-[#FF2D78] italic">
                       ... et {validationStats.errors - 20} erreurs de plus
                     </div>
                   )}
@@ -593,18 +593,18 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
             )}
 
             {validationStats.valid === 0 && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <XCircle className="w-4 h-4 text-red-500" />
-                <span className="text-sm text-red-700">
+              <div className="flex items-center gap-2 p-3 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg">
+                <XCircle className="w-4 h-4 text-[#FF2D78]" />
+                <span className="text-sm text-[#FF2D78]">
                   Aucun lead valide a importer. Verifiez le mapping et les donnees.
                 </span>
               </div>
             )}
 
             {validationStats.valid > 0 && (
-              <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-                <CheckCircle2 className="w-4 h-4 text-green-600" />
-                <span className="text-sm text-green-700">
+              <div className="flex items-center gap-2 p-3 bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg">
+                <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
+                <span className="text-sm text-[#10B981]">
                   <strong>{validationStats.valid}</strong> lead{validationStats.valid > 1 ? 's' : ''} pret{validationStats.valid > 1 ? 's' : ''} a etre importe{validationStats.valid > 1 ? 's' : ''}.
                 </span>
               </div>
@@ -637,7 +637,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                 </div>
                 <div>
                   <h3 className="font-medium text-accent mb-1">Import en cours...</h3>
-                  <p className="text-sm text-gray-500">Envoi des leads vers le serveur</p>
+                  <p className="text-sm text-[#777777]">Envoi des leads vers le serveur</p>
                 </div>
                 <ProgressBar value={importProgress} size="md" color="var(--color-primary)" />
               </>
@@ -645,36 +645,36 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
               <>
                 <div className={cn(
                   'w-16 h-16 mx-auto rounded-full flex items-center justify-center',
-                  importResult.imported > 0 ? 'bg-green-100' : 'bg-red-100',
+                  importResult.imported > 0 ? 'bg-[#D1FAE5]' : 'bg-[#FFE0EF]',
                 )}>
                   {importResult.imported > 0 ? (
-                    <CheckCircle2 className="w-8 h-8 text-green-600" />
+                    <CheckCircle2 className="w-8 h-8 text-[#10B981]" />
                   ) : (
-                    <XCircle className="w-8 h-8 text-red-500" />
+                    <XCircle className="w-8 h-8 text-[#FF2D78]" />
                   )}
                 </div>
 
                 <div>
                   <h3 className={cn(
                     'font-medium mb-2',
-                    importResult.imported > 0 ? 'text-green-900' : 'text-red-900',
+                    importResult.imported > 0 ? 'text-[#10B981]' : 'text-[#FF2D78]',
                   )}>
                     {importResult.imported > 0 ? 'Import termine !' : 'Echec de l\'import'}
                   </h3>
 
                   <div className="space-y-1 text-sm">
                     {importResult.imported > 0 && (
-                      <p className="text-green-700">
+                      <p className="text-[#10B981]">
                         <strong>{importResult.imported}</strong> lead{importResult.imported > 1 ? 's' : ''} importe{importResult.imported > 1 ? 's' : ''}
                       </p>
                     )}
                     {importResult.duplicates > 0 && (
-                      <p className="text-amber-600">
+                      <p className="text-[#FF8C42]">
                         <strong>{importResult.duplicates}</strong> doublon{importResult.duplicates > 1 ? 's' : ''} ignore{importResult.duplicates > 1 ? 's' : ''}
                       </p>
                     )}
                     {importResult.errors.length > 0 && (
-                      <p className="text-red-600">
+                      <p className="text-[#FF2D78]">
                         <strong>{importResult.errors.length}</strong> erreur{importResult.errors.length > 1 ? 's' : ''}
                       </p>
                     )}

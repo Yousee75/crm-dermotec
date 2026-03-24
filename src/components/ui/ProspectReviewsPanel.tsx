@@ -52,7 +52,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
   })
 
   if (isLoading) {
-    return <div className="bg-white rounded-xl border p-4 animate-pulse"><div className="h-4 bg-gray-200 rounded w-1/3 mb-2" /><div className="h-3 bg-gray-100 rounded w-2/3" /></div>
+    return <div className="bg-white rounded-xl border p-4 animate-pulse"><div className="h-4 bg-[#EEEEEE] rounded w-1/3 mb-2" /><div className="h-3 bg-[#F4F0EB] rounded w-2/3" /></div>
   }
 
   if (!reviews || reviews.length === 0) return null
@@ -82,18 +82,18 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
   const displayed = showAll ? filtered : filtered.slice(0, 5)
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#EEEEEE] overflow-hidden">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
+      <div className="px-4 py-3 border-b border-[#F4F0EB] bg-[#FAF8F5]/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MessageSquare className="w-4 h-4 text-primary" />
-            <h3 className="text-sm font-semibold text-gray-900">{totalReviews} Avis Clients</h3>
+            <h3 className="text-sm font-semibold text-[#111111]">{totalReviews} Avis Clients</h3>
             <div className="flex items-center gap-0.5">
               {[1, 2, 3, 4, 5].map(s => (
-                <Star key={s} className={cn('w-3.5 h-3.5', s <= Math.round(avgRating) ? 'text-amber-400 fill-amber-400' : 'text-gray-300')} />
+                <Star key={s} className={cn('w-3.5 h-3.5', s <= Math.round(avgRating) ? 'text-[#FF8C42] fill-amber-400' : 'text-[#999999]')} />
               ))}
-              <span className="text-sm font-bold text-gray-900 ml-1">{avgRating}</span>
+              <span className="text-sm font-bold text-[#111111] ml-1">{avgRating}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -105,7 +105,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       </div>
 
       {/* Stats row */}
-      <div className="px-4 py-2 border-b border-gray-50 flex items-center gap-4 text-[11px] text-gray-500">
+      <div className="px-4 py-2 border-b border-[#FAF8F5] flex items-center gap-4 text-[11px] text-[#777777]">
         <span>{withText.length} avec texte</span>
         <span>{withPhotos.length} avec photo</span>
         <span>{withOwnerAnswer.length} réponses proprio ({totalReviews > 0 ? Math.round((withOwnerAnswer.length / totalReviews) * 100) : 0}%)</span>
@@ -113,7 +113,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       </div>
 
       {/* Distribution bars */}
-      <div className="px-4 py-3 border-b border-gray-50">
+      <div className="px-4 py-3 border-b border-[#FAF8F5]">
         <div className="flex items-center gap-3">
           {distribution.map(d => (
             <button
@@ -121,14 +121,14 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
               onClick={() => setFilterStars(filterStars === d.stars ? null : d.stars)}
               className={cn(
                 'flex-1 rounded-lg p-1.5 text-center transition border',
-                filterStars === d.stars ? 'border-primary bg-sky-50' : 'border-transparent hover:bg-gray-50'
+                filterStars === d.stars ? 'border-primary bg-sky-50' : 'border-transparent hover:bg-[#FAF8F5]'
               )}
             >
               <div className="flex items-center justify-center gap-0.5 mb-1">
                 <span className="text-xs font-bold">{d.stars}</span>
-                <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+                <Star className="w-2.5 h-2.5 text-[#FF8C42] fill-amber-400" />
               </div>
-              <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-[#EEEEEE] rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full"
                   style={{
@@ -137,7 +137,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
                   }}
                 />
               </div>
-              <span className="text-[10px] text-gray-400 mt-0.5 block">{d.count}</span>
+              <span className="text-[10px] text-[#999999] mt-0.5 block">{d.count}</span>
             </button>
           ))}
         </div>
@@ -149,33 +149,33 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       </div>
 
       {/* Liste des avis */}
-      <div className="divide-y divide-gray-50">
+      <div className="divide-y divide-[#FAF8F5]">
         {displayed.map(review => (
-          <div key={review.id} className="px-4 py-3 hover:bg-gray-50/50 transition">
+          <div key={review.id} className="px-4 py-3 hover:bg-[#FAF8F5]/50 transition">
             {/* Header avis */}
             <div className="flex items-start justify-between mb-1.5">
               <div className="flex items-center gap-2">
                 {review.metadata?.author_image ? (
                   <Image src={review.metadata.author_image} alt="" width={24} height={24} className="rounded-full" unoptimized />
                 ) : (
-                  <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
-                    <User className="w-3 h-3 text-gray-400" />
+                  <div className="w-6 h-6 rounded-full bg-[#EEEEEE] flex items-center justify-center">
+                    <User className="w-3 h-3 text-[#999999]" />
                   </div>
                 )}
                 <div>
-                  <p className="text-xs font-medium text-gray-900">{review.author_name}</p>
+                  <p className="text-xs font-medium text-[#111111]">{review.author_name}</p>
                   {review.metadata?.author_reviews_count && (
-                    <p className="text-[10px] text-gray-400">{review.metadata.author_reviews_count} avis au total</p>
+                    <p className="text-[10px] text-[#999999]">{review.metadata.author_reviews_count} avis au total</p>
                   )}
                 </div>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} className={cn('w-3 h-3', s <= review.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200')} />
+                    <Star key={s} className={cn('w-3 h-3', s <= review.rating ? 'text-[#FF8C42] fill-amber-400' : 'text-[#EEEEEE]')} />
                   ))}
                 </div>
-                <span className="text-[10px] text-gray-400">
+                <span className="text-[10px] text-[#999999]">
                   {formatDistanceToNow(new Date(review.review_date), { addSuffix: true, locale: fr })}
                 </span>
               </div>
@@ -183,7 +183,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
 
             {/* Texte */}
             {review.text && (
-              <p className="text-xs text-gray-700 leading-relaxed mb-1.5">{review.text}</p>
+              <p className="text-xs text-[#3A3A3A] leading-relaxed mb-1.5">{review.text}</p>
             )}
 
             {/* Photos */}
@@ -193,8 +193,8 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
                   <Image key={i} src={url} alt="" width={64} height={64} className="rounded-lg object-cover" unoptimized />
                 ))}
                 {review.metadata.review_img_urls.length > 3 && (
-                  <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
-                    <span className="text-xs text-gray-500">+{review.metadata.review_img_urls.length - 3}</span>
+                  <div className="w-16 h-16 rounded-lg bg-[#F4F0EB] flex items-center justify-center">
+                    <span className="text-xs text-[#777777]">+{review.metadata.review_img_urls.length - 3}</span>
                   </div>
                 )}
               </div>
@@ -202,7 +202,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
 
             {/* Likes */}
             {review.metadata?.review_likes && review.metadata.review_likes > 0 && (
-              <div className="flex items-center gap-1 text-[10px] text-gray-400 mb-1.5">
+              <div className="flex items-center gap-1 text-[10px] text-[#999999] mb-1.5">
                 <ThumbsUp className="w-3 h-3" />
                 {review.metadata.review_likes} personne(s) ont trouvé cet avis utile
               </div>
@@ -212,9 +212,9 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
             {review.metadata?.owner_answer && (
               <div className="bg-sky-50 rounded-lg p-2.5 mt-1.5 border-l-2 border-primary">
                 <p className="text-[10px] font-semibold text-accent mb-0.5">Réponse du propriétaire</p>
-                <p className="text-[11px] text-gray-700 leading-relaxed">{review.metadata.owner_answer}</p>
+                <p className="text-[11px] text-[#3A3A3A] leading-relaxed">{review.metadata.owner_answer}</p>
                 {review.metadata.owner_answer_date && (
-                  <p className="text-[10px] text-gray-400 mt-0.5">
+                  <p className="text-[10px] text-[#999999] mt-0.5">
                     {formatDistanceToNow(new Date(review.metadata.owner_answer_date), { addSuffix: true, locale: fr })}
                   </p>
                 )}
@@ -228,7 +228,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       {filtered.length > 5 && (
         <button
           onClick={() => setShowAll(!showAll)}
-          className="w-full px-4 py-2.5 text-xs text-primary font-medium hover:bg-gray-50 transition border-t border-gray-100 flex items-center justify-center gap-1"
+          className="w-full px-4 py-2.5 text-xs text-primary font-medium hover:bg-[#FAF8F5] transition border-t border-[#F4F0EB] flex items-center justify-center gap-1"
         >
           {showAll ? <><ChevronUp className="w-3 h-3" /> Réduire</> : <><ChevronDown className="w-3 h-3" /> Voir les {filtered.length - 5} autres avis</>}
         </button>

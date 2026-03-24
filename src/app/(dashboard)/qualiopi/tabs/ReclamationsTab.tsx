@@ -66,40 +66,40 @@ const MOCK_RECLAMATIONS: Reclamation[] = [
 ]
 
 const TYPE_CONFIG = {
-  formation: { label: 'Formation', color: 'bg-blue-50 text-blue-700' },
-  formateur: { label: 'Formateur', color: 'bg-purple-50 text-purple-700' },
+  formation: { label: 'Formation', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
+  formateur: { label: 'Formateur', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
   organisation: { label: 'Organisation', color: 'bg-orange-50 text-orange-700' },
-  materiel: { label: 'Matériel', color: 'bg-green-50 text-green-700' },
-  autre: { label: 'Autre', color: 'bg-gray-50 text-gray-600' }
+  materiel: { label: 'Matériel', color: 'bg-[#ECFDF5] text-[#10B981]' },
+  autre: { label: 'Autre', color: 'bg-[#FAF8F5] text-[#777777]' }
 }
 
 const STATUT_CONFIG = {
   ouverte: {
     label: 'Ouverte',
-    color: 'bg-red-50 text-red-700 border-red-200',
+    color: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30',
     icon: AlertTriangle
   },
   en_cours: {
     label: 'En cours',
-    color: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    color: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
     icon: Clock
   },
   resolue: {
     label: 'Résolue',
-    color: 'bg-green-50 text-green-700 border-green-200',
+    color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
     icon: CheckCircle
   },
   fermee: {
     label: 'Fermée',
-    color: 'bg-gray-50 text-gray-600 border-gray-200',
+    color: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]',
     icon: XCircle
   }
 }
 
 const GRAVITE_CONFIG = {
-  faible: { label: 'Faible', color: 'bg-green-50 text-green-700' },
-  moyenne: { label: 'Moyenne', color: 'bg-yellow-50 text-yellow-700' },
-  elevee: { label: 'Élevée', color: 'bg-red-50 text-red-700' }
+  faible: { label: 'Faible', color: 'bg-[#ECFDF5] text-[#10B981]' },
+  moyenne: { label: 'Moyenne', color: 'bg-[#FFF3E8] text-[#FF8C42]' },
+  elevee: { label: 'Élevée', color: 'bg-[#FFE0EF] text-[#FF2D78]' }
 }
 
 export default function ReclamationsTab() {
@@ -134,28 +134,28 @@ export default function ReclamationsTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Réclamations totales</p>
-              <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-sm text-[#777777]">Réclamations totales</p>
+              <p className="text-xl font-bold text-[#111111]">{stats.total}</p>
             </div>
-            <MessageSquare className="w-8 h-8 text-gray-400" />
+            <MessageSquare className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Ouvertes</p>
-              <p className="text-xl font-bold text-red-600">{stats.ouvertes}</p>
+              <p className="text-sm text-[#777777]">Ouvertes</p>
+              <p className="text-xl font-bold text-[#FF2D78]">{stats.ouvertes}</p>
             </div>
-            <AlertTriangle className="w-8 h-8 text-red-400" />
+            <AlertTriangle className="w-8 h-8 text-[#FF2D78]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">En cours</p>
-              <p className="text-xl font-bold text-yellow-600">{stats.en_cours}</p>
+              <p className="text-sm text-[#777777]">En cours</p>
+              <p className="text-xl font-bold text-[#FF8C42]">{stats.en_cours}</p>
             </div>
             <Clock className="w-8 h-8 text-yellow-400" />
           </div>
@@ -164,28 +164,28 @@ export default function ReclamationsTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Résolues</p>
-              <p className="text-xl font-bold text-green-600">{stats.resolues}</p>
+              <p className="text-sm text-[#777777]">Résolues</p>
+              <p className="text-xl font-bold text-[#10B981]">{stats.resolues}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-400" />
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
       </div>
 
       {/* Alerte réclamations urgentes */}
       {stats.ouvertes > 0 && (
-        <Card className="p-4 border-red-200 bg-red-50">
+        <Card className="p-4 border-[#FF2D78]/30 bg-[#FFE0EF]">
           <div className="flex items-center gap-3">
-            <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
+            <AlertTriangle className="w-5 h-5 text-[#FF2D78] shrink-0" />
             <div className="flex-1">
-              <p className="text-sm font-medium text-red-800">
+              <p className="text-sm font-medium text-[#FF2D78]">
                 {stats.ouvertes} réclamation{stats.ouvertes > 1 ? 's' : ''} en attente de traitement
               </p>
-              <p className="text-sm text-red-700">
+              <p className="text-sm text-[#FF2D78]">
                 Traitez rapidement les réclamations pour maintenir votre certification Qualiopi.
               </p>
             </div>
-            <Button size="sm" variant="outline" className="border-red-300 text-red-700 hover:bg-red-100">
+            <Button size="sm" variant="outline" className="border-red-300 text-[#FF2D78] hover:bg-[#FFE0EF]">
               Traiter
             </Button>
           </div>
@@ -204,7 +204,7 @@ export default function ReclamationsTab() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les types</option>
             <option value="formation">Formation</option>
@@ -216,7 +216,7 @@ export default function ReclamationsTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="ouverte">Ouverte</option>
@@ -239,38 +239,38 @@ export default function ReclamationsTab() {
           description={search || typeFilter || statutFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Les réclamations d'apprenants apparaîtront ici."}
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50 border-b border-gray-100">
+              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Numéro
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Apprenant
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Formation
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Type
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Gravité
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Statut
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Date création
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 {reclamations.map((reclamation) => {
                   const statutConfig = STATUT_CONFIG[reclamation.statut]
                   const typeConfig = TYPE_CONFIG[reclamation.type]
@@ -278,17 +278,17 @@ export default function ReclamationsTab() {
                   const StatutIcon = statutConfig.icon
 
                   return (
-                    <tr key={reclamation.id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={reclamation.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                       <td className="px-6 py-4">
                         <span className="text-sm font-medium text-primary">
                           {reclamation.numero}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-gray-900">{reclamation.apprenant_nom}</span>
+                        <span className="text-sm font-medium text-[#111111]">{reclamation.apprenant_nom}</span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm text-gray-600">{reclamation.formation}</span>
+                        <span className="text-sm text-[#777777]">{reclamation.formation}</span>
                       </td>
                       <td className="px-6 py-4">
                         <Badge className={typeConfig.color} size="sm">
@@ -309,7 +309,7 @@ export default function ReclamationsTab() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-[#777777]">
                           {new Date(reclamation.date_creation).toLocaleDateString('fr-FR')}
                         </span>
                       </td>
@@ -329,35 +329,35 @@ export default function ReclamationsTab() {
 
       {/* Procédure de gestion */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Procédure de gestion des réclamations</h3>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Procédure de gestion des réclamations</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="text-center p-4">
-            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-red-600 font-bold">1</span>
+            <div className="w-10 h-10 bg-[#FFE0EF] rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-[#FF2D78] font-bold">1</span>
             </div>
-            <h4 className="font-medium text-gray-900 mb-1">Réception</h4>
-            <p className="text-xs text-gray-600">Enregistrement dans les 24h</p>
+            <h4 className="font-medium text-[#111111] mb-1">Réception</h4>
+            <p className="text-xs text-[#777777]">Enregistrement dans les 24h</p>
           </div>
           <div className="text-center p-4">
-            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-yellow-600 font-bold">2</span>
+            <div className="w-10 h-10 bg-[#FFF3E8] rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-[#FF8C42] font-bold">2</span>
             </div>
-            <h4 className="font-medium text-gray-900 mb-1">Analyse</h4>
-            <p className="text-xs text-gray-600">Évaluation et plan d'action</p>
+            <h4 className="font-medium text-[#111111] mb-1">Analyse</h4>
+            <p className="text-xs text-[#777777]">Évaluation et plan d'action</p>
           </div>
           <div className="text-center p-4">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-blue-600 font-bold">3</span>
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-[#6B8CAE] font-bold">3</span>
             </div>
-            <h4 className="font-medium text-gray-900 mb-1">Traitement</h4>
-            <p className="text-xs text-gray-600">Mise en œuvre des actions</p>
+            <h4 className="font-medium text-[#111111] mb-1">Traitement</h4>
+            <p className="text-xs text-[#777777]">Mise en œuvre des actions</p>
           </div>
           <div className="text-center p-4">
-            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-green-600 font-bold">4</span>
+            <div className="w-10 h-10 bg-[#D1FAE5] rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-[#10B981] font-bold">4</span>
             </div>
-            <h4 className="font-medium text-gray-900 mb-1">Clôture</h4>
-            <p className="text-xs text-gray-600">Validation et amélioration</p>
+            <h4 className="font-medium text-[#111111] mb-1">Clôture</h4>
+            <p className="text-xs text-[#777777]">Validation et amélioration</p>
           </div>
         </div>
       </Card>

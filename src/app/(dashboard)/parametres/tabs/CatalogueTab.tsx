@@ -103,21 +103,21 @@ const MOCK_FORMATIONS: Formation[] = [
 
 const CATEGORIE_CONFIG = {
   maquillage: { label: 'Maquillage', color: 'bg-pink-50 text-pink-700' },
-  epilation: { label: 'Épilation', color: 'bg-purple-50 text-purple-700' },
-  soins: { label: 'Soins', color: 'bg-green-50 text-green-700' },
-  massage: { label: 'Massage', color: 'bg-blue-50 text-blue-700' }
+  epilation: { label: 'Épilation', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
+  soins: { label: 'Soins', color: 'bg-[#ECFDF5] text-[#10B981]' },
+  massage: { label: 'Massage', color: 'bg-[#E0EBF5] text-[#6B8CAE]' }
 }
 
 const NIVEAU_CONFIG = {
-  debutant: { label: 'Débutant', color: 'bg-green-50 text-green-700' },
-  intermediaire: { label: 'Intermédiaire', color: 'bg-yellow-50 text-yellow-700' },
-  avance: { label: 'Avancé', color: 'bg-red-50 text-red-700' }
+  debutant: { label: 'Débutant', color: 'bg-[#ECFDF5] text-[#10B981]' },
+  intermediaire: { label: 'Intermédiaire', color: 'bg-[#FFF3E8] text-[#FF8C42]' },
+  avance: { label: 'Avancé', color: 'bg-[#FFE0EF] text-[#FF2D78]' }
 }
 
 const STATUT_CONFIG = {
-  active: { label: 'Active', color: 'bg-green-50 text-green-700' },
-  brouillon: { label: 'Brouillon', color: 'bg-gray-50 text-gray-600' },
-  archivee: { label: 'Archivée', color: 'bg-red-50 text-red-700' }
+  active: { label: 'Active', color: 'bg-[#ECFDF5] text-[#10B981]' },
+  brouillon: { label: 'Brouillon', color: 'bg-[#FAF8F5] text-[#777777]' },
+  archivee: { label: 'Archivée', color: 'bg-[#FFE0EF] text-[#FF2D78]' }
 }
 
 export default function CatalogueTab() {
@@ -153,57 +153,57 @@ export default function CatalogueTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Formations</p>
-              <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-sm text-[#777777]">Formations</p>
+              <p className="text-xl font-bold text-[#111111]">{stats.total}</p>
             </div>
-            <BookOpen className="w-8 h-8 text-gray-400" />
+            <BookOpen className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Actives</p>
-              <p className="text-xl font-bold text-green-600">{stats.actives}</p>
+              <p className="text-sm text-[#777777]">Actives</p>
+              <p className="text-xl font-bold text-[#10B981]">{stats.actives}</p>
             </div>
-            <Eye className="w-8 h-8 text-green-400" />
+            <Eye className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">CA potentiel</p>
-              <p className="text-xl font-bold text-blue-600">{stats.ca_potentiel.toLocaleString()}€</p>
+              <p className="text-sm text-[#777777]">CA potentiel</p>
+              <p className="text-xl font-bold text-[#6B8CAE]">{stats.ca_potentiel.toLocaleString()}€</p>
             </div>
-            <Euro className="w-8 h-8 text-blue-400" />
+            <Euro className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Heures total</p>
-              <p className="text-xl font-bold text-purple-600">{stats.heures_total}h</p>
+              <p className="text-sm text-[#777777]">Heures total</p>
+              <p className="text-xl font-bold text-[#FF2D78]">{stats.heures_total}h</p>
             </div>
-            <Clock className="w-8 h-8 text-purple-400" />
+            <Clock className="w-8 h-8 text-[#FF2D78]" />
           </div>
         </Card>
       </div>
 
       {/* Répartition par catégorie */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Répartition par catégorie</h3>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Répartition par catégorie</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {Object.entries(CATEGORIE_CONFIG).map(([categorie, config]) => {
             const count = formations.filter(f => f.categorie === categorie).length
             const ca = formations.filter(f => f.categorie === categorie).reduce((sum, f) => sum + (f.prix * f.nb_sessions), 0)
 
             return (
-              <div key={categorie} className="text-center p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm font-medium text-gray-900">{config.label}</p>
-                <p className="text-lg font-bold text-gray-900">{count}</p>
-                <p className="text-xs text-gray-500">{ca.toLocaleString()}€ CA</p>
+              <div key={categorie} className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+                <p className="text-sm font-medium text-[#111111]">{config.label}</p>
+                <p className="text-lg font-bold text-[#111111]">{count}</p>
+                <p className="text-xs text-[#777777]">{ca.toLocaleString()}€ CA</p>
               </div>
             )
           })}
@@ -222,7 +222,7 @@ export default function CatalogueTab() {
           <select
             value={categorieFilter}
             onChange={(e) => setCategorieFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Toutes les catégories</option>
             <option value="maquillage">Maquillage</option>
@@ -233,7 +233,7 @@ export default function CatalogueTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="active">Active</option>
@@ -256,51 +256,51 @@ export default function CatalogueTab() {
           description={search || categorieFilter || statutFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Créez votre première formation pour commencer."}
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50 border-b border-gray-100">
+              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Formation
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Catégorie
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Durée
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Prix
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Niveau
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Sessions
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Note
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Statut
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 {formations.map((formation) => {
                   const categorieConfig = CATEGORIE_CONFIG[formation.categorie]
                   const niveauConfig = NIVEAU_CONFIG[formation.niveau]
                   const statutConfig = STATUT_CONFIG[formation.statut]
 
                   return (
-                    <tr key={formation.id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={formation.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                       <td className="px-6 py-4">
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{formation.titre}</p>
+                          <p className="text-sm font-medium text-[#111111]">{formation.titre}</p>
                           <div className="flex items-center gap-2 mt-1">
                             {formation.certifiante && (
                               <Badge variant="outline" size="sm">Certifiante</Badge>
@@ -314,10 +314,10 @@ export default function CatalogueTab() {
                         </Badge>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm text-gray-600">{formation.duree_heures}h</span>
+                        <span className="text-sm text-[#777777]">{formation.duree_heures}h</span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-[#111111]">
                           {formation.prix.toLocaleString()}€
                         </span>
                       </td>
@@ -327,16 +327,16 @@ export default function CatalogueTab() {
                         </Badge>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-[#777777]">
                           <span className="font-medium">{formation.nb_sessions}</span>
-                          <span className="text-gray-400"> sessions</span>
-                          <p className="text-xs text-gray-500">{formation.nb_inscrits_total} inscrits</p>
+                          <span className="text-[#999999]"> sessions</span>
+                          <p className="text-xs text-[#777777]">{formation.nb_inscrits_total} inscrits</p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-1">
                           <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                          <span className="text-sm font-medium text-gray-900">
+                          <span className="text-sm font-medium text-[#111111]">
                             {formation.note_moyenne}
                           </span>
                         </div>
@@ -369,21 +369,21 @@ export default function CatalogueTab() {
 
       {/* Formations populaires */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 3 formations par popularité</h3>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Top 3 formations par popularité</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {formations
             .sort((a, b) => b.nb_inscrits_total - a.nb_inscrits_total)
             .slice(0, 3)
             .map((formation, index) => (
-              <div key={formation.id} className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+              <div key={formation.id} className="flex items-center gap-3 p-4 bg-[#FAF8F5] rounded-lg">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-medium ${
-                  index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-500'
+                  index === 0 ? 'bg-[#FF8C42]' : index === 1 ? 'bg-[#999999]' : 'bg-orange-500'
                 }`}>
                   {index + 1}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">{formation.titre}</p>
-                  <div className="flex items-center gap-3 text-xs text-gray-500">
+                  <p className="text-sm font-medium text-[#111111]">{formation.titre}</p>
+                  <div className="flex items-center gap-3 text-xs text-[#777777]">
                     <span>{formation.nb_inscrits_total} inscrits</span>
                     <span>•</span>
                     <div className="flex items-center gap-1">

@@ -170,9 +170,9 @@ export async function POST(request: NextRequest) {
       metadata: { source: 'formulaire', sujet },
     })
 
-    // 10. Déclencher la cadence automatique (Inngest)
-    // Email bienvenue immédiat → J+3 relance → J+7 rappel tel → J+14 dernier email
+    // 10. Déclencher les automatisations (Inngest)
     try {
+      // Cadence email automatique
       await inngest.send({
         name: 'crm/lead.cadence.start',
         data: {
@@ -182,9 +182,25 @@ export async function POST(request: NextRequest) {
           formation_nom: sujet === 'formation' ? 'nos formations' : 'Dermotec',
         },
       })
+
+      // Enrichissement automatique
+      await inngest.send({
+        name: 'crm/lead.created',
+        data: {
+          lead_id: data.id,
+          siret: undefined, // Le formulaire public n'a pas de SIRET
+          nom: nom,
+          prenom: prenom,
+          entreprise_nom: undefined,
+          ville: undefined, // Pas de ville dans le formulaire actuel
+          email: lead.email,
+          source: 'formulaire',
+          trigger: 'webhook'
+        }
+      })
     } catch (inngestErr) {
       // Non-bloquant : le lead est créé même si Inngest échoue
-      console.error('[Webhook Formulaire] Inngest cadence error:', inngestErr)
+      console.error('[Webhook Formulaire] Inngest automation error:', inngestErr)
     }
 
     return NextResponse.json({ success: true, action: 'created', lead_id: data.id })

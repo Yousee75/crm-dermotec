@@ -16,13 +16,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-gray-700">
+          <label htmlFor={inputId} className="block text-sm font-medium text-[#3A3A3A]">
             {label}
           </label>
         )}
         <div className="relative">
           {icon && (
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999999] pointer-events-none">
               {icon}
             </span>
           )}
@@ -31,12 +31,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             className={cn(
               'w-full rounded-lg border bg-white text-sm transition-colors',
-              'placeholder:text-gray-400',
+              'placeholder:text-[#999999]',
               'focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none',
-              'disabled:opacity-50 disabled:bg-gray-50',
+              'disabled:opacity-50 disabled:bg-[#FAF8F5]',
               error
                 ? 'border-red-300 focus:border-red-500 focus:ring-red-500/15'
-                : 'border-gray-200',
+                : 'border-[#EEEEEE]',
               icon ? 'pl-9' : 'pl-3',
               trailing ? 'pr-10' : 'pr-3',
               'py-2',
@@ -50,8 +50,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             </span>
           )}
         </div>
-        {error && <p className="text-xs text-red-500">{error}</p>}
-        {hint && !error && <p className="text-xs text-gray-400">{hint}</p>}
+        {error && <p className="text-xs text-[#FF2D78]">{error}</p>}
+        {hint && !error && <p className="text-xs text-[#999999]">{hint}</p>}
       </div>
     )
   }

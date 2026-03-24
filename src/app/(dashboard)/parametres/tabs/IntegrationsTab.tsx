@@ -82,17 +82,17 @@ const INTEGRATIONS = [
 const STATUT_CONFIG = {
   disponible: {
     label: 'Disponible',
-    color: 'bg-green-50 text-green-700 border-green-200',
+    color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
     icon: CheckCircle
   },
   bientot: {
     label: 'Bientôt disponible',
-    color: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    color: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
     icon: Clock
   },
   planifie: {
     label: 'En développement',
-    color: 'bg-blue-50 text-blue-700 border-blue-200',
+    color: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30',
     icon: Settings
   }
 }
@@ -112,30 +112,30 @@ export default function IntegrationsTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Connectées</p>
-              <p className="text-xl font-bold text-green-600">{integrationsConnectees}</p>
+              <p className="text-sm text-[#777777]">Connectées</p>
+              <p className="text-xl font-bold text-[#10B981]">{integrationsConnectees}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-400" />
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Disponibles</p>
-              <p className="text-xl font-bold text-blue-600">{integrationsDisponibles}</p>
+              <p className="text-sm text-[#777777]">Disponibles</p>
+              <p className="text-xl font-bold text-[#6B8CAE]">{integrationsDisponibles}</p>
             </div>
-            <Settings className="w-8 h-8 text-blue-400" />
+            <Settings className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">En développement</p>
-              <p className="text-xl font-bold text-gray-600">3</p>
+              <p className="text-sm text-[#777777]">En développement</p>
+              <p className="text-xl font-bold text-[#777777]">3</p>
             </div>
-            <Clock className="w-8 h-8 text-gray-400" />
+            <Clock className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
       </div>
@@ -148,8 +148,8 @@ export default function IntegrationsTab() {
               <Calendar className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Google Calendar</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="text-lg font-semibold text-[#111111]">Google Calendar</h3>
+              <p className="text-sm text-[#777777]">
                 Synchronisez automatiquement vos sessions de formation avec Google Calendar.
                 Vos formateurs et apprenants recevront les invitations automatiquement.
               </p>
@@ -187,15 +187,15 @@ export default function IntegrationsTab() {
           const StatutIcon = statutConfig.icon
 
           return (
-            <Card key={integration.id} className={`p-6 ${integration.connecte ? 'ring-2 ring-green-200 bg-green-50/50' : ''}`}>
+            <Card key={integration.id} className={`p-6 ${integration.connecte ? 'ring-2 ring-green-200 bg-[#ECFDF5]/50' : ''}`}>
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white rounded-lg shadow-sm border border-gray-100 flex items-center justify-center">
-                    <IconComponent className="w-5 h-5 text-gray-700" />
+                  <div className="w-10 h-10 bg-white rounded-lg shadow-sm border border-[#F4F0EB] flex items-center justify-center">
+                    <IconComponent className="w-5 h-5 text-[#3A3A3A]" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-gray-900">{integration.nom}</h3>
-                    <p className="text-xs text-gray-500">{integration.categorie}</p>
+                    <h3 className="font-medium text-[#111111]">{integration.nom}</h3>
+                    <p className="text-xs text-[#777777]">{integration.categorie}</p>
                   </div>
                 </div>
                 {integration.populaire && (
@@ -203,7 +203,7 @@ export default function IntegrationsTab() {
                 )}
               </div>
 
-              <p className="text-sm text-gray-600 mb-4">{integration.description}</p>
+              <p className="text-sm text-[#777777] mb-4">{integration.description}</p>
 
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
@@ -212,7 +212,7 @@ export default function IntegrationsTab() {
                     {statutConfig.label}
                   </Badge>
                 </div>
-                <span className="text-xs text-gray-500">{integration.setup_difficulty}</span>
+                <span className="text-xs text-[#777777]">{integration.setup_difficulty}</span>
               </div>
 
               <div className="flex gap-2">
@@ -243,8 +243,8 @@ export default function IntegrationsTab() {
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Intégrations personnalisées</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className="text-lg font-semibold text-[#111111]">Intégrations personnalisées</h3>
+            <p className="text-sm text-[#777777]">
               Besoin d'une intégration spécifique ? Notre API vous permet de connecter Dermotec à n'importe quel système.
             </p>
           </div>
@@ -255,40 +255,40 @@ export default function IntegrationsTab() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-center p-4 bg-gray-50 rounded-lg">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <Settings className="w-5 h-5 text-blue-600" />
+          <div className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center mx-auto mb-3">
+              <Settings className="w-5 h-5 text-[#6B8CAE]" />
             </div>
-            <h4 className="font-medium text-gray-900 mb-2">API REST</h4>
-            <p className="text-xs text-gray-600">Accès complet aux données via notre API REST moderne</p>
+            <h4 className="font-medium text-[#111111] mb-2">API REST</h4>
+            <p className="text-xs text-[#777777]">Accès complet aux données via notre API REST moderne</p>
           </div>
 
-          <div className="text-center p-4 bg-gray-50 rounded-lg">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <Zap className="w-5 h-5 text-purple-600" />
+          <div className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+            <div className="w-10 h-10 bg-[#FFE0EF] rounded-lg flex items-center justify-center mx-auto mb-3">
+              <Zap className="w-5 h-5 text-[#FF2D78]" />
             </div>
-            <h4 className="font-medium text-gray-900 mb-2">Webhooks</h4>
-            <p className="text-xs text-gray-600">Notifications en temps réel des événements importants</p>
+            <h4 className="font-medium text-[#111111] mb-2">Webhooks</h4>
+            <p className="text-xs text-[#777777]">Notifications en temps réel des événements importants</p>
           </div>
 
-          <div className="text-center p-4 bg-gray-50 rounded-lg">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+          <div className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+            <div className="w-10 h-10 bg-[#D1FAE5] rounded-lg flex items-center justify-center mx-auto mb-3">
+              <CheckCircle className="w-5 h-5 text-[#10B981]" />
             </div>
-            <h4 className="font-medium text-gray-900 mb-2">Support dédié</h4>
-            <p className="text-xs text-gray-600">Assistance technique pour vos développements</p>
+            <h4 className="font-medium text-[#111111] mb-2">Support dédié</h4>
+            <p className="text-xs text-[#777777]">Assistance technique pour vos développements</p>
           </div>
         </div>
       </Card>
 
       {/* Demande d'intégration */}
-      <Card className="p-6 border-dashed border-2 border-gray-200">
+      <Card className="p-6 border-dashed border-2 border-[#EEEEEE]">
         <div className="text-center">
-          <AlertCircle className="w-10 h-10 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <AlertCircle className="w-10 h-10 text-[#999999] mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-[#111111] mb-2">
             Une intégration manque ?
           </h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-[#777777] mb-4">
             Proposez-nous une nouvelle intégration. Nous étudions toutes les demandes et priorisons selon les besoins de nos utilisateurs.
           </p>
           <Button>Proposer une intégration</Button>

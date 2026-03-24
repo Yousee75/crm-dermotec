@@ -162,7 +162,7 @@ export function SignatureCanvas({
   return (
     <div className="space-y-4">
       <div
-        className="border-2 border-dashed border-gray-300 rounded-lg overflow-hidden bg-white"
+        className="border-2 border-dashed border-[#EEEEEE] rounded-lg overflow-hidden bg-white"
         style={{ width: '100%', maxWidth: width }}
       >
         <canvas
@@ -187,7 +187,7 @@ export function SignatureCanvas({
         </Button>
 
         {hasSignature && (
-          <div className="text-sm text-green-600 flex items-center">
+          <div className="text-sm text-[#10B981] flex items-center">
             ✓ Signature enregistrée
           </div>
         )}

@@ -26,17 +26,17 @@ export function StreakCounter({ days, size = 'md' }: StreakCounterProps) {
           ? isMilestone
             ? 'bg-gradient-to-br from-orange-400 to-red-500 shadow-lg shadow-orange-500/30'
             : 'bg-gradient-to-br from-orange-400 to-orange-600'
-          : 'bg-gray-200'
+          : 'bg-[#EEEEEE]'
       }`}>
         {isActive && isMilestone && (
           <div className="absolute inset-0 rounded-2xl animate-pulse bg-orange-400/20" />
         )}
-        <Flame className={`${s.icon} ${isActive ? 'text-white' : 'text-gray-400'}`} />
-        <span className={`${s.text} font-bold ${isActive ? 'text-white' : 'text-gray-400'}`}>
+        <Flame className={`${s.icon} ${isActive ? 'text-white' : 'text-[#999999]'}`} />
+        <span className={`${s.text} font-bold ${isActive ? 'text-white' : 'text-[#999999]'}`}>
           {days}
         </span>
       </div>
-      <span className="text-[10px] text-gray-400 font-medium">
+      <span className="text-[10px] text-[#999999] font-medium">
         {days === 0 ? 'Pas de streak' : days === 1 ? '1 jour' : `${days} jours`}
       </span>
     </div>

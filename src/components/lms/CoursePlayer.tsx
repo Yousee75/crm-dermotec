@@ -129,10 +129,10 @@ function formatSize(bytes?: number): string {
 }
 
 function getStatusIcon(statut?: string, locked?: boolean) {
-  if (locked) return <Lock className="w-4 h-4 text-gray-400" />
+  if (locked) return <Lock className="w-4 h-4 text-[#999999]" />
   if (statut === 'complete') return <CheckCircle2 className="w-4 h-4 text-emerald-500" />
   if (statut === 'en_cours') return <Play className="w-4 h-4 text-cyan-500" />
-  return <Circle className="w-4 h-4 text-gray-300" />
+  return <Circle className="w-4 h-4 text-[#999999]" />
 }
 
 // ============================================================
@@ -202,12 +202,12 @@ export default function CoursePlayer({
       {/* ============================================================ */}
       {/* HEADER BAR */}
       {/* ============================================================ */}
-      <header className="h-14 flex-shrink-0 flex items-center justify-between px-4 border-b border-gray-800 bg-gray-900/80 backdrop-blur-sm z-20">
+      <header className="h-14 flex-shrink-0 flex items-center justify-between px-4 border-b border-[#1A1A1A] bg-[#111111]/80 backdrop-blur-sm z-20">
         {/* Gauche : retour + titre */}
         <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onBack}
-            className="p-1.5 rounded-lg hover:bg-gray-800 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-[#1A1A1A] transition-colors"
             aria-label="Retour"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -219,33 +219,33 @@ export default function CoursePlayer({
 
         {/* Centre : barre de progression */}
         <div className="hidden md:flex items-center gap-3 flex-1 max-w-md mx-8">
-          <div className="flex-1 h-2 bg-gray-800 rounded-full overflow-hidden">
+          <div className="flex-1 h-2 bg-[#1A1A1A] rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full transition-all duration-700"
               style={{ width: `${progressionGlobale}%` }}
             />
           </div>
-          <span className="text-xs text-gray-400 whitespace-nowrap">
+          <span className="text-xs text-[#999999] whitespace-nowrap">
             {progressionGlobale}% terminé
           </span>
         </div>
 
         {/* Droite : points + toggle sidebar */}
         <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-medium">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FF8C42]/10 text-[#FF8C42] text-xs font-medium">
             <Award className="w-3.5 h-3.5" />
             {pointsGagnes}/{pointsTotaux}
           </div>
           <button
             onClick={() => setFocusMode(!focusMode)}
-            className="p-1.5 rounded-lg hover:bg-gray-800 transition-colors hidden md:block"
+            className="p-1.5 rounded-lg hover:bg-[#1A1A1A] transition-colors hidden md:block"
             title={focusMode ? 'Quitter le mode focus' : 'Mode focus'}
           >
             {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 rounded-lg hover:bg-gray-800 transition-colors md:hidden"
+            className="p-1.5 rounded-lg hover:bg-[#1A1A1A] transition-colors md:hidden"
           >
             {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -264,18 +264,18 @@ export default function CoursePlayer({
               <div className="flex-1 p-4 md:p-8">
                 {/* Titre du contenu */}
                 <div className="mb-6">
-                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                  <div className="flex items-center gap-2 text-xs text-[#999999] mb-2">
                     {(() => { const Icon = TYPE_ICONS[currentContent.type] || BookOpen; return <Icon className="w-3.5 h-3.5" /> })()}
                     <span>{TYPE_LABELS[currentContent.type]}</span>
                     {currentContent.video_duration_seconds && (
                       <>
-                        <span className="text-gray-600">·</span>
+                        <span className="text-[#777777]">·</span>
                         <Clock className="w-3.5 h-3.5" />
                         <span>{formatDuration(currentContent.video_duration_seconds)}</span>
                       </>
                     )}
                     {currentContent.obligatoire && (
-                      <span className="px-1.5 py-0.5 bg-amber-500/10 text-amber-400 rounded text-[10px] font-medium">
+                      <span className="px-1.5 py-0.5 bg-[#FF8C42]/10 text-[#FF8C42] rounded text-[10px] font-medium">
                         Obligatoire
                       </span>
                     )}
@@ -284,12 +284,12 @@ export default function CoursePlayer({
                     {currentContent.titre}
                   </h2>
                   {currentContent.description && (
-                    <p className="text-gray-400 mt-2 text-sm">{currentContent.description}</p>
+                    <p className="text-[#999999] mt-2 text-sm">{currentContent.description}</p>
                   )}
                 </div>
 
                 {/* Rendu du contenu selon le type */}
-                <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+                <div className="bg-[#111111] rounded-xl border border-[#1A1A1A] overflow-hidden">
                   {renderContent ? (
                     renderContent(currentContent)
                   ) : (
@@ -302,12 +302,12 @@ export default function CoursePlayer({
                   {currentContent.telechargeable && currentContent.file_name && (
                     <button
                       onClick={() => onDownload(currentContent.id)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-sm transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1A1A1A] hover:bg-gray-700 text-sm transition-colors"
                     >
                       <Download className="w-4 h-4" />
                       Télécharger
                       {currentContent.file_size && (
-                        <span className="text-gray-500">({formatSize(currentContent.file_size)})</span>
+                        <span className="text-[#777777]">({formatSize(currentContent.file_size)})</span>
                       )}
                     </button>
                   )}
@@ -327,7 +327,7 @@ export default function CoursePlayer({
                       <CheckCircle2 className="w-4 h-4" />
                       Terminé
                       {currentContent.score_quiz !== undefined && (
-                        <span className="text-gray-400">— Score : {currentContent.score_quiz}%</span>
+                        <span className="text-[#999999]">— Score : {currentContent.score_quiz}%</span>
                       )}
                     </div>
                   )}
@@ -335,25 +335,25 @@ export default function CoursePlayer({
               </div>
 
               {/* BOTTOM BAR : Navigation précédent/suivant */}
-              <footer className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-t border-gray-800 bg-gray-900/80 backdrop-blur-sm">
+              <footer className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-t border-[#1A1A1A] bg-[#111111]/80 backdrop-blur-sm">
                 <button
                   onClick={() => prevContent && onContentSelect(prevContent.id)}
                   disabled={!prevContent}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#1A1A1A] disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   <span className="hidden sm:inline">{prevContent?.titre || 'Précédent'}</span>
                   <span className="sm:hidden">Préc.</span>
                 </button>
 
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[#777777]">
                   {currentIndex + 1} / {allContents.length}
                 </span>
 
                 <button
                   onClick={() => nextContent && onContentSelect(nextContent.id)}
                   disabled={!nextContent}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#1A1A1A] disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm"
                 >
                   <span className="hidden sm:inline">{nextContent?.titre || 'Suivant'}</span>
                   <span className="sm:hidden">Suiv.</span>
@@ -365,9 +365,9 @@ export default function CoursePlayer({
             /* État vide : pas de contenu sélectionné */
             <div className="flex-1 flex items-center justify-center text-center p-8">
               <div>
-                <BookOpen className="w-16 h-16 text-gray-700 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-400 mb-2">Sélectionnez une leçon</h3>
-                <p className="text-sm text-gray-600">
+                <BookOpen className="w-16 h-16 text-[#3A3A3A] mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-[#999999] mb-2">Sélectionnez une leçon</h3>
+                <p className="text-sm text-[#777777]">
                   Choisissez un contenu dans le menu à droite pour commencer
                 </p>
               </div>
@@ -382,21 +382,21 @@ export default function CoursePlayer({
             md:translate-x-0
             fixed md:static right-0 top-14 bottom-0 z-10
             w-80 md:w-[340px] flex-shrink-0
-            bg-gray-900 border-l border-gray-800
+            bg-[#111111] border-l border-[#1A1A1A]
             overflow-y-auto
             transition-transform duration-300
           `}>
             {/* Header sidebar */}
-            <div className="sticky top-0 z-10 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 p-4">
-              <h3 className="text-sm font-semibold text-gray-300">Contenu de la formation</h3>
+            <div className="sticky top-0 z-10 bg-[#111111]/95 backdrop-blur-sm border-b border-[#1A1A1A] p-4">
+              <h3 className="text-sm font-semibold text-[#999999]">Contenu de la formation</h3>
               <div className="flex items-center gap-2 mt-2">
-                <div className="flex-1 h-1.5 bg-gray-800 rounded-full">
+                <div className="flex-1 h-1.5 bg-[#1A1A1A] rounded-full">
                   <div
                     className="h-full bg-cyan-500 rounded-full transition-all duration-500"
                     style={{ width: `${progressionGlobale}%` }}
                   />
                 </div>
-                <span className="text-[10px] text-gray-500">{progressionGlobale}%</span>
+                <span className="text-[10px] text-[#777777]">{progressionGlobale}%</span>
               </div>
             </div>
 
@@ -407,7 +407,7 @@ export default function CoursePlayer({
                   {/* Header module */}
                   <button
                     onClick={() => toggleModule(module.id)}
-                    className="w-full flex items-center justify-between p-4 hover:bg-gray-800/50 transition-colors text-left"
+                    className="w-full flex items-center justify-between p-4 hover:bg-[#1A1A1A]/50 transition-colors text-left"
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
@@ -416,25 +416,25 @@ export default function CoursePlayer({
                             J{module.jour_formation}
                           </span>
                         )}
-                        <h4 className="text-sm font-medium text-gray-200 truncate">
+                        <h4 className="text-sm font-medium text-[#EEEEEE] truncate">
                           {module.titre}
                         </h4>
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] text-gray-500">
+                        <span className="text-[10px] text-[#777777]">
                           {module.progress?.completed || 0}/{module.progress?.total || module.contents.length}
                         </span>
                         {module.duree_minutes && (
-                          <span className="text-[10px] text-gray-600">
+                          <span className="text-[10px] text-[#777777]">
                             · {formatDuration(module.duree_minutes * 60)}
                           </span>
                         )}
                       </div>
                     </div>
                     {expandedModules.has(module.id) ? (
-                      <ChevronUp className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                      <ChevronUp className="w-4 h-4 text-[#777777] flex-shrink-0" />
                     ) : (
-                      <ChevronDown className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                      <ChevronDown className="w-4 h-4 text-[#777777] flex-shrink-0" />
                     )}
                   </button>
 
@@ -454,7 +454,7 @@ export default function CoursePlayer({
                               w-full flex items-start gap-3 px-4 py-2.5 text-left transition-colors
                               ${isActive
                                 ? 'bg-cyan-500/10 border-l-2 border-cyan-500'
-                                : 'hover:bg-gray-800/50 border-l-2 border-transparent'
+                                : 'hover:bg-[#1A1A1A]/50 border-l-2 border-transparent'
                               }
                               ${content.locked ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
                             `}
@@ -466,21 +466,21 @@ export default function CoursePlayer({
 
                             {/* Info contenu */}
                             <div className="flex-1 min-w-0">
-                              <p className={`text-xs leading-relaxed ${isActive ? 'text-cyan-300 font-medium' : 'text-gray-300'}`}>
+                              <p className={`text-xs leading-relaxed ${isActive ? 'text-cyan-300 font-medium' : 'text-[#999999]'}`}>
                                 {content.titre}
                               </p>
                               <div className="flex items-center gap-2 mt-0.5">
-                                <Icon className="w-3 h-3 text-gray-600" />
-                                <span className="text-[10px] text-gray-600">
+                                <Icon className="w-3 h-3 text-[#777777]" />
+                                <span className="text-[10px] text-[#777777]">
                                   {TYPE_LABELS[content.type]}
                                 </span>
                                 {content.video_duration_seconds && (
-                                  <span className="text-[10px] text-gray-600">
+                                  <span className="text-[10px] text-[#777777]">
                                     · {formatDuration(content.video_duration_seconds)}
                                   </span>
                                 )}
                                 {content.points && content.points > 0 && (
-                                  <span className="text-[10px] text-amber-500">
+                                  <span className="text-[10px] text-[#FF8C42]">
                                     +{content.points} pts
                                   </span>
                                 )}
@@ -497,13 +497,13 @@ export default function CoursePlayer({
 
             {/* Footer sidebar : certificat */}
             {progressionGlobale >= 100 && (
-              <div className="p-4 border-t border-gray-800">
+              <div className="p-4 border-t border-[#1A1A1A]">
                 <div className="p-3 rounded-lg bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20">
                   <div className="flex items-center gap-2">
                     <Award className="w-5 h-5 text-emerald-400" />
                     <span className="text-sm font-medium text-emerald-300">Formation terminée !</span>
                   </div>
-                  <p className="text-[10px] text-gray-400 mt-1">
+                  <p className="text-[10px] text-[#999999] mt-1">
                     Votre certificat est disponible dans les documents.
                   </p>
                 </div>
@@ -535,7 +535,7 @@ function DefaultContentRenderer({ content }: { content: Content }) {
       return <QuizPlaceholder content={content} />
     default:
       return (
-        <div className="p-8 text-center text-gray-500">
+        <div className="p-8 text-center text-[#777777]">
           <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-50" />
           <p>Contenu de type "{content.type}"</p>
         </div>
@@ -581,13 +581,13 @@ function VideoRenderer({ content }: { content: Content }) {
 function FileRenderer({ content }: { content: Content }) {
   return (
     <div className="p-8 text-center">
-      <FileText className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+      <FileText className="w-16 h-16 text-[#777777] mx-auto mb-4" />
       <h3 className="text-lg font-medium mb-2">{content.file_name || content.titre}</h3>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-[#777777] mb-4">
         {content.type === 'ppt' ? 'Présentation PowerPoint' : 'Document PDF'}
         {content.file_size && ` — ${formatSize(content.file_size)}`}
       </p>
-      <p className="text-xs text-gray-600">
+      <p className="text-xs text-[#777777]">
         Cliquez sur "Télécharger" ci-dessous pour obtenir le fichier.
       </p>
     </div>
@@ -607,7 +607,7 @@ function AudioRenderer({ content }: { content: Content }) {
         <div>
           <h3 className="font-medium">{content.titre}</h3>
           {content.audio_duration_seconds && (
-            <p className="text-sm text-gray-500">{formatDuration(content.audio_duration_seconds)}</p>
+            <p className="text-sm text-[#777777]">{formatDuration(content.audio_duration_seconds)}</p>
           )}
         </div>
       </div>
@@ -628,10 +628,10 @@ function TextRenderer({ content }: { content: Content }) {
         if (line.startsWith('# ')) return <h1 key={i} className="text-xl font-bold mt-6 mb-3">{line.slice(2)}</h1>
         if (line.startsWith('## ')) return <h2 key={i} className="text-lg font-semibold mt-5 mb-2">{line.slice(3)}</h2>
         if (line.startsWith('### ')) return <h3 key={i} className="text-base font-medium mt-4 mb-2">{line.slice(4)}</h3>
-        if (line.startsWith('- ')) return <li key={i} className="ml-4 text-gray-300">{line.slice(2)}</li>
-        if (line.startsWith('> ')) return <blockquote key={i} className="border-l-2 border-cyan-500 pl-4 text-gray-400 italic">{line.slice(2)}</blockquote>
+        if (line.startsWith('- ')) return <li key={i} className="ml-4 text-[#999999]">{line.slice(2)}</li>
+        if (line.startsWith('> ')) return <blockquote key={i} className="border-l-2 border-cyan-500 pl-4 text-[#999999] italic">{line.slice(2)}</blockquote>
         if (line.trim() === '') return <br key={i} />
-        return <p key={i} className="text-gray-300 leading-relaxed mb-2">{line}</p>
+        return <p key={i} className="text-[#999999] leading-relaxed mb-2">{line}</p>
       })}
     </div>
   )
@@ -643,19 +643,19 @@ function QuizPlaceholder({ content }: { content: Content }) {
   return (
     <div className="p-6 md:p-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center">
-          <HelpCircle className="w-5 h-5 text-amber-400" />
+        <div className="w-10 h-10 rounded-lg bg-[#FF8C42]/10 flex items-center justify-center">
+          <HelpCircle className="w-5 h-5 text-[#FF8C42]" />
         </div>
         <div>
           <h3 className="font-medium">Quiz — {content.titre}</h3>
-          <p className="text-sm text-gray-500">{questions.length} question{questions.length > 1 ? 's' : ''}</p>
+          <p className="text-sm text-[#777777]">{questions.length} question{questions.length > 1 ? 's' : ''}</p>
         </div>
       </div>
 
       {questions.length === 0 ? (
-        <p className="text-gray-500 text-center py-8">Quiz en cours de préparation...</p>
+        <p className="text-[#777777] text-center py-8">Quiz en cours de préparation...</p>
       ) : (
-        <p className="text-gray-400 text-sm">
+        <p className="text-[#999999] text-sm">
           Le quiz interactif sera disponible ici. Composant QuizBlock déjà disponible dans l'Academy.
         </p>
       )}

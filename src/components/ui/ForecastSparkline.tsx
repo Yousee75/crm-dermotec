@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
  *   <ForecastSparkline
  *     data={[10, 12, 15, 18, 22]}
  *     forecast={[22, 25, 28]}
- *     color="text-green-500"
+ *     color="text-[#10B981]"
  *   />
  */
 

@@ -56,7 +56,7 @@ export function PaymentLinkButton({ lead, inscription }: Props) {
     return (
       <div className="flex items-center gap-1.5">
         <Button variant="outline" size="sm" onClick={handleCopy}>
-          {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
+          {copied ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
           {copied ? 'Copié' : 'Copier lien'}
         </Button>
         <a href={link} target="_blank" rel="noopener noreferrer">

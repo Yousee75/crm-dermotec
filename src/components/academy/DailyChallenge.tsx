@@ -72,7 +72,7 @@ export function DailyChallenge({
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-1 bg-yellow-500/20 px-3 py-1 rounded-full">
+        <div className="flex items-center gap-1 bg-[#FF8C42]/20 px-3 py-1 rounded-full">
           <Trophy className="w-3 h-3 text-yellow-400" />
           <span className="text-xs font-bold text-yellow-400">+{xpReward} XP</span>
         </div>
@@ -98,7 +98,7 @@ export function DailyChallenge({
       ) : (
         <div className="space-y-3">
           {/* Result */}
-          <div className={`p-4 rounded-xl ${isCorrect ? 'bg-green-500/20 border border-green-500/30' : 'bg-red-500/20 border border-red-500/30'}`}>
+          <div className={`p-4 rounded-xl ${isCorrect ? 'bg-[#10B981]/20 border border-[#10B981]/30' : 'bg-[#FF2D78]/20 border border-red-500/30'}`}>
             <p className="font-bold text-sm mb-1">
               {isCorrect ? '✅ Correct !' : `❌ La bonne réponse était : ${options[correct]}`}
             </p>

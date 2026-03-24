@@ -206,13 +206,13 @@ export default function EmargementPage() {
   // États de chargement et d'erreur
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
             <div className="animate-pulse space-y-4">
-              <div className="h-8 bg-gray-200 rounded"></div>
-              <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+              <div className="h-8 bg-[#EEEEEE] rounded"></div>
+              <div className="h-4 bg-[#EEEEEE] rounded w-3/4 mx-auto"></div>
+              <div className="h-4 bg-[#EEEEEE] rounded w-1/2 mx-auto"></div>
             </div>
           </CardContent>
         </Card>
@@ -222,14 +222,14 @@ export default function EmargementPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
-            <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            <AlertCircle className="h-12 w-12 text-[#FF2D78] mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-[#111111] mb-2">
               Erreur
             </h2>
-            <p className="text-gray-600">{error}</p>
+            <p className="text-[#777777]">{error}</p>
           </CardContent>
         </Card>
       </div>
@@ -242,7 +242,7 @@ export default function EmargementPage() {
   const isAlreadySigned = !!existingEmargement
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAF8F5]">
       {/* Header Dermotec */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 py-4">
@@ -251,7 +251,7 @@ export default function EmargementPage() {
               <h1 className="text-xl font-bold text-accent">
                 DERMOTEC ADVANCED
               </h1>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[#777777]">
                 Centre de Formation Esthétique
               </p>
             </div>
@@ -265,7 +265,7 @@ export default function EmargementPage() {
           <h2 className="text-2xl font-bold text-accent mb-2">
             Feuille d'émargement
           </h2>
-          <p className="text-gray-600">
+          <p className="text-[#777777]">
             Signez numériquement pour confirmer votre présence
           </p>
         </div>
@@ -280,28 +280,28 @@ export default function EmargementPage() {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-700">Formation</label>
+                <label className="text-sm font-medium text-[#3A3A3A]">Formation</label>
                 <p className="text-lg font-semibold text-accent">
                   {session.formation.nom}
                 </p>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700">Catégorie</label>
-                <p className="text-gray-900">{session.formation.categorie}</p>
+                <label className="text-sm font-medium text-[#3A3A3A]">Catégorie</label>
+                <p className="text-[#111111]">{session.formation.categorie}</p>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700">Date</label>
-                <p className="text-gray-900 flex items-center gap-2">
+                <label className="text-sm font-medium text-[#3A3A3A]">Date</label>
+                <p className="text-[#111111] flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-primary" />
                   {date ? formatDate(date) : 'Date non spécifiée'}
                 </p>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700">Créneau</label>
-                <p className="text-gray-900 flex items-center gap-2">
+                <label className="text-sm font-medium text-[#3A3A3A]">Créneau</label>
+                <p className="text-[#111111] flex items-center gap-2">
                   <Clock className="h-4 w-4 text-primary" />
                   {formatCreneau(creneau)}
                 </p>
@@ -309,7 +309,7 @@ export default function EmargementPage() {
             </div>
 
             <div className="pt-2 border-t">
-              <label className="text-sm font-medium text-gray-700">Stagiaire</label>
+              <label className="text-sm font-medium text-[#3A3A3A]">Stagiaire</label>
               <p className="text-lg font-medium text-accent">
                 {inscription.lead.prenom} {inscription.lead.nom || ''}
               </p>
@@ -319,28 +319,28 @@ export default function EmargementPage() {
 
         {/* État de l'émargement */}
         {isAlreadySigned ? (
-          <Card className="mb-6 bg-green-50 border-green-200">
+          <Card className="mb-6 bg-[#ECFDF5] border-[#10B981]/30">
             <CardContent className="p-6 text-center">
-              <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-green-800 mb-2">
+              <CheckCircle className="h-16 w-16 text-[#10B981] mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-[#10B981] mb-2">
                 Émargement déjà effectué
               </h3>
-              <p className="text-green-700">
+              <p className="text-[#10B981]">
                 Vous avez déjà signé la feuille d'émargement pour cette séance.
               </p>
-              <p className="text-sm text-green-600 mt-2">
+              <p className="text-sm text-[#10B981] mt-2">
                 Signé le {existingEmargement.signed_at ? new Date(existingEmargement.signed_at).toLocaleString('fr-FR') : 'Date inconnue'}
               </p>
             </CardContent>
           </Card>
         ) : success ? (
-          <Card className="mb-6 bg-green-50 border-green-200">
+          <Card className="mb-6 bg-[#ECFDF5] border-[#10B981]/30">
             <CardContent className="p-6 text-center">
-              <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-green-800 mb-2">
+              <CheckCircle className="h-16 w-16 text-[#10B981] mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-[#10B981] mb-2">
                 Émargement réussi !
               </h3>
-              <p className="text-green-700">
+              <p className="text-[#10B981]">
                 Votre présence a été enregistrée avec succès.
               </p>
             </CardContent>
@@ -354,7 +354,7 @@ export default function EmargementPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="text-center">
-                <p className="text-gray-700 mb-4">
+                <p className="text-[#3A3A3A] mb-4">
                   Signez dans la zone ci-dessous pour confirmer votre présence
                 </p>
               </div>
@@ -375,7 +375,7 @@ export default function EmargementPage() {
                 {submitting ? 'Enregistrement...' : 'Confirmer ma présence'}
               </Button>
 
-              <div className="text-center text-sm text-gray-500">
+              <div className="text-center text-sm text-[#777777]">
                 <p>
                   En signant, vous certifiez votre présence à cette séance de formation.
                 </p>
@@ -385,7 +385,7 @@ export default function EmargementPage() {
         )}
 
         {/* Footer */}
-        <div className="text-center text-sm text-gray-500 mt-8 space-y-1">
+        <div className="text-center text-sm text-[#777777] mt-8 space-y-1">
           <p>Dermotec Advanced - Centre de Formation Esthétique</p>
           <p>75 Bd Richard Lenoir, 75011 Paris</p>
         </div>

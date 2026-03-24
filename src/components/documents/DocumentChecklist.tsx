@@ -116,7 +116,7 @@ export function DocumentChecklist({
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 p-6">
+    <div className="bg-white rounded-xl border border-[#F4F0EB] p-6">
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
         <div>
@@ -124,18 +124,18 @@ export function DocumentChecklist({
             <FileText className="w-5 h-5 text-primary" />
             Documents requis — {organismeInfo.label}
           </h3>
-          <p className="text-sm text-gray-500 mt-1">{organismeInfo.description}</p>
+          <p className="text-sm text-[#777777] mt-1">{organismeInfo.description}</p>
         </div>
 
         <div className="text-right">
           <div className="text-2xl font-bold text-accent">{pourcentageComplete}%</div>
-          <div className="text-xs text-gray-500">complété</div>
+          <div className="text-xs text-[#777777]">complété</div>
         </div>
       </div>
 
       {/* Barre de progression */}
       <div className="mb-6">
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-[#EEEEEE] rounded-full h-2">
           <div
             className="bg-gradient-to-r from-primary to-primary-dark h-2 rounded-full transition-all duration-300"
             style={{ width: `${pourcentageComplete}%` }}
@@ -145,11 +145,11 @@ export function DocumentChecklist({
 
       {/* Alerte documents suspects */}
       {documentsSuspects.length > 0 && (
-        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
-          <ShieldAlert className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+        <div className="mb-6 p-4 bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-lg flex items-start gap-3">
+          <ShieldAlert className="w-5 h-5 text-[#FF8C42] mt-0.5 shrink-0" />
           <div>
-            <p className="font-medium text-amber-800">Documents à vérifier</p>
-            <p className="text-sm text-amber-700 mt-1">
+            <p className="font-medium text-[#FF8C42]">Documents à vérifier</p>
+            <p className="text-sm text-[#FF8C42] mt-1">
               {documentsSuspects.length} document(s) marqué(s) comme suspect(s).
               Veuillez les vérifier avant soumission du dossier.
             </p>
@@ -168,27 +168,27 @@ export function DocumentChecklist({
             <div key={type} className={cn(
               "flex items-center justify-between p-4 rounded-lg border transition-all",
               document
-                ? "bg-green-50 border-green-200"
-                : "bg-gray-50 border-gray-200 hover:border-gray-300"
+                ? "bg-[#ECFDF5] border-[#10B981]/30"
+                : "bg-[#FAF8F5] border-[#EEEEEE] hover:border-[#EEEEEE]"
             )}>
               <div className="flex items-center gap-3">
                 {/* Icône de statut */}
                 {document ? (
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-[#10B981]" />
                 ) : isUploading ? (
-                  <Clock className="w-5 h-5 text-blue-500 animate-spin" />
+                  <Clock className="w-5 h-5 text-[#6B8CAE] animate-spin" />
                 ) : (
-                  <XCircle className="w-5 h-5 text-gray-400" />
+                  <XCircle className="w-5 h-5 text-[#999999]" />
                 )}
 
                 {/* Info document */}
                 <div>
-                  <p className="font-medium text-gray-900">{label}</p>
+                  <p className="font-medium text-[#111111]">{label}</p>
                   {document && (
                     <div className="flex items-center gap-2 mt-1">
-                      <p className="text-sm text-gray-600">{document.filename}</p>
-                      <p className="text-xs text-gray-500">·</p>
-                      <p className="text-xs text-gray-500">{formatDate(document.created_at)}</p>
+                      <p className="text-sm text-[#777777]">{document.filename}</p>
+                      <p className="text-xs text-[#777777]">·</p>
+                      <p className="text-xs text-[#777777]">{formatDate(document.created_at)}</p>
 
                       {/* Badge de scan */}
                       {document.description?.includes('SUSPECT') && (
@@ -206,13 +206,13 @@ export function DocumentChecklist({
               <div className="flex items-center gap-2">
                 {document ? (
                   <>
-                    <button className="flex items-center gap-2 px-3 py-1.5 text-xs bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">
+                    <button className="flex items-center gap-2 px-3 py-1.5 text-xs bg-[#E0EBF5] text-[#6B8CAE] rounded-lg hover:bg-blue-200 transition">
                       <Eye className="w-3 h-3" />
                       Voir
                     </button>
                     <button
                       onClick={() => handleDelete(document.id)}
-                      className="flex items-center gap-2 px-3 py-1.5 text-xs bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition"
+                      className="flex items-center gap-2 px-3 py-1.5 text-xs bg-[#FFE0EF] text-[#FF2D78] rounded-lg hover:bg-red-200 transition"
                     >
                       <Trash2 className="w-3 h-3" />
                       Supprimer
@@ -222,7 +222,7 @@ export function DocumentChecklist({
                   <label className={cn(
                     "flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-lg cursor-pointer transition",
                     isUploading
-                      ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                      ? "bg-[#F4F0EB] text-[#777777] cursor-not-allowed"
                       : "bg-primary text-white hover:bg-primary-dark"
                   )}>
                     {isUploading ? (
@@ -252,7 +252,7 @@ export function DocumentChecklist({
       </div>
 
       {/* Badge de statut global */}
-      <div className="mt-6 pt-6 border-t border-gray-100 flex justify-center">
+      <div className="mt-6 pt-6 border-t border-[#F4F0EB] flex justify-center">
         {pourcentageComplete === 100 ? (
           <Badge variant="success" size="lg" dot>
             Dossier complet

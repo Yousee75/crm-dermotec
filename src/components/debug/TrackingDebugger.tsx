@@ -67,7 +67,7 @@ export function TrackingDebugger() {
       {/* Debug panel */}
       {isVisible && (
         <div className="fixed bottom-16 right-4 w-96 z-50">
-          <Card className="p-4 bg-white shadow-lg border-purple-200">
+          <Card className="p-4 bg-white shadow-lg border-[#FF2D78]/30">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-sm">Tracking Debugger</h3>
               <div className="flex items-center gap-2">

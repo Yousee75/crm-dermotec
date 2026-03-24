@@ -9,15 +9,15 @@ import { TabBar } from '@/components/ui/TabBar'
 import dynamic from 'next/dynamic'
 
 const FinancementTab = dynamic(() => import('./tabs/FinancementTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const FacturationTab = dynamic(() => import('./tabs/FacturationTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const EShopTab = dynamic(() => import('./tabs/EShopTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 export default function GestionPage() {

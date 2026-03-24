@@ -159,12 +159,12 @@ export default function EmargementLivePage() {
           <h1 className="text-xl font-bold text-accent">
             Émargement en direct
           </h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <p className="text-sm text-[#777777] mt-0.5">
             {session.formation?.nom} — {new Date(today).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 text-sm text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
+          <div className="flex items-center gap-1.5 text-sm text-[#10B981] bg-[#ECFDF5] px-3 py-1.5 rounded-full">
             <Wifi className="w-3.5 h-3.5" />
             Temps réel
           </div>
@@ -187,21 +187,21 @@ export default function EmargementLivePage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card className="p-4 text-center">
           <p className="text-2xl font-bold text-accent">{signedCurrent}/{totalExpected}</p>
-          <p className="text-xs text-gray-500">Signatures {creneau === 'matin' ? 'matin' : 'après-midi'}</p>
+          <p className="text-xs text-[#777777]">Signatures {creneau === 'matin' ? 'matin' : 'après-midi'}</p>
         </Card>
         <Card className={cn('p-4 text-center', missingCount > 0 && 'border-orange-200 bg-orange-50')}>
-          <p className={cn('text-2xl font-bold', missingCount > 0 ? 'text-orange-600' : 'text-green-600')}>
+          <p className={cn('text-2xl font-bold', missingCount > 0 ? 'text-orange-600' : 'text-[#10B981]')}>
             {missingCount}
           </p>
-          <p className="text-xs text-gray-500">En attente</p>
+          <p className="text-xs text-[#777777]">En attente</p>
         </Card>
         <Card className="p-4 text-center">
-          <p className="text-2xl font-bold text-blue-600">{signedMatin}</p>
-          <p className="text-xs text-gray-500">Matin</p>
+          <p className="text-2xl font-bold text-[#6B8CAE]">{signedMatin}</p>
+          <p className="text-xs text-[#777777]">Matin</p>
         </Card>
         <Card className="p-4 text-center">
-          <p className="text-2xl font-bold text-purple-600">{signedAprem}</p>
-          <p className="text-xs text-gray-500">Après-midi</p>
+          <p className="text-2xl font-bold text-[#FF2D78]">{signedAprem}</p>
+          <p className="text-xs text-[#777777]">Après-midi</p>
         </Card>
       </div>
 
@@ -245,39 +245,39 @@ export default function EmargementLivePage() {
                   className={cn(
                     'flex items-center gap-3 p-3 rounded-xl border transition-all',
                     currentSigned
-                      ? 'bg-green-50 border-green-200'
-                      : 'bg-white border-gray-200'
+                      ? 'bg-[#ECFDF5] border-[#10B981]/30'
+                      : 'bg-white border-[#EEEEEE]'
                   )}
                 >
                   {/* Status icon */}
                   <div className={cn(
                     'w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0',
-                    currentSigned ? 'bg-green-100' : 'bg-gray-100'
+                    currentSigned ? 'bg-[#D1FAE5]' : 'bg-[#F4F0EB]'
                   )}>
                     {currentSigned ? (
-                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <CheckCircle className="w-5 h-5 text-[#10B981]" />
                     ) : (
-                      <Clock className="w-5 h-5 text-gray-400" />
+                      <Clock className="w-5 h-5 text-[#999999]" />
                     )}
                   </div>
 
                   {/* Nom */}
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 truncate">
+                    <p className="font-medium text-[#111111] truncate">
                       {lead?.prenom} {lead?.nom}
                     </p>
                     <div className="flex items-center gap-2 mt-0.5">
                       {/* Matin */}
                       <span className={cn(
                         'text-[10px] px-1.5 py-0.5 rounded',
-                        emargementMatin ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'
+                        emargementMatin ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F4F0EB] text-[#999999]'
                       )}>
                         {emargementMatin ? '✓ Matin' : '○ Matin'}
                       </span>
                       {/* Après-midi */}
                       <span className={cn(
                         'text-[10px] px-1.5 py-0.5 rounded',
-                        emargementAprem ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'
+                        emargementAprem ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F4F0EB] text-[#999999]'
                       )}>
                         {emargementAprem ? '✓ PM' : '○ PM'}
                       </span>
@@ -286,7 +286,7 @@ export default function EmargementLivePage() {
 
                   {/* Heure de signature */}
                   {currentSigned && (
-                    <span className="text-xs text-green-600 flex-shrink-0">
+                    <span className="text-xs text-[#10B981] flex-shrink-0">
                       {new Date(
                         creneau === 'matin' ? emargementMatin.signed_at : emargementAprem.signed_at
                       ).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
@@ -309,7 +309,7 @@ export default function EmargementLivePage() {
             })}
 
             {inscriptions.length === 0 && (
-              <div className="text-center py-8 text-gray-400">
+              <div className="text-center py-8 text-[#999999]">
                 <Users className="w-8 h-8 mx-auto mb-2 opacity-50" />
                 <p className="text-sm">Aucun stagiaire inscrit</p>
               </div>

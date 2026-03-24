@@ -33,7 +33,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-[#777777]">
           {sessions?.length || 0} sessions ce mois
         </p>
         <div className="flex items-center gap-3">
@@ -41,7 +41,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
             type="month"
             value={month}
             onChange={(e) => setMonth(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
+            className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
           />
           <Button size="sm" icon={<Plus className="w-4 h-4" />} onClick={onCreateSession}>
             Nouvelle session
@@ -94,9 +94,9 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
                     </div>
 
                     {/* Meta info */}
-                    <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-500">
+                    <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#777777]">
                       <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                        <Calendar className="w-3.5 h-3.5 text-[#999999]" />
                         <span>
                           {new Date(session.date_debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                           {session.date_debut !== session.date_fin && (
@@ -105,11 +105,11 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-gray-400" />
+                        <Clock className="w-3.5 h-3.5 text-[#999999]" />
                         <span>{session.horaire_debut} — {session.horaire_fin}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-gray-400" />
+                        <MapPin className="w-3.5 h-3.5 text-[#999999]" />
                         <span>{session.salle}</span>
                       </div>
                     </div>
@@ -121,7 +121,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
                           name={`${session.formatrice.prenom} ${session.formatrice.nom}`}
                           size="xs"
                         />
-                        <span className="text-xs text-gray-400">
+                        <span className="text-xs text-[#999999]">
                           {session.formatrice.prenom} {session.formatrice.nom}
                         </span>
                       </div>
@@ -131,10 +131,10 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
                   {/* Places indicator */}
                   <div className="shrink-0 w-28 text-right">
                     <div className="flex items-center justify-end gap-1.5 mb-2">
-                      <Users className="w-3.5 h-3.5 text-gray-400" />
+                      <Users className="w-3.5 h-3.5 text-[#999999]" />
                       <span className={cn(
                         'text-sm font-semibold',
-                        placesRestantes <= 0 ? 'text-red-500' : placesRestantes <= 2 ? 'text-amber-500' : 'text-gray-700'
+                        placesRestantes <= 0 ? 'text-[#FF2D78]' : placesRestantes <= 2 ? 'text-[#FF8C42]' : 'text-[#3A3A3A]'
                       )}>
                         {session.places_occupees}/{session.places_max}
                       </span>
@@ -145,7 +145,7 @@ export default function PlanningTab({ onCreateSession }: PlanningTabProps) {
                       size="md"
                       color={placesRestantes <= 0 ? '#EF4444' : placesRestantes <= 2 ? '#F59E0B' : 'var(--color-primary)'}
                     />
-                    <p className="text-[10px] text-gray-400 mt-1">
+                    <p className="text-[10px] text-[#999999] mt-1">
                       {placesRestantes <= 0 ? 'Complet' : `${placesRestantes} place${placesRestantes > 1 ? 's' : ''} dispo`}
                     </p>
                   </div>

@@ -25,14 +25,14 @@ export interface FieldSourceInfo {
 // ── Source icons & labels ──────────────────────────────────
 
 const SOURCE_CONFIG: Record<string, { icon: React.ElementType; label: string; color: string; bg: string }> = {
-  manual: { icon: User, label: 'Saisi manuellement', color: 'text-blue-500', bg: 'bg-blue-50' },
+  manual: { icon: User, label: 'Saisi manuellement', color: 'text-[#6B8CAE]', bg: 'bg-[#E0EBF5]' },
   'api:pappers': { icon: Database, label: 'Pappers API', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'api:google': { icon: Globe, label: 'Google Places', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'api:outscraper': { icon: Database, label: 'Outscraper', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'api:sirene': { icon: Database, label: 'API Sirene (INSEE)', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'ai:claude': { icon: Sparkles, label: 'IA (Claude)', color: 'text-violet-500', bg: 'bg-violet-50' },
-  'csv:import': { icon: FileSpreadsheet, label: 'Import CSV', color: 'text-gray-500', bg: 'bg-gray-50' },
-  'webhook:formulaire': { icon: Globe, label: 'Formulaire web', color: 'text-amber-500', bg: 'bg-amber-50' },
+  'csv:import': { icon: FileSpreadsheet, label: 'Import CSV', color: 'text-[#777777]', bg: 'bg-[#FAF8F5]' },
+  'webhook:formulaire': { icon: Globe, label: 'Formulaire web', color: 'text-[#FF8C42]', bg: 'bg-[#FFF3E8]' },
 }
 
 function SourceBadge({ source }: { source?: FieldSourceInfo }) {
@@ -111,7 +111,7 @@ export function FieldWithSource({
     <div className={cn('group', className)}>
       {/* Label + source */}
       <div className="flex items-center gap-1 mb-0.5">
-        <span className={cn('text-gray-400 font-medium', compact ? 'text-[10px]' : 'text-[11px]')}>{label}</span>
+        <span className={cn('text-[#999999] font-medium', compact ? 'text-[10px]' : 'text-[11px]')}>{label}</span>
         <SourceBadge source={source} />
       </div>
 
@@ -150,21 +150,21 @@ export function FieldWithSource({
             />
           )}
           <button onClick={handleSave} className="p-1 rounded hover:bg-emerald-50 text-emerald-600 transition"><Check className="w-3.5 h-3.5" /></button>
-          <button onClick={handleCancel} className="p-1 rounded hover:bg-red-50 text-red-500 transition"><X className="w-3.5 h-3.5" /></button>
+          <button onClick={handleCancel} className="p-1 rounded hover:bg-[#FFE0EF] text-[#FF2D78] transition"><X className="w-3.5 h-3.5" /></button>
         </div>
       ) : (
         <div className="flex items-center gap-1 min-h-[24px]">
           <span className={cn(
             'flex-1 transition',
             compact ? 'text-xs' : 'text-[13px]',
-            isEmpty ? 'text-gray-300 italic' : 'text-gray-900',
+            isEmpty ? 'text-[#999999] italic' : 'text-[#111111]',
           )}>
             {isEmpty ? (placeholder || '—') : displayVal}
           </span>
           {editable && onSave && (
             <button
               onClick={() => { setEditValue(String(value ?? '')); setEditing(true) }}
-              className="opacity-0 group-hover:opacity-100 p-0.5 rounded hover:bg-gray-100 text-gray-400 transition"
+              className="opacity-0 group-hover:opacity-100 p-0.5 rounded hover:bg-[#F4F0EB] text-[#999999] transition"
             >
               <Pencil className="w-3 h-3" />
             </button>

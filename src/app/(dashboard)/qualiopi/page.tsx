@@ -9,19 +9,19 @@ import { TabBar } from '@/components/ui/TabBar'
 import dynamic from 'next/dynamic'
 
 const IndicateursTab = dynamic(() => import('./tabs/IndicateursTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const QuestionnairesTab = dynamic(() => import('./tabs/QuestionnairesTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const BpfTab = dynamic(() => import('./tabs/BpfTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const ReclamationsTab = dynamic(() => import('./tabs/ReclamationsTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 export default function QualiopiPage() {

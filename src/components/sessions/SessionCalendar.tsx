@@ -45,13 +45,13 @@ const HEURES = Array.from({ length: 12 }, (_, i) => i + 8) // 8h -> 19h
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string; dot: string }> = {
   'Dermo-Esthétique':  { bg: 'bg-rose-50',    text: 'text-rose-700',    border: 'border-rose-200',  dot: 'bg-rose-500' },
   'Dermo-Correctrice': { bg: 'bg-pink-50',     text: 'text-pink-700',    border: 'border-pink-200',  dot: 'bg-pink-500' },
-  'Soins Visage':      { bg: 'bg-amber-50',    text: 'text-amber-700',   border: 'border-amber-200', dot: 'bg-amber-500' },
+  'Soins Visage':      { bg: 'bg-[#FFF3E8]',    text: 'text-[#FF8C42]',   border: 'border-[#FF8C42]/30', dot: 'bg-[#FF8C42]' },
   'Laser & IPL':       { bg: 'bg-violet-50',   text: 'text-violet-700',  border: 'border-violet-200', dot: 'bg-violet-500' },
   'Soins Corps':       { bg: 'bg-emerald-50',  text: 'text-emerald-700', border: 'border-emerald-200', dot: 'bg-emerald-500' },
-  'Hygiène':           { bg: 'bg-blue-50',     text: 'text-blue-700',    border: 'border-blue-200',  dot: 'bg-blue-500' },
+  'Hygiène':           { bg: 'bg-[#E0EBF5]',     text: 'text-[#6B8CAE]',    border: 'border-[#6B8CAE]/30',  dot: 'bg-[#6B8CAE]' },
 }
 
-const DEFAULT_COLOR = { bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200', dot: 'bg-gray-400' }
+const DEFAULT_COLOR = { bg: 'bg-[#FAF8F5]', text: 'text-[#3A3A3A]', border: 'border-[#EEEEEE]', dot: 'bg-[#999999]' }
 
 function getCategoryColor(cat: string) {
   return CATEGORY_COLORS[cat] ?? DEFAULT_COLOR
@@ -140,15 +140,15 @@ function SessionTooltip({ session }: { session: CalendarSession }) {
   const colors = getCategoryColor(session.formation_categorie)
 
   return (
-    <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-3 pointer-events-none">
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-gray-200" />
+    <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-white rounded-lg shadow-lg border border-[#EEEEEE] p-3 pointer-events-none">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-[#EEEEEE]" />
       <p className={`font-semibold text-sm ${colors.text} mb-1`}>{session.formation_nom}</p>
-      <div className="space-y-1 text-xs text-gray-600">
+      <div className="space-y-1 text-xs text-[#777777]">
         <div className="flex items-center gap-1.5">
           <Clock className="w-3 h-3 shrink-0" />
           <span>{startDate}{startDate !== endDate ? ` → ${endDate}` : ''}</span>
           {session.horaire_debut && (
-            <span className="text-gray-400">
+            <span className="text-[#999999]">
               {session.horaire_debut?.slice(0, 5)}–{session.horaire_fin?.slice(0, 5)}
             </span>
           )}
@@ -360,39 +360,39 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
   }, [sessions])
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#F4F0EB] overflow-hidden">
       {/* ===== Header ===== */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-gray-100">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-[#F4F0EB]">
         {/* Navigation */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-[#F4F0EB] transition-colors"
             aria-label="Précédent"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
+            <ChevronLeft className="w-5 h-5 text-[#777777]" />
           </button>
-          <h2 className="text-base font-semibold text-gray-900 min-w-[200px] text-center">{title}</h2>
+          <h2 className="text-base font-semibold text-[#111111] min-w-[200px] text-center">{title}</h2>
           <button
             type="button"
             onClick={() => navigate(1)}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-[#F4F0EB] transition-colors"
             aria-label="Suivant"
           >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
+            <ChevronRight className="w-5 h-5 text-[#777777]" />
           </button>
           <button
             type="button"
             onClick={goToday}
-            className="ml-1 px-3 py-1 text-xs font-medium rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+            className="ml-1 px-3 py-1 text-xs font-medium rounded-md border border-[#EEEEEE] text-[#777777] hover:bg-[#FAF8F5] transition-colors"
           >
             Aujourd&apos;hui
           </button>
         </div>
 
         {/* View toggle */}
-        <div className="flex rounded-lg border border-gray-200 overflow-hidden">
+        <div className="flex rounded-lg border border-[#EEEEEE] overflow-hidden">
           {(['month', 'week'] as const).map(v => (
             <button
               key={v}
@@ -402,7 +402,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 px-4 py-1.5 text-xs font-medium transition-colors
                 ${view === v
                   ? 'bg-[#1A1A1A] text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-50'
+                  : 'bg-white text-[#777777] hover:bg-[#FAF8F5]'
                 }
               `}
             >
@@ -416,9 +416,9 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
       {view === 'month' && (
         <div className="overflow-x-auto">
           {/* Day headers */}
-          <div className="grid grid-cols-7 border-b border-gray-100">
+          <div className="grid grid-cols-7 border-b border-[#F4F0EB]">
             {JOURS.map(j => (
-              <div key={j} className="py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <div key={j} className="py-2 text-center text-xs font-medium text-[#777777] uppercase tracking-wider">
                 {j}
               </div>
             ))}
@@ -435,17 +435,17 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 <div
                   key={i}
                   className={`
-                    min-h-[100px] border-b border-r border-gray-50 p-1
-                    ${!inMonth ? 'bg-gray-50/50' : ''}
+                    min-h-[100px] border-b border-r border-[#FAF8F5] p-1
+                    ${!inMonth ? 'bg-[#FAF8F5]/50' : ''}
                     ${today ? 'ring-2 ring-inset ring-[#FF5C00]/40 bg-cyan-50/30' : ''}
-                    ${i % 7 === 0 ? 'border-l border-gray-50' : ''}
+                    ${i % 7 === 0 ? 'border-l border-[#FAF8F5]' : ''}
                   `}
                 >
                   <div className={`
                     text-xs font-medium mb-1 px-1
                     ${today
                       ? 'text-[#FF5C00] font-bold'
-                      : inMonth ? 'text-gray-700' : 'text-gray-300'
+                      : inMonth ? 'text-[#3A3A3A]' : 'text-[#999999]'
                     }
                   `}>
                     {date.getDate()}
@@ -459,7 +459,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                       />
                     ))}
                     {daySessions.length > 3 && (
-                      <p className="text-[10px] text-gray-400 px-1.5">
+                      <p className="text-[10px] text-[#999999] px-1.5">
                         +{daySessions.length - 3} autre{daySessions.length - 3 > 1 ? 's' : ''}
                       </p>
                     )}
@@ -475,7 +475,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
       {view === 'week' && (
         <div className="overflow-x-auto">
           {/* Day headers */}
-          <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-gray-100">
+          <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-[#F4F0EB]">
             <div className="py-2" /> {/* gutter */}
             {weekDates.map((date, i) => {
               const today = isToday(date)
@@ -483,14 +483,14 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 <div
                   key={i}
                   className={`
-                    py-2 text-center border-l border-gray-100
+                    py-2 text-center border-l border-[#F4F0EB]
                     ${today ? 'bg-cyan-50/50' : ''}
                   `}
                 >
-                  <div className="text-xs text-gray-500 uppercase">{JOURS[i]}</div>
+                  <div className="text-xs text-[#777777] uppercase">{JOURS[i]}</div>
                   <div className={`
                     text-sm font-semibold
-                    ${today ? 'text-[#FF5C00]' : 'text-gray-800'}
+                    ${today ? 'text-[#FF5C00]' : 'text-[#1A1A1A]'}
                   `}>
                     {date.getDate()}
                   </div>
@@ -502,11 +502,11 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
           {/* Time grid */}
           <div className="grid grid-cols-[60px_repeat(7,1fr)]" style={{ height: `${HEURES.length * 60}px` }}>
             {/* Hour labels */}
-            <div className="relative border-r border-gray-100">
+            <div className="relative border-r border-[#F4F0EB]">
               {HEURES.map(h => (
                 <div
                   key={h}
-                  className="absolute text-[11px] text-gray-400 text-right pr-2 w-full"
+                  className="absolute text-[11px] text-[#999999] text-right pr-2 w-full"
                   style={{ top: `${(h - 8) * 60}px` }}
                 >
                   {h}h
@@ -523,7 +523,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 <div
                   key={di}
                   className={`
-                    relative border-l border-gray-100
+                    relative border-l border-[#F4F0EB]
                     ${today ? 'bg-cyan-50/20' : ''}
                   `}
                 >
@@ -531,7 +531,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                   {HEURES.map(h => (
                     <div
                       key={h}
-                      className="absolute w-full border-t border-gray-50"
+                      className="absolute w-full border-t border-[#FAF8F5]"
                       style={{ top: `${(h - 8) * 60}px` }}
                     />
                   ))}
@@ -553,11 +553,11 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
 
       {/* ===== Legend ===== */}
       {activeCategories.length > 0 && (
-        <div className="flex flex-wrap gap-3 px-4 py-2.5 border-t border-gray-100 bg-gray-50/50">
+        <div className="flex flex-wrap gap-3 px-4 py-2.5 border-t border-[#F4F0EB] bg-[#FAF8F5]/50">
           {activeCategories.map(cat => {
             const colors = getCategoryColor(cat.id)
             return (
-              <div key={cat.id} className="flex items-center gap-1.5 text-xs text-gray-600">
+              <div key={cat.id} className="flex items-center gap-1.5 text-xs text-[#777777]">
                 <span className={`w-2.5 h-2.5 rounded-full ${colors.dot}`} />
                 {cat.label}
               </div>
@@ -568,7 +568,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
 
       {/* Empty state */}
       {sessions.length === 0 && (
-        <div className="py-16 text-center text-gray-400">
+        <div className="py-16 text-center text-[#999999]">
           <Calendar className="w-10 h-10 mx-auto mb-3 opacity-40" />
           <p className="text-sm">Aucune session à afficher</p>
         </div>

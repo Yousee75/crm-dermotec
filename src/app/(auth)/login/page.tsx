@@ -130,7 +130,7 @@ export default function LoginPage() {
             <h2 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
               Connexion au CRM
             </h2>
-            <p className="text-gray-600">
+            <p className="text-[#777777]">
               Accédez à votre espace de travail
             </p>
           </div>
@@ -160,7 +160,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-gray-600 transition"
+                    className="text-[#999999] hover:text-[#777777] transition"
                   >
                     {showPassword ? (
                       <EyeOff className="w-5 h-5" />
@@ -175,8 +175,8 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-600 text-sm font-medium">{error}</p>
+              <div className="bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg p-4">
+                <p className="text-[#FF2D78] text-sm font-medium">{error}</p>
               </div>
             )}
 
@@ -202,7 +202,7 @@ export default function LoginPage() {
 
           {/* Footer */}
           <div className="mt-12 text-center">
-            <p className="text-gray-400 text-xs">
+            <p className="text-[#999999] text-xs">
               75 Bd Richard Lenoir, Paris 11e
             </p>
           </div>

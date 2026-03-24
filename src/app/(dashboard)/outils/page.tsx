@@ -151,7 +151,7 @@ export default function OutilsPage() {
             <button
               key={t.id}
               onClick={() => setActiveTool(t.id)}
-              className="group text-left bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:border-gray-300 transition-all duration-200"
+              className="group text-left bg-white border border-[#EEEEEE] rounded-xl p-5 hover:shadow-md hover:border-[#EEEEEE] transition-all duration-200"
             >
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
@@ -162,7 +162,7 @@ export default function OutilsPage() {
               <h3 className="font-semibold text-accent text-sm group-hover:text-primary transition-colors">
                 {t.title}
               </h3>
-              <p className="text-xs text-gray-500 mt-1">{t.description}</p>
+              <p className="text-xs text-[#777777] mt-1">{t.description}</p>
             </button>
           )
         })}
@@ -185,7 +185,7 @@ export default function OutilsPage() {
               </div>
               <div>
                 <h2 className="font-semibold text-lg text-accent">{tool.title}</h2>
-                <p className="text-sm text-gray-500">{tool.description}</p>
+                <p className="text-sm text-[#777777]">{tool.description}</p>
               </div>
             </div>
             <ToolComponent />

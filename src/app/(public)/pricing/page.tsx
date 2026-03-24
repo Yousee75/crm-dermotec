@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Check } from 'lucide-react'
+import { PLANS_PRICING } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Tarifs CRM Formation Esthetique | Plans et Prix',
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
     'Plans et tarifs du CRM Dermotec Advanced pour centres de formation esthetique. Gratuit pour demarrer, puissant pour grandir. Essai 14 jours sans engagement.',
   openGraph: {
     title: 'Tarifs CRM Formation Esthetique | Dermotec Advanced',
-    description: 'CRM specialise formation esthetique. Plan gratuit, Pro 49EUR/mois, Expert 99EUR/mois. Essai 14 jours sans engagement.',
+    description: 'CRM specialise formation esthetique. Plan gratuit, Pro 79EUR/mois, Expert 149EUR/mois. Essai 14 jours sans engagement.',
     url: 'https://crm-dermotec.vercel.app/pricing',
     siteName: 'Dermotec Advanced',
     type: 'website',
@@ -18,90 +19,20 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Tarifs CRM Formation Esthetique | Dermotec Advanced',
-    description: 'CRM specialise formation esthetique. Plan gratuit, Pro 49EUR/mois, Expert 99EUR/mois. Essai 14 jours.',
+    description: 'CRM specialise formation esthetique. Plan gratuit, Pro 79EUR/mois, Expert 149EUR/mois. Essai 14 jours.',
   },
 }
 
-const plans = [
-  {
-    name: 'Découverte',
-    price: 'Gratuit',
-    period: '',
-    description: 'Pour tester et démarrer en toute sérénité.',
-    features: [
-      '50 leads',
-      '1 utilisateur',
-      'Pipeline kanban',
-      'Email templates',
-      'Support communauté',
-    ],
-    cta: 'Commencer',
-    ctaHref: '/auth/signup?plan=decouverte',
-    highlighted: false,
-    badge: null,
-  },
-  {
-    name: 'Pro',
-    price: '49€',
-    period: '/mois HT',
-    description: 'Pour les centres en croissance.',
-    features: [
-      '500 leads',
-      '5 utilisateurs',
-      'Tout Découverte +',
-      'Financement dossiers',
-      'Analytics avancé',
-      'Export CSV / PDF',
-      'Cadences automatisées',
-      'Support email prioritaire',
-    ],
-    cta: 'Essai gratuit 14 jours',
-    ctaHref: '/auth/signup?plan=pro',
-    highlighted: false,
-    badge: null,
-  },
-  {
-    name: 'Expert',
-    price: '99€',
-    period: '/mois HT',
-    description: 'Pour les centres ambitieux qui veulent tout automatiser.',
-    features: [
-      'Leads illimités',
-      '15 utilisateurs',
-      'Tout Pro +',
-      'Assistant IA',
-      'API access',
-      'Webhooks',
-      'Intégrations (WhatsApp, SMS)',
-      'Support téléphonique',
-      'SLA 99.5%',
-    ],
-    cta: 'Essai gratuit 14 jours',
-    ctaHref: '/auth/signup?plan=expert',
-    highlighted: true,
-    badge: 'Populaire',
-  },
-  {
-    name: 'Clinique',
-    price: 'Sur devis',
-    period: '',
-    description: 'Pour les groupes multi-sites avec besoins spécifiques.',
-    features: [
-      'Tout illimité',
-      'Utilisateurs illimités',
-      'Tout Expert +',
-      'Multi-sites',
-      'Formation dédiée',
-      'Account manager',
-      'SLA 99.9%',
-      'DPA personnalisé',
-    ],
-    cta: 'Nous contacter',
-    ctaHref: '/contact?plan=clinique',
-    highlighted: false,
-    badge: null,
-  },
-]
+// Adapter les plans depuis constants.ts avec les propriétés nécessaires pour cette page
+const plans = PLANS_PRICING.map(plan => ({
+  ...plan,
+  description: plan.name === 'Découverte' ? 'Pour tester et démarrer en toute sérénité.' :
+              plan.name === 'Pro' ? 'Pour les centres en croissance.' :
+              plan.name === 'Expert' ? 'Pour les centres ambitieux qui veulent tout automatiser.' :
+              'Pour les groupes multi-sites avec besoins spécifiques.',
+  ctaHref: plan.ctaHref.replace('/login', '/auth/signup').replace('/contact', '/contact?plan=clinique'),
+  badge: plan.highlighted ? 'Populaire' : null,
+}))
 
 const faqs = [
   {
@@ -147,7 +78,7 @@ export default function PricingPage() {
         >
           Tarifs simples, sans surprise
         </h1>
-        <p className="text-lg text-gray-500 max-w-xl mx-auto">
+        <p className="text-lg text-[#777777] max-w-xl mx-auto">
           Tous les plans incluent 14 jours d&apos;essai gratuit. Sans engagement.
         </p>
       </div>
@@ -160,7 +91,7 @@ export default function PricingPage() {
             className={`relative flex flex-col bg-white rounded-2xl border-2 p-6 transition-shadow ${
               plan.highlighted
                 ? 'border-primary shadow-lg shadow-primary/10'
-                : 'border-gray-100 shadow-card'
+                : 'border-[#F4F0EB] shadow-card'
             }`}
           >
             {/* Badge */}
@@ -178,7 +109,7 @@ export default function PricingPage() {
               >
                 {plan.name}
               </h2>
-              <p className="text-sm text-gray-500 mb-4">{plan.description}</p>
+              <p className="text-sm text-[#777777] mb-4">{plan.description}</p>
               <div className="flex items-baseline gap-1">
                 <span
                   className="text-3xl font-bold text-accent"
@@ -187,11 +118,11 @@ export default function PricingPage() {
                   {plan.price}
                 </span>
                 {plan.period && (
-                  <span className="text-sm text-gray-400">{plan.period}</span>
+                  <span className="text-sm text-[#999999]">{plan.period}</span>
                 )}
               </div>
               {plan.period && (
-                <span className="inline-block mt-1 text-[10px] text-gray-400 bg-gray-50 rounded px-1.5 py-0.5">
+                <span className="inline-block mt-1 text-[10px] text-[#999999] bg-[#FAF8F5] rounded px-1.5 py-0.5">
                   TVA non incluse
                 </span>
               )}
@@ -200,7 +131,7 @@ export default function PricingPage() {
             {/* Features */}
             <ul className="flex-1 space-y-3 mb-8">
               {plan.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2 text-sm text-gray-600">
+                <li key={feature} className="flex items-start gap-2 text-sm text-[#777777]">
                   <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <span>{feature}</span>
                 </li>
@@ -213,7 +144,7 @@ export default function PricingPage() {
               className={`block text-center rounded-xl py-2.5 px-4 text-sm font-medium transition-all duration-150 ${
                 plan.highlighted
                   ? 'bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md'
-                  : 'border border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
+                  : 'border border-[#EEEEEE] bg-white hover:bg-[#FAF8F5] text-[#3A3A3A]'
               }`}
             >
               {plan.cta}
@@ -234,7 +165,7 @@ export default function PricingPage() {
           {faqs.map((faq) => (
             <div key={faq.question}>
               <h3 className="font-semibold text-accent text-sm mb-2">{faq.question}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{faq.answer}</p>
+              <p className="text-sm text-[#777777] leading-relaxed">{faq.answer}</p>
             </div>
           ))}
         </div>

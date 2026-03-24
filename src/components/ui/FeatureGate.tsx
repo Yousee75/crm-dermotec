@@ -84,7 +84,7 @@ export function FeatureGate({
       {children}
 
       {showLockIcon && (
-        <Lock className="absolute top-2 right-2 h-4 w-4 text-gray-600 pointer-events-none" />
+        <Lock className="absolute top-2 right-2 h-4 w-4 text-[#777777] pointer-events-none" />
       )}
     </div>
   )

@@ -40,7 +40,7 @@ export function MobileBottomNav() {
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: `${action.color}20` }}>
                   <action.icon className="w-4 h-4" style={{ color: action.color }} />
                 </div>
-                <span className="text-sm font-semibold text-gray-900">{action.label}</span>
+                <span className="text-sm font-semibold text-[#111111]">{action.label}</span>
               </Link>
             ))}
           </div>
@@ -48,7 +48,7 @@ export function MobileBottomNav() {
       )}
 
       {/* Bottom navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-gray-200/60" style={{ WebkitBackdropFilter: 'blur(20px)', paddingBottom: 'env(safe-area-inset-bottom, 0)' }}>
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#EEEEEE]/60" style={{ WebkitBackdropFilter: 'blur(20px)', paddingBottom: 'env(safe-area-inset-bottom, 0)' }}>
         <div className="flex items-stretch">
           {NAV_ITEMS.map((item) => {
             if (item.isFab) {
@@ -61,7 +61,7 @@ export function MobileBottomNav() {
                   <div className={cn(
                     'w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-200',
                     fabOpen
-                      ? 'bg-gray-800 rotate-45'
+                      ? 'bg-[#1A1A1A] rotate-45'
                       : 'bg-primary'
                   )}>
                     <Plus className="w-6 h-6 text-white" />
@@ -83,7 +83,7 @@ export function MobileBottomNav() {
                   'flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 transition-all duration-150 relative',
                   'min-h-[52px]',
                   'active:scale-90',
-                  isActive ? 'text-primary' : 'text-gray-400'
+                  isActive ? 'text-primary' : 'text-[#999999]'
                 )}
               >
                 <item.icon className={cn('w-5 h-5 transition-transform', isActive && 'scale-110')} strokeWidth={isActive ? 2.5 : 2} />

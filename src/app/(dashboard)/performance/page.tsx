@@ -28,7 +28,7 @@ export default function PerformancePage() {
 
   if (error) {
     return (
-      <div className="p-8 text-center text-red-500">
+      <div className="p-8 text-center text-[#FF2D78]">
         Accès réservé aux managers et administrateurs.
       </div>
     )
@@ -42,11 +42,11 @@ export default function PerformancePage() {
           <h1 className="text-2xl font-bold text-accent">
             Performance Commerciaux
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-[#777777] mt-1">
             Suivi en temps réel de l&apos;équipe commerciale
           </p>
         </div>
-        <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+        <div className="flex gap-1 bg-[#F4F0EB] rounded-lg p-1">
           {(['mois', 'trimestre', 'annee'] as Periode[]).map((p) => (
             <button
               key={p}
@@ -54,7 +54,7 @@ export default function PerformancePage() {
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 periode === p
                   ? 'bg-white text-accent shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-[#777777] hover:text-[#3A3A3A]'
               }`}
             >
               {periodeLabels[p]}
@@ -66,7 +66,7 @@ export default function PerformancePage() {
       {isLoading ? (
         <div className="grid grid-cols-4 gap-4">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="h-28 bg-gray-100 rounded-xl animate-pulse" />
+            <div key={i} className="h-28 bg-[#F4F0EB] rounded-xl animate-pulse" />
           ))}
         </div>
       ) : data ? (
@@ -108,14 +108,14 @@ export default function PerformancePage() {
           {/* Barre de progression globale */}
           <div className="bg-white rounded-xl border p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-[#3A3A3A]">
                 Progression objectif global
               </span>
               <span className="text-sm font-bold text-accent">
                 {data.totaux.progression_objectif_global}%
               </span>
             </div>
-            <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-3 bg-[#F4F0EB] rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
@@ -131,15 +131,15 @@ export default function PerformancePage() {
 
           {/* Leaderboard */}
           <div className="bg-white rounded-xl border overflow-hidden">
-            <div className="p-4 border-b bg-gray-50">
+            <div className="p-4 border-b bg-[#FAF8F5]">
               <h2 className="font-semibold text-accent flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-yellow-500" />
+                <Trophy className="w-5 h-5 text-[#FF8C42]" />
                 Classement — {periodeLabels[periode]}
               </h2>
             </div>
             <div className="divide-y">
               {data.commerciaux.map((commercial) => (
-                <div key={commercial.id} className="p-4 hover:bg-gray-50 transition-colors">
+                <div key={commercial.id} className="p-4 hover:bg-[#FAF8F5] transition-colors">
                   <div className="flex items-center gap-4">
                     {/* Rang */}
                     <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg"
@@ -167,7 +167,7 @@ export default function PerformancePage() {
                         <p className="font-medium text-accent">
                           {commercial.prenom} {commercial.nom}
                         </p>
-                        <p className="text-xs text-gray-500">{commercial.role}</p>
+                        <p className="text-xs text-[#777777]">{commercial.role}</p>
                       </div>
                     </div>
 
@@ -175,16 +175,16 @@ export default function PerformancePage() {
                     <div className="flex-1 grid grid-cols-2 md:grid-cols-5 gap-4">
                       {/* CA */}
                       <div>
-                        <p className="text-xs text-gray-500">CA</p>
+                        <p className="text-xs text-[#777777]">CA</p>
                         <p className="font-semibold text-accent">{formatEuro(commercial.ca_periode)}</p>
                         <TendanceBadge value={commercial.tendance_ca} />
                       </div>
 
                       {/* Objectif */}
                       <div>
-                        <p className="text-xs text-gray-500">Objectif</p>
+                        <p className="text-xs text-[#777777]">Objectif</p>
                         <div className="flex items-center gap-2">
-                          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="flex-1 h-2 bg-[#F4F0EB] rounded-full overflow-hidden">
                             <div
                               className="h-full rounded-full"
                               style={{
@@ -200,29 +200,29 @@ export default function PerformancePage() {
 
                       {/* Conversion */}
                       <div>
-                        <p className="text-xs text-gray-500">Conversion</p>
+                        <p className="text-xs text-[#777777]">Conversion</p>
                         <p className={`font-semibold ${
-                          commercial.taux_conversion >= 20 ? 'text-green-600' :
-                          commercial.taux_conversion >= 10 ? 'text-orange-500' : 'text-red-500'
+                          commercial.taux_conversion >= 20 ? 'text-[#10B981]' :
+                          commercial.taux_conversion >= 10 ? 'text-orange-500' : 'text-[#FF2D78]'
                         }`}>
                           {commercial.taux_conversion}%
                         </p>
-                        <p className="text-xs text-gray-400">{commercial.conversions_periode}/{commercial.leads_periode}</p>
+                        <p className="text-xs text-[#999999]">{commercial.conversions_periode}/{commercial.leads_periode}</p>
                       </div>
 
                       {/* Pipeline */}
                       <div>
-                        <p className="text-xs text-gray-500">Pipeline</p>
+                        <p className="text-xs text-[#777777]">Pipeline</p>
                         <p className="font-semibold text-accent">{commercial.pipeline_actif}</p>
-                        <p className="text-xs text-gray-400">score moy. {commercial.pipeline_score_moyen}</p>
+                        <p className="text-xs text-[#999999]">score moy. {commercial.pipeline_score_moyen}</p>
                       </div>
 
                       {/* Activité / Alertes */}
                       <div>
-                        <p className="text-xs text-gray-500">Activité</p>
+                        <p className="text-xs text-[#777777]">Activité</p>
                         <p className="font-semibold text-accent">{commercial.activites_periode}</p>
                         {commercial.rappels_overdue > 0 && (
-                          <p className="text-xs text-red-500 flex items-center gap-1">
+                          <p className="text-xs text-[#FF2D78] flex items-center gap-1">
                             <AlertTriangle className="w-3 h-3" />
                             {commercial.rappels_overdue} retard
                           </p>
@@ -248,20 +248,20 @@ export default function PerformancePage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-accent">{c.prenom} {c.nom}</h3>
-                    <p className="text-xs text-gray-500">#{c.rang} — {c.role}</p>
+                    <p className="text-xs text-[#777777]">#{c.rang} — {c.role}</p>
                   </div>
-                  {c.rang === 1 && <Trophy className="w-6 h-6 text-yellow-500 ml-auto" />}
+                  {c.rang === 1 && <Trophy className="w-6 h-6 text-[#FF8C42] ml-auto" />}
                 </div>
 
                 {/* Progress bar objectif */}
                 <div>
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-500">
+                    <span className="text-[#777777]">
                       {formatEuro(c.ca_periode)} / {formatEuro(c.objectif_mensuel)}
                     </span>
                     <span className="font-medium">{c.progression_objectif}%</span>
                   </div>
-                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-2.5 bg-[#F4F0EB] rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
                       style={{
@@ -274,25 +274,25 @@ export default function PerformancePage() {
 
                 {/* Mini KPIs */}
                 <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="bg-gray-50 rounded-lg p-2">
+                  <div className="bg-[#FAF8F5] rounded-lg p-2">
                     <p className="text-lg font-bold text-accent">{c.leads_periode}</p>
-                    <p className="text-[10px] text-gray-500">Leads</p>
+                    <p className="text-[10px] text-[#777777]">Leads</p>
                   </div>
-                  <div className="bg-gray-50 rounded-lg p-2">
+                  <div className="bg-[#FAF8F5] rounded-lg p-2">
                     <p className="text-lg font-bold" style={{ color: c.taux_conversion >= 20 ? 'var(--color-success)' : '#F59E0B' }}>
                       {c.taux_conversion}%
                     </p>
-                    <p className="text-[10px] text-gray-500">Conversion</p>
+                    <p className="text-[10px] text-[#777777]">Conversion</p>
                   </div>
-                  <div className="bg-gray-50 rounded-lg p-2">
+                  <div className="bg-[#FAF8F5] rounded-lg p-2">
                     <p className="text-lg font-bold text-accent">{c.pipeline_actif}</p>
-                    <p className="text-[10px] text-gray-500">Pipeline</p>
+                    <p className="text-[10px] text-[#777777]">Pipeline</p>
                   </div>
                 </div>
 
                 {/* Alertes */}
                 {c.rappels_overdue > 0 && (
-                  <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">
+                  <div className="flex items-center gap-2 text-sm text-[#FF2D78] bg-[#FFE0EF] rounded-lg px-3 py-2">
                     <AlertTriangle className="w-4 h-4" />
                     {c.rappels_overdue} rappel{c.rappels_overdue > 1 ? 's' : ''} en retard
                   </div>
@@ -320,15 +320,15 @@ function KpiCard({ label, value, subvalue, progress, icon, color, alert }: {
   alert?: boolean
 }) {
   return (
-    <div className={`bg-white rounded-xl border p-4 ${alert ? 'border-red-200 bg-red-50' : ''}`}>
+    <div className={`bg-white rounded-xl border p-4 ${alert ? 'border-[#FF2D78]/30 bg-[#FFE0EF]' : ''}`}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm text-gray-500">{label}</span>
+        <span className="text-sm text-[#777777]">{label}</span>
         <div style={{ color }}>{icon}</div>
       </div>
       <p className="text-2xl font-bold text-accent">{value}</p>
-      <p className="text-xs text-gray-500 mt-1">{subvalue}</p>
+      <p className="text-xs text-[#777777] mt-1">{subvalue}</p>
       {progress !== undefined && (
-        <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+        <div className="mt-2 h-1.5 bg-[#F4F0EB] rounded-full overflow-hidden">
           <div
             className="h-full rounded-full"
             style={{
@@ -345,20 +345,20 @@ function KpiCard({ label, value, subvalue, progress, icon, color, alert }: {
 function TendanceBadge({ value }: { value: number }) {
   if (value > 0) {
     return (
-      <span className="inline-flex items-center gap-0.5 text-xs text-green-600">
+      <span className="inline-flex items-center gap-0.5 text-xs text-[#10B981]">
         <ArrowUpRight className="w-3 h-3" />+{value}%
       </span>
     )
   }
   if (value < 0) {
     return (
-      <span className="inline-flex items-center gap-0.5 text-xs text-red-600">
+      <span className="inline-flex items-center gap-0.5 text-xs text-[#FF2D78]">
         <ArrowDownRight className="w-3 h-3" />{value}%
       </span>
     )
   }
   return (
-    <span className="inline-flex items-center gap-0.5 text-xs text-gray-400">
+    <span className="inline-flex items-center gap-0.5 text-xs text-[#999999]">
       <Minus className="w-3 h-3" />0%
     </span>
   )

@@ -117,15 +117,15 @@ export function CreateLeadDialog({ open, onOpenChange }: Props) {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => onOpenChange(false)} />
       <div className="absolute inset-0 sm:inset-auto sm:top-[10%] sm:left-1/2 sm:-translate-x-1/2 sm:max-w-lg sm:w-full bg-white sm:rounded-2xl shadow-2xl overflow-hidden animate-fadeIn flex flex-col max-h-screen sm:max-h-[80vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F4F0EB] shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
               <UserPlus className="w-4 h-4 text-primary" />
             </div>
             <h2 className="text-lg font-semibold text-accent">Nouveau lead</h2>
           </div>
-          <button onClick={() => onOpenChange(false)} className="p-2 hover:bg-gray-100 rounded-lg transition min-h-[44px] min-w-[44px] flex items-center justify-center">
-            <X className="w-5 h-5 text-gray-400" />
+          <button onClick={() => onOpenChange(false)} className="p-2 hover:bg-[#F4F0EB] rounded-lg transition min-h-[44px] min-w-[44px] flex items-center justify-center">
+            <X className="w-5 h-5 text-[#999999]" />
           </button>
         </div>
 
@@ -178,8 +178,8 @@ export function CreateLeadDialog({ open, onOpenChange }: Props) {
 
           {/* Financement */}
           <label className="flex items-center gap-3 cursor-pointer min-h-[44px]">
-            <input type="checkbox" checked={form.financement_souhaite} onChange={e => set('financement_souhaite', e.target.checked)} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
-            <span className="text-sm text-gray-700">Financement souhaité (OPCO, France Travail, CPF...)</span>
+            <input type="checkbox" checked={form.financement_souhaite} onChange={e => set('financement_souhaite', e.target.checked)} className="w-5 h-5 rounded border-[#EEEEEE] text-primary focus:ring-primary" />
+            <span className="text-sm text-[#3A3A3A]">Financement souhaité (OPCO, France Travail, CPF...)</span>
           </label>
 
           {/* Message */}
@@ -189,8 +189,8 @@ export function CreateLeadDialog({ open, onOpenChange }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 shrink-0">
-          <button onClick={() => onOpenChange(false)} className="px-4 py-2.5 text-sm text-gray-500 hover:text-gray-700 transition min-h-[44px]">
+        <div className="px-6 py-4 border-t border-[#F4F0EB] flex items-center justify-end gap-3 shrink-0">
+          <button onClick={() => onOpenChange(false)} className="px-4 py-2.5 text-sm text-[#777777] hover:text-[#3A3A3A] transition min-h-[44px]">
             Annuler
           </button>
           <button
@@ -209,15 +209,15 @@ export function CreateLeadDialog({ open, onOpenChange }: Props) {
 function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-[#3A3A3A] mb-1">{label}</label>
       {children}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="text-[#FF2D78] text-xs mt-1">{error}</p>}
     </div>
   )
 }
 
 function inputClass(error?: string) {
   return `w-full px-3 py-2.5 rounded-lg border text-sm outline-none transition min-h-[44px] ${
-    error ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' : 'border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20'
+    error ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' : 'border-[#EEEEEE] focus:border-primary focus:ring-2 focus:ring-primary/20'
   }`
 }

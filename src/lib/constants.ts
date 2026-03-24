@@ -94,3 +94,81 @@ export const TVA_TAUX = {
   materiel: 20,
   eshop: 20,
 } as const
+
+// Plans SaaS CRM
+export const PLANS_PRICING = [
+  {
+    name: 'Découverte',
+    price: 'Gratuit',
+    period: '',
+    priceNumeric: 0,
+    features: [
+      '50 contacts maximum',
+      '1 utilisateur',
+      'Pipeline kanban basic',
+      'Email templates de base',
+      'Support communauté'
+    ],
+    cta: 'Commencer gratuitement',
+    ctaHref: '/login',
+    highlighted: false,
+    popular: false,
+  },
+  {
+    name: 'Pro',
+    price: '79€',
+    period: '/mois HT',
+    priceNumeric: 79,
+    features: [
+      '500 contacts',
+      '2 utilisateurs inclus',
+      '+25€/utilisateur supplémentaire',
+      'Financement dossiers',
+      'Analytics avancés',
+      'Cadences automatisées',
+      'Support prioritaire'
+    ],
+    cta: 'Essai gratuit 14 jours',
+    ctaHref: '/login',
+    highlighted: true,
+    popular: true,
+  },
+  {
+    name: 'Expert',
+    price: '149€',
+    period: '/mois HT',
+    priceNumeric: 149,
+    features: [
+      'Contacts illimités',
+      '5 utilisateurs inclus',
+      'Assistant IA complet',
+      'API + Webhooks',
+      'LMS formation avancé',
+      'Analytics prédictifs',
+      'Support téléphonique'
+    ],
+    cta: 'Essai gratuit 14 jours',
+    ctaHref: '/login',
+    highlighted: false,
+    popular: false,
+  },
+  {
+    name: 'Clinique',
+    price: 'Sur devis',
+    period: '',
+    priceNumeric: 999,
+    features: [
+      'Multi-centres illimité',
+      'Utilisateurs illimités',
+      'API complète',
+      'Intégrations sur mesure',
+      'Support dédié + SLA',
+      'Formation équipe incluse',
+      'Consulting business'
+    ],
+    cta: 'Contactez-nous',
+    ctaHref: '/contact',
+    highlighted: false,
+    popular: false,
+  },
+] as const

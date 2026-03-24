@@ -20,10 +20,10 @@ const sizeStyles: Record<AvatarSize, { container: string; text: string; status: 
 }
 
 const statusColors = {
-  online: 'bg-green-500',
-  offline: 'bg-gray-400',
-  busy: 'bg-red-500',
-  away: 'bg-amber-500',
+  online: 'bg-[#10B981]',
+  offline: 'bg-[#999999]',
+  busy: 'bg-[#FF2D78]',
+  away: 'bg-[#FF8C42]',
 }
 
 function getInitialsFromName(name: string): string {
@@ -94,7 +94,7 @@ function AvatarGroup({ children, max = 4, className }: { children: React.ReactNo
     <div className={cn('flex -space-x-2', className)}>
       {shown}
       {overflow > 0 && (
-        <div className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center text-[10px] font-medium text-gray-500">
+        <div className="w-8 h-8 rounded-full bg-[#F4F0EB] border-2 border-white flex items-center justify-center text-[10px] font-medium text-[#777777]">
           +{overflow}
         </div>
       )}

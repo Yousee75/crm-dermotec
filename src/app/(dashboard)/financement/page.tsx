@@ -44,7 +44,7 @@ const KANBAN_COLUMNS = [
     id: 'PREPARATION',
     title: 'Préparation',
     statuts: ['PREPARATION'],
-    color: 'bg-gray-100 border-gray-200',
+    color: 'bg-[#F4F0EB] border-[#EEEEEE]',
     badge: 'default' as const
   },
   {
@@ -58,28 +58,28 @@ const KANBAN_COLUMNS = [
     id: 'SOUMIS',
     title: 'Soumis',
     statuts: ['SOUMIS'],
-    color: 'bg-blue-50 border-blue-200',
+    color: 'bg-[#E0EBF5] border-[#6B8CAE]/30',
     badge: 'primary' as const
   },
   {
     id: 'EN_EXAMEN',
     title: 'En examen',
     statuts: ['EN_EXAMEN', 'COMPLEMENT_DEMANDE'],
-    color: 'bg-purple-50 border-purple-200',
+    color: 'bg-[#FFE0EF] border-[#FF2D78]/30',
     badge: 'info' as const
   },
   {
     id: 'VALIDE',
     title: 'Validé',
     statuts: ['VALIDE', 'VERSE'],
-    color: 'bg-green-50 border-green-200',
+    color: 'bg-[#ECFDF5] border-[#10B981]/30',
     badge: 'success' as const
   },
   {
     id: 'REFUSE',
     title: 'Refusé',
     statuts: ['REFUSE', 'CLOTURE'],
-    color: 'bg-red-50 border-red-200',
+    color: 'bg-[#FFE0EF] border-[#FF2D78]/30',
     badge: 'error' as const
   }
 ]
@@ -158,7 +158,7 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
                 {financement.lead.prenom} {financement.lead.nom}
               </p>
               {financement.inscription?.session?.formation && (
-                <p className="text-xs text-gray-500 truncate">
+                <p className="text-xs text-[#777777] truncate">
                   {financement.inscription?.session?.formation?.nom}
                 </p>
               )}
@@ -172,14 +172,14 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
           size="sm"
           className={cn(
             'text-xs',
-            ORGANISME_COLORS[financement.organisme] === 'blue' && 'border-blue-200 text-blue-700 bg-blue-50',
-            ORGANISME_COLORS[financement.organisme] === 'green' && 'border-green-200 text-green-700 bg-green-50',
+            ORGANISME_COLORS[financement.organisme] === 'blue' && 'border-[#6B8CAE]/30 text-[#6B8CAE] bg-[#E0EBF5]',
+            ORGANISME_COLORS[financement.organisme] === 'green' && 'border-[#10B981]/30 text-[#10B981] bg-[#ECFDF5]',
             ORGANISME_COLORS[financement.organisme] === 'orange' && 'border-orange-200 text-orange-700 bg-orange-50',
-            ORGANISME_COLORS[financement.organisme] === 'purple' && 'border-purple-200 text-purple-700 bg-purple-50',
+            ORGANISME_COLORS[financement.organisme] === 'purple' && 'border-[#FF2D78]/30 text-[#FF2D78] bg-[#FFE0EF]',
             ORGANISME_COLORS[financement.organisme] === 'pink' && 'border-pink-200 text-pink-700 bg-pink-50',
             ORGANISME_COLORS[financement.organisme] === 'indigo' && 'border-indigo-200 text-indigo-700 bg-indigo-50',
             ORGANISME_COLORS[financement.organisme] === 'cyan' && 'border-cyan-200 text-cyan-700 bg-cyan-50',
-            ORGANISME_COLORS[financement.organisme] === 'gray' && 'border-gray-200 text-gray-700 bg-gray-50'
+            ORGANISME_COLORS[financement.organisme] === 'gray' && 'border-[#EEEEEE] text-[#3A3A3A] bg-[#FAF8F5]'
           )}
         >
           {organisme?.label || financement.organisme}
@@ -193,14 +193,14 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
             </p>
           )}
           {financement.montant_accorde && financement.montant_accorde > 0 && (
-            <p className="text-xs text-green-600 font-medium">
+            <p className="text-xs text-[#10B981] font-medium">
               Accordé: {formatEuro(financement.montant_accorde)}
             </p>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between text-xs text-gray-500">
+        <div className="flex items-center justify-between text-xs text-[#777777]">
           {financement.date_soumission ? (
             <span>{formatDate(financement.date_soumission)}</span>
           ) : (
@@ -209,9 +209,9 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
           {daysSince !== null && (
             <span className={cn(
               'font-medium',
-              daysSince > 30 && 'text-red-600',
+              daysSince > 30 && 'text-[#FF2D78]',
               daysSince > 14 && daysSince <= 30 && 'text-orange-600',
-              daysSince <= 14 && 'text-gray-500'
+              daysSince <= 14 && 'text-[#777777]'
             )}>
               {daysSince}j
             </span>
@@ -220,8 +220,8 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
 
         {/* Numéro dossier si disponible */}
         {financement.numero_dossier && (
-          <div className="pt-1 border-t border-gray-100">
-            <p className="text-xs font-mono text-gray-500">
+          <div className="pt-1 border-t border-[#F4F0EB]">
+            <p className="text-xs font-mono text-[#777777]">
               {financement.numero_dossier}
             </p>
           </div>
@@ -263,7 +263,7 @@ function KanbanView({ financements }: { financements: FinancementWithLead[] }) {
                     'rounded-lg border-2 border-dashed p-8 text-center',
                     column.color
                   )}>
-                    <p className="text-sm text-gray-500">Aucun dossier</p>
+                    <p className="text-sm text-[#777777]">Aucun dossier</p>
                   </div>
                 ) : (
                   column.financements.map(financement => (
@@ -297,10 +297,10 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden">
-        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+        <div className="p-6 border-b border-[#F4F0EB] flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold text-accent">Dossier de financement</h2>
-            <p className="text-gray-600">
+            <p className="text-[#777777]">
               {financement.lead.prenom} {financement.lead.nom} · {organisme?.label}
             </p>
           </div>
@@ -317,24 +317,24 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
 
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-gray-500">Statut</p>
+                  <p className="text-[#777777]">Statut</p>
                   <Badge variant="outline" className="mt-1">
                     {STATUT_LABELS[financement.statut]}
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-gray-500">Organisme</p>
+                  <p className="text-[#777777]">Organisme</p>
                   <p className="font-medium">{organisme?.label}</p>
                 </div>
                 {financement.numero_dossier && (
                   <div>
-                    <p className="text-gray-500">N° dossier</p>
+                    <p className="text-[#777777]">N° dossier</p>
                     <p className="font-mono text-xs">{financement.numero_dossier}</p>
                   </div>
                 )}
                 {financement.date_soumission && (
                   <div>
-                    <p className="text-gray-500">Date soumission</p>
+                    <p className="text-[#777777]">Date soumission</p>
                     <p>{formatDate(financement.date_soumission)}</p>
                   </div>
                 )}
@@ -343,7 +343,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
               <div className="grid grid-cols-2 gap-4 text-sm">
                 {financement.montant_demande && (
                   <div>
-                    <p className="text-gray-500">Montant demandé</p>
+                    <p className="text-[#777777]">Montant demandé</p>
                     <p className="font-semibold text-accent">
                       {formatEuro(financement.montant_demande)}
                     </p>
@@ -351,8 +351,8 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
                 )}
                 {financement.montant_accorde && (
                   <div>
-                    <p className="text-gray-500">Montant accordé</p>
-                    <p className="font-semibold text-green-600">
+                    <p className="text-[#777777]">Montant accordé</p>
+                    <p className="font-semibold text-[#10B981]">
                       {formatEuro(financement.montant_accorde)}
                     </p>
                   </div>
@@ -366,9 +366,9 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
 
               <div className="space-y-2">
                 {organisme?.documents_requis.map((doc, index) => (
-                  <div key={index} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
-                    <CheckCircle2 className="w-4 h-4 text-gray-400" />
-                    <span className="text-sm text-gray-700">{doc}</span>
+                  <div key={index} className="flex items-center gap-3 p-2 bg-[#FAF8F5] rounded-lg">
+                    <CheckCircle2 className="w-4 h-4 text-[#999999]" />
+                    <span className="text-sm text-[#3A3A3A]">{doc}</span>
                     <div className="ml-auto flex gap-1">
                       <Button size="sm" variant="ghost">
                         <Upload className="w-3 h-3" />
@@ -379,7 +379,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
                     </div>
                   </div>
                 )) || (
-                  <p className="text-sm text-gray-500">Aucun document requis spécifié</p>
+                  <p className="text-sm text-[#777777]">Aucun document requis spécifié</p>
                 )}
               </div>
             </div>
@@ -392,19 +392,19 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
                 <div className="space-y-2 text-sm">
                   {financement.contact_nom && (
                     <div>
-                      <p className="text-gray-500">Nom</p>
+                      <p className="text-[#777777]">Nom</p>
                       <p>{financement.contact_nom}</p>
                     </div>
                   )}
                   {financement.contact_email && (
                     <div>
-                      <p className="text-gray-500">Email</p>
+                      <p className="text-[#777777]">Email</p>
                       <p>{financement.contact_email}</p>
                     </div>
                   )}
                   {financement.contact_telephone && (
                     <div>
-                      <p className="text-gray-500">Téléphone</p>
+                      <p className="text-[#777777]">Téléphone</p>
                       <p>{financement.contact_telephone}</p>
                     </div>
                   )}
@@ -419,21 +419,21 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
               <div className="space-y-2 text-sm">
                 {financement.date_reponse && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Réponse</span>
+                    <span className="text-[#777777]">Réponse</span>
                     <span>{formatDate(financement.date_reponse)}</span>
                   </div>
                 )}
                 {financement.date_versement && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Versement</span>
+                    <span className="text-[#777777]">Versement</span>
                     <span>{formatDate(financement.date_versement)}</span>
                   </div>
                 )}
                 {financement.date_limite && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Limite</span>
+                    <span className="text-[#777777]">Limite</span>
                     <span className={cn(
-                      new Date(financement.date_limite) < new Date() && 'text-red-600 font-medium'
+                      new Date(financement.date_limite) < new Date() && 'text-[#FF2D78] font-medium'
                     )}>
                       {formatDate(financement.date_limite)}
                     </span>
@@ -445,19 +445,19 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
 
           {/* Notes */}
           {financement.motif_refus && (
-            <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="mt-6 p-4 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg">
               <div className="flex gap-2">
-                <AlertCircle className="w-4 h-4 text-red-600 mt-0.5" />
+                <AlertCircle className="w-4 h-4 text-[#FF2D78] mt-0.5" />
                 <div>
-                  <p className="font-medium text-red-800">Motif de refus</p>
-                  <p className="text-sm text-red-700 mt-1">{financement.motif_refus}</p>
+                  <p className="font-medium text-[#FF2D78]">Motif de refus</p>
+                  <p className="text-sm text-[#FF2D78] mt-1">{financement.motif_refus}</p>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        <div className="p-4 border-t border-gray-100 flex justify-end gap-3">
+        <div className="p-4 border-t border-[#F4F0EB] flex justify-end gap-3">
           <Button variant="outline" onClick={onClose}>
             Fermer
           </Button>
@@ -477,18 +477,18 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-50/80 border-b border-gray-100">
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Lead</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Organisme</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Formation</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Montant demandé</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Montant accordé</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Statut</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date soumission</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Dernière MAJ</th>
+            <tr className="bg-[#FAF8F5]/80 border-b border-[#F4F0EB]">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Lead</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Organisme</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Formation</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Montant demandé</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Montant accordé</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Statut</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Date soumission</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Dernière MAJ</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-50">
+          <tbody className="divide-y divide-[#FAF8F5]">
             {financements.map((financement) => {
               const organisme = ORGANISMES_FINANCEMENT[financement.organisme]
 
@@ -507,8 +507,8 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
                       variant="outline"
                       size="sm"
                       className={cn(
-                        ORGANISME_COLORS[financement.organisme] === 'blue' && 'border-blue-200 text-blue-700 bg-blue-50',
-                        ORGANISME_COLORS[financement.organisme] === 'green' && 'border-green-200 text-green-700 bg-green-50',
+                        ORGANISME_COLORS[financement.organisme] === 'blue' && 'border-[#6B8CAE]/30 text-[#6B8CAE] bg-[#E0EBF5]',
+                        ORGANISME_COLORS[financement.organisme] === 'green' && 'border-[#10B981]/30 text-[#10B981] bg-[#ECFDF5]',
                         ORGANISME_COLORS[financement.organisme] === 'orange' && 'border-orange-200 text-orange-700 bg-orange-50'
                       )}
                     >
@@ -517,23 +517,23 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
                   </td>
                   <td className="px-4 py-3">
                     {financement.inscription?.session?.formation ? (
-                      <span className="text-gray-700">{financement.inscription?.session?.formation?.nom}</span>
+                      <span className="text-[#3A3A3A]">{financement.inscription?.session?.formation?.nom}</span>
                     ) : (
-                      <span className="text-gray-400">—</span>
+                      <span className="text-[#999999]">—</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
                     {financement.montant_demande ? (
                       <span className="font-medium">{formatEuro(financement.montant_demande)}</span>
                     ) : (
-                      <span className="text-gray-400">—</span>
+                      <span className="text-[#999999]">—</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
                     {financement.montant_accorde ? (
-                      <span className="font-medium text-green-600">{formatEuro(financement.montant_accorde)}</span>
+                      <span className="font-medium text-[#10B981]">{formatEuro(financement.montant_accorde)}</span>
                     ) : (
-                      <span className="text-gray-400">—</span>
+                      <span className="text-[#999999]">—</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
@@ -541,10 +541,10 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
                       {STATUT_LABELS[financement.statut]}
                     </Badge>
                   </td>
-                  <td className="px-4 py-3 text-gray-500">
+                  <td className="px-4 py-3 text-[#777777]">
                     {financement.date_soumission ? formatDate(financement.date_soumission) : '—'}
                   </td>
-                  <td className="px-4 py-3 text-gray-400 text-xs">
+                  <td className="px-4 py-3 text-[#999999] text-xs">
                     {formatDate(financement.updated_at || financement.created_at)}
                   </td>
                 </tr>
@@ -620,12 +620,12 @@ export default function FinancementPage() {
     return (
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-          <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />
+          <div className="h-8 w-64 bg-[#EEEEEE] rounded animate-pulse" />
+          <div className="h-10 w-32 bg-[#EEEEEE] rounded animate-pulse" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-24 bg-gray-200 rounded animate-pulse" />
+            <div key={i} className="h-24 bg-[#EEEEEE] rounded animate-pulse" />
           ))}
         </div>
         <SkeletonTable rows={6} cols={8} />
@@ -643,7 +643,7 @@ export default function FinancementPage() {
         />
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center border border-gray-200 rounded-lg p-1">
+          <div className="flex items-center border border-[#EEEEEE] rounded-lg p-1">
             <Button
               size="sm"
               variant={viewMode === 'kanban' ? 'primary' : 'ghost'}

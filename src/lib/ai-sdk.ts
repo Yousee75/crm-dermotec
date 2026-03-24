@@ -1,24 +1,53 @@
 // ============================================================
 // CRM DERMOTEC — AI SDK Configuration
-// Provider: Claude Sonnet 3.5 (meilleur agent commercial)
-// Fallback: Mistral Large (RGPD EU) → OpenAI GPT-4o
+// Provider: Claude Sonnet (meilleur agent commercial)
+// Bypass Vercel AI Gateway → appel direct api.anthropic.com
+// Fallback: Mistral → OpenAI → DeepSeek
 // ============================================================
 import 'server-only'
 
-// Provider par défaut: Claude Sonnet 3.5 (best tool calling + français)
+import { createAnthropic } from '@ai-sdk/anthropic'
+import { createMistral } from '@ai-sdk/mistral'
+import { createOpenAI } from '@ai-sdk/openai'
+
+// Créer les providers avec appel DIRECT (pas via Vercel AI Gateway)
+const anthropic = process.env.ANTHROPIC_API_KEY
+  ? createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  : null
+
+const mistral = process.env.MISTRAL_API_KEY
+  ? createMistral({ apiKey: process.env.MISTRAL_API_KEY })
+  : null
+
+const openai = process.env.OPENAI_API_KEY
+  ? createOpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null
+
+// DeepSeek (compatible OpenAI API)
+const deepseek = process.env.DEEPSEEK_API_KEY
+  ? createOpenAI({ apiKey: process.env.DEEPSEEK_API_KEY, baseURL: 'https://api.deepseek.com/v1' })
+  : null
+
 export function getModel(tier: 'best' | 'fast' | 'eu' = 'best') {
   switch (tier) {
     case 'best':
-      // Claude Sonnet 3.5 — meilleur agent avec tools, français excellent
-      return 'anthropic/claude-3-5-sonnet-20241022'
+      if (anthropic) return anthropic('claude-sonnet-4-20250514')
+      if (deepseek) return deepseek('deepseek-chat')
+      if (mistral) return mistral('mistral-large-latest')
+      if (openai) return openai('gpt-4o')
+      throw new Error('Aucune clé API IA configurée (ANTHROPIC_API_KEY, DEEPSEEK_API_KEY, MISTRAL_API_KEY, ou OPENAI_API_KEY)')
 
     case 'fast':
-      // Claude Haiku — rapide et peu cher pour les tâches simples
-      return 'anthropic/claude-3-haiku-20240307'
+      if (anthropic) return anthropic('claude-haiku-4-5-20251001')
+      if (deepseek) return deepseek('deepseek-chat')
+      if (mistral) return mistral('mistral-small-latest')
+      if (openai) return openai('gpt-4o-mini')
+      throw new Error('Aucune clé API IA configurée')
 
     case 'eu':
-      // Mistral Large — données traitées en EU (RGPD natif)
-      return 'mistral/mistral-large-latest'
+      if (mistral) return mistral('mistral-large-latest')
+      if (anthropic) return anthropic('claude-sonnet-4-20250514')
+      throw new Error('MISTRAL_API_KEY requis pour le mode EU/RGPD')
   }
 }
 

@@ -24,14 +24,14 @@ const STATUT_LABELS = {
 } as const
 
 const STATUT_COLORS = {
-  nouveau: 'bg-blue-50 text-blue-700 border-blue-200',
-  contacte: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-  qualifie: 'bg-purple-50 text-purple-700 border-purple-200',
+  nouveau: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30',
+  contacte: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
+  qualifie: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30',
   devis_envoye: 'bg-orange-50 text-orange-700 border-orange-200',
   financement: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-  inscrit: 'bg-green-50 text-green-700 border-green-200',
+  inscrit: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
   forme: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  sans_suite: 'bg-gray-50 text-gray-500 border-gray-200',
+  sans_suite: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]',
 } as const
 
 export default function PipelineTab() {
@@ -78,23 +78,11 @@ export default function PipelineTab() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total prospects</p>
-              <p className="text-2xl font-bold text-gray-900">{leads.length}</p>
+              <p className="text-sm text-[#777777]">Total prospects</p>
+              <p className="text-2xl font-bold text-[#111111]">{leads.length}</p>
             </div>
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-blue-600" />
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">CA potentiel</p>
-              <p className="text-2xl font-bold text-gray-900">{caPotentiel.toLocaleString('fr-FR')}€</p>
-            </div>
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-green-600" />
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 text-[#6B8CAE]" />
             </div>
           </div>
         </Card>
@@ -102,13 +90,25 @@ export default function PipelineTab() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Taux conversion</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-sm text-[#777777]">CA potentiel</p>
+              <p className="text-2xl font-bold text-[#111111]">{caPotentiel.toLocaleString('fr-FR')}€</p>
+            </div>
+            <div className="w-10 h-10 bg-[#D1FAE5] rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-[#10B981]" />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#777777]">Taux conversion</p>
+              <p className="text-2xl font-bold text-[#111111]">
                 {leads.length > 0 ? Math.round(((leadsByStatut.inscrit?.length || 0) + (leadsByStatut.forme?.length || 0)) / leads.length * 100) : 0}%
               </p>
             </div>
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Kanban className="w-5 h-5 text-purple-600" />
+            <div className="w-10 h-10 bg-[#FFE0EF] rounded-lg flex items-center justify-center">
+              <Kanban className="w-5 h-5 text-[#FF2D78]" />
             </div>
           </div>
         </Card>
@@ -125,12 +125,12 @@ export default function PipelineTab() {
           return (
             <Card key={statut} className="p-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-medium text-gray-900">
+                <h3 className="text-sm font-medium text-[#111111]">
                   {STATUT_LABELS[statut] || statut}
                 </h3>
                 <Badge
                   variant="outline"
-                  className={cn("text-xs", STATUT_COLORS[statut] || "bg-gray-50 text-gray-600")}
+                  className={cn("text-xs", STATUT_COLORS[statut] || "bg-[#FAF8F5] text-[#777777]")}
                 >
                   {count}
                 </Badge>
@@ -141,23 +141,23 @@ export default function PipelineTab() {
                   <Link
                     key={lead.id}
                     href={`/lead/${lead.id}`}
-                    className="block p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="block p-2 rounded-lg hover:bg-[#FAF8F5] transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium">
                         {lead.prenom?.[0] || lead.nom?.[0] || 'L'}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-gray-900 truncate">
+                        <p className="text-xs font-medium text-[#111111] truncate">
                           {lead.prenom} {lead.nom}
                         </p>
-                        <p className="text-xs text-gray-500 truncate">{lead.email}</p>
+                        <p className="text-xs text-[#777777] truncate">{lead.email}</p>
                       </div>
                     </div>
                   </Link>
                 ))}
                 {leads.length > 5 && (
-                  <p className="text-xs text-gray-500 text-center py-1">
+                  <p className="text-xs text-[#777777] text-center py-1">
                     +{leads.length - 5} autres
                   </p>
                 )}

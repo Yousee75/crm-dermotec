@@ -332,7 +332,7 @@ export default function EquipePage() {
                   className={cn(
                     'p-1.5 rounded-lg transition',
                     membre.is_active
-                      ? 'text-[#10B981] hover:bg-green-50'
+                      ? 'text-[#10B981] hover:bg-[#ECFDF5]'
                       : 'text-[#999999] hover:bg-[#FAF8F5]'
                   )}
                 >

@@ -88,11 +88,11 @@ export function CreateMembreDialog({ open, onClose }: Props) {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-gray-700">Rôle *</label>
+            <label className="block text-sm font-medium text-[#3A3A3A]">Rôle *</label>
             <select
               value={role}
               onChange={e => setRole(e.target.value as RoleEquipe)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+              className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
             >
               <option value="commercial">Commercial</option>
               <option value="formatrice">Formatrice</option>

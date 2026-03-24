@@ -56,18 +56,18 @@ const EVENT_TYPES = [
 ]
 
 const EVENT_COLORS: Record<string, string> = {
-  'lead_created': 'bg-green-500',
-  'lead_edited': 'bg-blue-500',
-  'lead_deleted': 'bg-red-500',
-  'lead_viewed': 'bg-purple-500',
-  'page_view': 'bg-gray-400',
-  'login': 'bg-green-600',
+  'lead_created': 'bg-[#10B981]',
+  'lead_edited': 'bg-[#6B8CAE]',
+  'lead_deleted': 'bg-[#FF2D78]',
+  'lead_viewed': 'bg-[#FF2D78]',
+  'page_view': 'bg-[#999999]',
+  'login': 'bg-[#10B981]',
   'logout': 'bg-red-400',
   'export_csv': 'bg-orange-500',
   'export_pdf': 'bg-orange-600',
   'document_uploaded': 'bg-indigo-500',
   'ai_used': 'bg-pink-500',
-  'click': 'bg-gray-300',
+  'click': 'bg-[#EEEEEE]',
   'default': 'bg-slate-400'
 }
 
@@ -305,7 +305,7 @@ export default function AuditPage() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+          <Badge variant="outline" className="bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30">
             ADMIN ONLY
           </Badge>
           <Button onClick={exportCSV} variant="outline" size="sm">
@@ -324,7 +324,7 @@ export default function AuditPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card className="p-4">
             <div className="flex items-center gap-3">
-              <Activity className="h-8 w-8 text-blue-600" />
+              <Activity className="h-8 w-8 text-[#6B8CAE]" />
               <div>
                 <p className="text-sm text-slate-600">Actions aujourd'hui</p>
                 <p className="text-2xl font-bold text-slate-900">{stats.total_today.toLocaleString()}</p>
@@ -334,7 +334,7 @@ export default function AuditPage() {
 
           <Card className="p-4">
             <div className="flex items-center gap-3">
-              <Users className="h-8 w-8 text-green-600" />
+              <Users className="h-8 w-8 text-[#10B981]" />
               <div>
                 <p className="text-sm text-slate-600">Utilisateurs actifs</p>
                 <p className="text-2xl font-bold text-slate-900">{stats.unique_users_today}</p>
@@ -344,7 +344,7 @@ export default function AuditPage() {
 
           <Card className="p-4">
             <div className="flex items-center gap-3">
-              <BarChart3 className="h-8 w-8 text-purple-600" />
+              <BarChart3 className="h-8 w-8 text-[#FF2D78]" />
               <div>
                 <p className="text-sm text-slate-600">Page la plus visitée</p>
                 <p className="text-sm font-medium text-slate-900">{stats.most_visited_page}</p>

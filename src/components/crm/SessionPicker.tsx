@@ -32,14 +32,14 @@ const getInitials = (nom?: string, prenom?: string) => {
 
 const getAvatarColor = (avatarColor?: string) => {
   const colors = {
-    blue: 'bg-blue-500',
-    green: 'bg-green-500',
-    purple: 'bg-purple-500',
+    blue: 'bg-[#6B8CAE]',
+    green: 'bg-[#10B981]',
+    purple: 'bg-[#FF2D78]',
     orange: 'bg-orange-500',
     pink: 'bg-pink-500',
-    red: 'bg-red-500',
+    red: 'bg-[#FF2D78]',
     indigo: 'bg-indigo-500',
-    yellow: 'bg-yellow-500',
+    yellow: 'bg-[#FF8C42]',
   }
   return colors[avatarColor as keyof typeof colors] || 'bg-slate-500'
 }
@@ -49,10 +49,10 @@ const getFillPercentage = (placesOccupees: number, placesMax: number) => {
 }
 
 const getFillColor = (percentage: number) => {
-  if (percentage >= 90) return 'bg-red-500'
+  if (percentage >= 90) return 'bg-[#FF2D78]'
   if (percentage >= 70) return 'bg-orange-500'
-  if (percentage >= 50) return 'bg-yellow-500'
-  return 'bg-green-500'
+  if (percentage >= 50) return 'bg-[#FF8C42]'
+  return 'bg-[#10B981]'
 }
 
 export default function SessionPicker({ formationId, onSelect, selectedSessionId }: SessionPickerProps) {
@@ -224,8 +224,8 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
                         </div>
                         <span className={cn(
                           'font-medium',
-                          placesDisponibles <= 2 ? 'text-red-600' :
-                          placesDisponibles <= 5 ? 'text-orange-600' : 'text-green-600'
+                          placesDisponibles <= 2 ? 'text-[#FF2D78]' :
+                          placesDisponibles <= 5 ? 'text-orange-600' : 'text-[#10B981]'
                         )}>
                           {placesDisponibles} / {placesMax}
                         </span>
@@ -246,7 +246,7 @@ export default function SessionPicker({ formationId, onSelect, selectedSessionId
                       </div>
 
                       {placesDisponibles <= 3 && (
-                        <div className="flex items-center gap-1 text-xs text-amber-700 mt-1">
+                        <div className="flex items-center gap-1 text-xs text-[#FF8C42] mt-1">
                           <AlertTriangle className="h-3 w-3" />
                           <span>Plus que {placesDisponibles} place{placesDisponibles > 1 ? 's' : ''}</span>
                         </div>

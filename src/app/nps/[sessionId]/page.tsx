@@ -56,7 +56,7 @@ export default function NPSPage() {
           <h1 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
             {score !== null && score >= 9 ? 'Merci beaucoup !' : score !== null && score >= 7 ? 'Merci pour votre retour' : 'Nous prenons note'}
           </h1>
-          <p className="text-gray-500 text-sm">
+          <p className="text-[#777777] text-sm">
             {score !== null && score >= 9
               ? 'Votre avis compte énormément. Vous allez être redirigé vers Google pour laisser un avis.'
               : 'Vos retours nous aident à améliorer nos formations.'
@@ -78,12 +78,12 @@ export default function NPSPage() {
           <h1 className="text-xl font-bold text-accent" style={{ fontFamily: 'var(--font-heading)' }}>
             Comment s&apos;est passée votre formation ?
           </h1>
-          <p className="text-sm text-gray-500 mt-1">Dermotec Advanced — Enquête satisfaction</p>
+          <p className="text-sm text-[#777777] mt-1">Dermotec Advanced — Enquête satisfaction</p>
         </div>
 
         {/* Score selector */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6 mb-4">
-          <p className="text-sm font-medium text-gray-700 mb-4 text-center">
+        <div className="bg-white rounded-2xl border border-[#F4F0EB] shadow-card p-6 mb-4">
+          <p className="text-sm font-medium text-[#3A3A3A] mb-4 text-center">
             Recommanderiez-vous cette formation à un(e) collègue ?
           </p>
 
@@ -96,10 +96,10 @@ export default function NPSPage() {
                   'w-10 h-10 rounded-lg text-sm font-semibold transition-all',
                   'hover:scale-110 active:scale-95',
                   score === i
-                    ? i >= 9 ? 'bg-green-500 text-white shadow-md'
-                    : i >= 7 ? 'bg-amber-500 text-white shadow-md'
-                    : 'bg-red-500 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? i >= 9 ? 'bg-[#10B981] text-white shadow-md'
+                    : i >= 7 ? 'bg-[#FF8C42] text-white shadow-md'
+                    : 'bg-[#FF2D78] text-white shadow-md'
+                    : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
                 )}
               >
                 {i}
@@ -107,7 +107,7 @@ export default function NPSPage() {
             ))}
           </div>
 
-          <div className="flex justify-between mt-2 text-[10px] text-gray-400 px-1">
+          <div className="flex justify-between mt-2 text-[10px] text-[#999999] px-1">
             <span>Pas du tout</span>
             <span>Absolument</span>
           </div>
@@ -115,8 +115,8 @@ export default function NPSPage() {
 
         {/* Comment — only for detractors and passives */}
         {score !== null && score <= 8 && (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6 mb-4 animate-fadeIn">
-            <p className="text-sm font-medium text-gray-700 mb-2">
+          <div className="bg-white rounded-2xl border border-[#F4F0EB] shadow-card p-6 mb-4 animate-fadeIn">
+            <p className="text-sm font-medium text-[#3A3A3A] mb-2">
               {score <= 6 ? 'Que pourrions-nous améliorer ?' : 'Un commentaire ? (optionnel)'}
             </p>
             <textarea
@@ -124,7 +124,7 @@ export default function NPSPage() {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Votre retour nous aide à progresser..."
               rows={3}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none resize-none"
+              className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none resize-none"
             />
           </div>
         )}
@@ -139,7 +139,7 @@ export default function NPSPage() {
           </button>
         )}
 
-        <p className="text-center text-[10px] text-gray-400 mt-4">
+        <p className="text-center text-[10px] text-[#999999] mt-4">
           Dermotec Advanced — 75 Bd Richard Lenoir, Paris 11e
         </p>
       </div>

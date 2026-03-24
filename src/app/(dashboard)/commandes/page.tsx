@@ -310,7 +310,7 @@ export default function CommandesPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {!commandes.length ? (
                   <tr>
                     <td colSpan={9}>

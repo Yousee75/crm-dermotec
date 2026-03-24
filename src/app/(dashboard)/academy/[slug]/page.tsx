@@ -42,12 +42,12 @@ function getLessonIcon(type: string, className = "w-5 h-5") {
 
 function getLessonTypeBadge(type: string) {
   const configs = {
-    texte: { label: 'Article', color: 'bg-blue-100 text-blue-700' },
-    video: { label: 'Vidéo', color: 'bg-red-100 text-red-700' },
-    quiz: { label: 'Quiz', color: 'bg-purple-100 text-purple-700' },
-    checklist: { label: 'Checklist', color: 'bg-green-100 text-green-700' },
+    texte: { label: 'Article', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
+    video: { label: 'Vidéo', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
+    quiz: { label: 'Quiz', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
+    checklist: { label: 'Checklist', color: 'bg-[#D1FAE5] text-[#10B981]' },
     script: { label: 'Script', color: 'bg-orange-100 text-orange-700' },
-    pdf: { label: 'PDF', color: 'bg-gray-100 text-gray-700' },
+    pdf: { label: 'PDF', color: 'bg-[#F4F0EB] text-[#3A3A3A]' },
     exercice: { label: 'Exercice', color: 'bg-pink-100 text-pink-700' }
   }
 
@@ -137,7 +137,7 @@ export default function ModuleDetailPage() {
       {/* Header avec navigation */}
       <div className="space-y-4">
         <Link href="/academy">
-          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
+          <Button variant="ghost" size="sm" className="text-[#777777] hover:text-[#111111]">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Retour au coaching
           </Button>
@@ -164,16 +164,16 @@ export default function ModuleDetailPage() {
               <Badge variant="outline" className="text-xs">
                 {module.categorie}
               </Badge>
-              <span className="text-sm text-gray-500">•</span>
-              <span className="text-sm text-gray-500">{module.duree_minutes} minutes</span>
+              <span className="text-sm text-[#777777]">•</span>
+              <span className="text-sm text-[#777777]">{module.duree_minutes} minutes</span>
             </div>
 
-            <h1 className="text-3xl font-bold text-gray-900 mb-3">
+            <h1 className="text-3xl font-bold text-[#111111] mb-3">
               {module.titre}
             </h1>
 
             {module.description && (
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-[#777777] leading-relaxed">
                 {module.description}
               </p>
             )}
@@ -181,12 +181,12 @@ export default function ModuleDetailPage() {
             {/* Progress bar */}
             <div className="mt-4">
               <div className="flex items-center justify-between text-sm mb-2">
-                <span className="text-gray-600">Progression</span>
-                <span className="font-medium text-gray-900">
+                <span className="text-[#777777]">Progression</span>
+                <span className="font-medium text-[#111111]">
                   {completedLessons.length}/{lessons.length} leçons terminées
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-[#EEEEEE] rounded-full h-2">
                 <div
                   className="h-2 rounded-full transition-all duration-500"
                   style={{
@@ -195,7 +195,7 @@ export default function ModuleDetailPage() {
                   }}
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-1">{progressPercent}% complété</p>
+              <p className="text-xs text-[#777777] mt-1">{progressPercent}% complété</p>
             </div>
           </div>
         </div>
@@ -224,19 +224,19 @@ export default function ModuleDetailPage() {
                         href={isLocked ? '#' : `/academy/${slug}/${lesson.slug}`}
                         className={cn(
                           "flex items-center gap-4 p-4 rounded-xl border transition-all duration-200",
-                          isCompleted ? "bg-green-50 border-green-200" :
-                          isCurrent ? "bg-blue-50 border-primary ring-2 ring-primary/20" :
-                          isLocked ? "bg-gray-50 border-gray-200 cursor-not-allowed opacity-60" :
-                          "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                          isCompleted ? "bg-[#ECFDF5] border-[#10B981]/30" :
+                          isCurrent ? "bg-[#E0EBF5] border-primary ring-2 ring-primary/20" :
+                          isLocked ? "bg-[#FAF8F5] border-[#EEEEEE] cursor-not-allowed opacity-60" :
+                          "bg-white border-[#EEEEEE] hover:border-[#EEEEEE] hover:shadow-sm"
                         )}
                       >
                         {/* Numéro de leçon */}
                         <div className={cn(
                           "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold",
-                          isCompleted ? "bg-green-500 text-white" :
+                          isCompleted ? "bg-[#10B981] text-white" :
                           isCurrent ? "bg-primary text-white" :
-                          isLocked ? "bg-gray-300 text-gray-500" :
-                          "bg-gray-200 text-gray-600"
+                          isLocked ? "bg-[#EEEEEE] text-[#777777]" :
+                          "bg-[#EEEEEE] text-[#777777]"
                         )}>
                           {isCompleted ? (
                             <Check className="w-4 h-4" />
@@ -250,10 +250,10 @@ export default function ModuleDetailPage() {
                           <div className="flex items-center gap-2 mb-1">
                             <h3 className={cn(
                               "font-medium truncate",
-                              isCompleted ? "text-green-900 line-through" :
+                              isCompleted ? "text-[#10B981] line-through" :
                               isCurrent ? "text-primary" :
-                              isLocked ? "text-gray-400" :
-                              "text-gray-900"
+                              isLocked ? "text-[#999999]" :
+                              "text-[#111111]"
                             )}>
                               {lesson.titre}
                             </h3>
@@ -264,10 +264,10 @@ export default function ModuleDetailPage() {
 
                           <div className="flex items-center gap-3">
                             {getLessonTypeBadge(lesson.type)}
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-[#777777]">
                               {lesson.duree_minutes} min
                             </span>
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-[#777777]">
                               {lesson.points} points
                             </span>
                           </div>
@@ -276,10 +276,10 @@ export default function ModuleDetailPage() {
                         {/* Score si quiz complété */}
                         {isCompleted && lessonProgress?.score_quiz && (
                           <div className="text-right">
-                            <p className="text-sm font-medium text-green-700">
+                            <p className="text-sm font-medium text-[#10B981]">
                               {lessonProgress.score_quiz}%
                             </p>
-                            <p className="text-xs text-green-600">Score</p>
+                            <p className="text-xs text-[#10B981]">Score</p>
                           </div>
                         )}
                       </Link>
@@ -308,12 +308,12 @@ export default function ModuleDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Progression</span>
+                <span className="text-sm text-[#777777]">Progression</span>
                 <span className="font-medium">{progressPercent}%</span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Temps passé</span>
+                <span className="text-sm text-[#777777]">Temps passé</span>
                 <span className="font-medium">
                   {Math.round(totalTimeSpent / 60)} min
                 </span>
@@ -321,13 +321,13 @@ export default function ModuleDetailPage() {
 
               {avgQuizScore > 0 && (
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Score moyen</span>
+                  <span className="text-sm text-[#777777]">Score moyen</span>
                   <span className="font-medium">{Math.round(avgQuizScore)}%</span>
                 </div>
               )}
 
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Leçons</span>
+                <span className="text-sm text-[#777777]">Leçons</span>
                 <span className="font-medium">
                   {completedLessons.length}/{lessons.length}
                 </span>
@@ -335,7 +335,7 @@ export default function ModuleDetailPage() {
 
               <div className="pt-2 border-t">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Points potentiels</span>
+                  <span className="text-sm text-[#777777]">Points potentiels</span>
                   <span className="font-medium text-primary">
                     {lessons.reduce((acc: number, lesson: AcademyLesson) => acc + lesson.points, 0)}
                   </span>
@@ -364,16 +364,16 @@ export default function ModuleDetailPage() {
                       href={`/academy/${slug}/${lesson.slug}`}
                       className={cn(
                         "flex items-center gap-3 p-2 rounded-lg text-sm transition-colors",
-                        isCurrent ? "bg-blue-50 text-primary" :
-                        isCompleted ? "bg-green-50 text-green-700" :
-                        "text-gray-600 hover:bg-gray-50"
+                        isCurrent ? "bg-[#E0EBF5] text-primary" :
+                        isCompleted ? "bg-[#ECFDF5] text-[#10B981]" :
+                        "text-[#777777] hover:bg-[#FAF8F5]"
                       )}
                     >
                       <div className={cn(
                         "w-4 h-4 rounded-full flex items-center justify-center text-xs",
-                        isCompleted ? "bg-green-500 text-white" :
+                        isCompleted ? "bg-[#10B981] text-white" :
                         isCurrent ? "bg-primary text-white" :
-                        "bg-gray-200 text-gray-500"
+                        "bg-[#EEEEEE] text-[#777777]"
                       )}>
                         {isCompleted ? (
                           <Check className="w-2 h-2" />
@@ -387,7 +387,7 @@ export default function ModuleDetailPage() {
                 })}
 
                 {lessons.length > 5 && (
-                  <p className="text-xs text-gray-500 text-center pt-2">
+                  <p className="text-xs text-[#777777] text-center pt-2">
                     +{lessons.length - 5} autres leçons
                   </p>
                 )}

@@ -56,9 +56,14 @@ type Events = {
   'crm/lead.created': {
     data: {
       lead_id: string
-      email: string
-      prenom: string
-      source: string
+      siret?: string
+      nom?: string
+      prenom?: string
+      entreprise_nom?: string
+      ville?: string
+      email?: string
+      source?: string
+      trigger?: 'manual' | 'webhook' | 'client' | 'database'
       formation_id?: string
     }
   }
@@ -94,15 +99,6 @@ type Events = {
       updates: Record<string, unknown>
       operation: string
       user_id: string
-    }
-  }
-  'lead.enrich': {
-    data: {
-      lead_id: string
-      siret?: string
-      nom?: string
-      ville?: string
-      email?: string
     }
   }
 }

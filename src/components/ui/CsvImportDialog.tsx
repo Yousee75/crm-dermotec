@@ -389,7 +389,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                 relative border-2 border-dashed rounded-xl p-8 text-center transition
                 ${isDragging
                   ? 'border-primary bg-primary/5'
-                  : 'border-gray-200 hover:border-gray-300'
+                  : 'border-[#EEEEEE] hover:border-[#EEEEEE]'
                 }
               `}
             >
@@ -401,28 +401,28 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                 disabled={isProcessing}
               />
 
-              <Upload className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <Upload className="w-12 h-12 text-[#999999] mx-auto mb-4" />
 
               <div className="space-y-2">
                 <h3 className="font-medium text-accent">
                   Glissez votre fichier ici
                 </h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-[#777777]">
                   ou cliquez pour sélectionner
                 </p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-[#999999]">
                   Formats supportés : CSV, Excel (.xlsx, .xls)
                 </p>
               </div>
             </div>
 
             {/* Instructions */}
-            <Card className="p-4 bg-blue-50 border-blue-200">
+            <Card className="p-4 bg-[#E0EBF5] border-[#6B8CAE]/30">
               <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                <AlertCircle className="w-5 h-5 text-[#6B8CAE] flex-shrink-0 mt-0.5" />
                 <div className="space-y-2">
-                  <h4 className="font-medium text-blue-900">Format requis</h4>
-                  <div className="text-sm text-blue-700 space-y-1">
+                  <h4 className="font-medium text-[#6B8CAE]">Format requis</h4>
+                  <div className="text-sm text-[#6B8CAE] space-y-1">
                     <p>• La première ligne doit contenir les en-têtes de colonnes</p>
                     <p>• Colonnes obligatoires : <strong>nom</strong> et <strong>téléphone</strong></p>
                     <p>• Colonnes optionnelles : prénom, email, entreprise, formation, source, ville</p>
@@ -444,10 +444,10 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
         <>
           <div className="space-y-6">
             {/* File Info */}
-            <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg">
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-green-500" />
-                <span className="text-sm font-medium text-green-900">
+                <Check className="w-4 h-4 text-[#10B981]" />
+                <span className="text-sm font-medium text-[#10B981]">
                   {csvData.filename}
                 </span>
               </div>
@@ -476,7 +476,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                   return (
                     <div key={field}>
                       <label className={`block text-xs font-medium mb-1 ${
-                        isRequired ? 'text-red-600' : 'text-gray-600'
+                        isRequired ? 'text-[#FF2D78]' : 'text-[#777777]'
                       }`}>
                         {fieldLabels[field as keyof typeof fieldLabels]}
                         {isRequired && ' *'}
@@ -490,7 +490,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                         className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 ${
                           isRequired && !value
                             ? 'border-red-300 focus:border-red-500'
-                            : 'border-gray-200 focus:border-primary'
+                            : 'border-[#EEEEEE] focus:border-primary'
                         }`}
                       >
                         <option value="">-- Non mappé --</option>
@@ -510,11 +510,11 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
             <div>
               <h3 className="font-medium text-accent mb-3">Aperçu des données</h3>
               <div className="overflow-x-auto">
-                <table className="w-full text-xs border border-gray-200 rounded-lg">
+                <table className="w-full text-xs border border-[#EEEEEE] rounded-lg">
                   <thead>
-                    <tr className="bg-gray-50">
+                    <tr className="bg-[#FAF8F5]">
                       {csvData.headers.map((header, i) => (
-                        <th key={i} className="px-3 py-2 text-left font-medium text-gray-700 border-b">
+                        <th key={i} className="px-3 py-2 text-left font-medium text-[#3A3A3A] border-b">
                           {header}
                         </th>
                       ))}
@@ -522,9 +522,9 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                   </thead>
                   <tbody>
                     {previewRows.map((row, i) => (
-                      <tr key={i} className="border-b border-gray-100">
+                      <tr key={i} className="border-b border-[#F4F0EB]">
                         {row.map((cell, j) => (
-                          <td key={j} className="px-3 py-2 text-gray-600">
+                          <td key={j} className="px-3 py-2 text-[#777777]">
                             {cell || '—'}
                           </td>
                         ))}
@@ -534,7 +534,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                 </table>
               </div>
               {csvData.rows.length > 5 && (
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-[#777777] mt-2">
                   ... et {csvData.rows.length - 5} ligne{csvData.rows.length - 5 > 1 ? 's' : ''} de plus
                 </p>
               )}
@@ -542,9 +542,9 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
 
             {/* Validation */}
             {!canProceedToImport && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <X className="w-4 h-4 text-red-500" />
-                <span className="text-sm text-red-700">
+              <div className="flex items-center gap-2 p-3 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg">
+                <X className="w-4 h-4 text-[#FF2D78]" />
+                <span className="text-sm text-[#FF2D78]">
                   Veuillez mapper les champs obligatoires : {requiredFields.filter(f => !mapping[f]).join(', ')}
                 </span>
               </div>
@@ -581,7 +581,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
               <h3 className="font-medium text-accent mb-2">
                 Import en cours...
               </h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[#777777]">
                 {importProgress.current} / {importProgress.total} contacts traités
               </p>
             </div>
@@ -591,7 +591,7 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
                 value={(importProgress.current / importProgress.total) * 100}
                 size="md"
               />
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-[#777777]">
                 <span>{Math.round((importProgress.current / importProgress.total) * 100)}%</span>
                 <span>
                   {importProgress.errors > 0 && `${importProgress.errors} erreur${importProgress.errors > 1 ? 's' : ''}`}
@@ -601,16 +601,16 @@ export function CsvImportDialog({ open, onClose, onImported }: CsvImportDialogPr
 
             {importProgress.current === importProgress.total && (
               <div className="space-y-4">
-                <div className="w-12 h-12 mx-auto bg-green-100 rounded-full flex items-center justify-center">
-                  <Check className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 mx-auto bg-[#D1FAE5] rounded-full flex items-center justify-center">
+                  <Check className="w-6 h-6 text-[#10B981]" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-green-900">Import terminé !</h3>
-                  <p className="text-sm text-green-700">
+                  <h3 className="font-medium text-[#10B981]">Import terminé !</h3>
+                  <p className="text-sm text-[#10B981]">
                     {importProgress.total - importProgress.errors} contact{importProgress.total - importProgress.errors > 1 ? 's' : ''} importé{importProgress.total - importProgress.errors > 1 ? 's' : ''} avec succès
                   </p>
                   {importProgress.errors > 0 && (
-                    <p className="text-sm text-red-600 mt-1">
+                    <p className="text-sm text-[#FF2D78] mt-1">
                       {importProgress.errors} erreur{importProgress.errors > 1 ? 's' : ''} rencontrée{importProgress.errors > 1 ? 's' : ''}
                     </p>
                   )}

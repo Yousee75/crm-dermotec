@@ -216,22 +216,22 @@ export default function DocumentUploader({
       case 'uploading':
         return <Loader2 className="h-8 w-8 animate-spin text-primary" />
       case 'success':
-        return <Check className="h-8 w-8 text-green-500" />
+        return <Check className="h-8 w-8 text-[#10B981]" />
       case 'error':
-        return <X className="h-8 w-8 text-red-500" />
+        return <X className="h-8 w-8 text-[#FF2D78]" />
       default:
-        return <Upload className="h-8 w-8 text-gray-400" />
+        return <Upload className="h-8 w-8 text-[#999999]" />
     }
   }
 
   const getScanIcon = () => {
     switch (uploadState.scanStatus) {
       case 'clean':
-        return <Shield className="h-4 w-4 text-green-500" />
+        return <Shield className="h-4 w-4 text-[#10B981]" />
       case 'suspect':
-        return <AlertTriangle className="h-4 w-4 text-red-500" />
+        return <AlertTriangle className="h-4 w-4 text-[#FF2D78]" />
       case 'scanning':
-        return <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+        return <Loader2 className="h-4 w-4 animate-spin text-[#6B8CAE]" />
       default:
         return null
     }
@@ -251,12 +251,12 @@ export default function DocumentUploader({
   const borderColor = uploadState.status === 'error' ? 'border-red-300' :
                      uploadState.status === 'success' ? 'border-green-300' :
                      isDragOver ? 'border-primary' :
-                     'border-gray-300'
+                     'border-[#EEEEEE]'
 
-  const bgColor = uploadState.status === 'error' ? 'bg-red-50' :
-                  uploadState.status === 'success' ? 'bg-green-50' :
-                  isDragOver ? 'bg-blue-50' :
-                  'bg-gray-50'
+  const bgColor = uploadState.status === 'error' ? 'bg-[#FFE0EF]' :
+                  uploadState.status === 'success' ? 'bg-[#ECFDF5]' :
+                  isDragOver ? 'bg-[#E0EBF5]' :
+                  'bg-[#FAF8F5]'
 
   return (
     <div className={`space-y-4 ${className}`}>
@@ -267,7 +267,7 @@ export default function DocumentUploader({
           transition-all duration-200 min-h-[160px] flex flex-col items-center justify-center
           ${borderColor} ${bgColor}
           ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-          hover:${!disabled ? 'border-primary bg-blue-50' : ''}
+          hover:${!disabled ? 'border-primary bg-[#E0EBF5]' : ''}
         `}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -292,40 +292,40 @@ export default function DocumentUploader({
         <div className="space-y-2">
           {uploadState.status === 'idle' ? (
             <>
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-sm font-medium text-[#3A3A3A]">
                 {DOCUMENT_TYPE_LABELS[docType]}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[#777777]">
                 Glissez-déposez ou cliquez pour sélectionner
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-[#999999]">
                 PDF, JPEG, PNG, WEBP (max 10MB)
               </p>
             </>
           ) : uploadState.status === 'uploading' ? (
             <>
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-sm font-medium text-[#3A3A3A]">
                 Upload en cours...
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[#777777]">
                 {uploadState.file?.name}
               </p>
             </>
           ) : uploadState.status === 'success' ? (
             <>
-              <p className="text-sm font-medium text-green-700">
+              <p className="text-sm font-medium text-[#10B981]">
                 Upload réussi
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[#777777]">
                 {uploadState.file?.name}
               </p>
             </>
           ) : (
             <>
-              <p className="text-sm font-medium text-red-700">
+              <p className="text-sm font-medium text-[#FF2D78]">
                 Erreur
               </p>
-              <p className="text-xs text-red-600">
+              <p className="text-xs text-[#FF2D78]">
                 {uploadState.error}
               </p>
             </>
@@ -334,7 +334,7 @@ export default function DocumentUploader({
 
         {/* Barre de progression */}
         {uploadState.status === 'uploading' && (
-          <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+          <div className="w-full bg-[#EEEEEE] rounded-full h-2 mt-4">
             <div
               className="bg-primary h-2 rounded-full transition-all duration-300"
               style={{ width: `${uploadState.progress}%` }}
@@ -350,19 +350,19 @@ export default function DocumentUploader({
           {uploadState.scanStatus && uploadState.scanStatus !== 'scanning' && (
             <div className="flex items-center gap-2 text-xs">
               {getScanIcon()}
-              <span className="text-gray-600">{getScanStatusLabel()}</span>
+              <span className="text-[#777777]">{getScanStatusLabel()}</span>
             </div>
           )}
 
           {/* Score de confiance */}
           {uploadState.confidenceScore !== undefined && (
             <div className="flex items-center gap-2 text-xs">
-              <div className="w-4 h-4 rounded bg-gray-200 flex items-center justify-center">
+              <div className="w-4 h-4 rounded bg-[#EEEEEE] flex items-center justify-center">
                 <span className="text-[10px] font-bold">
                   {uploadState.confidenceScore}
                 </span>
               </div>
-              <span className="text-gray-600">
+              <span className="text-[#777777]">
                 Score de confiance: {uploadState.confidenceScore}%
               </span>
             </div>

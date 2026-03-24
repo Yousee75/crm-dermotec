@@ -60,7 +60,7 @@ export function TextReformulator() {
             className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
               tone === t.id
                 ? 'bg-action text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
             }`}
           >
             {t.emoji} {t.label}
@@ -73,7 +73,7 @@ export function TextReformulator() {
         value={input}
         onChange={e => setInput(e.target.value)}
         placeholder="Collez le texte à reformuler..."
-        className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm min-h-[100px] resize-y focus:outline-none focus:border-action focus:ring-1 focus:ring-action/30"
+        className="w-full border border-[#EEEEEE] rounded-lg px-4 py-3 text-sm min-h-[100px] resize-y focus:outline-none focus:border-action focus:ring-1 focus:ring-action/30"
       />
 
       {/* Button */}
@@ -88,15 +88,15 @@ export function TextReformulator() {
 
       {/* Output */}
       {output && (
-        <div className="relative bg-purple-50 border border-purple-200 rounded-lg p-4">
+        <div className="relative bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg p-4">
           <button
             onClick={copyResult}
-            className="absolute top-2 right-2 p-1.5 hover:bg-purple-100 rounded-lg transition-colors"
+            className="absolute top-2 right-2 p-1.5 hover:bg-[#FFE0EF] rounded-lg transition-colors"
             title="Copier"
           >
-            {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-purple-400" />}
+            {copied ? <Check size={14} className="text-[#10B981]" /> : <Copy size={14} className="text-[#FF2D78]" />}
           </button>
-          <p className="text-sm text-gray-800 whitespace-pre-wrap pr-8">{output}</p>
+          <p className="text-sm text-[#1A1A1A] whitespace-pre-wrap pr-8">{output}</p>
         </div>
       )}
     </div>

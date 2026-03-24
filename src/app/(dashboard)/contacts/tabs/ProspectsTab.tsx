@@ -76,7 +76,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
             <select
               value={statutFilter[0] || ''}
               onChange={(e) => setStatutFilter(e.target.value ? [e.target.value as StatutLead] : [])}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">Tous les statuts</option>
               {statutOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -84,7 +84,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
             <select
               value={sourceFilter[0] || ''}
               onChange={(e) => setSourceFilter(e.target.value ? [e.target.value as SourceLead] : [])}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">Toutes les sources</option>
               {sourceOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -104,31 +104,31 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
       </div>
 
       {/* Table simplifiée */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50/50 border-b border-gray-100">
+            <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
               <tr>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                   Prospect
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                   Score
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                   Statut
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                   Source
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                   Date création
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-[#F4F0EB]">
               {leads.map((lead: any) => (
-                <tr key={lead.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={lead.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                   <td className="px-6 py-4">
                     <Link href={`/lead/${lead.id}`} className="group block">
                       <div className="flex items-center gap-3">
@@ -136,10 +136,10 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
                           {lead.prenom?.[0] || lead.nom?.[0] || 'L'}
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">
+                          <p className="text-sm font-medium text-[#111111] group-hover:text-primary transition-colors">
                             {lead.prenom} {lead.nom}
                           </p>
-                          <p className="text-xs text-gray-500">{lead.email}</p>
+                          <p className="text-xs text-[#777777]">{lead.email}</p>
                         </div>
                       </div>
                     </Link>
@@ -153,7 +153,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
                   <td className="px-6 py-4">
                     <SourceBadge source={lead.source} />
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
+                  <td className="px-6 py-4 text-sm text-[#777777]">
                     {new Date(lead.created_at).toLocaleDateString('fr-FR')}
                   </td>
                 </tr>
@@ -166,7 +166,7 @@ export default function ProspectsTab({ onCreateLead }: ProspectsTabProps) {
       {/* Pagination simple */}
       {data && data.total > 10 && (
         <div className="flex justify-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#777777]">
             Affichage de 10 prospects · <Link href="/leads" className="text-primary hover:underline">Voir tous</Link>
           </p>
         </div>

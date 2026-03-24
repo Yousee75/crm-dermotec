@@ -56,7 +56,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
           const transitions = VALID_TRANSITIONS[lead.statut] || []
 
           return (
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-[#FAF8F5]">
               {/* Header prospect */}
               <div className="p-5">
                 <div className="flex items-center gap-3 mb-3">
@@ -86,7 +86,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
                             <button key={sk} onClick={() => {
                               changeStatut.mutate({ id: lead.id, statut: sk })
                               setShowStatut(false)
-                            }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-gray-50 text-left">
+                            }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-[#FAF8F5] text-left">
                               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: STATUTS_LEAD[sk].color }} />{STATUTS_LEAD[sk].label}
                             </button>
                           ))}
@@ -99,8 +99,8 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
 
                 {/* Actions rapides */}
                 <div className="flex items-center gap-1.5">
-                  {lead.telephone && <a href={`tel:${lead.telephone}`} className="flex items-center justify-center w-9 h-9 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition"><Phone className="w-4 h-4" /></a>}
-                  {lead.email && <a href={`mailto:${lead.email}`} className="flex items-center justify-center w-9 h-9 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition"><Mail className="w-4 h-4" /></a>}
+                  {lead.telephone && <a href={`tel:${lead.telephone}`} className="flex items-center justify-center w-9 h-9 bg-[#ECFDF5] text-[#10B981] rounded-lg hover:bg-[#D1FAE5] transition"><Phone className="w-4 h-4" /></a>}
+                  {lead.email && <a href={`mailto:${lead.email}`} className="flex items-center justify-center w-9 h-9 bg-[#E0EBF5] text-[#6B8CAE] rounded-lg hover:bg-[#E0EBF5] transition"><Mail className="w-4 h-4" /></a>}
                   {lead.telephone && <a href={`https://wa.me/${lead.telephone.replace(/[^\d]/g, '').replace(/^0/, '33')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-9 h-9 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition"><MessageCircle className="w-4 h-4" /></a>}
                   <Link href={`/lead/${lead.id}`} className="ml-auto flex items-center gap-1 px-3 py-2 bg-primary/10 text-primary rounded-lg text-xs font-medium hover:bg-primary/20 transition">
                     Fiche complète <ExternalLink className="w-3 h-3" />
@@ -131,7 +131,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
                     </div>
                   )}
                   {lead.inscriptions?.map((insc: any) => (
-                    <div key={insc.id} className="flex items-center justify-between text-xs p-2 bg-gray-50 rounded-lg">
+                    <div key={insc.id} className="flex items-center justify-between text-xs p-2 bg-[#FAF8F5] rounded-lg">
                       <span className="text-accent font-medium truncate">{insc.session?.formation?.nom || 'Formation'}</span>
                       <Badge variant={insc.paiement_statut === 'PAYE' ? 'success' : 'warning'} size="sm">
                         {insc.paiement_statut === 'PAYE' ? 'Payé' : 'En attente'}
@@ -159,7 +159,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
                 <div className="p-5">
                   <div className="flex flex-wrap gap-1">
                     {lead.tags.map((tag: string) => (
-                      <span key={tag} className="px-2 py-0.5 bg-gray-100 text-text-secondary rounded-full text-[10px]">{tag}</span>
+                      <span key={tag} className="px-2 py-0.5 bg-[#F4F0EB] text-text-secondary rounded-full text-[10px]">{tag}</span>
                     ))}
                   </div>
                 </div>

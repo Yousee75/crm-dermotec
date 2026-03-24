@@ -84,12 +84,12 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
           </div>
         )}
 
-        <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center">
+        <div className="bg-white rounded-2xl border border-[#EEEEEE] p-8 text-center">
           <div className={`w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center ${
-            passed ? 'bg-green-100' : 'bg-orange-100'
+            passed ? 'bg-[#D1FAE5]' : 'bg-orange-100'
           }`}>
             {passed ? (
-              <Trophy className="w-10 h-10 text-green-500" />
+              <Trophy className="w-10 h-10 text-[#10B981]" />
             ) : (
               <RotateCcw className="w-10 h-10 text-orange-500" />
             )}
@@ -100,23 +100,23 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
           </h3>
 
           <div className="flex items-center justify-center gap-2 mb-4">
-            <span className={`text-4xl font-bold ${passed ? 'text-green-500' : 'text-orange-500'}`}>
+            <span className={`text-4xl font-bold ${passed ? 'text-[#10B981]' : 'text-orange-500'}`}>
               {scorePercent}%
             </span>
-            <span className="text-gray-500 text-lg">
+            <span className="text-[#777777] text-lg">
               ({correctCount}/{questions.length} bonnes réponses)
             </span>
           </div>
 
           {/* Score bar */}
-          <div className="w-full max-w-xs mx-auto bg-gray-100 rounded-full h-3 mb-6">
+          <div className="w-full max-w-xs mx-auto bg-[#F4F0EB] rounded-full h-3 mb-6">
             <div
-              className={`h-3 rounded-full transition-all duration-1000 ${passed ? 'bg-green-500' : 'bg-orange-500'}`}
+              className={`h-3 rounded-full transition-all duration-1000 ${passed ? 'bg-[#10B981]' : 'bg-orange-500'}`}
               style={{ width: `${scorePercent}%` }}
             />
           </div>
 
-          <p className="text-gray-600 mb-6">
+          <p className="text-[#777777] mb-6">
             {passed
               ? `Excellent ! Vous maîtrisez le sujet. ${scorePercent === 100 ? '🏆 Score parfait !' : ''}`
               : `Il faut ${passScore}% pour valider. Réessayez, vous êtes proche !`
@@ -135,7 +135,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
             {passed && (
               <button
                 onClick={() => onComplete(correctCount, questions.length)}
-                className="flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition"
+                className="flex items-center gap-2 px-6 py-3 bg-[#10B981] text-white rounded-xl font-semibold hover:bg-[#10B981] transition"
               >
                 <ChevronRight className="w-4 h-4" /> Continuer
               </button>
@@ -147,13 +147,13 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
       {/* Progress bar */}
-      <div className="bg-gray-50 px-6 py-3 flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-500">
+      <div className="bg-[#FAF8F5] px-6 py-3 flex items-center justify-between">
+        <span className="text-sm font-medium text-[#777777]">
           Question {currentIndex + 1} / {questions.length}
         </span>
-        <div className="flex-1 max-w-[200px] mx-4 bg-gray-200 rounded-full h-2">
+        <div className="flex-1 max-w-[200px] mx-4 bg-[#EEEEEE] rounded-full h-2">
           <div
             className="bg-primary h-2 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
@@ -173,15 +173,15 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
         {/* Options */}
         <div className="space-y-3">
           {current.options.map((option, i) => {
-            let style = 'border-gray-200 bg-white hover:border-primary hover:bg-primary/5 cursor-pointer'
+            let style = 'border-[#EEEEEE] bg-white hover:border-primary hover:bg-primary/5 cursor-pointer'
 
             if (isAnswered) {
               if (i === current.correct) {
-                style = 'border-green-500 bg-green-50 ring-2 ring-green-200'
+                style = 'border-[#10B981] bg-[#ECFDF5] ring-2 ring-green-200'
               } else if (i === selectedOption && i !== current.correct) {
-                style = 'border-red-500 bg-red-50 ring-2 ring-red-200'
+                style = 'border-red-500 bg-[#FFE0EF] ring-2 ring-red-200'
               } else {
-                style = 'border-gray-100 bg-gray-50 opacity-50'
+                style = 'border-[#F4F0EB] bg-[#FAF8F5] opacity-50'
               }
             } else if (i === selectedOption) {
               style = 'border-primary bg-primary/10 ring-2 ring-primary/20'
@@ -196,10 +196,10 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
               >
                 <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 ${
                   isAnswered && i === current.correct
-                    ? 'bg-green-500 text-white'
+                    ? 'bg-[#10B981] text-white'
                     : isAnswered && i === selectedOption
-                    ? 'bg-red-500 text-white'
-                    : 'bg-gray-100 text-gray-500'
+                    ? 'bg-[#FF2D78] text-white'
+                    : 'bg-[#F4F0EB] text-[#777777]'
                 }`}>
                   {isAnswered && i === current.correct ? (
                     <CheckCircle className="w-5 h-5" />
@@ -218,7 +218,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
         {/* Explication */}
         {isAnswered && current.explication && (
           <div className={`mt-4 p-4 rounded-xl text-sm leading-relaxed ${
-            isCorrect ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-orange-50 text-orange-800 border border-orange-200'
+            isCorrect ? 'bg-[#ECFDF5] text-[#10B981] border border-[#10B981]/30' : 'bg-orange-50 text-orange-800 border border-orange-200'
           }`}>
             <p className="font-semibold mb-1">{isCorrect ? '✅ Correct !' : '❌ Pas tout à fait'}</p>
             <p>{current.explication}</p>

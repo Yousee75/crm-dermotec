@@ -73,22 +73,22 @@ const MOCK_COMMANDES: Commande[] = [
 const STATUT_CONFIG = {
   en_attente: {
     label: 'En attente',
-    color: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    color: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
     icon: Clock
   },
   confirmee: {
     label: 'Confirmée',
-    color: 'bg-blue-50 text-blue-700 border-blue-200',
+    color: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30',
     icon: CheckCircle
   },
   expediee: {
     label: 'Expédiée',
-    color: 'bg-purple-50 text-purple-700 border-purple-200',
+    color: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30',
     icon: Truck
   },
   livree: {
     label: 'Livrée',
-    color: 'bg-green-50 text-green-700 border-green-200',
+    color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
     icon: CheckCircle
   }
 }
@@ -123,27 +123,27 @@ export default function EShopTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Commandes totales</p>
-              <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-sm text-[#777777]">Commandes totales</p>
+              <p className="text-xl font-bold text-[#111111]">{stats.total}</p>
             </div>
-            <ShoppingBag className="w-8 h-8 text-gray-400" />
+            <ShoppingBag className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">CA E-Shop</p>
-              <p className="text-xl font-bold text-green-600">{stats.ca_total.toLocaleString('fr-FR')}€</p>
+              <p className="text-sm text-[#777777]">CA E-Shop</p>
+              <p className="text-xl font-bold text-[#10B981]">{stats.ca_total.toLocaleString('fr-FR')}€</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-green-400" />
+            <TrendingUp className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">En cours</p>
+              <p className="text-sm text-[#777777]">En cours</p>
               <p className="text-xl font-bold text-orange-600">{stats.en_cours}</p>
             </div>
             <Package className="w-8 h-8 text-orange-400" />
@@ -153,10 +153,10 @@ export default function EShopTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Panier moyen</p>
-              <p className="text-xl font-bold text-blue-600">{stats.panier_moyen.toLocaleString('fr-FR')}€</p>
+              <p className="text-sm text-[#777777]">Panier moyen</p>
+              <p className="text-xl font-bold text-[#6B8CAE]">{stats.panier_moyen.toLocaleString('fr-FR')}€</p>
             </div>
-            <ShoppingBag className="w-8 h-8 text-blue-400" />
+            <ShoppingBag className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
       </div>
@@ -173,7 +173,7 @@ export default function EShopTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="en_attente">En attente</option>
@@ -202,41 +202,41 @@ export default function EShopTab() {
           description="Les commandes de produits et formations en ligne apparaîtront ici."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50 border-b border-gray-100">
+              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Commande
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Client
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Produits
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Montant
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Statut
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Date
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 {commandes.map((commande) => {
                   const statutConfig = STATUT_CONFIG[commande.statut]
                   const StatutIcon = statutConfig.icon
 
                   return (
-                    <tr key={commande.id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={commande.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                       <td className="px-6 py-4">
                         <Link href={`/commande/${commande.id}`} className="text-primary hover:text-primary-dark font-medium text-sm">
                           {commande.numero}
@@ -244,26 +244,26 @@ export default function EShopTab() {
                       </td>
                       <td className="px-6 py-4">
                         <div>
-                          <span className="text-sm font-medium text-gray-900">{commande.client_nom}</span>
-                          <p className="text-xs text-gray-500">{commande.client_email}</p>
+                          <span className="text-sm font-medium text-[#111111]">{commande.client_nom}</span>
+                          <p className="text-xs text-[#777777]">{commande.client_email}</p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="space-y-1">
                           {commande.produits.slice(0, 2).map((produit, index) => (
-                            <div key={index} className="text-xs text-gray-600">
+                            <div key={index} className="text-xs text-[#777777]">
                               {produit.nom} × {produit.quantite}
                             </div>
                           ))}
                           {commande.produits.length > 2 && (
-                            <div className="text-xs text-gray-400">
+                            <div className="text-xs text-[#999999]">
                               +{commande.produits.length - 2} autres
                             </div>
                           )}
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-[#111111]">
                           {commande.montant_total.toLocaleString('fr-FR')}€
                         </span>
                       </td>
@@ -277,11 +277,11 @@ export default function EShopTab() {
                       </td>
                       <td className="px-6 py-4">
                         <div>
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-[#777777]">
                             {new Date(commande.date_commande).toLocaleDateString('fr-FR')}
                           </span>
                           {commande.date_livraison && (
-                            <p className="text-xs text-green-600">
+                            <p className="text-xs text-[#10B981]">
                               Livré le {new Date(commande.date_livraison).toLocaleDateString('fr-FR')}
                             </p>
                           )}
@@ -303,15 +303,15 @@ export default function EShopTab() {
 
       {/* Produits populaires */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Produits les plus vendus</h3>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Produits les plus vendus</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-lg flex items-center justify-center text-white font-medium">
               1
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Kit Maquillage Permanent</p>
-              <p className="text-xs text-gray-500">12 ventes · 299€</p>
+              <p className="text-sm font-medium text-[#111111]">Kit Maquillage Permanent</p>
+              <p className="text-xs text-[#777777]">12 ventes · 299€</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -319,8 +319,8 @@ export default function EShopTab() {
               2
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Pigments Couleur</p>
-              <p className="text-xs text-gray-500">8 ventes · 45€</p>
+              <p className="text-sm font-medium text-[#111111]">Pigments Couleur</p>
+              <p className="text-xs text-[#777777]">8 ventes · 45€</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -328,8 +328,8 @@ export default function EShopTab() {
               3
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Appareil Épilation Laser</p>
-              <p className="text-xs text-gray-500">3 ventes · 1299€</p>
+              <p className="text-sm font-medium text-[#111111]">Appareil Épilation Laser</p>
+              <p className="text-xs text-[#777777]">3 ventes · 1299€</p>
             </div>
           </div>
         </div>

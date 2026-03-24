@@ -79,17 +79,17 @@ export function ActivityTimeline({ leadId, sessionId, limit = 20, showFilters = 
   })
 
   if (isLoading) {
-    return <div className="text-sm text-gray-400 py-4">Chargement de l&apos;historique...</div>
+    return <div className="text-sm text-[#999999] py-4">Chargement de l&apos;historique...</div>
   }
 
   if (!activities?.length) {
-    return <div className="text-sm text-gray-400 py-4 text-center">Aucune activité</div>
+    return <div className="text-sm text-[#999999] py-4 text-center">Aucune activité</div>
   }
 
   return (
     <div className="relative">
       {/* Ligne verticale */}
-      <div className="absolute left-5 top-0 bottom-0 w-px bg-gray-200" />
+      <div className="absolute left-5 top-0 bottom-0 w-px bg-[#EEEEEE]" />
 
       <div className="space-y-0 stagger-children">
         {activities.map((activity, i) => {
@@ -108,19 +108,19 @@ export function ActivityTimeline({ leadId, sessionId, limit = 20, showFilters = 
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-gray-700">{activity.description}</p>
+                <p className="text-sm text-[#3A3A3A]">{activity.description}</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs text-gray-400">{formatDateTime(activity.created_at)}</span>
+                  <span className="text-xs text-[#999999]">{formatDateTime(activity.created_at)}</span>
                   {activity.user && (
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-[#999999]">
                       · {activity.user.prenom} {activity.user.nom}
                     </span>
                   )}
                   {activity.ancien_statut && activity.nouveau_statut && (
                     <span className="text-xs">
-                      <span className="text-gray-400">{activity.ancien_statut}</span>
-                      <span className="text-gray-300 mx-1">→</span>
-                      <span className="text-gray-600 font-medium">{activity.nouveau_statut}</span>
+                      <span className="text-[#999999]">{activity.ancien_statut}</span>
+                      <span className="text-[#999999] mx-1">→</span>
+                      <span className="text-[#777777] font-medium">{activity.nouveau_statut}</span>
                     </span>
                   )}
                 </div>

@@ -59,22 +59,22 @@ const MOCK_FINANCEMENTS: Financement[] = [
 const STATUT_CONFIG = {
   en_attente: {
     label: 'En attente',
-    color: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    color: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
     icon: Clock
   },
   en_cours: {
     label: 'En cours',
-    color: 'bg-blue-50 text-blue-700 border-blue-200',
+    color: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30',
     icon: FileText
   },
   accepte: {
     label: 'Accepté',
-    color: 'bg-green-50 text-green-700 border-green-200',
+    color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
     icon: CheckCircle
   },
   refuse: {
     label: 'Refusé',
-    color: 'bg-red-50 text-red-700 border-red-200',
+    color: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30',
     icon: AlertCircle
   }
 }
@@ -109,40 +109,40 @@ export default function FinancementTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Dossiers totaux</p>
-              <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-sm text-[#777777]">Dossiers totaux</p>
+              <p className="text-xl font-bold text-[#111111]">{stats.total}</p>
             </div>
-            <FileText className="w-8 h-8 text-gray-400" />
+            <FileText className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">En cours</p>
-              <p className="text-xl font-bold text-blue-600">{stats.en_cours}</p>
+              <p className="text-sm text-[#777777]">En cours</p>
+              <p className="text-xl font-bold text-[#6B8CAE]">{stats.en_cours}</p>
             </div>
-            <Clock className="w-8 h-8 text-blue-400" />
+            <Clock className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Acceptés</p>
-              <p className="text-xl font-bold text-green-600">{stats.accepte}</p>
+              <p className="text-sm text-[#777777]">Acceptés</p>
+              <p className="text-xl font-bold text-[#10B981]">{stats.accepte}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-400" />
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Montant total</p>
-              <p className="text-xl font-bold text-gray-900">{stats.montant_total.toLocaleString('fr-FR')}€</p>
+              <p className="text-sm text-[#777777]">Montant total</p>
+              <p className="text-xl font-bold text-[#111111]">{stats.montant_total.toLocaleString('fr-FR')}€</p>
             </div>
-            <Euro className="w-8 h-8 text-gray-400" />
+            <Euro className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
       </div>
@@ -159,7 +159,7 @@ export default function FinancementTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="en_attente">En attente</option>
@@ -183,53 +183,53 @@ export default function FinancementTab() {
           description="Les demandes de financement OPCO, CPF et Pôle Emploi apparaîtront ici."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50 border-b border-gray-100">
+              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Apprenant
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Formation
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Organisme
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Montant
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Statut
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Demande
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 {financements.map((financement) => {
                   const statutConfig = STATUT_CONFIG[financement.statut]
                   const StatutIcon = statutConfig.icon
 
                   return (
-                    <tr key={financement.id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={financement.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium">
                             {financement.apprenant_nom.split(' ').map(n => n[0]).join('')}
                           </div>
-                          <span className="text-sm font-medium text-gray-900">
+                          <span className="text-sm font-medium text-[#111111]">
                             {financement.apprenant_nom}
                           </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm text-gray-900">{financement.formation}</span>
+                        <span className="text-sm text-[#111111]">{financement.formation}</span>
                       </td>
                       <td className="px-6 py-4">
                         <Badge variant="outline" size="sm">
@@ -237,7 +237,7 @@ export default function FinancementTab() {
                         </Badge>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-[#111111]">
                           {financement.montant.toLocaleString('fr-FR')}€
                         </span>
                       </td>
@@ -249,7 +249,7 @@ export default function FinancementTab() {
                           </Badge>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
+                      <td className="px-6 py-4 text-sm text-[#777777]">
                         {new Date(financement.date_demande).toLocaleDateString('fr-FR')}
                       </td>
                       <td className="px-6 py-4">

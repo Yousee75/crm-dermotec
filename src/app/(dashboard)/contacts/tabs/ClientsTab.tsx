@@ -103,31 +103,31 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
           description="Aucun client ne correspond à votre recherche."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50 border-b border-gray-100">
+              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Client
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Contact
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Formations
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     CA Total
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Depuis
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 {clients.map((client) => (
-                  <tr key={client.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={client.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                     <td className="px-6 py-4">
                       <Link href={`/client/${client.id}`} className="group block">
                         <div className="flex items-center gap-3">
@@ -135,7 +135,7 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
                             {client.nom.charAt(0)}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors">
+                            <p className="text-sm font-medium text-[#111111] group-hover:text-primary transition-colors">
                               {client.nom}
                             </p>
                             <div className="flex items-center gap-2 mt-1">
@@ -150,13 +150,13 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
                     <td className="px-6 py-4">
                       <div className="space-y-1">
                         {client.email && (
-                          <div className="flex items-center gap-2 text-xs text-gray-600">
+                          <div className="flex items-center gap-2 text-xs text-[#777777]">
                             <Mail className="w-3 h-3" />
                             <span className="truncate">{client.email}</span>
                           </div>
                         )}
                         {client.telephone && (
-                          <div className="flex items-center gap-2 text-xs text-gray-600">
+                          <div className="flex items-center gap-2 text-xs text-[#777777]">
                             <Phone className="w-3 h-3" />
                             <span>{client.telephone}</span>
                           </div>
@@ -169,11 +169,11 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
                       </Badge>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm font-medium text-[#111111]">
                         {client.ca_total.toLocaleString('fr-FR')}€
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
+                    <td className="px-6 py-4 text-sm text-[#777777]">
                       {new Date(client.created_at).toLocaleDateString('fr-FR')}
                     </td>
                   </tr>
@@ -186,19 +186,19 @@ export default function ClientsTab({ onCreateClient }: ClientsTabProps) {
 
       {/* Stats rapides */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-lg border border-gray-100 p-4">
-          <div className="text-sm text-gray-600">Total clients</div>
-          <div className="text-xl font-semibold text-gray-900">{clients.length}</div>
+        <div className="bg-white rounded-lg border border-[#F4F0EB] p-4">
+          <div className="text-sm text-[#777777]">Total clients</div>
+          <div className="text-xl font-semibold text-[#111111]">{clients.length}</div>
         </div>
-        <div className="bg-white rounded-lg border border-gray-100 p-4">
-          <div className="text-sm text-gray-600">CA total</div>
-          <div className="text-xl font-semibold text-gray-900">
+        <div className="bg-white rounded-lg border border-[#F4F0EB] p-4">
+          <div className="text-sm text-[#777777]">CA total</div>
+          <div className="text-xl font-semibold text-[#111111]">
             {clients.reduce((sum, c) => sum + c.ca_total, 0).toLocaleString('fr-FR')}€
           </div>
         </div>
-        <div className="bg-white rounded-lg border border-gray-100 p-4">
-          <div className="text-sm text-gray-600">Formations totales</div>
-          <div className="text-xl font-semibold text-gray-900">
+        <div className="bg-white rounded-lg border border-[#F4F0EB] p-4">
+          <div className="text-sm text-[#777777]">Formations totales</div>
+          <div className="text-xl font-semibold text-[#111111]">
             {clients.reduce((sum, c) => sum + c.nb_formations, 0)}
           </div>
         </div>

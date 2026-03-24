@@ -79,7 +79,7 @@ function formatSize(bytes: number): string {
 
 const TYPE_CONFIG: Record<string, { icon: typeof FileText; color: string; label: string }> = {
   ppt: { icon: FileText, color: 'text-orange-400 bg-orange-500/10', label: 'Présentation' },
-  pdf: { icon: FileText, color: 'text-red-400 bg-red-500/10', label: 'PDF' },
+  pdf: { icon: FileText, color: 'text-[#FF2D78] bg-[#FF2D78]/10', label: 'PDF' },
   video: { icon: Video, color: 'text-cyan-400 bg-cyan-500/10', label: 'Vidéo' },
   audio: { icon: Music, color: 'text-violet-400 bg-violet-500/10', label: 'Audio' },
   image: { icon: ImageIcon, color: 'text-emerald-400 bg-emerald-500/10', label: 'Image' },
@@ -218,12 +218,12 @@ export default function ContentUploader({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold">Supports de formation</h2>
-          <p className="text-sm text-gray-500">{formationNom}</p>
+          <p className="text-sm text-[#777777]">{formationNom}</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setShowVideoUrlForm(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#EEEEEE] hover:bg-[#FAF8F5] text-sm transition-colors"
           >
             <Video className="w-4 h-4" />
             Ajouter vidéo YouTube
@@ -248,7 +248,7 @@ export default function ContentUploader({
           relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all
           ${dragOver
             ? 'border-cyan-400 bg-cyan-50'
-            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+            : 'border-[#EEEEEE] hover:border-[#EEEEEE] hover:bg-[#FAF8F5]'
           }
         `}
       >
@@ -260,21 +260,21 @@ export default function ContentUploader({
           onChange={(e) => e.target.files && addFiles(e.target.files)}
           className="hidden"
         />
-        <Upload className={`w-10 h-10 mx-auto mb-3 ${dragOver ? 'text-cyan-500' : 'text-gray-400'}`} />
-        <p className="text-sm font-medium text-gray-700">
+        <Upload className={`w-10 h-10 mx-auto mb-3 ${dragOver ? 'text-cyan-500' : 'text-[#999999]'}`} />
+        <p className="text-sm font-medium text-[#3A3A3A]">
           Glissez-déposez vos fichiers ici
         </p>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-[#777777] mt-1">
           ou cliquez pour parcourir — PPT, PDF, vidéo, audio, images — max 500 MB
         </p>
       </div>
 
       {/* Formulaire vidéo URL */}
       {showVideoUrlForm && (
-        <div className="p-4 rounded-lg border border-gray-200 bg-white space-y-3">
+        <div className="p-4 rounded-lg border border-[#EEEEEE] bg-white space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Ajouter une vidéo par URL</h3>
-            <button onClick={() => setShowVideoUrlForm(false)} className="p-1 hover:bg-gray-100 rounded">
+            <button onClick={() => setShowVideoUrlForm(false)} className="p-1 hover:bg-[#F4F0EB] rounded">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -315,10 +315,10 @@ export default function ContentUploader({
 
       {/* Formulaire nouveau module */}
       {showNewModule && (
-        <div className="p-4 rounded-lg border border-gray-200 bg-white space-y-3">
+        <div className="p-4 rounded-lg border border-[#EEEEEE] bg-white space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Nouveau module</h3>
-            <button onClick={() => setShowNewModule(false)} className="p-1 hover:bg-gray-100 rounded">
+            <button onClick={() => setShowNewModule(false)} className="p-1 hover:bg-[#F4F0EB] rounded">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -374,7 +374,7 @@ export default function ContentUploader({
             return (
               <div
                 key={item.id}
-                className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 bg-white"
+                className="flex items-center gap-3 p-3 rounded-lg border border-[#EEEEEE] bg-white"
               >
                 {/* Icône type */}
                 <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${config.color}`}>
@@ -390,7 +390,7 @@ export default function ContentUploader({
                     className="w-full text-sm font-medium bg-transparent border-none focus:outline-none focus:ring-0 p-0"
                     disabled={item.status !== 'pending'}
                   />
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="flex items-center gap-2 text-xs text-[#777777]">
                     <span>{config.label}</span>
                     <span>·</span>
                     <span>{formatSize(item.file.size)}</span>
@@ -398,7 +398,7 @@ export default function ContentUploader({
                   </div>
                   {/* Barre de progression */}
                   {item.status === 'uploading' && (
-                    <div className="h-1 bg-gray-100 rounded-full mt-1.5 overflow-hidden">
+                    <div className="h-1 bg-[#F4F0EB] rounded-full mt-1.5 overflow-hidden">
                       <div
                         className="h-full bg-cyan-500 rounded-full transition-all duration-300"
                         style={{ width: `${item.progress}%` }}
@@ -406,7 +406,7 @@ export default function ContentUploader({
                     </div>
                   )}
                   {item.error && (
-                    <p className="text-xs text-red-500 mt-1">{item.error}</p>
+                    <p className="text-xs text-[#FF2D78] mt-1">{item.error}</p>
                   )}
                 </div>
 
@@ -415,7 +415,7 @@ export default function ContentUploader({
                   <select
                     value={item.moduleId}
                     onChange={(e) => updateItem(item.id, { moduleId: e.target.value })}
-                    className="text-xs border rounded-lg px-2 py-1.5 bg-gray-50 max-w-[150px]"
+                    className="text-xs border rounded-lg px-2 py-1.5 bg-[#FAF8F5] max-w-[150px]"
                   >
                     {modules.map(m => (
                       <option key={m.id} value={m.id}>
@@ -427,16 +427,16 @@ export default function ContentUploader({
 
                 {/* Statut */}
                 {item.status === 'success' && <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />}
-                {item.status === 'error' && <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />}
+                {item.status === 'error' && <AlertCircle className="w-5 h-5 text-[#FF2D78] flex-shrink-0" />}
                 {item.status === 'uploading' && <Loader2 className="w-5 h-5 text-cyan-500 animate-spin flex-shrink-0" />}
 
                 {/* Supprimer */}
                 {item.status === 'pending' && (
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
+                    className="p-1.5 hover:bg-[#F4F0EB] rounded-lg transition-colors flex-shrink-0"
                   >
-                    <Trash2 className="w-4 h-4 text-gray-400" />
+                    <Trash2 className="w-4 h-4 text-[#999999]" />
                   </button>
                 )}
               </div>

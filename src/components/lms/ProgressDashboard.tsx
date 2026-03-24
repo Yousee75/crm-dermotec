@@ -158,7 +158,7 @@ export default function ProgressDashboard({
           color="cyan"
         />
         <KpiCard
-          icon={<Award className="w-4 h-4 text-amber-500" />}
+          icon={<Award className="w-4 h-4 text-[#FF8C42]" />}
           label="Points gagnés"
           value={`${pointsGagnes}/${pointsTotaux}`}
           color="amber"
@@ -175,7 +175,7 @@ export default function ProgressDashboard({
       {/* MODULES — Liste avec progression */}
       {/* ============================================================ */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Progression par module</h3>
+        <h3 className="text-sm font-semibold text-[#3A3A3A] mb-3">Progression par module</h3>
         <div className="space-y-2">
           {modules.map((module, idx) => {
             const pct = module.progression_pct
@@ -184,7 +184,7 @@ export default function ProgressDashboard({
             return (
               <div
                 key={module.id}
-                className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-colors"
+                className="flex items-center gap-4 p-4 rounded-xl border border-[#F4F0EB] bg-white hover:border-[#EEEEEE] transition-colors"
               >
                 {/* Numéro / Jour */}
                 <div className={`
@@ -193,7 +193,7 @@ export default function ProgressDashboard({
                     ? 'bg-emerald-50 text-emerald-600'
                     : pct > 0
                       ? 'bg-cyan-50 text-cyan-600'
-                      : 'bg-gray-50 text-gray-400'
+                      : 'bg-[#FAF8F5] text-[#999999]'
                   }
                 `}>
                   {module.jour_formation ? `J${module.jour_formation}` : idx + 1}
@@ -201,13 +201,13 @@ export default function ProgressDashboard({
 
                 {/* Info module */}
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-medium text-gray-800 truncate">{module.titre}</h4>
+                  <h4 className="text-sm font-medium text-[#1A1A1A] truncate">{module.titre}</h4>
                   <div className="flex items-center gap-3 mt-1">
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[#777777]">
                       {module.completed_contents}/{module.total_contents} contenus
                     </span>
                     {module.duree_minutes && (
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-[#999999]">
                         · {module.duree_minutes} min
                       </span>
                     )}
@@ -216,7 +216,7 @@ export default function ProgressDashboard({
 
                 {/* Barre progression */}
                 <div className="w-24 flex-shrink-0">
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-2 bg-[#F4F0EB] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         isModuleComplete ? 'bg-emerald-500' : 'bg-cyan-500'
@@ -224,7 +224,7 @@ export default function ProgressDashboard({
                       style={{ width: `${pct}%` }}
                     />
                   </div>
-                  <span className="text-[10px] text-gray-400 mt-0.5 block text-right">{pct}%</span>
+                  <span className="text-[10px] text-[#999999] mt-0.5 block text-right">{pct}%</span>
                 </div>
 
                 {/* Icône statut */}
@@ -234,7 +234,7 @@ export default function ProgressDashboard({
                   ) : pct > 0 ? (
                     <TrendingUp className="w-5 h-5 text-cyan-500" />
                   ) : (
-                    <Circle className="w-5 h-5 text-gray-300" />
+                    <Circle className="w-5 h-5 text-[#999999]" />
                   )}
                 </div>
               </div>
@@ -257,12 +257,12 @@ function KpiCard({ icon, label, value, color }: {
   color: string
 }) {
   return (
-    <div className="p-3 rounded-xl border border-gray-100 bg-white">
+    <div className="p-3 rounded-xl border border-[#F4F0EB] bg-white">
       <div className="flex items-center gap-2 mb-2">
         {icon}
-        <span className="text-[10px] text-gray-500 uppercase tracking-wide">{label}</span>
+        <span className="text-[10px] text-[#777777] uppercase tracking-wide">{label}</span>
       </div>
-      <p className="text-lg font-bold text-gray-800">{value}</p>
+      <p className="text-lg font-bold text-[#1A1A1A]">{value}</p>
     </div>
   )
 }

@@ -57,10 +57,10 @@ export function PasswordGenerator() {
     <div className="space-y-4">
       {/* Résultat */}
       {password && (
-        <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg p-3">
+        <div className="flex items-center gap-2 bg-[#FAF8F5] border border-[#EEEEEE] rounded-lg p-3">
           <code className="flex-1 text-sm font-mono break-all select-all">{password}</code>
-          <button onClick={copy} className="p-2 hover:bg-gray-200 rounded-lg shrink-0">
-            {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} className="text-gray-400" />}
+          <button onClick={copy} className="p-2 hover:bg-[#EEEEEE] rounded-lg shrink-0">
+            {copied ? <Check size={16} className="text-[#10B981]" /> : <Copy size={16} className="text-[#999999]" />}
           </button>
         </div>
       )}
@@ -68,7 +68,7 @@ export function PasswordGenerator() {
       {/* Force */}
       {password && (
         <div>
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-2 bg-[#EEEEEE] rounded-full overflow-hidden">
             <div className="h-full rounded-full transition-all" style={{ width: `${strength.percent}%`, backgroundColor: strength.color }} />
           </div>
           <p className="text-xs mt-1 font-medium" style={{ color: strength.color }}>{strength.label}</p>
@@ -77,7 +77,7 @@ export function PasswordGenerator() {
 
       {/* Longueur */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Longueur : {length}</label>
+        <label className="block text-sm font-medium text-[#3A3A3A] mb-1">Longueur : {length}</label>
         <input type="range" min={8} max={64} value={length} onChange={e => setLength(Number(e.target.value))} className="w-full accent-primary" />
       </div>
 
@@ -89,12 +89,12 @@ export function PasswordGenerator() {
           { key: 'numbers', label: 'Chiffres (0-9)' },
           { key: 'symbols', label: 'Symboles (!@#$)' },
         ].map(opt => (
-          <label key={opt.key} className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+          <label key={opt.key} className="flex items-center gap-2 text-sm text-[#777777] cursor-pointer">
             <input
               type="checkbox"
               checked={options[opt.key as keyof typeof options]}
               onChange={e => setOptions(prev => ({ ...prev, [opt.key]: e.target.checked }))}
-              className="rounded border-gray-300 text-primary focus:ring-primary"
+              className="rounded border-[#EEEEEE] text-primary focus:ring-primary"
             />
             {opt.label}
           </label>

@@ -12,14 +12,14 @@ export default function DpaPage() {
       <h1 className="text-3xl font-bold text-accent font-[family-name:var(--font-heading)] mb-2">
         Accord de Traitement des Donn&eacute;es (DPA)
       </h1>
-      <p className="text-sm text-gray-400 mb-2">
+      <p className="text-sm text-[#999999] mb-2">
         Data Processing Agreement &mdash; Annexe aux CGU/CGV de Dermotec CRM
       </p>
-      <p className="text-sm text-gray-400 mb-10">
+      <p className="text-sm text-[#999999] mb-10">
         Version en vigueur au 1er mars 2026
       </p>
 
-      <div className="space-y-10 text-gray-700 leading-relaxed text-[15px]">
+      <div className="space-y-10 text-[#3A3A3A] leading-relaxed text-[15px]">
 
         {/* ─── Préambule ─── */}
         <section>
@@ -76,19 +76,19 @@ export default function DpaPage() {
         <section>
           <h2 className="text-xl font-semibold text-accent mb-3">Article 3 &mdash; Types de donn&eacute;es trait&eacute;es</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200">
+            <table className="w-full text-sm border-collapse border border-[#EEEEEE]">
               <thead>
                 <tr className="bg-accent text-white">
                   <th className="text-left py-3 px-4 font-semibold">Cat&eacute;gorie</th>
                   <th className="text-left py-3 px-4 font-semibold">Donn&eacute;es</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 <tr>
                   <td className="py-3 px-4 font-medium">Identit&eacute;</td>
                   <td className="py-3 px-4">Nom, pr&eacute;nom, civilit&eacute;</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Coordonn&eacute;es</td>
                   <td className="py-3 px-4">Adresse email, num&eacute;ro de t&eacute;l&eacute;phone, adresse postale</td>
                 </tr>
@@ -96,7 +96,7 @@ export default function DpaPage() {
                   <td className="py-3 px-4 font-medium">Vie professionnelle</td>
                   <td className="py-3 px-4">Statut professionnel, exp&eacute;rience, qualifications, organisme de financement</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Formation</td>
                   <td className="py-3 px-4">Inscriptions, pr&eacute;sences, &eacute;valuations, notes, certificats, attestations</td>
                 </tr>
@@ -104,7 +104,7 @@ export default function DpaPage() {
                   <td className="py-3 px-4 font-medium">Documents</td>
                   <td className="py-3 px-4">Conventions de formation, devis, contrats, pi&egrave;ces justificatives</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Paiements</td>
                   <td className="py-3 px-4">Montants, r&eacute;f&eacute;rences factures, statuts de paiement (pas de donn&eacute;es bancaires)</td>
                 </tr>
@@ -269,7 +269,7 @@ export default function DpaPage() {
             contractuelles offrant le m&ecirc;me niveau de protection.
           </p>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200">
+            <table className="w-full text-sm border-collapse border border-[#EEEEEE]">
               <thead>
                 <tr className="bg-accent text-white">
                   <th className="text-left py-3 px-4 font-semibold">Sous-traitant</th>
@@ -278,14 +278,14 @@ export default function DpaPage() {
                   <th className="text-left py-3 px-4 font-semibold">Garanties</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 <tr>
                   <td className="py-3 px-4 font-medium">Supabase Inc.</td>
                   <td className="py-3 px-4">Base de donn&eacute;es PostgreSQL, authentification, stockage</td>
                   <td className="py-3 px-4"><strong>UE (Francfort, Allemagne)</strong></td>
                   <td className="py-3 px-4">SOC&nbsp;2 Type&nbsp;II, donn&eacute;es h&eacute;berg&eacute;es en UE</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Stripe Inc.</td>
                   <td className="py-3 px-4">Traitement des paiements, facturation</td>
                   <td className="py-3 px-4">UE / &Eacute;tats-Unis</td>
@@ -297,7 +297,7 @@ export default function DpaPage() {
                   <td className="py-3 px-4">Global (si&egrave;ge &Eacute;tats-Unis)</td>
                   <td className="py-3 px-4">CCT 2021, TIA r&eacute;alis&eacute;</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Resend Inc.</td>
                   <td className="py-3 px-4">Emails transactionnels</td>
                   <td className="py-3 px-4">&Eacute;tats-Unis</td>
@@ -309,7 +309,7 @@ export default function DpaPage() {
                   <td className="py-3 px-4">UE (Francfort)</td>
                   <td className="py-3 px-4">Donn&eacute;es en UE</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Inngest Inc.</td>
                   <td className="py-3 px-4">T&acirc;ches asynchrones (background jobs)</td>
                   <td className="py-3 px-4">&Eacute;tats-Unis</td>
@@ -375,19 +375,19 @@ export default function DpaPage() {
             Sous-traitant conform&eacute;ment &agrave; l&apos;article 32 du RGPD&nbsp;:
           </p>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse border border-gray-200">
+            <table className="w-full text-sm border-collapse border border-[#EEEEEE]">
               <thead>
                 <tr className="bg-accent text-white">
                   <th className="text-left py-3 px-4 font-semibold">Mesure</th>
                   <th className="text-left py-3 px-4 font-semibold">D&eacute;tail</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 <tr>
                   <td className="py-3 px-4 font-medium">Chiffrement au repos</td>
                   <td className="py-3 px-4">AES-256 sur l&apos;ensemble des donn&eacute;es stock&eacute;es (Supabase/AWS)</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Chiffrement en transit</td>
                   <td className="py-3 px-4">TLS&nbsp;1.3 obligatoire pour toutes les communications client-serveur et inter-services</td>
                 </tr>
@@ -395,7 +395,7 @@ export default function DpaPage() {
                   <td className="py-3 px-4 font-medium">Isolation des donn&eacute;es</td>
                   <td className="py-3 px-4">Row Level Security (RLS) PostgreSQL &mdash; chaque Client isol&eacute; au niveau base de donn&eacute;es</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Authentification</td>
                   <td className="py-3 px-4">MFA (TOTP) disponible, mots de passe hash&eacute;s (bcrypt), sessions avec expiration</td>
                 </tr>
@@ -403,7 +403,7 @@ export default function DpaPage() {
                   <td className="py-3 px-4 font-medium">Sauvegardes</td>
                   <td className="py-3 px-4">Backups automatiques quotidiens, r&eacute;tention 30&nbsp;jours, tests de restauration trimestriels</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Logs d&apos;acc&egrave;s</td>
                   <td className="py-3 px-4">Journalisation de toutes les connexions et actions sensibles, conservation 1&nbsp;an</td>
                 </tr>
@@ -411,7 +411,7 @@ export default function DpaPage() {
                   <td className="py-3 px-4 font-medium">Contr&ocirc;le d&apos;acc&egrave;s</td>
                   <td className="py-3 px-4">Principe du moindre privil&egrave;ge, r&ocirc;les granulaires, revue des acc&egrave;s trimestrielle</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAF8F5]">
                   <td className="py-3 px-4 font-medium">Gestion des vuln&eacute;rabilit&eacute;s</td>
                   <td className="py-3 px-4">Mises &agrave; jour de s&eacute;curit&eacute; appliqu&eacute;es sous 72h, audit annuel par tiers</td>
                 </tr>
@@ -450,8 +450,8 @@ export default function DpaPage() {
         </section>
 
         {/* ─── Dernière mise à jour ─── */}
-        <div className="pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-400">Derni&egrave;re mise &agrave; jour&nbsp;: mars 2026</p>
+        <div className="pt-4 border-t border-[#EEEEEE]">
+          <p className="text-sm text-[#999999]">Derni&egrave;re mise &agrave; jour&nbsp;: mars 2026</p>
         </div>
       </div>
     </div>

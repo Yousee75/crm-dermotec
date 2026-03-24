@@ -38,13 +38,13 @@ function getCanalInfo(canal: CanalMessage) {
 function StatusIcon({ statut }: { statut: string }) {
   switch (statut) {
     case 'delivre':
-      return <CheckCheck className="w-3 h-3 text-gray-500" />
+      return <CheckCheck className="w-3 h-3 text-[#777777]" />
     case 'lu':
-      return <CheckCheck className="w-3 h-3 text-blue-500" />
+      return <CheckCheck className="w-3 h-3 text-[#6B8CAE]" />
     case 'erreur':
-      return <AlertCircle className="w-3 h-3 text-red-500" />
+      return <AlertCircle className="w-3 h-3 text-[#FF2D78]" />
     default:
-      return <Check className="w-3 h-3 text-gray-400" />
+      return <Check className="w-3 h-3 text-[#999999]" />
   }
 }
 
@@ -158,7 +158,7 @@ export default function MessagesPage() {
         {/* Messages */}
         <div className="flex-1 p-4 overflow-y-auto space-y-3">
           {loadingMessages ? (
-            <div className="text-center py-8 text-gray-500">Chargement...</div>
+            <div className="text-center py-8 text-[#777777]">Chargement...</div>
           ) : !messages?.length ? (
             <EmptyState
               illustration={<IllustrationEmptyMessages size={120} />}
@@ -184,10 +184,10 @@ export default function MessagesPage() {
                     className={cn(
                       'max-w-[80%] rounded-2xl px-4 py-3 space-y-1',
                       isNote
-                        ? 'bg-yellow-50 border border-yellow-200'
+                        ? 'bg-[#FFF3E8] border border-[#FF8C42]/30'
                         : isOutbound
                         ? 'bg-primary text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        : 'bg-[#F4F0EB] text-[#111111]'
                     )}
                   >
                     <div className="flex items-center gap-2">
@@ -212,7 +212,7 @@ export default function MessagesPage() {
         </div>
 
         {/* Composer mobile */}
-        <div className="p-4 border-t bg-gray-50">
+        <div className="p-4 border-t bg-[#FAF8F5]">
           <div className="space-y-3">
             {/* Sélecteur canal */}
             <div className="flex gap-1 overflow-x-auto">
@@ -224,7 +224,7 @@ export default function MessagesPage() {
                     'flex items-center gap-2 px-3 py-2 rounded-lg text-sm whitespace-nowrap',
                     selectedCanal === canal.id
                       ? 'bg-primary text-white'
-                      : 'bg-white border text-gray-600'
+                      : 'bg-white border text-[#777777]'
                   )}
                 >
                   {(() => { const CI = canal.icon; return <CI className="w-4 h-4" /> })()}
@@ -263,7 +263,7 @@ export default function MessagesPage() {
             </div>
 
             {selectedCanal === 'sms' && (
-              <div className="text-xs text-gray-500 text-right">
+              <div className="text-xs text-[#777777] text-right">
                 {newMessage.length}/160 caractères
               </div>
             )}
@@ -309,7 +309,7 @@ export default function MessagesPage() {
               {CANAUX.slice(0, 4).map((canal) => (
                 <button
                   key={canal.id}
-                  className="px-2 py-1 text-xs border rounded text-gray-600 hover:bg-gray-50 whitespace-nowrap"
+                  className="px-2 py-1 text-xs border rounded text-[#777777] hover:bg-[#FAF8F5] whitespace-nowrap"
                 >
                   {(() => { const CI = canal.icon; return <CI className="w-3 h-3 inline mr-1" /> })()}
                   {canal.label}
@@ -341,8 +341,8 @@ export default function MessagesPage() {
                       if (isMobileView) setShowThread(true)
                     }}
                     className={cn(
-                      'p-4 border-b cursor-pointer hover:bg-gray-50 transition-colors',
-                      isSelected && 'bg-blue-50 border-r-2 border-r-primary'
+                      'p-4 border-b cursor-pointer hover:bg-[#FAF8F5] transition-colors',
+                      isSelected && 'bg-[#E0EBF5] border-r-2 border-r-primary'
                     )}
                   >
                     <div className="flex items-center gap-3">
@@ -366,7 +366,7 @@ export default function MessagesPage() {
                             {conv.lead_prenom} {conv.lead_nom}
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-[#777777]">
                               {formatRelativeDate(conv.dernier_date)}
                             </span>
                             {conv.non_lus > 0 && (
@@ -376,7 +376,7 @@ export default function MessagesPage() {
                             )}
                           </div>
                         </div>
-                        <div className="text-xs text-gray-500 truncate">
+                        <div className="text-xs text-[#777777] truncate">
                           {conv.dernier_message}
                         </div>
                       </div>
@@ -431,7 +431,7 @@ export default function MessagesPage() {
                 {/* Messages */}
                 <div className="flex-1 p-4 overflow-y-auto space-y-4">
                   {loadingMessages ? (
-                    <div className="text-center py-8 text-gray-500">Chargement...</div>
+                    <div className="text-center py-8 text-[#777777]">Chargement...</div>
                   ) : !messages?.length ? (
                     <EmptyState
                       illustration={<IllustrationEmptyMessages size={120} />}
@@ -457,10 +457,10 @@ export default function MessagesPage() {
                             className={cn(
                               'max-w-[70%] rounded-2xl px-4 py-3 space-y-2',
                               isNote
-                                ? 'bg-yellow-50 border border-yellow-200'
+                                ? 'bg-[#FFF3E8] border border-[#FF8C42]/30'
                                 : isOutbound
                                 ? 'bg-primary text-white'
-                                : 'bg-gray-100 text-gray-900'
+                                : 'bg-[#F4F0EB] text-[#111111]'
                             )}
                           >
                             <div className="flex items-center gap-2 text-xs opacity-70">
@@ -483,7 +483,7 @@ export default function MessagesPage() {
                 </div>
 
                 {/* Composer */}
-                <div className="p-4 border-t bg-gray-50">
+                <div className="p-4 border-t bg-[#FAF8F5]">
                   <div className="space-y-3">
                     {/* Canal selector */}
                     <div className="flex gap-1">
@@ -495,7 +495,7 @@ export default function MessagesPage() {
                             'flex items-center gap-2 px-3 py-2 rounded-lg text-sm',
                             selectedCanal === canal.id
                               ? 'bg-primary text-white'
-                              : 'bg-white border text-gray-600 hover:bg-gray-50'
+                              : 'bg-white border text-[#777777] hover:bg-[#FAF8F5]'
                           )}
                         >
                           {(() => { const CI = canal.icon; return <CI className="w-4 h-4" /> })()}
@@ -535,12 +535,12 @@ export default function MessagesPage() {
                     </div>
 
                     {selectedCanal === 'sms' && (
-                      <div className="text-xs text-gray-500 text-right">
+                      <div className="text-xs text-[#777777] text-right">
                         {newMessage.length}/160 caractères
                       </div>
                     )}
 
-                    <div className="text-xs text-gray-400">
+                    <div className="text-xs text-[#999999]">
                       Appuyez sur Ctrl+Entrée pour envoyer
                     </div>
                   </div>
@@ -554,7 +554,7 @@ export default function MessagesPage() {
         {!isMobileView && (
           <Card className="p-4">
             {!selectedLead ? (
-              <div className="text-center text-gray-500 py-8">
+              <div className="text-center text-[#777777] py-8">
                 Sélectionnez une conversation
               </div>
             ) : (
@@ -583,13 +583,13 @@ export default function MessagesPage() {
                 <div className="space-y-2 pt-4 border-t">
                   {selectedLead.email && (
                     <div className="flex items-center gap-2 text-sm">
-                      <Mail className="w-4 h-4 text-gray-400" />
+                      <Mail className="w-4 h-4 text-[#999999]" />
                       <span className="truncate">{selectedLead.email}</span>
                     </div>
                   )}
                   {selectedLead.telephone && (
                     <div className="flex items-center gap-2 text-sm">
-                      <Phone className="w-4 h-4 text-gray-400" />
+                      <Phone className="w-4 h-4 text-[#999999]" />
                       <span>{selectedLead.telephone}</span>
                     </div>
                   )}
@@ -598,7 +598,7 @@ export default function MessagesPage() {
                 {/* Score */}
                 <div className="pt-4 border-t">
                   <div className="flex items-center gap-2">
-                    <Star className="w-4 h-4 text-yellow-500" />
+                    <Star className="w-4 h-4 text-[#FF8C42]" />
                     <span className="text-sm font-medium">Score: {selectedLead.score_chaud}/10</span>
                   </div>
                 </div>

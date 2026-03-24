@@ -34,7 +34,7 @@ export function TvaCalculator() {
         <button
           onClick={() => setMode('ht-to-ttc')}
           className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-            mode === 'ht-to-ttc' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            mode === 'ht-to-ttc' ? 'bg-primary text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
           }`}
         >
           HT → TTC
@@ -42,7 +42,7 @@ export function TvaCalculator() {
         <button
           onClick={() => setMode('ttc-to-ht')}
           className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-            mode === 'ttc-to-ht' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            mode === 'ttc-to-ht' ? 'bg-primary text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
           }`}
         >
           TTC → HT
@@ -51,7 +51,7 @@ export function TvaCalculator() {
 
       <div className="space-y-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-[#3A3A3A] mb-1">
             Montant HT (€)
           </label>
           <input
@@ -60,19 +60,19 @@ export function TvaCalculator() {
             value={ht}
             onChange={e => calculate(e.target.value, 'ht')}
             placeholder="0.00"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
             readOnly={mode === 'ttc-to-ht'}
           />
         </div>
 
         <div className="text-center">
-          <span className="inline-block bg-amber-50 text-amber-700 text-sm font-medium px-3 py-1 rounded-full">
+          <span className="inline-block bg-[#FFF3E8] text-[#FF8C42] text-sm font-medium px-3 py-1 rounded-full">
             TVA 20% = {tvaAmount} €
           </span>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-[#3A3A3A] mb-1">
             Montant TTC (€)
           </label>
           <input
@@ -81,7 +81,7 @@ export function TvaCalculator() {
             value={ttc}
             onChange={e => calculate(e.target.value, 'ttc')}
             placeholder="0.00"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
             readOnly={mode === 'ht-to-ttc'}
           />
         </div>

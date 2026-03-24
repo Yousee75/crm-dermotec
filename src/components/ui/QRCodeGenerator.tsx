@@ -127,7 +127,7 @@ export function QRCodeGenerator({
           {label || 'QR Code Émargement'}
         </CardTitle>
         {sessionInfo && (
-          <div className="text-sm text-gray-600 space-y-0.5 mt-2">
+          <div className="text-sm text-[#777777] space-y-0.5 mt-2">
             <p className="font-semibold text-accent">{sessionInfo.formationNom}</p>
             <p>{sessionInfo.date} {sessionInfo.horaires && `• ${sessionInfo.horaires}`}</p>
             {sessionInfo.salle && <p className="text-xs">Salle : {sessionInfo.salle}</p>}
@@ -138,11 +138,11 @@ export function QRCodeGenerator({
 
       <CardContent className="space-y-4">
         <div className="flex justify-center">
-          <div className="p-4 bg-white border-2 border-gray-100 rounded-xl shadow-sm">
+          <div className="p-4 bg-white border-2 border-[#F4F0EB] rounded-xl shadow-sm">
             {qrDataUrl ? (
               <Image src={qrDataUrl} alt="QR Code émargement" width={size} height={size} unoptimized />
             ) : (
-              <div style={{ width: size, height: size }} className="bg-gray-100 animate-pulse rounded-lg" />
+              <div style={{ width: size, height: size }} className="bg-[#F4F0EB] animate-pulse rounded-lg" />
             )}
           </div>
         </div>
@@ -150,21 +150,21 @@ export function QRCodeGenerator({
         {autoRefresh && (
           <div className={cn(
             'flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm',
-            secondsLeft < 30 ? 'bg-orange-50 text-orange-600' : 'bg-gray-50 text-gray-500'
+            secondsLeft < 30 ? 'bg-orange-50 text-orange-600' : 'bg-[#FAF8F5] text-[#777777]'
           )}>
             <RefreshCw className={cn('w-3.5 h-3.5', secondsLeft < 30 && 'animate-spin')} />
             Renouvellement dans {Math.floor(secondsLeft / 60)}:{(secondsLeft % 60).toString().padStart(2, '0')}
           </div>
         )}
 
-        <div className="bg-blue-50 rounded-xl p-4 text-center">
-          <p className="text-sm font-medium text-blue-800">Scannez avec votre téléphone</p>
-          <p className="text-xs text-blue-600 mt-1">pour confirmer votre présence et signer</p>
+        <div className="bg-[#E0EBF5] rounded-xl p-4 text-center">
+          <p className="text-sm font-medium text-[#6B8CAE]">Scannez avec votre téléphone</p>
+          <p className="text-xs text-[#6B8CAE] mt-1">pour confirmer votre présence et signer</p>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
           <Button variant="outline" onClick={copyToClipboard} className="min-h-[44px] text-xs gap-1.5">
-            {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
             {copied ? 'Copié' : 'Copier'}
           </Button>
           <Button variant="outline" onClick={downloadQR} className="min-h-[44px] text-xs gap-1.5">
@@ -177,10 +177,10 @@ export function QRCodeGenerator({
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 p-2.5 bg-gray-50 rounded-lg">
-          <span className="flex-1 text-xs text-gray-500 truncate font-mono">{currentUrl}</span>
-          <button onClick={() => window.open(currentUrl, '_blank')} className="p-1.5 hover:bg-gray-200 rounded transition">
-            <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
+        <div className="flex items-center gap-2 p-2.5 bg-[#FAF8F5] rounded-lg">
+          <span className="flex-1 text-xs text-[#777777] truncate font-mono">{currentUrl}</span>
+          <button onClick={() => window.open(currentUrl, '_blank')} className="p-1.5 hover:bg-[#EEEEEE] rounded transition">
+            <ExternalLink className="w-3.5 h-3.5 text-[#999999]" />
           </button>
         </div>
       </CardContent>

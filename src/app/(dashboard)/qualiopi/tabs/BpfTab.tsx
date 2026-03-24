@@ -71,17 +71,17 @@ const FORMATIONS_BPF = [
 const STATUT_CONFIG = {
   en_cours: {
     label: 'En cours',
-    color: 'bg-blue-50 text-blue-700 border-blue-200',
+    color: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30',
     icon: Calendar
   },
   finalise: {
     label: 'Finalisé',
-    color: 'bg-green-50 text-green-700 border-green-200',
+    color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
     icon: CheckCircle
   },
   transmis: {
     label: 'Transmis',
-    color: 'bg-gray-50 text-gray-600 border-gray-200',
+    color: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]',
     icon: CheckCircle
   }
 }
@@ -102,10 +102,10 @@ export default function BpfTab() {
       {/* En-tête avec statut */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-xl font-semibold text-[#111111]">
             Bilan Pédagogique et Financier {BPF_DATA.annee}
           </h2>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-[#777777]">
             Dernière mise à jour : {new Date(BPF_DATA.derniere_maj).toLocaleDateString('fr-FR')}
           </p>
         </div>
@@ -119,7 +119,7 @@ export default function BpfTab() {
           <select
             value={anneeSelectionnee}
             onChange={(e) => setAnneeSelectionnee(Number(e.target.value))}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value={2024}>2024</option>
             <option value={2023}>2023</option>
@@ -130,17 +130,17 @@ export default function BpfTab() {
 
       {/* Alerte date limite */}
       {joursRestants > 0 && joursRestants <= 90 && (
-        <Card className={`p-4 ${joursRestants <= 30 ? 'border-red-200 bg-red-50' : 'border-amber-200 bg-amber-50'}`}>
+        <Card className={`p-4 ${joursRestants <= 30 ? 'border-[#FF2D78]/30 bg-[#FFE0EF]' : 'border-[#FF8C42]/30 bg-[#FFF3E8]'}`}>
           <div className="flex items-center gap-3">
-            <AlertCircle className={`w-5 h-5 ${joursRestants <= 30 ? 'text-red-600' : 'text-amber-600'} shrink-0`} />
+            <AlertCircle className={`w-5 h-5 ${joursRestants <= 30 ? 'text-[#FF2D78]' : 'text-[#FF8C42]'} shrink-0`} />
             <div className="flex-1">
-              <p className={`text-sm font-medium ${joursRestants <= 30 ? 'text-red-800' : 'text-amber-800'}`}>
+              <p className={`text-sm font-medium ${joursRestants <= 30 ? 'text-[#FF2D78]' : 'text-[#FF8C42]'}`}>
                 {joursRestants <= 30
                   ? `Attention : ${joursRestants} jours restants pour transmettre le BPF ${BPF_DATA.annee}`
                   : `Rappel : ${joursRestants} jours restants pour transmettre le BPF ${BPF_DATA.annee}`
                 }
               </p>
-              <p className={`text-sm ${joursRestants <= 30 ? 'text-red-700' : 'text-amber-700'}`}>
+              <p className={`text-sm ${joursRestants <= 30 ? 'text-[#FF2D78]' : 'text-[#FF8C42]'}`}>
                 Date limite de transmission : {dateLimite.toLocaleDateString('fr-FR')}
               </p>
             </div>
@@ -153,38 +153,38 @@ export default function BpfTab() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Stagiaires</p>
-              <p className="text-2xl font-bold text-gray-900">{BPF_DATA.nb_stagiaires}</p>
+              <p className="text-sm text-[#777777]">Stagiaires</p>
+              <p className="text-2xl font-bold text-[#111111]">{BPF_DATA.nb_stagiaires}</p>
             </div>
-            <Users className="w-8 h-8 text-blue-500" />
+            <Users className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Heures stagiaire</p>
-              <p className="text-2xl font-bold text-gray-900">{BPF_DATA.nb_heures_stagiaire.toLocaleString()}</p>
+              <p className="text-sm text-[#777777]">Heures stagiaire</p>
+              <p className="text-2xl font-bold text-[#111111]">{BPF_DATA.nb_heures_stagiaire.toLocaleString()}</p>
             </div>
-            <Calendar className="w-8 h-8 text-green-500" />
+            <Calendar className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Actions de formation</p>
-              <p className="text-2xl font-bold text-gray-900">{BPF_DATA.nb_actions}</p>
+              <p className="text-sm text-[#777777]">Actions de formation</p>
+              <p className="text-2xl font-bold text-[#111111]">{BPF_DATA.nb_actions}</p>
             </div>
-            <BookOpen className="w-8 h-8 text-purple-500" />
+            <BookOpen className="w-8 h-8 text-[#FF2D78]" />
           </div>
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">CA total</p>
-              <p className="text-2xl font-bold text-gray-900">{BPF_DATA.ca_total.toLocaleString()}€</p>
+              <p className="text-sm text-[#777777]">CA total</p>
+              <p className="text-2xl font-bold text-[#111111]">{BPF_DATA.ca_total.toLocaleString()}€</p>
             </div>
             <Euro className="w-8 h-8 text-orange-500" />
           </div>
@@ -194,15 +194,15 @@ export default function BpfTab() {
       {/* Répartition du CA */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Répartition du CA</h3>
+          <h3 className="text-lg font-semibold text-[#111111] mb-4">Répartition du CA</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Formation continue</span>
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-sm text-[#777777]">Formation continue</span>
+              <span className="text-sm font-medium text-[#111111]">
                 {BPF_DATA.ca_formation_continue.toLocaleString()}€
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-[#EEEEEE] rounded-full h-2">
               <div
                 className="bg-primary h-2 rounded-full"
                 style={{ width: `${(BPF_DATA.ca_formation_continue / BPF_DATA.ca_total) * 100}%` }}
@@ -210,14 +210,14 @@ export default function BpfTab() {
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Apprentissage</span>
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-sm text-[#777777]">Apprentissage</span>
+              <span className="text-sm font-medium text-[#111111]">
                 {BPF_DATA.ca_apprentissage.toLocaleString()}€
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-[#EEEEEE] rounded-full h-2">
               <div
-                className="bg-green-500 h-2 rounded-full"
+                className="bg-[#10B981] h-2 rounded-full"
                 style={{ width: `${(BPF_DATA.ca_apprentissage / BPF_DATA.ca_total) * 100}%` }}
               />
             </div>
@@ -225,19 +225,19 @@ export default function BpfTab() {
         </Card>
 
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Actions à faire</h3>
+          <h3 className="text-lg font-semibold text-[#111111] mb-4">Actions à faire</h3>
           <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-600" />
-              <span className="text-sm text-green-800">Collecte des données formations</span>
+            <div className="flex items-center gap-3 p-3 bg-[#ECFDF5] rounded-lg">
+              <CheckCircle className="w-5 h-5 text-[#10B981]" />
+              <span className="text-sm text-[#10B981]">Collecte des données formations</span>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-600" />
-              <span className="text-sm text-green-800">Calcul des indicateurs financiers</span>
+            <div className="flex items-center gap-3 p-3 bg-[#ECFDF5] rounded-lg">
+              <CheckCircle className="w-5 h-5 text-[#10B981]" />
+              <span className="text-sm text-[#10B981]">Calcul des indicateurs financiers</span>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-              <Calendar className="w-5 h-5 text-blue-600" />
-              <span className="text-sm text-blue-800">Finaliser et transmettre avant le 31 mai</span>
+            <div className="flex items-center gap-3 p-3 bg-[#E0EBF5] rounded-lg">
+              <Calendar className="w-5 h-5 text-[#6B8CAE]" />
+              <span className="text-sm text-[#6B8CAE]">Finaliser et transmettre avant le 31 mai</span>
             </div>
           </div>
         </Card>
@@ -245,48 +245,48 @@ export default function BpfTab() {
 
       {/* Détail par formation */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Détail par formation</h3>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Détail par formation</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50/50 border-b border-gray-100">
+            <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
               <tr>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">
                   Formation
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">
                   Actions
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">
                   Stagiaires
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">
                   Heures
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">
                   CA
                 </th>
-                <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">
+                <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">
                   Satisfaction
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-[#F4F0EB]">
               {FORMATIONS_BPF.map((formation) => (
-                <tr key={formation.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={formation.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                   <td className="px-4 py-3">
-                    <span className="text-sm font-medium text-gray-900">{formation.intitule}</span>
+                    <span className="text-sm font-medium text-[#111111]">{formation.intitule}</span>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="text-sm text-gray-600">{formation.nb_actions}</span>
+                    <span className="text-sm text-[#777777]">{formation.nb_actions}</span>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="text-sm text-gray-600">{formation.nb_stagiaires}</span>
+                    <span className="text-sm text-[#777777]">{formation.nb_stagiaires}</span>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="text-sm text-gray-600">{formation.nb_heures}h</span>
+                    <span className="text-sm text-[#777777]">{formation.nb_heures}h</span>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-[#111111]">
                       {formation.ca.toLocaleString()}€
                     </span>
                   </td>

@@ -64,29 +64,29 @@ export function PdfMerger() {
   return (
     <div className="space-y-4">
       {/* Upload zone */}
-      <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-primary rounded-xl p-6 cursor-pointer transition-colors">
-        <Upload size={28} className="text-gray-400 mb-2" />
-        <p className="text-sm text-gray-600 font-medium">Ajouter des fichiers PDF</p>
-        <p className="text-xs text-gray-400 mt-1">Glissez ou cliquez pour sélectionner</p>
+      <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#EEEEEE] hover:border-primary rounded-xl p-6 cursor-pointer transition-colors">
+        <Upload size={28} className="text-[#999999] mb-2" />
+        <p className="text-sm text-[#777777] font-medium">Ajouter des fichiers PDF</p>
+        <p className="text-xs text-[#999999] mt-1">Glissez ou cliquez pour sélectionner</p>
         <input type="file" accept=".pdf" multiple onChange={handleFiles} className="hidden" />
       </label>
 
       {/* File list */}
       {files.length > 0 && (
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-700">{files.length} fichier(s)</p>
+          <p className="text-sm font-medium text-[#3A3A3A]">{files.length} fichier(s)</p>
           {files.map((file, i) => (
-            <div key={`${file.name}-${i}`} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
-              <FileText size={16} className="text-red-400 shrink-0" />
+            <div key={`${file.name}-${i}`} className="flex items-center gap-2 bg-[#FAF8F5] rounded-lg px-3 py-2">
+              <FileText size={16} className="text-[#FF2D78] shrink-0" />
               <span className="text-sm flex-1 truncate">{file.name}</span>
-              <span className="text-xs text-gray-400 shrink-0">{formatSize(file.size)}</span>
+              <span className="text-xs text-[#999999] shrink-0">{formatSize(file.size)}</span>
               {i > 0 && (
-                <button onClick={() => moveFile(i, i - 1)} className="p-1 hover:bg-gray-200 rounded">
-                  <ArrowUpDown size={12} className="text-gray-400" />
+                <button onClick={() => moveFile(i, i - 1)} className="p-1 hover:bg-[#EEEEEE] rounded">
+                  <ArrowUpDown size={12} className="text-[#999999]" />
                 </button>
               )}
-              <button onClick={() => removeFile(i)} className="p-1 hover:bg-red-100 rounded">
-                <X size={14} className="text-red-400" />
+              <button onClick={() => removeFile(i)} className="p-1 hover:bg-[#FFE0EF] rounded">
+                <X size={14} className="text-[#FF2D78]" />
               </button>
             </div>
           ))}

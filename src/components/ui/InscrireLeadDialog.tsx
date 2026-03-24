@@ -94,7 +94,7 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
         {/* Session selector */}
         <div className="space-y-2 max-h-[280px] overflow-y-auto">
           {availableSessions.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-6">Aucune session disponible</p>
+            <p className="text-sm text-[#999999] text-center py-6">Aucune session disponible</p>
           ) : (
             availableSessions.map(session => {
               const isSelected = selectedSessionId === session.id
@@ -108,13 +108,13 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                     'w-full text-left p-3 rounded-xl border-2 transition',
                     isSelected
                       ? 'border-primary bg-primary/5'
-                      : 'border-gray-100 hover:border-gray-200'
+                      : 'border-[#F4F0EB] hover:border-[#EEEEEE]'
                   )}
                 >
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="font-medium text-sm text-accent">{session.formation?.nom}</p>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                      <div className="flex items-center gap-3 mt-1 text-xs text-[#777777]">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           {new Date(session.date_debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -144,14 +144,14 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
 
         {/* Payment details */}
         {selectedSession && (
-          <div className="space-y-3 pt-3 border-t border-gray-100">
+          <div className="space-y-3 pt-3 border-t border-[#F4F0EB]">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-gray-700">Mode de paiement</label>
+                <label className="block text-sm font-medium text-[#3A3A3A]">Mode de paiement</label>
                 <select
                   value={modePaiement}
                   onChange={(e) => setModePaiement(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+                  className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
                 >
                   <option value="carte">Carte bancaire</option>
                   <option value="virement">Virement</option>
@@ -161,31 +161,31 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                 </select>
               </div>
               <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-gray-700">Montant financé (€)</label>
+                <label className="block text-sm font-medium text-[#3A3A3A]">Montant financé (€)</label>
                 <input
                   type="number"
                   min={0}
                   max={montantTotal}
                   value={montantFinance}
                   onChange={(e) => setMontantFinance(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
                 />
               </div>
             </div>
 
             {/* Summary */}
-            <div className="bg-gray-50 rounded-xl p-3 space-y-1">
+            <div className="bg-[#FAF8F5] rounded-xl p-3 space-y-1">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Montant total</span>
+                <span className="text-[#777777]">Montant total</span>
                 <span className="font-medium">{montantTotal}€ HT</span>
               </div>
               {montantFinance > 0 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Financé</span>
-                  <span className="text-green-600 font-medium">-{montantFinance}€</span>
+                  <span className="text-[#777777]">Financé</span>
+                  <span className="text-[#10B981] font-medium">-{montantFinance}€</span>
                 </div>
               )}
-              <div className="flex justify-between text-sm font-bold border-t border-gray-200 pt-1 mt-1">
+              <div className="flex justify-between text-sm font-bold border-t border-[#EEEEEE] pt-1 mt-1">
                 <span>Reste à charge</span>
                 <span className="text-accent">{resteACharge}€</span>
               </div>

@@ -124,12 +124,12 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
     return (
       <div className="space-y-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
-          <div className="h-20 bg-gray-200 rounded"></div>
+          <div className="h-8 bg-[#EEEEEE] rounded w-1/3 mb-4"></div>
+          <div className="h-20 bg-[#EEEEEE] rounded"></div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="h-64 bg-gray-200 rounded animate-pulse"></div>
-          <div className="h-64 bg-gray-200 rounded animate-pulse"></div>
+          <div className="h-64 bg-[#EEEEEE] rounded animate-pulse"></div>
+          <div className="h-64 bg-[#EEEEEE] rounded animate-pulse"></div>
         </div>
       </div>
     )
@@ -138,11 +138,11 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
   if (!session || !formation) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
-          <Calendar className="w-6 h-6 text-gray-300" />
+        <div className="w-14 h-14 rounded-2xl bg-[#FAF8F5] flex items-center justify-center mb-4">
+          <Calendar className="w-6 h-6 text-[#999999]" />
         </div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-1">Session introuvable</h3>
-        <p className="text-sm text-gray-500 mb-4">Cette session n'existe pas ou a été supprimée</p>
+        <h3 className="text-sm font-semibold text-[#111111] mb-1">Session introuvable</h3>
+        <p className="text-sm text-[#777777] mb-4">Cette session n'existe pas ou a été supprimée</p>
         <Link href="/sessions" className="text-sm text-primary hover:underline">
           Retour aux sessions
         </Link>
@@ -173,8 +173,8 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/sessions" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <ArrowLeft className="w-5 h-5 text-gray-500" />
+          <Link href="/sessions" className="p-2 hover:bg-[#F4F0EB] rounded-lg transition-colors">
+            <ArrowLeft className="w-5 h-5 text-[#777777]" />
           </Link>
           <div>
             <div className="flex items-center gap-3 mb-2">
@@ -188,7 +188,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                 {statutSession.label}
               </span>
             </div>
-            <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+            <div className="flex flex-wrap gap-4 text-sm text-[#777777]">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
                 {formatDate(session.date_debut, { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -213,13 +213,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
         {/* Quick stats */}
         <div className="flex items-center gap-6 text-right">
           <div>
-            <p className="text-sm text-gray-500">Places</p>
+            <p className="text-sm text-[#777777]">Places</p>
             <p className="text-lg font-semibold text-accent">
               {placesOccupees}/{session.places_max}
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">CA prévu</p>
+            <p className="text-sm text-[#777777]">CA prévu</p>
             <p className="text-lg font-semibold text-primary">
               {formatEuro(caPrevu)}
             </p>
@@ -228,7 +228,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-[#EEEEEE]">
         <nav className="flex space-x-8">
           {tabs.map((tab) => (
             <button
@@ -237,7 +237,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.id
                   ? 'border-primary text-primary'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
               }`}
             >
               {tab.icon}
@@ -257,7 +257,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               <Card title="Informations session" icon={<Calendar className="w-4 h-4" />}>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Dates</p>
+                    <p className="text-xs text-[#777777] mb-1">Dates</p>
                     <p className="font-medium">
                       {formatDate(session.date_debut, { day: 'numeric', month: 'long' })}
                       {session.date_debut !== session.date_fin && (
@@ -266,25 +266,25 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Horaires</p>
+                    <p className="text-xs text-[#777777] mb-1">Horaires</p>
                     <p className="font-medium">{session.horaire_debut} — {session.horaire_fin}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Salle</p>
+                    <p className="text-xs text-[#777777] mb-1">Salle</p>
                     <p className="font-medium">{session.salle}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Adresse</p>
+                    <p className="text-xs text-[#777777] mb-1">Adresse</p>
                     <p className="font-medium text-sm">75 Bd Richard Lenoir, Paris 11e</p>
                   </div>
                   {formatrice && (
                     <>
                       <div>
-                        <p className="text-xs text-gray-500 mb-1">Formatrice</p>
+                        <p className="text-xs text-[#777777] mb-1">Formatrice</p>
                         <p className="font-medium">{formatrice.prenom} {formatrice.nom}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 mb-1">Contact</p>
+                        <p className="text-xs text-[#777777] mb-1">Contact</p>
                         <div className="flex items-center gap-2">
                           {formatrice.email && (
                             <a href={`mailto:${formatrice.email}`} className="text-primary hover:underline">
@@ -307,18 +307,18 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               <Card title="Places" icon={<Users className="w-4 h-4" />}>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Taux de remplissage</span>
+                    <span className="text-sm text-[#777777]">Taux de remplissage</span>
                     <span className="font-semibold">{tauxRemplissage}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="w-full bg-[#EEEEEE] rounded-full h-3">
                     <div
                       className="bg-primary h-3 rounded-full transition-all duration-300"
                       style={{ width: `${tauxRemplissage}%` }}
                     />
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-green-600">{placesOccupees} occupées</span>
-                    <span className="text-gray-500">{placesRestantes} disponibles</span>
+                    <span className="text-[#10B981]">{placesOccupees} occupées</span>
+                    <span className="text-[#777777]">{placesRestantes} disponibles</span>
                   </div>
                 </div>
               </Card>
@@ -326,13 +326,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               {/* CA */}
               <Card title="Chiffre d'affaires" icon={<Euro className="w-4 h-4" />}>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
+                  <div className="text-center p-4 bg-[#E0EBF5] rounded-lg">
                     <p className="text-2xl font-bold text-primary">{formatEuro(caPrevu)}</p>
-                    <p className="text-sm text-gray-600">CA prévu</p>
+                    <p className="text-sm text-[#777777]">CA prévu</p>
                   </div>
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <p className="text-2xl font-bold text-green-600">{formatEuro(caRealise)}</p>
-                    <p className="text-sm text-gray-600">CA réalisé</p>
+                  <div className="text-center p-4 bg-[#ECFDF5] rounded-lg">
+                    <p className="text-2xl font-bold text-[#10B981]">{formatEuro(caRealise)}</p>
+                    <p className="text-sm text-[#777777]">CA réalisé</p>
                   </div>
                 </div>
               </Card>
@@ -345,7 +345,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                     onChange={(e) => setNotes(e.target.value)}
                     onBlur={handleNotesUpdate}
                     placeholder="Ajouter des notes sur cette session..."
-                    className="w-full h-24 p-3 border border-gray-200 rounded-lg resize-none focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm"
+                    className="w-full h-24 p-3 border border-[#EEEEEE] rounded-lg resize-none focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm"
                   />
                 </div>
               </Card>
@@ -392,12 +392,12 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-gray-100">
-                    <th className="text-left py-3 font-medium text-gray-600">Stagiaire</th>
-                    <th className="text-left py-3 font-medium text-gray-600">Statut inscription</th>
-                    <th className="text-left py-3 font-medium text-gray-600">Paiement</th>
-                    <th className="text-left py-3 font-medium text-gray-600">Présence</th>
-                    <th className="text-left py-3 font-medium text-gray-600">Actions</th>
+                  <tr className="border-b border-[#F4F0EB]">
+                    <th className="text-left py-3 font-medium text-[#777777]">Stagiaire</th>
+                    <th className="text-left py-3 font-medium text-[#777777]">Statut inscription</th>
+                    <th className="text-left py-3 font-medium text-[#777777]">Paiement</th>
+                    <th className="text-left py-3 font-medium text-[#777777]">Présence</th>
+                    <th className="text-left py-3 font-medium text-[#777777]">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -407,7 +407,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                     const statutPaiement = STATUTS_PAIEMENT[inscription.paiement_statut as PaiementStatut]
 
                     return (
-                      <tr key={inscription.id} className="border-b border-gray-50">
+                      <tr key={inscription.id} className="border-b border-[#FAF8F5]">
                         <td className="py-3">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
@@ -419,7 +419,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                               <p className="font-medium text-accent">
                                 {lead?.prenom} {lead?.nom}
                               </p>
-                              <p className="text-xs text-gray-500">{lead?.email}</p>
+                              <p className="text-xs text-[#777777]">{lead?.email}</p>
                             </div>
                           </div>
                         </td>
@@ -438,7 +438,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                           >
                             {statutPaiement.label}
                           </span>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-[#777777] mt-1">
                             {formatEuro(inscription.montant_total)}
                           </p>
                         </td>
@@ -453,9 +453,9 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                                 <div
                                   key={day}
                                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                                    isPresent === true ? 'bg-green-500 text-white' :
-                                    isPresent === false ? 'bg-red-500 text-white' :
-                                    'bg-gray-200 text-gray-500'
+                                    isPresent === true ? 'bg-[#10B981] text-white' :
+                                    isPresent === false ? 'bg-[#FF2D78] text-white' :
+                                    'bg-[#EEEEEE] text-[#777777]'
                                   }`}
                                   title={`Jour ${day}: ${
                                     isPresent === true ? 'Présent' :
@@ -472,9 +472,9 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                         <td className="py-3">
                           <Link
                             href={`/lead/${lead?.id}`}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-[#F4F0EB] rounded-lg transition-colors"
                           >
-                            <Eye className="w-4 h-4 text-gray-400" />
+                            <Eye className="w-4 h-4 text-[#999999]" />
                           </Link>
                         </td>
                       </tr>
@@ -483,7 +483,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                 </tbody>
               </table>
               {inscriptions.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-[#777777]">
                   Aucun stagiaire inscrit pour cette session
                 </div>
               )}
@@ -509,15 +509,15 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
 
               <Card title="Lien d'émargement" icon={<FileText className="w-4 h-4" />}>
                 <div className="space-y-4">
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-600 mb-2">Lien pour émargement mobile :</p>
+                  <div className="p-3 bg-[#FAF8F5] rounded-lg">
+                    <p className="text-sm text-[#777777] mb-2">Lien pour émargement mobile :</p>
                     <div className="flex items-center gap-2">
                       <code className="flex-1 text-xs bg-white p-2 rounded border">
                         {emargementUrl}
                       </code>
                       <button
                         onClick={() => navigator.clipboard.writeText(emargementUrl)}
-                        className="p-2 hover:bg-gray-200 rounded transition-colors"
+                        className="p-2 hover:bg-[#EEEEEE] rounded transition-colors"
                         title="Copier le lien"
                       >
                         <Eye className="w-4 h-4" />
@@ -540,13 +540,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               <div className="overflow-x-auto">
                 <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="bg-gray-50">
-                      <th className="text-left p-3 border border-gray-200 font-medium">Stagiaire</th>
-                      <th className="text-center p-3 border border-gray-200 font-medium">Jour 1 - Matin</th>
-                      <th className="text-center p-3 border border-gray-200 font-medium">Jour 1 - AM</th>
-                      <th className="text-center p-3 border border-gray-200 font-medium">Jour 2 - Matin</th>
-                      <th className="text-center p-3 border border-gray-200 font-medium">Jour 2 - AM</th>
-                      <th className="text-center p-3 border border-gray-200 font-medium">Taux</th>
+                    <tr className="bg-[#FAF8F5]">
+                      <th className="text-left p-3 border border-[#EEEEEE] font-medium">Stagiaire</th>
+                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 1 - Matin</th>
+                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 1 - AM</th>
+                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 2 - Matin</th>
+                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 2 - AM</th>
+                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Taux</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -559,8 +559,8 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                       const tauxPresence = Math.round((presences.filter(Boolean).length / presences.length) * 100)
 
                       return (
-                        <tr key={inscription.id} className="hover:bg-gray-50">
-                          <td className="p-3 border border-gray-200">
+                        <tr key={inscription.id} className="hover:bg-[#FAF8F5]">
+                          <td className="p-3 border border-[#EEEEEE]">
                             <div className="flex items-center gap-2">
                               <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
                                 <span className="text-xs font-medium text-primary">
@@ -571,21 +571,21 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                             </div>
                           </td>
                           {presences.map((present, index) => (
-                            <td key={index} className="p-3 border border-gray-200 text-center">
+                            <td key={index} className="p-3 border border-[#EEEEEE] text-center">
                               {present === true ? (
-                                <Check className="w-5 h-5 text-green-500 mx-auto" />
+                                <Check className="w-5 h-5 text-[#10B981] mx-auto" />
                               ) : present === false ? (
-                                <X className="w-5 h-5 text-red-500 mx-auto" />
+                                <X className="w-5 h-5 text-[#FF2D78] mx-auto" />
                               ) : (
-                                <div className="w-5 h-5 bg-gray-200 rounded mx-auto" />
+                                <div className="w-5 h-5 bg-[#EEEEEE] rounded mx-auto" />
                               )}
                             </td>
                           ))}
-                          <td className="p-3 border border-gray-200 text-center font-medium">
+                          <td className="p-3 border border-[#EEEEEE] text-center font-medium">
                             <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
-                              tauxPresence >= 80 ? 'bg-green-100 text-green-700' :
+                              tauxPresence >= 80 ? 'bg-[#D1FAE5] text-[#10B981]' :
                               tauxPresence >= 60 ? 'bg-orange-100 text-orange-700' :
-                              'bg-red-100 text-red-700'
+                              'bg-[#FFE0EF] text-[#FF2D78]'
                             }`}>
                               {tauxPresence}%
                             </div>
@@ -617,11 +617,11 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                 const statutModele = STATUTS_MODELE[modele.statut as StatutModele]
 
                 return (
-                  <div key={modele.id} className="border border-gray-200 rounded-lg p-4">
+                  <div key={modele.id} className="border border-[#EEEEEE] rounded-lg p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <h4 className="font-medium text-accent">{modele.prenom} {modele.nom}</h4>
-                        <p className="text-sm text-gray-500">{modele.age} ans</p>
+                        <p className="text-sm text-[#777777]">{modele.age} ans</p>
                       </div>
                       <span
                         className="px-2 py-1 rounded-full text-xs font-medium text-white"
@@ -633,35 +633,35 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
 
                     <div className="space-y-2 text-sm">
                       <div>
-                        <p className="text-gray-600">Prestation :</p>
+                        <p className="text-[#777777]">Prestation :</p>
                         <p className="font-medium">{modele.prestation_souhaitee || '—'}</p>
                       </div>
 
                       {modele.zone && (
                         <div>
-                          <p className="text-gray-600">Zone :</p>
+                          <p className="text-[#777777]">Zone :</p>
                           <p className="font-medium">{modele.zone}</p>
                         </div>
                       )}
 
-                      <div className="flex items-center gap-4 pt-2 border-t border-gray-100">
+                      <div className="flex items-center gap-4 pt-2 border-t border-[#F4F0EB]">
                         <div className="flex items-center gap-1">
-                          <span className="text-xs text-gray-600">Consentement :</span>
+                          <span className="text-xs text-[#777777]">Consentement :</span>
                           {modele.consentement_signe ? (
-                            <Check className="w-4 h-4 text-green-500" />
+                            <Check className="w-4 h-4 text-[#10B981]" />
                           ) : (
-                            <X className="w-4 h-4 text-red-500" />
+                            <X className="w-4 h-4 text-[#FF2D78]" />
                           )}
                         </div>
 
                         <div className="flex items-center gap-1">
-                          <span className="text-xs text-gray-600">Photos :</span>
+                          <span className="text-xs text-[#777777]">Photos :</span>
                           <div className="flex gap-1">
                             {modele.photo_avant_url && (
-                              <Camera className="w-4 h-4 text-green-500" aria-label="Photo avant" />
+                              <Camera className="w-4 h-4 text-[#10B981]" aria-label="Photo avant" />
                             )}
                             {modele.photo_apres_url && (
-                              <Camera className="w-4 h-4 text-blue-500" aria-label="Photo après" />
+                              <Camera className="w-4 h-4 text-[#6B8CAE]" aria-label="Photo après" />
                             )}
                           </div>
                         </div>
@@ -672,9 +672,9 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               })}
 
               {modeles.length === 0 && (
-                <div className="col-span-full text-center py-8 text-gray-500">
-                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <User className="w-6 h-6 text-gray-400" />
+                <div className="col-span-full text-center py-8 text-[#777777]">
+                  <div className="w-12 h-12 bg-[#F4F0EB] rounded-full flex items-center justify-center mx-auto mb-3">
+                    <User className="w-6 h-6 text-[#999999]" />
                   </div>
                   <p>Aucun modèle pour cette session</p>
                   <p className="text-sm">Nécessaires : {session.modeles_necessaires} • Inscrits : {session.modeles_inscrits}</p>
@@ -701,8 +701,8 @@ function Card({
   action?: React.ReactNode
 }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-      <div className="flex items-center justify-between p-4 border-b border-gray-100">
+    <div className="bg-white rounded-xl border border-[#F4F0EB] overflow-hidden">
+      <div className="flex items-center justify-between p-4 border-b border-[#F4F0EB]">
         <h3 className="font-semibold text-accent flex items-center gap-2">
           <span className="text-primary">{icon}</span>
           {title}
@@ -726,12 +726,12 @@ function ChecklistItem({
   onChange: () => void
 }) {
   return (
-    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-      <span className="text-sm font-medium text-gray-700">{label}</span>
+    <div className="flex items-center justify-between p-3 bg-[#FAF8F5] rounded-lg">
+      <span className="text-sm font-medium text-[#3A3A3A]">{label}</span>
       <button
         onClick={onChange}
         className={`w-11 h-6 rounded-full transition-colors ${
-          checked ? 'bg-primary' : 'bg-gray-200'
+          checked ? 'bg-primary' : 'bg-[#EEEEEE]'
         }`}
       >
         <div className={`w-5 h-5 bg-white rounded-full transition-transform ${

@@ -35,19 +35,19 @@ function getSLALevel(date: string | null, statut?: string): SLALevel | null {
 const SLA_CONFIG: Record<SLALevel, { label: string; className: string }> = {
   fresh: {
     label: 'Nouveau',
-    className: 'bg-green-100 text-green-700 border-green-200',
+    className: 'bg-[#D1FAE5] text-[#10B981] border-[#10B981]/30',
   },
   normal: {
     label: 'À traiter',
-    className: 'bg-amber-50 text-amber-700 border-amber-200',
+    className: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
   },
   urgent: {
     label: 'URGENT',
-    className: 'bg-red-100 text-red-700 border-red-200 font-semibold',
+    className: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30 font-semibold',
   },
   critical: {
     label: 'CRITIQUE',
-    className: 'bg-red-500 text-white border-red-500 font-bold animate-pulse-soft',
+    className: 'bg-[#FF2D78] text-white border-red-500 font-bold animate-pulse-soft',
   },
 }
 

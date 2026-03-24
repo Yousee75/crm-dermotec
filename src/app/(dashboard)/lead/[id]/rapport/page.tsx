@@ -51,7 +51,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
   }
 
   if (!lead) {
-    return <div className="flex items-center justify-center h-screen text-gray-500">Lead introuvable</div>
+    return <div className="flex items-center justify-center h-screen text-[#777777]">Lead introuvable</div>
   }
 
   const nom = `${lead.prenom} ${lead.nom || ''}`.trim()
@@ -66,8 +66,8 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
   return (
     <>
       {/* Toolbar (ne s'imprime pas) */}
-      <div className="print:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between">
-        <Link href={`/lead/${id}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition">
+      <div className="print:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#EEEEEE] px-4 py-2 flex items-center justify-between">
+        <Link href={`/lead/${id}`} className="flex items-center gap-2 text-sm text-[#777777] hover:text-primary transition">
           <ArrowLeft className="w-4 h-4" /> Retour fiche lead
         </Link>
         <button onClick={() => window.print()} className="flex items-center gap-2 px-3 py-1.5 bg-accent text-white rounded-lg text-sm hover:bg-accent/90 transition">
@@ -83,10 +83,10 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
           <div className="flex items-center justify-between pb-2.5 border-b-[3px]" style={{ borderColor: 'var(--color-primary)' }}>
             <div className="flex items-center gap-3">
               <span className="text-lg font-extrabold tracking-[2px]" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: 'var(--color-primary)' }}>SATOREA</span>
-              <div className="w-px h-7 bg-gray-200" />
+              <div className="w-px h-7 bg-[#EEEEEE]" />
               <div>
                 <div className="text-lg font-bold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: 'var(--color-accent)' }}>{nom}{lead.entreprise_nom ? ` — ${lead.entreprise_nom}` : ''}</div>
-                <div className="text-[11px] text-gray-500">
+                <div className="text-[11px] text-[#777777]">
                   {lead.adresse?.ville || 'Paris'} {lead.telephone && `\u00b7 ${formatPhone(lead.telephone)}`} {lead.email && `\u00b7 ${lead.email}`}
                 </div>
               </div>
@@ -97,7 +97,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                 <span className="text-[7px] opacity-80">/100</span>
               </div>
               <div className="px-2.5 py-1 rounded-lg text-[10px] font-bold text-white" style={{ backgroundColor: classColor }}>{classification}</div>
-              <div className="text-[9px] text-gray-400 text-right">{date}<br />Confidentiel</div>
+              <div className="text-[9px] text-[#999999] text-right">{date}<br />Confidentiel</div>
             </div>
           </div>
 
@@ -114,7 +114,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
             {/* LEFT: Brief + Script placeholder + Objections */}
             <div className="flex flex-col gap-2 overflow-hidden">
               {/* Brief */}
-              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200">
+              <div className="bg-slate-50 rounded-md p-2.5 border border-[#EEEEEE]">
                 <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <span className="w-[3px] h-3 bg-primary rounded-sm" />Le Brief
                 </div>
@@ -142,7 +142,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                 </div>
                 <div>
                   <div className="text-[7px] font-bold px-1.5 py-1 rounded-sm mb-1.5" style={{ background: '#FFFBEB', color: '#D97706' }}>PIEGES A EVITER</div>
-                  <div className="text-[8px] text-amber-600 space-y-0.5 leading-snug">
+                  <div className="text-[8px] text-[#FF8C42] space-y-0.5 leading-snug">
                     {!lead.financement_souhaite && <div>! Pas de demande financement = sensible au prix</div>}
                     {!lead.entreprise_nom && <div>! Pas d'entreprise renseignee = profil a qualifier</div>}
                     {(lead.nb_contacts || 0) === 0 && <div>! Jamais contacte = premier contact delicat</div>}
@@ -153,7 +153,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
               </div>
 
               {/* Script placeholder */}
-              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200 flex-1 overflow-hidden">
+              <div className="bg-slate-50 rounded-md p-2.5 border border-[#EEEEEE] flex-1 overflow-hidden">
                 <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <span className="w-[3px] h-3 bg-primary rounded-sm" />Script Telephonique
                 </div>
@@ -168,7 +168,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                       <div className="w-4 h-4 rounded-full flex items-center justify-center text-white text-[7px] font-bold shrink-0 mt-0.5" style={{ background: step.c }}>{step.n}</div>
                       <div className="flex-1">
                         <span className="text-[6.5px] font-bold text-accent uppercase tracking-wide">{step.l}</span>
-                        <div className="text-[8.5px] italic leading-snug text-gray-700 mt-0.5">{step.t}</div>
+                        <div className="text-[8.5px] italic leading-snug text-[#3A3A3A] mt-0.5">{step.t}</div>
                       </div>
                     </div>
                   ))}
@@ -193,7 +193,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
             {/* RIGHT: Radar + Formations + Financement */}
             <div className="flex flex-col gap-2 overflow-hidden">
               {/* Radar */}
-              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200 flex-1 overflow-hidden">
+              <div className="bg-slate-50 rounded-md p-2.5 border border-[#EEEEEE] flex-1 overflow-hidden">
                 <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <span className="w-[3px] h-3 bg-primary rounded-sm" />Profil Prospect — 5 axes
                 </div>
@@ -248,8 +248,8 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                     ].map((d, i) => (
                       <div key={i} className="flex items-center gap-1">
                         <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: d.c }} />
-                        <span className="text-[8px] text-gray-500 flex-1">{d.l}</span>
-                        <div className="w-10 h-1 bg-gray-200 rounded-full overflow-hidden">
+                        <span className="text-[8px] text-[#777777] flex-1">{d.l}</span>
+                        <div className="w-10 h-1 bg-[#EEEEEE] rounded-full overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${d.v}%`, background: d.c }} />
                         </div>
                         <span className="text-[9px] font-bold w-5 text-right" style={{ color: d.c }}>{d.v}</span>
@@ -257,7 +257,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                     ))}
 
                     {/* Insight */}
-                    <div className="text-[7.5px] text-gray-600 leading-snug mt-1 p-1.5 bg-white rounded border border-gray-200">
+                    <div className="text-[7.5px] text-[#777777] leading-snug mt-1 p-1.5 bg-white rounded border border-[#EEEEEE]">
                       <strong>A retenir :</strong>{' '}
                       {scores && scores.neighborhood >= 60 && 'Zone a fort passage.'}
                       {scores && scores.reputation >= 50 ? ' Bonne reputation.' : ' Reputation a construire.'}
@@ -269,7 +269,7 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
               </div>
 
               {/* Formations */}
-              <div className="bg-slate-50 rounded-md p-2.5 border border-gray-200 flex-shrink-0">
+              <div className="bg-slate-50 rounded-md p-2.5 border border-[#EEEEEE] flex-shrink-0">
                 <div className="text-[9px] font-bold text-accent uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <span className="w-[3px] h-3 bg-primary rounded-sm" />Formations a proposer
                 </div>
@@ -287,19 +287,19 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
                     </div>
                   </div>
                 ) : (
-                  <div className="text-[9px] text-gray-400 italic">Aucune formation selectionnee — proposer selon le profil</div>
+                  <div className="text-[9px] text-[#999999] italic">Aucune formation selectionnee — proposer selon le profil</div>
                 )}
               </div>
 
               {/* Financement */}
               <div className="p-2 rounded-md flex-shrink-0" style={{ background: '#ECFDF5', borderLeft: '3px solid #10B981' }}>
                 <div className="text-[7px] font-bold text-emerald-600 mb-1">STRATEGIE FINANCEMENT</div>
-                <div className="text-[8px] text-green-900 leading-snug">
+                <div className="text-[8px] text-[#10B981] leading-snug">
                   {lead.financement_souhaite
                     ? `${lead.organisme_financement || 'OPCO EP'} — dossier a constituer. ${lead.statut_pro === 'salariee' ? 'Salariee = eligible plan de competences.' : lead.statut_pro === 'independante' ? 'Independante = FAFCEA ou CPF.' : 'Verifier eligibilite OPCO/CPF.'}`
                     : 'Pas de demande financement. Presenter comme argument surprise : "80% de nos stagiaires ne paient rien."'}
                 </div>
-                <div className="text-[8.5px] text-green-900 italic font-bold mt-1.5">
+                <div className="text-[8.5px] text-[#10B981] italic font-bold mt-1.5">
                   "80% de nos stagiaires font financer par l'OPCO. Je verifie votre eligibilite en 2 minutes."
                 </div>
               </div>
@@ -307,16 +307,16 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
           </div>
 
           {/* ═══ FOOTER ═══ */}
-          <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-gray-200">
+          <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-[#EEEEEE]">
             <div className="flex gap-1.5 flex-wrap flex-1">
               {[
                 { l: 'Canal', v: lead.telephone ? 'Appel direct' : lead.email ? 'Email' : 'A definir' },
                 { l: 'Quand', v: 'Mar/Mer 10h-12h' },
                 { l: 'Duree', v: '5-7 min' },
               ].map((c, i) => (
-                <div key={i} className="flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-gray-200">
+                <div key={i} className="flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-[#EEEEEE]">
                   <span className="text-[6.5px] font-bold text-accent uppercase">{c.l}</span>
-                  <span className="text-[8px] text-gray-700">{c.v}</span>
+                  <span className="text-[8px] text-[#3A3A3A]">{c.v}</span>
                 </div>
               ))}
             </div>
@@ -328,12 +328,12 @@ export default function RapportProspectPage({ params }: { params: Promise<{ id: 
               ].map(s => (
                 <div key={s.n} className="flex items-center gap-1">
                   <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-white text-[7px] font-bold" style={{ background: s.c }}>{s.n}</div>
-                  <span className="text-[7.5px] text-gray-700">{s.t}</span>
+                  <span className="text-[7.5px] text-[#3A3A3A]">{s.t}</span>
                 </div>
               ))}
               <div className="px-1.5 py-0.5 rounded text-[7px] font-semibold" style={{ background: '#FFFBEB', color: '#92400E' }}>Relance J+3</div>
             </div>
-            <span className="text-[7px] text-gray-400 shrink-0">Satorea CRM</span>
+            <span className="text-[7px] text-[#999999] shrink-0">Satorea CRM</span>
           </div>
         </div>
       </div>

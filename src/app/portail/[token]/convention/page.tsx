@@ -84,10 +84,10 @@ export default function ConventionPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement...</p>
+          <p className="text-[#777777]">Chargement...</p>
         </div>
       </div>
     )
@@ -95,10 +95,10 @@ export default function ConventionPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
         <div className="text-center">
-          <div className="text-red-500 text-xl mb-4">❌</div>
-          <p className="text-gray-800">{error}</p>
+          <div className="text-[#FF2D78] text-xl mb-4">❌</div>
+          <p className="text-[#1A1A1A]">{error}</p>
         </div>
       </div>
     )
@@ -106,8 +106,8 @@ export default function ConventionPage() {
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-800">Aucune donnée trouvée</p>
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+        <p className="text-[#1A1A1A]">Aucune donnée trouvée</p>
       </div>
     )
   }
@@ -122,21 +122,21 @@ export default function ConventionPage() {
     : null
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAF8F5]">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-accent mb-2">Convention de Formation</h1>
-              <p className="text-gray-600">
+              <p className="text-[#777777]">
                 {formation.nom} • {lead.prenom} {lead.nom}
               </p>
             </div>
             <div className="text-right">
-              <div className="text-sm text-gray-500">Dermotec Advanced</div>
-              <div className="text-sm text-gray-500">75 Bd Richard Lenoir, 75011 Paris</div>
-              <div className="text-sm text-gray-500">01 88 33 43 43</div>
+              <div className="text-sm text-[#777777]">Dermotec Advanced</div>
+              <div className="text-sm text-[#777777]">75 Bd Richard Lenoir, 75011 Paris</div>
+              <div className="text-sm text-[#777777]">01 88 33 43 43</div>
             </div>
           </div>
         </div>
@@ -146,16 +146,16 @@ export default function ConventionPage() {
         {conventionSigned ? (
           /* État signé */
           <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
-            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-green-700 mb-2">Convention signée avec succès</h2>
-            <p className="text-gray-600 mb-4">
+            <CheckCircle className="h-16 w-16 text-[#10B981] mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-[#10B981] mb-2">Convention signée avec succès</h2>
+            <p className="text-[#777777] mb-4">
               Votre convention de formation a été signée électroniquement
               {dateSignature && (
                 <span> le {dateSignature}</span>
               )}
             </p>
-            <div className="bg-green-50 rounded-lg p-4 max-w-md mx-auto">
-              <p className="text-sm text-green-700">
+            <div className="bg-[#ECFDF5] rounded-lg p-4 max-w-md mx-auto">
+              <p className="text-sm text-[#10B981]">
                 Un exemplaire de votre convention signée vous sera envoyé par email.
               </p>
             </div>
@@ -175,19 +175,19 @@ export default function ConventionPage() {
                   <div className="flex items-start space-x-3">
                     <Target className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <div className="font-medium text-gray-900">{formation.nom}</div>
-                      <div className="text-sm text-gray-600">{formation.categorie}</div>
+                      <div className="font-medium text-[#111111]">{formation.nom}</div>
+                      <div className="text-sm text-[#777777]">{formation.categorie}</div>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-3">
                     <Clock className="h-5 w-5 text-primary" />
                     <div>
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-[#111111]">
                         {formation.duree_jours} jour{formation.duree_jours > 1 ? 's' : ''}
                         • {formation.duree_heures}h
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-[#777777]">
                         Du {dateDebut} au {dateFin}
                       </div>
                     </div>
@@ -196,8 +196,8 @@ export default function ConventionPage() {
                   <div className="flex items-center space-x-3">
                     <MapPin className="h-5 w-5 text-primary" />
                     <div>
-                      <div className="font-medium text-gray-900">{session.salle}</div>
-                      <div className="text-sm text-gray-600">{session.adresse}</div>
+                      <div className="font-medium text-[#111111]">{session.salle}</div>
+                      <div className="text-sm text-[#777777]">{session.adresse}</div>
                     </div>
                   </div>
                 </div>
@@ -206,10 +206,10 @@ export default function ConventionPage() {
                   <div className="flex items-center space-x-3">
                     <Euro className="h-5 w-5 text-primary" />
                     <div>
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-[#111111]">
                         {inscription.montant_total.toFixed(2)} € HT
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-[#777777]">
                         Reste à charge: {inscription.reste_a_charge.toFixed(2)} €
                       </div>
                     </div>
@@ -218,10 +218,10 @@ export default function ConventionPage() {
                   <div className="flex items-center space-x-3">
                     <Users className="h-5 w-5 text-primary" />
                     <div>
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-[#111111]">
                         {session.places_occupees}/{session.places_max} places
                       </div>
-                      <div className="text-sm text-gray-600">Formation en petit groupe</div>
+                      <div className="text-sm text-[#777777]">Formation en petit groupe</div>
                     </div>
                   </div>
                 </div>
@@ -234,16 +234,16 @@ export default function ConventionPage() {
 
               <div className="space-y-6">
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 1 - Objet</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 1 - Objet</h3>
+                  <p className="text-[#3A3A3A] text-sm leading-relaxed">
                     La présente convention a pour objet la formation intitulée "{formation.nom}"
                     d'une durée de {formation.duree_heures} heures réparties sur {formation.duree_jours} jour{formation.duree_jours > 1 ? 's' : ''}.
                   </p>
                 </article>
 
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 2 - Dates et lieu</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 2 - Dates et lieu</h3>
+                  <p className="text-[#3A3A3A] text-sm leading-relaxed">
                     La formation se déroulera du {dateDebut} au {dateFin}
                     de {session.horaire_debut} à {session.horaire_fin}
                     à {session.salle}, {session.adresse}.
@@ -251,8 +251,8 @@ export default function ConventionPage() {
                 </article>
 
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 3 - Programme et objectifs</h3>
-                  <div className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 3 - Programme et objectifs</h3>
+                  <div className="text-[#3A3A3A] text-sm leading-relaxed">
                     <p className="mb-2">Objectifs pédagogiques :</p>
                     <ul className="list-disc list-inside space-y-1 ml-4">
                       {formation.objectifs.map((objectif, index) => (
@@ -263,16 +263,16 @@ export default function ConventionPage() {
                 </article>
 
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 4 - Moyens pédagogiques</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 4 - Moyens pédagogiques</h3>
+                  <p className="text-[#3A3A3A] text-sm leading-relaxed">
                     Formation en présentiel avec alternance théorie/pratique. Supports de cours fournis.
                     {formation.materiel_inclus && ' Matériel professionnel inclus.'}
                   </p>
                 </article>
 
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 5 - Tarif et conditions de règlement</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 5 - Tarif et conditions de règlement</h3>
+                  <p className="text-[#3A3A3A] text-sm leading-relaxed">
                     Coût total de la formation : {inscription.montant_total.toFixed(2)} € HT.
                     {inscription.montant_finance > 0 && (
                       <span> Montant financé : {inscription.montant_finance.toFixed(2)} €.</span>
@@ -282,23 +282,23 @@ export default function ConventionPage() {
                 </article>
 
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 6 - Modalités d'évaluation</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 6 - Modalités d'évaluation</h3>
+                  <p className="text-[#3A3A3A] text-sm leading-relaxed">
                     Évaluation pratique en cours et en fin de formation.
                     Remise d'un certificat de réalisation en cas de présence aux 2/3 de la formation.
                   </p>
                 </article>
 
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 7 - Délai de rétractation</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 7 - Délai de rétractation</h3>
+                  <p className="text-[#3A3A3A] text-sm leading-relaxed">
                     Vous disposez d'un délai de rétractation de 14 jours à compter de la signature de la présente convention.
                   </p>
                 </article>
 
                 <article>
-                  <h3 className="font-semibold text-gray-900 mb-2">Article 8 - Règlement intérieur</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <h3 className="font-semibold text-[#111111] mb-2">Article 8 - Règlement intérieur</h3>
+                  <p className="text-[#3A3A3A] text-sm leading-relaxed">
                     Le stagiaire s'engage à respecter le règlement intérieur de l'organisme de formation
                     qui lui sera remis en début de session.
                   </p>
@@ -317,9 +317,9 @@ export default function ConventionPage() {
                     type="checkbox"
                     checked={rgpdConsent}
                     onChange={(e) => setRgpdConsent(e.target.checked)}
-                    className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                    className="mt-1 h-4 w-4 text-primary focus:ring-primary border-[#EEEEEE] rounded"
                   />
-                  <span className="text-sm text-gray-700 leading-relaxed">
+                  <span className="text-sm text-[#3A3A3A] leading-relaxed">
                     J'ai lu et j'accepte les conditions de la convention de formation.
                     Je consens au traitement de mes données personnelles conformément au RGPD
                     pour les besoins de ma formation et du suivi administratif.
@@ -329,7 +329,7 @@ export default function ConventionPage() {
 
               {/* Canvas de signature */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-[#3A3A3A] mb-3">
                   Signez dans le cadre ci-dessous :
                 </label>
                 <SignatureCanvas
@@ -341,8 +341,8 @@ export default function ConventionPage() {
 
               {/* Affichage erreur signature */}
               {signatureError && (
-                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-sm text-red-700">
+                <div className="mb-4 p-4 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg">
+                  <p className="text-sm text-[#FF2D78]">
                     <strong>Erreur :</strong> {signatureError}
                   </p>
                 </div>
@@ -366,14 +366,14 @@ export default function ConventionPage() {
                 </Button>
 
                 {(!signatureData || !rgpdConsent) && (
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-[#777777]">
                     Veuillez signer et accepter les conditions pour continuer
                   </p>
                 )}
               </div>
 
               {/* Mentions légales */}
-              <div className="mt-6 pt-6 border-t text-xs text-gray-500 space-y-2">
+              <div className="mt-6 pt-6 border-t text-xs text-[#777777] space-y-2">
                 <p>
                   La signature électronique de cette convention a la même valeur juridique qu'une signature manuscrite
                   conformément au règlement eIDAS et à l'article 1367 du Code civil.

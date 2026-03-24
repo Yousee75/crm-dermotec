@@ -242,7 +242,7 @@ export default function MFAVerifyPage() {
               Vérification en 2 étapes
             </h1>
 
-            <p className="text-gray-600">
+            <p className="text-[#777777]">
               {factorType === 'totp'
                 ? 'Entrez le code de votre application d\'authentification'
                 : `Code envoyé au ${maskedPhone}`
@@ -263,7 +263,7 @@ export default function MFAVerifyPage() {
                   value={digit}
                   onChange={(e) => handleCodeChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-14 text-center text-2xl font-mono border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-0 focus:outline-none transition-colors"
+                  className="w-12 h-14 text-center text-2xl font-mono border-2 border-[#EEEEEE] rounded-xl focus:border-primary focus:ring-0 focus:outline-none transition-colors"
                   disabled={loading}
                 />
               ))}
@@ -271,9 +271,9 @@ export default function MFAVerifyPage() {
 
             {/* Erreur */}
             {error && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
-                <p className="text-red-600 text-sm font-medium">{error}</p>
+              <div className="flex items-center gap-2 p-3 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg">
+                <AlertTriangle className="w-4 h-4 text-[#FF2D78] shrink-0" />
+                <p className="text-[#FF2D78] text-sm font-medium">{error}</p>
               </div>
             )}
           </div>
@@ -293,7 +293,7 @@ export default function MFAVerifyPage() {
             {factorType === 'phone' && (
               <div className="text-center">
                 {resendTimer > 0 ? (
-                  <div className="flex items-center justify-center gap-2 text-gray-500 text-sm">
+                  <div className="flex items-center justify-center gap-2 text-[#777777] text-sm">
                     <Clock className="w-4 h-4" />
                     <span>Renvoyer dans {resendTimer}s</span>
                   </div>
@@ -313,7 +313,7 @@ export default function MFAVerifyPage() {
             <div className="text-center pt-2">
               <button
                 onClick={() => router.push('/settings/security')}
-                className="text-gray-600 hover:text-gray-900 text-sm transition"
+                className="text-[#777777] hover:text-[#111111] text-sm transition"
               >
                 Utiliser une autre méthode
               </button>

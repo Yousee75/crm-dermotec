@@ -125,7 +125,7 @@ function HeroStats() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-gray-600 max-w-2xl mx-auto"
+            className="text-lg text-[#777777] max-w-2xl mx-auto"
           >
             Maîtrisez les techniques commerciales et relationnelles avec notre academy interactive
           </motion.p>
@@ -144,11 +144,11 @@ function HeroStats() {
               variants={cardVariants}
               className="text-center p-6 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 hover:bg-white/70 transition-all duration-300"
             >
-              <div className="flex items-center justify-center text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <div className="flex items-center justify-center text-3xl md:text-4xl font-bold text-[#111111] mb-2">
                 <AnimatedCounter value={stat.value} duration={2000} />
                 <span className="text-primary">{stat.suffix}</span>
               </div>
-              <p className="text-sm text-gray-600 font-medium">{stat.label}</p>
+              <p className="text-sm text-[#777777] font-medium">{stat.label}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -161,11 +161,11 @@ function HeroStats() {
 function TableauComponent({ tableau }: { tableau: any }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border-collapse border border-gray-200 rounded-lg">
+      <table className="w-full border-collapse border border-[#EEEEEE] rounded-lg">
         <thead>
-          <tr className="bg-gray-50">
+          <tr className="bg-[#FAF8F5]">
             {tableau.colonnes.map((colonne: string, index: number) => (
-              <th key={index} className="border border-gray-200 px-4 py-3 text-left text-sm font-semibold text-gray-900">
+              <th key={index} className="border border-[#EEEEEE] px-4 py-3 text-left text-sm font-semibold text-[#111111]">
                 {colonne}
               </th>
             ))}
@@ -173,9 +173,9 @@ function TableauComponent({ tableau }: { tableau: any }) {
         </thead>
         <tbody>
           {tableau.lignes.map((ligne: string[], rowIndex: number) => (
-            <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+            <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-[#FAF8F5]/50'}>
               {ligne.map((cellule: string, cellIndex: number) => (
-                <td key={cellIndex} className="border border-gray-200 px-4 py-3 text-sm text-gray-700">
+                <td key={cellIndex} className="border border-[#EEEEEE] px-4 py-3 text-sm text-[#3A3A3A]">
                   {cellule}
                 </td>
               ))}
@@ -194,21 +194,21 @@ function SectionAccordion({ section }: { section: AcademySection }) {
   return (
     <motion.div
       initial={false}
-      className="border border-gray-200 rounded-lg overflow-hidden"
+      className="border border-[#EEEEEE] rounded-lg overflow-hidden"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors duration-200 flex items-center justify-between"
+        className="w-full px-6 py-4 text-left bg-[#FAF8F5] hover:bg-[#F4F0EB] transition-colors duration-200 flex items-center justify-between"
       >
         <div>
-          <h3 className="font-semibold text-gray-900">{section.titre}</h3>
-          <p className="text-sm text-gray-600 mt-1">{section.sousTitre}</p>
+          <h3 className="font-semibold text-[#111111]">{section.titre}</h3>
+          <p className="text-sm text-[#777777] mt-1">{section.sousTitre}</p>
         </div>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <ChevronDown className="w-5 h-5 text-gray-500" />
+          <ChevronDown className="w-5 h-5 text-[#777777]" />
         </motion.div>
       </button>
 
@@ -223,20 +223,20 @@ function SectionAccordion({ section }: { section: AcademySection }) {
           >
             <div className="p-6 bg-white space-y-6">
               {/* Contenu principal */}
-              <p className="text-gray-700 leading-relaxed">{section.contenu}</p>
+              <p className="text-[#3A3A3A] leading-relaxed">{section.contenu}</p>
 
               {/* Points clés */}
               {section.pointsCles && section.pointsCles.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
+                  <h4 className="font-medium text-[#111111] mb-3 flex items-center gap-2">
                     <Target className="w-4 h-4 text-primary" />
                     Points clés
                   </h4>
                   <ul className="space-y-2">
                     {section.pointsCles.map((point, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-700">{point}</span>
+                        <CheckCircle2 className="w-4 h-4 text-[#10B981] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-[#3A3A3A]">{point}</span>
                       </li>
                     ))}
                   </ul>
@@ -246,20 +246,20 @@ function SectionAccordion({ section }: { section: AcademySection }) {
               {/* Scripts */}
               {section.scripts && section.scripts.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
-                    <Code2 className="w-4 h-4 text-purple-600" />
+                  <h4 className="font-medium text-[#111111] mb-3 flex items-center gap-2">
+                    <Code2 className="w-4 h-4 text-[#FF2D78]" />
                     Scripts pratiques
                   </h4>
                   <div className="space-y-4">
                     {section.scripts.map((script, index) => (
-                      <div key={script.id} className="bg-gray-900 rounded-lg p-4">
+                      <div key={script.id} className="bg-[#111111] rounded-lg p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <Badge variant="secondary" className="text-xs">
                             {script.canal}
                           </Badge>
                           <h5 className="font-medium text-white">{script.titre}</h5>
                         </div>
-                        <p className="text-gray-400 text-sm mb-3">{script.contexte}</p>
+                        <p className="text-[#999999] text-sm mb-3">{script.contexte}</p>
                         <pre className="text-gray-100 text-sm whitespace-pre-wrap leading-relaxed">
                           {script.corps}
                         </pre>
@@ -272,14 +272,14 @@ function SectionAccordion({ section }: { section: AcademySection }) {
               {/* Tableaux */}
               {section.tableaux && section.tableaux.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
+                  <h4 className="font-medium text-[#111111] mb-3 flex items-center gap-2">
                     <Table className="w-4 h-4 text-orange-600" />
                     Tableaux de données
                   </h4>
                   <div className="space-y-6">
                     {section.tableaux.map((tableau, index) => (
                       <div key={index}>
-                        <h5 className="font-medium text-gray-800 mb-3">{tableau.titre}</h5>
+                        <h5 className="font-medium text-[#1A1A1A] mb-3">{tableau.titre}</h5>
                         <TableauComponent tableau={tableau} />
                       </div>
                     ))}
@@ -367,11 +367,11 @@ function QuizPlayer({
         className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-primary/10 to-accent/10">
+        <div className="p-6 border-b border-[#EEEEEE] bg-gradient-to-r from-primary/10 to-accent/10">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Quiz - {moduleTitle}</h2>
-              <p className="text-sm text-gray-600 mt-1">
+              <h2 className="text-xl font-bold text-[#111111]">Quiz - {moduleTitle}</h2>
+              <p className="text-sm text-[#777777] mt-1">
                 {isFinished ? 'Résultats' : `Question ${currentQuestionIndex + 1} sur ${quiz.length}`}
               </p>
             </div>
@@ -379,7 +379,7 @@ function QuizPlayer({
               variant="ghost"
               size="sm"
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-[#777777] hover:text-[#3A3A3A]"
             >
               <X className="w-5 h-5" />
             </Button>
@@ -388,7 +388,7 @@ function QuizPlayer({
           {/* Progress bar */}
           {!isFinished && (
             <div className="mt-4">
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-[#EEEEEE] rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-300"
                   style={{ width: `${((currentQuestionIndex + 1) / quiz.length) * 100}%` }}
@@ -409,26 +409,26 @@ function QuizPlayer({
             >
               <div className="flex items-center justify-center">
                 {finalScore >= 80 ? (
-                  <div className="p-4 rounded-full bg-green-100">
-                    <Trophy className="w-12 h-12 text-green-600" />
+                  <div className="p-4 rounded-full bg-[#D1FAE5]">
+                    <Trophy className="w-12 h-12 text-[#10B981]" />
                   </div>
                 ) : finalScore >= 60 ? (
-                  <div className="p-4 rounded-full bg-yellow-100">
-                    <Award className="w-12 h-12 text-yellow-600" />
+                  <div className="p-4 rounded-full bg-[#FFF3E8]">
+                    <Award className="w-12 h-12 text-[#FF8C42]" />
                   </div>
                 ) : (
-                  <div className="p-4 rounded-full bg-red-100">
-                    <TrendingUp className="w-12 h-12 text-red-600" />
+                  <div className="p-4 rounded-full bg-[#FFE0EF]">
+                    <TrendingUp className="w-12 h-12 text-[#FF2D78]" />
                   </div>
                 )}
               </div>
 
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-[#111111] mb-2">
                   {finalScore >= 80 ? 'Excellent !' : finalScore >= 60 ? 'Bien joué !' : 'À améliorer'}
                 </h3>
                 <p className="text-4xl font-bold text-primary mb-2">{finalScore}%</p>
-                <p className="text-gray-600">
+                <p className="text-[#777777]">
                   {score} bonnes réponses sur {quiz.length}
                 </p>
               </div>
@@ -453,7 +453,7 @@ function QuizPlayer({
               className="space-y-6"
             >
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-[#111111] mb-4">
                   {currentQuestion.question}
                 </h3>
 
@@ -463,15 +463,15 @@ function QuizPlayer({
                     const isCorrect = index === currentQuestion.correctIndex
                     const showResult = showExplanation
 
-                    let cardStyle = "border border-gray-200 hover:border-primary"
+                    let cardStyle = "border border-[#EEEEEE] hover:border-primary"
 
                     if (showResult) {
                       if (isCorrect) {
-                        cardStyle = "border-green-500 bg-green-50"
+                        cardStyle = "border-[#10B981] bg-[#ECFDF5]"
                       } else if (isSelected && !isCorrect) {
-                        cardStyle = "border-red-500 bg-red-50"
+                        cardStyle = "border-red-500 bg-[#FFE0EF]"
                       } else {
-                        cardStyle = "border-gray-200 bg-gray-50"
+                        cardStyle = "border-[#EEEEEE] bg-[#FAF8F5]"
                       }
                     } else if (isSelected) {
                       cardStyle = "border-primary bg-primary/5"
@@ -490,26 +490,26 @@ function QuizPlayer({
                         <div className="flex items-center gap-3">
                           <div className={cn(
                             "w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold",
-                            showResult && isCorrect ? "border-green-500 bg-green-500 text-white" :
-                            showResult && isSelected && !isCorrect ? "border-red-500 bg-red-500 text-white" :
+                            showResult && isCorrect ? "border-[#10B981] bg-[#10B981] text-white" :
+                            showResult && isSelected && !isCorrect ? "border-red-500 bg-[#FF2D78] text-white" :
                             isSelected ? "border-primary bg-primary text-white" :
-                            "border-gray-300"
+                            "border-[#EEEEEE]"
                           )}>
                             {String.fromCharCode(65 + index)}
                           </div>
                           <span className={cn(
                             "font-medium",
-                            showResult && isCorrect ? "text-green-700" :
-                            showResult && isSelected && !isCorrect ? "text-red-700" :
-                            "text-gray-900"
+                            showResult && isCorrect ? "text-[#10B981]" :
+                            showResult && isSelected && !isCorrect ? "text-[#FF2D78]" :
+                            "text-[#111111]"
                           )}>
                             {option}
                           </span>
                           {showResult && isCorrect && (
-                            <CheckCircle2 className="w-5 h-5 text-green-500 ml-auto" />
+                            <CheckCircle2 className="w-5 h-5 text-[#10B981] ml-auto" />
                           )}
                           {showResult && isSelected && !isCorrect && (
-                            <XCircle className="w-5 h-5 text-red-500 ml-auto" />
+                            <XCircle className="w-5 h-5 text-[#FF2D78] ml-auto" />
                           )}
                         </div>
                       </button>
@@ -523,19 +523,19 @@ function QuizPlayer({
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-blue-50 border border-blue-200 rounded-lg"
+                  className="p-4 bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg"
                 >
-                  <h4 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
+                  <h4 className="font-medium text-[#6B8CAE] mb-2 flex items-center gap-2">
                     <Brain className="w-4 h-4" />
                     Explication
                   </h4>
-                  <p className="text-sm text-blue-800">{currentQuestion.explication}</p>
+                  <p className="text-sm text-[#6B8CAE]">{currentQuestion.explication}</p>
                 </motion.div>
               )}
 
               {/* Actions */}
               <div className="flex items-center justify-between pt-4 border-t">
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-[#777777]">
                   Question {currentQuestionIndex + 1} sur {quiz.length}
                 </div>
                 <div className="flex gap-3">
@@ -586,7 +586,7 @@ function ModuleDetail({
         className="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 border-b border-gray-200" style={{ backgroundColor: `${getCategorieColor(module.categorie)}10` }}>
+        <div className="p-6 border-b border-[#EEEEEE]" style={{ backgroundColor: `${getCategorieColor(module.categorie)}10` }}>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-4">
               <div
@@ -599,11 +599,11 @@ function ModuleDetail({
                 {module.icone}
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">{module.titre}</h2>
-                <p className="text-gray-600 mb-3">{module.sousTitre}</p>
+                <h2 className="text-2xl font-bold text-[#111111] mb-2">{module.titre}</h2>
+                <p className="text-[#777777] mb-3">{module.sousTitre}</p>
                 <div className="flex items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-gray-500" />
+                    <Clock className="w-4 h-4 text-[#777777]" />
                     <span>{module.dureeMinutes} min</span>
                   </div>
                   <Badge
@@ -617,11 +617,11 @@ function ModuleDetail({
                     {getNiveauLabel(module.niveau)}
                   </Badge>
                   <div className="flex items-center gap-2">
-                    <BookOpen className="w-4 h-4 text-gray-500" />
+                    <BookOpen className="w-4 h-4 text-[#777777]" />
                     <span>{module.sections.length} sections</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Brain className="w-4 h-4 text-gray-500" />
+                    <Brain className="w-4 h-4 text-[#777777]" />
                     <span>{module.quiz.length} questions</span>
                   </div>
                 </div>
@@ -631,7 +631,7 @@ function ModuleDetail({
               variant="ghost"
               size="sm"
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-[#777777] hover:text-[#3A3A3A]"
             >
               <X className="w-5 h-5" />
             </Button>
@@ -643,20 +643,20 @@ function ModuleDetail({
           <div className="p-6 space-y-6">
             {/* Description */}
             <div>
-              <p className="text-gray-700 leading-relaxed">{module.description}</p>
+              <p className="text-[#3A3A3A] leading-relaxed">{module.description}</p>
             </div>
 
             {/* Objectifs */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <h3 className="font-semibold text-[#111111] mb-3 flex items-center gap-2">
                 <Target className="w-5 h-5 text-primary" />
                 Objectifs pédagogiques
               </h3>
               <ul className="space-y-2">
                 {module.objectifs.map((objectif, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <Star className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">{objectif}</span>
+                    <Star className="w-4 h-4 text-[#FF8C42] mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-[#3A3A3A]">{objectif}</span>
                   </li>
                 ))}
               </ul>
@@ -665,15 +665,15 @@ function ModuleDetail({
             {/* Prérequis */}
             {module.prerequis.length > 0 && (
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <h3 className="font-semibold text-[#111111] mb-3 flex items-center gap-2">
                   <Eye className="w-5 h-5 text-orange-500" />
                   Prérequis
                 </h3>
                 <ul className="space-y-2">
                   {module.prerequis.map((prerequis, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{prerequis}</span>
+                      <CheckCircle2 className="w-4 h-4 text-[#10B981] mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-[#3A3A3A]">{prerequis}</span>
                     </li>
                   ))}
                 </ul>
@@ -682,7 +682,7 @@ function ModuleDetail({
 
             {/* Tags */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Tags</h3>
+              <h3 className="font-semibold text-[#111111] mb-3">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {module.tags.map((tag, index) => (
                   <Badge key={index} variant="outline" className="text-xs">
@@ -694,8 +694,8 @@ function ModuleDetail({
 
             {/* Sections */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-purple-600" />
+              <h3 className="font-semibold text-[#111111] mb-4 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-[#FF2D78]" />
                 Sections du module ({module.sections.length})
               </h3>
               <div className="space-y-4">
@@ -708,9 +708,9 @@ function ModuleDetail({
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-200 bg-gray-50">
+        <div className="p-6 border-t border-[#EEEEEE] bg-[#FAF8F5]">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-[#777777]">
               {module.quiz.length} questions dans ce quiz
             </div>
             <div className="flex gap-3">
@@ -743,7 +743,7 @@ function ModuleCard({ module, onClick }: { module: AcademyModule, onClick: () =>
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
       onClick={onClick}
-      className="group cursor-pointer bg-white rounded-2xl border-2 border-gray-200 hover:border-primary hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className="group cursor-pointer bg-white rounded-2xl border-2 border-[#EEEEEE] hover:border-primary hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       {/* Border colorée selon catégorie */}
       <div
@@ -764,7 +764,7 @@ function ModuleCard({ module, onClick }: { module: AcademyModule, onClick: () =>
             {module.icone}
           </div>
           <div className="text-right">
-            <div className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+            <div className="flex items-center gap-1 text-xs text-[#777777] mb-1">
               <Clock className="w-3 h-3" />
               {module.dureeMinutes} min
             </div>
@@ -784,16 +784,16 @@ function ModuleCard({ module, onClick }: { module: AcademyModule, onClick: () =>
 
         {/* Content */}
         <div className="space-y-3 mb-4">
-          <h3 className="font-bold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="font-bold text-[#111111] line-clamp-2 group-hover:text-primary transition-colors">
             {module.titre}
           </h3>
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-[#777777] line-clamp-2 leading-relaxed">
             {module.description}
           </p>
         </div>
 
         {/* Stats */}
-        <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+        <div className="flex items-center justify-between text-xs text-[#777777] mb-4">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <BookOpen className="w-3 h-3" />
@@ -809,10 +809,10 @@ function ModuleCard({ module, onClick }: { module: AcademyModule, onClick: () =>
         {/* Progress */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-600">Progression</span>
-            <span className="font-medium text-gray-900">{progressPercent}%</span>
+            <span className="text-[#777777]">Progression</span>
+            <span className="font-medium text-[#111111]">{progressPercent}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-[#EEEEEE] rounded-full h-2">
             <div
               className="h-2 rounded-full transition-all duration-500"
               style={{
@@ -875,8 +875,8 @@ export default function AcademyFormationsPage() {
       {/* Modules Grid */}
       <div>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Modules de formation</h2>
-          <div className="text-sm text-gray-600">
+          <h2 className="text-2xl font-bold text-[#111111]">Modules de formation</h2>
+          <div className="text-sm text-[#777777]">
             {ACADEMY_FORMATIONS_MODULES.length} modules disponibles
           </div>
         </div>

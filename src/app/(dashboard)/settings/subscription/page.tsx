@@ -166,7 +166,7 @@ export default function SubscriptionPage() {
         >
           Abonnement
         </h1>
-        <p className="text-sm text-gray-500 mt-1">Gérez votre plan, votre usage et vos factures.</p>
+        <p className="text-sm text-[#777777] mt-1">Gérez votre plan, votre usage et vos factures.</p>
       </div>
 
       {/* A — Plan actuel */}
@@ -178,18 +178,18 @@ export default function SubscriptionPage() {
         <CardContent>
           <div className="flex flex-col sm:flex-row sm:items-end gap-6">
             <div className="flex-1">
-              <p className="text-sm text-gray-500 mb-1">Vous êtes sur le plan</p>
+              <p className="text-sm text-[#777777] mb-1">Vous êtes sur le plan</p>
               <p
                 className="text-2xl font-bold text-accent"
                
               >
                 {currentPlan.name}
-                <span className="ml-2 text-base font-normal text-gray-400">
+                <span className="ml-2 text-base font-normal text-[#999999]">
                   {currentPlan.price}{currentPlan.period}
                 </span>
               </p>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-sm text-[#777777]">
               <Calendar className="w-4 h-4" />
               <span>
                 Prochain paiement :{' '}
@@ -216,8 +216,8 @@ export default function SubscriptionPage() {
             {/* Leads */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-600">Leads</span>
-                <span className="text-xs text-gray-400 tabular-nums">
+                <span className="text-sm font-medium text-[#777777]">Leads</span>
+                <span className="text-xs text-[#999999] tabular-nums">
                   {sub.leadsUsed} / {currentPlan.maxLeads ?? '∞'}
                 </span>
               </div>
@@ -231,8 +231,8 @@ export default function SubscriptionPage() {
             {/* Users */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-600">Utilisateurs</span>
-                <span className="text-xs text-gray-400 tabular-nums">
+                <span className="text-sm font-medium text-[#777777]">Utilisateurs</span>
+                <span className="text-xs text-[#999999] tabular-nums">
                   {sub.usersUsed} / {currentPlan.maxUsers ?? '∞'}
                 </span>
               </div>
@@ -246,8 +246,8 @@ export default function SubscriptionPage() {
             {/* Storage */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-600">Stockage</span>
-                <span className="text-xs text-gray-400 tabular-nums">
+                <span className="text-sm font-medium text-[#777777]">Stockage</span>
+                <span className="text-xs text-[#999999] tabular-nums">
                   {sub.storageMB} Mo / {sub.storageMaxMB} Mo
                 </span>
               </div>
@@ -280,7 +280,7 @@ export default function SubscriptionPage() {
                   className={`relative rounded-xl border-2 p-4 transition-shadow ${
                     isCurrent
                       ? 'border-primary bg-primary/5'
-                      : 'border-gray-100 hover:border-gray-200'
+                      : 'border-[#F4F0EB] hover:border-[#EEEEEE]'
                   }`}
                 >
                   {isCurrent && (
@@ -297,19 +297,19 @@ export default function SubscriptionPage() {
                   <div className="mb-3">
                     <span className="text-lg font-bold text-accent">{plan.price}</span>
                     {plan.period && (
-                      <span className="text-xs text-gray-400 ml-0.5">{plan.period}</span>
+                      <span className="text-xs text-[#999999] ml-0.5">{plan.period}</span>
                     )}
                   </div>
 
                   <ul className="space-y-1.5 mb-4">
                     {plan.features.slice(0, 4).map((f) => (
-                      <li key={f} className="flex items-start gap-1.5 text-xs text-gray-500">
+                      <li key={f} className="flex items-start gap-1.5 text-xs text-[#777777]">
                         <Check className="w-3 h-3 text-primary mt-0.5 shrink-0" />
                         <span>{f}</span>
                       </li>
                     ))}
                     {plan.features.length > 4 && (
-                      <li className="text-xs text-gray-400">
+                      <li className="text-xs text-[#999999]">
                         +{plan.features.length - 4} autres...
                       </li>
                     )}
@@ -360,17 +360,17 @@ export default function SubscriptionPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="text-left py-2 pr-4 font-medium text-gray-500">Date</th>
-                  <th className="text-left py-2 pr-4 font-medium text-gray-500">Montant</th>
-                  <th className="text-left py-2 pr-4 font-medium text-gray-500">Statut</th>
-                  <th className="text-right py-2 font-medium text-gray-500">PDF</th>
+                <tr className="border-b border-[#F4F0EB]">
+                  <th className="text-left py-2 pr-4 font-medium text-[#777777]">Date</th>
+                  <th className="text-left py-2 pr-4 font-medium text-[#777777]">Montant</th>
+                  <th className="text-left py-2 pr-4 font-medium text-[#777777]">Statut</th>
+                  <th className="text-right py-2 font-medium text-[#777777]">PDF</th>
                 </tr>
               </thead>
               <tbody>
                 {MOCK_INVOICES.map((inv) => (
-                  <tr key={inv.id} className="border-b border-gray-50 last:border-0">
-                    <td className="py-3 pr-4 text-gray-700">
+                  <tr key={inv.id} className="border-b border-[#FAF8F5] last:border-0">
+                    <td className="py-3 pr-4 text-[#3A3A3A]">
                       {new Date(inv.date).toLocaleDateString('fr-FR', {
                         day: 'numeric',
                         month: 'short',
@@ -395,12 +395,12 @@ export default function SubscriptionPage() {
       {/* E — Danger zone : annulation */}
       <Card padding="lg" className="border-red-100">
         <CardHeader>
-          <CardTitle icon={<AlertTriangle className="w-5 h-5 text-red-500" />}>
-            <span className="text-red-600">Zone de danger</span>
+          <CardTitle icon={<AlertTriangle className="w-5 h-5 text-[#FF2D78]" />}>
+            <span className="text-[#FF2D78]">Zone de danger</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-[#777777] mb-4">
             En annulant votre abonnement, vous conserverez l&apos;accès jusqu&apos;à la fin de la
             période facturée. Vos données seront conservées 90 jours.
           </p>

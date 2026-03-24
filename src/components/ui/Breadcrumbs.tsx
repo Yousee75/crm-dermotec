@@ -12,10 +12,10 @@ interface BreadcrumbsProps {
 
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
-    <nav className="flex items-center gap-1 text-xs text-gray-400 mb-4">
+    <nav className="flex items-center gap-1 text-xs text-[#999999] mb-4">
       {items.map((item, i) => (
         <span key={i} className="flex items-center gap-1">
-          {i > 0 && <ChevronRight className="w-3 h-3 text-gray-300 shrink-0" />}
+          {i > 0 && <ChevronRight className="w-3 h-3 text-[#999999] shrink-0" />}
           {item.href ? (
             <Link
               href={item.href}
@@ -24,7 +24,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
               {item.label}
             </Link>
           ) : (
-            <span className="text-gray-600 font-medium truncate max-w-[200px]">{item.label}</span>
+            <span className="text-[#777777] font-medium truncate max-w-[200px]">{item.label}</span>
           )}
         </span>
       ))}

@@ -18,6 +18,7 @@ import Image from 'next/image'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { cn } from '@/lib/utils'
 import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
+import { OnboardingProgressBar } from '@/components/ui/OnboardingProgressBar'
 
 // Composant skeleton pour le dashboard
 function DashboardSkeleton() {
@@ -35,10 +36,10 @@ function DashboardSkeleton() {
       </div>
 
       {/* Focus message skeleton */}
-      <div className="h-16 bg-gray-100 rounded-xl" />
+      <div className="h-16 bg-[#F4F0EB] rounded-xl" />
 
       {/* Pipeline mini skeleton */}
-      <div className="bg-white rounded-xl border border-gray-100 p-4">
+      <div className="bg-white rounded-xl border border-[#F4F0EB] p-4">
         <div className="flex items-center justify-between mb-3">
           <Skeleton className="h-4 w-32" />
           <Skeleton className="h-3 w-20" />
@@ -46,7 +47,7 @@ function DashboardSkeleton() {
         <div className="flex gap-1">
           {[1,2,3,4,5].map(i => (
             <div key={i} className="flex-1">
-              <div className="h-2 bg-gray-100 rounded-full mb-1.5" />
+              <div className="h-2 bg-[#F4F0EB] rounded-full mb-1.5" />
               <Skeleton className="h-3 w-4 mx-auto mb-1" />
               <Skeleton className="h-2 w-8 mx-auto" />
             </div>
@@ -57,14 +58,14 @@ function DashboardSkeleton() {
       {/* 2 colonnes skeleton */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Actions du jour */}
-        <div className="bg-white rounded-2xl border border-gray-100">
-          <div className="px-5 py-3 border-b border-gray-100">
+        <div className="bg-white rounded-2xl border border-[#F4F0EB]">
+          <div className="px-5 py-3 border-b border-[#F4F0EB]">
             <Skeleton className="h-4 w-32" />
           </div>
           <div className="space-y-3 p-5">
             {[1,2,3].map(i => (
               <div key={i} className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-gray-200" />
+                <div className="w-2 h-2 rounded-full bg-[#EEEEEE]" />
                 <div className="flex-1 space-y-1">
                   <Skeleton className="h-3 w-32" />
                   <Skeleton className="h-2 w-24" />
@@ -79,14 +80,14 @@ function DashboardSkeleton() {
         </div>
 
         {/* Derniers prospects */}
-        <div className="bg-white rounded-2xl border border-gray-100">
-          <div className="px-5 py-3 border-b border-gray-100">
+        <div className="bg-white rounded-2xl border border-[#F4F0EB]">
+          <div className="px-5 py-3 border-b border-[#F4F0EB]">
             <Skeleton className="h-4 w-32" />
           </div>
           <div className="space-y-3 p-5">
             {[1,2,3,4,5].map(i => (
               <div key={i} className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-gray-100" />
+                <div className="w-8 h-8 rounded-full bg-[#F4F0EB]" />
                 <div className="flex-1 space-y-1">
                   <Skeleton className="h-3 w-28" />
                   <Skeleton className="h-2 w-16" />
@@ -215,8 +216,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* ZONE 1 — SALUTATION IA CONTEXTUELLE */}
+    <div>
+      {/* Barre d'onboarding sticky */}
+      <OnboardingProgressBar />
+
+      <div className="space-y-6">
+        {/* ZONE 1 — SALUTATION IA CONTEXTUELLE */}
       <div className="bg-white rounded-xl border border-[#EEEEEE] shadow-sm p-4">
         <div className="flex items-center gap-4">
           <Image
@@ -230,7 +235,7 @@ export default function DashboardPage() {
             <h1 className="text-lg font-[family-name:var(--font-heading)] font-bold text-[#1A1A1A]">
               {greeting}{currentUser?.prenom ? ` ${currentUser.prenom}` : ''} 👋
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-[#777777]">
               {overdueCount > 0
                 ? `${overdueCount} rappel${overdueCount > 1 ? 's' : ''} urgent${overdueCount > 1 ? 's' : ''} et ${(todayCount + enPipeline)} prospect${(todayCount + enPipeline) > 1 ? 's' : ''} chaud${(todayCount + enPipeline) > 1 ? 's' : ''} vous attendent.`
                 : todayCount > 0
@@ -251,14 +256,14 @@ export default function DashboardPage() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <AlertTriangle className="w-4 h-4 text-[#FF2D78]" />
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-[#111111]">
                     {r.lead?.prenom} {r.lead?.nom}
                   </span>
-                  <span className="text-xs px-2 py-0.5 bg-red-50 text-red-600 rounded-full font-medium">
+                  <span className="text-xs px-2 py-0.5 bg-[#FFE0EF] text-[#FF2D78] rounded-full font-medium">
                     EN RETARD
                   </span>
                 </div>
-                <p className="text-xs text-gray-500">{r.titre || r.type}</p>
+                <p className="text-xs text-[#777777]">{r.titre || r.type}</p>
               </div>
               <div className="flex items-center gap-2">
                 {r.lead?.telephone && (
@@ -274,7 +279,7 @@ export default function DashboardPage() {
                   <a
                     href={`https://wa.me/${(r.lead.telephone || '').replace(/\s/g, '').replace(/^0/, '33')}`}
                     target="_blank"
-                    className="p-2 rounded-lg bg-green-500 hover:bg-green-600 text-white transition-colors"
+                    className="p-2 rounded-lg bg-[#10B981] hover:bg-[#10B981] text-white transition-colors"
                     title="WhatsApp"
                   >
                     <MessageCircle className="w-4 h-4" />
@@ -283,7 +288,7 @@ export default function DashboardPage() {
                 {r.lead?.email && (
                   <a
                     href={`mailto:${r.lead.email}`}
-                    className="p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+                    className="p-2 rounded-lg bg-[#6B8CAE] hover:bg-blue-600 text-white transition-colors"
                     title="Email"
                   >
                     <Mail className="w-4 h-4" />
@@ -301,14 +306,14 @@ export default function DashboardPage() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <Phone className="w-4 h-4 text-[#FF5C00]" />
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-[#111111]">
                     {r.lead?.prenom} {r.lead?.nom}
                   </span>
                   <span className="text-xs px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full font-medium">
                     AUJOURD'HUI
                   </span>
                 </div>
-                <p className="text-xs text-gray-500">{r.titre || r.type}</p>
+                <p className="text-xs text-[#777777]">{r.titre || r.type}</p>
               </div>
               <div className="flex items-center gap-2">
                 {r.lead?.telephone && (
@@ -324,7 +329,7 @@ export default function DashboardPage() {
                   <a
                     href={`https://wa.me/${(r.lead.telephone || '').replace(/\s/g, '').replace(/^0/, '33')}`}
                     target="_blank"
-                    className="p-2 rounded-lg bg-green-500 hover:bg-green-600 text-white transition-colors"
+                    className="p-2 rounded-lg bg-[#10B981] hover:bg-[#10B981] text-white transition-colors"
                     title="WhatsApp"
                   >
                     <MessageCircle className="w-4 h-4" />
@@ -359,11 +364,11 @@ export default function DashboardPage() {
               href={stage.href}
               className="group cursor-pointer"
             >
-              <div className="text-center p-4 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all">
-                <div className="text-3xl font-bold text-gray-900 mb-1 count-up tabular-nums group-hover:scale-110 transition-transform">
+              <div className="text-center p-4 rounded-lg border border-[#F4F0EB] hover:border-[#EEEEEE] hover:shadow-sm transition-all">
+                <div className="text-3xl font-bold text-[#111111] mb-1 count-up tabular-nums group-hover:scale-110 transition-transform">
                   {stage.count}
                 </div>
-                <div className="text-sm font-medium text-gray-600 mb-2">{stage.label}</div>
+                <div className="text-sm font-medium text-[#777777] mb-2">{stage.label}</div>
                 <div
                   className="h-1 rounded-full"
                   style={{ backgroundColor: stage.color }}
@@ -405,30 +410,30 @@ export default function DashboardPage() {
 
       {/* ZONE 5 — ACTIVITÉ RÉCENTE (TIMELINE) */}
       <div className="bg-white rounded-xl border border-[#EEEEEE] shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
+        <div className="px-6 py-4 border-b border-[#F4F0EB]">
           <h3 className="text-lg font-[family-name:var(--font-heading)] font-semibold text-[#1A1A1A] flex items-center gap-2">
             <Users className="w-5 h-5 text-[#FF5C00]" />
             Activité Récente
           </h3>
         </div>
         <div className="max-h-80 overflow-y-auto">
-          <div className="divide-y divide-gray-50">
+          <div className="divide-y divide-[#FAF8F5]">
             {leadsData?.leads && leadsData.leads.length > 0 ? leadsData.leads.slice(0, 10).map((lead) => (
-              <Link key={lead.id} href={`/lead/${lead.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors group">
+              <Link key={lead.id} href={`/lead/${lead.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-[#FAF8F5] transition-colors group">
                 <div className="w-10 h-10 rounded-full bg-[#FF5C00]/10 flex items-center justify-center text-sm font-bold text-[#FF5C00] shrink-0">
                   {lead.prenom?.[0]}{lead.nom?.[0]}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-medium text-gray-900 truncate">{lead.prenom} {lead.nom}</p>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 font-medium">
+                    <p className="text-sm font-medium text-[#111111] truncate">{lead.prenom} {lead.nom}</p>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#F4F0EB] text-[#777777] font-medium">
                       {lead.statut}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500">{formatRelativeTime(lead.created_at)}</p>
+                  <p className="text-xs text-[#777777]">{formatRelativeTime(lead.created_at)}</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <div className="w-12 h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="w-12 h-2 bg-[#F4F0EB] rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
                       style={{
@@ -437,12 +442,12 @@ export default function DashboardPage() {
                       }}
                     />
                   </div>
-                  <span className="text-xs text-gray-400 w-6 text-right">{lead.score_chaud || 0}</span>
-                  <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  <span className="text-xs text-[#999999] w-6 text-right">{lead.score_chaud || 0}</span>
+                  <ChevronRight className="w-4 h-4 text-[#999999] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </div>
               </Link>
             )) : (
-              <div className="text-center py-12 text-gray-400">
+              <div className="text-center py-12 text-[#999999]">
                 <Users className="w-16 h-16 mx-auto mb-4 opacity-50" />
                 <p className="text-sm font-medium">Aucune activité récente</p>
                 <Link href="/leads" className="text-sm text-[#FF5C00] hover:text-[#E65200] mt-2 inline-block">
@@ -454,6 +459,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
+    </div>
     </div>
   )
 }
@@ -485,8 +491,8 @@ function KpiCard({
         {variation !== undefined && variation !== 0 && (
           <span className={`text-xs px-2 py-1 rounded-full font-medium ${
             variation > 0
-              ? 'bg-green-50 text-green-600'
-              : 'bg-red-50 text-red-600'
+              ? 'bg-[#ECFDF5] text-[#10B981]'
+              : 'bg-[#FFE0EF] text-[#FF2D78]'
           }`}>
             {variation > 0 ? '+' : ''}{variation.toFixed(0)}%
           </span>
@@ -496,8 +502,8 @@ function KpiCard({
         <p className="text-3xl font-bold text-[#1A1A1A] count-up tabular-nums mb-2">
           {value}
         </p>
-        <p className="text-sm text-gray-500 font-medium">{label}</p>
-        {subtitle && <p className="text-xs text-gray-400 mt-1">{subtitle}</p>}
+        <p className="text-sm text-[#777777] font-medium">{label}</p>
+        {subtitle && <p className="text-xs text-[#999999] mt-1">{subtitle}</p>}
       </div>
     </div>
   )

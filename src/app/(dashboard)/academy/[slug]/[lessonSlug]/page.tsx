@@ -45,12 +45,12 @@ function getLessonIcon(type: string, className = "w-4 h-4") {
 
 function getLessonTypeBadge(type: string) {
   const configs = {
-    texte: { label: 'Article', color: 'bg-blue-100 text-blue-700' },
-    video: { label: 'Vidéo', color: 'bg-red-100 text-red-700' },
-    quiz: { label: 'Quiz', color: 'bg-purple-100 text-purple-700' },
-    checklist: { label: 'Checklist', color: 'bg-green-100 text-green-700' },
+    texte: { label: 'Article', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
+    video: { label: 'Vidéo', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
+    quiz: { label: 'Quiz', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
+    checklist: { label: 'Checklist', color: 'bg-[#D1FAE5] text-[#10B981]' },
     script: { label: 'Script', color: 'bg-orange-100 text-orange-700' },
-    pdf: { label: 'PDF', color: 'bg-gray-100 text-gray-700' },
+    pdf: { label: 'PDF', color: 'bg-[#F4F0EB] text-[#3A3A3A]' },
     exercice: { label: 'Exercice', color: 'bg-pink-100 text-pink-700' }
   }
 
@@ -79,7 +79,7 @@ function VideoContent({ contenu }: { contenu: any }) {
   return (
     <div className="space-y-4">
       {contenu.url ? (
-        <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden">
+        <div className="relative aspect-video bg-[#111111] rounded-lg overflow-hidden">
           {contenu.url.includes('youtube.com') || contenu.url.includes('youtu.be') ? (
             <iframe
               src={contenu.url.replace('watch?v=', 'embed/')}
@@ -98,8 +98,8 @@ function VideoContent({ contenu }: { contenu: any }) {
           )}
         </div>
       ) : (
-        <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-          <div className="text-center text-gray-500">
+        <div className="aspect-video bg-[#F4F0EB] rounded-lg flex items-center justify-center">
+          <div className="text-center text-[#777777]">
             <Video className="w-12 h-12 mx-auto mb-2" />
             <p>Vidéo à venir</p>
           </div>
@@ -107,9 +107,9 @@ function VideoContent({ contenu }: { contenu: any }) {
       )}
 
       {contenu.transcript && (
-        <div className="bg-gray-50 p-4 rounded-lg">
+        <div className="bg-[#FAF8F5] p-4 rounded-lg">
           <h4 className="font-medium mb-2">Transcription</h4>
-          <p className="text-sm text-gray-600 whitespace-pre-wrap">
+          <p className="text-sm text-[#777777] whitespace-pre-wrap">
             {contenu.transcript}
           </p>
         </div>
@@ -147,9 +147,9 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
   if (questions.length === 0) {
     return (
       <div className="text-center py-8">
-        <HelpCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="font-medium text-gray-600 mb-2">Quiz à venir</h3>
-        <p className="text-sm text-gray-500">Les questions seront bientôt disponibles.</p>
+        <HelpCircle className="w-12 h-12 text-[#999999] mx-auto mb-4" />
+        <h3 className="font-medium text-[#777777] mb-2">Quiz à venir</h3>
+        <p className="text-sm text-[#777777]">Les questions seront bientôt disponibles.</p>
       </div>
     )
   }
@@ -159,14 +159,14 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
       <div className="text-center py-8">
         <div className={cn(
           "w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4",
-          score >= 80 ? "bg-green-100 text-green-600" :
-          score >= 60 ? "bg-yellow-100 text-yellow-600" :
-          "bg-red-100 text-red-600"
+          score >= 80 ? "bg-[#D1FAE5] text-[#10B981]" :
+          score >= 60 ? "bg-[#FFF3E8] text-[#FF8C42]" :
+          "bg-[#FFE0EF] text-[#FF2D78]"
         )}>
           <Trophy className="w-8 h-8" />
         </div>
         <h3 className="text-xl font-bold mb-2">Quiz terminé !</h3>
-        <p className="text-gray-600 mb-4">
+        <p className="text-[#777777] mb-4">
           Votre score : <strong>{score}%</strong> ({score >= 80 ? 'Excellent' : score >= 60 ? 'Bien' : 'À revoir'})
         </p>
 
@@ -178,21 +178,21 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
               className={cn(
                 "p-4 rounded-lg border",
                 answers[qIndex] === q.correct_answer
-                  ? "bg-green-50 border-green-200"
-                  : "bg-red-50 border-red-200"
+                  ? "bg-[#ECFDF5] border-[#10B981]/30"
+                  : "bg-[#FFE0EF] border-[#FF2D78]/30"
               )}
             >
               <p className="font-medium mb-2">{q.question}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[#777777]">
                 <strong>Votre réponse :</strong> {q.options[answers[qIndex]] || 'Non répondu'}
               </p>
               {answers[qIndex] !== q.correct_answer && (
-                <p className="text-sm text-green-600">
+                <p className="text-sm text-[#10B981]">
                   <strong>Bonne réponse :</strong> {q.options[q.correct_answer]}
                 </p>
               )}
               {q.explanation && (
-                <p className="text-sm text-gray-500 mt-2 italic">
+                <p className="text-sm text-[#777777] mt-2 italic">
                   {q.explanation}
                 </p>
               )}
@@ -210,7 +210,7 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
   return (
     <div className="space-y-6">
       {/* Progress */}
-      <div className="flex items-center justify-between text-sm text-gray-600">
+      <div className="flex items-center justify-between text-sm text-[#777777]">
         <span>Question {currentQuestion + 1} sur {questions.length}</span>
         <span>{totalAnswered}/{questions.length} réponses</span>
       </div>
@@ -227,16 +227,16 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
               className={cn(
                 "w-full p-3 text-left rounded-lg border transition-colors",
                 answers[currentQuestion] === optIndex
-                  ? "bg-blue-50 border-blue-300 text-blue-900"
-                  : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                  ? "bg-[#E0EBF5] border-blue-300 text-[#6B8CAE]"
+                  : "bg-[#FAF8F5] border-[#EEEEEE] hover:bg-[#F4F0EB]"
               )}
             >
               <div className="flex items-center gap-3">
                 <div className={cn(
                   "w-5 h-5 rounded-full border-2 flex items-center justify-center",
                   answers[currentQuestion] === optIndex
-                    ? "border-blue-500 bg-blue-500"
-                    : "border-gray-300"
+                    ? "border-blue-500 bg-[#6B8CAE]"
+                    : "border-[#EEEEEE]"
                 )}>
                   {answers[currentQuestion] === optIndex && (
                     <Check className="w-3 h-3 text-white" />
@@ -272,7 +272,7 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
           <Button
             onClick={handleSubmit}
             disabled={!canSubmit}
-            className="bg-green-600 hover:bg-green-700"
+            className="bg-[#10B981] hover:bg-green-700"
           >
             Terminer le quiz
           </Button>
@@ -305,7 +305,7 @@ function ChecklistContent({ contenu, onComplete }: { contenu: any; onComplete: (
         <>
           <div className="flex items-center justify-between">
             <h3 className="font-medium">Liste de contrôle</h3>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-[#777777]">
               {completedItems}/{items.length} terminé
             </span>
           </div>
@@ -314,17 +314,17 @@ function ChecklistContent({ contenu, onComplete }: { contenu: any; onComplete: (
             {items.map((item: string, index: number) => (
               <label
                 key={index}
-                className="flex items-center gap-3 p-3 rounded-lg border bg-gray-50 cursor-pointer hover:bg-gray-100"
+                className="flex items-center gap-3 p-3 rounded-lg border bg-[#FAF8F5] cursor-pointer hover:bg-[#F4F0EB]"
               >
                 <input
                   type="checkbox"
                   checked={checkedItems[index] || false}
                   onChange={(e) => handleCheck(index, e.target.checked)}
-                  className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                  className="w-5 h-5 text-[#6B8CAE] rounded focus:ring-[#FF5C00]"
                 />
                 <span className={cn(
                   "flex-1",
-                  checkedItems[index] ? "line-through text-gray-500" : "text-gray-900"
+                  checkedItems[index] ? "line-through text-[#777777]" : "text-[#111111]"
                 )}>
                   {item}
                 </span>
@@ -333,9 +333,9 @@ function ChecklistContent({ contenu, onComplete }: { contenu: any; onComplete: (
           </div>
 
           {isCompleted && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-              <Check className="w-6 h-6 text-green-600 mx-auto mb-2" />
-              <p className="text-green-800 font-medium">Checklist complétée !</p>
+            <div className="bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg p-4 text-center">
+              <Check className="w-6 h-6 text-[#10B981] mx-auto mb-2" />
+              <p className="text-[#10B981] font-medium">Checklist complétée !</p>
             </div>
           )}
         </>
@@ -368,24 +368,24 @@ function ScriptContent({ contenu }: { contenu: any }) {
               <div className={cn(
                 "max-w-md p-4 rounded-lg",
                 dialogue.speaker === 'Commercial'
-                  ? "bg-blue-50 border border-blue-200"
-                  : "bg-gray-50 border border-gray-200"
+                  ? "bg-[#E0EBF5] border border-[#6B8CAE]/30"
+                  : "bg-[#FAF8F5] border border-[#EEEEEE]"
               )}>
                 <div className="flex items-center gap-2 mb-2">
                   {dialogue.speaker === 'Commercial' ? (
-                    <User className="w-4 h-4 text-blue-600" />
+                    <User className="w-4 h-4 text-[#6B8CAE]" />
                   ) : (
-                    <Bot className="w-4 h-4 text-gray-600" />
+                    <Bot className="w-4 h-4 text-[#777777]" />
                   )}
-                  <span className="text-xs font-medium text-gray-700">
+                  <span className="text-xs font-medium text-[#3A3A3A]">
                     {dialogue.speaker}
                   </span>
                 </div>
-                <p className="text-sm text-gray-900">
+                <p className="text-sm text-[#111111]">
                   {dialogue.text}
                 </p>
                 {dialogue.note && (
-                  <p className="text-xs text-gray-500 mt-2 italic bg-yellow-50 p-2 rounded border">
+                  <p className="text-xs text-[#777777] mt-2 italic bg-[#FFF3E8] p-2 rounded border">
                     💡 {dialogue.note}
                   </p>
                 )}
@@ -408,10 +408,10 @@ function PdfContent({ contenu }: { contenu: any }) {
   return (
     <div className="space-y-4">
       {contenu.url ? (
-        <div className="bg-gray-50 border rounded-lg p-6 text-center">
-          <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <div className="bg-[#FAF8F5] border rounded-lg p-6 text-center">
+          <FileText className="w-12 h-12 text-[#999999] mx-auto mb-4" />
           <h3 className="font-medium mb-2">Document PDF</h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-[#777777] mb-4">
             {contenu.title || 'Document de formation'}
           </p>
           <div className="flex gap-2 justify-center">
@@ -445,29 +445,29 @@ function ExerciceContent({ contenu }: { contenu: any }) {
     <div className="space-y-6">
       {contenu.consigne ? (
         <>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-medium text-blue-900 mb-2">Consignes</h3>
-            <p className="text-blue-800 whitespace-pre-wrap">
+          <div className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg p-4">
+            <h3 className="font-medium text-[#6B8CAE] mb-2">Consignes</h3>
+            <p className="text-[#6B8CAE] whitespace-pre-wrap">
               {contenu.consigne}
             </p>
           </div>
 
           {contenu.example && (
-            <div className="bg-gray-50 border rounded-lg p-4">
+            <div className="bg-[#FAF8F5] border rounded-lg p-4">
               <h4 className="font-medium mb-2">Exemple</h4>
-              <p className="text-gray-700 whitespace-pre-wrap">
+              <p className="text-[#3A3A3A] whitespace-pre-wrap">
                 {contenu.example}
               </p>
             </div>
           )}
 
           {contenu.criteria && contenu.criteria.length > 0 && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 className="font-medium text-green-900 mb-3">Critères d'évaluation</h4>
+            <div className="bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg p-4">
+              <h4 className="font-medium text-[#10B981] mb-3">Critères d'évaluation</h4>
               <ul className="space-y-2">
                 {contenu.criteria.map((criterion: string, index: number) => (
-                  <li key={index} className="flex items-start gap-2 text-green-800">
-                    <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                  <li key={index} className="flex items-start gap-2 text-[#10B981]">
+                    <Check className="w-4 h-4 text-[#10B981] mt-0.5 flex-shrink-0" />
                     <span className="text-sm">{criterion}</span>
                   </li>
                 ))}
@@ -582,12 +582,12 @@ export default function LessonPage() {
   return (
     <div className="space-y-6 pb-6">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-gray-600">
-        <Link href="/academy" className="hover:text-gray-900">Mon coaching</Link>
+      <nav className="flex items-center gap-2 text-sm text-[#777777]">
+        <Link href="/academy" className="hover:text-[#111111]">Mon coaching</Link>
         <span>›</span>
-        <Link href={`/academy/${slug}`} className="hover:text-gray-900">{module.titre}</Link>
+        <Link href={`/academy/${slug}`} className="hover:text-[#111111]">{module.titre}</Link>
         <span>›</span>
-        <span className="text-gray-900 font-medium">{lesson.titre}</span>
+        <span className="text-[#111111] font-medium">{lesson.titre}</span>
       </nav>
 
       {/* Header */}
@@ -602,8 +602,8 @@ export default function LessonPage() {
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
             {getLessonTypeBadge(lesson.type)}
-            <span className="text-sm text-gray-500">{lesson.duree_minutes} min</span>
-            <span className="text-sm text-gray-500">{lesson.points} points</span>
+            <span className="text-sm text-[#777777]">{lesson.duree_minutes} min</span>
+            <span className="text-sm text-[#777777]">{lesson.points} points</span>
             {isCompleted && (
               <Badge variant="success" size="sm">
                 <Check className="w-3 h-3 mr-1" />
@@ -612,7 +612,7 @@ export default function LessonPage() {
             )}
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-[#111111]">
             {lesson.titre}
           </h1>
         </div>
@@ -653,15 +653,15 @@ export default function LessonPage() {
                     className={cn(
                       "flex items-center gap-3 p-2 rounded-lg text-sm transition-colors",
                       l.id === lesson.id
-                        ? "bg-blue-50 text-blue-900 border border-blue-200"
-                        : "text-gray-600 hover:bg-gray-50"
+                        ? "bg-[#E0EBF5] text-[#6B8CAE] border border-[#6B8CAE]/30"
+                        : "text-[#777777] hover:bg-[#FAF8F5]"
                     )}
                   >
                     <div className={cn(
                       "w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold",
                       l.id === lesson.id
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-200 text-gray-600"
+                        ? "bg-[#6B8CAE] text-white"
+                        : "bg-[#EEEEEE] text-[#777777]"
                     )}>
                       {index + 1}
                     </div>
@@ -676,14 +676,14 @@ export default function LessonPage() {
       </div>
 
       {/* Bottom bar */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4">
+      <div className="sticky bottom-0 bg-white border-t border-[#EEEEEE] p-4">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-4">
             {!isCompleted && (lesson.type === 'texte' || lesson.type === 'video' || lesson.type === 'script' || lesson.type === 'pdf' || lesson.type === 'exercice') && (
               <Button
                 onClick={() => handleComplete()}
                 disabled={completeLesson.isPending}
-                className="bg-green-600 hover:bg-green-700"
+                className="bg-[#10B981] hover:bg-green-700"
               >
                 <Check className="w-4 h-4 mr-2" />
                 Marquer comme terminé

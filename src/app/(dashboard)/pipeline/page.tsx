@@ -46,8 +46,8 @@ function DraggableLeadCard({ lead, onLeadClick }: { lead: Lead; onLeadClick?: (l
       style={style}
       {...attributes}
       className={cn(
-        "bg-white p-3 rounded-xl border border-gray-100 shadow-card",
-        "hover:shadow-md hover:border-gray-200 transition-all duration-150",
+        "bg-white p-3 rounded-xl border border-[#F4F0EB] shadow-card",
+        "hover:shadow-md hover:border-[#EEEEEE] transition-all duration-150",
         "relative group/drag card-interactive",
         isDragging && "opacity-70 shadow-none",
         lead.score_chaud >= 80 && "glow-hot"
@@ -58,7 +58,7 @@ function DraggableLeadCard({ lead, onLeadClick }: { lead: Lead; onLeadClick?: (l
         {...listeners}
         className="absolute top-0 left-0 bottom-0 w-6 cursor-grab active:cursor-grabbing flex items-center justify-center opacity-0 group-hover/drag:opacity-100 transition-opacity"
       >
-        <GripVertical className="w-4 h-4 text-gray-300" />
+        <GripVertical className="w-4 h-4 text-[#999999]" />
       </div>
 
       {/* Clic sur la card = ouvrir le panel */}
@@ -88,7 +88,7 @@ function LeadCard({ lead }: { lead: Lead }) {
           />
           <Link
             href={`/lead/${lead.id}`}
-            className="font-medium text-gray-900 text-sm truncate hover:text-primary transition"
+            className="font-medium text-[#111111] text-sm truncate hover:text-primary transition"
             onClick={e => e.stopPropagation()}
           >
             {lead.prenom} {lead.nom}
@@ -97,8 +97,8 @@ function LeadCard({ lead }: { lead: Lead }) {
         <div className="shrink-0">
           <div className={cn(
             "w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-semibold",
-            lead.score_chaud >= 70 ? "bg-green-100 text-green-700" :
-            lead.score_chaud >= 40 ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"
+            lead.score_chaud >= 70 ? "bg-[#D1FAE5] text-[#10B981]" :
+            lead.score_chaud >= 40 ? "bg-[#FFF3E8] text-[#FF8C42]" : "bg-[#F4F0EB] text-[#777777]"
           )}>
             {lead.score_chaud}
           </div>
@@ -107,23 +107,23 @@ function LeadCard({ lead }: { lead: Lead }) {
 
       {/* Formation */}
       {lead.formation_principale && (
-        <p className="text-xs text-gray-500 truncate pl-5">
+        <p className="text-xs text-[#777777] truncate pl-5">
           {lead.formation_principale.nom}
         </p>
       )}
 
       {/* Footer: source + jours + quick actions */}
       <div className="flex items-center justify-between text-xs pl-5">
-        <div className="flex items-center gap-2 text-gray-400">
+        <div className="flex items-center gap-2 text-[#999999]">
           <span className="capitalize">{lead.source.replace('_', ' ')}</span>
-          <span className="text-gray-300">·</span>
+          <span className="text-[#999999]">·</span>
           <span>{daysSinceCreated}j</span>
         </div>
         <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition">
           {lead.telephone && (
             <a
               href={`tel:${lead.telephone}`}
-              className="p-1 rounded hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
+              className="p-1 rounded hover:bg-[#E0EBF5] text-[#999999] hover:text-[#6B8CAE] transition"
               onClick={e => e.stopPropagation()}
             >
               <Phone className="w-3 h-3" />
@@ -132,7 +132,7 @@ function LeadCard({ lead }: { lead: Lead }) {
           {lead.email && (
             <a
               href={`mailto:${lead.email}`}
-              className="p-1 rounded hover:bg-blue-50 text-gray-400 hover:text-blue-500 transition"
+              className="p-1 rounded hover:bg-[#E0EBF5] text-[#999999] hover:text-[#6B8CAE] transition"
               onClick={e => e.stopPropagation()}
             >
               <Mail className="w-3 h-3" />
@@ -164,23 +164,23 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
       ref={setNodeRef}
       className={cn(
         "flex-shrink-0 w-[280px] flex flex-col transition-all duration-200 rounded-xl",
-        isActive && "ring-2 ring-primary ring-offset-2 bg-blue-50/50"
+        isActive && "ring-2 ring-primary ring-offset-2 bg-[#E0EBF5]/50"
       )}
     >
       {/* Header */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-card p-3.5 mb-2">
+      <div className="bg-white rounded-xl border border-[#F4F0EB] shadow-card p-3.5 mb-2">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div
               className="w-2.5 h-2.5 rounded-full"
               style={{ backgroundColor: statutConfig.color }}
             />
-            <h3 className="font-semibold text-gray-900 text-sm">{phase.label}</h3>
+            <h3 className="font-semibold text-[#111111] text-sm">{phase.label}</h3>
           </div>
           <Badge variant="default" size="sm" className="count-up tabular-nums">{leads.length}</Badge>
         </div>
         {totalValue > 0 && (
-          <div className="flex items-center gap-1 text-xs text-gray-400">
+          <div className="flex items-center gap-1 text-xs text-[#999999]">
             <Euro className="w-3 h-3" />
             {formatEuro(totalValue)}
           </div>
@@ -202,11 +202,11 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
         </SortableContext>
         {leads.length === 0 && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
-            <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-2">
-              <Users className="w-5 h-5 text-gray-300" />
+            <div className="w-10 h-10 rounded-xl bg-[#FAF8F5] flex items-center justify-center mb-2">
+              <Users className="w-5 h-5 text-[#999999]" />
             </div>
-            <p className="text-xs text-gray-500 font-medium mb-0.5">Colonne vide</p>
-            <p className="text-[11px] text-gray-400">Glissez un lead ici</p>
+            <p className="text-xs text-[#777777] font-medium mb-0.5">Colonne vide</p>
+            <p className="text-[11px] text-[#999999]">Glissez un lead ici</p>
           </div>
         )}
       </div>
@@ -218,7 +218,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
 function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: { id: string; label: string; statuts: StatutLead[] }, leads: Lead[], totalValue: number }> }) {
   return (
     <div className="md:hidden space-y-4">
-      <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+      <div className="flex items-center gap-2 text-sm text-[#777777] mb-4">
         <List className="w-4 h-4" />
         <span>Vue liste mobile</span>
       </div>
@@ -231,12 +231,12 @@ function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: { id: s
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ backgroundColor: STATUTS_LEAD[phase.statuts[0]]?.color }}
                 />
-                <h3 className="font-semibold text-gray-900 text-sm">{phase.label}</h3>
+                <h3 className="font-semibold text-[#111111] text-sm">{phase.label}</h3>
                 <Badge variant="default" size="sm">{leads.length}</Badge>
               </div>
               <div className="space-y-2 pl-4">
                 {leads.map(lead => (
-                  <div key={lead.id} className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
+                  <div key={lead.id} className="bg-white p-3 rounded-lg border border-[#F4F0EB] shadow-sm">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <Avatar
@@ -246,7 +246,7 @@ function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: { id: s
                         />
                         <Link
                           href={`/lead/${lead.id}`}
-                          className="font-medium text-gray-900 text-sm hover:text-primary transition"
+                          className="font-medium text-[#111111] text-sm hover:text-primary transition"
                         >
                           {lead.prenom} {lead.nom}
                         </Link>
@@ -259,22 +259,22 @@ function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: { id: s
                       </Badge>
                     </div>
                     {lead.formation_principale && (
-                      <p className="text-xs text-gray-500 mb-2">{lead.formation_principale.nom}</p>
+                      <p className="text-xs text-[#777777] mb-2">{lead.formation_principale.nom}</p>
                     )}
                     <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2 text-gray-400">
+                      <div className="flex items-center gap-2 text-[#999999]">
                         <span className="capitalize">{lead.source.replace('_', ' ')}</span>
                         <span>·</span>
                         <span>{daysBetween(lead.created_at, new Date())}j</span>
                       </div>
                       <div className="flex items-center gap-1">
                         {lead.telephone && (
-                          <a href={`tel:${lead.telephone}`} className="p-1 text-gray-400 hover:text-blue-500">
+                          <a href={`tel:${lead.telephone}`} className="p-1 text-[#999999] hover:text-[#6B8CAE]">
                             <Phone className="w-3 h-3" />
                           </a>
                         )}
                         {lead.email && (
-                          <a href={`mailto:${lead.email}`} className="p-1 text-gray-400 hover:text-blue-500">
+                          <a href={`mailto:${lead.email}`} className="p-1 text-[#999999] hover:text-[#6B8CAE]">
                             <Mail className="w-3 h-3" />
                           </a>
                         )}
@@ -319,7 +319,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
             className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 overflow-y-auto"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between z-10">
+            <div className="sticky top-0 bg-white border-b border-[#F4F0EB] p-4 flex items-center justify-between z-10">
               <div className="flex items-center gap-3">
                 <Avatar
                   name={`${lead.prenom} ${lead.nom}`}
@@ -334,19 +334,19 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                     >
                       {statutConfig?.label || lead.statut}
                     </span>
-                    <span className="text-xs text-gray-400">{daysSinceCreated}j</span>
+                    <span className="text-xs text-[#999999]">{daysSinceCreated}j</span>
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <Link
                   href={`/lead/${lead.id}`}
-                  className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-primary transition"
+                  className="p-2 rounded-lg hover:bg-[#F4F0EB] text-[#777777] hover:text-primary transition"
                   title="Ouvrir la fiche complète"
                 >
                   <ExternalLink className="w-4 h-4" />
                 </Link>
-                <button onClick={onClose} className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 transition">
+                <button onClick={onClose} className="p-2 rounded-lg hover:bg-[#F4F0EB] text-[#777777] transition">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -359,7 +359,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                 {lead.telephone && (
                   <a
                     href={`tel:${lead.telephone}`}
-                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition text-sm font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-[#ECFDF5] text-[#10B981] rounded-lg hover:bg-[#D1FAE5] transition text-sm font-medium"
                   >
                     <Phone className="w-4 h-4" />
                     Appeler
@@ -368,7 +368,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                 {lead.email && (
                   <a
                     href={`mailto:${lead.email}`}
-                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition text-sm font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-[#E0EBF5] text-[#6B8CAE] rounded-lg hover:bg-[#E0EBF5] transition text-sm font-medium"
                   >
                     <Mail className="w-4 h-4" />
                     Email
@@ -387,38 +387,38 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
               </div>
 
               {/* Infos clés */}
-              <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                <h4 className="text-xs font-semibold text-gray-500 uppercase">Informations</h4>
+              <div className="bg-[#FAF8F5] rounded-lg p-3 space-y-2">
+                <h4 className="text-xs font-semibold text-[#777777] uppercase">Informations</h4>
                 {lead.email && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Email</span>
-                    <span className="text-gray-900 font-medium">{lead.email}</span>
+                    <span className="text-[#777777]">Email</span>
+                    <span className="text-[#111111] font-medium">{lead.email}</span>
                   </div>
                 )}
                 {lead.telephone && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Téléphone</span>
-                    <span className="text-gray-900 font-medium">{lead.telephone}</span>
+                    <span className="text-[#777777]">Téléphone</span>
+                    <span className="text-[#111111] font-medium">{lead.telephone}</span>
                   </div>
                 )}
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Source</span>
-                  <span className="text-gray-900 font-medium capitalize">{lead.source.replace('_', ' ')}</span>
+                  <span className="text-[#777777]">Source</span>
+                  <span className="text-[#111111] font-medium capitalize">{lead.source.replace('_', ' ')}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Score</span>
+                  <span className="text-[#777777]">Score</span>
                   <span className={cn(
                     "font-bold",
-                    lead.score_chaud >= 70 ? "text-green-600" :
-                    lead.score_chaud >= 40 ? "text-amber-600" : "text-gray-600"
+                    lead.score_chaud >= 70 ? "text-[#10B981]" :
+                    lead.score_chaud >= 40 ? "text-[#FF8C42]" : "text-[#777777]"
                   )}>
                     {lead.score_chaud}/100
                   </span>
                 </div>
                 {lead.commercial_assigne && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Commercial</span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="text-[#777777]">Commercial</span>
+                    <span className="text-[#111111] font-medium">
                       {lead.commercial_assigne.prenom} {lead.commercial_assigne.nom}
                     </span>
                   </div>
@@ -431,16 +431,16 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                   <h4 className="text-xs font-semibold text-accent uppercase mb-1">Formation intéressée</h4>
                   <p className="text-sm font-medium text-accent">{lead.formation_principale.nom}</p>
                   {lead.formation_principale.prix_ht && (
-                    <p className="text-xs text-gray-500 mt-0.5">{lead.formation_principale.prix_ht}€ HT</p>
+                    <p className="text-xs text-[#777777] mt-0.5">{lead.formation_principale.prix_ht}€ HT</p>
                   )}
                 </div>
               )}
 
               {/* Notes */}
               {lead.notes && (
-                <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
-                  <h4 className="text-xs font-semibold text-amber-700 uppercase mb-1">Notes</h4>
-                  <p className="text-sm text-gray-700">{lead.notes}</p>
+                <div className="bg-[#FFF3E8] border border-amber-100 rounded-lg p-3">
+                  <h4 className="text-xs font-semibold text-[#FF8C42] uppercase mb-1">Notes</h4>
+                  <p className="text-sm text-[#3A3A3A]">{lead.notes}</p>
                 </div>
               )}
 
@@ -491,7 +491,7 @@ function PipelineSkeleton() {
       {/* Kanban columns skeleton */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 min-h-[600px]">
         {[1,2,3,4,5].map(colIndex => (
-          <div key={colIndex} className="bg-gray-50 rounded-xl p-3">
+          <div key={colIndex} className="bg-[#FAF8F5] rounded-xl p-3">
             {/* Column header */}
             <div className="flex items-center justify-between mb-3">
               <Skeleton className="h-4 w-20" />
@@ -502,7 +502,7 @@ function PipelineSkeleton() {
             {/* Cards skeleton */}
             <div className="space-y-2">
               {Array.from({ length: Math.floor(Math.random() * 4) + 1 }).map((_, cardIndex) => (
-                <div key={cardIndex} className="bg-white p-3 rounded-xl border border-gray-100">
+                <div key={cardIndex} className="bg-white p-3 rounded-xl border border-[#F4F0EB]">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Skeleton className="h-5 w-5 rounded-full" />
@@ -634,14 +634,14 @@ export default function PipelinePage() {
         title="Suivi commercial"
         description="Parcours prospect du premier contact à la formation"
       >
-        <div className="flex items-center gap-4 text-sm text-gray-500">
+        <div className="flex items-center gap-4 text-sm text-[#777777]">
           <div className="flex items-center gap-1.5">
             <Users className="w-4 h-4" />
-            <span className="font-medium text-gray-700">{totalLeads}</span> prospects
+            <span className="font-medium text-[#3A3A3A]">{totalLeads}</span> prospects
           </div>
           <div className="flex items-center gap-1.5">
             <TrendingUp className="w-4 h-4" />
-            <span className="font-medium text-gray-700">{formatEuro(totalValue)}</span> CA
+            <span className="font-medium text-[#3A3A3A]">{formatEuro(totalValue)}</span> CA
           </div>
         </div>
       </PageHeader>
@@ -662,7 +662,7 @@ export default function PipelinePage() {
               'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition whitespace-nowrap',
               showMyLeadsOnly
                 ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
             )}
           >
             <UserCheck className="w-4 h-4" />

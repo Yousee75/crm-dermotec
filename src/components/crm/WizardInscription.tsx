@@ -322,7 +322,7 @@ export default function WizardInscription({
                 key={step.id}
                 className={cn(
                   "flex flex-col items-center cursor-pointer transition-colors",
-                  currentStep >= step.id ? "text-blue-600" : "text-slate-400"
+                  currentStep >= step.id ? "text-[#6B8CAE]" : "text-slate-400"
                 )}
                 onClick={() => goToStep(step.id)}
               >
@@ -331,7 +331,7 @@ export default function WizardInscription({
                   currentStep > step.id
                     ? "bg-blue-600 text-white"
                     : currentStep === step.id
-                    ? "bg-blue-100 text-blue-600 border-2 border-blue-600"
+                    ? "bg-[#E0EBF5] text-[#6B8CAE] border-2 border-blue-600"
                     : "bg-slate-100 text-slate-400"
                 )}>
                   {currentStep > step.id ? (
@@ -388,7 +388,7 @@ export default function WizardInscription({
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                           selectedCategory === cat
                             ? 'bg-primary text-white'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
                         }`}
                       >
                         {cat === 'Toutes' ? 'Toutes' : cat.replace('Dermo-', '')}
@@ -427,7 +427,7 @@ export default function WizardInscription({
                                     </Badge>
                                   </div>
                                   {isRecommended && (
-                                    <Badge variant="default" className="bg-yellow-500 text-white">
+                                    <Badge variant="default" className="bg-[#FF8C42] text-white">
                                       <Star className="w-3 h-3 mr-1" />
                                       Recommandé
                                     </Badge>
@@ -454,9 +454,9 @@ export default function WizardInscription({
                                     variant="outline"
                                     className={cn(
                                       "text-xs",
-                                      formation.niveau === 'debutant' && "border-green-200 text-green-700",
+                                      formation.niveau === 'debutant' && "border-[#10B981]/30 text-[#10B981]",
                                       formation.niveau === 'intermediaire' && "border-orange-200 text-orange-700",
-                                      formation.niveau === 'confirme' && "border-red-200 text-red-700"
+                                      formation.niveau === 'confirme' && "border-[#FF2D78]/30 text-[#FF2D78]"
                                     )}
                                   >
                                     {formation.niveau}
@@ -464,8 +464,8 @@ export default function WizardInscription({
                                 </div>
 
                                 {hasPrerequisites && (
-                                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-2">
-                                    <p className="text-xs text-amber-700">
+                                  <div className="bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-lg p-2">
+                                    <p className="text-xs text-[#FF8C42]">
                                       {formation.prerequis || "Prérequis : Hygiène & Salubrité"}
                                     </p>
                                   </div>
@@ -484,12 +484,12 @@ export default function WizardInscription({
             {/* ÉTAPE 2 — Choisir une session */}
             {currentStep === 2 && wizardData.formation && (
               <div className="space-y-6">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h3 className="font-semibold text-blue-900 mb-2">Formation sélectionnée</h3>
+                <div className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg p-4">
+                  <h3 className="font-semibold text-[#6B8CAE] mb-2">Formation sélectionnée</h3>
                   <div className="flex items-center gap-4">
                     <span className="font-medium">{wizardData.formation.nom}</span>
                     <Badge variant="secondary">{wizardData.formation.categorie}</Badge>
-                    <span className="text-sm text-blue-700">{wizardData.formation.prix_ht}€ HT</span>
+                    <span className="text-sm text-[#6B8CAE]">{wizardData.formation.prix_ht}€ HT</span>
                   </div>
                 </div>
 
@@ -522,7 +522,7 @@ export default function WizardInscription({
                                 <div className="flex flex-col lg:flex-row justify-between gap-4">
                                   <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-3">
-                                      <Calendar className="w-5 h-5 text-blue-600" />
+                                      <Calendar className="w-5 h-5 text-[#6B8CAE]" />
                                       <div>
                                         <p className="font-semibold">
                                           {dateDebut.toLocaleDateString('fr-FR', {
@@ -581,7 +581,7 @@ export default function WizardInscription({
                                     <div className="w-full lg:w-32">
                                       <div className="bg-slate-200 rounded-full h-2">
                                         <div
-                                          className="bg-green-500 h-2 rounded-full transition-all"
+                                          className="bg-[#10B981] h-2 rounded-full transition-all"
                                           style={{
                                             width: `${Math.max(10, (placesRestantes / (session.places_max || 12)) * 100)}%`
                                           }}
@@ -630,18 +630,18 @@ export default function WizardInscription({
             {/* ÉTAPE 3 — Financement */}
             {currentStep === 3 && wizardData.formation && wizardData.session && (
               <div className="space-y-6">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h3 className="font-semibold text-blue-900 mb-2">Récapitulatif</h3>
+                <div className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg p-4">
+                  <h3 className="font-semibold text-[#6B8CAE] mb-2">Récapitulatif</h3>
                   <div className="flex flex-col lg:flex-row justify-between gap-2">
                     <div>
                       <p className="font-medium">{wizardData.formation.nom}</p>
-                      <p className="text-sm text-blue-700">
+                      <p className="text-sm text-[#6B8CAE]">
                         {new Date(wizardData.session.date_debut).toLocaleDateString('fr-FR')}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold text-lg">{wizardData.formation.prix_ht}€ HT</p>
-                      <p className="text-sm text-blue-700">
+                      <p className="text-sm text-[#6B8CAE]">
                         {(wizardData.formation!.prix_ht * 1.2).toFixed(0)}€ TTC
                       </p>
                     </div>
@@ -727,33 +727,33 @@ export default function WizardInscription({
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="bg-green-50 border border-green-200 rounded-lg p-4"
+                          className="bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg p-4"
                         >
-                          <h4 className="font-semibold text-green-900 mb-2">Simulation de prise en charge</h4>
+                          <h4 className="font-semibold text-[#10B981] mb-2">Simulation de prise en charge</h4>
                           <div className="space-y-2 text-sm">
                             <div className="flex justify-between">
                               <span>Montant formation HT :</span>
                               <span className="font-medium">{wizardData.formation.prix_ht}€</span>
                             </div>
-                            <div className="flex justify-between text-green-700">
+                            <div className="flex justify-between text-[#10B981]">
                               <span>Pris en charge :</span>
                               <span className="font-medium">-{financementCalculation.montantPrisEnCharge}€</span>
                             </div>
                             <Separator />
                             <div className="flex justify-between text-lg font-bold">
                               <span>Reste à charge :</span>
-                              <span className={financementCalculation.resteACharge === 0 ? "text-green-600" : "text-slate-900"}>
+                              <span className={financementCalculation.resteACharge === 0 ? "text-[#10B981]" : "text-slate-900"}>
                                 {financementCalculation.resteACharge}€
                               </span>
                             </div>
                             {financementCalculation.resteACharge === 0 && (
-                              <div className="flex items-center gap-2 text-green-600 mt-2">
+                              <div className="flex items-center gap-2 text-[#10B981] mt-2">
                                 <CheckCircle2 className="w-4 h-4" />
                                 <span className="text-sm font-medium">Formation 100% prise en charge !</span>
                               </div>
                             )}
                           </div>
-                          <p className="text-xs text-green-700 mt-2">{financementCalculation.details}</p>
+                          <p className="text-xs text-[#10B981] mt-2">{financementCalculation.details}</p>
                         </motion.div>
                       )}
                     </motion.div>
@@ -807,9 +807,9 @@ export default function WizardInscription({
                         </RadioGroup>
                       </div>
 
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-blue-900 mb-2">Moyens de paiement acceptés</h4>
-                        <div className="flex items-center gap-4 text-sm text-blue-700">
+                      <div className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg p-4">
+                        <h4 className="font-semibold text-[#6B8CAE] mb-2">Moyens de paiement acceptés</h4>
+                        <div className="flex items-center gap-4 text-sm text-[#6B8CAE]">
                           <span className="flex items-center gap-1">
                             <CreditCard className="w-4 h-4" />
                             Carte bancaire
@@ -918,7 +918,7 @@ export default function WizardInscription({
                           </div>
                           {wizardData.financement.mode === 'organisme' && financementCalculation.montantPrisEnCharge > 0 && (
                             <>
-                              <div className="flex justify-between text-green-600">
+                              <div className="flex justify-between text-[#10B981]">
                                 <span>Pris en charge :</span>
                                 <span>-{financementCalculation.montantPrisEnCharge}€</span>
                               </div>
@@ -993,7 +993,7 @@ export default function WizardInscription({
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                    className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
+                    className="w-24 h-24 bg-[#10B981] rounded-full flex items-center justify-center mx-auto mb-4"
                   >
                     <Check className="w-12 h-12 text-white" />
                   </motion.div>
@@ -1002,7 +1002,7 @@ export default function WizardInscription({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="absolute -top-2 -right-2 text-yellow-500"
+                    className="absolute -top-2 -right-2 text-[#FF8C42]"
                   >
                     <Star className="w-8 h-8" />
                   </motion.div>
@@ -1020,23 +1020,23 @@ export default function WizardInscription({
                 <Card className="text-left max-w-md mx-auto">
                   <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-green-500" />
+                      <CheckCircle2 className="w-5 h-5 text-[#10B981]" />
                       Ce qui a été créé
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
-                      <Check className="w-4 h-4 text-green-500" />
+                      <Check className="w-4 h-4 text-[#10B981]" />
                       <span>Inscription créée</span>
                     </div>
                     {wizardData.financement.mode === 'organisme' && (
                       <div className="flex items-center gap-2 text-sm">
-                        <Check className="w-4 h-4 text-green-500" />
+                        <Check className="w-4 h-4 text-[#10B981]" />
                         <span>Financement initié</span>
                       </div>
                     )}
                     <div className="flex items-center gap-2 text-sm">
-                      <Check className="w-4 h-4 text-green-500" />
+                      <Check className="w-4 h-4 text-[#10B981]" />
                       <span>Activité loguée</span>
                     </div>
                   </CardContent>

@@ -182,42 +182,42 @@ function SessionDuJour({ session }: { session: Session }) {
           <h4 className="font-semibold text-accent text-lg">
             {session.formation?.nom || 'Formation'}
           </h4>
-          <p className="text-sm text-gray-500 flex items-center gap-2 mt-1">
+          <p className="text-sm text-[#777777] flex items-center gap-2 mt-1">
             <Clock className="w-4 h-4" />
             {session.horaire_debut} — {session.horaire_fin}
-            <span className="text-gray-300">|</span>
+            <span className="text-[#999999]">|</span>
             {session.salle || 'Salle 1'}
           </p>
         </div>
 
         {/* Stagiaires inscrits */}
         <div>
-          <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+          <p className="text-xs font-medium text-[#777777] uppercase tracking-wide mb-2">
             Stagiaires ({inscriptions.length}/{session.places_max})
           </p>
           {inscriptions.length > 0 ? (
             <div className="flex flex-wrap gap-3">
               {inscriptions.map((ins: Inscription) => (
-                <div key={ins.id} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                <div key={ins.id} className="flex items-center gap-2 bg-[#FAF8F5] rounded-lg px-3 py-2">
                   <Avatar
                     name={`${ins.lead?.prenom || ''} ${ins.lead?.nom || ''}`}
                     src={ins.lead?.photo_url}
                     size="sm"
                   />
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-[#3A3A3A]">
                     {ins.lead?.prenom} {ins.lead?.nom}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-400 italic">Aucun stagiaire inscrit</p>
+            <p className="text-sm text-[#999999] italic">Aucun stagiaire inscrit</p>
           )}
         </div>
 
         {/* Checklist rapide */}
         <div>
-          <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+          <p className="text-xs font-medium text-[#777777] uppercase tracking-wide mb-2">
             Checklist
           </p>
           <div className="flex flex-wrap gap-2">
@@ -250,11 +250,11 @@ function ChecklistItem({ label, checked }: { label: string; checked: boolean }) 
     <span className={`
       inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
       ${checked
-        ? 'bg-green-50 text-green-700'
-        : 'bg-amber-50 text-amber-700'
+        ? 'bg-[#ECFDF5] text-[#10B981]'
+        : 'bg-[#FFF3E8] text-[#FF8C42]'
       }
     `}>
-      <CheckCircle2 className={`w-3.5 h-3.5 ${checked ? 'text-green-500' : 'text-amber-400'}`} />
+      <CheckCircle2 className={`w-3.5 h-3.5 ${checked ? 'text-[#10B981]' : 'text-[#FF8C42]'}`} />
       {label}
     </span>
   )
@@ -286,7 +286,7 @@ function SessionWeekCard({ session }: { session: Session }) {
       <CardContent className="space-y-3">
         {/* Formation */}
         <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wide">
+          <p className="text-xs text-[#999999] uppercase tracking-wide">
             {session.formation?.categorie || 'Formation'}
           </p>
           <h4 className="font-semibold text-accent mt-0.5 pr-20">
@@ -295,7 +295,7 @@ function SessionWeekCard({ session }: { session: Session }) {
         </div>
 
         {/* Dates */}
-        <div className="flex items-center gap-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-sm text-[#777777]">
           <Calendar className="w-4 h-4 text-primary" />
           {formatDateFr(session.date_debut)}
           {session.date_fin !== session.date_debut && (
@@ -304,7 +304,7 @@ function SessionWeekCard({ session }: { session: Session }) {
         </div>
 
         {/* Places */}
-        <div className="flex items-center gap-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-sm text-[#777777]">
           <Users className="w-4 h-4 text-primary" />
           {inscriptions.length}/{session.places_max} inscrits
           {inscriptions.length >= session.places_max && (
@@ -388,34 +388,34 @@ function StagiairesRecentsTable({ sessions }: { sessions: Session[] }) {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-gray-100">
-            <th className="text-left py-3 px-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Stagiaire</th>
-            <th className="text-left py-3 px-3 text-xs font-medium text-gray-500 uppercase tracking-wide hidden md:table-cell">Formation</th>
-            <th className="text-left py-3 px-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Date</th>
-            <th className="text-center py-3 px-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Presence</th>
-            <th className="text-center py-3 px-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Satisfaction</th>
+          <tr className="border-b border-[#F4F0EB]">
+            <th className="text-left py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide">Stagiaire</th>
+            <th className="text-left py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide hidden md:table-cell">Formation</th>
+            <th className="text-left py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide">Date</th>
+            <th className="text-center py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide">Presence</th>
+            <th className="text-center py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide">Satisfaction</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-50">
+        <tbody className="divide-y divide-[#FAF8F5]">
           {stagiaires.map((s) => (
-            <tr key={s.id} className="hover:bg-gray-50/50 transition-colors">
+            <tr key={s.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
               <td className="py-3 px-3">
                 <div className="flex items-center gap-2">
                   <Avatar name={`${s.prenom} ${s.nom}`} size="xs" />
-                  <span className="font-medium text-gray-700">{s.prenom} {s.nom}</span>
+                  <span className="font-medium text-[#3A3A3A]">{s.prenom} {s.nom}</span>
                 </div>
               </td>
-              <td className="py-3 px-3 text-gray-500 hidden md:table-cell max-w-[200px] truncate">
+              <td className="py-3 px-3 text-[#777777] hidden md:table-cell max-w-[200px] truncate">
                 {s.formation}
               </td>
-              <td className="py-3 px-3 text-gray-500">{formatDateFr(s.date)}</td>
+              <td className="py-3 px-3 text-[#777777]">{formatDateFr(s.date)}</td>
               <td className="py-3 px-3 text-center">
                 {s.presence !== null ? (
                   <Badge variant={s.presence >= 80 ? 'success' : s.presence >= 50 ? 'warning' : 'error'} size="sm">
                     {s.presence}%
                   </Badge>
                 ) : (
-                  <span className="text-gray-300">—</span>
+                  <span className="text-[#999999]">—</span>
                 )}
               </td>
               <td className="py-3 px-3 text-center">
@@ -426,14 +426,14 @@ function StagiairesRecentsTable({ sessions }: { sessions: Session[] }) {
                         key={n}
                         className={`w-3.5 h-3.5 ${
                           n <= (s.satisfaction || 0)
-                            ? 'text-amber-400 fill-amber-400'
-                            : 'text-gray-200'
+                            ? 'text-[#FF8C42] fill-amber-400'
+                            : 'text-[#EEEEEE]'
                         }`}
                       />
                     ))}
                   </div>
                 ) : (
-                  <span className="text-gray-300">—</span>
+                  <span className="text-[#999999]">—</span>
                 )}
               </td>
             </tr>
@@ -583,15 +583,15 @@ export default function FormatricePage() {
       {sessionDuJour ? (
         <SessionDuJour session={sessionDuJour} />
       ) : (
-        <Card className="border-dashed border-gray-200">
+        <Card className="border-dashed border-[#EEEEEE]">
           <CardContent>
             <div className="flex items-center gap-3 py-2">
-              <div className="p-2.5 rounded-xl bg-gray-50">
-                <Calendar className="w-5 h-5 text-gray-400" />
+              <div className="p-2.5 rounded-xl bg-[#FAF8F5]">
+                <Calendar className="w-5 h-5 text-[#999999]" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-600">Pas de session aujourd'hui</p>
-                <p className="text-xs text-gray-400">Profitez-en pour preparer vos prochaines formations</p>
+                <p className="text-sm font-medium text-[#777777]">Pas de session aujourd'hui</p>
+                <p className="text-xs text-[#999999]">Profitez-en pour preparer vos prochaines formations</p>
               </div>
             </div>
           </CardContent>

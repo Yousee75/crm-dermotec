@@ -97,8 +97,8 @@ export default function PlanTab() {
                 <Crown className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Plan {PLAN_ACTUEL.nom}</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="text-lg font-semibold text-[#111111]">Plan {PLAN_ACTUEL.nom}</h3>
+                <p className="text-sm text-[#777777]">
                   {PLAN_ACTUEL.prix_mensuel}€/mois •
                   Prochaine facturation le {new Date(PLAN_ACTUEL.prochaine_facturation).toLocaleDateString('fr-FR')}
                 </p>
@@ -115,7 +115,7 @@ export default function PlanTab() {
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Utilisateurs</span>
+              <span className="text-[#777777]">Utilisateurs</span>
               <span className="font-medium">{PLAN_ACTUEL.utilisateurs_actuels}/{PLAN_ACTUEL.utilisateurs_max}</span>
             </div>
             <ProgressBar
@@ -126,7 +126,7 @@ export default function PlanTab() {
 
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Sessions</span>
+              <span className="text-[#777777]">Sessions</span>
               <span className="font-medium">{PLAN_ACTUEL.sessions_utilisees}/{PLAN_ACTUEL.sessions_max}</span>
             </div>
             <ProgressBar
@@ -137,7 +137,7 @@ export default function PlanTab() {
 
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Stockage</span>
+              <span className="text-[#777777]">Stockage</span>
               <span className="font-medium">{PLAN_ACTUEL.storage_utilise}/{PLAN_ACTUEL.storage_max} GB</span>
             </div>
             <ProgressBar
@@ -150,11 +150,11 @@ export default function PlanTab() {
 
       {/* Toggle facturation */}
       <div className="flex justify-center">
-        <div className="bg-gray-100 rounded-lg p-1 flex">
-          <button className="px-4 py-2 text-sm font-medium rounded-md text-gray-500">
+        <div className="bg-[#F4F0EB] rounded-lg p-1 flex">
+          <button className="px-4 py-2 text-sm font-medium rounded-md text-[#777777]">
             Mensuel
           </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-md bg-white text-gray-900 shadow-sm">
+          <button className="px-4 py-2 text-sm font-medium rounded-md bg-white text-[#111111] shadow-sm">
             Annuel
             <Badge variant="success" size="xs" className="ml-2">-17%</Badge>
           </button>
@@ -184,14 +184,14 @@ export default function PlanTab() {
               )}
 
               <div className="text-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{plan.nom}</h3>
-                <p className="text-sm text-gray-600 mb-4">{plan.description}</p>
+                <h3 className="text-xl font-semibold text-[#111111] mb-2">{plan.nom}</h3>
+                <p className="text-sm text-[#777777] mb-4">{plan.description}</p>
                 <div className="space-y-1">
-                  <div className="text-3xl font-bold text-gray-900">
+                  <div className="text-3xl font-bold text-[#111111]">
                     {plan.prix_annuel / 12}€
-                    <span className="text-lg font-normal text-gray-500">/mois</span>
+                    <span className="text-lg font-normal text-[#777777]">/mois</span>
                   </div>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-[#777777]">
                     Facturé {plan.prix_annuel}€/an • Économie de {plan.prix_mensuel * 12 - plan.prix_annuel}€
                   </p>
                 </div>
@@ -201,11 +201,11 @@ export default function PlanTab() {
                 {plan.features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
                     {feature.inclus ? (
-                      <Check className="w-4 h-4 text-green-600 shrink-0" />
+                      <Check className="w-4 h-4 text-[#10B981] shrink-0" />
                     ) : (
-                      <X className="w-4 h-4 text-gray-400 shrink-0" />
+                      <X className="w-4 h-4 text-[#999999] shrink-0" />
                     )}
-                    <span className={`text-sm ${feature.inclus ? 'text-gray-900' : 'text-gray-500'}`}>
+                    <span className={`text-sm ${feature.inclus ? 'text-[#111111]' : 'text-[#777777]'}`}>
                       {feature.nom}
                     </span>
                   </div>
@@ -226,47 +226,47 @@ export default function PlanTab() {
 
       {/* Fonctionnalités détaillées */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">Comparaison détaillée</h3>
+        <h3 className="text-lg font-semibold text-[#111111] mb-6">Comparaison détaillée</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-medium text-gray-900">Fonctionnalité</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-900">Starter</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-900">Pro</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-900">Enterprise</th>
+              <tr className="border-b border-[#EEEEEE]">
+                <th className="text-left py-3 px-4 font-medium text-[#111111]">Fonctionnalité</th>
+                <th className="text-center py-3 px-4 font-medium text-[#111111]">Starter</th>
+                <th className="text-center py-3 px-4 font-medium text-[#111111]">Pro</th>
+                <th className="text-center py-3 px-4 font-medium text-[#111111]">Enterprise</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-[#F4F0EB]">
               <tr>
-                <td className="py-3 px-4 text-sm font-medium text-gray-900">Utilisateurs</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">2</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">5</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">Illimités</td>
+                <td className="py-3 px-4 text-sm font-medium text-[#111111]">Utilisateurs</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">2</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">5</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">Illimités</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm font-medium text-gray-900">Sessions/mois</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">20</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">50</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">Illimitées</td>
+                <td className="py-3 px-4 text-sm font-medium text-[#111111]">Sessions/mois</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">20</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">50</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">Illimitées</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm font-medium text-gray-900">Stockage</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">5 GB</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">10 GB</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">50 GB</td>
+                <td className="py-3 px-4 text-sm font-medium text-[#111111]">Stockage</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">5 GB</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">10 GB</td>
+                <td className="py-3 px-4 text-center text-sm text-[#777777]">50 GB</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm font-medium text-gray-900">IA Coaching</td>
-                <td className="py-3 px-4 text-center"><X className="w-4 h-4 text-gray-400 mx-auto" /></td>
-                <td className="py-3 px-4 text-center"><Check className="w-4 h-4 text-green-600 mx-auto" /></td>
-                <td className="py-3 px-4 text-center"><Check className="w-4 h-4 text-green-600 mx-auto" /></td>
+                <td className="py-3 px-4 text-sm font-medium text-[#111111]">IA Coaching</td>
+                <td className="py-3 px-4 text-center"><X className="w-4 h-4 text-[#999999] mx-auto" /></td>
+                <td className="py-3 px-4 text-center"><Check className="w-4 h-4 text-[#10B981] mx-auto" /></td>
+                <td className="py-3 px-4 text-center"><Check className="w-4 h-4 text-[#10B981] mx-auto" /></td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm font-medium text-gray-900">API accès</td>
-                <td className="py-3 px-4 text-center"><X className="w-4 h-4 text-gray-400 mx-auto" /></td>
-                <td className="py-3 px-4 text-center"><X className="w-4 h-4 text-gray-400 mx-auto" /></td>
-                <td className="py-3 px-4 text-center"><Check className="w-4 h-4 text-green-600 mx-auto" /></td>
+                <td className="py-3 px-4 text-sm font-medium text-[#111111]">API accès</td>
+                <td className="py-3 px-4 text-center"><X className="w-4 h-4 text-[#999999] mx-auto" /></td>
+                <td className="py-3 px-4 text-center"><X className="w-4 h-4 text-[#999999] mx-auto" /></td>
+                <td className="py-3 px-4 text-center"><Check className="w-4 h-4 text-[#10B981] mx-auto" /></td>
               </tr>
             </tbody>
           </table>
@@ -277,12 +277,12 @@ export default function PlanTab() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-green-600" />
+            <div className="w-10 h-10 bg-[#D1FAE5] rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 text-[#10B981]" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Support inclus</h3>
+            <h3 className="text-lg font-semibold text-[#111111]">Support inclus</h3>
           </div>
-          <ul className="space-y-2 text-sm text-gray-600">
+          <ul className="space-y-2 text-sm text-[#777777]">
             <li>• Documentation complète</li>
             <li>• Support par email (réponse sous 24h)</li>
             <li>• Webinaires de formation mensuels</li>
@@ -292,12 +292,12 @@ export default function PlanTab() {
 
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center">
+              <Zap className="w-5 h-5 text-[#6B8CAE]" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Besoin d'aide ?</h3>
+            <h3 className="text-lg font-semibold text-[#111111]">Besoin d'aide ?</h3>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-[#777777] mb-4">
             Notre équipe est là pour vous accompagner dans votre choix.
           </p>
           <Button variant="outline" className="w-full">

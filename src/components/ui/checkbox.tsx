@@ -13,7 +13,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       type="checkbox"
       ref={ref}
       className={cn(
-        'h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer',
+        'h-4 w-4 rounded border-[#EEEEEE] text-primary focus:ring-primary cursor-pointer',
         className
       )}
       onChange={(e) => onCheckedChange?.(e.target.checked)}

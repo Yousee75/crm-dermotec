@@ -63,10 +63,10 @@ const DEFAULT_VALUES: CreateLeadFormData = {
 }
 
 // --- Styles partagés ---
-const inputClass = 'w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors'
+const inputClass = 'w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors'
 const selectClass = `${inputClass} bg-white`
-const labelClass = 'block text-xs font-medium text-gray-600 mb-1'
-const errorClass = 'text-xs text-red-500 mt-0.5'
+const labelClass = 'block text-xs font-medium text-[#777777] mb-1'
+const errorClass = 'text-xs text-[#FF2D78] mt-0.5'
 
 interface CreateLeadDialogProps {
   open: boolean
@@ -286,12 +286,12 @@ export function CreateLeadDialog({ open, onClose }: CreateLeadDialogProps) {
         </div>
 
         <DialogFooter>
-          <label className="flex items-center gap-2 mr-auto text-xs text-gray-500 cursor-pointer select-none">
+          <label className="flex items-center gap-2 mr-auto text-xs text-[#777777] cursor-pointer select-none">
             <input
               type="checkbox"
               checked={keepOpen}
               onChange={(e) => setKeepOpen(e.target.checked)}
-              className="rounded border-gray-300 text-primary focus:ring-primary/30"
+              className="rounded border-[#EEEEEE] text-primary focus:ring-primary/30"
             />
             Créer et ajouter un autre
           </label>

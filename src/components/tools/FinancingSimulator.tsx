@@ -41,11 +41,11 @@ export function FinancingSimulator() {
     <div className="space-y-4">
       {/* Formation */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Formation</label>
+        <label className="block text-sm font-medium text-[#3A3A3A] mb-1">Formation</label>
         <select
           value={formationIdx}
           onChange={e => setFormationIdx(Number(e.target.value))}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
+          className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
         >
           {FORMATIONS.map((f, i) => (
             <option key={f.nom} value={i}>{f.nom} — {f.prix}€ HT</option>
@@ -55,11 +55,11 @@ export function FinancingSimulator() {
 
       {/* Financement */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Type de financement</label>
+        <label className="block text-sm font-medium text-[#3A3A3A] mb-1">Type de financement</label>
         <select
           value={financementId}
           onChange={e => setFinancementId(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
+          className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
         >
           {FINANCEMENTS.map(f => (
             <option key={f.id} value={f.id}>{f.label}</option>
@@ -70,7 +70,7 @@ export function FinancingSimulator() {
       {/* Echelonnement */}
       {resteACharge > 0 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-[#3A3A3A] mb-1">
             Échelonnement ({echeances}x)
           </label>
           <input
@@ -81,7 +81,7 @@ export function FinancingSimulator() {
             onChange={e => setEcheances(Number(e.target.value))}
             className="w-full accent-primary"
           />
-          <div className="flex justify-between text-xs text-gray-400">
+          <div className="flex justify-between text-xs text-[#999999]">
             <span>1x</span><span>2x</span><span>3x</span><span>4x</span>
           </div>
         </div>
@@ -96,7 +96,7 @@ export function FinancingSimulator() {
         {financement.prise > 0 && (
           <div className="flex justify-between text-sm">
             <span className="text-white/70">Prise en charge ({financement.prise}%)</span>
-            <span className="font-mono text-green-400">-{priseEnCharge.toFixed(0)}€</span>
+            <span className="font-mono text-[#10B981]">-{priseEnCharge.toFixed(0)}€</span>
           </div>
         )}
         <div className="border-t border-white/20 pt-2 flex justify-between">

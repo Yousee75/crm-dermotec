@@ -60,10 +60,10 @@ export function QuickNotes() {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-900">Notes rapides</h3>
+        <h3 className="text-lg font-medium text-[#111111]">Notes rapides</h3>
         <button
           onClick={() => setShowClearConfirm(true)}
-          className="inline-flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+          className="inline-flex items-center gap-2 px-3 py-2 text-sm text-[#777777] hover:text-[#FF2D78] hover:bg-[#FFE0EF] rounded-md transition-colors"
           disabled={notes.length === 0}
         >
           <Trash2 className="w-4 h-4" />
@@ -76,11 +76,11 @@ export function QuickNotes() {
         value={notes}
         onChange={handleNotesChange}
         placeholder="Prenez vos notes ici... (sauvegarde automatique)"
-        className="w-full h-80 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        className="w-full h-80 p-4 border border-[#EEEEEE] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
       />
 
       {/* Footer Info */}
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-[#777777]">
         <span>
           {notes.length} caractère{notes.length !== 1 ? 's' : ''}
         </span>
@@ -98,16 +98,16 @@ export function QuickNotes() {
       {showClearConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-sm mx-4">
-            <h4 className="text-lg font-medium text-gray-900 mb-2">
+            <h4 className="text-lg font-medium text-[#111111] mb-2">
               Vider les notes ?
             </h4>
-            <p className="text-gray-600 mb-4">
+            <p className="text-[#777777] mb-4">
               Cette action est irréversible. Toutes vos notes seront supprimées.
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowClearConfirm(false)}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                className="px-4 py-2 text-[#777777] hover:bg-[#F4F0EB] rounded-md transition-colors"
               >
                 Annuler
               </button>

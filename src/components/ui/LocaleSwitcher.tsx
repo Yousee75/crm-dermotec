@@ -125,8 +125,8 @@ export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
         className={cn(
           'flex items-center gap-2 rounded-lg transition-all',
           compact
-            ? 'p-2 hover:bg-gray-100'
-            : 'px-3 py-1.5 text-sm border border-gray-200 hover:bg-gray-50'
+            ? 'p-2 hover:bg-[#F4F0EB]'
+            : 'px-3 py-1.5 text-sm border border-[#EEEEEE] hover:bg-[#FAF8F5]'
         )}
         title="Changer de langue"
       >
@@ -139,17 +139,17 @@ export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
             <div className="w-5 h-3.5 rounded-[2px] overflow-hidden shadow-sm ring-1 ring-black/10">
               <CurrentFlag className="w-full h-full" />
             </div>
-            <span className="text-sm text-gray-700 hidden sm:inline">{localeNames[locale]}</span>
+            <span className="text-sm text-[#3A3A3A] hidden sm:inline">{localeNames[locale]}</span>
           </>
         )}
       </button>
 
       {open && (
-        <div className="absolute top-full mt-2 end-0 z-50 bg-white rounded-xl border border-gray-200 shadow-xl py-1.5 min-w-[200px]"
+        <div className="absolute top-full mt-2 end-0 z-50 bg-white rounded-xl border border-[#EEEEEE] shadow-xl py-1.5 min-w-[200px]"
           style={{ animation: 'fadeIn 0.15s ease-out' }}
         >
           <div className="px-3 py-1.5 mb-1">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Langue / Language</p>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#999999]">Langue / Language</p>
           </div>
           {locales.map((l) => {
             const Flag = FLAG_COMPONENTS[l]
@@ -161,17 +161,17 @@ export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
                 className={cn(
                   'w-full flex items-center gap-3 px-3 py-2.5 text-sm transition-colors text-start',
                   isActive
-                    ? 'bg-blue-50/80'
-                    : 'hover:bg-gray-50'
+                    ? 'bg-[#E0EBF5]/80'
+                    : 'hover:bg-[#FAF8F5]'
                 )}
               >
                 <div className="w-6 h-4 rounded-[3px] overflow-hidden shadow-sm ring-1 ring-black/10 flex-shrink-0">
                   <Flag className="w-full h-full" />
                 </div>
-                <span className={cn('flex-1', isActive ? 'text-blue-700 font-medium' : 'text-gray-700')}>
+                <span className={cn('flex-1', isActive ? 'text-[#6B8CAE] font-medium' : 'text-[#3A3A3A]')}>
                   {localeNames[l]}
                 </span>
-                {isActive && <Check className="w-4 h-4 text-blue-500" />}
+                {isActive && <Check className="w-4 h-4 text-[#6B8CAE]" />}
               </button>
             )
           })}

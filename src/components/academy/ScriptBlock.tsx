@@ -42,7 +42,7 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
       {/* Header scénario */}
       <div className="bg-gradient-to-r from-accent to-accent-light px-6 py-4">
         <div className="flex items-center gap-2 mb-2">
@@ -70,26 +70,26 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
               <div className={`flex gap-3 ${isCommerciale ? '' : 'flex-row-reverse'}`}>
                 {/* Avatar */}
                 <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${
-                  isCommerciale ? 'bg-primary/15' : 'bg-gray-100'
+                  isCommerciale ? 'bg-primary/15' : 'bg-[#F4F0EB]'
                 }`}>
                   {isCommerciale ? (
                     <Phone className="w-4 h-4 text-primary" />
                   ) : (
-                    <User className="w-4 h-4 text-gray-400" />
+                    <User className="w-4 h-4 text-[#999999]" />
                   )}
                 </div>
 
                 {/* Bulle */}
                 <div className={`flex-1 max-w-[85%] ${isCommerciale ? '' : 'text-right'}`}>
                   <span className={`text-xs font-semibold mb-1 block ${
-                    isCommerciale ? 'text-primary' : 'text-gray-400'
+                    isCommerciale ? 'text-primary' : 'text-[#999999]'
                   }`}>
                     {etape.role}
                   </span>
                   <div className={`relative inline-block rounded-2xl px-4 py-3 text-[14px] leading-relaxed ${
                     isCommerciale
                       ? 'bg-primary/10 text-accent rounded-tl-sm'
-                      : 'bg-gray-50 text-gray-600 rounded-tr-sm'
+                      : 'bg-[#FAF8F5] text-[#777777] rounded-tr-sm'
                   }`}>
                     <p>{etape.texte}</p>
 
@@ -100,9 +100,9 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
                         className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100 transition w-7 h-7 rounded-full bg-white shadow-md flex items-center justify-center"
                       >
                         {copiedIndex === i ? (
-                          <Check className="w-3 h-3 text-green-500" />
+                          <Check className="w-3 h-3 text-[#10B981]" />
                         ) : (
-                          <Copy className="w-3 h-3 text-gray-400" />
+                          <Copy className="w-3 h-3 text-[#999999]" />
                         )}
                       </button>
                     )}
@@ -112,7 +112,7 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
                   {hasNote && (
                     <button
                       onClick={() => toggleNote(i)}
-                      className="flex items-center gap-1 mt-1.5 text-xs text-amber-600 hover:text-amber-700 transition"
+                      className="flex items-center gap-1 mt-1.5 text-xs text-[#FF8C42] hover:text-[#FF8C42] transition"
                     >
                       <Lightbulb className="w-3 h-3" />
                       Conseil
@@ -120,7 +120,7 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
                     </button>
                   )}
                   {hasNote && isNoteOpen && (
-                    <div className="mt-1.5 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-xs text-amber-800 leading-relaxed">
+                    <div className="mt-1.5 bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-xl px-3 py-2 text-xs text-[#FF8C42] leading-relaxed">
                       💡 {etape.note}
                     </div>
                   )}

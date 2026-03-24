@@ -60,7 +60,7 @@ export function SiretVerifier() {
           onKeyDown={e => e.key === 'Enter' && search()}
           placeholder="Entrez un SIRET (14 chiffres)"
           maxLength={17}
-          className="flex-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+          className="flex-1 border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
         />
         <button
           onClick={search}
@@ -73,18 +73,18 @@ export function SiretVerifier() {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600 flex items-center gap-2">
+        <div className="bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg px-4 py-3 text-sm text-[#FF2D78] flex items-center gap-2">
           <XCircle size={16} />
           {error}
         </div>
       )}
 
       {result && (
-        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+        <div className="bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-accent">{result.nom}</h3>
             <span className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
-              result.actif ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+              result.actif ? 'bg-[#ECFDF5] text-[#10B981]' : 'bg-[#FFE0EF] text-[#FF2D78]'
             }`}>
               {result.actif ? <CheckCircle size={12} /> : <XCircle size={12} />}
               {result.actif ? 'Actif' : 'Fermé'}
@@ -93,30 +93,30 @@ export function SiretVerifier() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
             <div className="flex items-start gap-2">
-              <Building2 size={14} className="text-gray-400 mt-0.5 shrink-0" />
+              <Building2 size={14} className="text-[#999999] mt-0.5 shrink-0" />
               <div>
-                <p className="text-gray-500 text-xs">SIRET / SIREN</p>
+                <p className="text-[#777777] text-xs">SIRET / SIREN</p>
                 <p className="font-mono text-xs">{result.siret} / {result.siren}</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <MapPin size={14} className="text-gray-400 mt-0.5 shrink-0" />
+              <MapPin size={14} className="text-[#999999] mt-0.5 shrink-0" />
               <div>
-                <p className="text-gray-500 text-xs">Adresse</p>
+                <p className="text-[#777777] text-xs">Adresse</p>
                 <p className="text-xs">{result.adresse}, {result.codePostal} {result.ville}</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <Tag size={14} className="text-gray-400 mt-0.5 shrink-0" />
+              <Tag size={14} className="text-[#999999] mt-0.5 shrink-0" />
               <div>
-                <p className="text-gray-500 text-xs">Activité (NAF)</p>
+                <p className="text-[#777777] text-xs">Activité (NAF)</p>
                 <p className="text-xs">{result.naf} — {result.nafLabel}</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <CheckCircle size={14} className="text-gray-400 mt-0.5 shrink-0" />
+              <CheckCircle size={14} className="text-[#999999] mt-0.5 shrink-0" />
               <div>
-                <p className="text-gray-500 text-xs">Date création</p>
+                <p className="text-[#777777] text-xs">Date création</p>
                 <p className="text-xs">{result.dateCreation}</p>
               </div>
             </div>

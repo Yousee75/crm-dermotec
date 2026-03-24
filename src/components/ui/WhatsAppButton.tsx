@@ -35,7 +35,7 @@ export function WhatsAppButton({
       <div
         className={cn(
           'absolute right-16 bottom-1/2 translate-y-1/2',
-          'bg-gray-900 text-white text-sm rounded-lg px-3 py-2',
+          'bg-[#111111] text-white text-sm rounded-lg px-3 py-2',
           'opacity-0 pointer-events-none transition-all duration-200',
           'whitespace-nowrap shadow-lg',
           'before:content-[""] before:absolute before:left-full before:top-1/2',

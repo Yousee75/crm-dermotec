@@ -16,7 +16,7 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
   return (
     <button
       onClick={onClick}
-      className="w-full text-left bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:border-gray-300 transition-all group"
+      className="w-full text-left bg-white border border-[#EEEEEE] rounded-xl p-4 hover:shadow-md hover:border-[#EEEEEE] transition-all group"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
@@ -33,7 +33,7 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
           </div>
 
           {/* Adresse + distance */}
-          <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
+          <div className="flex items-center gap-1 text-xs text-[#777777] mb-2">
             <MapPin size={12} className="shrink-0" />
             <span className="truncate">{c.adresse || c.ville}</span>
             <span className="text-primary font-medium shrink-0">· {c.distanceM}m</span>
@@ -43,19 +43,19 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
           {c.googleRating ? (
             <StarRating rating={c.googleRating} reviewsCount={c.googleReviewsCount} size={12} />
           ) : (
-            <span className="text-xs text-gray-400">Pas de note Google</span>
+            <span className="text-xs text-[#999999]">Pas de note Google</span>
           )}
 
           {/* CA si disponible */}
           {c.chiffreAffaires && (
-            <div className="flex items-center gap-1 mt-1.5 text-xs text-gray-600">
-              <Euro size={12} className="text-green-500" />
+            <div className="flex items-center gap-1 mt-1.5 text-xs text-[#777777]">
+              <Euro size={12} className="text-[#10B981]" />
               <span className="font-medium">
                 {c.chiffreAffaires >= 1000000
                   ? `${(c.chiffreAffaires / 1000000).toFixed(1)}M€`
                   : `${(c.chiffreAffaires / 1000).toFixed(0)}K€`}
               </span>
-              {c.anneeFiscale && <span className="text-gray-400">({c.anneeFiscale})</span>}
+              {c.anneeFiscale && <span className="text-[#999999]">({c.anneeFiscale})</span>}
             </div>
           )}
 
@@ -64,7 +64,7 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
             {c.sources.map(source => (
               <span
                 key={source}
-                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-gray-100 text-gray-500"
+                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#F4F0EB] text-[#777777]"
               >
                 {source}
               </span>
@@ -75,7 +75,7 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={e => e.stopPropagation()}
-                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 flex items-center gap-0.5"
+                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#E0EBF5] text-[#6B8CAE] flex items-center gap-0.5"
               >
                 <Globe size={8} /> site
               </a>

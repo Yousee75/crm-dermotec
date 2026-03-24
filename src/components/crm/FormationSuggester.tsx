@@ -36,12 +36,12 @@ interface FormationSuggestion {
 
 const getCategoryColor = (categorie: string) => {
   const colors: Record<string, { bg: string; text: string; border: string }> = {
-    'Hygiène': { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
-    'Dermo-Esthétique': { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-    'Dermo-Correctrice': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
+    'Hygiène': { bg: 'bg-[#ECFDF5]', text: 'text-[#10B981]', border: 'border-[#10B981]/30' },
+    'Dermo-Esthétique': { bg: 'bg-[#E0EBF5]', text: 'text-[#6B8CAE]', border: 'border-[#6B8CAE]/30' },
+    'Dermo-Correctrice': { bg: 'bg-[#FFE0EF]', text: 'text-[#FF2D78]', border: 'border-[#FF2D78]/30' },
     'Soins Visage': { bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-200' },
     'Soins Corps': { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
-    'Laser & IPL': { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
+    'Laser & IPL': { bg: 'bg-[#FFE0EF]', text: 'text-[#FF2D78]', border: 'border-[#FF2D78]/30' },
   }
   return colors[categorie] || { bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200' }
 }
@@ -329,8 +329,8 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
                           <Users className="h-3 w-3" />
                           <span className={cn(
                             'font-medium',
-                            suggestion.prochaineSession.placesDisponibles <= 2 ? 'text-red-600' :
-                            suggestion.prochaineSession.placesDisponibles <= 5 ? 'text-amber-600' : 'text-green-600'
+                            suggestion.prochaineSession.placesDisponibles <= 2 ? 'text-[#FF2D78]' :
+                            suggestion.prochaineSession.placesDisponibles <= 5 ? 'text-[#FF8C42]' : 'text-[#10B981]'
                           )}>
                             {suggestion.prochaineSession.placesDisponibles}/{suggestion.prochaineSession.placesTotales} places
                           </span>
@@ -343,14 +343,14 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-amber-50 border border-amber-200 rounded p-2 mb-3">
-                      <div className="flex items-center gap-2 text-xs text-amber-800">
+                    <div className="bg-[#FFF3E8] border border-[#FF8C42]/30 rounded p-2 mb-3">
+                      <div className="flex items-center gap-2 text-xs text-[#FF8C42]">
                         <AlertCircle className="h-3 w-3" />
                         <span>Aucune session programmée</span>
                         <Button
                           variant="link"
                           size="sm"
-                          className="h-auto p-0 text-xs text-amber-600 hover:text-amber-800"
+                          className="h-auto p-0 text-xs text-[#FF8C42] hover:text-[#FF8C42]"
                         >
                           Créer une session
                         </Button>

@@ -21,7 +21,7 @@ function Skeleton({ className, width, height, variant = 'default', style, ...pro
 // Pre-built skeleton patterns
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-xl border border-gray-100 p-5 space-y-3">
+    <div className="bg-white rounded-xl border border-[#F4F0EB] p-5 space-y-3">
       <div className="flex items-center justify-between">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-8 w-8 rounded-lg" />
@@ -34,14 +34,14 @@ function SkeletonCard() {
 
 function SkeletonTable({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-      <div className="bg-gray-50 px-4 py-3 flex gap-4">
+    <div className="bg-white rounded-xl border border-[#F4F0EB] overflow-hidden">
+      <div className="bg-[#FAF8F5] px-4 py-3 flex gap-4">
         {Array.from({ length: cols }).map((_, i) => (
           <Skeleton key={i} className="h-3" style={{ width: `${60 + Math.random() * 80}px` }} />
         ))}
       </div>
       {Array.from({ length: rows }).map((_, row) => (
-        <div key={row} className="px-4 py-3 flex gap-4 border-t border-gray-50">
+        <div key={row} className="px-4 py-3 flex gap-4 border-t border-[#FAF8F5]">
           {Array.from({ length: cols }).map((_, col) => (
             <Skeleton key={col} className="h-4" style={{ width: `${40 + Math.random() * 100}px` }} />
           ))}

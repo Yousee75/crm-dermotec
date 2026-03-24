@@ -131,7 +131,7 @@ export function QuickAddLead() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 left-6 md:left-auto md:right-24 z-[65] w-[320px] max-w-[calc(100vw-48px)] bg-white rounded-2xl shadow-2xl border border-gray-200/80 overflow-hidden"
+            className="fixed bottom-24 left-6 md:left-auto md:right-24 z-[65] w-[320px] max-w-[calc(100vw-48px)] bg-white rounded-2xl shadow-2xl border border-[#EEEEEE]/80 overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
@@ -153,44 +153,44 @@ export function QuickAddLead() {
                   <Check size={32} className="text-success" />
                 </motion.div>
                 <p className="font-semibold text-accent">Lead ajouté !</p>
-                <p className="text-xs text-gray-500 mt-1">Enrichissement en cours...</p>
+                <p className="text-xs text-[#777777] mt-1">Enrichissement en cours...</p>
               </div>
             ) : (
               <div className="p-4 space-y-3" onKeyDown={handleKeyDown}>
                 {/* Nom */}
                 <div className="relative">
-                  <User size={14} className="absolute left-3 top-3 text-gray-400" />
+                  <User size={14} className="absolute left-3 top-3 text-[#999999]" />
                   <input
                     ref={nomRef}
                     type="text"
                     value={nom}
                     onChange={e => setNom(e.target.value)}
                     placeholder="Nom du prospect *"
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
                     autoComplete="off"
                   />
                 </div>
 
                 {/* Téléphone */}
                 <div className="relative">
-                  <Phone size={14} className="absolute left-3 top-3 text-gray-400" />
+                  <Phone size={14} className="absolute left-3 top-3 text-[#999999]" />
                   <input
                     type="tel"
                     value={telephone}
                     onChange={e => setTelephone(e.target.value)}
                     placeholder="Téléphone *"
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
                     autoComplete="off"
                   />
                 </div>
 
                 {/* Formation (optionnel) */}
                 <div className="relative">
-                  <BookOpen size={14} className="absolute left-3 top-3 text-gray-400" />
+                  <BookOpen size={14} className="absolute left-3 top-3 text-[#999999]" />
                   <select
                     value={formation}
                     onChange={e => setFormation(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-success appearance-none"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl text-sm focus:outline-none focus:border-success appearance-none"
                   >
                     <option value="">Formation (optionnel)</option>
                     {FORMATIONS.map(f => (
@@ -213,7 +213,7 @@ export function QuickAddLead() {
                   {loading ? 'Ajout...' : 'Ajouter le prospect'}
                 </button>
 
-                <p className="text-[10px] text-gray-400 text-center">
+                <p className="text-[10px] text-[#999999] text-center">
                   Entrée pour valider · Échap pour fermer
                 </p>
               </div>

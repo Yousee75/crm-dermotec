@@ -262,10 +262,10 @@ function getNextAction(currentStep: number): string {
 // Composant pour la barre de pipeline
 function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStepClick: (step: number) => void }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
+    <div className="bg-white border border-[#EEEEEE] rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-accent">Pipeline de financement</h2>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-[#777777]">
           Étape {Math.min(currentStep + 1, 12)}/12 — {Math.round(((currentStep + 1) / 12) * 100)}%
         </div>
       </div>
@@ -288,9 +288,9 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
                 className={cn(
                   'relative cursor-pointer group',
                   'h-12 rounded-lg border-2 flex items-center justify-center text-xs font-medium transition-all',
-                  isCompleted && 'bg-green-50 border-green-200 text-green-700',
+                  isCompleted && 'bg-[#ECFDF5] border-[#10B981]/30 text-[#10B981]',
                   isActive && 'bg-primary/10 border-primary text-accent',
-                  isFuture && 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'
+                  isFuture && 'bg-[#FAF8F5] border-[#EEEEEE] text-[#777777] hover:bg-[#F4F0EB]'
                 )}
                 onClick={() => onStepClick(index)}
               >
@@ -302,7 +302,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
 
                 {/* Tooltip */}
                 <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="bg-gray-900 text-white text-xs rounded px-2 py-1 whitespace-nowrap">
+                  <div className="bg-[#111111] text-white text-xs rounded px-2 py-1 whitespace-nowrap">
                     {step.description}
                   </div>
                 </div>
@@ -311,7 +311,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
               {/* Connector */}
               {index < 11 && (
                 <div className={cn(
-                  'h-0.5 w-2 bg-gray-200 absolute top-1/2 transform -translate-y-1/2',
+                  'h-0.5 w-2 bg-[#EEEEEE] absolute top-1/2 transform -translate-y-1/2',
                   index < currentStep && 'bg-green-400'
                 )} />
               )}
@@ -333,9 +333,9 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
                 key={step.id}
                 className={cn(
                   'flex-shrink-0 w-20 h-12 rounded-lg border-2 flex items-center justify-center text-xs font-medium',
-                  isCompleted && 'bg-green-50 border-green-200 text-green-700',
+                  isCompleted && 'bg-[#ECFDF5] border-[#10B981]/30 text-[#10B981]',
                   isActive && 'bg-primary/10 border-primary text-accent',
-                  !isCompleted && !isActive && 'bg-gray-50 border-gray-200 text-gray-500'
+                  !isCompleted && !isActive && 'bg-[#FAF8F5] border-[#EEEEEE] text-[#777777]'
                 )}
               >
                 <div className="flex items-center gap-1">
@@ -354,7 +354,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
           <span className="text-sm font-medium text-accent">Prochaine action:</span>
-          <span className="text-sm text-gray-600">{getNextAction(currentStep)}</span>
+          <span className="text-sm text-[#777777]">{getNextAction(currentStep)}</span>
         </div>
       </div>
     </div>
@@ -380,17 +380,17 @@ function ResumeActionsTab({ financement }: { financement: any }) {
 
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700">
+                <Badge variant="outline" className="bg-[#E0EBF5] border-[#6B8CAE]/30 text-[#6B8CAE]">
                   OPCO EP
                 </Badge>
-                <span className="text-sm text-gray-500">Organisme financeur</span>
+                <span className="text-sm text-[#777777]">Organisme financeur</span>
               </div>
 
               <div className="flex items-center gap-3">
                 <Avatar name="Sophie Martin" size="sm" />
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-accent">Sophie Martin</p>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <div className="flex items-center gap-4 text-sm text-[#777777]">
                     <a href="tel:0123456789" className="flex items-center gap-1 hover:text-primary">
                       <Phone className="w-3 h-3" />
                       01 23 45 67 89
@@ -403,8 +403,8 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-gray-100">
-                <p className="text-sm text-gray-500 mb-1">N° dossier</p>
+              <div className="pt-2 border-t border-[#F4F0EB]">
+                <p className="text-sm text-[#777777] mb-1">N° dossier</p>
                 <p className="font-mono text-sm">OPCO-2026-0341</p>
               </div>
             </div>
@@ -420,12 +420,12 @@ function ResumeActionsTab({ financement }: { financement: any }) {
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500">Demandé</p>
+                  <p className="text-sm text-[#777777]">Demandé</p>
                   <p className="text-lg font-semibold text-accent">1 500,00 €</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">APC accordé</p>
-                  <p className="text-lg font-semibold text-green-600">1 200,00 €</p>
+                  <p className="text-sm text-[#777777]">APC accordé</p>
+                  <p className="text-lg font-semibold text-[#10B981]">1 200,00 €</p>
                 </div>
               </div>
 
@@ -445,9 +445,9 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                 <Progress value={0} className="h-2" />
               </div>
 
-              <div className="pt-2 border-t border-gray-100">
+              <div className="pt-2 border-t border-[#F4F0EB]">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Reste à charge</span>
+                  <span className="text-sm text-[#777777]">Reste à charge</span>
                   <span className="font-semibold text-orange-600">300,00 €</span>
                 </div>
               </div>
@@ -456,38 +456,38 @@ function ResumeActionsTab({ financement }: { financement: any }) {
         </div>
 
         {/* Mode de paiement */}
-        <div className="mt-6 pt-6 border-t border-gray-100">
+        <div className="mt-6 pt-6 border-t border-[#F4F0EB]">
           <div className="flex items-center gap-2 mb-2">
             <CreditCard className="w-4 h-4 text-primary" />
             <span className="font-medium text-accent">Mode de paiement:</span>
             <Badge variant="outline">Subrogation</Badge>
           </div>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-[#777777]">
             Le financeur verse directement à l'organisme de formation. Le stagiaire paie uniquement le reste à charge.
           </p>
         </div>
 
         {/* Dates clés */}
-        <div className="mt-6 pt-6 border-t border-gray-100">
+        <div className="mt-6 pt-6 border-t border-[#F4F0EB]">
           <h4 className="font-medium text-accent mb-3 flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             Dates importantes
           </h4>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
             <div>
-              <p className="text-gray-500">Soumission</p>
+              <p className="text-[#777777]">Soumission</p>
               <p className="font-medium">15/03/2026</p>
             </div>
             <div>
-              <p className="text-gray-500">Accord</p>
-              <p className="font-medium text-green-600">20/03/2026</p>
+              <p className="text-[#777777]">Accord</p>
+              <p className="font-medium text-[#10B981]">20/03/2026</p>
             </div>
             <div>
-              <p className="text-gray-500">Formation</p>
+              <p className="text-[#777777]">Formation</p>
               <p className="font-medium">15/04/2026</p>
             </div>
             <div>
-              <p className="text-gray-500">Facturation</p>
+              <p className="text-[#777777]">Facturation</p>
               <p className="font-medium text-orange-600">En attente</p>
             </div>
           </div>
@@ -537,22 +537,22 @@ function ResumeActionsTab({ financement }: { financement: any }) {
           </div>
         </Card>
 
-        <Card className="p-4 border-yellow-200 bg-yellow-50">
+        <Card className="p-4 border-[#FF8C42]/30 bg-[#FFF3E8]">
           <div className="flex items-start gap-3">
-            <Clock className="w-5 h-5 text-yellow-600 mt-0.5" />
+            <Clock className="w-5 h-5 text-[#FF8C42] mt-0.5" />
             <div>
-              <p className="font-medium text-yellow-800">Échéance qui approche</p>
-              <p className="text-sm text-yellow-700">Première échéance prévue le 15/04/2026 (dans 24 jours)</p>
+              <p className="font-medium text-[#FF8C42]">Échéance qui approche</p>
+              <p className="text-sm text-[#FF8C42]">Première échéance prévue le 15/04/2026 (dans 24 jours)</p>
             </div>
           </div>
         </Card>
 
-        <Card className="p-4 border-blue-200 bg-blue-50">
+        <Card className="p-4 border-[#6B8CAE]/30 bg-[#E0EBF5]">
           <div className="flex items-start gap-3">
-            <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+            <Info className="w-5 h-5 text-[#6B8CAE] mt-0.5" />
             <div>
-              <p className="font-medium text-blue-800">Budget OPCO</p>
-              <p className="text-sm text-blue-700">Budget annuel de la branche consommé à 75% - Dépôt prioritaire recommandé</p>
+              <p className="font-medium text-[#6B8CAE]">Budget OPCO</p>
+              <p className="text-sm text-[#6B8CAE]">Budget annuel de la branche consommé à 75% - Dépôt prioritaire recommandé</p>
             </div>
           </div>
         </Card>
@@ -621,11 +621,11 @@ function ResumeActionsTab({ financement }: { financement: any }) {
               <h3 className="font-semibold text-accent mb-4">Enregistrer un paiement</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Montant</label>
+                  <label className="text-sm font-medium text-[#3A3A3A] mb-1 block">Montant</label>
                   <Input type="number" placeholder="1200" />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Moyen de paiement</label>
+                  <label className="text-sm font-medium text-[#3A3A3A] mb-1 block">Moyen de paiement</label>
                   <Select>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionner" />
@@ -639,7 +639,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                   </Select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Référence</label>
+                  <label className="text-sm font-medium text-[#3A3A3A] mb-1 block">Référence</label>
                   <Input placeholder="N° de virement, chèque..." />
                 </div>
                 <div className="flex gap-3">
@@ -687,11 +687,11 @@ function DocumentsTab() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-semibold text-accent">Progression des documents</h3>
-            <p className="text-sm text-gray-600">{validatedCount}/{totalCount} documents validés</p>
+            <p className="text-sm text-[#777777]">{validatedCount}/{totalCount} documents validés</p>
           </div>
           <div className="text-right">
             <p className="text-2xl font-bold text-primary">{Math.round(progressPercentage)}%</p>
-            <p className="text-xs text-gray-500">Complétude</p>
+            <p className="text-xs text-[#777777]">Complétude</p>
           </div>
         </div>
         <Progress value={progressPercentage} className="h-2 mb-4" />
@@ -747,14 +747,14 @@ function DocumentsTab() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-red-400 rounded-full" />
-            <span className="text-sm text-red-700">Attestation URSSAF renouvelée (refusée)</span>
+            <span className="text-sm text-[#FF2D78]">Attestation URSSAF renouvelée (refusée)</span>
           </div>
         </div>
       </Card>
 
       {/* Liste des documents */}
       <Card padding="none">
-        <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+        <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
           <h3 className="font-semibold text-accent">Documents du dossier</h3>
           <div className="flex gap-2">
             <Button size="sm" variant="outline" className="gap-2">
@@ -768,17 +768,17 @@ function DocumentsTab() {
           </div>
         </div>
 
-        <div className="divide-y divide-gray-50">
+        <div className="divide-y divide-[#FAF8F5]">
           {filteredDocuments.map((doc) => (
             <motion.div
               key={doc.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-4 hover:bg-gray-50/50 transition-colors"
+              className="p-4 hover:bg-[#FAF8F5]/50 transition-colors"
             >
               <div className="flex items-start gap-4">
                 <div className="mt-1">
-                  <FileText className="w-5 h-5 text-gray-400" />
+                  <FileText className="w-5 h-5 text-[#999999]" />
                 </div>
 
                 <div className="flex-1 min-w-0">
@@ -805,12 +805,12 @@ function DocumentsTab() {
                         )}
                       </div>
                       {doc.dateUpload && (
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-[#777777] mt-1">
                           Uploadé le {formatDate(doc.dateUpload)}
                         </p>
                       )}
                       {doc.commentaire && (
-                        <p className="text-xs text-red-600 mt-1">{doc.commentaire}</p>
+                        <p className="text-xs text-[#FF2D78] mt-1">{doc.commentaire}</p>
                       )}
                     </div>
 
@@ -820,10 +820,10 @@ function DocumentsTab() {
                       </Button>
                       {doc.statut === 'en_attente' && (
                         <>
-                          <Button size="sm" variant="ghost" className="text-green-600">
+                          <Button size="sm" variant="ghost" className="text-[#10B981]">
                             <CheckCircle className="w-4 h-4" />
                           </Button>
-                          <Button size="sm" variant="ghost" className="text-red-600">
+                          <Button size="sm" variant="ghost" className="text-[#FF2D78]">
                             <XCircle className="w-4 h-4" />
                           </Button>
                         </>
@@ -859,20 +859,20 @@ function PaiementsTab() {
         <div className="grid grid-cols-3 gap-6">
           <div className="text-center">
             <p className="text-2xl font-bold text-accent">{formatEuro(Math.abs(totalFacture))}</p>
-            <p className="text-sm text-gray-600">Total facturé</p>
+            <p className="text-sm text-[#777777]">Total facturé</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-green-600">{formatEuro(totalPaye)}</p>
-            <p className="text-sm text-gray-600">Total payé</p>
+            <p className="text-2xl font-bold text-[#10B981]">{formatEuro(totalPaye)}</p>
+            <p className="text-sm text-[#777777]">Total payé</p>
           </div>
           <div className="text-center">
             <p className={cn(
               "text-2xl font-bold",
-              soldeRestant > 0 ? "text-orange-600" : soldeRestant < 0 ? "text-red-600" : "text-green-600"
+              soldeRestant > 0 ? "text-orange-600" : soldeRestant < 0 ? "text-[#FF2D78]" : "text-[#10B981]"
             )}>
               {formatEuro(Math.abs(soldeRestant))}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-[#777777]">
               {soldeRestant > 0 ? 'Reste à encaisser' : soldeRestant < 0 ? 'Trop-perçu' : 'Soldé'}
             </p>
           </div>
@@ -880,7 +880,7 @@ function PaiementsTab() {
       </Card>
 
       {/* Sous-onglets */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-[#EEEEEE]">
         <nav className="flex space-x-8">
           {[
             { key: 'factures', label: 'Factures', count: mockFactures.length },
@@ -894,7 +894,7 @@ function PaiementsTab() {
                 'py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap',
                 activeSubTab === tab.key
                   ? 'border-primary text-primary'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  : 'border-transparent text-[#777777] hover:text-[#3A3A3A]'
               )}
             >
               {tab.label} ({tab.count})
@@ -906,7 +906,7 @@ function PaiementsTab() {
       {/* Contenu des sous-onglets */}
       {activeSubTab === 'factures' && (
         <Card padding="none">
-          <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+          <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
             <h4 className="font-medium text-accent">Factures émises</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
@@ -917,19 +917,19 @@ function PaiementsTab() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">N° facture</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Type</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Destinataire</th>
-                  <th className="px-4 py-3 text-right font-semibold text-gray-600">Montant TTC</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Statut</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Date</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Actions</th>
+                <tr className="bg-[#FAF8F5] border-b border-[#F4F0EB]">
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">N° facture</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Type</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Destinataire</th>
+                  <th className="px-4 py-3 text-right font-semibold text-[#777777]">Montant TTC</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Statut</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Date</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {mockFactures.map((facture) => (
-                  <tr key={facture.id} className="hover:bg-gray-50/50">
+                  <tr key={facture.id} className="hover:bg-[#FAF8F5]/50">
                     <td className="px-4 py-3 font-mono text-xs">{facture.numero}</td>
                     <td className="px-4 py-3">
                       <Badge variant="outline" size="sm">
@@ -978,7 +978,7 @@ function PaiementsTab() {
 
       {activeSubTab === 'paiements' && (
         <Card padding="none">
-          <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+          <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
             <h4 className="font-medium text-accent">Paiements reçus</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
@@ -989,18 +989,18 @@ function PaiementsTab() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Type</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Moyen</th>
-                  <th className="px-4 py-3 text-right font-semibold text-gray-600">Montant</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Référence</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Statut</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Date</th>
+                <tr className="bg-[#FAF8F5] border-b border-[#F4F0EB]">
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Type</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Moyen</th>
+                  <th className="px-4 py-3 text-right font-semibold text-[#777777]">Montant</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Référence</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Statut</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[#777777]">Date</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {mockPaiements.map((paiement) => (
-                  <tr key={paiement.id} className="hover:bg-gray-50/50">
+                  <tr key={paiement.id} className="hover:bg-[#FAF8F5]/50">
                     <td className="px-4 py-3">
                       <Badge variant="outline" size="sm">
                         {paiement.type.replace('_', ' ')}
@@ -1035,7 +1035,7 @@ function PaiementsTab() {
 
       {activeSubTab === 'echeancier' && (
         <Card padding="none">
-          <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+          <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
             <h4 className="font-medium text-accent">Échéancier de paiement</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
@@ -1054,14 +1054,14 @@ function PaiementsTab() {
 
             <div className="space-y-3">
               {mockEcheancier.map((echeance) => (
-                <div key={echeance.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                <div key={echeance.id} className="flex items-center justify-between p-3 border border-[#EEEEEE] rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-sm font-medium">
+                    <div className="w-8 h-8 bg-[#F4F0EB] rounded-full flex items-center justify-center text-sm font-medium">
                       {echeance.numero}
                     </div>
                     <div>
                       <p className="font-medium">{formatEuro(echeance.montant)}</p>
-                      <p className="text-sm text-gray-500">Échéance {formatDate(echeance.date)}</p>
+                      <p className="text-sm text-[#777777]">Échéance {formatDate(echeance.date)}</p>
                     </div>
                   </div>
                   <Badge variant="outline" size="sm">
@@ -1096,7 +1096,7 @@ function MultiFinancementTab() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-accent">Multi-financement</h3>
-            <p className="text-sm text-gray-600">Combiner plusieurs organismes pour un même dossier</p>
+            <p className="text-sm text-[#777777]">Combiner plusieurs organismes pour un même dossier</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
@@ -1106,7 +1106,7 @@ function MultiFinancementTab() {
               onChange={(e) => setIsEnabled(e.target.checked)}
             />
             <div className={cn(
-              "w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer transition-colors",
+              "w-11 h-6 bg-[#EEEEEE] peer-focus:outline-none rounded-full peer transition-colors",
               isEnabled && "bg-primary"
             )}>
               <div className={cn(
@@ -1131,27 +1131,27 @@ function MultiFinancementTab() {
             <div className="grid grid-cols-3 gap-6">
               <div className="text-center">
                 <p className="text-2xl font-bold text-primary">{formatEuro(totalCouvert)}</p>
-                <p className="text-sm text-gray-600">Total couvert</p>
+                <p className="text-sm text-[#777777]">Total couvert</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-orange-600">{formatEuro(resteACharge)}</p>
-                <p className="text-sm text-gray-600">Reste à charge</p>
+                <p className="text-sm text-[#777777]">Reste à charge</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-green-600">{Math.round(tauxCouverture)}%</p>
-                <p className="text-sm text-gray-600">Taux de couverture</p>
+                <p className="text-2xl font-bold text-[#10B981]">{Math.round(tauxCouverture)}%</p>
+                <p className="text-sm text-[#777777]">Taux de couverture</p>
               </div>
             </div>
 
             {/* Barre de progression multi-couleur */}
             <div className="mt-4">
-              <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-3 bg-[#EEEEEE] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-blue-500 transition-all duration-500"
+                  className="h-full bg-[#6B8CAE] transition-all duration-500"
                   style={{ width: `${(lignes[0].montantAccorde / montantFormation) * 100}%` }}
                 />
               </div>
-              <div className="flex justify-between mt-2 text-xs text-gray-500">
+              <div className="flex justify-between mt-2 text-xs text-[#777777]">
                 <span>0 €</span>
                 <span>{formatEuro(montantFormation)}</span>
               </div>
@@ -1160,7 +1160,7 @@ function MultiFinancementTab() {
 
           {/* Lignes de financement */}
           <Card padding="none">
-            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+            <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
               <h4 className="font-medium text-accent">Lignes de financement</h4>
               <Button size="sm" className="gap-2">
                 <Plus className="w-4 h-4" />
@@ -1171,27 +1171,27 @@ function MultiFinancementTab() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">Organisme</th>
-                    <th className="px-4 py-3 text-right font-semibold text-gray-600">Demandé</th>
-                    <th className="px-4 py-3 text-right font-semibold text-gray-600">Accordé</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">Statut</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">N° dossier</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-600">Actions</th>
+                  <tr className="bg-[#FAF8F5] border-b border-[#F4F0EB]">
+                    <th className="px-4 py-3 text-left font-semibold text-[#777777]">Organisme</th>
+                    <th className="px-4 py-3 text-right font-semibold text-[#777777]">Demandé</th>
+                    <th className="px-4 py-3 text-right font-semibold text-[#777777]">Accordé</th>
+                    <th className="px-4 py-3 text-left font-semibold text-[#777777]">Statut</th>
+                    <th className="px-4 py-3 text-left font-semibold text-[#777777]">N° dossier</th>
+                    <th className="px-4 py-3 text-center font-semibold text-[#777777]">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-[#FAF8F5]">
                   {lignes.map((ligne) => (
-                    <tr key={ligne.id} className="hover:bg-gray-50/50">
+                    <tr key={ligne.id} className="hover:bg-[#FAF8F5]/50">
                       <td className="px-4 py-3">
-                        <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700">
+                        <Badge variant="outline" className="bg-[#E0EBF5] border-[#6B8CAE]/30 text-[#6B8CAE]">
                           {ligne.organisme}
                         </Badge>
                       </td>
                       <td className="px-4 py-3 text-right font-medium">
                         {formatEuro(ligne.montantDemande)}
                       </td>
-                      <td className="px-4 py-3 text-right font-medium text-green-600">
+                      <td className="px-4 py-3 text-right font-medium text-[#10B981]">
                         {formatEuro(ligne.montantAccorde)}
                       </td>
                       <td className="px-4 py-3">
@@ -1205,7 +1205,7 @@ function MultiFinancementTab() {
                           <Button size="sm" variant="ghost">
                             <Edit3 className="w-3 h-3" />
                           </Button>
-                          <Button size="sm" variant="ghost" className="text-red-600">
+                          <Button size="sm" variant="ghost" className="text-[#FF2D78]">
                             <Trash2 className="w-3 h-3" />
                           </Button>
                         </div>
@@ -1218,12 +1218,12 @@ function MultiFinancementTab() {
           </Card>
 
           {/* Alertes de compatibilité */}
-          <Card className="p-4 border-green-200 bg-green-50">
+          <Card className="p-4 border-[#10B981]/30 bg-[#ECFDF5]">
             <div className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#10B981] mt-0.5" />
               <div>
-                <p className="font-medium text-green-800">Combinaison compatible</p>
-                <p className="text-sm text-green-700">OPCO EP peut financer seul cette formation selon les règles en vigueur</p>
+                <p className="font-medium text-[#10B981]">Combinaison compatible</p>
+                <p className="text-sm text-[#10B981]">OPCO EP peut financer seul cette formation selon les règles en vigueur</p>
               </div>
             </div>
           </Card>
@@ -1233,12 +1233,12 @@ function MultiFinancementTab() {
       {!isEnabled && (
         <Card className="p-8 text-center">
           <div className="max-w-md mx-auto">
-            <PlusCircle className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+            <PlusCircle className="w-12 h-12 mx-auto text-[#999999] mb-4" />
             <h3 className="font-medium text-accent mb-2">Multi-financement désactivé</h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-[#777777] mb-4">
               Activez cette option pour combiner plusieurs organismes financeurs sur un même dossier.
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-[#777777]">
               Utile pour maximiser la prise en charge quand un seul organisme ne couvre pas l'intégralité des coûts.
             </p>
           </div>
@@ -1270,14 +1270,14 @@ function HistoriqueTab() {
   }
 
   const actionColors = {
-    'Création': 'bg-blue-100 text-blue-700',
-    'Changement étape': 'bg-purple-100 text-purple-700',
-    'Document': 'bg-green-100 text-green-700',
+    'Création': 'bg-[#E0EBF5] text-[#6B8CAE]',
+    'Changement étape': 'bg-[#FFE0EF] text-[#FF2D78]',
+    'Document': 'bg-[#D1FAE5] text-[#10B981]',
     'Modification': 'bg-orange-100 text-orange-700',
     'Paiement': 'bg-cyan-100 text-cyan-700',
     'Facture': 'bg-indigo-100 text-indigo-700',
-    'Relance': 'bg-yellow-100 text-yellow-700',
-    'Alerte': 'bg-red-100 text-red-700'
+    'Relance': 'bg-[#FFF3E8] text-[#FF8C42]',
+    'Alerte': 'bg-[#FFE0EF] text-[#FF2D78]'
   }
 
   return (
@@ -1345,7 +1345,7 @@ function HistoriqueTab() {
         <div className="space-y-6">
           {filteredHistorique.map((entry, index) => {
             const Icon = actionIcons[entry.action as keyof typeof actionIcons] || Info
-            const colorClass = actionColors[entry.action as keyof typeof actionColors] || 'bg-gray-100 text-gray-700'
+            const colorClass = actionColors[entry.action as keyof typeof actionColors] || 'bg-[#F4F0EB] text-[#3A3A3A]'
 
             return (
               <motion.div
@@ -1364,7 +1364,7 @@ function HistoriqueTab() {
                     <Icon className="w-4 h-4" />
                   </div>
                   {index < filteredHistorique.length - 1 && (
-                    <div className="w-0.5 h-6 bg-gray-200 mt-2" />
+                    <div className="w-0.5 h-6 bg-[#EEEEEE] mt-2" />
                   )}
                 </div>
 
@@ -1376,7 +1376,7 @@ function HistoriqueTab() {
                         <Badge size="sm" className={colorClass}>
                           {entry.action}
                         </Badge>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-[#777777]">
                           par {entry.utilisateur}
                         </span>
                       </div>
@@ -1384,11 +1384,11 @@ function HistoriqueTab() {
                         {entry.description}
                       </p>
                       {entry.details && (
-                        <p className="text-sm text-gray-600">{entry.details}</p>
+                        <p className="text-sm text-[#777777]">{entry.details}</p>
                       )}
                     </div>
 
-                    <div className="text-right text-xs text-gray-500 whitespace-nowrap">
+                    <div className="text-right text-xs text-[#777777] whitespace-nowrap">
                       {formatDate(entry.date)}
                       <br />
                       {new Date(entry.date).toLocaleTimeString('fr-FR', {
@@ -1461,9 +1461,9 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
         <Card className="w-full max-w-6xl max-h-[90vh] p-8">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 rounded w-1/2" />
-            <div className="h-4 bg-gray-200 rounded w-1/4" />
-            <div className="h-64 bg-gray-200 rounded" />
+            <div className="h-8 bg-[#EEEEEE] rounded w-1/2" />
+            <div className="h-4 bg-[#EEEEEE] rounded w-1/4" />
+            <div className="h-64 bg-[#EEEEEE] rounded" />
           </div>
         </Card>
       </div>
@@ -1479,10 +1479,10 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         className="w-full max-w-6xl max-h-[90vh] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
+        <div className="flex items-center justify-between p-6 border-b border-[#EEEEEE] bg-white">
           <div>
             <h1 className="text-xl font-bold text-accent">Workflow de financement</h1>
-            <p className="text-gray-600">
+            <p className="text-[#777777]">
               Sophie Martin · OPCO EP · N° OPCO-2026-0341
             </p>
           </div>
@@ -1502,7 +1502,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         {/* Tabs */}
         <div className="flex-1 overflow-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-            <div className="px-6 border-b border-gray-200">
+            <div className="px-6 border-b border-[#EEEEEE]">
               <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="resume">Résumé & Actions</TabsTrigger>
                 <TabsTrigger value="documents">Documents</TabsTrigger>
@@ -1537,14 +1537,14 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         </div>
 
         {/* Footer sticky */}
-        <div className="border-t border-gray-200 bg-white p-4">
+        <div className="border-t border-[#EEEEEE] bg-white p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <Badge variant="primary">Accordé (APC reçu)</Badge>
-                <span className="text-sm text-gray-500">Étape actuelle</span>
+                <span className="text-sm text-[#777777]">Étape actuelle</span>
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-[#777777]">
                 <span className="font-medium">1 200,00 €</span> accordé —
                 <span className="font-medium"> 1 200,00 €</span> facturé —
                 <span className="font-medium"> 0,00 €</span> payé
@@ -1552,7 +1552,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-[#777777]">
                 Prochaine action: <span className="font-medium">{nextAction}</span>
               </span>
               <Button className="gap-2">

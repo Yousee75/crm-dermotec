@@ -34,7 +34,7 @@ export function ContentRenderer({ contenu, type, onComplete }: ContentRendererPr
     case 'exercice':
       return <ExerciceContent consigne={contenu.consigne as string} exemple={contenu.exemple as string | undefined} criteres={contenu.criteres as string[] | undefined} />
     default:
-      return <div className="p-4 text-gray-500">Type de contenu non supporté : {type}</div>
+      return <div className="p-4 text-[#777777]">Type de contenu non supporté : {type}</div>
   }
 }
 
@@ -53,7 +53,7 @@ function TextContent({ body }: { body: string }) {
       return <h3 key={i} className="text-lg font-semibold text-accent mt-5 mb-2">{line.slice(4)}</h3>
     }
     if (line.startsWith('- ') || line.startsWith('• ')) {
-      return <li key={i} className="text-[15px] text-gray-700 leading-relaxed ml-4">{renderInline(line.slice(2))}</li>
+      return <li key={i} className="text-[15px] text-[#3A3A3A] leading-relaxed ml-4">{renderInline(line.slice(2))}</li>
     }
     if (line.startsWith('> ')) {
       return (
@@ -64,42 +64,42 @@ function TextContent({ body }: { body: string }) {
     }
     if (line.startsWith('💡 ') || line.startsWith('[TIP]')) {
       return (
-        <div key={i} className="flex gap-3 p-4 my-3 bg-amber-50 border border-amber-200 rounded-xl">
-          <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-amber-800 leading-relaxed">{line.replace(/^💡 |^\[TIP\] ?/, '')}</p>
+        <div key={i} className="flex gap-3 p-4 my-3 bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-xl">
+          <Lightbulb className="w-5 h-5 text-[#FF8C42] flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-[#FF8C42] leading-relaxed">{line.replace(/^💡 |^\[TIP\] ?/, '')}</p>
         </div>
       )
     }
     if (line.startsWith('⚠️ ') || line.startsWith('[WARNING]')) {
       return (
-        <div key={i} className="flex gap-3 p-4 my-3 bg-red-50 border border-red-200 rounded-xl">
-          <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-red-800 leading-relaxed">{line.replace(/^⚠️ |^\[WARNING\] ?/, '')}</p>
+        <div key={i} className="flex gap-3 p-4 my-3 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-xl">
+          <AlertTriangle className="w-5 h-5 text-[#FF2D78] flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-[#FF2D78] leading-relaxed">{line.replace(/^⚠️ |^\[WARNING\] ?/, '')}</p>
         </div>
       )
     }
     if (line.startsWith('ℹ️ ') || line.startsWith('[INFO]')) {
       return (
-        <div key={i} className="flex gap-3 p-4 my-3 bg-blue-50 border border-blue-200 rounded-xl">
-          <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-blue-800 leading-relaxed">{line.replace(/^ℹ️ |^\[INFO\] ?/, '')}</p>
+        <div key={i} className="flex gap-3 p-4 my-3 bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-xl">
+          <Info className="w-5 h-5 text-[#6B8CAE] flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-[#6B8CAE] leading-relaxed">{line.replace(/^ℹ️ |^\[INFO\] ?/, '')}</p>
         </div>
       )
     }
     if (line.startsWith('---')) {
-      return <hr key={i} className="my-6 border-gray-200" />
+      return <hr key={i} className="my-6 border-[#EEEEEE]" />
     }
     if (line.trim() === '') {
       return <div key={i} className="h-3" />
     }
-    return <p key={i} className="text-[15px] text-gray-700 leading-[1.8] mb-3">{renderInline(line)}</p>
+    return <p key={i} className="text-[15px] text-[#3A3A3A] leading-[1.8] mb-3">{renderInline(line)}</p>
   }
 
   const renderInline = (text: string) => {
     return text
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-accent">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-primary">$1</code>')
+      .replace(/`(.*?)`/g, '<code class="bg-[#F4F0EB] px-1.5 py-0.5 rounded text-sm font-mono text-primary">$1</code>')
   }
 
   const lines = body.split('\n')
@@ -111,7 +111,7 @@ function TextContent({ body }: { body: string }) {
         if (typeof element === 'object' && element !== null && 'props' in element) {
           const html = (element.props as Record<string, unknown>).children
           if (typeof html === 'string' && html.includes('<')) {
-            return <div key={i} dangerouslySetInnerHTML={{ __html: sanitizeEmail(renderInline(line)) }} className="text-[15px] text-gray-700 leading-[1.8] mb-3" />
+            return <div key={i} dangerouslySetInnerHTML={{ __html: sanitizeEmail(renderInline(line)) }} className="text-[15px] text-[#3A3A3A] leading-[1.8] mb-3" />
           }
         }
         return element
@@ -127,7 +127,7 @@ function VideoContent({ url, transcript }: { url: string; transcript?: string })
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-900">
+      <div className="relative aspect-video rounded-2xl overflow-hidden bg-[#111111]">
         {isYoutube ? (
           <iframe
             src={url.replace('watch?v=', 'embed/')}
@@ -147,8 +147,8 @@ function VideoContent({ url, transcript }: { url: string; transcript?: string })
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
-              <Play className="w-16 h-16 text-gray-500 mx-auto mb-3" />
-              <p className="text-gray-400">Vidéo à venir</p>
+              <Play className="w-16 h-16 text-[#777777] mx-auto mb-3" />
+              <p className="text-[#999999]">Vidéo à venir</p>
             </div>
           </div>
         )}
@@ -164,7 +164,7 @@ function VideoContent({ url, transcript }: { url: string; transcript?: string })
             {showTranscript ? 'Masquer la transcription' : 'Voir la transcription'}
           </button>
           {showTranscript && (
-            <div className="mt-3 p-4 bg-gray-50 rounded-xl text-sm text-gray-600 leading-relaxed max-h-[300px] overflow-y-auto">
+            <div className="mt-3 p-4 bg-[#FAF8F5] rounded-xl text-sm text-[#777777] leading-relaxed max-h-[300px] overflow-y-auto">
               {transcript}
             </div>
           )}
@@ -190,10 +190,10 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-      <div className="px-6 py-4 bg-gray-50 border-b flex items-center justify-between">
+    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
+      <div className="px-6 py-4 bg-[#FAF8F5] border-b flex items-center justify-between">
         <h3 className="font-semibold text-accent">Checklist</h3>
-        <span className="text-sm text-gray-500">{checked.size}/{items.length} complété{checked.size > 1 ? 's' : ''}</span>
+        <span className="text-sm text-[#777777]">{checked.size}/{items.length} complété{checked.size > 1 ? 's' : ''}</span>
       </div>
       <div className="p-4 space-y-2">
         {items.map((item, i) => (
@@ -201,28 +201,28 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
             key={i}
             onClick={() => toggle(i)}
             className={`w-full flex items-start gap-3 p-3 rounded-xl text-left transition ${
-              checked.has(i) ? 'bg-green-50' : 'hover:bg-gray-50'
+              checked.has(i) ? 'bg-[#ECFDF5]' : 'hover:bg-[#FAF8F5]'
             }`}
           >
             {checked.has(i) ? (
-              <CheckSquare className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <CheckSquare className="w-5 h-5 text-[#10B981] flex-shrink-0 mt-0.5" />
             ) : (
-              <Square className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
+              <Square className="w-5 h-5 text-[#999999] flex-shrink-0 mt-0.5" />
             )}
             <div>
-              <p className={`text-[15px] ${checked.has(i) ? 'text-green-700 line-through' : 'text-accent'}`}>
+              <p className={`text-[15px] ${checked.has(i) ? 'text-[#10B981] line-through' : 'text-accent'}`}>
                 {item.label}
               </p>
               {item.description && (
-                <p className="text-xs text-gray-400 mt-0.5">{item.description}</p>
+                <p className="text-xs text-[#999999] mt-0.5">{item.description}</p>
               )}
             </div>
           </button>
         ))}
       </div>
       {allChecked && (
-        <div className="px-6 py-3 bg-green-50 border-t border-green-200 text-center">
-          <p className="text-sm font-semibold text-green-600">✅ Checklist complète !</p>
+        <div className="px-6 py-3 bg-[#ECFDF5] border-t border-[#10B981]/30 text-center">
+          <p className="text-sm font-semibold text-[#10B981]">✅ Checklist complète !</p>
         </div>
       )}
     </div>
@@ -232,14 +232,14 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
 // --- PDF content ---
 function PdfContent({ url, titre }: { url: string; titre: string }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6">
+    <div className="bg-white rounded-2xl border border-[#EEEEEE] p-6">
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center">
-          <span className="text-red-500 font-bold text-lg">PDF</span>
+        <div className="w-14 h-14 bg-[#FFE0EF] rounded-xl flex items-center justify-center">
+          <span className="text-[#FF2D78] font-bold text-lg">PDF</span>
         </div>
         <div className="flex-1">
           <h3 className="font-semibold text-accent">{titre}</h3>
-          <p className="text-sm text-gray-500">Document téléchargeable</p>
+          <p className="text-sm text-[#777777]">Document téléchargeable</p>
         </div>
         <div className="flex gap-2">
           {url && (
@@ -248,7 +248,7 @@ function PdfContent({ url, titre }: { url: string; titre: string }) {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition"
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#F4F0EB] text-[#3A3A3A] rounded-lg text-sm font-medium hover:bg-[#EEEEEE] transition"
               >
                 <ExternalLink className="w-4 h-4" /> Ouvrir
               </a>
@@ -270,32 +270,32 @@ function PdfContent({ url, titre }: { url: string; titre: string }) {
 // --- Exercice content ---
 function ExerciceContent({ consigne, exemple, criteres }: { consigne: string; exemple?: string; criteres?: string[] }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-      <div className="bg-purple-50 px-6 py-4 border-b border-purple-100">
-        <h3 className="font-semibold text-purple-900 flex items-center gap-2">
+    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
+      <div className="bg-[#FFE0EF] px-6 py-4 border-b border-purple-100">
+        <h3 className="font-semibold text-[#FF2D78] flex items-center gap-2">
           <span className="text-lg">✍️</span> Exercice pratique
         </h3>
       </div>
       <div className="p-6 space-y-4">
         <div>
-          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Consigne</h4>
+          <h4 className="text-sm font-semibold text-[#777777] uppercase tracking-wide mb-2">Consigne</h4>
           <p className="text-[15px] text-accent leading-relaxed">{consigne}</p>
         </div>
 
         {exemple && (
-          <div className="bg-gray-50 rounded-xl p-4">
-            <h4 className="text-sm font-semibold text-gray-500 mb-2">Exemple</h4>
-            <p className="text-sm text-gray-700 leading-relaxed italic">{exemple}</p>
+          <div className="bg-[#FAF8F5] rounded-xl p-4">
+            <h4 className="text-sm font-semibold text-[#777777] mb-2">Exemple</h4>
+            <p className="text-sm text-[#3A3A3A] leading-relaxed italic">{exemple}</p>
           </div>
         )}
 
         {criteres && criteres.length > 0 && (
           <div>
-            <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Critères d'évaluation</h4>
+            <h4 className="text-sm font-semibold text-[#777777] uppercase tracking-wide mb-2">Critères d'évaluation</h4>
             <ul className="space-y-1.5">
               {criteres.map((c, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                  <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">{i + 1}</span>
+                <li key={i} className="flex items-center gap-2 text-sm text-[#3A3A3A]">
+                  <span className="w-5 h-5 rounded-full bg-[#FFE0EF] text-[#FF2D78] flex items-center justify-center text-xs font-bold">{i + 1}</span>
                   {c}
                 </li>
               ))}

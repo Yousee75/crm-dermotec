@@ -49,10 +49,10 @@ export function NeighborhoodStats({ data }: NeighborhoodStatsProps) {
         {STAT_CONFIG.map(({ key, icon: Icon, label, color }) => {
           const count = data[key as keyof NeighborhoodData] as number
           return (
-            <div key={key} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+            <div key={key} className="bg-white border border-[#EEEEEE] rounded-lg p-3 text-center">
               <Icon size={18} className="mx-auto mb-1" style={{ color }} />
               <p className="text-xl font-bold text-accent">{count}</p>
-              <p className="text-[10px] text-gray-500 leading-tight">{label}</p>
+              <p className="text-[10px] text-[#777777] leading-tight">{label}</p>
             </div>
           )
         })}
@@ -61,13 +61,13 @@ export function NeighborhoodStats({ data }: NeighborhoodStatsProps) {
       {/* Landmarks proches */}
       {data.nearbyLandmarks.length > 0 && (
         <div>
-          <p className="text-xs font-medium text-gray-500 mb-2">Lieux remarquables proches</p>
+          <p className="text-xs font-medium text-[#777777] mb-2">Lieux remarquables proches</p>
           <div className="space-y-1">
             {data.nearbyLandmarks.slice(0, 6).map((l, i) => (
-              <div key={i} className="flex items-center justify-between text-xs bg-gray-50 rounded-lg px-3 py-1.5">
-                <span className="text-gray-700 truncate flex-1">{l.name}</span>
+              <div key={i} className="flex items-center justify-between text-xs bg-[#FAF8F5] rounded-lg px-3 py-1.5">
+                <span className="text-[#3A3A3A] truncate flex-1">{l.name}</span>
                 <div className="flex items-center gap-2 shrink-0">
-                  {l.rating && <span className="text-amber-500">★ {l.rating}</span>}
+                  {l.rating && <span className="text-[#FF8C42]">★ {l.rating}</span>}
                   <span className="text-primary font-medium">{l.distance}m</span>
                 </div>
               </div>

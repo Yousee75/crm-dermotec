@@ -173,21 +173,21 @@ export function MobileBottomSheet({
       >
         {/* Drag handle */}
         <div className="flex-shrink-0 flex justify-center py-3">
-          <div className="w-10 h-1 bg-gray-300 rounded-full" />
+          <div className="w-10 h-1 bg-[#EEEEEE] rounded-full" />
         </div>
 
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="flex-shrink-0 flex items-center justify-between px-6 pb-4 border-b border-gray-100">
+          <div className="flex-shrink-0 flex items-center justify-between px-6 pb-4 border-b border-[#F4F0EB]">
             <h2 className="text-lg font-semibold text-[var(--color-text)]">
               {title}
             </h2>
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="p-1 rounded-lg hover:bg-gray-100 transition-colors touch-target"
+                className="p-1 rounded-lg hover:bg-[#F4F0EB] transition-colors touch-target"
               >
-                <X size={20} className="text-gray-500" />
+                <X size={20} className="text-[#777777]" />
               </button>
             )}
           </div>
@@ -200,7 +200,7 @@ export function MobileBottomSheet({
 
         {/* Snap points indicator (optionnel) */}
         {snapPoints.length > 2 && (
-          <div className="flex-shrink-0 flex justify-center space-x-2 py-3 border-t border-gray-100">
+          <div className="flex-shrink-0 flex justify-center space-x-2 py-3 border-t border-[#F4F0EB]">
             {snapPoints
               .filter(s => s.key !== 'closed')
               .map((snap) => (
@@ -211,7 +211,7 @@ export function MobileBottomSheet({
                     'w-2 h-2 rounded-full transition-all',
                     currentSnapPoint === snap.key
                       ? 'bg-[var(--color-primary)] w-4'
-                      : 'bg-gray-300'
+                      : 'bg-[#EEEEEE]'
                   )}
                 />
               ))}
@@ -287,11 +287,11 @@ export function BottomSheetForm({
         </div>
 
         {/* Actions */}
-        <div className="flex space-x-3 pt-6 border-t border-gray-100 mt-6">
+        <div className="flex space-x-3 pt-6 border-t border-[#F4F0EB] mt-6">
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 px-4 py-3 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+            className="flex-1 px-4 py-3 text-sm font-medium text-[#3A3A3A] bg-[#F4F0EB] rounded-xl hover:bg-[#EEEEEE] transition-colors"
           >
             Annuler
           </button>

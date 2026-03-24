@@ -78,7 +78,7 @@ export function OcrScanner() {
       <div
         onDrop={handleDrop}
         onDragOver={e => e.preventDefault()}
-        className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors"
+        className="border-2 border-dashed border-[#EEEEEE] rounded-lg p-8 text-center hover:border-primary transition-colors"
       >
         {image ? (
           <div className="space-y-4">
@@ -90,14 +90,14 @@ export function OcrScanner() {
               className="max-w-full max-h-64 mx-auto rounded-lg shadow-lg object-contain"
               unoptimized
             />
-            <p className="text-sm text-gray-600">{image.name}</p>
+            <p className="text-sm text-[#777777]">{image.name}</p>
           </div>
         ) : (
           <div className="space-y-4">
-            <FileImage className="w-16 h-16 mx-auto text-gray-400" />
+            <FileImage className="w-16 h-16 mx-auto text-[#999999]" />
             <div>
-              <p className="text-lg font-medium text-gray-900">Glissez une image ici</p>
-              <p className="text-gray-500">ou cliquez pour sélectionner</p>
+              <p className="text-lg font-medium text-[#111111]">Glissez une image ici</p>
+              <p className="text-[#777777]">ou cliquez pour sélectionner</p>
             </div>
             <input
               type="file"
@@ -142,7 +142,7 @@ export function OcrScanner() {
 
       {/* Progress Bar */}
       {loading && (
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-[#EEEEEE] rounded-full h-2">
           <div
             className="bg-primary h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
@@ -154,10 +154,10 @@ export function OcrScanner() {
       {extractedText && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium text-gray-900">Texte extrait</h3>
+            <h3 className="text-lg font-medium text-[#111111]">Texte extrait</h3>
             <button
               onClick={copyText}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-2 text-sm bg-[#F4F0EB] hover:bg-[#EEEEEE] rounded-md transition-colors"
             >
               <Copy className="w-4 h-4" />
               {copied ? 'Copié !' : 'Copier'}
@@ -166,7 +166,7 @@ export function OcrScanner() {
           <textarea
             value={extractedText}
             onChange={e => setExtractedText(e.target.value)}
-            className="w-full h-64 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="w-full h-64 p-4 border border-[#EEEEEE] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="Le texte extrait apparaîtra ici..."
           />
         </div>

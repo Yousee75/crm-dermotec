@@ -53,7 +53,7 @@ export function StickyBottomBar({
     <div
       className={cn(
         'fixed bottom-0 left-0 right-0 z-50 md:hidden',
-        'bg-white border-t border-gray-200',
+        'bg-white border-t border-[#EEEEEE]',
         'shadow-[0_-4px_12px_rgba(0,0,0,0.1)]',
         'transition-transform duration-300 ease-out',
         isVisible ? 'translate-y-0' : 'translate-y-full'
@@ -64,7 +64,7 @@ export function StickyBottomBar({
         <div className="flex items-center justify-between gap-3">
           {/* Info formation */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-gray-900 text-sm truncate">
+            <h3 className="font-semibold text-[#111111] text-sm truncate">
               {formationNom}
             </h3>
             <p className="font-bold text-primary text-lg leading-tight">

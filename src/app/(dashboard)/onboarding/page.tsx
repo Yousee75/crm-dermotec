@@ -117,17 +117,17 @@ export default function OnboardingPage() {
   return (
     <div className="flex flex-col -m-4 md:-m-6 lg:-m-8">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 px-6 py-4">
+      <header className="bg-white border-b border-[#F4F0EB] px-6 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <h1 className="text-lg font-bold text-accent">
             <span className="text-primary">Dermotec</span> CRM
           </h1>
-          <span className="text-xs text-gray-400">Étape {step + 1} sur {STEPS.length}</span>
+          <span className="text-xs text-[#999999]">Étape {step + 1} sur {STEPS.length}</span>
         </div>
       </header>
 
       {/* Progress bar */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="bg-white border-b border-[#F4F0EB]">
         <div className="max-w-2xl mx-auto px-6">
           <div className="flex items-center gap-2 py-3">
             {STEPS.map((s, i) => {
@@ -139,14 +139,14 @@ export default function OnboardingPage() {
                   <div className={cn(
                     'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
                     isActive ? 'bg-primary/10 text-primary' :
-                    isDone ? 'bg-green-50 text-green-600' :
-                    'text-gray-400'
+                    isDone ? 'bg-[#ECFDF5] text-[#10B981]' :
+                    'text-[#999999]'
                   )}>
                     {isDone ? <Check className="w-3.5 h-3.5" /> : <Icon className="w-3.5 h-3.5" />}
                     <span className="hidden sm:inline">{s.label}</span>
                   </div>
                   {i < STEPS.length - 1 && (
-                    <div className={cn('flex-1 h-0.5 rounded-full', isDone ? 'bg-green-200' : 'bg-gray-200')} />
+                    <div className={cn('flex-1 h-0.5 rounded-full', isDone ? 'bg-green-200' : 'bg-[#EEEEEE]')} />
                   )}
                 </div>
               )
@@ -163,24 +163,24 @@ export default function OnboardingPage() {
             <div className="space-y-6 animate-fadeIn">
               <div>
                 <h2 className="text-2xl font-bold text-accent mb-2">Parlons de votre entreprise</h2>
-                <p className="text-gray-600">Ces informations nous aident à personnaliser votre CRM.</p>
+                <p className="text-[#777777]">Ces informations nous aident à personnaliser votre CRM.</p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Nom de l&apos;entreprise *</label>
+                  <label className="block text-sm font-medium text-[#3A3A3A] mb-1.5">Nom de l&apos;entreprise *</label>
                   <input
                     type="text"
                     value={entreprise.nom}
                     onChange={e => setEntreprise(p => ({ ...p, nom: e.target.value }))}
                     placeholder="Mon Institut Beauté"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     autoFocus
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Secteur d&apos;activité *</label>
+                  <label className="block text-sm font-medium text-[#3A3A3A] mb-1.5">Secteur d&apos;activité *</label>
                   <div className="grid grid-cols-2 gap-2">
                     {SECTEURS.map(s => (
                       <button
@@ -190,7 +190,7 @@ export default function OnboardingPage() {
                           'px-3 py-2.5 rounded-lg text-sm text-left transition border min-h-[44px]',
                           entreprise.secteur === s
                             ? 'bg-primary/10 border-primary/30 text-primary font-medium'
-                            : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                            : 'border-[#EEEEEE] text-[#777777] hover:bg-[#FAF8F5]'
                         )}
                       >
                         {s}
@@ -201,23 +201,23 @@ export default function OnboardingPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">SIRET (optionnel)</label>
+                    <label className="block text-sm font-medium text-[#3A3A3A] mb-1.5">SIRET (optionnel)</label>
                     <input
                       type="text"
                       value={entreprise.siret}
                       onChange={e => setEntreprise(p => ({ ...p, siret: e.target.value }))}
                       placeholder="123 456 789 00012"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Ville</label>
+                    <label className="block text-sm font-medium text-[#3A3A3A] mb-1.5">Ville</label>
                     <input
                       type="text"
                       value={entreprise.ville}
                       onChange={e => setEntreprise(p => ({ ...p, ville: e.target.value }))}
                       placeholder="Paris"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     />
                   </div>
                 </div>
@@ -230,12 +230,12 @@ export default function OnboardingPage() {
             <div className="space-y-6 animate-fadeIn">
               <div>
                 <h2 className="text-2xl font-bold text-accent mb-2">Votre équipe</h2>
-                <p className="text-gray-600">Combien de personnes utiliseront le CRM ?</p>
+                <p className="text-[#777777]">Combien de personnes utiliseront le CRM ?</p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Taille de l&apos;équipe *</label>
+                  <label className="block text-sm font-medium text-[#3A3A3A] mb-2">Taille de l&apos;équipe *</label>
                   <div className="grid grid-cols-2 gap-3">
                     {TAILLES.map(t => (
                       <button
@@ -245,10 +245,10 @@ export default function OnboardingPage() {
                           'px-4 py-4 rounded-xl text-left transition border min-h-[60px]',
                           equipe.taille === t.value
                             ? 'bg-primary/10 border-primary/30 ring-2 ring-primary/20'
-                            : 'border-gray-200 hover:bg-gray-50'
+                            : 'border-[#EEEEEE] hover:bg-[#FAF8F5]'
                         )}
                       >
-                        <span className={cn('text-sm font-medium', equipe.taille === t.value ? 'text-primary' : 'text-gray-800')}>
+                        <span className={cn('text-sm font-medium', equipe.taille === t.value ? 'text-primary' : 'text-[#1A1A1A]')}>
                           {t.label}
                         </span>
                       </button>
@@ -257,11 +257,11 @@ export default function OnboardingPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Votre rôle</label>
+                  <label className="block text-sm font-medium text-[#3A3A3A] mb-1.5">Votre rôle</label>
                   <select
                     value={equipe.role}
                     onChange={e => setEquipe(p => ({ ...p, role: e.target.value }))}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                   >
                     <option value="">Sélectionnez...</option>
                     <option value="dirigeant">Dirigeant(e)</option>
@@ -280,7 +280,7 @@ export default function OnboardingPage() {
             <div className="space-y-6 animate-fadeIn">
               <div>
                 <h2 className="text-2xl font-bold text-accent mb-2">Vos priorités</h2>
-                <p className="text-gray-600">Qu&apos;attendez-vous du CRM ? (Sélectionnez au moins 1)</p>
+                <p className="text-[#777777]">Qu&apos;attendez-vous du CRM ? (Sélectionnez au moins 1)</p>
               </div>
 
               <div className="space-y-3">
@@ -292,22 +292,22 @@ export default function OnboardingPage() {
                       'w-full flex items-start gap-3 p-4 rounded-xl text-left transition border min-h-[60px]',
                       objectifs.includes(obj.id)
                         ? 'bg-primary/5 border-primary/30 ring-2 ring-primary/20'
-                        : 'border-gray-200 hover:bg-gray-50'
+                        : 'border-[#EEEEEE] hover:bg-[#FAF8F5]'
                     )}
                   >
                     <div className={cn(
                       'w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 transition',
                       objectifs.includes(obj.id)
                         ? 'bg-primary border-primary'
-                        : 'border-gray-300'
+                        : 'border-[#EEEEEE]'
                     )}>
                       {objectifs.includes(obj.id) && <Check className="w-3 h-3 text-white" />}
                     </div>
                     <div>
-                      <p className={cn('text-sm font-medium', objectifs.includes(obj.id) ? 'text-accent' : 'text-gray-700')}>
+                      <p className={cn('text-sm font-medium', objectifs.includes(obj.id) ? 'text-accent' : 'text-[#3A3A3A]')}>
                         {obj.label}
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">{obj.desc}</p>
+                      <p className="text-xs text-[#999999] mt-0.5">{obj.desc}</p>
                     </div>
                   </button>
                 ))}
@@ -318,7 +318,7 @@ export default function OnboardingPage() {
       </main>
 
       {/* Footer navigation */}
-      <footer className="bg-white border-t border-gray-100 px-6 py-4">
+      <footer className="bg-white border-t border-[#F4F0EB] px-6 py-4">
         <div className="max-w-lg mx-auto flex items-center justify-between">
           {step > 0 ? (
             <Button variant="ghost" onClick={() => setStep(s => s - 1)} icon={<ChevronLeft className="w-4 h-4" />}>

@@ -166,9 +166,9 @@ export default function FinancementExpress({
 
   if (compact && result) {
     return (
-      <div className="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-transparent border border-green-200 rounded-lg">
+      <div className="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-transparent border border-[#10B981]/30 rounded-lg">
         <div className="flex items-center gap-2">
-          <CheckCircle className="h-4 w-4 text-green-600" />
+          <CheckCircle className="h-4 w-4 text-[#10B981]" />
           <span className="font-medium text-sm text-slate-900">
             {result.organisme.sigle}
           </span>
@@ -178,7 +178,7 @@ export default function FinancementExpress({
         </div>
         <div className="text-right">
           {result.resteACharge === 0 ? (
-            <Badge className="bg-green-500 text-white">
+            <Badge className="bg-[#10B981] text-white">
               Formation gratuite !
             </Badge>
           ) : (
@@ -217,7 +217,7 @@ export default function FinancementExpress({
                   variant={detection.confidence === 'high' ? 'default' : 'secondary'}
                   className={cn(
                     'text-xs',
-                    detection.confidence === 'high' && 'bg-green-100 text-green-700'
+                    detection.confidence === 'high' && 'bg-[#D1FAE5] text-[#10B981]'
                   )}
                 >
                   {detection.confidence === 'high' ? 'Confiance élevée' : 'À vérifier'}
@@ -276,27 +276,27 @@ export default function FinancementExpress({
 
               {/* Montants */}
               <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="text-center p-3 bg-green-50 rounded-lg border border-green-200">
-                  <p className="text-2xl font-bold text-green-700">
+                <div className="text-center p-3 bg-[#ECFDF5] rounded-lg border border-[#10B981]/30">
+                  <p className="text-2xl font-bold text-[#10B981]">
                     {formatEuro(result.montantPrisEnCharge)}
                   </p>
-                  <p className="text-xs text-green-600 mt-1">Pris en charge</p>
+                  <p className="text-xs text-[#10B981] mt-1">Pris en charge</p>
                 </div>
                 <div className={cn(
                   'text-center p-3 rounded-lg border',
                   result.resteACharge === 0
-                    ? 'bg-green-50 border-green-200'
-                    : 'bg-red-50 border-red-200'
+                    ? 'bg-[#ECFDF5] border-[#10B981]/30'
+                    : 'bg-[#FFE0EF] border-[#FF2D78]/30'
                 )}>
                   <p className={cn(
                     'text-2xl font-bold',
-                    result.resteACharge === 0 ? 'text-green-700' : 'text-red-700'
+                    result.resteACharge === 0 ? 'text-[#10B981]' : 'text-[#FF2D78]'
                   )}>
                     {result.resteACharge === 0 ? '0€' : formatEuro(result.resteACharge)}
                   </p>
                   <p className={cn(
                     'text-xs mt-1',
-                    result.resteACharge === 0 ? 'text-green-600' : 'text-red-600'
+                    result.resteACharge === 0 ? 'text-[#10B981]' : 'text-[#FF2D78]'
                   )}>
                     {result.resteACharge === 0 ? 'Gratuit !' : 'Reste à charge'}
                   </p>
@@ -319,8 +319,8 @@ export default function FinancementExpress({
                     transition={{ duration: 1, ease: 'easeOut' }}
                     className={cn(
                       'absolute top-0 left-0 h-3 rounded-full',
-                      result.pourcentageCouvert === 100 ? 'bg-green-500' :
-                      result.pourcentageCouvert >= 70 ? 'bg-blue-500' :
+                      result.pourcentageCouvert === 100 ? 'bg-[#10B981]' :
+                      result.pourcentageCouvert >= 70 ? 'bg-[#6B8CAE]' :
                       'bg-orange-500'
                     )}
                   />
@@ -338,14 +338,14 @@ export default function FinancementExpress({
 
               {/* Message d'encouragement */}
               {result.resteACharge === 0 && (
-                <div className="mt-3 p-3 bg-gradient-to-r from-green-100 to-green-50 border border-green-200 rounded-lg">
+                <div className="mt-3 p-3 bg-gradient-to-r from-green-100 to-green-50 border border-[#10B981]/30 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span className="text-sm font-medium text-green-800">
+                    <CheckCircle className="h-4 w-4 text-[#10B981]" />
+                    <span className="text-sm font-medium text-[#10B981]">
                       Formation 100% financée !
                     </span>
                   </div>
-                  <p className="text-xs text-green-700 mt-1">
+                  <p className="text-xs text-[#10B981] mt-1">
                     Cette formation ne vous coûtera rien grâce à vos droits {result.organisme.sigle}.
                   </p>
                 </div>
@@ -373,14 +373,14 @@ export default function FinancementExpress({
 
         {/* Message si aucun organisme disponible */}
         {organismeOptions.length === 0 && (
-          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+          <div className="p-3 bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-lg">
             <div className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4 text-amber-600" />
-              <span className="text-sm font-medium text-amber-800">
+              <AlertCircle className="h-4 w-4 text-[#FF8C42]" />
+              <span className="text-sm font-medium text-[#FF8C42]">
                 Profil à compléter
               </span>
             </div>
-            <p className="text-xs text-amber-700 mt-1">
+            <p className="text-xs text-[#FF8C42] mt-1">
               Veuillez renseigner le statut professionnel pour déterminer les financements possibles.
             </p>
           </div>

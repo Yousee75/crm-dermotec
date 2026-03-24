@@ -17,7 +17,7 @@ interface TabBarProps {
 
 export function TabBar({ tabs, activeTab, onChange, className }: TabBarProps) {
   return (
-    <div className={cn("flex items-center gap-1 border-b border-gray-200 mb-6", className)}>
+    <div className={cn("flex items-center gap-1 border-b border-[#EEEEEE] mb-6", className)}>
       {tabs.map(tab => (
         <button
           key={tab.id}
@@ -26,12 +26,12 @@ export function TabBar({ tabs, activeTab, onChange, className }: TabBarProps) {
             'px-4 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px',
             activeTab === tab.id
               ? 'border-primary text-primary'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              : 'border-transparent text-[#777777] hover:text-[#3A3A3A]'
           )}
         >
           {tab.label}
           {tab.count !== undefined && (
-            <span className="ml-1.5 text-xs text-gray-400">({tab.count})</span>
+            <span className="ml-1.5 text-xs text-[#999999]">({tab.count})</span>
           )}
         </button>
       ))}

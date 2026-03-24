@@ -37,7 +37,7 @@ export default function PolitiqueConfidentialitePage() {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-[#E0EBF5] rounded-lg flex items-center justify-center mb-4">
                 <MapPin className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-semibold text-accent mb-2">Hébergement UE</h3>
@@ -51,15 +51,15 @@ export default function PolitiqueConfidentialitePage() {
               <p className="text-sm text-slate-600">TLS 1.3 en transit, AES-256 au repos. Niveau bancaire.</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-red-500" />
+              <div className="w-12 h-12 bg-[#FFE0EF] rounded-lg flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-[#FF2D78]" />
               </div>
               <h3 className="font-semibold text-accent mb-2">Pas de revente</h3>
               <p className="text-sm text-slate-600">Jamais. On ne monétise pas vos données personnelles.</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-4">
-                <Eye className="w-6 h-6 text-purple-600" />
+              <div className="w-12 h-12 bg-[#FFE0EF] rounded-lg flex items-center justify-center mb-4">
+                <Eye className="w-6 h-6 text-[#FF2D78]" />
               </div>
               <h3 className="font-semibold text-accent mb-2">Vos droits garantis</h3>
               <p className="text-sm text-slate-600">Accès, rectification, suppression. En 30 jours maximum.</p>
@@ -118,7 +118,7 @@ export default function PolitiqueConfidentialitePage() {
                 </tbody>
               </table>
             </div>
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="mt-6 p-4 bg-[#E0EBF5] rounded-lg border border-[#6B8CAE]/30">
               <p className="text-accent">
                 <strong>Concrètement :</strong> si vous êtes client Dermotec CRM, vous restez maître de vos données CRM.
                 Nous ne faisons que les héberger et les traiter selon vos instructions.
@@ -269,7 +269,7 @@ export default function PolitiqueConfidentialitePage() {
               </table>
             </div>
 
-            <div className="mt-8 p-6 bg-amber-50 rounded-lg border border-amber-200">
+            <div className="mt-8 p-6 bg-[#FFF3E8] rounded-lg border border-[#FF8C42]/30">
               <h3 className="text-lg font-semibold text-accent mb-3">Transferts hors Union européenne</h3>
               <p className="text-accent">
                 <strong>Sécurité renforcée pour les transferts US.</strong> Tous nos partenaires américains sont encadrés par les
@@ -304,13 +304,13 @@ export default function PolitiqueConfidentialitePage() {
                 </ul>
               </div>
 
-              <div className="p-6 bg-blue-50 rounded-lg border border-blue-200">
-                <h3 className="text-lg font-semibold text-blue-800 mb-3">
+              <div className="p-6 bg-[#E0EBF5] rounded-lg border border-[#6B8CAE]/30">
+                <h3 className="text-lg font-semibold text-[#6B8CAE] mb-3">
                   <Eye className="w-5 h-5 inline mr-2" />
                   Cookies analytiques
                 </h3>
-                <p className="text-blue-700 text-sm mb-3">Avec votre consentement — pour améliorer l'expérience</p>
-                <ul className="space-y-2 text-sm text-blue-700">
+                <p className="text-[#6B8CAE] text-sm mb-3">Avec votre consentement — pour améliorer l'expérience</p>
+                <ul className="space-y-2 text-sm text-[#6B8CAE]">
                   <li><strong>Vercel Analytics</strong> — Mesure d'audience anonymisée (13 mois max)</li>
                 </ul>
               </div>
@@ -389,7 +389,7 @@ export default function PolitiqueConfidentialitePage() {
               <strong>Les données anonymisées nous aident à améliorer le produit.</strong> Une fois anonymisées,
               elles ne vous identifient plus et sortent du champ RGPD.
             </p>
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border border-blue-200 mb-6">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border border-[#6B8CAE]/30 mb-6">
               <h3 className="font-semibold text-accent mb-3">Ce qu'on peut faire avec les données anonymisées :</h3>
               <ul className="space-y-2 text-sm text-accent">
                 <li>• Produire des benchmarks sectoriels anonymisés</li>
@@ -398,7 +398,7 @@ export default function PolitiqueConfidentialitePage() {
                 <li>• Publier des études statistiques sur le secteur de la formation esthétique</li>
               </ul>
             </div>
-            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+            <div className="p-4 bg-[#FFF3E8] rounded-lg border border-[#FF8C42]/30">
               <p className="text-accent text-sm">
                 <strong>Propriété intellectuelle :</strong> Satorea détient l'intégralité des droits sur les données dérivées
                 (scores, analyses, indicateurs) générées par l'utilisation de la Solution.
@@ -484,8 +484,8 @@ export default function PolitiqueConfidentialitePage() {
                 </tbody>
               </table>
             </div>
-            <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-              <p className="text-green-800 text-sm">
+            <div className="mt-4 p-4 bg-[#ECFDF5] rounded-lg border border-[#10B981]/30">
+              <p className="text-[#10B981] text-sm">
                 <strong>Minimisation des données IA :</strong> seules les données strictement nécessaires
                 sont transmises aux IA (contexte conversation, catalogue formations).
                 Les identifiants personnels ne sont transmis que si nécessaire à la personnalisation.
@@ -522,8 +522,8 @@ export default function PolitiqueConfidentialitePage() {
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <Eye className="w-4 h-4 text-blue-600" />
+                  <div className="w-8 h-8 bg-[#E0EBF5] rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Eye className="w-4 h-4 text-[#6B8CAE]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-accent">Droit d'accès (art. 15)</h3>
@@ -542,8 +542,8 @@ export default function PolitiqueConfidentialitePage() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <Shield className="w-4 h-4 text-red-600" />
+                  <div className="w-8 h-8 bg-[#FFE0EF] rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Shield className="w-4 h-4 text-[#FF2D78]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-accent">Droit à l'effacement (art. 17)</h3>
@@ -554,8 +554,8 @@ export default function PolitiqueConfidentialitePage() {
 
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <Lock className="w-4 h-4 text-purple-600" />
+                  <div className="w-8 h-8 bg-[#FFE0EF] rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Lock className="w-4 h-4 text-[#FF2D78]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-accent">Droit à la limitation (art. 18)</h3>
@@ -574,8 +574,8 @@ export default function PolitiqueConfidentialitePage() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <MapPin className="w-4 h-4 text-yellow-600" />
+                  <div className="w-8 h-8 bg-[#FFF3E8] rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <MapPin className="w-4 h-4 text-[#FF8C42]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-accent">Droit d'opposition (art. 21)</h3>
@@ -585,7 +585,7 @@ export default function PolitiqueConfidentialitePage() {
               </div>
             </div>
 
-            <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
+            <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-[#6B8CAE]/30">
               <h3 className="font-semibold text-accent mb-2">Comment exercer vos droits ?</h3>
               <p className="text-accent mb-3">
                 Envoyez simplement un email à{' '}
@@ -597,8 +597,8 @@ export default function PolitiqueConfidentialitePage() {
               </p>
             </div>
 
-            <div className="mt-4 p-4 bg-amber-50 rounded-lg border border-amber-200">
-              <p className="text-amber-800 text-sm">
+            <div className="mt-4 p-4 bg-[#FFF3E8] rounded-lg border border-[#FF8C42]/30">
+              <p className="text-[#FF8C42] text-sm">
                 <strong>Données saisies par un client :</strong> Si vos données ont été saisies dans Dermotec CRM
                 par un centre de formation, adressez-vous directement au centre. Nous l'assisterons dans le traitement.
               </p>
@@ -652,14 +652,14 @@ export default function PolitiqueConfidentialitePage() {
                 <p className="text-sm text-emerald-700">TLS 1.3 en transit<br/>AES-256 au repos</p>
               </div>
 
-              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <h3 className="font-semibold text-blue-800 mb-2">Isolation</h3>
-                <p className="text-sm text-blue-700">Row Level Security PostgreSQL<br/>Données clients étanches</p>
+              <div className="p-4 bg-[#E0EBF5] rounded-lg border border-[#6B8CAE]/30">
+                <h3 className="font-semibold text-[#6B8CAE] mb-2">Isolation</h3>
+                <p className="text-sm text-[#6B8CAE]">Row Level Security PostgreSQL<br/>Données clients étanches</p>
               </div>
 
-              <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                <h3 className="font-semibold text-purple-800 mb-2">Authentification</h3>
-                <p className="text-sm text-purple-700">MFA disponible<br/>Tous comptes protégés</p>
+              <div className="p-4 bg-[#FFE0EF] rounded-lg border border-[#FF2D78]/30">
+                <h3 className="font-semibold text-[#FF2D78] mb-2">Authentification</h3>
+                <p className="text-sm text-[#FF2D78]">MFA disponible<br/>Tous comptes protégés</p>
               </div>
 
               <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
@@ -667,14 +667,14 @@ export default function PolitiqueConfidentialitePage() {
                 <p className="text-sm text-orange-700">Quotidiennes automatiques<br/>Rétention 30 jours</p>
               </div>
 
-              <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-                <h3 className="font-semibold text-red-800 mb-2">Monitoring</h3>
-                <p className="text-sm text-red-700">Logs des accès<br/>Actions sensibles tracées</p>
+              <div className="p-4 bg-[#FFE0EF] rounded-lg border border-[#FF2D78]/30">
+                <h3 className="font-semibold text-[#FF2D78] mb-2">Monitoring</h3>
+                <p className="text-sm text-[#FF2D78]">Logs des accès<br/>Actions sensibles tracées</p>
               </div>
 
-              <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                <h3 className="font-semibold text-yellow-800 mb-2">Audits</h3>
-                <p className="text-sm text-yellow-700">Sécurité annuelle<br/>Tiers indépendant</p>
+              <div className="p-4 bg-[#FFF3E8] rounded-lg border border-[#FF8C42]/30">
+                <h3 className="font-semibold text-[#FF8C42] mb-2">Audits</h3>
+                <p className="text-sm text-[#FF8C42]">Sécurité annuelle<br/>Tiers indépendant</p>
               </div>
             </div>
 
@@ -696,8 +696,8 @@ export default function PolitiqueConfidentialitePage() {
               Toute modification substantielle vous sera notifiée par email ou dans l'application,
               minimum 30 jours avant entrée en vigueur.
             </p>
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="text-blue-800 text-sm">
+            <div className="mt-4 p-4 bg-[#E0EBF5] rounded-lg border border-[#6B8CAE]/30">
+              <p className="text-[#6B8CAE] text-sm">
                 <strong>Modifications mineures</strong> (corrections, clarifications) :
                 mise à jour directe avec notification dans l'historique.
               </p>
@@ -711,12 +711,12 @@ export default function PolitiqueConfidentialitePage() {
           <h2 className="text-2xl font-semibold font-[family-name:var(--font-heading)] mb-4">
             Une question sur vos données ?
           </h2>
-          <p className="text-blue-100 mb-6">
+          <p className="text-[#6B8CAE] mb-6">
             Notre Délégué à la Protection des Données vous répond directement.
           </p>
           <a
             href="mailto:dpo@satorea.fr"
-            className="inline-flex items-center gap-2 bg-white text-accent px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-accent px-6 py-3 rounded-lg font-medium hover:bg-[#E0EBF5] transition-colors"
           >
             Contactez notre DPO
           </a>

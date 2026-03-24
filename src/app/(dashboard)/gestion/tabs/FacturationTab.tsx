@@ -78,22 +78,22 @@ const MOCK_FACTURES: Facture[] = [
 const STATUT_CONFIG = {
   brouillon: {
     label: 'Brouillon',
-    color: 'bg-gray-50 text-gray-600 border-gray-200',
+    color: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]',
     icon: Clock
   },
   envoyee: {
     label: 'Envoyée',
-    color: 'bg-blue-50 text-blue-700 border-blue-200',
+    color: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30',
     icon: Clock
   },
   payee: {
     label: 'Payée',
-    color: 'bg-green-50 text-green-700 border-green-200',
+    color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
     icon: CheckCircle
   },
   en_retard: {
     label: 'En retard',
-    color: 'bg-red-50 text-red-700 border-red-200',
+    color: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30',
     icon: AlertTriangle
   }
 }
@@ -128,40 +128,40 @@ export default function FacturationTab() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Factures totales</p>
-              <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-sm text-[#777777]">Factures totales</p>
+              <p className="text-xl font-bold text-[#111111]">{stats.total}</p>
             </div>
-            <Receipt className="w-8 h-8 text-gray-400" />
+            <Receipt className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">CA ce mois</p>
-              <p className="text-xl font-bold text-green-600">{stats.ca_mensuel.toLocaleString('fr-FR')}€</p>
+              <p className="text-sm text-[#777777]">CA ce mois</p>
+              <p className="text-xl font-bold text-[#10B981]">{stats.ca_mensuel.toLocaleString('fr-FR')}€</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-400" />
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">En attente</p>
-              <p className="text-xl font-bold text-blue-600">{stats.en_attente.toLocaleString('fr-FR')}€</p>
+              <p className="text-sm text-[#777777]">En attente</p>
+              <p className="text-xl font-bold text-[#6B8CAE]">{stats.en_attente.toLocaleString('fr-FR')}€</p>
             </div>
-            <Clock className="w-8 h-8 text-blue-400" />
+            <Clock className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">En retard</p>
-              <p className="text-xl font-bold text-red-600">{stats.en_retard}</p>
+              <p className="text-sm text-[#777777]">En retard</p>
+              <p className="text-xl font-bold text-[#FF2D78]">{stats.en_retard}</p>
             </div>
-            <AlertTriangle className="w-8 h-8 text-red-400" />
+            <AlertTriangle className="w-8 h-8 text-[#FF2D78]" />
           </div>
         </Card>
       </div>
@@ -178,7 +178,7 @@ export default function FacturationTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="brouillon">Brouillon</option>
@@ -208,63 +208,63 @@ export default function FacturationTab() {
           description="Les factures de formation apparaîtront ici une fois émises."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50 border-b border-gray-100">
+              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Numéro
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Client
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Formation
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Montant HT
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Montant TTC
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Statut
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Échéance
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 {factures.map((facture) => {
                   const statutConfig = STATUT_CONFIG[facture.statut]
                   const StatutIcon = statutConfig.icon
                   const isOverdue = facture.statut === 'envoyee' && new Date(facture.date_echeance) < new Date()
 
                   return (
-                    <tr key={facture.id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={facture.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                       <td className="px-6 py-4">
                         <Link href={`/facture/${facture.id}`} className="text-primary hover:text-primary-dark font-medium text-sm">
                           {facture.numero}
                         </Link>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-gray-900">{facture.client_nom}</span>
+                        <span className="text-sm font-medium text-[#111111]">{facture.client_nom}</span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm text-gray-600">{facture.formation}</span>
+                        <span className="text-sm text-[#777777]">{facture.formation}</span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm text-gray-900">
+                        <span className="text-sm text-[#111111]">
                           {facture.montant_ht.toLocaleString('fr-FR', { minimumFractionDigits: 2 })}€
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-[#111111]">
                           {facture.montant_ttc.toLocaleString('fr-FR')}€
                         </span>
                       </td>
@@ -277,7 +277,7 @@ export default function FacturationTab() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`text-sm ${isOverdue ? 'text-red-600 font-medium' : 'text-gray-500'}`}>
+                        <span className={`text-sm ${isOverdue ? 'text-[#FF2D78] font-medium' : 'text-[#777777]'}`}>
                           {new Date(facture.date_echeance).toLocaleDateString('fr-FR')}
                         </span>
                       </td>

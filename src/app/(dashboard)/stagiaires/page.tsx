@@ -210,7 +210,7 @@ export default function StagiairesPage() {
 
   const SortableHeader = ({ column, children }: { column: typeof sortBy, children: React.ReactNode }) => (
     <th
-      className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+      className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider cursor-pointer hover:bg-[#F4F0EB] transition-colors"
       onClick={() => handleSort(column)}
     >
       <div className="flex items-center gap-1">
@@ -231,7 +231,7 @@ export default function StagiairesPage() {
           key={i}
           className={cn(
             "w-3 h-3",
-            i < rating ? "fill-amber-400 text-amber-400" : "text-gray-200"
+            i < rating ? "fill-amber-400 text-[#FF8C42]" : "text-[#EEEEEE]"
           )}
         />
       ))}
@@ -239,7 +239,7 @@ export default function StagiairesPage() {
   )
 
   const renderPresenceBar = (taux: number | null) => {
-    if (!taux) return <span className="text-xs text-gray-300">—</span>
+    if (!taux) return <span className="text-xs text-[#999999]">—</span>
 
     const color = taux >= 80 ? 'var(--color-success)' : taux >= 50 ? '#F59E0B' : '#EF4444'
     return (
@@ -302,11 +302,11 @@ export default function StagiairesPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 p-1 bg-gray-100 rounded-lg w-fit">
+      <div className="flex items-center gap-1 p-1 bg-[#F4F0EB] rounded-lg w-fit">
         <button
           className={cn(
             "px-3 py-2 rounded-md text-sm font-medium transition-colors",
-            activeTab === 'all' ? "bg-white text-accent shadow-sm" : "text-gray-600 hover:text-gray-900"
+            activeTab === 'all' ? "bg-white text-accent shadow-sm" : "text-[#777777] hover:text-[#111111]"
           )}
           onClick={() => { setActiveTab('all'); setPage(1) }}
         >
@@ -315,7 +315,7 @@ export default function StagiairesPage() {
         <button
           className={cn(
             "px-3 py-2 rounded-md text-sm font-medium transition-colors",
-            activeTab === 'alumni' ? "bg-white text-accent shadow-sm" : "text-gray-600 hover:text-gray-900"
+            activeTab === 'alumni' ? "bg-white text-accent shadow-sm" : "text-[#777777] hover:text-[#111111]"
           )}
           onClick={() => { setActiveTab('alumni'); setPage(1) }}
         >
@@ -337,7 +337,7 @@ export default function StagiairesPage() {
           <select
             value={statutFilter}
             onChange={(e) => { setStatutFilter(e.target.value as StatutInscription | ''); setPage(1) }}
-            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+            className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Tous les statuts</option>
             {Object.entries(STATUTS_INSCRIPTION).map(([value, { label }]) => (
@@ -349,7 +349,7 @@ export default function StagiairesPage() {
         <select
           value={formationFilter}
           onChange={(e) => { setFormationFilter(e.target.value); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Toutes les formations</option>
           {formations.map(formation => (
@@ -360,7 +360,7 @@ export default function StagiairesPage() {
         <select
           value={sessionFilter}
           onChange={(e) => { setSessionFilter(e.target.value); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Toutes les sessions</option>
           {sessions.map(session => (
@@ -373,7 +373,7 @@ export default function StagiairesPage() {
         <select
           value={paiementFilter}
           onChange={(e) => { setPaiementFilter(e.target.value as PaiementStatut | ''); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Tous les paiements</option>
           {Object.entries(PAIEMENT_STATUTS).map(([value, { label }]) => (
@@ -390,19 +390,19 @@ export default function StagiairesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50/80 border-b border-gray-100">
+                <tr className="bg-[#FAF8F5]/80 border-b border-[#F4F0EB]">
                   <SortableHeader column="nom">Stagiaire</SortableHeader>
                   <SortableHeader column="formation">Formation</SortableHeader>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Session</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Session</th>
                   <SortableHeader column="statut">Statut</SortableHeader>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Paiement</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Présence</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Satisfaction</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Certificat</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Paiement</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Présence</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Satisfaction</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Certificat</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {inscriptions.length === 0 ? (
                   <tr>
                     <td colSpan={9}>
@@ -438,15 +438,15 @@ export default function StagiairesPage() {
                             <p className="font-medium text-accent">
                               {lead?.prenom} {lead?.nom || ''}
                             </p>
-                            <p className="text-xs text-gray-400">{lead?.email}</p>
+                            <p className="text-xs text-[#999999]">{lead?.email}</p>
                           </div>
                         </div>
                       </td>
 
                       <td className="px-4 py-3">
                         <div>
-                          <p className="font-medium text-gray-700 text-xs">{formation?.nom || '—'}</p>
-                          <p className="text-[10px] text-gray-400">{formation?.categorie}</p>
+                          <p className="font-medium text-[#3A3A3A] text-xs">{formation?.nom || '—'}</p>
+                          <p className="text-[10px] text-[#999999]">{formation?.categorie}</p>
                         </div>
                       </td>
 
@@ -458,9 +458,9 @@ export default function StagiairesPage() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <p>{formatDate(session.date_debut, { day: 'numeric', month: 'short' })}</p>
-                            <p className="text-gray-400">{session.horaire_debut} - {session.horaire_fin}</p>
+                            <p className="text-[#999999]">{session.horaire_debut} - {session.horaire_fin}</p>
                           </Link>
-                        ) : <span className="text-gray-300">—</span>}
+                        ) : <span className="text-[#999999]">—</span>}
                       </td>
 
                       <td className="px-4 py-3">
@@ -473,7 +473,7 @@ export default function StagiairesPage() {
 
                       <td className="px-4 py-3">
                         <div className="space-y-1">
-                          <p className="font-semibold text-gray-700 text-xs">
+                          <p className="font-semibold text-[#3A3A3A] text-xs">
                             {formatEuro(inscription.montant_total)}
                           </p>
                           <StatusBadge
@@ -491,17 +491,17 @@ export default function StagiairesPage() {
                       <td className="px-4 py-3">
                         {inscription.note_satisfaction ? (
                           <StarRating rating={inscription.note_satisfaction} />
-                        ) : <span className="text-xs text-gray-300">—</span>}
+                        ) : <span className="text-xs text-[#999999]">—</span>}
                       </td>
 
                       <td className="px-4 py-3">
                         {inscription.certificat_genere ? (
-                          <div className="flex items-center gap-1 text-green-600">
+                          <div className="flex items-center gap-1 text-[#10B981]">
                             <CheckCircle2 className="w-4 h-4" />
                             <span className="text-xs font-medium">Généré</span>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1 text-gray-300">
+                          <div className="flex items-center gap-1 text-[#999999]">
                             <XCircle className="w-4 h-4" />
                             <span className="text-xs">Non généré</span>
                           </div>
@@ -553,7 +553,7 @@ export default function StagiairesPage() {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#777777]">
             Page {page} sur {totalPages} ({total} inscriptions)
           </p>
           <div className="flex items-center gap-1">

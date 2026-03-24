@@ -175,25 +175,25 @@ function SecurityStatsCards() {
       label: 'Evenements 7j',
       value: stats?.total_events ?? 0,
       icon: <Activity className="w-5 h-5" />,
-      color: 'bg-blue-50 text-blue-600',
+      color: 'bg-[#E0EBF5] text-[#6B8CAE]',
     },
     {
       label: 'Bloqués',
       value: stats?.blocked_requests ?? 0,
       icon: <ShieldBan className="w-5 h-5" />,
-      color: 'bg-red-50 text-red-600',
+      color: 'bg-[#FFE0EF] text-[#FF2D78]',
     },
     {
       label: 'Injection IA',
       value: stats?.bot_detected_events ?? 0,
       icon: <Zap className="w-5 h-5" />,
-      color: 'bg-amber-50 text-amber-600',
+      color: 'bg-[#FFF3E8] text-[#FF8C42]',
     },
     {
       label: 'Appareils non validés',
       value: stats?.new_device_events ?? 0,
       icon: <Monitor className="w-5 h-5" />,
-      color: 'bg-purple-50 text-purple-600',
+      color: 'bg-[#FFE0EF] text-[#FF2D78]',
     },
   ]
 
@@ -201,14 +201,14 @@ function SecurityStatsCards() {
     <Card padding="none">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
-            <ShieldAlert className="w-5 h-5 text-red-600" />
+          <div className="w-10 h-10 bg-[#FFE0EF] rounded-lg flex items-center justify-center">
+            <ShieldAlert className="w-5 h-5 text-[#FF2D78]" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-[#111111]">
               Statistiques sécurité — 7 derniers jours
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-[#777777]">
               Vue d'ensemble des événements de sécurité
             </p>
           </div>
@@ -218,18 +218,18 @@ function SecurityStatsCards() {
           {kpis.map((kpi) => (
             <div
               key={kpi.label}
-              className="border border-gray-100 rounded-xl p-4 flex flex-col gap-3"
+              className="border border-[#F4F0EB] rounded-xl p-4 flex flex-col gap-3"
             >
               <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center', kpi.color)}>
                 {kpi.icon}
               </div>
               <div>
                 {isLoading ? (
-                  <div className="h-8 w-16 bg-gray-100 rounded animate-pulse" />
+                  <div className="h-8 w-16 bg-[#F4F0EB] rounded animate-pulse" />
                 ) : (
-                  <p className="text-2xl font-bold text-gray-900">{kpi.value}</p>
+                  <p className="text-2xl font-bold text-[#111111]">{kpi.value}</p>
                 )}
-                <p className="text-xs text-gray-500 mt-1">{kpi.label}</p>
+                <p className="text-xs text-[#777777] mt-1">{kpi.label}</p>
               </div>
             </div>
           ))}
@@ -319,14 +319,14 @@ function PendingAlertsTable() {
     <Card padding="none">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
-            <AlertTriangle className="w-5 h-5 text-amber-600" />
+          <div className="w-10 h-10 bg-[#FFF3E8] rounded-lg flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-[#FF8C42]" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-[#111111]">
               Alertes non résolues
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-[#777777]">
               Événements suspects nécessitant une action
             </p>
           </div>
@@ -338,34 +338,34 @@ function PendingAlertsTable() {
         {isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-gray-50 rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-[#FAF8F5] rounded-lg animate-pulse" />
             ))}
           </div>
         ) : !alerts || alerts.length === 0 ? (
-          <div className="text-center py-8 text-gray-400">
-            <ShieldCheck className="w-10 h-10 mx-auto mb-2 text-green-400" />
-            <p className="text-sm font-medium text-green-600">Aucune alerte en attente</p>
+          <div className="text-center py-8 text-[#999999]">
+            <ShieldCheck className="w-10 h-10 mx-auto mb-2 text-[#10B981]" />
+            <p className="text-sm font-medium text-[#10B981]">Aucune alerte en attente</p>
           </div>
         ) : (
           <div className="overflow-x-auto -mx-6">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Date</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">User</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Niveau</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Flags</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Action</th>
-                  <th className="text-right px-6 py-2 text-xs font-medium text-gray-500 uppercase"></th>
+                <tr className="border-b border-[#F4F0EB]">
+                  <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Date</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">User</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Niveau</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Flags</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Action</th>
+                  <th className="text-right px-6 py-2 text-xs font-medium text-[#777777] uppercase"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {alerts.map((alert) => (
-                  <tr key={alert.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-3 text-gray-600 whitespace-nowrap">
+                  <tr key={alert.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                    <td className="px-6 py-3 text-[#777777] whitespace-nowrap">
                       {formatDateFR(alert.created_at)}
                     </td>
-                    <td className="px-3 py-3 text-gray-700 font-mono text-xs">
+                    <td className="px-3 py-3 text-[#3A3A3A] font-mono text-xs">
                       {truncate(alert.user_id, 8)}
                     </td>
                     <td className="px-3 py-3">{riskBadge(alert.risk_level)}</td>
@@ -376,7 +376,7 @@ function PendingAlertsTable() {
                         ))}
                       </div>
                     </td>
-                    <td className="px-3 py-3 text-gray-600 text-xs">{alert.action_taken}</td>
+                    <td className="px-3 py-3 text-[#777777] text-xs">{alert.action_taken}</td>
                     <td className="px-6 py-3 text-right">
                       <Button
                         variant="outline"
@@ -440,10 +440,10 @@ function KnownDevicesTable() {
             <Fingerprint className="w-5 h-5 text-indigo-600" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-[#111111]">
               Appareils connus
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-[#777777]">
               Fingerprints des appareils détectés
             </p>
           </div>
@@ -452,11 +452,11 @@ function KnownDevicesTable() {
         {isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-gray-50 rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-[#FAF8F5] rounded-lg animate-pulse" />
             ))}
           </div>
         ) : !devices || devices.length === 0 ? (
-          <div className="text-center py-8 text-gray-400">
+          <div className="text-center py-8 text-[#999999]">
             <Monitor className="w-10 h-10 mx-auto mb-2" />
             <p className="text-sm">Aucun appareil enregistré</p>
           </div>
@@ -464,33 +464,33 @@ function KnownDevicesTable() {
           <div className="overflow-x-auto -mx-6">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Fingerprint</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">User</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Dernière connexion</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">IPs</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Statut</th>
-                  <th className="text-right px-6 py-2 text-xs font-medium text-gray-500 uppercase"></th>
+                <tr className="border-b border-[#F4F0EB]">
+                  <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Fingerprint</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">User</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Dernière connexion</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">IPs</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Statut</th>
+                  <th className="text-right px-6 py-2 text-xs font-medium text-[#777777] uppercase"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {devices.map((device) => (
-                  <tr key={device.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={device.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                     <td className="px-6 py-3">
-                      <code className="text-xs font-mono bg-gray-100 px-2 py-0.5 rounded text-gray-700">
+                      <code className="text-xs font-mono bg-[#F4F0EB] px-2 py-0.5 rounded text-[#3A3A3A]">
                         {truncate(device.fingerprint, 16)}
                       </code>
                     </td>
-                    <td className="px-3 py-3 text-gray-700 font-mono text-xs">
+                    <td className="px-3 py-3 text-[#3A3A3A] font-mono text-xs">
                       {truncate(device.user_id, 8)}
                     </td>
-                    <td className="px-3 py-3 text-gray-600 whitespace-nowrap text-xs">
+                    <td className="px-3 py-3 text-[#777777] whitespace-nowrap text-xs">
                       {formatDateFR(device.last_seen)}
                     </td>
                     <td className="px-3 py-3">
                       <div className="flex flex-wrap gap-1">
                         {(device.ip_addresses ?? []).slice(0, 2).map((ip) => (
-                          <span key={ip} className="text-xs text-gray-500 font-mono">{ip}</span>
+                          <span key={ip} className="text-xs text-[#777777] font-mono">{ip}</span>
                         ))}
                         {(device.ip_addresses ?? []).length > 2 && (
                           <Badge variant="outline" size="xs">+{device.ip_addresses.length - 2}</Badge>
@@ -508,7 +508,7 @@ function KnownDevicesTable() {
                               onClick={() => trustMutation.mutate({ deviceId: device.id, trust: true })}
                               disabled={trustMutation.isPending}
                             >
-                              <ShieldCheck className="w-3.5 h-3.5 mr-1 text-green-600" />
+                              <ShieldCheck className="w-3.5 h-3.5 mr-1 text-[#10B981]" />
                               Valider
                             </Button>
                             <Button
@@ -516,7 +516,7 @@ function KnownDevicesTable() {
                               size="sm"
                               onClick={() => trustMutation.mutate({ deviceId: device.id, trust: false })}
                               disabled={trustMutation.isPending}
-                              className="text-red-600 hover:bg-red-50"
+                              className="text-[#FF2D78] hover:bg-[#FFE0EF]"
                             >
                               <Ban className="w-3.5 h-3.5 mr-1" />
                               Bloquer
@@ -529,7 +529,7 @@ function KnownDevicesTable() {
                             size="sm"
                             onClick={() => trustMutation.mutate({ deviceId: device.id, trust: false })}
                             disabled={trustMutation.isPending}
-                            className="text-red-600 hover:bg-red-50"
+                            className="text-[#FF2D78] hover:bg-[#FFE0EF]"
                           >
                             <Ban className="w-3.5 h-3.5 mr-1" />
                             Bloquer
@@ -542,7 +542,7 @@ function KnownDevicesTable() {
                             onClick={() => trustMutation.mutate({ deviceId: device.id, trust: true })}
                             disabled={trustMutation.isPending}
                           >
-                            <ShieldCheck className="w-3.5 h-3.5 mr-1 text-green-600" />
+                            <ShieldCheck className="w-3.5 h-3.5 mr-1 text-[#10B981]" />
                             Valider
                           </Button>
                         )}
@@ -577,9 +577,9 @@ function RecentRiskEventsTable() {
   }
 
   function riskScoreColor(score: number) {
-    if (score >= 80) return 'text-red-600 bg-red-50'
-    if (score >= 50) return 'text-amber-600 bg-amber-50'
-    return 'text-blue-600 bg-blue-50'
+    if (score >= 80) return 'text-[#FF2D78] bg-[#FFE0EF]'
+    if (score >= 50) return 'text-[#FF8C42] bg-[#FFF3E8]'
+    return 'text-[#6B8CAE] bg-[#E0EBF5]'
   }
 
   return (
@@ -590,10 +590,10 @@ function RecentRiskEventsTable() {
             <Eye className="w-5 h-5 text-rose-600" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-[#111111]">
               Derniers événements à risque
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-[#777777]">
               Événements avec score de risque &ge; 30
             </p>
           </div>
@@ -602,40 +602,40 @@ function RecentRiskEventsTable() {
         {isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-gray-50 rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-[#FAF8F5] rounded-lg animate-pulse" />
             ))}
           </div>
         ) : !events || events.length === 0 ? (
-          <div className="text-center py-8 text-gray-400">
-            <ShieldCheck className="w-10 h-10 mx-auto mb-2 text-green-400" />
-            <p className="text-sm font-medium text-green-600">Aucun événement à risque récent</p>
+          <div className="text-center py-8 text-[#999999]">
+            <ShieldCheck className="w-10 h-10 mx-auto mb-2 text-[#10B981]" />
+            <p className="text-sm font-medium text-[#10B981]">Aucun événement à risque récent</p>
           </div>
         ) : (
           <div className="overflow-x-auto -mx-6">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Date</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">User</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Action</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">IP</th>
-                  <th className="text-left px-3 py-2 text-xs font-medium text-gray-500 uppercase">Score</th>
-                  <th className="text-left px-6 py-2 text-xs font-medium text-gray-500 uppercase">Flags</th>
+                <tr className="border-b border-[#F4F0EB]">
+                  <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Date</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">User</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Action</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">IP</th>
+                  <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Score</th>
+                  <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Flags</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {events.map((event) => (
-                  <tr key={event.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-3 text-gray-600 whitespace-nowrap text-xs">
+                  <tr key={event.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                    <td className="px-6 py-3 text-[#777777] whitespace-nowrap text-xs">
                       {formatDateFR(event.created_at)}
                     </td>
-                    <td className="px-3 py-3 text-gray-700 font-mono text-xs">
+                    <td className="px-3 py-3 text-[#3A3A3A] font-mono text-xs">
                       {truncate(event.user_id, 8)}
                     </td>
-                    <td className="px-3 py-3 text-gray-700 text-xs">
+                    <td className="px-3 py-3 text-[#3A3A3A] text-xs">
                       {actionLabels[event.action] ?? event.action}
                     </td>
-                    <td className="px-3 py-3 font-mono text-xs text-gray-500">
+                    <td className="px-3 py-3 font-mono text-xs text-[#777777]">
                       {event.ip_address ?? '—'}
                     </td>
                     <td className="px-3 py-3">
@@ -897,14 +897,14 @@ export default function SecuritySettingsPage() {
       <Card>
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-              <Shield className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center">
+              <Shield className="w-5 h-5 text-[#6B8CAE]" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-[#111111]">
                 Authentification à deux facteurs (2FA)
               </h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[#777777]">
                 Sécurisez votre compte avec une couche de protection supplémentaire
               </p>
             </div>
@@ -912,24 +912,24 @@ export default function SecuritySettingsPage() {
 
           <div className="space-y-4">
             {/* TOTP Method */}
-            <div className="border border-gray-200 rounded-xl p-4">
+            <div className="border border-[#EEEEEE] rounded-xl p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center mt-1">
-                    <Key className="w-5 h-5 text-green-600" />
+                  <div className="w-10 h-10 bg-[#ECFDF5] rounded-lg flex items-center justify-center mt-1">
+                    <Key className="w-5 h-5 text-[#10B981]" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <h4 className="font-medium text-gray-900">App Authenticator (TOTP)</h4>
+                      <h4 className="font-medium text-[#111111]">App Authenticator (TOTP)</h4>
                       <Badge variant="success" size="sm">Recommandé</Badge>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">
+                    <p className="text-sm text-[#777777] mb-2">
                       Google Authenticator, Authy, 1Password, etc. — Gratuit et hors-ligne
                     </p>
                     {factors.totp.length > 0 && (
                       <div className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-green-600 font-medium">Activé</span>
+                        <CheckCircle className="w-4 h-4 text-[#10B981]" />
+                        <span className="text-sm text-[#10B981] font-medium">Activé</span>
                       </div>
                     )}
                   </div>
@@ -961,11 +961,11 @@ export default function SecuritySettingsPage() {
 
               {/* Activation TOTP */}
               {activeMethod === 'totp-verify' && enrollmentData?.type === 'totp' && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <h5 className="font-medium text-gray-900 mb-3">1. Scannez le QR Code</h5>
-                      <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+                      <h5 className="font-medium text-[#111111] mb-3">1. Scannez le QR Code</h5>
+                      <div className="bg-white border border-[#EEEEEE] rounded-lg p-4 text-center">
                         <Image
                           src={enrollmentData.totp?.qr_code || ''}
                           alt="QR Code"
@@ -975,35 +975,35 @@ export default function SecuritySettingsPage() {
                           unoptimized
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-2">
+                      <p className="text-xs text-[#777777] mt-2">
                         Utilisez votre app d'authentification pour scanner ce code
                       </p>
                     </div>
 
                     <div>
-                      <h5 className="font-medium text-gray-900 mb-3">2. Code de secours (optionnel)</h5>
-                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4">
+                      <h5 className="font-medium text-[#111111] mb-3">2. Code de secours (optionnel)</h5>
+                      <div className="bg-[#FAF8F5] border border-[#EEEEEE] rounded-lg p-3 mb-4">
                         <div className="flex items-center justify-between">
-                          <code className="text-sm font-mono text-gray-800 break-all">
+                          <code className="text-sm font-mono text-[#1A1A1A] break-all">
                             {enrollmentData.totp?.secret}
                           </code>
                           <button
                             onClick={() => copyToClipboard(enrollmentData.totp?.secret || '')}
-                            className="ml-2 p-1 hover:bg-gray-200 rounded text-gray-500 hover:text-gray-700 transition"
+                            className="ml-2 p-1 hover:bg-[#EEEEEE] rounded text-[#777777] hover:text-[#3A3A3A] transition"
                           >
                             <Copy className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
 
-                      <h5 className="font-medium text-gray-900 mb-3">3. Vérification</h5>
+                      <h5 className="font-medium text-[#111111] mb-3">3. Vérification</h5>
                       <div className="space-y-3">
                         <input
                           type="text"
                           value={verificationCode}
                           onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                           placeholder="Code à 6 chiffres"
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
+                          className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
                           maxLength={6}
                         />
                         <div className="flex gap-2">
@@ -1032,21 +1032,21 @@ export default function SecuritySettingsPage() {
             </div>
 
             {/* SMS Method */}
-            <div className="border border-gray-200 rounded-xl p-4">
+            <div className="border border-[#EEEEEE] rounded-xl p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mt-1">
-                    <Smartphone className="w-5 h-5 text-blue-600" />
+                  <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center mt-1">
+                    <Smartphone className="w-5 h-5 text-[#6B8CAE]" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-900 mb-1">SMS</h4>
-                    <p className="text-sm text-gray-600 mb-2">
+                    <h4 className="font-medium text-[#111111] mb-1">SMS</h4>
+                    <p className="text-sm text-[#777777] mb-2">
                       Recevoir un code par SMS — Nécessite Twilio configuré
                     </p>
                     {factors.phone.length > 0 && (
                       <div className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-green-600 font-medium">
+                        <CheckCircle className="w-4 h-4 text-[#10B981]" />
+                        <span className="text-sm text-[#10B981] font-medium">
                           Activé ({factors.phone[0].phone})
                         </span>
                       </div>
@@ -1079,16 +1079,16 @@ export default function SecuritySettingsPage() {
 
               {/* Activation SMS */}
               {activeMethod === 'phone-enroll-sms' && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
                   <div className="max-w-md">
-                    <h5 className="font-medium text-gray-900 mb-3">Configuration SMS</h5>
+                    <h5 className="font-medium text-[#111111] mb-3">Configuration SMS</h5>
                     <div className="space-y-3">
                       <input
                         type="tel"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+33 6 12 34 56 78"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
                       />
                       <div className="flex gap-2">
                         <Button
@@ -1115,9 +1115,9 @@ export default function SecuritySettingsPage() {
 
               {/* Vérification SMS */}
               {activeMethod === 'phone-verify-sms' && enrollmentData?.type === 'phone' && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
                   <div className="max-w-md">
-                    <h5 className="font-medium text-gray-900 mb-3">
+                    <h5 className="font-medium text-[#111111] mb-3">
                       Code envoyé au {enrollmentData.phone}
                     </h5>
                     <div className="space-y-3">
@@ -1126,7 +1126,7 @@ export default function SecuritySettingsPage() {
                         value={verificationCode}
                         onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                         placeholder="Code à 6 chiffres"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
                         maxLength={6}
                       />
                       <div className="flex gap-2">
@@ -1154,18 +1154,18 @@ export default function SecuritySettingsPage() {
             </div>
 
             {/* WhatsApp Method */}
-            <div className="border border-gray-200 rounded-xl p-4">
+            <div className="border border-[#EEEEEE] rounded-xl p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center mt-1">
-                    <Smartphone className="w-5 h-5 text-green-600" />
+                  <div className="w-10 h-10 bg-[#ECFDF5] rounded-lg flex items-center justify-center mt-1">
+                    <Smartphone className="w-5 h-5 text-[#10B981]" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-900 mb-1">WhatsApp</h4>
-                    <p className="text-sm text-gray-600 mb-1">
+                    <h4 className="font-medium text-[#111111] mb-1">WhatsApp</h4>
+                    <p className="text-sm text-[#777777] mb-1">
                       Recevoir un code par WhatsApp — Nécessite Twilio WhatsApp Business
                     </p>
-                    <p className="text-xs text-amber-600">
+                    <p className="text-xs text-[#FF8C42]">
                       Nécessite un numéro WhatsApp Business configuré
                     </p>
                   </div>
@@ -1185,16 +1185,16 @@ export default function SecuritySettingsPage() {
 
               {/* Activation WhatsApp */}
               {activeMethod === 'phone-enroll-whatsapp' && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
                   <div className="max-w-md">
-                    <h5 className="font-medium text-gray-900 mb-3">Configuration WhatsApp</h5>
+                    <h5 className="font-medium text-[#111111] mb-3">Configuration WhatsApp</h5>
                     <div className="space-y-3">
                       <input
                         type="tel"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+33 6 12 34 56 78"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
                       />
                       <div className="flex gap-2">
                         <Button
@@ -1221,9 +1221,9 @@ export default function SecuritySettingsPage() {
 
               {/* Vérification WhatsApp */}
               {activeMethod === 'phone-verify-whatsapp' && enrollmentData?.type === 'phone' && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
                   <div className="max-w-md">
-                    <h5 className="font-medium text-gray-900 mb-3">
+                    <h5 className="font-medium text-[#111111] mb-3">
                       Code WhatsApp envoyé au {enrollmentData.phone}
                     </h5>
                     <div className="space-y-3">
@@ -1232,7 +1232,7 @@ export default function SecuritySettingsPage() {
                         value={verificationCode}
                         onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                         placeholder="Code à 6 chiffres"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
                         maxLength={6}
                       />
                       <div className="flex gap-2">
@@ -1266,24 +1266,24 @@ export default function SecuritySettingsPage() {
       <Card>
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-purple-600" />
+            <div className="w-10 h-10 bg-[#FFE0EF] rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 text-[#FF2D78]" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-[#111111]">
                 Sessions actives
               </h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[#777777]">
                 Gérez vos connexions actives
               </p>
             </div>
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+            <div className="flex items-center justify-between p-3 border border-[#EEEEEE] rounded-lg">
               <div>
-                <p className="font-medium text-gray-900">Session actuelle</p>
-                <p className="text-sm text-gray-600">
+                <p className="font-medium text-[#111111]">Session actuelle</p>
+                <p className="text-sm text-[#777777]">
                   Paris, France • {new Date().toLocaleDateString('fr-FR', {
                     hour: '2-digit',
                     minute: '2-digit'
@@ -1293,11 +1293,11 @@ export default function SecuritySettingsPage() {
               <Badge variant="success" size="sm">Actuelle</Badge>
             </div>
 
-            <div className="pt-4 border-t border-gray-100">
+            <div className="pt-4 border-t border-[#F4F0EB]">
               <Button
                 variant="outline"
                 size="sm"
-                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="text-[#FF2D78] hover:text-[#FF2D78] hover:bg-[#FFE0EF]"
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Déconnecter toutes les autres sessions
@@ -1311,12 +1311,12 @@ export default function SecuritySettingsPage() {
       {/* DASHBOARD SECURITE ADMIN */}
       {/* ============================================================ */}
 
-      <div className="pt-4 border-t border-gray-200">
-        <h2 className="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+      <div className="pt-4 border-t border-[#EEEEEE]">
+        <h2 className="text-xl font-bold text-[#111111] mb-1 flex items-center gap-2">
           <Shield className="w-5 h-5 text-primary" />
           Dashboard sécurité
         </h2>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-[#777777] mb-6">
           Surveillance en temps réel des menaces et appareils
         </p>
       </div>

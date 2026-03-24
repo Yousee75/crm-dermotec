@@ -159,7 +159,7 @@ export function TerrainEmargementMode({
         <Button
           onClick={handleExit}
           variant="outline"
-          className="bg-white/90 border-gray-300 text-gray-700 hover:bg-white"
+          className="bg-white/90 border-[#EEEEEE] text-[#3A3A3A] hover:bg-white"
           icon={<X className="w-4 h-4" />}
         >
           Sortir du mode terrain
@@ -172,7 +172,7 @@ export function TerrainEmargementMode({
           <h1 className="text-3xl font-bold text-white mb-2">
             {sessionNom}
           </h1>
-          <div className="flex items-center justify-center gap-2 text-green-400 bg-green-900/30 px-4 py-2 rounded-full">
+          <div className="flex items-center justify-center gap-2 text-[#10B981] bg-green-900/30 px-4 py-2 rounded-full">
             <Wifi className="w-4 h-4" />
             <span className="text-sm font-medium">Mode terrain actif</span>
           </div>
@@ -183,7 +183,7 @@ export function TerrainEmargementMode({
           <div className="text-6xl font-bold text-white mb-2">
             {stagiairesEmarges}/{totalStagiaires}
           </div>
-          <div className="text-xl text-gray-300 mb-4">
+          <div className="text-xl text-[#999999] mb-4">
             stagiaires émargés
           </div>
 
@@ -194,7 +194,7 @@ export function TerrainEmargementMode({
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <div className="text-sm text-gray-400 mt-2">
+          <div className="text-sm text-[#999999] mt-2">
             {progressPercent.toFixed(0)}% complété
           </div>
         </div>
@@ -206,7 +206,7 @@ export function TerrainEmargementMode({
               <h2 className="text-2xl font-semibold text-white mb-2">
                 Scanner pour émarger
               </h2>
-              <p className="text-gray-300">
+              <p className="text-[#999999]">
                 Pointez votre téléphone vers le QR code
               </p>
             </div>
@@ -226,15 +226,15 @@ export function TerrainEmargementMode({
                     className="block"
                   />
                 ) : (
-                  <div className="w-[300px] h-[300px] bg-gray-100 animate-pulse rounded-lg flex items-center justify-center">
-                    <QrCode className="w-16 h-16 text-gray-400" />
+                  <div className="w-[300px] h-[300px] bg-[#F4F0EB] animate-pulse rounded-lg flex items-center justify-center">
+                    <QrCode className="w-16 h-16 text-[#999999]" />
                   </div>
                 )}
               </div>
             </div>
 
             {/* Timer de refresh */}
-            <div className="flex items-center gap-2 text-gray-400 bg-gray-800/50 px-4 py-2 rounded-full">
+            <div className="flex items-center gap-2 text-[#999999] bg-[#1A1A1A]/50 px-4 py-2 rounded-full">
               <RefreshCw className={cn('w-4 h-4', refreshTimer <= 3 && 'animate-spin')} />
               <span className="text-sm font-mono">
                 Actualisation dans {refreshTimer}s
@@ -263,7 +263,7 @@ export function TerrainEmargementMode({
                 onClick={onRefresh}
                 variant="ghost"
                 size="sm"
-                className="text-gray-300 hover:text-white hover:bg-white/10"
+                className="text-[#999999] hover:text-white hover:bg-white/10"
                 icon={<RefreshCw className="w-4 h-4" />}
               >
                 Actualiser
@@ -277,21 +277,21 @@ export function TerrainEmargementMode({
                   className={cn(
                     'flex items-center gap-4 p-4 rounded-xl border transition-all',
                     stagiaire.emarge
-                      ? 'bg-green-900/30 border-green-500/30'
-                      : 'bg-gray-800/50 border-gray-600/30'
+                      ? 'bg-green-900/30 border-[#10B981]/30'
+                      : 'bg-[#1A1A1A]/50 border-gray-600/30'
                   )}
                 >
                   {/* Statut */}
                   <div className={cn(
                     'w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0',
                     stagiaire.emarge
-                      ? 'bg-green-500/20 border-2 border-green-500'
+                      ? 'bg-[#10B981]/20 border-2 border-[#10B981]'
                       : 'bg-gray-700/50 border-2 border-gray-600'
                   )}>
                     {stagiaire.emarge ? (
-                      <CheckCircle className="w-6 h-6 text-green-400" />
+                      <CheckCircle className="w-6 h-6 text-[#10B981]" />
                     ) : (
-                      <Clock className="w-6 h-6 text-gray-400" />
+                      <Clock className="w-6 h-6 text-[#999999]" />
                     )}
                   </div>
 
@@ -301,12 +301,12 @@ export function TerrainEmargementMode({
                       {stagiaire.prenom} {stagiaire.nom}
                     </p>
                     {stagiaire.emarge && stagiaire.heureEmargement && (
-                      <p className="text-sm text-green-400">
+                      <p className="text-sm text-[#10B981]">
                         Signé à {stagiaire.heureEmargement}
                       </p>
                     )}
                     {!stagiaire.emarge && (
-                      <p className="text-sm text-gray-400">
+                      <p className="text-sm text-[#999999]">
                         En attente de signature
                       </p>
                     )}
@@ -330,7 +330,7 @@ export function TerrainEmargementMode({
                           <a
                             href={`https://wa.me/${stagiaire.telephone.replace(/\s/g, '').replace(/^0/, '33')}`}
                             target="_blank"
-                            className="p-2 rounded-lg bg-green-600/20 text-green-400 hover:bg-green-600/30 transition"
+                            className="p-2 rounded-lg bg-[#10B981]/20 text-[#10B981] hover:bg-[#10B981]/30 transition"
                             title="Relancer par WhatsApp"
                           >
                             <Smartphone className="w-4 h-4" />
@@ -372,7 +372,7 @@ export function TerrainEmargementMode({
                 <h3 className="text-lg font-semibold">
                   Signature manuelle
                   {showSignatureModal !== 'manual' && (
-                    <span className="block text-sm text-gray-500 font-normal">
+                    <span className="block text-sm text-[#777777] font-normal">
                       {stagiaires.find(s => s.id === showSignatureModal)?.prenom} {stagiaires.find(s => s.id === showSignatureModal)?.nom}
                     </span>
                   )}

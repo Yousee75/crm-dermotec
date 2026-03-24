@@ -231,14 +231,14 @@ export function OnboardingWizard() {
         {/* Close button */}
         <button
           onClick={dismiss}
-          className="absolute top-4 right-4 z-20 p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition"
+          className="absolute top-4 right-4 z-20 p-1.5 rounded-lg text-[#999999] hover:text-[#777777] hover:bg-[#F4F0EB] transition"
           title="Passer l'onboarding"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Progress bar */}
-        <div className="h-1 bg-gray-100">
+        <div className="h-1 bg-[#F4F0EB]">
           <motion.div
             className="h-full bg-gradient-to-r from-[#FF5C00] to-[#22C55E]"
             initial={{ width: 0 }}
@@ -257,7 +257,7 @@ export function OnboardingWizard() {
                   ? 'bg-[#FF5C00] scale-125 shadow-md shadow-[#FF5C00]/30'
                   : idx < currentIndex
                   ? 'bg-[#22C55E]'
-                  : 'bg-gray-200'
+                  : 'bg-[#EEEEEE]'
               }`}
             />
           ))}
@@ -306,7 +306,7 @@ export function OnboardingWizard() {
           <button
             onClick={goPrev}
             disabled={currentIndex === 0}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm text-gray-400 hover:text-gray-600 disabled:opacity-0 disabled:pointer-events-none transition"
+            className="flex items-center gap-1.5 px-3 py-2 text-sm text-[#999999] hover:text-[#777777] disabled:opacity-0 disabled:pointer-events-none transition"
           >
             <ChevronLeft className="w-4 h-4" />
             Precedent
@@ -316,7 +316,7 @@ export function OnboardingWizard() {
             {currentIndex < totalSteps - 1 && currentStep !== 'welcome' && (
               <button
                 onClick={skip}
-                className="px-4 py-2 text-sm text-gray-400 hover:text-gray-600 transition"
+                className="px-4 py-2 text-sm text-[#999999] hover:text-[#777777] transition"
               >
                 Passer
               </button>
@@ -359,10 +359,10 @@ function StepWelcome() {
         </div>
       </div>
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 font-heading">
+        <h2 className="text-2xl font-bold text-[#111111] font-heading">
           Bienvenue sur Satorea CRM !
         </h2>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-[#777777]">
           Votre centre de formation merite le meilleur outil.
         </p>
       </div>
@@ -411,10 +411,10 @@ function StepCreateLead({
             <Users className="w-8 h-8 text-[#FF5C00]" />
           </div>
         </div>
-        <h2 className="text-xl font-bold text-gray-900 font-heading">
+        <h2 className="text-xl font-bold text-[#111111] font-heading">
           Creez votre premier lead
         </h2>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-[#777777]">
           Ajoutez un prospect pour voir le CRM en action
         </p>
       </div>
@@ -501,10 +501,10 @@ function StepPipeline() {
             <Kanban className="w-8 h-8 text-[#F59E0B]" />
           </div>
         </div>
-        <h2 className="text-xl font-bold text-gray-900 font-heading">
+        <h2 className="text-xl font-bold text-[#111111] font-heading">
           Decouvrez le pipeline
         </h2>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-[#777777]">
           Glissez vos leads d'etape en etape pour suivre leur progression
         </p>
       </div>
@@ -518,10 +518,10 @@ function StepPipeline() {
                 className="w-2 h-2 rounded-full"
                 style={{ backgroundColor: col.color }}
               />
-              <span className="text-[10px] font-medium text-gray-600 truncate">
+              <span className="text-[10px] font-medium text-[#777777] truncate">
                 {col.label}
               </span>
-              <span className="text-[10px] text-gray-400 ml-auto">
+              <span className="text-[10px] text-[#999999] ml-auto">
                 {col.count}
               </span>
             </div>
@@ -532,7 +532,7 @@ function StepPipeline() {
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * i + 0.2 }}
-                  className="h-8 bg-gray-50 border border-gray-100 rounded-lg"
+                  className="h-8 bg-[#FAF8F5] border border-[#F4F0EB] rounded-lg"
                 />
               ))}
             </div>
@@ -573,10 +573,10 @@ function StepProfile({
             <UserCircle className="w-8 h-8 text-[#FF2D78]" />
           </div>
         </div>
-        <h2 className="text-xl font-bold text-gray-900 font-heading">
+        <h2 className="text-xl font-bold text-[#111111] font-heading">
           Configurez votre profil
         </h2>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-[#777777]">
           Personnalisez votre espace de travail
         </p>
       </div>
@@ -611,13 +611,13 @@ function StepProfile({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">
+            <label className="block text-xs font-medium text-[#777777] mb-1">
               Role
             </label>
             <select
               value={form.role}
               onChange={(e) => update('role', e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition"
+              className="w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-xl bg-white text-[#111111] focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition"
             >
               <option value="">Selectionnez</option>
               <option value="admin">Administrateur</option>
@@ -667,10 +667,10 @@ function StepReady() {
             <PartyPopper className="w-8 h-8 text-[#22C55E]" />
           </div>
         </div>
-        <h2 className="text-xl font-bold text-gray-900 font-heading">
+        <h2 className="text-xl font-bold text-[#111111] font-heading">
           Vous etes pret !
         </h2>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-[#777777]">
           Votre CRM est configure. Voici vos prochaines actions.
         </p>
       </div>
@@ -680,7 +680,7 @@ function StepReady() {
           <a
             key={link.href}
             href={link.href}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition group"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#F4F0EB] hover:border-[#EEEEEE] hover:bg-[#FAF8F5] transition group"
           >
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center"
@@ -688,10 +688,10 @@ function StepReady() {
             >
               <link.icon className="w-4.5 h-4.5" style={{ color: link.color }} />
             </div>
-            <span className="text-sm font-medium text-gray-700 flex-1">
+            <span className="text-sm font-medium text-[#3A3A3A] flex-1">
               {link.label}
             </span>
-            <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 group-hover:translate-x-0.5 transition-all" />
+            <ArrowRight className="w-4 h-4 text-[#999999] group-hover:text-[#777777] group-hover:translate-x-0.5 transition-all" />
           </a>
         ))}
       </div>
@@ -720,7 +720,7 @@ function BulletPoint({
       >
         <Icon className="w-4 h-4" style={{ color }} />
       </div>
-      <p className="text-sm text-gray-600 leading-relaxed">{text}</p>
+      <p className="text-sm text-[#777777] leading-relaxed">{text}</p>
     </div>
   )
 }
@@ -744,20 +744,20 @@ function InputField({
 }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-600 mb-1">
+      <label className="block text-xs font-medium text-[#777777] mb-1">
         {label}
-        {required && <span className="text-red-400 ml-0.5">*</span>}
+        {required && <span className="text-[#FF2D78] ml-0.5">*</span>}
       </label>
       <div className="relative">
         {Icon && (
-          <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999999]" />
         )}
         <input
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition ${
+          className={`w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-xl bg-white text-[#111111] placeholder:text-[#999999] focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition ${
             Icon ? 'pl-9' : ''
           }`}
         />

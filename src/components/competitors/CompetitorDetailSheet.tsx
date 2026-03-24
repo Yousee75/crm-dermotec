@@ -102,17 +102,17 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'bg-green-100 text-green-800 border-green-200'
+    if (score >= 80) return 'bg-[#D1FAE5] text-[#10B981] border-[#10B981]/30'
     if (score >= 60) return 'bg-orange-100 text-orange-800 border-orange-200'
-    return 'bg-red-100 text-red-800 border-red-200'
+    return 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30'
   }
 
   const getMenaceColor = (niveau?: string) => {
     switch (niveau?.toLowerCase()) {
-      case 'faible': return 'bg-green-100 text-green-800 border-green-200'
+      case 'faible': return 'bg-[#D1FAE5] text-[#10B981] border-[#10B981]/30'
       case 'moyen': return 'bg-orange-100 text-orange-800 border-orange-200'
-      case 'fort': return 'bg-red-100 text-red-800 border-red-200'
-      default: return 'bg-gray-100 text-gray-800 border-gray-200'
+      case 'fort': return 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30'
+      default: return 'bg-[#F4F0EB] text-[#1A1A1A] border-[#EEEEEE]'
     }
   }
 
@@ -150,7 +150,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                   )}
                   <div>
                     <h2 className="text-xl font-bold text-accent">{competitor.nom}</h2>
-                    <div className="flex items-center gap-2 text-gray-600 text-sm mt-1">
+                    <div className="flex items-center gap-2 text-[#777777] text-sm mt-1">
                       <MapPin size={14} />
                       {competitor.adresse}, {competitor.ville}
                       <span className="text-primary">• {formatDistance(competitor.distanceM)}</span>
@@ -159,7 +159,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                 </div>
                 <button
                   onClick={onClose}
-                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                  className="text-[#777777] hover:text-[#3A3A3A] transition-colors"
                 >
                   <X size={20} />
                 </button>
@@ -172,11 +172,11 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                 </div>
                 {competitor.completionScore !== undefined && (
                   <div className="flex-1">
-                    <div className="flex justify-between text-xs text-gray-600 mb-1">
+                    <div className="flex justify-between text-xs text-[#777777] mb-1">
                       <span>Données complètes</span>
                       <span>{competitor.completionScore}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#EEEEEE] rounded-full h-2">
                       <div
                         className="bg-primary h-2 rounded-full transition-all"
                         style={{ width: `${competitor.completionScore}%` }}
@@ -190,7 +190,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
               {competitor.googleRating && (
                 <div className="flex items-center gap-2">
                   <StarRating rating={competitor.googleRating} size="sm" />
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-[#777777]">
                     ({competitor.googleReviewsCount || 0} avis)
                   </span>
                 </div>
@@ -204,7 +204,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
               <div className="border rounded-lg">
                 <button
                   onClick={() => toggleSection('reseaux')}
-                  className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between p-4 hover:bg-[#FAF8F5] transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Camera className="text-primary" size={18} />
@@ -217,25 +217,25 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                   <div className="px-4 pb-4 space-y-3">
                     {competitor.social.instagram && (
                       <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
-                        <Camera className="text-purple-600" size={16} />
+                        <Camera className="text-[#FF2D78]" size={16} />
                         <div className="flex-1">
                           <div className="font-medium">@{competitor.social.instagram.username}</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-[#777777]">
                             {competitor.social.instagram.followers} followers • {competitor.social.instagram.posts} posts
                           </div>
                           {competitor.social.instagram.bio && (
-                            <div className="text-xs text-gray-500 mt-1">{competitor.social.instagram.bio}</div>
+                            <div className="text-xs text-[#777777] mt-1">{competitor.social.instagram.bio}</div>
                           )}
                         </div>
                       </div>
                     )}
 
                     {competitor.social.facebook && (
-                      <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                        <ExternalLink className="text-blue-600" size={16} />
+                      <div className="flex items-center gap-3 p-3 bg-[#E0EBF5] rounded-lg">
+                        <ExternalLink className="text-[#6B8CAE]" size={16} />
                         <div className="flex-1">
                           <div className="font-medium">Facebook</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-[#777777]">
                             {competitor.social.facebook.followers} followers
                           </div>
                         </div>
@@ -243,11 +243,11 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                     )}
 
                     {competitor.social.tiktok && (
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                        <TrendingUp className="text-gray-600" size={16} />
+                      <div className="flex items-center gap-3 p-3 bg-[#FAF8F5] rounded-lg">
+                        <TrendingUp className="text-[#777777]" size={16} />
                         <div className="flex-1">
                           <div className="font-medium">@{competitor.social.tiktok.username}</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-[#777777]">
                             {competitor.social.tiktok.followers} followers
                           </div>
                         </div>
@@ -261,7 +261,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
               <div className="border rounded-lg">
                 <button
                   onClick={() => toggleSection('financier')}
-                  className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between p-4 hover:bg-[#FAF8F5] transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Euro className="text-primary" size={18} />
@@ -274,38 +274,38 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                   <div className="px-4 pb-4 space-y-3">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide">Chiffre d'affaires</div>
+                        <div className="text-xs text-[#777777] uppercase tracking-wide">Chiffre d'affaires</div>
                         <div className="font-medium">{formatNumber(competitor.chiffreAffaires)}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide">Résultat net</div>
+                        <div className="text-xs text-[#777777] uppercase tracking-wide">Résultat net</div>
                         <div className="font-medium">{formatNumber(competitor.resultatNet)}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide">Capital social</div>
+                        <div className="text-xs text-[#777777] uppercase tracking-wide">Capital social</div>
                         <div className="font-medium">{formatNumber(competitor.capitalSocial)}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide">Effectif</div>
+                        <div className="text-xs text-[#777777] uppercase tracking-wide">Effectif</div>
                         <div className="font-medium">{competitor.effectif || 'N/A'} employés</div>
                       </div>
                     </div>
 
                     {competitor.formeJuridique && (
                       <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide">Forme juridique</div>
+                        <div className="text-xs text-[#777777] uppercase tracking-wide">Forme juridique</div>
                         <div className="font-medium">{competitor.formeJuridique}</div>
                       </div>
                     )}
 
                     {competitor.dirigeants && competitor.dirigeants.length > 0 && (
                       <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Dirigeants</div>
+                        <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Dirigeants</div>
                         <div className="space-y-1">
                           {competitor.dirigeants.map((dirigeant, index) => (
                             <div key={index} className="text-sm">
                               <span className="font-medium">{dirigeant.prenom} {dirigeant.nom}</span>
-                              <span className="text-gray-600 ml-2">• {dirigeant.titre}</span>
+                              <span className="text-[#777777] ml-2">• {dirigeant.titre}</span>
                             </div>
                           ))}
                         </div>
@@ -314,7 +314,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
 
                     {competitor.dateCreation && (
                       <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-wide">Date de création</div>
+                        <div className="text-xs text-[#777777] uppercase tracking-wide">Date de création</div>
                         <div className="font-medium">{new Date(competitor.dateCreation).toLocaleDateString('fr-FR')}</div>
                       </div>
                     )}
@@ -326,7 +326,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
               <div className="border rounded-lg">
                 <button
                   onClick={() => toggleSection('avis')}
-                  className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between p-4 hover:bg-[#FAF8F5] transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Star className="text-primary" size={18} />
@@ -338,30 +338,30 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                 {openSections.avis && (
                   <div className="px-4 pb-4 space-y-3">
                     {competitor.googleRating && (
-                      <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                      <div className="flex items-center justify-between p-3 bg-[#ECFDF5] rounded-lg">
                         <div className="flex items-center gap-2">
                           <div className="font-medium">Google</div>
                           <StarRating rating={competitor.googleRating} size="sm" />
                         </div>
-                        <div className="text-sm text-gray-600">({competitor.googleReviewsCount} avis)</div>
+                        <div className="text-sm text-[#777777]">({competitor.googleReviewsCount} avis)</div>
                       </div>
                     )}
 
                     {competitor.pjRating && (
-                      <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                      <div className="flex items-center justify-between p-3 bg-[#FFF3E8] rounded-lg">
                         <div className="flex items-center gap-2">
                           <div className="font-medium">PagesJaunes</div>
                           <StarRating rating={competitor.pjRating} size="sm" />
                         </div>
-                        <div className="text-sm text-gray-600">({competitor.pjReviewsCount} avis)</div>
+                        <div className="text-sm text-[#777777]">({competitor.pjReviewsCount} avis)</div>
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-[#FFE0EF] rounded-lg">
                       <div className="font-medium">Planity</div>
                       <div className="flex items-center gap-2">
                         {competitor.planityRating && <StarRating rating={competitor.planityRating} size="sm" />}
-                        <span className={`px-2 py-1 rounded text-xs ${competitor.planityFound ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                        <span className={`px-2 py-1 rounded text-xs ${competitor.planityFound ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F4F0EB] text-[#1A1A1A]'}`}>
                           {competitor.planityFound ? 'Trouvé' : 'Non trouvé'}
                         </span>
                       </div>
@@ -371,7 +371,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                       <div className="font-medium">Treatwell</div>
                       <div className="flex items-center gap-2">
                         {competitor.treatwellRating && <StarRating rating={competitor.treatwellRating} size="sm" />}
-                        <span className={`px-2 py-1 rounded text-xs ${competitor.treatwellFound ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                        <span className={`px-2 py-1 rounded text-xs ${competitor.treatwellFound ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F4F0EB] text-[#1A1A1A]'}`}>
                           {competitor.treatwellFound ? 'Trouvé' : 'Non trouvé'}
                         </span>
                       </div>
@@ -385,7 +385,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                 <div className="border rounded-lg">
                   <button
                     onClick={() => toggleSection('services')}
-                    className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                    className="w-full flex items-center justify-between p-4 hover:bg-[#FAF8F5] transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <Award className="text-primary" size={18} />
@@ -398,10 +398,10 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                     <div className="px-4 pb-4 space-y-3">
                       {competitor.scraped.pagesJaunes?.services && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Services</div>
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Services</div>
                           <div className="flex flex-wrap gap-2">
                             {competitor.scraped.pagesJaunes.services.map((service, index) => (
-                              <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                              <span key={index} className="px-2 py-1 bg-[#E0EBF5] text-[#6B8CAE] rounded-full text-xs">
                                 {service}
                               </span>
                             ))}
@@ -411,7 +411,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
 
                       {competitor.scraped.pagesJaunes?.horaires && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Horaires</div>
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Horaires</div>
                           <div className="space-y-1">
                             {competitor.scraped.pagesJaunes.horaires.map((horaire, index) => (
                               <div key={index} className="text-sm">{horaire}</div>
@@ -422,10 +422,10 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
 
                       {competitor.scraped.planity?.prix && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Prix (Planity)</div>
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Prix (Planity)</div>
                           <div className="space-y-1">
                             {competitor.scraped.planity.prix.map((prix, index) => (
-                              <div key={index} className="text-sm font-medium text-green-600">{prix}</div>
+                              <div key={index} className="text-sm font-medium text-[#10B981]">{prix}</div>
                             ))}
                           </div>
                         </div>
@@ -440,7 +440,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                 <div className="border rounded-lg">
                   <button
                     onClick={() => toggleSection('analyse')}
-                    className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                    className="w-full flex items-center justify-between p-4 hover:bg-[#FAF8F5] transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <Sparkles className="text-action" size={18} />
@@ -453,8 +453,8 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
                     <div className="px-4 pb-4 space-y-4">
                       {competitor.aiValidation.enrichedData.description && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Description</div>
-                          <p className="text-sm text-gray-700 leading-relaxed">
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Description</div>
+                          <p className="text-sm text-[#3A3A3A] leading-relaxed">
                             {competitor.aiValidation.enrichedData.description}
                           </p>
                         </div>
@@ -462,10 +462,10 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
 
                       {competitor.aiValidation.enrichedData.pointsForts && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Points forts</div>
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Points forts</div>
                           <div className="flex flex-wrap gap-2">
                             {competitor.aiValidation.enrichedData.pointsForts.map((point, index) => (
-                              <span key={index} className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                              <span key={index} className="px-2 py-1 bg-[#D1FAE5] text-[#10B981] rounded text-xs">
                                 {point}
                               </span>
                             ))}
@@ -475,10 +475,10 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
 
                       {competitor.aiValidation.enrichedData.pointsFaibles && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Points faibles</div>
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Points faibles</div>
                           <div className="flex flex-wrap gap-2">
                             {competitor.aiValidation.enrichedData.pointsFaibles.map((point, index) => (
-                              <span key={index} className="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">
+                              <span key={index} className="px-2 py-1 bg-[#FFE0EF] text-[#FF2D78] rounded text-xs">
                                 {point}
                               </span>
                             ))}
@@ -488,7 +488,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
 
                       {competitor.aiValidation.enrichedData.niveauMenace && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Niveau de menace</div>
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Niveau de menace</div>
                           <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getMenaceColor(competitor.aiValidation.enrichedData.niveauMenace)}`}>
                             {competitor.aiValidation.enrichedData.niveauMenace}
                           </span>
@@ -497,11 +497,11 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
 
                       {competitor.aiValidation.enrichedData.conseilsProspection && (
                         <div>
-                          <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Conseils prospection</div>
+                          <div className="text-xs text-[#777777] uppercase tracking-wide mb-2">Conseils prospection</div>
                           <div className="space-y-2">
                             {competitor.aiValidation.enrichedData.conseilsProspection.map((conseil, index) => (
-                              <div key={index} className="flex items-start gap-2 p-2 bg-purple-50 rounded text-sm">
-                                <Shield className="text-purple-600 mt-0.5 flex-shrink-0" size={14} />
+                              <div key={index} className="flex items-start gap-2 p-2 bg-[#FFE0EF] rounded text-sm">
+                                <Shield className="text-[#FF2D78] mt-0.5 flex-shrink-0" size={14} />
                                 <span>{conseil}</span>
                               </div>
                             ))}

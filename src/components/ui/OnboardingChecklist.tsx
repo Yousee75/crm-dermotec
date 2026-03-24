@@ -93,12 +93,12 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
             </div>
 
             {/* Progress bar globale */}
-            <div className="px-5 py-3 border-b border-gray-100">
+            <div className="px-5 py-3 border-b border-[#F4F0EB]">
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-xs font-medium text-gray-600">Progression globale</span>
+                <span className="text-xs font-medium text-[#777777]">Progression globale</span>
                 <span className="text-xs font-bold text-primary">{progress.global.percent}%</span>
               </div>
-              <div className="w-full bg-gray-100 rounded-full h-2">
+              <div className="w-full bg-[#F4F0EB] rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-primary to-primary-dark h-2 rounded-full transition-all duration-700"
                   style={{ width: `${progress.global.percent}%` }}
@@ -107,7 +107,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
             </div>
 
             {/* Tabs niveaux */}
-            <div className="flex gap-1 px-5 py-3 border-b border-gray-100">
+            <div className="flex gap-1 px-5 py-3 border-b border-[#F4F0EB]">
               {niveaux.map(n => (
                 <button
                   key={n.key}
@@ -118,8 +118,8 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
                     activeNiveau === n.key
                       ? 'bg-accent text-white'
                       : n.unlocked
-                        ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                        : 'bg-gray-50 text-gray-300 cursor-not-allowed'
+                        ? 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                        : 'bg-[#FAF8F5] text-[#999999] cursor-not-allowed'
                   )}
                 >
                   {!n.unlocked && <Lock className="w-3 h-3" />}
@@ -140,7 +140,7 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
                     key={step.id}
                     className={cn(
                       'flex items-start gap-3 px-3 py-3 rounded-xl transition',
-                      isCompleted ? 'bg-green-50/50' : 'bg-gray-50 hover:bg-gray-100/50'
+                      isCompleted ? 'bg-[#ECFDF5]/50' : 'bg-[#FAF8F5] hover:bg-[#F4F0EB]/50'
                     )}
                   >
                     <button
@@ -149,20 +149,20 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
                       className="mt-0.5 shrink-0"
                     >
                       {isCompleted ? (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
+                        <CheckCircle className="w-5 h-5 text-[#10B981]" />
                       ) : (
-                        <Circle className="w-5 h-5 text-gray-300 hover:text-primary transition" />
+                        <Circle className="w-5 h-5 text-[#999999] hover:text-primary transition" />
                       )}
                     </button>
 
                     <div className="flex-1 min-w-0">
                       <p className={cn(
                         'text-sm font-medium',
-                        isCompleted ? 'text-gray-400 line-through' : 'text-gray-700'
+                        isCompleted ? 'text-[#999999] line-through' : 'text-[#3A3A3A]'
                       )}>
                         {step.titre}
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">{step.description}</p>
+                      <p className="text-xs text-[#999999] mt-0.5">{step.description}</p>
                     </div>
 
                     {step.tour_steps && !isCompleted && (
@@ -177,12 +177,12 @@ export function OnboardingChecklist({ userId, collapsed }: Props) {
 
             {/* Footer */}
             {niveauProgress.percent >= 100 && (
-              <div className="px-5 py-4 border-t border-gray-100 bg-green-50">
+              <div className="px-5 py-4 border-t border-[#F4F0EB] bg-[#ECFDF5]">
                 <div className="flex items-center gap-2">
                   <Trophy className="w-5 h-5 text-warning" />
                   <div>
-                    <p className="text-sm font-semibold text-green-700">Niveau {activeNiveau} complété !</p>
-                    <p className="text-xs text-green-600">
+                    <p className="text-sm font-semibold text-[#10B981]">Niveau {activeNiveau} complété !</p>
+                    <p className="text-xs text-[#10B981]">
                       {activeNiveau !== 'expert' ? 'Passez au niveau suivant →' : 'Vous êtes expert Dermotec CRM !'}
                     </p>
                   </div>

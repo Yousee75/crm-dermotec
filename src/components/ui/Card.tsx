@@ -10,9 +10,9 @@ function Card({ className, hover, padding = 'md', children, ...props }: CardProp
   return (
     <div
       className={cn(
-        'bg-white rounded-xl border border-gray-100 shadow-card transition-all duration-200',
+        'bg-white rounded-xl border border-[#F4F0EB] shadow-card transition-all duration-200',
         'focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/30',
-        hover && 'hover-lift hover:border-gray-200 cursor-pointer',
+        hover && 'hover-lift hover:border-[#EEEEEE] cursor-pointer',
         paddings[padding],
         className
       )}
@@ -42,7 +42,7 @@ function CardTitle({ className, icon, children, ...props }: React.HTMLAttributes
 
 function CardDescription({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p className={cn('text-sm text-gray-500', className)} {...props}>
+    <p className={cn('text-sm text-[#777777]', className)} {...props}>
       {children}
     </p>
   )
@@ -58,7 +58,7 @@ function CardContent({ className, children, ...props }: React.HTMLAttributes<HTM
 
 function CardFooter({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex items-center pt-4 mt-4 border-t border-gray-100', className)} {...props}>
+    <div className={cn('flex items-center pt-4 mt-4 border-t border-[#F4F0EB]', className)} {...props}>
       {children}
     </div>
   )

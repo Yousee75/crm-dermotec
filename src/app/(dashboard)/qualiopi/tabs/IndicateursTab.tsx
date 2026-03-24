@@ -105,8 +105,8 @@ export default function IndicateursTab() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Taux de conformité</p>
-              <p className="text-2xl font-bold text-gray-900">{tauxConformite}%</p>
+              <p className="text-sm text-[#777777]">Taux de conformité</p>
+              <p className="text-2xl font-bold text-[#111111]">{tauxConformite}%</p>
             </div>
             <Award className="w-8 h-8 text-primary" />
           </div>
@@ -116,48 +116,48 @@ export default function IndicateursTab() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Indicateurs</p>
-              <p className="text-2xl font-bold text-gray-900">{indicateursConformes}/{totalIndicateurs}</p>
+              <p className="text-sm text-[#777777]">Indicateurs</p>
+              <p className="text-2xl font-bold text-[#111111]">{indicateursConformes}/{totalIndicateurs}</p>
             </div>
-            <Target className="w-8 h-8 text-green-500" />
+            <Target className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Critères</p>
-              <p className="text-2xl font-bold text-gray-900">7/7</p>
+              <p className="text-sm text-[#777777]">Critères</p>
+              <p className="text-2xl font-bold text-[#111111]">7/7</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-500" />
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Non-conformes</p>
-              <p className="text-2xl font-bold text-red-600">{totalIndicateurs - indicateursConformes}</p>
+              <p className="text-sm text-[#777777]">Non-conformes</p>
+              <p className="text-2xl font-bold text-[#FF2D78]">{totalIndicateurs - indicateursConformes}</p>
             </div>
-            <AlertTriangle className="w-8 h-8 text-red-500" />
+            <AlertTriangle className="w-8 h-8 text-[#FF2D78]" />
           </div>
         </Card>
       </div>
 
       {/* Alerte conformité */}
       {tauxConformite < 100 && (
-        <Card className="p-4 border-amber-200 bg-amber-50">
+        <Card className="p-4 border-[#FF8C42]/30 bg-[#FFF3E8]">
           <div className="flex items-center gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
+            <AlertTriangle className="w-5 h-5 text-[#FF8C42] shrink-0" />
             <div className="flex-1">
-              <p className="text-sm font-medium text-amber-800">
+              <p className="text-sm font-medium text-[#FF8C42]">
                 Attention : {totalIndicateurs - indicateursConformes} indicateurs non conformes
               </p>
-              <p className="text-sm text-amber-700">
+              <p className="text-sm text-[#FF8C42]">
                 Travaillez sur ces points avant votre prochain audit Qualiopi.
               </p>
             </div>
-            <Button size="sm" variant="outline" className="border-amber-300 text-amber-700 hover:bg-amber-100">
+            <Button size="sm" variant="outline" className="border-amber-300 text-[#FF8C42] hover:bg-[#FFF3E8]">
               Plan d'action
             </Button>
           </div>
@@ -184,10 +184,10 @@ export default function IndicateursTab() {
                 {/* En-tête */}
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="text-sm font-semibold text-gray-900 mb-1">
+                    <h3 className="text-sm font-semibold text-[#111111] mb-1">
                       {critere.titre}
                     </h3>
-                    <p className="text-xs text-gray-600">{critere.description}</p>
+                    <p className="text-xs text-[#777777]">{critere.description}</p>
                   </div>
                   <Badge
                     variant={pourcentage === 100 ? 'success' : pourcentage >= 75 ? 'warning' : 'error'}
@@ -206,14 +206,14 @@ export default function IndicateursTab() {
 
                 {/* Détail des indicateurs si sélectionné */}
                 {isSelected && (
-                  <div className="space-y-2 pt-2 border-t border-gray-100">
+                  <div className="space-y-2 pt-2 border-t border-[#F4F0EB]">
                     {critere.indicateurs.map((indicateur) => (
                       <div key={indicateur.id} className="flex items-center justify-between text-xs">
-                        <span className="text-gray-700 flex-1">{indicateur.titre}</span>
+                        <span className="text-[#3A3A3A] flex-1">{indicateur.titre}</span>
                         {indicateur.conforme ? (
-                          <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                          <CheckCircle className="w-4 h-4 text-[#10B981] ml-2" />
                         ) : (
-                          <AlertTriangle className="w-4 h-4 text-red-500 ml-2" />
+                          <AlertTriangle className="w-4 h-4 text-[#FF2D78] ml-2" />
                         )}
                       </div>
                     ))}

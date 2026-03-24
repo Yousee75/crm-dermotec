@@ -145,7 +145,7 @@ export default function EmargementTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="EN_COURS,TERMINEE">En cours et terminées</option>
             <option value="EN_COURS">En cours uniquement</option>
@@ -154,7 +154,7 @@ export default function EmargementTab() {
           </select>
         </div>
 
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-[#777777]">
           {filteredSessions?.length || 0} session{(filteredSessions?.length || 0) > 1 ? 's' : ''} trouvée{(filteredSessions?.length || 0) > 1 ? 's' : ''}
         </div>
       </div>
@@ -206,8 +206,8 @@ export default function EmargementTab() {
 
                     {/* Informations session */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Calendar className="w-4 h-4 text-gray-400" />
+                      <div className="flex items-center gap-2 text-sm text-[#777777]">
+                        <Calendar className="w-4 h-4 text-[#999999]" />
                         <span>
                           {new Date(session.date_debut).toLocaleDateString('fr-FR', {
                             day: 'numeric',
@@ -220,20 +220,20 @@ export default function EmargementTab() {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Clock className="w-4 h-4 text-gray-400" />
+                      <div className="flex items-center gap-2 text-sm text-[#777777]">
+                        <Clock className="w-4 h-4 text-[#999999]" />
                         <span>{session.horaire_debut} — {session.horaire_fin}</span>
                       </div>
 
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 text-gray-400" />
+                      <div className="flex items-center gap-2 text-sm text-[#777777]">
+                        <MapPin className="w-4 h-4 text-[#999999]" />
                         <span>{session.salle}</span>
                       </div>
                     </div>
 
                     {/* Formatrice */}
                     {session.formatrice && (
-                      <div className="text-sm text-gray-600 mb-4">
+                      <div className="text-sm text-[#777777] mb-4">
                         <span className="font-medium">Formatrice :</span> {session.formatrice.prenom} {session.formatrice.nom}
                       </div>
                     )}
@@ -241,8 +241,8 @@ export default function EmargementTab() {
                     {/* Participants confirmés */}
                     <div className="text-sm">
                       <div className="flex items-center gap-2 mb-2">
-                        <Users className="w-4 h-4 text-gray-400" />
-                        <span className="font-medium text-gray-700">
+                        <Users className="w-4 h-4 text-[#999999]" />
+                        <span className="font-medium text-[#3A3A3A]">
                           {inscriptionsConfirmees.length} participant{inscriptionsConfirmees.length > 1 ? 's' : ''} confirmé{inscriptionsConfirmees.length > 1 ? 's' : ''}
                         </span>
                       </div>
@@ -266,8 +266,8 @@ export default function EmargementTab() {
                   {/* Actions émargement */}
                   <div className="shrink-0 text-right space-y-3">
                     {/* QR Code */}
-                    <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-2">
-                      <QrCode className="w-8 h-8 text-gray-400" />
+                    <div className="w-24 h-24 bg-[#F4F0EB] rounded-lg flex items-center justify-center mb-2">
+                      <QrCode className="w-8 h-8 text-[#999999]" />
                     </div>
 
                     <div className="space-y-2">
@@ -291,7 +291,7 @@ export default function EmargementTab() {
                     </div>
 
                     {/* URL QR Code (pour développement) */}
-                    <div className="text-xs text-gray-400 max-w-24 break-all">
+                    <div className="text-xs text-[#999999] max-w-24 break-all">
                       {qrCodeUrl}
                     </div>
                   </div>
@@ -303,12 +303,12 @@ export default function EmargementTab() {
       )}
 
       {/* Info box */}
-      <Card className="p-4 bg-blue-50 border-blue-200">
+      <Card className="p-4 bg-[#E0EBF5] border-[#6B8CAE]/30">
         <div className="flex gap-3">
-          <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+          <AlertCircle className="w-5 h-5 text-[#6B8CAE] shrink-0 mt-0.5" />
           <div className="text-sm">
-            <p className="font-medium text-blue-900 mb-1">À propos de l'émargement</p>
-            <p className="text-blue-700">
+            <p className="font-medium text-[#6B8CAE] mb-1">À propos de l'émargement</p>
+            <p className="text-[#6B8CAE]">
               Les codes QR permettent aux apprenants de s'émarginer automatiquement sur leurs appareils mobiles.
               Les sessions en cours et terminées récemment sont disponibles pour l'émargement.
             </p>

@@ -57,7 +57,7 @@ function CircularProgress({ value, size = 80, strokeWidth = 6 }: { value: number
           stroke="currentColor"
           strokeWidth={strokeWidth}
           fill="none"
-          className="text-gray-200"
+          className="text-[#EEEEEE]"
         />
         {/* Progress circle */}
         <circle
@@ -74,7 +74,7 @@ function CircularProgress({ value, size = 80, strokeWidth = 6 }: { value: number
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-lg font-bold text-gray-900">{value}%</span>
+        <span className="text-lg font-bold text-[#111111]">{value}%</span>
       </div>
     </div>
   )
@@ -202,7 +202,7 @@ export default function AcademyPage() {
               <h1 className="text-3xl font-bold tracking-tight">
                 Mon coaching
               </h1>
-              <p className="text-blue-100 mt-1">
+              <p className="text-[#6B8CAE] mt-1">
                 Formation continue et montée en compétences
               </p>
             </div>
@@ -212,15 +212,15 @@ export default function AcademyPage() {
           <div className="hidden lg:flex items-center gap-6 text-white/90">
             <div className="text-center">
               <p className="text-2xl font-bold">{userStats?.total_points || 0}</p>
-              <p className="text-xs text-blue-200">Points</p>
+              <p className="text-xs text-[#6B8CAE]">Points</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold">{userStats?.completion_percent || 0}%</p>
-              <p className="text-xs text-blue-200">Complété</p>
+              <p className="text-xs text-[#6B8CAE]">Complété</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold">{earnedBadges.length}</p>
-              <p className="text-xs text-blue-200">Badges</p>
+              <p className="text-xs text-[#6B8CAE]">Badges</p>
             </div>
           </div>
         </div>
@@ -238,10 +238,10 @@ export default function AcademyPage() {
           <CardContent className="flex flex-col items-center">
             <CircularProgress value={userStats?.completion_percent || 0} />
             <div className="text-center mt-4">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[#777777]">
                 {userStats?.lessons_completed || 0} / {userStats?.lessons_total || 0} leçons
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-[#777777] mt-1">
                 {userStats?.modules_completed || 0} modules complétés
               </p>
             </div>
@@ -259,7 +259,7 @@ export default function AcademyPage() {
             <div className="text-4xl font-bold text-orange-500 mb-2">
               {userStats?.streak_days || 0}
             </div>
-            <p className="text-sm text-gray-600 text-center">
+            <p className="text-sm text-[#777777] text-center">
               jours consécutifs d'apprentissage
             </p>
           </CardContent>
@@ -277,7 +277,7 @@ export default function AcademyPage() {
               {earnedBadges.slice(0, 6).map((badge) => (
                 <div
                   key={badge.id}
-                  className="flex items-center gap-2 bg-yellow-50 text-yellow-700 px-2 py-1 rounded-lg text-xs"
+                  className="flex items-center gap-2 bg-[#FFF3E8] text-[#FF8C42] px-2 py-1 rounded-lg text-xs"
                   title={badge.description || undefined}
                 >
                   <Trophy className="w-3 h-3" />
@@ -285,7 +285,7 @@ export default function AcademyPage() {
                 </div>
               ))}
               {earnedBadges.length === 0 && (
-                <p className="text-sm text-gray-500 text-center w-full py-4">
+                <p className="text-sm text-[#777777] text-center w-full py-4">
                   Aucun badge obtenu pour le moment
                 </p>
               )}
@@ -296,7 +296,7 @@ export default function AcademyPage() {
 
       {/* Modules Grid */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Modules de formation</h2>
+        <h2 className="text-xl font-semibold text-[#111111] mb-4">Modules de formation</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {modulesWithProgress?.map((module) => {
             // Vérifier si le module est déverrouillé
@@ -311,8 +311,8 @@ export default function AcademyPage() {
                 className={cn(
                   "group relative rounded-xl border transition-all duration-200",
                   isLocked
-                    ? "bg-gray-50 border-gray-200 cursor-not-allowed"
-                    : "bg-white border-gray-200 hover:border-primary hover:shadow-lg cursor-pointer"
+                    ? "bg-[#FAF8F5] border-[#EEEEEE] cursor-not-allowed"
+                    : "bg-white border-[#EEEEEE] hover:border-primary hover:shadow-lg cursor-pointer"
                 )}
               >
                 <div className="p-6">
@@ -321,7 +321,7 @@ export default function AcademyPage() {
                     <div
                       className={cn(
                         "p-3 rounded-xl",
-                        isLocked ? "bg-gray-200 text-gray-400" : ""
+                        isLocked ? "bg-[#EEEEEE] text-[#999999]" : ""
                       )}
                       style={{
                         backgroundColor: isLocked ? undefined : `${module.couleur}20`,
@@ -341,7 +341,7 @@ export default function AcademyPage() {
                     </div>
 
                     <div className="text-right">
-                      <p className="text-xs text-gray-500">{module.duree_minutes}min</p>
+                      <p className="text-xs text-[#777777]">{module.duree_minutes}min</p>
                       <Badge variant="outline" size="sm" className="mt-1">
                         {module.progress_total} leçons
                       </Badge>
@@ -352,14 +352,14 @@ export default function AcademyPage() {
                   <div className="space-y-3">
                     <h3 className={cn(
                       "font-semibold",
-                      isLocked ? "text-gray-400" : "text-gray-900"
+                      isLocked ? "text-[#999999]" : "text-[#111111]"
                     )}>
                       {module.titre}
                     </h3>
 
                     <p className={cn(
                       "text-sm line-clamp-2",
-                      isLocked ? "text-gray-400" : "text-gray-600"
+                      isLocked ? "text-[#999999]" : "text-[#777777]"
                     )}>
                       {module.description}
                     </p>
@@ -368,22 +368,22 @@ export default function AcademyPage() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-xs">
                         <span className={cn(
-                          isLocked ? "text-gray-400" : "text-gray-600"
+                          isLocked ? "text-[#999999]" : "text-[#777777]"
                         )}>
                           Progression
                         </span>
                         <span className={cn(
                           "font-medium",
-                          isLocked ? "text-gray-400" : "text-gray-900"
+                          isLocked ? "text-[#999999]" : "text-[#111111]"
                         )}>
                           {module.progress_completed}/{module.progress_total}
                         </span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-[#EEEEEE] rounded-full h-2">
                         <div
                           className={cn(
                             "h-2 rounded-full transition-all duration-500",
-                            isLocked ? "bg-gray-300" : ""
+                            isLocked ? "bg-[#EEEEEE]" : ""
                           )}
                           style={{
                             width: `${module.progress_percent}%`,
@@ -398,8 +398,8 @@ export default function AcademyPage() {
                 {isLocked && (
                   <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-xl">
                     <div className="text-center">
-                      <Lock className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-500">Module verrouillé</p>
+                      <Lock className="w-8 h-8 text-[#999999] mx-auto mb-2" />
+                      <p className="text-sm text-[#777777]">Module verrouillé</p>
                     </div>
                   </div>
                 )}
@@ -430,7 +430,7 @@ export default function AcademyPage() {
                   <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center mb-2">
                     <Trophy className="w-8 h-8 text-white" />
                   </div>
-                  <p className="text-xs font-medium text-gray-900 truncate w-16">{badge.nom}</p>
+                  <p className="text-xs font-medium text-[#111111] truncate w-16">{badge.nom}</p>
                 </div>
               ))}
 
@@ -441,10 +441,10 @@ export default function AcademyPage() {
                   className="flex-shrink-0 text-center opacity-40"
                   title={`Débloquer : ${badge.description}`}
                 >
-                  <div className="w-16 h-16 rounded-xl bg-gray-200 flex items-center justify-center mb-2">
-                    <Trophy className="w-8 h-8 text-gray-400" />
+                  <div className="w-16 h-16 rounded-xl bg-[#EEEEEE] flex items-center justify-center mb-2">
+                    <Trophy className="w-8 h-8 text-[#999999]" />
                   </div>
-                  <p className="text-xs font-medium text-gray-500 truncate w-16">{badge.nom}</p>
+                  <p className="text-xs font-medium text-[#777777] truncate w-16">{badge.nom}</p>
                 </div>
               ))}
             </div>
@@ -478,10 +478,10 @@ export default function AcademyPage() {
                   >
                     <div className={cn(
                       "w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold",
-                      index === 0 ? "bg-yellow-100 text-yellow-700" :
-                      index === 1 ? "bg-gray-100 text-gray-700" :
+                      index === 0 ? "bg-[#FFF3E8] text-[#FF8C42]" :
+                      index === 1 ? "bg-[#F4F0EB] text-[#3A3A3A]" :
                       index === 2 ? "bg-orange-100 text-orange-700" :
-                      "bg-gray-50 text-gray-500"
+                      "bg-[#FAF8F5] text-[#777777]"
                     )}>
                       {index + 1}
                     </div>
@@ -493,10 +493,10 @@ export default function AcademyPage() {
                     />
 
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 truncate">
+                      <p className="font-medium text-[#111111] truncate">
                         {member.prenom} {member.nom}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-[#777777]">
                         {member.lessons_completed} leçons • {member.badges_count} badges
                       </p>
                     </div>
@@ -505,7 +505,7 @@ export default function AcademyPage() {
                       <p className="font-bold text-primary">
                         {member.total_points}
                       </p>
-                      <p className="text-xs text-gray-500">points</p>
+                      <p className="text-xs text-[#777777]">points</p>
                     </div>
                   </div>
                 ))}

@@ -19,13 +19,13 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 
 const NOTIF_ICONS: Record<string, { icon: React.ElementType; color: string; bg: string }> = {
-  lead: { icon: Users, color: 'text-blue-500', bg: 'bg-blue-50' },
-  payment: { icon: CreditCard, color: 'text-green-500', bg: 'bg-green-50' },
-  session: { icon: Calendar, color: 'text-purple-500', bg: 'bg-purple-50' },
-  formation: { icon: GraduationCap, color: 'text-amber-500', bg: 'bg-amber-50' },
-  rappel: { icon: Clock, color: 'text-red-500', bg: 'bg-red-50' },
-  system: { icon: Bell, color: 'text-gray-500', bg: 'bg-gray-50' },
-  alert: { icon: AlertTriangle, color: 'text-red-500', bg: 'bg-red-50' },
+  lead: { icon: Users, color: 'text-[#6B8CAE]', bg: 'bg-[#E0EBF5]' },
+  payment: { icon: CreditCard, color: 'text-[#10B981]', bg: 'bg-[#ECFDF5]' },
+  session: { icon: Calendar, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
+  formation: { icon: GraduationCap, color: 'text-[#FF8C42]', bg: 'bg-[#FFF3E8]' },
+  rappel: { icon: Clock, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
+  system: { icon: Bell, color: 'text-[#777777]', bg: 'bg-[#FAF8F5]' },
+  alert: { icon: AlertTriangle, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   message: { icon: MessageSquare, color: 'text-cyan-500', bg: 'bg-cyan-50' },
   analytics: { icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50' },
 }
@@ -149,8 +149,8 @@ export default function NotificationsPage() {
 
       {filtered.length === 0 ? (
         <Card className="text-center py-12">
-          <Bell className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500 text-sm">
+          <Bell className="w-10 h-10 text-[#999999] mx-auto mb-3" />
+          <p className="text-[#777777] text-sm">
             {filter === 'unread' ? 'Aucune notification non lue' : 'Aucune notification'}
           </p>
         </Card>
@@ -166,7 +166,7 @@ export default function NotificationsPage() {
                   'flex items-start gap-3 p-4 rounded-xl border transition hover:shadow-sm',
                   !notif.read
                     ? 'bg-primary/[0.03] border-primary/20'
-                    : 'bg-white border-gray-100'
+                    : 'bg-white border-[#F4F0EB]'
                 )}
               >
                 <div className={cn('p-2 rounded-lg shrink-0', config.bg)}>
@@ -174,13 +174,13 @@ export default function NotificationsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className={cn('text-sm font-medium', !notif.read ? 'text-accent' : 'text-gray-700')}>
+                    <p className={cn('text-sm font-medium', !notif.read ? 'text-accent' : 'text-[#3A3A3A]')}>
                       {notif.title}
                     </p>
                     {!notif.read && <div className="w-2 h-2 rounded-full bg-primary shrink-0" />}
                   </div>
-                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{notif.description}</p>
-                  <p className="text-[10px] text-gray-400 mt-1">{formatDate(notif.created_at)}</p>
+                  <p className="text-xs text-[#777777] mt-0.5 line-clamp-2">{notif.description}</p>
+                  <p className="text-[10px] text-[#999999] mt-1">{formatDate(notif.created_at)}</p>
                 </div>
               </div>
             )

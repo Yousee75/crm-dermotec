@@ -83,48 +83,48 @@ export default function InscriptionsPage() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total</p>
-              <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-sm text-[#777777]">Total</p>
+              <p className="text-xl font-bold text-[#111111]">{stats.total}</p>
             </div>
-            <Users className="w-6 h-6 text-gray-400" />
+            <Users className="w-6 h-6 text-[#999999]" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Confirmées</p>
-              <p className="text-xl font-bold text-blue-600">{stats.confirmees}</p>
+              <p className="text-sm text-[#777777]">Confirmées</p>
+              <p className="text-xl font-bold text-[#6B8CAE]">{stats.confirmees}</p>
             </div>
-            <CheckCircle className="w-6 h-6 text-blue-400" />
+            <CheckCircle className="w-6 h-6 text-[#6B8CAE]" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">En cours</p>
-              <p className="text-xl font-bold text-green-600">{stats.en_cours}</p>
+              <p className="text-sm text-[#777777]">En cours</p>
+              <p className="text-xl font-bold text-[#10B981]">{stats.en_cours}</p>
             </div>
-            <Clock className="w-6 h-6 text-green-400" />
+            <Clock className="w-6 h-6 text-[#10B981]" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Terminées</p>
-              <p className="text-xl font-bold text-purple-600">{stats.completees}</p>
+              <p className="text-sm text-[#777777]">Terminées</p>
+              <p className="text-xl font-bold text-[#FF2D78]">{stats.completees}</p>
             </div>
-            <CheckCircle className="w-6 h-6 text-purple-400" />
+            <CheckCircle className="w-6 h-6 text-[#FF2D78]" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">CA total</p>
-              <p className="text-lg font-bold text-green-600">
+              <p className="text-sm text-[#777777]">CA total</p>
+              <p className="text-lg font-bold text-[#10B981]">
                 {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(stats.ca)}
               </p>
             </div>
-            <Euro className="w-6 h-6 text-green-400" />
+            <Euro className="w-6 h-6 text-[#10B981]" />
           </div>
         </Card>
       </div>
@@ -140,7 +140,7 @@ export default function InscriptionsPage() {
         <select
           value={statutFilter}
           onChange={(e) => setStatutFilter(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="">Tous les statuts</option>
           {Object.entries(STATUT_CONFIG).map(([key, val]) => (
@@ -162,42 +162,42 @@ export default function InscriptionsPage() {
           />
         </Card>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50 border-b border-gray-100">
+              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Stagiaire</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Formation</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Session</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Statut</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Paiement</th>
-                  <th className="text-right text-xs font-semibold text-gray-600 uppercase tracking-wider px-6 py-3">Montant</th>
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Stagiaire</th>
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Formation</th>
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Session</th>
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Statut</th>
+                  <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Paiement</th>
+                  <th className="text-right text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Montant</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-[#F4F0EB]">
                 {filtered?.map((inscription) => {
                   const sc = STATUT_CONFIG[inscription.statut] || STATUT_CONFIG.EN_ATTENTE
                   const pc = PAIEMENT_CONFIG[inscription.paiement_statut] || PAIEMENT_CONFIG.EN_ATTENTE
                   const Icon = sc.icon
                   return (
-                    <tr key={inscription.id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={inscription.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
                       <td className="px-6 py-4">
                         <Link href={`/lead/${inscription.lead?.id}`} className="flex items-center gap-3 group">
                           <Avatar name={`${inscription.lead?.prenom} ${inscription.lead?.nom}`} size="sm" />
                           <div>
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition">
+                            <p className="text-sm font-medium text-[#111111] group-hover:text-primary transition">
                               {inscription.lead?.prenom} {inscription.lead?.nom}
                             </p>
-                            <p className="text-xs text-gray-500">{inscription.lead?.email}</p>
+                            <p className="text-xs text-[#777777]">{inscription.lead?.email}</p>
                           </div>
                         </Link>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                        <p className="text-sm font-medium text-[#111111] truncate max-w-[200px]">
                           {inscription.session?.formation?.nom}
                         </p>
-                        <p className="text-xs text-gray-500">{inscription.session?.formation?.categorie}</p>
+                        <p className="text-xs text-[#777777]">{inscription.session?.formation?.categorie}</p>
                       </td>
                       <td className="px-6 py-4">
                         <Link href={`/session/${inscription.session?.id}`} className="text-sm text-primary hover:text-accent transition">
@@ -221,11 +221,11 @@ export default function InscriptionsPage() {
                         </Badge>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <p className="text-sm font-semibold text-gray-900">
+                        <p className="text-sm font-semibold text-[#111111]">
                           {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(inscription.montant_total)}
                         </p>
                         {inscription.montant_finance > 0 && (
-                          <p className="text-xs text-green-600">
+                          <p className="text-xs text-[#10B981]">
                             dont {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(inscription.montant_finance)} financé
                           </p>
                         )}

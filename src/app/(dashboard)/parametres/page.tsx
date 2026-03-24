@@ -9,23 +9,23 @@ import { TabBar } from '@/components/ui/TabBar'
 import dynamic from 'next/dynamic'
 
 const EquipeTab = dynamic(() => import('./tabs/EquipeTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const CatalogueTab = dynamic(() => import('./tabs/CatalogueTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const SecuriteTab = dynamic(() => import('./tabs/SecuriteTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const PlanTab = dynamic(() => import('./tabs/PlanTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const IntegrationsTab = dynamic(() => import('./tabs/IntegrationsTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 export default function ParametresPage() {

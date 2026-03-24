@@ -113,7 +113,7 @@ function HeroSection({ searchTerm, onSearchChange }: {
           </motion.h1>
 
           <motion.p
-            className="mb-8 text-xl text-blue-100 lg:text-2xl"
+            className="mb-8 text-xl text-[#6B8CAE] lg:text-2xl"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -128,13 +128,13 @@ function HeroSection({ searchTerm, onSearchChange }: {
             transition={{ delay: 0.6 }}
           >
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#999999] w-5 h-5" />
               <input
                 type="text"
                 placeholder="Rechercher une formation..."
                 value={searchTerm}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full px-12 py-4 text-gray-900 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 text-lg"
+                className="w-full px-12 py-4 text-[#111111] bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 text-lg"
               />
             </div>
           </motion.div>
@@ -147,15 +147,15 @@ function HeroSection({ searchTerm, onSearchChange }: {
           >
             <div>
               <div className="text-3xl font-bold">11</div>
-              <div className="text-blue-200">Formations</div>
+              <div className="text-[#6B8CAE]">Formations</div>
             </div>
             <div>
               <div className="text-3xl font-bold">5</div>
-              <div className="text-blue-200">Catégories</div>
+              <div className="text-[#6B8CAE]">Catégories</div>
             </div>
             <div>
               <div className="text-3xl font-bold">2</div>
-              <div className="text-blue-200">Mois ROI</div>
+              <div className="text-[#6B8CAE]">Mois ROI</div>
             </div>
           </motion.div>
         </div>
@@ -175,7 +175,7 @@ function CategoryTabs({
   const categories = ['all', ...Object.keys(CATEGORIES_CONFIG)] as const
 
   return (
-    <div className="px-6 py-8 bg-gray-50">
+    <div className="px-6 py-8 bg-[#FAF8F5]">
       <div className="max-w-7xl mx-auto">
         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
           {categories.map((category) => {
@@ -191,7 +191,7 @@ function CategoryTabs({
                 className={`relative flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   isActive
                     ? 'bg-primary text-white shadow-lg'
-                    : 'bg-white text-gray-600 hover:bg-gray-100'
+                    : 'bg-white text-[#777777] hover:bg-[#F4F0EB]'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -202,7 +202,7 @@ function CategoryTabs({
                 </span>
                 {!isAll && (
                   <span className={`px-2 py-0.5 rounded-full text-xs ${
-                    isActive ? 'bg-blue-400 text-white' : 'bg-gray-200 text-gray-600'
+                    isActive ? 'bg-blue-400 text-white' : 'bg-[#EEEEEE] text-[#777777]'
                   }`}>
                     {config?.count}
                   </span>
@@ -235,7 +235,7 @@ function ParcoursTimeline() {
           <h2 className="text-3xl font-heading font-bold text-accent mb-4">
             Parcours de Formation Recommandé
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-[#777777] text-lg">
             Un cheminement logique pour développer votre expertise étape par étape
           </p>
         </motion.div>
@@ -255,7 +255,7 @@ function ParcoursTimeline() {
               >
                 {/* Content */}
                 <div className="flex-1 lg:px-8">
-                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-[#F4F0EB]">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-primary to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                         {etape.etape}
@@ -264,7 +264,7 @@ function ParcoursTimeline() {
                         <h3 className="text-xl font-heading font-bold text-accent">
                           {etape.niveau}
                         </h3>
-                        <p className="text-gray-600">{etape.description}</p>
+                        <p className="text-[#777777]">{etape.description}</p>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -275,7 +275,7 @@ function ParcoursTimeline() {
                         return (
                           <span
                             key={formationSlug}
-                            className="px-3 py-1 bg-blue-50 text-primary rounded-full text-sm font-medium"
+                            className="px-3 py-1 bg-[#E0EBF5] text-primary rounded-full text-sm font-medium"
                           >
                             {formation.nom}
                           </span>
@@ -312,7 +312,7 @@ function FormationCard({
 
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer"
+      className="bg-white rounded-xl shadow-lg border border-[#F4F0EB] overflow-hidden group cursor-pointer"
       variants={itemVariants}
       whileHover={{ scale: 1.02, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
       onClick={onClick}
@@ -321,7 +321,7 @@ function FormationCard({
       <div className={`h-48 bg-gradient-to-br ${config.color} relative overflow-hidden`}>
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 bg-white/90 text-gray-800 rounded-full text-sm font-medium">
+          <span className="px-3 py-1 bg-white/90 text-[#1A1A1A] rounded-full text-sm font-medium">
             {config.label}
           </span>
         </div>
@@ -341,7 +341,7 @@ function FormationCard({
           </span>
         </div>
 
-        <div className="flex items-center gap-4 mb-4 text-gray-600">
+        <div className="flex items-center gap-4 mb-4 text-[#777777]">
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             <span className="text-sm">{formation.duree}</span>
@@ -350,15 +350,15 @@ function FormationCard({
 
         {/* Mini ROI preview */}
         {formation.roi.seuilRentabiliteSeances > 0 && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
-            <div className="text-sm text-green-700">
+          <div className="bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg p-3 mb-4">
+            <div className="text-sm text-[#10B981]">
               <TrendingUp className="w-4 h-4 inline mr-1" />
               Rentabilisé en {formation.roi.seuilRentabiliteSeances} séances
             </div>
           </div>
         )}
 
-        <button className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors group-hover:bg-blue-500">
+        <button className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-[#6B8CAE] transition-colors group-hover:bg-[#6B8CAE]">
           Voir détails
           <ChevronRight className="w-4 h-4 inline ml-1" />
         </button>
@@ -395,9 +395,9 @@ function ROICalculator({ formation }: { formation: FormationEnriched }) {
 
   if (formation.roi.seuilRentabiliteSeances === 0) {
     return (
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
-        <h4 className="font-bold text-amber-800 mb-2">Formation Réglementaire</h4>
-        <p className="text-amber-700">{formation.roi.tempsAmortissement}</p>
+      <div className="bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-lg p-6">
+        <h4 className="font-bold text-[#FF8C42] mb-2">Formation Réglementaire</h4>
+        <p className="text-[#FF8C42]">{formation.roi.tempsAmortissement}</p>
       </div>
     )
   }
@@ -405,7 +405,7 @@ function ROICalculator({ formation }: { formation: FormationEnriched }) {
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-[#3A3A3A] mb-2">
           Nombre de clientes par semaine
         </label>
         <input
@@ -414,9 +414,9 @@ function ROICalculator({ formation }: { formation: FormationEnriched }) {
           max="10"
           value={clientsParSemaine}
           onChange={(e) => setClientsParSemaine(parseInt(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          className="w-full h-2 bg-[#EEEEEE] rounded-lg appearance-none cursor-pointer slider"
         />
-        <div className="flex justify-between text-sm text-gray-500 mt-1">
+        <div className="flex justify-between text-sm text-[#777777] mt-1">
           <span>1</span>
           <span className="font-bold text-primary">{clientsParSemaine}</span>
           <span>10</span>
@@ -425,49 +425,49 @@ function ROICalculator({ formation }: { formation: FormationEnriched }) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <motion.div
-          className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center"
+          className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg p-4 text-center"
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 0.3 }}
           key={calculations.gainMensuel}
         >
-          <div className="text-2xl font-bold text-blue-600">
+          <div className="text-2xl font-bold text-[#6B8CAE]">
             {calculations.gainMensuel.toLocaleString('fr-FR')}€
           </div>
-          <div className="text-sm text-blue-700">Gain mensuel</div>
+          <div className="text-sm text-[#6B8CAE]">Gain mensuel</div>
         </motion.div>
 
         <motion.div
-          className="bg-green-50 border border-green-200 rounded-lg p-4 text-center"
+          className="bg-[#ECFDF5] border border-[#10B981]/30 rounded-lg p-4 text-center"
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 0.3, delay: 0.1 }}
           key={calculations.gainAnnuel}
         >
-          <div className="text-2xl font-bold text-green-600">
+          <div className="text-2xl font-bold text-[#10B981]">
             {calculations.gainAnnuel.toLocaleString('fr-FR')}€
           </div>
-          <div className="text-sm text-green-700">Gain annuel</div>
+          <div className="text-sm text-[#10B981]">Gain annuel</div>
         </motion.div>
 
         <motion.div
-          className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center"
+          className="bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg p-4 text-center"
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 0.3, delay: 0.2 }}
           key={calculations.tempsAmortissement}
         >
-          <div className="text-2xl font-bold text-purple-600">
+          <div className="text-2xl font-bold text-[#FF2D78]">
             {calculations.tempsAmortissement}
           </div>
-          <div className="text-sm text-purple-700">Amortissement</div>
+          <div className="text-sm text-[#FF2D78]">Amortissement</div>
         </motion.div>
       </div>
 
       {/* Barre de progression */}
       <div className="space-y-2">
-        <div className="flex justify-between text-sm text-gray-600">
+        <div className="flex justify-between text-sm text-[#777777]">
           <span>Progression vers rentabilité</span>
           <span>{Math.min(100, Math.round((clientsParSemaine * 4 / formation.roi.seuilRentabiliteSeances) * 100))}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
+        <div className="w-full bg-[#EEEEEE] rounded-full h-3">
           <motion.div
             className="bg-gradient-to-r from-primary to-green-500 h-3 rounded-full"
             initial={{ width: 0 }}
@@ -522,12 +522,12 @@ function FormationDetailModal({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between p-6 border-b border-[#EEEEEE]">
               <div>
                 <h2 className="text-2xl font-heading font-bold text-accent">
                   {formation.nom}
                 </h2>
-                <div className="flex items-center gap-4 mt-2 text-gray-600">
+                <div className="flex items-center gap-4 mt-2 text-[#777777]">
                   <span>{formation.duree}</span>
                   <span>•</span>
                   <span className="font-bold text-primary">{formation.prix}</span>
@@ -535,14 +535,14 @@ function FormationDetailModal({
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-[#F4F0EB] rounded-lg transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex border-b border-gray-200">
+            <div className="flex border-b border-[#EEEEEE]">
               {tabs.map((tab) => {
                 const Icon = tab.icon
                 const isActive = activeTab === tab.id
@@ -554,7 +554,7 @@ function FormationDetailModal({
                     className={`flex items-center gap-2 px-6 py-3 text-sm font-medium relative ${
                       isActive
                         ? 'text-primary border-b-2 border-primary'
-                        : 'text-gray-600 hover:text-gray-900'
+                        : 'text-[#777777] hover:text-[#111111]'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -578,15 +578,15 @@ function FormationDetailModal({
                     <div className="space-y-6">
                       <div>
                         <h3 className="text-lg font-bold text-accent mb-3">Description technique</h3>
-                        <p className="text-gray-700 leading-relaxed">{formation.descriptionTechnique}</p>
+                        <p className="text-[#3A3A3A] leading-relaxed">{formation.descriptionTechnique}</p>
                       </div>
 
                       {formation.techniquesComparees.length > 0 && (
                         <div>
                           <h3 className="text-lg font-bold text-accent mb-3">Techniques comparées</h3>
                           <div className="overflow-x-auto">
-                            <table className="w-full border border-gray-200 rounded-lg">
-                              <thead className="bg-gray-50">
+                            <table className="w-full border border-[#EEEEEE] rounded-lg">
+                              <thead className="bg-[#FAF8F5]">
                                 <tr>
                                   <th className="px-4 py-2 text-left">Technique</th>
                                   <th className="px-4 py-2 text-left">Méthode</th>
@@ -596,7 +596,7 @@ function FormationDetailModal({
                               </thead>
                               <tbody>
                                 {formation.techniquesComparees.map((technique, index) => (
-                                  <tr key={index} className="border-t border-gray-200">
+                                  <tr key={index} className="border-t border-[#EEEEEE]">
                                     <td className="px-4 py-2 font-medium">{technique.nom}</td>
                                     <td className="px-4 py-2">{technique.methode}</td>
                                     <td className="px-4 py-2">{technique.rendu}</td>
@@ -614,13 +614,13 @@ function FormationDetailModal({
                           <h3 className="text-lg font-bold text-accent mb-3">Matériel nécessaire</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {formation.materiel.map((item, index) => (
-                              <div key={index} className="border border-gray-200 rounded-lg p-4">
-                                <h4 className="font-bold text-gray-900 mb-2">{item.nom}</h4>
-                                <p className="text-gray-600 text-sm mb-2">{item.description}</p>
+                              <div key={index} className="border border-[#EEEEEE] rounded-lg p-4">
+                                <h4 className="font-bold text-[#111111] mb-2">{item.nom}</h4>
+                                <p className="text-[#777777] text-sm mb-2">{item.description}</p>
                                 <p className="text-primary font-bold mb-2">{item.prixIndicatif}</p>
                                 <div className="flex flex-wrap gap-1">
                                   {item.avantages.map((avantage, i) => (
-                                    <span key={i} className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
+                                    <span key={i} className="px-2 py-1 bg-[#D1FAE5] text-[#10B981] text-xs rounded-full">
                                       {avantage}
                                     </span>
                                   ))}
@@ -640,11 +640,11 @@ function FormationDetailModal({
                   {activeTab === 'faq' && (
                     <div className="space-y-4">
                       {formation.faq.map((item, index) => (
-                        <details key={index} className="border border-gray-200 rounded-lg">
-                          <summary className="px-4 py-3 font-medium text-gray-900 cursor-pointer hover:bg-gray-50">
+                        <details key={index} className="border border-[#EEEEEE] rounded-lg">
+                          <summary className="px-4 py-3 font-medium text-[#111111] cursor-pointer hover:bg-[#FAF8F5]">
                             {item.question}
                           </summary>
-                          <div className="px-4 py-3 border-t border-gray-200 text-gray-700">
+                          <div className="px-4 py-3 border-t border-[#EEEEEE] text-[#3A3A3A]">
                             {item.reponse}
                           </div>
                         </details>
@@ -656,19 +656,19 @@ function FormationDetailModal({
                     <div className="space-y-6">
                       <div>
                         <h3 className="text-lg font-bold text-accent mb-3">Réglementation</h3>
-                        <p className="text-gray-700 leading-relaxed">{formation.reglementation}</p>
+                        <p className="text-[#3A3A3A] leading-relaxed">{formation.reglementation}</p>
                       </div>
 
                       {formation.contreIndications.length > 0 && (
                         <div>
-                          <h3 className="text-lg font-bold text-red-600 mb-3 flex items-center gap-2">
+                          <h3 className="text-lg font-bold text-[#FF2D78] mb-3 flex items-center gap-2">
                             <AlertTriangle className="w-5 h-5" />
                             Contre-indications
                           </h3>
                           <ul className="space-y-2">
                             {formation.contreIndications.map((item, index) => (
-                              <li key={index} className="flex items-center gap-2 text-red-700">
-                                <div className="w-2 h-2 bg-red-500 rounded-full" />
+                              <li key={index} className="flex items-center gap-2 text-[#FF2D78]">
+                                <div className="w-2 h-2 bg-[#FF2D78] rounded-full" />
                                 {item}
                               </li>
                             ))}
@@ -681,8 +681,8 @@ function FormationDetailModal({
                           <h3 className="text-lg font-bold text-accent mb-3">Public cible</h3>
                           <ul className="space-y-2">
                             {formation.publicCible.map((item, index) => (
-                              <li key={index} className="flex items-center gap-2 text-gray-700">
-                                <div className="w-2 h-2 bg-green-500 rounded-full" />
+                              <li key={index} className="flex items-center gap-2 text-[#3A3A3A]">
+                                <div className="w-2 h-2 bg-[#10B981] rounded-full" />
                                 {item}
                               </li>
                             ))}
@@ -727,7 +727,7 @@ function GlossaireSection() {
   }, [allTerms, searchTerm])
 
   return (
-    <div className="px-6 py-16 bg-gray-50">
+    <div className="px-6 py-16 bg-[#FAF8F5]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-12"
@@ -737,18 +737,18 @@ function GlossaireSection() {
           <h2 className="text-3xl font-heading font-bold text-accent mb-4">
             Glossaire Technique
           </h2>
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="text-[#777777] text-lg mb-8">
             Tous les termes techniques de l'esthétique professionnelle
           </p>
 
           <div className="max-w-md mx-auto relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#999999] w-5 h-5" />
             <input
               type="text"
               placeholder="Rechercher un terme..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-10 py-3 border border-[#EEEEEE] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
         </motion.div>
@@ -763,14 +763,14 @@ function GlossaireSection() {
           {filteredTerms.map((item, index) => (
             <motion.div
               key={item.terme}
-              className="bg-white rounded-lg p-6 shadow-lg border border-gray-100"
+              className="bg-white rounded-lg p-6 shadow-lg border border-[#F4F0EB]"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
             >
               <h3 className="text-lg font-bold text-accent mb-2">
                 {item.terme}
               </h3>
-              <p className="text-gray-600">
+              <p className="text-[#777777]">
                 {item.definition}
               </p>
             </motion.div>
@@ -778,7 +778,7 @@ function GlossaireSection() {
         </motion.div>
 
         {filteredTerms.length === 0 && (
-          <div className="text-center text-gray-500 py-12">
+          <div className="text-center text-[#777777] py-12">
             Aucun terme trouvé pour "{searchTerm}"
           </div>
         )}
@@ -848,17 +848,17 @@ function ROIComparatifTable() {
           <h2 className="text-3xl font-heading font-bold text-accent mb-4">
             Comparatif ROI des Formations
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-[#777777] text-lg">
             Analyse comparative pour optimiser votre investissement formation
           </p>
         </motion.div>
 
         <div className="overflow-x-auto">
-          <table className="w-full border border-gray-200 rounded-lg bg-white shadow-lg">
-            <thead className="bg-gray-50">
+          <table className="w-full border border-[#EEEEEE] rounded-lg bg-white shadow-lg">
+            <thead className="bg-[#FAF8F5]">
               <tr>
                 <th
-                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-100"
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F4F0EB]"
                   onClick={() => handleSort('formation')}
                 >
                   <div className="flex items-center gap-2">
@@ -867,7 +867,7 @@ function ROIComparatifTable() {
                   </div>
                 </th>
                 <th
-                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-100"
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F4F0EB]"
                   onClick={() => handleSort('cout')}
                 >
                   <div className="flex items-center gap-2">
@@ -876,7 +876,7 @@ function ROIComparatifTable() {
                   </div>
                 </th>
                 <th
-                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-100"
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F4F0EB]"
                   onClick={() => handleSort('prixSeance')}
                 >
                   <div className="flex items-center gap-2">
@@ -892,7 +892,7 @@ function ROIComparatifTable() {
               {sortedData.map((row, index) => (
                 <motion.tr
                   key={row.formation}
-                  className="border-t border-gray-200 hover:bg-gray-50"
+                  className="border-t border-[#EEEEEE] hover:bg-[#FAF8F5]"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -901,7 +901,7 @@ function ROIComparatifTable() {
                     {row.formation}
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-lg font-bold text-gray-900">
+                    <span className="text-lg font-bold text-[#111111]">
                       {row.cout}€
                     </span>
                   </td>
@@ -911,15 +911,15 @@ function ROIComparatifTable() {
                         {row.prixSeance}€
                       </span>
                     ) : (
-                      <span className="text-gray-400">N/A</span>
+                      <span className="text-[#999999]">N/A</span>
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                    <span className="px-3 py-1 bg-[#D1FAE5] text-[#10B981] rounded-full text-sm font-medium">
                       {row.rentabilite}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-[#777777]">
                     {row.particularite}
                   </td>
                 </motion.tr>
@@ -984,13 +984,13 @@ export default function CatalogueFormationsPage() {
       <ParcoursTimeline />
 
       {/* Grid Formations */}
-      <div className="px-6 py-16 bg-gray-50">
+      <div className="px-6 py-16 bg-[#FAF8F5]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-heading font-bold text-accent mb-4">
               Nos Formations
             </h2>
-            <p className="text-gray-600 text-lg">
+            <p className="text-[#777777] text-lg">
               {filteredFormations.length} formation{filteredFormations.length > 1 ? 's' : ''}
               {selectedCategory !== 'all' && ` en ${CATEGORIES_CONFIG[selectedCategory as CategorieFormation]?.label}`}
               {searchTerm && ` pour "${searchTerm}"`}
@@ -1013,7 +1013,7 @@ export default function CatalogueFormationsPage() {
           </motion.div>
 
           {filteredFormations.length === 0 && (
-            <div className="text-center text-gray-500 py-12">
+            <div className="text-center text-[#777777] py-12">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-bold mb-2">Aucune formation trouvée</h3>
               <p>Essayez de modifier vos critères de recherche</p>

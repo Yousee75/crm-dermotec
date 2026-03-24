@@ -34,13 +34,13 @@ function Tabs({ tabs, defaultTab, onChange, className, variant = 'default' }: Si
 
   const variants = {
     default: {
-      container: 'flex gap-1 p-1 bg-gray-100 rounded-lg',
+      container: 'flex gap-1 p-1 bg-[#F4F0EB] rounded-lg',
       tab: (isActive: boolean) => cn(
         baseStyles,
         'px-3 py-1.5 rounded-md',
         isActive
           ? 'bg-white text-accent shadow-sm'
-          : 'text-gray-500 hover:text-gray-700'
+          : 'text-[#777777] hover:text-[#3A3A3A]'
       ),
     },
     pills: {
@@ -50,17 +50,17 @@ function Tabs({ tabs, defaultTab, onChange, className, variant = 'default' }: Si
         'px-3 py-1.5 rounded-full',
         isActive
           ? 'bg-primary/10 text-primary-dark'
-          : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+          : 'text-[#777777] hover:bg-[#F4F0EB] hover:text-[#3A3A3A]'
       ),
     },
     underline: {
-      container: 'flex gap-6 border-b border-gray-200',
+      container: 'flex gap-6 border-b border-[#EEEEEE]',
       tab: (isActive: boolean) => cn(
         baseStyles,
         'pb-2.5 -mb-px',
         isActive
           ? 'text-accent border-b-2 border-primary'
-          : 'text-gray-500 hover:text-gray-700 border-b-2 border-transparent'
+          : 'text-[#777777] hover:text-[#3A3A3A] border-b-2 border-transparent'
       ),
     },
   }
@@ -82,7 +82,7 @@ function Tabs({ tabs, defaultTab, onChange, className, variant = 'default' }: Si
               'ml-1 px-1.5 py-0.5 text-[10px] rounded-full font-medium',
               active === tab.id
                 ? 'bg-primary/20 text-primary-dark'
-                : 'bg-gray-200 text-gray-500'
+                : 'bg-[#EEEEEE] text-[#777777]'
             )}>
               {tab.badge}
             </span>
@@ -116,7 +116,7 @@ function TabsRoot({ value, onValueChange, className, children }: TabsRootProps) 
 
 function TabsList({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
-    <div className={cn('flex gap-1 p-1 bg-gray-100 rounded-lg', className)}>
+    <div className={cn('flex gap-1 p-1 bg-[#F4F0EB] rounded-lg', className)}>
       {children}
     </div>
   )
@@ -129,7 +129,7 @@ function TabsTrigger({ value, className, children }: { value: string; className?
     <button
       className={cn(
         'relative flex items-center gap-1.5 text-sm font-medium transition-all duration-150 whitespace-nowrap px-3 py-1.5 rounded-md',
-        isActive ? 'bg-white text-accent shadow-sm' : 'text-gray-500 hover:text-gray-700',
+        isActive ? 'bg-white text-accent shadow-sm' : 'text-[#777777] hover:text-[#3A3A3A]',
         className
       )}
       data-state={isActive ? 'active' : 'inactive'}

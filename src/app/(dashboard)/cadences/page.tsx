@@ -224,7 +224,7 @@ function CadenceInstanceRow({
     active: { label: 'Active', color: 'bg-[#D1FAE5] text-[#10B981]' },
     terminee: { label: 'Terminée', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
     arretee: { label: 'Arrêtée', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
-    en_pause: { label: 'En pause', color: 'bg-yellow-100 text-yellow-800' }
+    en_pause: { label: 'En pause', color: 'bg-[#FFF3E8] text-[#FF8C42]' }
   }
 
   const statut = statutConfig[instance.statut] || statutConfig.active
@@ -259,7 +259,7 @@ function CadenceInstanceRow({
           </span>
           <div className="w-16 bg-[#EEEEEE] rounded-full h-1.5">
             <div
-              className="bg-blue-500 h-1.5 rounded-full transition-all"
+              className="bg-[#6B8CAE] h-1.5 rounded-full transition-all"
               style={{
                 width: `${((instance.etape_courante || 0) / (instance.template?.etapes.length || 1)) * 100}%`
               }}
@@ -415,7 +415,7 @@ export default function CadencesPage() {
                 <p className="text-sm text-[#777777] mb-1">{kpi.label}</p>
                 <p className="text-2xl font-bold text-[#111111]">{kpi.value}</p>
                 {kpi.change && (
-                  <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
+                  <p className="text-xs text-[#10B981] flex items-center gap-1 mt-1">
                     <TrendingUp className="w-3 h-3" />
                     {kpi.change}
                   </p>
@@ -441,7 +441,7 @@ export default function CadencesPage() {
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'templates'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-gray-300'
+                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
             )}
           >
             Templates de cadences
@@ -452,7 +452,7 @@ export default function CadencesPage() {
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'instances'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-gray-300'
+                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
             )}
           >
             Instances actives

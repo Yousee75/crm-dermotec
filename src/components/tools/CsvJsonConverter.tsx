@@ -103,7 +103,7 @@ export function CsvJsonConverter() {
 
         <button
           onClick={toggleDirection}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          className="p-2 hover:bg-[#F4F0EB] rounded-full transition-colors"
           title="Inverser la direction"
         >
           <ArrowLeftRight className="w-5 h-5 text-primary" />
@@ -119,7 +119,7 @@ export function CsvJsonConverter() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input */}
         <div className="space-y-3">
-          <h3 className="font-medium text-gray-900 flex items-center gap-2">
+          <h3 className="font-medium text-[#111111] flex items-center gap-2">
             {isJsonTocsv ? <Braces className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
             Données {isJsonTocsv ? 'JSON' : 'CSV'}
           </h3>
@@ -130,14 +130,14 @@ export function CsvJsonConverter() {
               ? 'Collez votre JSON ici...\n[\n  {"nom": "John", "age": 30},\n  {"nom": "Jane", "age": 25}\n]'
               : 'Collez votre CSV ici...\nnom,age\nJohn,30\nJane,25'
             }
-            className="w-full h-64 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono text-sm"
+            className="w-full h-64 p-4 border border-[#EEEEEE] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono text-sm"
           />
         </div>
 
         {/* Output */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="font-medium text-gray-900 flex items-center gap-2">
+            <h3 className="font-medium text-[#111111] flex items-center gap-2">
               {isJsonTocsv ? <FileText className="w-4 h-4" /> : <Braces className="w-4 h-4" />}
               Résultat {isJsonTocsv ? 'CSV' : 'JSON'}
             </h3>
@@ -145,7 +145,7 @@ export function CsvJsonConverter() {
               <div className="flex gap-2">
                 <button
                   onClick={copyResult}
-                  className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+                  className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-[#F4F0EB] hover:bg-[#EEEEEE] rounded transition-colors"
                 >
                   <Copy className="w-4 h-4" />
                   {copied ? 'Copié !' : 'Copier'}
@@ -164,7 +164,7 @@ export function CsvJsonConverter() {
             value={output}
             readOnly
             placeholder="Le résultat apparaîtra ici après conversion..."
-            className="w-full h-64 p-4 border border-gray-300 rounded-md resize-none bg-gray-50 font-mono text-sm"
+            className="w-full h-64 p-4 border border-[#EEEEEE] rounded-md resize-none bg-[#FAF8F5] font-mono text-sm"
           />
         </div>
       </div>
@@ -181,16 +181,16 @@ export function CsvJsonConverter() {
         </button>
 
         {error && (
-          <div className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-md p-3">
+          <div className="text-[#FF2D78] text-sm bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-md p-3">
             {error}
           </div>
         )}
       </div>
 
       {/* Tips */}
-      <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
-        <h4 className="font-medium text-blue-900 mb-2">💡 Conseils</h4>
-        <ul className="text-sm text-blue-800 space-y-1">
+      <div className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-md p-4">
+        <h4 className="font-medium text-[#6B8CAE] mb-2">💡 Conseils</h4>
+        <ul className="text-sm text-[#6B8CAE] space-y-1">
           {isJsonTocsv ? (
             <>
               <li>• Le JSON doit être un tableau d'objets</li>

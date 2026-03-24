@@ -188,30 +188,30 @@ export function CoachingCard({ className }: CoachingCardProps) {
   const getInsightIcon = (type: CoachingInsight['type']) => {
     switch (type) {
       case 'tip':
-        return <Lightbulb className="w-5 h-5 text-blue-500" />
+        return <Lightbulb className="w-5 h-5 text-[#6B8CAE]" />
       case 'alert':
-        return <AlertTriangle className="w-5 h-5 text-amber-500" />
+        return <AlertTriangle className="w-5 h-5 text-[#FF8C42]" />
       case 'celebration':
-        return <PartyPopper className="w-5 h-5 text-green-500" />
+        return <PartyPopper className="w-5 h-5 text-[#10B981]" />
       case 'challenge':
-        return <Target className="w-5 h-5 text-purple-500" />
+        return <Target className="w-5 h-5 text-[#FF2D78]" />
       default:
-        return <Brain className="w-5 h-5 text-gray-500" />
+        return <Brain className="w-5 h-5 text-[#777777]" />
     }
   }
 
   const getBackgroundClass = (type: CoachingInsight['type']) => {
     switch (type) {
       case 'tip':
-        return 'bg-gradient-to-r from-blue-50 to-blue-100/50 border-blue-200'
+        return 'bg-gradient-to-r from-blue-50 to-blue-100/50 border-[#6B8CAE]/30'
       case 'alert':
-        return 'bg-gradient-to-r from-amber-50 to-amber-100/50 border-amber-200'
+        return 'bg-gradient-to-r from-amber-50 to-amber-100/50 border-[#FF8C42]/30'
       case 'celebration':
-        return 'bg-gradient-to-r from-green-50 to-green-100/50 border-green-200'
+        return 'bg-gradient-to-r from-green-50 to-green-100/50 border-[#10B981]/30'
       case 'challenge':
-        return 'bg-gradient-to-r from-purple-50 to-purple-100/50 border-purple-200'
+        return 'bg-gradient-to-r from-purple-50 to-purple-100/50 border-[#FF2D78]/30'
       default:
-        return 'bg-gradient-to-r from-gray-50 to-gray-100/50 border-gray-200'
+        return 'bg-gradient-to-r from-gray-50 to-gray-100/50 border-[#EEEEEE]'
     }
   }
 
@@ -220,11 +220,11 @@ export function CoachingCard({ className }: CoachingCardProps) {
       <Card className={cn("animate-pulse", className)}>
         <CardContent className="p-6">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-gray-200 rounded-lg" />
+            <div className="w-10 h-10 bg-[#EEEEEE] rounded-lg" />
             <div className="flex-1 space-y-3">
-              <div className="h-4 bg-gray-200 rounded w-32" />
-              <div className="h-3 bg-gray-200 rounded w-full" />
-              <div className="h-3 bg-gray-200 rounded w-3/4" />
+              <div className="h-4 bg-[#EEEEEE] rounded w-32" />
+              <div className="h-3 bg-[#EEEEEE] rounded w-full" />
+              <div className="h-3 bg-[#EEEEEE] rounded w-3/4" />
             </div>
           </div>
         </CardContent>
@@ -236,7 +236,7 @@ export function CoachingCard({ className }: CoachingCardProps) {
     return (
       <Card className={className}>
         <CardContent className="p-6">
-          <div className="flex items-center gap-3 text-gray-500">
+          <div className="flex items-center gap-3 text-[#777777]">
             <Brain className="w-5 h-5" />
             <div>
               <div className="font-medium">Coach IA</div>
@@ -264,12 +264,12 @@ export function CoachingCard({ className }: CoachingCardProps) {
               {getInsightIcon(currentInsight.type)}
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-sm text-purple-600">Coach IA</span>
-                  <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-600 rounded-full font-medium">
+                  <span className="font-medium text-sm text-[#FF2D78]">Coach IA</span>
+                  <span className="text-xs px-2 py-0.5 bg-[#FFE0EF] text-[#FF2D78] rounded-full font-medium">
                     {currentInsightIndex + 1}/{coachingInsights.length}
                   </span>
                 </div>
-                <div className="text-xs text-gray-500 mt-0.5">
+                <div className="text-xs text-[#777777] mt-0.5">
                   Conseil personnalisé
                 </div>
               </div>
@@ -295,10 +295,10 @@ export function CoachingCard({ className }: CoachingCardProps) {
             <div className="flex items-start gap-2">
               <span className="text-xl shrink-0 mt-0.5">{currentInsight.icon}</span>
               <div>
-                <h3 className="font-semibold text-gray-900 text-sm leading-tight">
+                <h3 className="font-semibold text-[#111111] text-sm leading-tight">
                   {currentInsight.title}
                 </h3>
-                <p className="text-sm text-gray-700 mt-1 leading-relaxed">
+                <p className="text-sm text-[#3A3A3A] mt-1 leading-relaxed">
                   {currentInsight.message}
                 </p>
               </div>
@@ -311,7 +311,7 @@ export function CoachingCard({ className }: CoachingCardProps) {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-8 text-xs bg-white/80 hover:bg-white text-gray-700 border border-gray-200"
+                    className="h-8 text-xs bg-white/80 hover:bg-white text-[#3A3A3A] border border-[#EEEEEE]"
                   >
                     {currentInsight.action.label}
                     <ChevronRight className="w-3 h-3 ml-1" />
@@ -331,7 +331,7 @@ export function CoachingCard({ className }: CoachingCardProps) {
                   className={cn(
                     "w-1.5 h-1.5 rounded-full transition-all",
                     index === currentInsightIndex
-                      ? "bg-purple-500 w-4"
+                      ? "bg-[#FF2D78] w-4"
                       : "bg-purple-200 hover:bg-purple-300"
                   )}
                 />

@@ -62,7 +62,7 @@ export function PomodoroTimer() {
             key={p.label}
             onClick={() => selectPreset(i)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              preset === i ? 'text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              preset === i ? 'text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
             }`}
             style={preset === i ? { backgroundColor: p.color } : undefined}
           >
@@ -87,7 +87,7 @@ export function PomodoroTimer() {
           <span className="text-4xl font-bold font-mono text-accent">
             {String(minutes).padStart(2, '0')}:{String(secs).padStart(2, '0')}
           </span>
-          <span className="text-xs text-gray-400 mt-1">{PRESETS[preset].label}</span>
+          <span className="text-xs text-[#999999] mt-1">{PRESETS[preset].label}</span>
         </div>
       </div>
 
@@ -95,9 +95,9 @@ export function PomodoroTimer() {
       <div className="flex items-center justify-center gap-3">
         <button
           onClick={reset}
-          className="p-3 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+          className="p-3 bg-[#F4F0EB] hover:bg-[#EEEEEE] rounded-full transition-colors"
         >
-          <RotateCcw size={18} className="text-gray-500" />
+          <RotateCcw size={18} className="text-[#777777]" />
         </button>
         <button
           onClick={() => setIsRunning(!isRunning)}
@@ -110,7 +110,7 @@ export function PomodoroTimer() {
 
       {/* Counter */}
       {completed > 0 && (
-        <p className="text-xs text-gray-400">{completed} session{completed > 1 ? 's' : ''} terminée{completed > 1 ? 's' : ''}</p>
+        <p className="text-xs text-[#999999]">{completed} session{completed > 1 ? 's' : ''} terminée{completed > 1 ? 's' : ''}</p>
       )}
     </div>
   )

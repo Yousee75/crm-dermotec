@@ -76,18 +76,18 @@ export function CalComEmbed({
           />
           <div className="absolute inset-4 md:inset-8 lg:inset-16 bg-white rounded-2xl shadow-2xl overflow-hidden animate-scaleIn flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-[#F4F0EB]">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-primary" />
-                <h3 className="text-sm font-semibold text-gray-900">
+                <h3 className="text-sm font-semibold text-[#111111]">
                   {buttonText}
                 </h3>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg hover:bg-gray-100 transition"
+                className="p-1.5 rounded-lg hover:bg-[#F4F0EB] transition"
               >
-                <X className="w-4 h-4 text-gray-400" />
+                <X className="w-4 h-4 text-[#999999]" />
               </button>
             </div>
 

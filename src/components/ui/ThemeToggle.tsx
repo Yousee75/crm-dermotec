@@ -11,7 +11,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       className={cn(
         'p-2 rounded-lg transition-colors',
-        'text-gray-400 hover:bg-gray-100 hover:text-gray-600',
+        'text-[#999999] hover:bg-[#F4F0EB] hover:text-[#777777]',
         'dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-200'
       )}
       title={isDark ? 'Mode clair' : 'Mode sombre'}

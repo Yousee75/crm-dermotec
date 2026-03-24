@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
         {/* Back link */}
         <Link
           href="/login"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition mb-8"
+          className="inline-flex items-center gap-2 text-sm text-[#777777] hover:text-primary transition mb-8"
         >
           <ArrowLeft className="w-4 h-4" />
           Retour à la connexion
@@ -47,16 +47,16 @@ export default function ForgotPasswordPage() {
         {sent ? (
           /* Success state */
           <div className="text-center">
-            <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-green-500" />
+            <div className="w-16 h-16 rounded-2xl bg-[#ECFDF5] flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-8 h-8 text-[#10B981]" />
             </div>
             <h2 className="text-xl font-bold text-accent mb-2">
               Email envoyé
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-[#777777] mb-6">
               Si un compte existe avec <strong>{email}</strong>, vous recevrez un lien de réinitialisation dans quelques minutes.
             </p>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[#999999]">
               Vérifiez aussi vos spams.
             </p>
           </div>
@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
               <h2 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
                 Mot de passe oublié
               </h2>
-              <p className="text-gray-600">
+              <p className="text-[#777777]">
                 Entrez votre email et nous vous enverrons un lien de réinitialisation.
               </p>
             </div>
@@ -85,8 +85,8 @@ export default function ForgotPasswordPage() {
               />
 
               {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                  <p className="text-red-600 text-sm">{error}</p>
+                <div className="bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg p-3">
+                  <p className="text-[#FF2D78] text-sm">{error}</p>
                 </div>
               )}
 

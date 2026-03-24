@@ -117,11 +117,11 @@ export function GamificationBar({ className }: GamificationBarProps) {
             {/* Points du jour + Streak */}
             <div className="flex items-center gap-4 md:gap-6">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-[#FF8C42]/20 rounded-lg flex items-center justify-center">
                   <Star className="w-4 h-4 text-yellow-400" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-300">Aujourd'hui</div>
+                  <div className="text-sm font-medium text-[#999999]">Aujourd'hui</div>
                   <div className="text-lg font-bold text-white">+{todayPoints} pts</div>
                 </div>
               </div>
@@ -135,11 +135,11 @@ export function GamificationBar({ className }: GamificationBarProps) {
                 )}>
                   <Flame className={cn(
                     "w-4 h-4",
-                    streak >= 5 ? "text-orange-400" : "text-gray-400"
+                    streak >= 5 ? "text-orange-400" : "text-[#999999]"
                   )} />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-300">Streak</div>
+                  <div className="text-sm font-medium text-[#999999]">Streak</div>
                   <div className="text-lg font-bold text-white">{streak} jours</div>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export function GamificationBar({ className }: GamificationBarProps) {
                   <span className="text-sm font-medium" style={{ color: level.color }}>
                     {level.name}
                   </span>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-[#999999]">
                     {progress.pointsToNext ? `${progress.pointsToNext} pts restants` : 'Max'}
                   </span>
                 </div>
@@ -179,7 +179,7 @@ export function GamificationBar({ className }: GamificationBarProps) {
                   </div>
                 ))}
                 {badges.length > 3 && (
-                  <div className="text-xs text-gray-400">+{badges.length - 3}</div>
+                  <div className="text-xs text-[#999999]">+{badges.length - 3}</div>
                 )}
               </div>
 
@@ -212,7 +212,7 @@ export function GamificationBar({ className }: GamificationBarProps) {
         <div className="absolute inset-0 sm:inset-auto sm:top-[10%] sm:left-1/2 sm:-translate-x-1/2 sm:max-w-2xl sm:w-full bg-white sm:rounded-2xl shadow-2xl overflow-hidden animate-fadeIn flex flex-col max-h-screen sm:max-h-[80vh]">
           <div className="flex items-center justify-between px-6 py-4 border-b">
             <h2 className="text-lg font-semibold">🏆 Tes performances</h2>
-            <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">✕</button>
+            <button onClick={() => setShowModal(false)} className="p-2 hover:bg-[#F4F0EB] rounded-lg">✕</button>
           </div>
           <div className="flex-1 overflow-y-auto p-6">
         <div className="space-y-6">
@@ -222,25 +222,25 @@ export function GamificationBar({ className }: GamificationBarProps) {
               <div className="text-2xl font-bold" style={{ color: level.color }}>
                 {points}
               </div>
-              <div className="text-sm text-gray-600">Points total</div>
+              <div className="text-sm text-[#777777]">Points total</div>
             </Card>
             <Card className="p-4 text-center">
               <div className="text-2xl font-bold text-orange-500">
                 {streak}
               </div>
-              <div className="text-sm text-gray-600">Jours de streak</div>
+              <div className="text-sm text-[#777777]">Jours de streak</div>
             </Card>
             <Card className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-500">
+              <div className="text-2xl font-bold text-[#6B8CAE]">
                 {badges.length}
               </div>
-              <div className="text-sm text-gray-600">Badges</div>
+              <div className="text-sm text-[#777777]">Badges</div>
             </Card>
             <Card className="p-4 text-center">
-              <div className="text-2xl font-bold text-green-500">
+              <div className="text-2xl font-bold text-[#10B981]">
                 {level.level}
               </div>
-              <div className="text-sm text-gray-600">Niveau</div>
+              <div className="text-sm text-[#777777]">Niveau</div>
             </Card>
           </div>
 
@@ -258,12 +258,12 @@ export function GamificationBar({ className }: GamificationBarProps) {
                   </span>
                 </div>
                 {progress.pointsToNext && (
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-[#777777]">
                     {progress.pointsToNext} points restants
                   </span>
                 )}
               </div>
-              <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div className="bg-[#EEEEEE] rounded-full h-3 overflow-hidden">
                 <div
                   className="h-full transition-all duration-500 rounded-full"
                   style={{
@@ -272,7 +272,7 @@ export function GamificationBar({ className }: GamificationBarProps) {
                   }}
                 />
               </div>
-              <div className="text-sm text-gray-600 mt-1">
+              <div className="text-sm text-[#777777] mt-1">
                 {progress.progress}% vers le niveau {progress.next || 'Max'}
               </div>
             </Card>
@@ -291,14 +291,14 @@ export function GamificationBar({ className }: GamificationBarProps) {
                     <div className="text-2xl">{badge.icon}</div>
                     <div>
                       <div className="font-medium text-sm">{badge.name}</div>
-                      <div className="text-xs text-gray-600">{badge.description}</div>
+                      <div className="text-xs text-[#777777]">{badge.description}</div>
                     </div>
                   </div>
                 </Card>
               ))}
             </div>
             {badges.length === 0 && (
-              <Card className="p-6 text-center text-gray-500">
+              <Card className="p-6 text-center text-[#777777]">
                 <Award className="w-8 h-8 mx-auto mb-2 opacity-50" />
                 <div>Aucun badge débloqué pour le moment</div>
                 <div className="text-sm mt-1">Continue tes efforts pour débloquer ton premier badge !</div>
@@ -314,22 +314,22 @@ export function GamificationBar({ className }: GamificationBarProps) {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               <Card className="p-3 text-center">
-                <div className="text-lg font-bold text-blue-500">{gamificationData.stats.inscriptions_mois}</div>
-                <div className="text-xs text-gray-600">Inscriptions</div>
+                <div className="text-lg font-bold text-[#6B8CAE]">{gamificationData.stats.inscriptions_mois}</div>
+                <div className="text-xs text-[#777777]">Inscriptions</div>
               </Card>
               <Card className="p-3 text-center">
-                <div className="text-lg font-bold text-green-500">
+                <div className="text-lg font-bold text-[#10B981]">
                   {new Intl.NumberFormat('fr-FR', {
                     style: 'currency',
                     currency: 'EUR',
                     maximumFractionDigits: 0
                   }).format(gamificationData.stats.ca_mois)}
                 </div>
-                <div className="text-xs text-gray-600">CA généré</div>
+                <div className="text-xs text-[#777777]">CA généré</div>
               </Card>
               <Card className="p-3 text-center">
-                <div className="text-lg font-bold text-purple-500">{gamificationData.stats.leads_crees}</div>
-                <div className="text-xs text-gray-600">Leads créés</div>
+                <div className="text-lg font-bold text-[#FF2D78]">{gamificationData.stats.leads_crees}</div>
+                <div className="text-xs text-[#777777]">Leads créés</div>
               </Card>
             </div>
           </div>

@@ -14,15 +14,15 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: 'bg-gray-100 text-gray-700',
-  secondary: 'bg-gray-100 text-gray-700',
+  default: 'bg-[#F4F0EB] text-[#3A3A3A]',
+  secondary: 'bg-[#F4F0EB] text-[#3A3A3A]',
   primary: 'bg-primary/10 text-primary-dark',
-  success: 'bg-green-50 text-green-700',
-  warning: 'bg-amber-50 text-amber-700',
-  error: 'bg-red-50 text-red-700',
-  destructive: 'bg-red-50 text-red-700',
-  info: 'bg-blue-50 text-blue-700',
-  outline: 'border border-gray-200 text-gray-600 bg-white',
+  success: 'bg-[#ECFDF5] text-[#10B981]',
+  warning: 'bg-[#FFF3E8] text-[#FF8C42]',
+  error: 'bg-[#FFE0EF] text-[#FF2D78]',
+  destructive: 'bg-[#FFE0EF] text-[#FF2D78]',
+  info: 'bg-[#E0EBF5] text-[#6B8CAE]',
+  outline: 'border border-[#EEEEEE] text-[#777777] bg-white',
   custom: '',
 }
 

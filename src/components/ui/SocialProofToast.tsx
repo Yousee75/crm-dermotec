@@ -99,7 +99,7 @@ export function SocialProofToast({ inscriptions }: SocialProofToastProps) {
           : 'translate-y-full opacity-0'
       )}
     >
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 flex items-start gap-3">
+      <div className="bg-white rounded-xl shadow-lg border border-[#F4F0EB] p-4 flex items-start gap-3">
         {/* Avatar avec initiales */}
         <div className="bg-primary/20 text-primary rounded-full w-10 h-10 flex items-center justify-center font-semibold text-sm shrink-0">
           {inscription.prenom[0]}{inscription.nom_initial}
@@ -107,19 +107,19 @@ export function SocialProofToast({ inscriptions }: SocialProofToastProps) {
 
         {/* Contenu */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm text-gray-900 leading-relaxed">
+          <p className="text-sm text-[#111111] leading-relaxed">
             <span className="font-medium">{inscription.prenom} {inscription.nom_initial}.</span>
             {' '}vient de s'inscrire à{' '}
             <span className="font-medium text-primary">{inscription.formation}</span>
           </p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-[#777777] mt-1">
             il y a {timeAgo}
           </p>
         </div>
 
         {/* Point d'activité */}
-        <div className="w-2 h-2 bg-green-500 rounded-full shrink-0 mt-1">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+        <div className="w-2 h-2 bg-[#10B981] rounded-full shrink-0 mt-1">
+          <div className="w-2 h-2 bg-[#10B981] rounded-full animate-ping"></div>
         </div>
       </div>
     </div>

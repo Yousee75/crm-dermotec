@@ -54,13 +54,13 @@ export default function ResetPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="text-center max-w-sm">
-          <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-8 h-8 text-green-500" />
+          <div className="w-16 h-16 rounded-2xl bg-[#ECFDF5] flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
           </div>
           <h2 className="text-xl font-bold text-accent mb-2">
             Mot de passe mis à jour
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-[#777777] mb-4">
             Vous allez être redirigé vers le dashboard...
           </p>
           <Link href="/" className="text-primary hover:underline text-sm">
@@ -81,7 +81,7 @@ export default function ResetPasswordPage() {
           <h2 className="text-2xl font-bold text-accent mb-2" style={{ fontFamily: 'DM Sans, system-ui' }}>
             Nouveau mot de passe
           </h2>
-          <p className="text-gray-600">
+          <p className="text-[#777777]">
             Choisissez un mot de passe sécurisé pour votre compte.
           </p>
         </div>
@@ -98,7 +98,7 @@ export default function ResetPasswordPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="text-gray-400 hover:text-gray-600 transition"
+                  className="text-[#999999] hover:text-[#777777] transition"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -141,8 +141,8 @@ export default function ResetPasswordPage() {
           />
 
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-              <p className="text-red-600 text-sm">{error}</p>
+            <div className="bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg p-3">
+              <p className="text-[#FF2D78] text-sm">{error}</p>
             </div>
           )}
 

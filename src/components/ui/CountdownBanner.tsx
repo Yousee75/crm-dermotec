@@ -87,7 +87,7 @@ export function CountdownBanner({
             </span>
 
             {/* Séparateur */}
-            <span className="hidden sm:inline text-gray-400">—</span>
+            <span className="hidden sm:inline text-[#999999]">—</span>
 
             {/* Compteur temps */}
             <div className="flex items-center gap-1">
@@ -106,7 +106,7 @@ export function CountdownBanner({
             </div>
 
             {/* Séparateur */}
-            <span className="hidden sm:inline text-gray-400">—</span>
+            <span className="hidden sm:inline text-[#999999]">—</span>
 
             {/* Places restantes */}
             <span className="text-sm font-medium">
@@ -114,13 +114,13 @@ export function CountdownBanner({
               <span
                 className={cn(
                   'font-bold',
-                  isUrgent ? 'text-red-400' : 'text-primary'
+                  isUrgent ? 'text-[#FF2D78]' : 'text-primary'
                 )}
               >
                 {placesRestantes}/{placesMax}
               </span>
               {isUrgent && (
-                <span className="text-red-400 ml-1 animate-pulse">
+                <span className="text-[#FF2D78] ml-1 animate-pulse">
                   ⚠️
                 </span>
               )}

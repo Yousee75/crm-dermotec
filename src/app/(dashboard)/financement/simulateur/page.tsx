@@ -65,11 +65,11 @@ function SimulateurCompact() {
       {/* Simulateur inline */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Profil</label>
+          <label className="block text-sm font-medium text-[#3A3A3A] mb-1">Profil</label>
           <select
             value={selectedProfil}
             onChange={(e) => setSelectedProfil(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-lg focus:ring-primary focus:border-primary"
           >
             <option value="">Sélectionner</option>
             {PROFILS.map(p => (
@@ -79,11 +79,11 @@ function SimulateurCompact() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Formation</label>
+          <label className="block text-sm font-medium text-[#3A3A3A] mb-1">Formation</label>
           <select
             value={selectedFormation}
             onChange={(e) => setSelectedFormation(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-lg focus:ring-primary focus:border-primary"
           >
             <option value="">Sélectionner</option>
             {FORMATIONS_DATA.map(f => (
@@ -127,7 +127,7 @@ function SimulateurCompact() {
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-gray-700">
+                  <span className="text-xs font-bold text-[#3A3A3A]">
                     {Math.round(percentage * 100)}%
                   </span>
                 </div>
@@ -142,13 +142,13 @@ function SimulateurCompact() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="bg-gray-50 rounded-lg p-3 border-l-4 border-primary"
+          className="bg-[#FAF8F5] rounded-lg p-3 border-l-4 border-primary"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div>
                 <p className="font-semibold text-accent">{resultat.organisme.sigle}</p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[#777777]">
                   {resultat.montantPrisEnCharge}€ pris en charge
                   {resultat.resteACharge > 0 && ` • Reste: ${resultat.resteACharge}€`}
                 </p>
@@ -179,28 +179,28 @@ function TableauOrganismes() {
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50">
+            <thead className="bg-[#FAF8F5]">
               <tr>
-                <th className="px-3 py-2 text-left font-semibold text-gray-700">Organisme</th>
-                <th className="px-3 py-2 text-left font-semibold text-gray-700">Public</th>
-                <th className="px-3 py-2 text-left font-semibold text-gray-700">Taux/h</th>
-                <th className="px-3 py-2 text-left font-semibold text-gray-700">Plafond</th>
-                <th className="px-3 py-2 text-left font-semibold text-gray-700">Délai</th>
-                <th className="px-3 py-2 text-left font-semibold text-gray-700">Acceptation</th>
-                <th className="px-3 py-2 text-center font-semibold text-gray-700">Actions</th>
+                <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Organisme</th>
+                <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Public</th>
+                <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Taux/h</th>
+                <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Plafond</th>
+                <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Délai</th>
+                <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Acceptation</th>
+                <th className="px-3 py-2 text-center font-semibold text-[#3A3A3A]">Actions</th>
               </tr>
             </thead>
             <tbody>
               {ORGANISMES_FINANCEMENT.map((org, idx) => (
                 <React.Fragment key={org.id}>
                   <tr
-                    className={`border-t ${expandedRow === org.id ? 'bg-blue-50' : 'hover:bg-gray-50'} cursor-pointer`}
+                    className={`border-t ${expandedRow === org.id ? 'bg-[#E0EBF5]' : 'hover:bg-[#FAF8F5]'} cursor-pointer`}
                     onClick={() => setExpandedRow(expandedRow === org.id ? null : org.id)}
                   >
                     <td className="px-3 py-2">
                       <div>
                         <p className="font-semibold text-accent">{org.sigle}</p>
-                        <p className="text-xs text-gray-500">{org.nom.slice(0, 25)}...</p>
+                        <p className="text-xs text-[#777777]">{org.nom.slice(0, 25)}...</p>
                       </div>
                     </td>
                     <td className="px-3 py-2">
@@ -236,11 +236,11 @@ function TableauOrganismes() {
 
                   {expandedRow === org.id && (
                     <tr>
-                      <td colSpan={7} className="px-3 py-2 bg-blue-50 border-t">
+                      <td colSpan={7} className="px-3 py-2 bg-[#E0EBF5] border-t">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                           <div>
                             <p className="font-semibold text-accent mb-1">Script commercial</p>
-                            <p className="text-gray-700">{org.scriptCommercial.slice(0, 150)}...</p>
+                            <p className="text-[#3A3A3A]">{org.scriptCommercial.slice(0, 150)}...</p>
                           </div>
                           <div>
                             <p className="font-semibold text-accent mb-1">Points de vigilance</p>
@@ -248,7 +248,7 @@ function TableauOrganismes() {
                               {org.pointsVigilance.slice(0, 2).map((point, idx) => (
                                 <li key={idx} className="flex items-start gap-1">
                                   <AlertTriangle className="w-3 h-3 text-orange-500 mt-0.5 flex-shrink-0" />
-                                  <span className="text-gray-700">{point}</span>
+                                  <span className="text-[#3A3A3A]">{point}</span>
                                 </li>
                               ))}
                             </ul>
@@ -317,14 +317,14 @@ function ChecklistEtCasPratiques() {
             <>
               <div className="space-y-2">
                 {checklist.documents.map(doc => (
-                  <label key={doc} className="flex items-center gap-2 p-2 bg-gray-50 rounded cursor-pointer hover:bg-gray-100">
+                  <label key={doc} className="flex items-center gap-2 p-2 bg-[#FAF8F5] rounded cursor-pointer hover:bg-[#F4F0EB]">
                     <input
                       type="checkbox"
                       checked={checkedDocs.includes(doc)}
                       onChange={() => toggleDoc(doc)}
                       className="w-4 h-4 text-primary rounded"
                     />
-                    <span className={`text-sm ${checkedDocs.includes(doc) ? 'line-through text-gray-500' : 'text-gray-700'}`}>
+                    <span className={`text-sm ${checkedDocs.includes(doc) ? 'line-through text-[#777777]' : 'text-[#3A3A3A]'}`}>
                       {doc}
                     </span>
                   </label>
@@ -338,12 +338,12 @@ function ChecklistEtCasPratiques() {
                     <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center flex-shrink-0 text-white font-semibold">
                       {idx + 1}
                     </div>
-                    <span className="text-gray-700">{etape}</span>
+                    <span className="text-[#3A3A3A]">{etape}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="flex items-center gap-2 p-2 bg-blue-50 rounded text-sm">
+              <div className="flex items-center gap-2 p-2 bg-[#E0EBF5] rounded text-sm">
                 <Calendar className="w-4 h-4 text-primary" />
                 <span className="font-medium">Délai: {checklist.delaiEstime}</span>
               </div>
@@ -359,11 +359,11 @@ function ChecklistEtCasPratiques() {
 
           <div className="space-y-2 max-h-96 overflow-y-auto">
             {CAS_MONTAGE_FINANCIER.map((cas, idx) => (
-              <div key={idx} className="p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+              <div key={idx} className="p-3 border border-[#EEEEEE] rounded-lg hover:bg-[#FAF8F5]">
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <p className="font-semibold text-accent text-sm">{cas.prenom}, {cas.age} ans</p>
-                    <p className="text-xs text-gray-600">{cas.profil}</p>
+                    <p className="text-xs text-[#777777]">{cas.profil}</p>
                   </div>
                   <Badge variant="primary" size="sm">{cas.financeur}</Badge>
                 </div>
@@ -375,18 +375,18 @@ function ChecklistEtCasPratiques() {
                   </div>
                   <div className="flex justify-between">
                     <span>Pris en charge:</span>
-                    <span className="font-semibold text-green-600">{cas.montantPrisEnCharge}€</span>
+                    <span className="font-semibold text-[#10B981]">{cas.montantPrisEnCharge}€</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Reste à charge:</span>
-                    <span className={`font-semibold ${cas.resteACharge === 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <span className={`font-semibold ${cas.resteACharge === 0 ? 'text-[#10B981]' : 'text-[#FF2D78]'}`}>
                       {cas.resteACharge}€
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-2 p-2 bg-green-50 rounded text-xs">
-                  <p className="font-medium text-green-800">{cas.resultat}</p>
+                <div className="mt-2 p-2 bg-[#ECFDF5] rounded text-xs">
+                  <p className="font-medium text-[#10B981]">{cas.resultat}</p>
                 </div>
               </div>
             ))}
@@ -410,7 +410,7 @@ function MotifsRefusCompact() {
           <Card key={idx} className="overflow-hidden">
             <button
               onClick={() => setExpanded(expanded === motif.motif ? null : motif.motif)}
-              className="w-full p-3 text-left hover:bg-gray-50 transition-colors"
+              className="w-full p-3 text-left hover:bg-[#FAF8F5] transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -423,7 +423,7 @@ function MotifsRefusCompact() {
                   <span className="font-semibold text-accent text-sm">{motif.motif}</span>
                 </div>
                 <ChevronDown
-                  className={`w-4 h-4 text-gray-400 transition-transform ${
+                  className={`w-4 h-4 text-[#999999] transition-transform ${
                     expanded === motif.motif ? 'rotate-180' : ''
                   }`}
                 />
@@ -437,16 +437,16 @@ function MotifsRefusCompact() {
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="px-3 pb-3 border-t border-gray-100"
+                  className="px-3 pb-3 border-t border-[#F4F0EB]"
                 >
                   <div className="pt-3 space-y-2 text-sm">
                     <div>
-                      <p className="font-medium text-gray-700 mb-1">Explication</p>
-                      <p className="text-gray-600">{motif.cause}</p>
+                      <p className="font-medium text-[#3A3A3A] mb-1">Explication</p>
+                      <p className="text-[#777777]">{motif.cause}</p>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-700 mb-1">Solution</p>
-                      <p className="text-gray-600">{motif.solution}</p>
+                      <p className="font-medium text-[#3A3A3A] mb-1">Solution</p>
+                      <p className="text-[#777777]">{motif.solution}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -469,7 +469,7 @@ export default function SimulateurFinancementPage() {
           <Calculator className="w-6 h-6 text-white" />
         </div>
         <h1 className="text-3xl font-bold text-accent mb-2">Simulateur de Financement</h1>
-        <p className="text-gray-600">8 organismes • 100% des profils couverts • Résultat immédiat</p>
+        <p className="text-[#777777]">8 organismes • 100% des profils couverts • Résultat immédiat</p>
       </div>
 
       <SimulateurCompact />
@@ -481,18 +481,18 @@ export default function SimulateurFinancementPage() {
       <Card className="p-6 text-center bg-gradient-to-r from-primary/5 to-accent/5">
         <div className="space-y-3">
           <h2 className="text-xl font-bold text-accent">Besoin d'aide pour votre dossier ?</h2>
-          <p className="text-gray-600">Nos conseillers s'occupent de tout — de la demande jusqu'à la facture finale</p>
-          <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
+          <p className="text-[#777777]">Nos conseillers s'occupent de tout — de la demande jusqu'à la facture finale</p>
+          <div className="flex items-center justify-center gap-4 text-xs text-[#777777]">
             <div className="flex items-center gap-1">
-              <CheckCircle className="w-3 h-3 text-green-500" />
+              <CheckCircle className="w-3 h-3 text-[#10B981]" />
               <span>Accompagnement personnalisé</span>
             </div>
             <div className="flex items-center gap-1">
-              <CheckCircle className="w-3 h-3 text-green-500" />
+              <CheckCircle className="w-3 h-3 text-[#10B981]" />
               <span>Gestion complète</span>
             </div>
             <div className="flex items-center gap-1">
-              <CheckCircle className="w-3 h-3 text-green-500" />
+              <CheckCircle className="w-3 h-3 text-[#10B981]" />
               <span>Optimisation financement</span>
             </div>
           </div>

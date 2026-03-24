@@ -91,10 +91,10 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
           <Zap className="w-6 h-6 text-primary" />
         </div>
-        <h3 className="text-sm font-bold text-gray-900 mb-1">
+        <h3 className="text-sm font-bold text-[#111111] mb-1">
           Briefing Commercial IA
         </h3>
-        <p className="text-xs text-gray-500 mb-4 max-w-xs mx-auto">
+        <p className="text-xs text-[#777777] mb-4 max-w-xs mx-auto">
           Enrichissement intelligent + analyse IA + stratégie de vente personnalisée + script téléphonique
         </p>
         <button
@@ -107,8 +107,8 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         </button>
         {generateMutation.isPending && (
           <div className="mt-3 space-y-1">
-            <p className="text-[10px] text-gray-400">SIRET → Pappers → Google → Réseaux → IA...</p>
-            <div className="w-32 h-1 bg-gray-200 rounded-full mx-auto overflow-hidden">
+            <p className="text-[10px] text-[#999999]">SIRET → Pappers → Google → Réseaux → IA...</p>
+            <div className="w-32 h-1 bg-[#EEEEEE] rounded-full mx-auto overflow-hidden">
               <div className="h-full bg-primary rounded-full animate-pulse" style={{ width: '60%' }} />
             </div>
           </div>
@@ -118,16 +118,16 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
   }
 
   if (isLoading) {
-    return <div className="bg-white rounded-xl border p-6 animate-pulse"><div className="h-4 bg-gray-200 rounded w-1/2 mb-3" /><div className="h-3 bg-gray-100 rounded w-3/4 mb-2" /><div className="h-3 bg-gray-100 rounded w-2/3" /></div>
+    return <div className="bg-white rounded-xl border p-6 animate-pulse"><div className="h-4 bg-[#EEEEEE] rounded w-1/2 mb-3" /><div className="h-3 bg-[#F4F0EB] rounded w-3/4 mb-2" /><div className="h-3 bg-[#F4F0EB] rounded w-2/3" /></div>
   }
 
   if (!n) return null
 
-  const scoreColor = n.score_chaleur >= 60 ? 'bg-emerald-500' : n.score_chaleur >= 30 ? 'bg-amber-500' : 'bg-red-500'
+  const scoreColor = n.score_chaleur >= 60 ? 'bg-emerald-500' : n.score_chaleur >= 30 ? 'bg-[#FF8C42]' : 'bg-[#FF2D78]'
   const badgeVariant = n.classification === 'CHAUD' ? 'success' as const : n.classification === 'TIEDE' ? 'warning' as const : 'default' as const
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+    <div className="bg-white rounded-xl border border-[#EEEEEE] overflow-hidden shadow-sm">
       {/* ── HEADER ── */}
       <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-accent to-accent-light">
         <div className="flex items-center gap-2.5">
@@ -145,9 +145,9 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
           {versions.length > 1 && (
             <select value={selectedVersion} onChange={(e) => setSelectedVersion(e.target.value)}
               className="text-[10px] border border-white/20 rounded px-1.5 py-1 bg-white/10 text-white">
-              <option value="latest" className="text-gray-900">Dernière</option>
+              <option value="latest" className="text-[#111111]">Dernière</option>
               {versions.map((v: any) => (
-                <option key={v.version} value={v.version} className="text-gray-900">v{v.version}</option>
+                <option key={v.version} value={v.version} className="text-[#111111]">v{v.version}</option>
               ))}
             </select>
           )}
@@ -176,10 +176,10 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         </div>
       </div>
 
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y divide-[#F4F0EB]">
         {/* ── VERDICT (toujours visible) ── */}
-        <div className={cn('px-4 py-3', n.classification === 'CHAUD' ? 'bg-emerald-50' : n.classification === 'TIEDE' ? 'bg-amber-50' : 'bg-gray-50')}>
-          <p className={cn('text-sm font-semibold', n.classification === 'CHAUD' ? 'text-emerald-800' : n.classification === 'TIEDE' ? 'text-amber-800' : 'text-gray-700')}>
+        <div className={cn('px-4 py-3', n.classification === 'CHAUD' ? 'bg-emerald-50' : n.classification === 'TIEDE' ? 'bg-[#FFF3E8]' : 'bg-[#FAF8F5]')}>
+          <p className={cn('text-sm font-semibold', n.classification === 'CHAUD' ? 'text-emerald-800' : n.classification === 'TIEDE' ? 'text-[#FF8C42]' : 'text-[#3A3A3A]')}>
             {n.verdict}
           </p>
         </div>
@@ -198,8 +198,8 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         <CollapsibleSection icon={<TrendingUp />} title="Sa situation business" id="business" expanded={expandedSections} toggle={toggleSection}>
           <EditableText value={n.situation_business} editing={editing} onChange={(v) => editedNarrative && setEditedNarrative({ ...editedNarrative, situation_business: v })} />
           {n.reputation_visibilite && (
-            <div className="mt-2 pt-2 border-t border-gray-100">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Réputation & visibilité</p>
+            <div className="mt-2 pt-2 border-t border-[#F4F0EB]">
+              <p className="text-[10px] font-semibold text-[#999999] uppercase tracking-wider mb-1">Réputation & visibilité</p>
               <EditableText value={n.reputation_visibilite} editing={editing} onChange={(v) => editedNarrative && setEditedNarrative({ ...editedNarrative, reputation_visibilite: v })} />
             </div>
           )}
@@ -215,9 +215,9 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
               ))}
             </div>
             <div>
-              <p className="text-[10px] font-bold text-amber-600 uppercase tracking-wider mb-1.5">Évite ça</p>
+              <p className="text-[10px] font-bold text-[#FF8C42] uppercase tracking-wider mb-1.5">Évite ça</p>
               {n.pieges_eviter.map((p, i) => (
-                <p key={i} className="text-xs text-amber-800 mb-1.5 pl-3 border-l-2 border-amber-300">⚠ {p}</p>
+                <p key={i} className="text-xs text-[#FF8C42] mb-1.5 pl-3 border-l-2 border-amber-300">⚠ {p}</p>
               ))}
             </div>
           </div>
@@ -249,8 +249,8 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
               <ScriptLine label="Proposition" text={n.script_telephone.proposition} color="emerald" />
               <ScriptLine label="Closing" text={n.script_telephone.closing} color="violet" />
 
-              <div className="bg-amber-50 rounded-lg p-3 mt-2">
-                <p className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-2">Si objection...</p>
+              <div className="bg-[#FFF3E8] rounded-lg p-3 mt-2">
+                <p className="text-[10px] font-bold text-[#FF8C42] uppercase tracking-wider mb-2">Si objection...</p>
                 <div className="space-y-2">
                   <ObjLine label="💰 Trop cher" text={n.script_telephone.si_objection_prix} />
                   <ObjLine label="⏰ Pas le temps" text={n.script_telephone.si_objection_temps} />
@@ -267,7 +267,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
             {n.formations_recommandees?.map((f, i) => (
               <div key={i} className={cn(
                 'rounded-lg p-3 border',
-                f.niveau_priorite === 'principal' ? 'bg-sky-50 border-sky-200' : 'bg-gray-50 border-gray-200'
+                f.niveau_priorite === 'principal' ? 'bg-sky-50 border-sky-200' : 'bg-[#FAF8F5] border-[#EEEEEE]'
               )}>
                 <div className="flex items-start justify-between mb-1">
                   <div className="flex items-center gap-2">
@@ -278,7 +278,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                   </div>
                   <span className="text-xs font-bold text-primary">{f.prix}</span>
                 </div>
-                <p className="text-[11px] text-gray-700 mb-1">{f.pourquoi_elle}</p>
+                <p className="text-[11px] text-[#3A3A3A] mb-1">{f.pourquoi_elle}</p>
                 <p className="text-[10px] text-emerald-700 font-medium">💰 {f.argument_roi}</p>
               </div>
             ))}
@@ -296,7 +296,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 <p className="text-xs text-emerald-900 italic">« {n.strategie_financement.phrase_cle} »</p>
               </div>
               {n.strategie_financement.alternatives?.length > 0 && (
-                <div className="text-[10px] text-gray-500">
+                <div className="text-[10px] text-[#777777]">
                   Alternatives : {n.strategie_financement.alternatives.join(' • ')}
                 </div>
               )}
@@ -311,7 +311,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
               <ActionStep num={1} text={n.plan_action.action_1} color="emerald" />
               <ActionStep num={2} text={n.plan_action.action_2} color="sky" />
               <ActionStep num={3} text={n.plan_action.action_3} color="violet" />
-              <div className="flex items-center gap-2 pl-6 text-xs text-gray-500">
+              <div className="flex items-center gap-2 pl-6 text-xs text-[#777777]">
                 <Clock className="w-3 h-3" />
                 {n.plan_action.rappel}
               </div>
@@ -327,21 +327,21 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-1 text-gray-600 font-medium">Plateforme</th>
-                      <th className="text-left py-1 text-gray-600 font-medium">Note</th>
-                      <th className="text-left py-1 text-gray-600 font-medium">Nb Avis</th>
+                      <th className="text-left py-1 text-[#777777] font-medium">Plateforme</th>
+                      <th className="text-left py-1 text-[#777777] font-medium">Note</th>
+                      <th className="text-left py-1 text-[#777777] font-medium">Nb Avis</th>
                     </tr>
                   </thead>
                   <tbody>
                     {reportData.intelligence.plateformes_avis.map((p, i) => (
-                      <tr key={i} className="border-b border-gray-100">
-                        <td className="py-2 font-medium text-gray-800">{p.plateforme}</td>
+                      <tr key={i} className="border-b border-[#F4F0EB]">
+                        <td className="py-2 font-medium text-[#1A1A1A]">{p.plateforme}</td>
                         <td className="py-2">
                           {p.note && (
                             <div className="flex items-center gap-2">
-                              <div className="w-12 bg-gray-200 rounded-full h-1.5">
+                              <div className="w-12 bg-[#EEEEEE] rounded-full h-1.5">
                                 <div
-                                  className={cn("h-1.5 rounded-full", p.note >= 4 ? "bg-orange-500" : "bg-gray-400")}
+                                  className={cn("h-1.5 rounded-full", p.note >= 4 ? "bg-orange-500" : "bg-[#999999]")}
                                   style={{ width: `${(p.note / 5) * 100}%` }}
                                 />
                               </div>
@@ -349,13 +349,13 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                             </div>
                           )}
                         </td>
-                        <td className="py-2 text-gray-600">{p.nb_avis || '—'}</td>
+                        <td className="py-2 text-[#777777]">{p.nb_avis || '—'}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className="text-xs text-gray-500 pt-2 border-t border-gray-100">
+              <div className="text-xs text-[#777777] pt-2 border-t border-[#F4F0EB]">
                 Total avis : {reportData.intelligence.plateformes_avis.reduce((acc, p) => acc + (p.nb_avis || 0), 0)}
               </div>
             </div>
@@ -366,7 +366,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         {reportData?.intelligence?.carte_soins?.length > 0 && (
           <CollapsibleSection icon={<Scissors />} title="Carte des Soins" id="carte-soins" expanded={expandedSections} toggle={toggleSection}>
             <div className="space-y-2">
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-[#777777]">
                 {reportData.intelligence.carte_soins.length} soins détectés sur les plateformes de réservation
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -387,7 +387,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         {reportData?.intelligence?.concurrents_zone?.length > 0 && (
           <CollapsibleSection icon={<MapPin />} title="Concurrence Locale" id="concurrence" expanded={expandedSections} toggle={toggleSection}>
             <div className="space-y-2">
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-[#777777]">
                 {reportData.intelligence.concurrents_zone.length} établissements beauté dans un rayon de 2km
               </p>
               {reportData.intelligence.signaux?.zone_saturee && (
@@ -397,13 +397,13 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
               )}
               <div className="space-y-1">
                 {reportData.intelligence.concurrents_zone.slice(0, 5).map((c, i) => (
-                  <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-gray-50 rounded-lg">
+                  <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-[#FAF8F5] rounded-lg">
                     <div>
-                      <span className="text-xs font-medium text-gray-800">{c.nom || 'Sans nom'}</span>
-                      <span className="ml-2 text-xs text-gray-500 capitalize">{c.type}</span>
+                      <span className="text-xs font-medium text-[#1A1A1A]">{c.nom || 'Sans nom'}</span>
+                      <span className="ml-2 text-xs text-[#777777] capitalize">{c.type}</span>
                     </div>
                     {c.distance_metres && (
-                      <span className="text-xs text-gray-600">{c.distance_metres}m</span>
+                      <span className="text-xs text-[#777777]">{c.distance_metres}m</span>
                     )}
                   </div>
                 ))}
@@ -417,9 +417,9 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
           <CollapsibleSection icon={<Wallet />} title="Financement & Convention" id="financement-convention" expanded={expandedSections} toggle={toggleSection}>
             <div className="space-y-3">
               {reportData.intelligence.convention_collective && (
-                <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                <div className="bg-[#E0EBF5] rounded-lg p-3 border border-[#6B8CAE]/30">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-semibold text-blue-800">
+                    <span className="text-xs font-semibold text-[#6B8CAE]">
                       IDCC {reportData.intelligence.convention_collective.code_convention} — {reportData.intelligence.convention_collective.intitule}
                     </span>
                     {reportData.intelligence.convention_collective.est_secteur_beaute && (
@@ -428,7 +428,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-blue-700">
+                  <p className="text-xs text-[#6B8CAE]">
                     {reportData.intelligence.convention_collective.droit_formation_heures}h/an de formation
                   </p>
                 </div>
@@ -436,20 +436,20 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
 
               {reportData.intelligence.aides_disponibles?.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-gray-700 mb-2">Aides disponibles :</p>
+                  <p className="text-xs font-semibold text-[#3A3A3A] mb-2">Aides disponibles :</p>
                   <div className="space-y-2">
                     {reportData.intelligence.aides_disponibles.map((aide, i) => (
-                      <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-green-50 rounded-lg border border-green-200">
+                      <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-[#ECFDF5] rounded-lg border border-[#10B981]/30">
                         <div>
-                          <span className="text-xs font-medium text-green-800">{aide.nom}</span>
-                          <span className="ml-2 text-xs text-green-600">{aide.financeur}</span>
+                          <span className="text-xs font-medium text-[#10B981]">{aide.nom}</span>
+                          <span className="ml-2 text-xs text-[#10B981]">{aide.financeur}</span>
                         </div>
                         {aide.montant_max && (
-                          <span className="text-xs font-bold text-green-800">{aide.montant_max}€</span>
+                          <span className="text-xs font-bold text-[#10B981]">{aide.montant_max}€</span>
                         )}
                       </div>
                     ))}
-                    <div className="text-xs text-green-700 font-medium pt-1 border-t border-green-200">
+                    <div className="text-xs text-[#10B981] font-medium pt-1 border-t border-[#10B981]/30">
                       Total cumulé : {reportData.intelligence.aides_disponibles.reduce((acc, a) => acc + (a.montant_max || 0), 0)}€
                     </div>
                   </div>
@@ -469,7 +469,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 </span>
               )}
               {reportData.intelligence.signaux.est_organisme_concurrent && (
-                <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full border border-red-200">
+                <span className="px-2 py-1 text-xs bg-[#FFE0EF] text-[#FF2D78] rounded-full border border-[#FF2D78]/30">
                   Concurrent OF
                 </span>
               )}
@@ -489,7 +489,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 </span>
               )}
               {reportData.intelligence.signaux.en_difficulte && (
-                <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full border border-red-200">
+                <span className="px-2 py-1 text-xs bg-[#FFE0EF] text-[#FF2D78] rounded-full border border-[#FF2D78]/30">
                   Difficulté financière
                 </span>
               )}
@@ -509,12 +509,12 @@ function CollapsibleSection({ icon, title, id, expanded, toggle, children }: {
   const isOpen = expanded.has(id)
   return (
     <div>
-      <button onClick={() => toggle(id)} className="flex items-center justify-between w-full px-4 py-2.5 hover:bg-gray-50 transition">
+      <button onClick={() => toggle(id)} className="flex items-center justify-between w-full px-4 py-2.5 hover:bg-[#FAF8F5] transition">
         <div className="flex items-center gap-2">
           <span className="text-primary w-4 h-4 [&>svg]:w-4 [&>svg]:h-4">{icon}</span>
           <span className="text-xs font-semibold text-accent">{title}</span>
         </div>
-        {isOpen ? <ChevronUp className="w-3.5 h-3.5 text-gray-400" /> : <ChevronDown className="w-3.5 h-3.5 text-gray-400" />}
+        {isOpen ? <ChevronUp className="w-3.5 h-3.5 text-[#999999]" /> : <ChevronDown className="w-3.5 h-3.5 text-[#999999]" />}
       </button>
       {isOpen && <div className="px-4 pb-3">{children}</div>}
     </div>
@@ -524,16 +524,16 @@ function CollapsibleSection({ icon, title, id, expanded, toggle, children }: {
 function EditableText({ value, editing, onChange }: { value: string; editing: boolean; onChange: (v: string) => void }) {
   if (editing) {
     return <textarea value={value} onChange={(e) => onChange(e.target.value)}
-      className="w-full text-xs text-gray-800 bg-white border border-gray-200 rounded-lg p-2 resize-none focus:outline-none focus:border-primary min-h-[60px]" />
+      className="w-full text-xs text-[#1A1A1A] bg-white border border-[#EEEEEE] rounded-lg p-2 resize-none focus:outline-none focus:border-primary min-h-[60px]" />
   }
-  return <p className="text-xs text-gray-700 leading-relaxed">{value}</p>
+  return <p className="text-xs text-[#3A3A3A] leading-relaxed">{value}</p>
 }
 
 function MiniCard({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="bg-gray-50 rounded-lg p-2.5 border border-gray-100">
-      <p className="text-[10px] text-gray-400 mb-0.5">{icon} {label}</p>
-      <p className="text-xs text-gray-800">{value}</p>
+    <div className="bg-[#FAF8F5] rounded-lg p-2.5 border border-[#F4F0EB]">
+      <p className="text-[10px] text-[#999999] mb-0.5">{icon} {label}</p>
+      <p className="text-xs text-[#1A1A1A]">{value}</p>
     </div>
   )
 }
@@ -546,9 +546,9 @@ function ScriptLine({ label, text, color }: { label: string; text: string; color
     violet: 'border-l-violet-400 bg-violet-50',
   }
   return (
-    <div className={cn('border-l-3 rounded-r-lg p-2.5', colors[color] || 'border-l-gray-400 bg-gray-50')}>
-      <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">{label}</p>
-      <p className="text-xs text-gray-800 italic">« {text} »</p>
+    <div className={cn('border-l-3 rounded-r-lg p-2.5', colors[color] || 'border-l-gray-400 bg-[#FAF8F5]')}>
+      <p className="text-[10px] font-bold text-[#777777] uppercase tracking-wider mb-0.5">{label}</p>
+      <p className="text-xs text-[#1A1A1A] italic">« {text} »</p>
     </div>
   )
 }
@@ -556,8 +556,8 @@ function ScriptLine({ label, text, color }: { label: string; text: string; color
 function ObjLine({ label, text }: { label: string; text: string }) {
   return (
     <div>
-      <p className="text-[10px] font-semibold text-amber-800">{label}</p>
-      <p className="text-xs text-amber-900">→ {text}</p>
+      <p className="text-[10px] font-semibold text-[#FF8C42]">{label}</p>
+      <p className="text-xs text-[#FF8C42]">→ {text}</p>
     </div>
   )
 }
@@ -566,10 +566,10 @@ function ActionStep({ num, text, color }: { num: number; text: string; color: st
   const colors: Record<string, string> = { emerald: 'bg-emerald-500', sky: 'bg-sky-500', violet: 'bg-violet-500' }
   return (
     <div className="flex items-start gap-2.5">
-      <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0 mt-0.5', colors[color] || 'bg-gray-500')}>
+      <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0 mt-0.5', colors[color] || 'bg-[#FAF8F5]0')}>
         {num}
       </div>
-      <p className="text-xs text-gray-800">{text}</p>
+      <p className="text-xs text-[#1A1A1A]">{text}</p>
     </div>
   )
 }

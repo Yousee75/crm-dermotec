@@ -201,7 +201,7 @@ export default function FormationsCatalogPage() {
                 {searchTerm && (
                   <button
                     onClick={() => setSearchTerm('')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-100"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-[#F4F0EB]"
                   >
                     <X size={16} style={{ color: '#999999' }} />
                   </button>

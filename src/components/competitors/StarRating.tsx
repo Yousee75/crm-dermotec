@@ -20,23 +20,23 @@ export function StarRating({ rating, reviewsCount, size: sizeProp = 14 }: StarRa
     <div className="flex items-center gap-1">
       <div className="flex">
         {Array.from({ length: fullStars }).map((_, i) => (
-          <Star key={`full-${i}`} size={size} className="text-amber-400 fill-amber-400" />
+          <Star key={`full-${i}`} size={size} className="text-[#FF8C42] fill-amber-400" />
         ))}
         {hasHalf && (
           <div className="relative" style={{ width: size, height: size }}>
-            <Star size={size} className="text-gray-300 absolute" />
+            <Star size={size} className="text-[#999999] absolute" />
             <div className="overflow-hidden absolute" style={{ width: size / 2 }}>
-              <Star size={size} className="text-amber-400 fill-amber-400" />
+              <Star size={size} className="text-[#FF8C42] fill-amber-400" />
             </div>
           </div>
         )}
         {Array.from({ length: emptyStars }).map((_, i) => (
-          <Star key={`empty-${i}`} size={size} className="text-gray-300" />
+          <Star key={`empty-${i}`} size={size} className="text-[#999999]" />
         ))}
       </div>
-      <span className="text-sm font-semibold text-gray-700">{rating.toFixed(1)}</span>
+      <span className="text-sm font-semibold text-[#3A3A3A]">{rating.toFixed(1)}</span>
       {reviewsCount !== undefined && (
-        <span className="text-xs text-gray-400">({reviewsCount})</span>
+        <span className="text-xs text-[#999999]">({reviewsCount})</span>
       )}
     </div>
   )

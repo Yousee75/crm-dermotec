@@ -137,29 +137,29 @@ export function CommandPalette() {
       {/* Command */}
       <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl px-4 animate-scaleIn">
         <Command
-          className="bg-white rounded-2xl shadow-2xl border border-gray-200/80 overflow-hidden"
+          className="bg-white rounded-2xl shadow-2xl border border-[#EEEEEE]/80 overflow-hidden"
           shouldFilter={false}
         >
           {/* Input */}
-          <div className="flex items-center gap-3 px-4 border-b border-gray-100">
-            <Search className="w-4 h-4 text-gray-400 shrink-0" />
+          <div className="flex items-center gap-3 px-4 border-b border-[#F4F0EB]">
+            <Search className="w-4 h-4 text-[#999999] shrink-0" />
             <Command.Input
               value={query}
               onValueChange={setQuery}
               placeholder="Chercher un lead, une page, une action..."
-              className="w-full py-3.5 text-sm outline-none placeholder:text-gray-400 bg-transparent"
+              className="w-full py-3.5 text-sm outline-none placeholder:text-[#999999] bg-transparent"
               autoFocus
             />
-            <kbd className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200 shrink-0">
+            <kbd className="text-[10px] text-[#999999] bg-[#F4F0EB] px-1.5 py-0.5 rounded border border-[#EEEEEE] shrink-0">
               ESC
             </kbd>
           </div>
 
           <Command.List className="max-h-[380px] overflow-y-auto p-1.5">
             <Command.Empty className="py-10 text-center">
-              <Search className="w-6 h-6 text-gray-300 mx-auto mb-2" />
-              <p className="text-sm text-gray-400">Aucun résultat pour &quot;{query}&quot;</p>
-              <p className="text-xs text-gray-300 mt-1">Essayez un autre terme</p>
+              <Search className="w-6 h-6 text-[#999999] mx-auto mb-2" />
+              <p className="text-sm text-[#999999]">Aucun résultat pour &quot;{query}&quot;</p>
+              <p className="text-xs text-[#999999] mt-1">Essayez un autre terme</p>
             </Command.Empty>
 
             {/* Live lead search results */}
@@ -179,12 +179,12 @@ export function CommandPalette() {
                       {lead.prenom[0]}{(lead.nom || '')[0]}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 truncate">{lead.prenom} {lead.nom}</p>
-                      <p className="text-xs text-gray-400 truncate">
+                      <p className="font-medium text-[#111111] truncate">{lead.prenom} {lead.nom}</p>
+                      <p className="text-xs text-[#999999] truncate">
                         {lead.email || lead.telephone || '—'} · {lead.formation_principale?.nom || 'Pas de formation'}
                       </p>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 text-gray-300 shrink-0" />
+                    <ArrowRight className="w-3.5 h-3.5 text-[#999999] shrink-0" />
                   </Command.Item>
                 ))}
                 {searchResults!.total > 5 && (
@@ -209,9 +209,9 @@ export function CommandPalette() {
                     onSelect={() => go(`/lead/${lead.id}`)}
                     className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
-                    <Clock className="w-4 h-4 text-gray-300 shrink-0" />
-                    <span className="flex-1 text-gray-600 truncate">{lead.name}</span>
-                    {lead.email && <span className="text-xs text-gray-300 truncate max-w-[140px]">{lead.email}</span>}
+                    <Clock className="w-4 h-4 text-[#999999] shrink-0" />
+                    <span className="flex-1 text-[#777777] truncate">{lead.name}</span>
+                    {lead.email && <span className="text-xs text-[#999999] truncate max-w-[140px]">{lead.email}</span>}
                   </Command.Item>
                 ))}
               </Command.Group>
@@ -230,9 +230,9 @@ export function CommandPalette() {
                     <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center shrink-0">
                       <item.icon className="w-4 h-4 text-primary" />
                     </div>
-                    <span className="flex-1 text-gray-700">{item.label}</span>
+                    <span className="flex-1 text-[#3A3A3A]">{item.label}</span>
                     {item.shortcut && (
-                      <kbd className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
+                      <kbd className="text-[10px] text-[#999999] bg-[#F4F0EB] px-1.5 py-0.5 rounded border border-[#EEEEEE]">
                         {item.shortcut}
                       </kbd>
                     )}
@@ -251,10 +251,10 @@ export function CommandPalette() {
                     onSelect={() => go(item.path)}
                     className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm cursor-pointer data-[selected=true]:bg-primary/5 transition"
                   >
-                    <item.icon className="w-4 h-4 text-gray-400 shrink-0" />
-                    <span className="flex-1 text-gray-600">{item.label}</span>
+                    <item.icon className="w-4 h-4 text-[#999999] shrink-0" />
+                    <span className="flex-1 text-[#777777]">{item.label}</span>
                     {item.shortcut && (
-                      <kbd className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
+                      <kbd className="text-[10px] text-[#999999] bg-[#F4F0EB] px-1.5 py-0.5 rounded border border-[#EEEEEE]">
                         {item.shortcut}
                       </kbd>
                     )}
@@ -265,14 +265,14 @@ export function CommandPalette() {
           </Command.List>
 
           {/* Footer */}
-          <div className="px-4 py-2 border-t border-gray-100 flex items-center justify-between text-[10px] text-gray-400">
+          <div className="px-4 py-2 border-t border-[#F4F0EB] flex items-center justify-between text-[10px] text-[#999999]">
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1"><kbd className="bg-gray-100 px-1 rounded">↑↓</kbd> naviguer</span>
-              <span className="flex items-center gap-1"><kbd className="bg-gray-100 px-1 rounded">↵</kbd> ouvrir</span>
-              <span className="flex items-center gap-1"><kbd className="bg-gray-100 px-1 rounded">esc</kbd> fermer</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#F4F0EB] px-1 rounded">↑↓</kbd> naviguer</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#F4F0EB] px-1 rounded">↵</kbd> ouvrir</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#F4F0EB] px-1 rounded">esc</kbd> fermer</span>
             </div>
             <span className="flex items-center gap-1">
-              <kbd className="bg-gray-100 px-1 rounded">⌘K</kbd>
+              <kbd className="bg-[#F4F0EB] px-1 rounded">⌘K</kbd>
             </span>
           </div>
         </Command>

@@ -238,22 +238,22 @@ export function TransitionBlocker({
 
   if (canTransition) {
     return (
-      <div className="bg-green-50 border border-green-200 rounded-xl p-6">
+      <div className="bg-[#ECFDF5] border border-[#10B981]/30 rounded-xl p-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-6 h-6 text-green-600" />
+          <div className="w-12 h-12 bg-[#D1FAE5] rounded-full flex items-center justify-center">
+            <CheckCircle className="w-6 h-6 text-[#10B981]" />
           </div>
 
           <div className="flex-1">
-            <h3 className="font-semibold text-green-800 mb-1">
+            <h3 className="font-semibold text-[#10B981] mb-1">
               Prêt à passer en {targetLabel}
             </h3>
-            <p className="text-sm text-green-700">
+            <p className="text-sm text-[#10B981]">
               Toutes les conditions sont remplies pour la transition.
             </p>
           </div>
 
-          <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+          <button className="px-6 py-2 bg-[#10B981] text-white rounded-lg hover:bg-green-700 transition font-medium">
             Passer en {targetLabel}
           </button>
         </div>
@@ -265,15 +265,15 @@ export function TransitionBlocker({
   const warningBlockers = blockers.filter(b => b.type === 'warning')
 
   return (
-    <div className="bg-white border border-red-200 rounded-xl p-6">
+    <div className="bg-white border border-[#FF2D78]/30 rounded-xl p-6">
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center shrink-0">
-          <Shield className="w-6 h-6 text-red-600" />
+        <div className="w-12 h-12 bg-[#FFE0EF] rounded-full flex items-center justify-center shrink-0">
+          <Shield className="w-6 h-6 text-[#FF2D78]" />
         </div>
 
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-3">
-            <h3 className="font-semibold text-red-800">
+            <h3 className="font-semibold text-[#FF2D78]">
               Impossible de passer en {targetLabel}
             </h3>
             <div className="flex gap-2">
@@ -293,10 +293,10 @@ export function TransitionBlocker({
           <div className="space-y-3">
             {/* Bloqueurs critiques */}
             {criticalBlockers.map((blocker) => (
-              <div key={blocker.id} className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-100">
+              <div key={blocker.id} className="flex items-center justify-between p-3 bg-[#FFE0EF] rounded-lg border border-red-100">
                 <div className="flex items-center gap-3">
-                  <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
-                  <span className="text-sm text-red-800 font-medium">{blocker.message}</span>
+                  <AlertTriangle className="w-4 h-4 text-[#FF2D78] shrink-0" />
+                  <span className="text-sm text-[#FF2D78] font-medium">{blocker.message}</span>
                 </div>
                 <button
                   onClick={blocker.onClick}
@@ -310,10 +310,10 @@ export function TransitionBlocker({
 
             {/* Bloqueurs d'avertissement */}
             {warningBlockers.map((blocker) => (
-              <div key={blocker.id} className="flex items-center justify-between p-3 bg-amber-50 rounded-lg border border-amber-100">
+              <div key={blocker.id} className="flex items-center justify-between p-3 bg-[#FFF3E8] rounded-lg border border-amber-100">
                 <div className="flex items-center gap-3">
-                  <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
-                  <span className="text-sm text-amber-800">{blocker.message}</span>
+                  <AlertTriangle className="w-4 h-4 text-[#FF8C42] shrink-0" />
+                  <span className="text-sm text-[#FF8C42]">{blocker.message}</span>
                 </div>
                 <button
                   onClick={blocker.onClick}
@@ -326,8 +326,8 @@ export function TransitionBlocker({
             ))}
           </div>
 
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-600">
+          <div className="mt-4 p-3 bg-[#FAF8F5] rounded-lg">
+            <p className="text-xs text-[#777777]">
               <strong>Note :</strong> Résolvez tous les points bloquants pour permettre la transition.
               Les alertes sont optionnelles mais recommandées.
             </p>

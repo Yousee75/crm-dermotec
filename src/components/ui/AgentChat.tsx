@@ -38,7 +38,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
 
   if (!result || result.error) {
     return (
-      <div className="text-xs text-red-500 bg-red-50 rounded-lg px-2.5 py-1.5 mt-1">
+      <div className="text-xs text-[#FF2D78] bg-[#FFE0EF] rounded-lg px-2.5 py-1.5 mt-1">
         {result?.error || 'Erreur'}
       </div>
     )
@@ -87,7 +87,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
               </div>
               <span className={cn(
                 'text-[10px] font-medium px-1.5 py-0.5 rounded-full',
-                s.complet ? 'bg-red-50 text-red-600' : s.places_restantes <= 2 ? 'bg-amber-50 text-amber-600' : 'text-white'
+                s.complet ? 'bg-[#FFE0EF] text-[#FF2D78]' : s.places_restantes <= 2 ? 'bg-[#FFF3E8] text-[#FF8C42]' : 'text-white'
               )} style={!s.complet && s.places_restantes > 2 ? { backgroundColor: SATOREA.success } : undefined}>
                 {s.complet ? 'Complet' : `${s.places_restantes} places`}
               </span>
@@ -202,7 +202,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
       return (
         <div className="mt-1.5 space-y-1">
           {result.urgences?.map((u: string, i: number) => (
-            <div key={i} className="text-xs bg-red-50 text-red-700 rounded-lg px-2.5 py-1.5 border border-red-100">
+            <div key={i} className="text-xs bg-[#FFE0EF] text-[#FF2D78] rounded-lg px-2.5 py-1.5 border border-red-100">
               {u}
             </div>
           ))}
@@ -402,7 +402,7 @@ function ToolResultCard({ toolName, result }: { toolName: string; result: any })
                   <p className="text-xs font-medium truncate" style={{ color: SATOREA.accent }}>{l.prenom} {l.nom}</p>
                   <p className="text-[10px] truncate" style={{ color: SATOREA.muted }}>
                     {l.statut} · Score {l.score} · Eng. {l.engagement_score}
-                    {l.jours_sans_contact > 7 && <span className="text-red-500 ml-1">· {l.jours_sans_contact}j sans contact</span>}
+                    {l.jours_sans_contact > 7 && <span className="text-[#FF2D78] ml-1">· {l.jours_sans_contact}j sans contact</span>}
                   </p>
                 </div>
                 <ArrowRight className="w-3 h-3 shrink-0" style={{ color: SATOREA.muted }} />
@@ -1030,7 +1030,7 @@ export function AgentChat() {
                                         {isComplete ? (
                                           <CheckCircle className="w-3 h-3" style={{ color: SATOREA.success }} />
                                         ) : hasError ? (
-                                          <AlertTriangle className="w-3 h-3 text-red-500" />
+                                          <AlertTriangle className="w-3 h-3 text-[#FF2D78]" />
                                         ) : (
                                           <Loader2 className="w-3 h-3 animate-spin" style={{ color: SATOREA.primary }} />
                                         )}
@@ -1041,7 +1041,7 @@ export function AgentChat() {
                                         <ToolResultCard toolName={toolName} result={part.output} />
                                       )}
                                       {hasError && (
-                                        <div className="text-xs text-red-500 bg-red-50 rounded-lg px-2.5 py-1.5 mt-1">
+                                        <div className="text-xs text-[#FF2D78] bg-[#FFE0EF] rounded-lg px-2.5 py-1.5 mt-1">
                                           {part.errorText || 'Erreur'}
                                         </div>
                                       )}

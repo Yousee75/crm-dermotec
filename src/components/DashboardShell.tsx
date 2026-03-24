@@ -32,9 +32,11 @@ import { AgentChat } from '@/components/ui/AgentChat'
 import { QuickAddLead } from '@/components/ui/QuickAddLead'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
 import { SmartActionBar } from '@/components/ui/SmartActionBar'
+import { NotificationTestPanel } from '@/components/ui/NotificationTestPanel'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { getRoleView } from '@/lib/role-config'
 import { usePageTracker } from '@/hooks/use-tracker'
+import { useRealtimeNotifications } from '@/hooks/use-realtime-notifications'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { cn } from '@/lib/utils'
@@ -136,6 +138,12 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   usePageTracker()
 
   const pathname = usePathname()
+
+  // Rôle utilisateur — détermine la vue (commercial ne voit que ses leads)
+  const { data: currentUser } = useCurrentUser()
+
+  // Notifications realtime pour les alertes critiques (prospect chaud, financement stagnant, etc.)
+  useRealtimeNotifications(currentUser?.auth_user_id)
   const [collapsed, setCollapsed] = useState(() => {
     if (typeof window === 'undefined') return false
     return localStorage.getItem('sidebar-collapsed') === 'true'
@@ -150,8 +158,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     localStorage.removeItem('density-compact')
   }, [collapsed])
 
-  // Rôle utilisateur — détermine la vue (commercial ne voit que ses leads)
-  const { data: currentUser } = useCurrentUser()
   const roleView = getRoleView(currentUser?.role || 'admin')
 
   // Filtrer la sidebar par rôle
@@ -436,7 +442,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <Tooltip content="Déconnexion" side="right" delay={0}>
               <button
                 onClick={handleLogout}
-                className="flex items-center justify-center w-full p-2 rounded-lg text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition"
+                className="flex items-center justify-center w-full p-2 rounded-lg text-slate-500 hover:bg-[#FF2D78]/10 hover:text-[#FF2D78] transition"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -444,7 +450,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           ) : (
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-[13px] text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition"
+              className="flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-[13px] text-slate-500 hover:bg-[#FF2D78]/10 hover:text-[#FF2D78] transition"
             >
               <LogOut className="w-4 h-4" />
               <span>Déconnexion</span>
@@ -470,16 +476,16 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setMobileOpen(true)}
-                className="md:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100 transition"
+                className="md:hidden p-2 -ml-2 rounded-lg hover:bg-[#F4F0EB] transition"
               >
-                <Menu className="w-5 h-5 text-gray-600" />
+                <Menu className="w-5 h-5 text-[#777777]" />
               </button>
 
               {/* Collapse toggle desktop */}
               {collapsed && (
                 <button
                   onClick={() => setCollapsed(false)}
-                  className="hidden md:flex p-1.5 -ml-1 rounded-md hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition"
+                  className="hidden md:flex p-1.5 -ml-1 rounded-md hover:bg-[#F4F0EB] text-[#999999] hover:text-[#777777] transition"
                 >
                   <PanelLeft className="w-4 h-4" />
                 </button>
@@ -487,7 +493,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
               {/* Current page title */}
               <div className="hidden sm:block">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-[#111111]">
                   {getCurrentPageTitle(pathname ?? '/')}
                 </p>
               </div>
@@ -496,10 +502,10 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             {/* Right: actions */}
             <div className="flex items-center gap-1">
               {/* Search shortcut */}
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition">
+              <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-[#999999] hover:bg-[#F4F0EB] hover:text-[#777777] transition">
                 <Search className="w-4 h-4" />
                 <span className="hidden md:block text-xs">Rechercher</span>
-                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-gray-100 rounded text-[10px] font-medium text-gray-400 border border-gray-200">
+                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#F4F0EB] rounded text-[10px] font-medium text-[#999999] border border-[#EEEEEE]">
                   ⌘K
                 </kbd>
               </button>
@@ -534,25 +540,26 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       <QuickAddLead />
       <OnboardingWizard />
       <SmartActionBar />
+      <NotificationTestPanel />
 
       {/* Keyboard shortcuts modal */}
       {showShortcuts && (
         <div className="fixed inset-0 z-[100]">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-[4px]" onClick={() => setShowShortcuts(false)} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 animate-scaleIn">
-            <div className="bg-white rounded-2xl shadow-2xl border border-gray-200/80 overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+            <div className="bg-white rounded-2xl shadow-2xl border border-[#EEEEEE]/80 overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-[#F4F0EB]">
                 <div className="flex items-center gap-2.5">
                   <Keyboard className="w-4 h-4 text-primary" />
-                  <h2 className="text-sm font-semibold text-gray-900">Raccourcis clavier</h2>
+                  <h2 className="text-sm font-semibold text-[#111111]">Raccourcis clavier</h2>
                 </div>
-                <button onClick={() => setShowShortcuts(false)} className="p-1 rounded hover:bg-gray-100 transition">
-                  <span className="text-gray-400 text-lg leading-none">&times;</span>
+                <button onClick={() => setShowShortcuts(false)} className="p-1 rounded hover:bg-[#F4F0EB] transition">
+                  <span className="text-[#999999] text-lg leading-none">&times;</span>
                 </button>
               </div>
               <div className="p-5 space-y-4">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Général</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-[#999999] mb-2">Général</p>
                   <div className="space-y-1.5">
                     <ShortcutRow keys={['⌘', 'K']} label="Recherche rapide" />
                     <ShortcutRow keys={['N']} label="Nouveau lead" />
@@ -561,7 +568,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Navigation (G puis...)</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-[#999999] mb-2">Navigation (G puis...)</p>
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
                     <ShortcutRow keys={['G', 'D']} label="Tableau de bord" />
                     <ShortcutRow keys={['G', 'C']} label="Contacts" />
@@ -582,10 +589,10 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 function ShortcutRow({ keys, label }: { keys: string[]; label: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-xs text-gray-600">{label}</span>
+      <span className="text-xs text-[#777777]">{label}</span>
       <div className="flex items-center gap-0.5">
         {keys.map((key, i) => (
-          <kbd key={i} className="min-w-[22px] h-[22px] flex items-center justify-center px-1.5 bg-gray-100 rounded text-[10px] font-medium text-gray-500 border border-gray-200">
+          <kbd key={i} className="min-w-[22px] h-[22px] flex items-center justify-center px-1.5 bg-[#F4F0EB] rounded text-[10px] font-medium text-[#777777] border border-[#EEEEEE]">
             {key}
           </kbd>
         ))}

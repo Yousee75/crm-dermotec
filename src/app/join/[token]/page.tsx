@@ -96,11 +96,11 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="text-center max-w-sm">
-          <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-6">
-            <XCircle className="w-8 h-8 text-red-500" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FFE0EF] flex items-center justify-center mx-auto mb-6">
+            <XCircle className="w-8 h-8 text-[#FF2D78]" />
           </div>
           <h2 className="text-xl font-bold text-accent mb-2">Invitation invalide</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
+          <p className="text-[#777777] mb-6">{error}</p>
           <Button onClick={() => router.push('/login')} className="bg-primary hover:bg-primary-dark">
             Aller à la connexion
           </Button>
@@ -113,11 +113,11 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="text-center max-w-sm">
-          <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-8 h-8 text-green-500" />
+          <div className="w-16 h-16 rounded-2xl bg-[#ECFDF5] flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
           </div>
           <h2 className="text-xl font-bold text-accent mb-2">Bienvenue !</h2>
-          <p className="text-gray-600">Redirection vers le dashboard...</p>
+          <p className="text-[#777777]">Redirection vers le dashboard...</p>
         </div>
       </div>
     )
@@ -128,7 +128,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xl border border-[#F4F0EB] overflow-hidden">
           {/* Header */}
           <div className="bg-accent px-8 py-6 text-center">
             <h1 className="text-2xl font-bold text-primary mb-1">Dermotec CRM</h1>
@@ -144,20 +144,20 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
               <h2 className="text-lg font-semibold text-accent mb-2">
                 Vous êtes invité(e)
               </h2>
-              <p className="text-gray-600 text-sm">
+              <p className="text-[#777777] text-sm">
                 Vous avez été invité(e) à rejoindre le CRM en tant que <strong className="text-accent">{roleLabel}</strong>.
               </p>
             </div>
 
             {/* Infos */}
             <div className="space-y-3 mb-8">
-              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <Shield className="w-4 h-4 text-gray-400" />
-                <span className="text-sm text-gray-600">Rôle : <strong>{roleLabel}</strong></span>
+              <div className="flex items-center gap-3 p-3 bg-[#FAF8F5] rounded-lg">
+                <Shield className="w-4 h-4 text-[#999999]" />
+                <span className="text-sm text-[#777777]">Rôle : <strong>{roleLabel}</strong></span>
               </div>
-              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <Clock className="w-4 h-4 text-gray-400" />
-                <span className="text-sm text-gray-600">
+              <div className="flex items-center gap-3 p-3 bg-[#FAF8F5] rounded-lg">
+                <Clock className="w-4 h-4 text-[#999999]" />
+                <span className="text-sm text-[#777777]">
                   Expire le {new Date(invitation!.expires_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </span>
               </div>
@@ -173,7 +173,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
               {accepting ? 'Acceptation...' : 'Accepter l\'invitation'}
             </Button>
 
-            <p className="text-xs text-gray-400 text-center mt-4">
+            <p className="text-xs text-[#999999] text-center mt-4">
               En acceptant, vous acceptez les{' '}
               <a href="/conditions-generales" target="_blank" className="text-primary hover:underline">
                 conditions générales

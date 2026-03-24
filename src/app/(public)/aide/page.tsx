@@ -177,17 +177,17 @@ export default function AidePage() {
         >
           Centre d&apos;aide
         </h1>
-        <p className="text-gray-500 text-center max-w-xl mx-auto mb-10">
+        <p className="text-[#777777] text-center max-w-xl mx-auto mb-10">
           Trouvez rapidement des réponses à vos questions.
         </p>
 
         {/* Search bar (decorative) */}
         <div className="relative max-w-lg mx-auto mb-16">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#999999]" />
           <input
             type="text"
             placeholder="Rechercher dans l'aide..."
-            className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+            className="w-full rounded-xl border border-[#EEEEEE] bg-white py-3 pl-12 pr-4 text-sm text-[#3A3A3A] placeholder:text-[#999999] focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
             readOnly
           />
         </div>
@@ -206,15 +206,15 @@ export default function AidePage() {
                 {section.items.map((item) => (
                   <details
                     key={item.question}
-                    className="group rounded-xl border border-gray-100 bg-white"
+                    className="group rounded-xl border border-[#F4F0EB] bg-white"
                   >
                     <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-accent hover:text-primary transition-colors [&::-webkit-details-marker]:hidden list-none">
                       <span>{item.question}</span>
-                      <span className="ml-4 text-gray-400 group-open:rotate-45 transition-transform duration-200 text-lg">
+                      <span className="ml-4 text-[#999999] group-open:rotate-45 transition-transform duration-200 text-lg">
                         +
                       </span>
                     </summary>
-                    <div className="px-5 pb-4 text-sm text-gray-500 leading-relaxed">
+                    <div className="px-5 pb-4 text-sm text-[#777777] leading-relaxed">
                       {item.answer}
                     </div>
                   </details>
@@ -225,14 +225,14 @@ export default function AidePage() {
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-16 text-center rounded-2xl bg-background border border-gray-100 py-10 px-6">
+        <div className="mt-16 text-center rounded-2xl bg-background border border-[#F4F0EB] py-10 px-6">
           <h3
             className="text-lg font-bold text-accent mb-2"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Besoin d&apos;aide supplémentaire ?
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#777777]">
             Contactez-nous à{' '}
             <a href="mailto:support@satorea.fr" className="text-primary hover:underline">
               support@satorea.fr

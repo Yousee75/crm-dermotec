@@ -349,8 +349,8 @@ export default function LeadActionHub({ leadId, onActionClick }: LeadActionHubPr
                   'hover:scale-[1.02] transition-all duration-200',
                   {
                     'bg-primary hover:bg-primary-dark text-white border-primary': isPrimary,
-                    'bg-green-50 border-green-200 text-green-700 hover:bg-green-100': action.variant === 'success',
-                    'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100': action.variant === 'warning',
+                    'bg-[#ECFDF5] border-[#10B981]/30 text-[#10B981] hover:bg-[#D1FAE5]': action.variant === 'success',
+                    'bg-[#FFF3E8] border-[#FF8C42]/30 text-[#FF8C42] hover:bg-[#FFF3E8]': action.variant === 'warning',
                     'ring-2 ring-primary ring-offset-1': isActive,
                     'shadow-md': isPrimary || isActive,
                   }

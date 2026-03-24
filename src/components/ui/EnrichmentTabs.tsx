@@ -25,11 +25,11 @@ function ProgressBar({ value, max }: { value: number; max: number }) {
   const percentage = Math.min((value / max) * 100, 100)
   const isGood = percentage > 80
   return (
-    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+    <div className="w-full h-2 bg-[#EEEEEE] rounded-full overflow-hidden">
       <div
         className={cn(
           "h-full rounded-full transition-all duration-300",
-          isGood ? "bg-primary" : "bg-gray-400"
+          isGood ? "bg-primary" : "bg-[#999999]"
         )}
         style={{ width: `${percentage}%` }}
       />
@@ -42,7 +42,7 @@ function Badge({ variant = 'default', children }: {
   children: React.ReactNode
 }) {
   const variants = {
-    default: 'bg-surface-hover text-gray-600 border-gray-200',
+    default: 'bg-surface-hover text-[#777777] border-[#EEEEEE]',
     success: 'bg-success-50 text-success border-success/20',
     warning: 'bg-warning-50 text-warning border-warning/20',
     error: 'bg-error-50 text-error border-error/20',
@@ -75,10 +75,10 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
+      <div className="bg-white rounded-xl border border-[#EEEEEE] p-4">
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="h-6 bg-[#EEEEEE] rounded w-1/3 mb-4"></div>
+          <div className="h-32 bg-[#EEEEEE] rounded"></div>
         </div>
       </div>
     )
@@ -87,9 +87,9 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
   if (!intelligenceResponse?.intelligence) {
     return (
       <div className="bg-surface-hover rounded-xl p-4 text-center">
-        <Zap className="w-6 h-6 text-gray-300 mx-auto mb-2" />
-        <p className="text-sm text-gray-500">Aucune donnée enrichie disponible</p>
-        <p className="text-xs text-gray-400 mt-1">
+        <Zap className="w-6 h-6 text-[#999999] mx-auto mb-2" />
+        <p className="text-sm text-[#777777]">Aucune donnée enrichie disponible</p>
+        <p className="text-xs text-[#999999] mt-1">
           {intelligenceResponse?.message || 'Lancez l\'enrichissement depuis le briefing IA'}
         </p>
       </div>
@@ -99,9 +99,9 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
   const intelligence = intelligenceResponse.intelligence as IntelligenceComplete
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#EEEEEE] overflow-hidden">
       {/* Header avec onglets */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-[#EEEEEE]">
         <div className="flex overflow-x-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon
@@ -115,7 +115,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
                   'min-w-0 touch-none', // Touch target
                   isActive
                     ? 'border-primary text-primary bg-primary-50'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
                 )}
                 style={{ minHeight: '44px' }} // Touch target
               >
@@ -134,7 +134,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
           <div className="space-y-4">
             {intelligence.plateformes_avis && intelligence.plateformes_avis.length > 0 ? (
               <>
-                <h3 className="text-sm font-semibold text-gray-900">Réputation multi-plateformes</h3>
+                <h3 className="text-sm font-semibold text-[#111111]">Réputation multi-plateformes</h3>
 
                 {/* Tableau des plateformes */}
                 <div className="space-y-2">
@@ -142,14 +142,14 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
                     <div key={index} className="flex items-center justify-between p-3 bg-surface-hover rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-primary"></div>
-                        <span className="text-sm font-medium text-gray-900">{plateforme.plateforme}</span>
+                        <span className="text-sm font-medium text-[#111111]">{plateforme.plateforme}</span>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <div className="text-sm font-semibold text-gray-900">
+                          <div className="text-sm font-semibold text-[#111111]">
                             {plateforme.note ? `${plateforme.note}/5` : '—'}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-[#777777]">
                             {plateforme.nb_avis ? `${plateforme.nb_avis} avis` : '0 avis'}
                           </div>
                         </div>
@@ -167,13 +167,13 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
                 {intelligence.reputation && (
                   <div className="bg-primary-50 rounded-lg p-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-900">Note pondérée globale</span>
+                      <span className="text-sm font-medium text-[#111111]">Note pondérée globale</span>
                       <span className="text-lg font-bold text-primary">
                         {intelligence.reputation.note_globale ? `${intelligence.reputation.note_globale.toFixed(1)}/5` : '—'}
                       </span>
                     </div>
                     {intelligence.reputation.nb_avis_total && (
-                      <p className="text-xs text-gray-600 mt-1">
+                      <p className="text-xs text-[#777777] mt-1">
                         Basé sur {intelligence.reputation.nb_avis_total} avis total
                       </p>
                     )}
@@ -187,8 +187,8 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
               </>
             ) : (
               <div className="text-center py-6">
-                <Star className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                <p className="text-sm text-gray-500">Aucune donnée de réputation</p>
+                <Star className="w-8 h-8 text-[#999999] mx-auto mb-2" />
+                <p className="text-sm text-[#777777]">Aucune donnée de réputation</p>
               </div>
             )}
           </div>
@@ -197,7 +197,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
         {/* Onglet Soins */}
         {activeTab === 'soins' && (
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900">
+            <h3 className="text-sm font-semibold text-[#111111]">
               {intelligence.carte_soins?.length ? `${intelligence.carte_soins.length} soins détectés` : 'Soins proposés'}
             </h3>
 
@@ -211,8 +211,8 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
               </div>
             ) : (
               <div className="text-center py-6">
-                <Scissors className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                <p className="text-sm text-gray-500">Aucun soin détecté sur les plateformes</p>
+                <Scissors className="w-8 h-8 text-[#999999] mx-auto mb-2" />
+                <p className="text-sm text-[#777777]">Aucun soin détecté sur les plateformes</p>
               </div>
             )}
           </div>
@@ -221,25 +221,25 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
         {/* Onglet Zone */}
         {activeTab === 'zone' && (
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900">Environnement local</h3>
+            <h3 className="text-sm font-semibold text-[#111111]">Environnement local</h3>
 
             {/* Concurrents zone */}
             {intelligence.concurrents_zone && (
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">Concurrents proximité</span>
+                  <span className="text-sm font-medium text-[#3A3A3A]">Concurrents proximité</span>
                   <Badge variant="info">
                     {intelligence.concurrents_zone.length} établissements dans 2km
                   </Badge>
                 </div>
 
                 {intelligence.concurrents_zone.slice(0, 5).map((concurrent, index) => (
-                  <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div key={index} className="flex items-center justify-between py-2 border-b border-[#F4F0EB] last:border-0">
                     <div className="flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm text-gray-900">{concurrent.nom || 'Non renseigné'}</span>
+                      <Building2 className="w-4 h-4 text-[#999999]" />
+                      <span className="text-sm text-[#111111]">{concurrent.nom || 'Non renseigné'}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="flex items-center gap-2 text-xs text-[#777777]">
                       <span className="capitalize">{concurrent.type}</span>
                       {concurrent.distance_metres && (
                         <>
@@ -257,7 +257,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
             <div className="grid grid-cols-2 gap-4">
               {intelligence.zone?.standing && (
                 <div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider">Standing</span>
+                  <span className="text-xs text-[#777777] uppercase tracking-wider">Standing</span>
                   <Badge variant={intelligence.zone.standing === 'premium' ? 'success' : 'default'}>
                     {intelligence.zone.standing.replace('_', ' ')}
                   </Badge>
@@ -266,8 +266,8 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
 
               {intelligence.zone?.revenu_median_quartier && (
                 <div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider">Revenu médian</span>
-                  <p className="text-sm font-semibold text-gray-900">
+                  <span className="text-xs text-[#777777] uppercase tracking-wider">Revenu médian</span>
+                  <p className="text-sm font-semibold text-[#111111]">
                     {intelligence.zone.revenu_median_quartier.toLocaleString()}€
                   </p>
                 </div>
@@ -284,18 +284,18 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
         {/* Onglet Financement */}
         {activeTab === 'financement' && (
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900">Options de financement</h3>
+            <h3 className="text-sm font-semibold text-[#111111]">Options de financement</h3>
 
             {/* Convention collective */}
             {intelligence.convention_collective && (
               <div className="bg-surface-hover rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <Clock className="w-4 h-4 text-gray-500 mt-0.5" />
+                  <Clock className="w-4 h-4 text-[#777777] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-[#111111]">
                       IDCC {intelligence.convention_collective.code_convention} — {intelligence.convention_collective.intitule}
                     </p>
-                    <p className="text-xs text-gray-600 mt-1">
+                    <p className="text-xs text-[#777777] mt-1">
                       {intelligence.convention_collective.droit_formation_heures}h/an de formation
                     </p>
                     {intelligence.convention_collective.est_secteur_beaute && (
@@ -309,18 +309,18 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
             {/* Aides disponibles */}
             {intelligence.aides_disponibles && intelligence.aides_disponibles.length > 0 && (
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-2">Aides disponibles</p>
+                <p className="text-sm font-medium text-[#3A3A3A] mb-2">Aides disponibles</p>
                 <div className="space-y-2">
                   {intelligence.aides_disponibles.map((aide, index) => (
-                    <div key={index} className="bg-white border border-gray-200 rounded-lg p-3">
+                    <div key={index} className="bg-white border border-[#EEEEEE] rounded-lg p-3">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{aide.nom}</p>
-                          <p className="text-xs text-gray-500">{aide.financeur}</p>
+                          <p className="text-sm font-medium text-[#111111]">{aide.nom}</p>
+                          <p className="text-xs text-[#777777]">{aide.financeur}</p>
                         </div>
                         <div className="text-right">
                           {aide.montant_max && (
-                            <p className="text-sm font-semibold text-green-600">
+                            <p className="text-sm font-semibold text-[#10B981]">
                               Max {aide.montant_max.toLocaleString()}€
                             </p>
                           )}
@@ -343,7 +343,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
         {/* Onglet Signaux */}
         {activeTab === 'signaux' && (
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900">Signaux commerciaux</h3>
+            <h3 className="text-sm font-semibold text-[#111111]">Signaux commerciaux</h3>
 
             {intelligence.signaux ? (
               <div className="space-y-2">
@@ -386,14 +386,14 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
                 {/* Si aucun signal actif */}
                 {!Object.values(intelligence.signaux).some(Boolean) && (
                   <div className="text-center py-4">
-                    <p className="text-sm text-gray-500">Aucun signal particulier détecté</p>
+                    <p className="text-sm text-[#777777]">Aucun signal particulier détecté</p>
                   </div>
                 )}
               </div>
             ) : (
               <div className="text-center py-6">
-                <Zap className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                <p className="text-sm text-gray-500">Aucun signal disponible</p>
+                <Zap className="w-8 h-8 text-[#999999] mx-auto mb-2" />
+                <p className="text-sm text-[#777777]">Aucun signal disponible</p>
               </div>
             )}
           </div>

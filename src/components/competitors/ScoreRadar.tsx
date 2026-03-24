@@ -78,14 +78,14 @@ export function ScoreRadar({ scores, compareTo, size = 300 }: ScoreRadarProps) {
       <div className="flex items-center gap-3 mt-2">
         <div className="text-center">
           <p className="text-3xl font-bold text-accent">{scores.global}</p>
-          <p className="text-xs text-gray-500">Score global /100</p>
+          <p className="text-xs text-[#777777]">Score global /100</p>
         </div>
         {compareTo && (
           <>
-            <span className="text-gray-300">vs</span>
+            <span className="text-[#999999]">vs</span>
             <div className="text-center">
-              <p className="text-2xl font-bold text-amber-500">{compareTo.global}</p>
-              <p className="text-xs text-gray-500">Comparaison</p>
+              <p className="text-2xl font-bold text-[#FF8C42]">{compareTo.global}</p>
+              <p className="text-xs text-[#777777]">Comparaison</p>
             </div>
           </>
         )}

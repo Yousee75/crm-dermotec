@@ -22,14 +22,14 @@ export default function MentionsLegalesPage() {
           <h1 className="text-4xl font-bold text-accent font-[family-name:var(--font-heading)] mb-4">
             Mentions légales
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-[#777777] max-w-2xl mx-auto">
             Transparence, c&apos;est notre engagement. Voici tout ce que vous devez savoir sur qui nous sommes et comment nous fonctionnons.
           </p>
         </div>
 
         <div className="grid gap-8">
           {/* Qui sommes-nous */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Building className="w-6 h-6 text-primary" />
@@ -42,57 +42,57 @@ export default function MentionsLegalesPage() {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">Raison sociale</p>
-                  <p className="text-gray-900 font-medium">SAS Dermotec</p>
+                  <p className="text-sm font-medium text-[#777777]">Raison sociale</p>
+                  <p className="text-[#111111] font-medium">SAS Dermotec</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">SIRET</p>
-                  <p className="text-gray-900 font-mono">851 306 860 00012</p>
+                  <p className="text-sm font-medium text-[#777777]">SIRET</p>
+                  <p className="text-[#111111] font-mono">851 306 860 00012</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">Capital social</p>
-                  <p className="text-gray-900">1 000 €</p>
+                  <p className="text-sm font-medium text-[#777777]">Capital social</p>
+                  <p className="text-[#111111]">1 000 €</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">TVA intracommunautaire</p>
-                  <p className="text-gray-900 font-mono">FR26851306860</p>
+                  <p className="text-sm font-medium text-[#777777]">TVA intracommunautaire</p>
+                  <p className="text-[#111111] font-mono">FR26851306860</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">Code APE</p>
-                  <p className="text-gray-900">4775Z (Commerce de parfumerie et cosmétiques)</p>
+                  <p className="text-sm font-medium text-[#777777]">Code APE</p>
+                  <p className="text-[#111111]">4775Z (Commerce de parfumerie et cosmétiques)</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">NDA formation</p>
-                  <p className="text-gray-900 font-mono">11755959875</p>
-                  <p className="text-xs text-gray-500">Ne vaut pas agrément de l&apos;État</p>
+                  <p className="text-sm font-medium text-[#777777]">NDA formation</p>
+                  <p className="text-[#111111] font-mono">11755959875</p>
+                  <p className="text-xs text-[#777777]">Ne vaut pas agrément de l&apos;État</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">Certification</p>
-                  <p className="text-gray-900 font-medium text-primary">Qualiopi</p>
+                  <p className="text-sm font-medium text-[#777777]">Certification</p>
+                  <p className="text-[#111111] font-medium text-primary">Qualiopi</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-500">Directeur de publication</p>
-                  <p className="text-gray-900">M. Bryan Houri</p>
+                  <p className="text-sm font-medium text-[#777777]">Directeur de publication</p>
+                  <p className="text-[#111111]">M. Bryan Houri</p>
                 </div>
               </div>
             </div>
 
             {/* Contact */}
-            <div className="mt-6 pt-6 border-t border-gray-100">
+            <div className="mt-6 pt-6 border-t border-[#F4F0EB]">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-primary" />
                   <div>
-                    <p className="text-gray-900 font-medium">75 Boulevard Richard Lenoir</p>
-                    <p className="text-gray-600">75011 Paris</p>
+                    <p className="text-[#111111] font-medium">75 Boulevard Richard Lenoir</p>
+                    <p className="text-[#777777]">75011 Paris</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-primary" />
-                  <p className="text-gray-900 font-medium">01 88 33 43 43</p>
+                  <p className="text-[#111111] font-medium">01 88 33 43 43</p>
                 </div>
                 <div className="flex items-center gap-3 md:col-span-2">
                   <Mail className="w-5 h-5 text-primary" />
@@ -105,7 +105,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Hébergement & Données */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Globe className="w-6 h-6 text-primary" />
@@ -117,11 +117,11 @@ export default function MentionsLegalesPage() {
 
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">Application web</h3>
+                <h3 className="font-semibold text-[#111111] mb-3">Application web</h3>
                 <div className="space-y-2">
-                  <p className="text-gray-600"><strong>Hébergeur :</strong> Vercel Inc.</p>
-                  <p className="text-gray-600">440 N Barranca Ave #4133</p>
-                  <p className="text-gray-600">Covina, CA 91723, USA</p>
+                  <p className="text-[#777777]"><strong>Hébergeur :</strong> Vercel Inc.</p>
+                  <p className="text-[#777777]">440 N Barranca Ave #4133</p>
+                  <p className="text-[#777777]">Covina, CA 91723, USA</p>
                   <a href="https://vercel.com" target="_blank" rel="noopener noreferrer"
                      className="text-primary hover:underline text-sm">
                     vercel.com ↗
@@ -130,11 +130,11 @@ export default function MentionsLegalesPage() {
               </div>
 
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">Base de données</h3>
+                <h3 className="font-semibold text-[#111111] mb-3">Base de données</h3>
                 <div className="space-y-2">
-                  <p className="text-gray-600"><strong>Hébergeur :</strong> Supabase Inc.</p>
-                  <p className="text-gray-600"><strong>Localisation :</strong> Union Européenne (Francfort)</p>
-                  <p className="text-gray-600"><strong>Conformité :</strong> RGPD</p>
+                  <p className="text-[#777777]"><strong>Hébergeur :</strong> Supabase Inc.</p>
+                  <p className="text-[#777777]"><strong>Localisation :</strong> Union Européenne (Francfort)</p>
+                  <p className="text-[#777777]"><strong>Conformité :</strong> RGPD</p>
                   <a href="https://supabase.com" target="_blank" rel="noopener noreferrer"
                      className="text-primary hover:underline text-sm">
                     supabase.com ↗
@@ -144,7 +144,7 @@ export default function MentionsLegalesPage() {
             </div>
 
             <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-[#3A3A3A]">
                 <Shield className="w-4 h-4 text-primary inline mr-2" />
                 Vos données personnelles sont stockées exclusivement dans l&apos;Union Européenne et protégées par le RGPD.
               </p>
@@ -152,7 +152,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Propriété intellectuelle */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Shield className="w-6 h-6 text-primary" />
@@ -162,7 +162,7 @@ export default function MentionsLegalesPage() {
               </h2>
             </div>
 
-            <div className="space-y-4 text-gray-600">
+            <div className="space-y-4 text-[#777777]">
               <p>
                 Tous les contenus de ce site sont protégés par le Code de la propriété intellectuelle.
                 Cela inclut les textes, images, logos, design et fonctionnalités.
@@ -175,7 +175,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Données personnelles */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Users className="w-6 h-6 text-primary" />
@@ -185,14 +185,14 @@ export default function MentionsLegalesPage() {
               </h2>
             </div>
 
-            <div className="space-y-4 text-gray-600">
+            <div className="space-y-4 text-[#777777]">
               <p>
                 Nous prenons la protection de vos données très au sérieux.
                 Toutes les informations sur la collecte et le traitement sont détaillées dans notre politique dédiée.
               </p>
-              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3 p-4 bg-[#FAF8F5] rounded-lg">
                 <Shield className="w-5 h-5 text-primary" />
-                <span className="text-gray-700">Pour tout savoir sur vos droits et nos pratiques : </span>
+                <span className="text-[#3A3A3A]">Pour tout savoir sur vos droits et nos pratiques : </span>
                 <a href="/politique-confidentialite" className="text-primary hover:underline font-medium">
                   Politique de confidentialité →
                 </a>
@@ -201,7 +201,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Cookies */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Shield className="w-6 h-6 text-primary" />
@@ -213,22 +213,22 @@ export default function MentionsLegalesPage() {
 
             <div className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                  <h3 className="font-semibold text-green-800 mb-2">Cookies essentiels</h3>
-                  <p className="text-green-700 text-sm">
+                <div className="p-4 bg-[#ECFDF5] rounded-lg border border-[#10B981]/30">
+                  <h3 className="font-semibold text-[#10B981] mb-2">Cookies essentiels</h3>
+                  <p className="text-[#10B981] text-sm">
                     Nécessaires au fonctionnement : authentification, session, sécurité.
                     Pas besoin de consentement.
                   </p>
                 </div>
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <h3 className="font-semibold text-blue-800 mb-2">Cookies analytiques</h3>
-                  <p className="text-blue-700 text-sm">
+                <div className="p-4 bg-[#E0EBF5] rounded-lg border border-[#6B8CAE]/30">
+                  <h3 className="font-semibold text-[#6B8CAE] mb-2">Cookies analytiques</h3>
+                  <p className="text-[#6B8CAE] text-sm">
                     Vercel Analytics pour améliorer l&apos;expérience.
                     Données anonymisées, pas de tracking personnel.
                   </p>
                 </div>
               </div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-[#777777] text-sm">
                 Nous n&apos;utilisons aucun cookie publicitaire ou de tracking personnel.
                 Plus de détails dans notre{' '}
                 <a href="/politique-confidentialite" className="text-primary hover:underline">
@@ -264,7 +264,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Droit applicable */}
-          <div className="text-center text-gray-500 text-sm">
+          <div className="text-center text-[#777777] text-sm">
             <p>
               Mentions légales régies par le droit français •
               Tribunaux de Paris compétents en cas de litige •

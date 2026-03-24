@@ -60,17 +60,17 @@ export function ImageCompressor() {
   return (
     <div className="space-y-4">
       {/* Upload */}
-      <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-primary rounded-xl p-8 cursor-pointer transition-colors">
-        <Upload size={32} className="text-gray-400 mb-2" />
-        <p className="text-sm text-gray-600 font-medium">Choisir une image</p>
-        <p className="text-xs text-gray-400 mt-1">JPG, PNG, WebP (max 20 MB)</p>
+      <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#EEEEEE] hover:border-primary rounded-xl p-8 cursor-pointer transition-colors">
+        <Upload size={32} className="text-[#999999] mb-2" />
+        <p className="text-sm text-[#777777] font-medium">Choisir une image</p>
+        <p className="text-xs text-[#999999] mt-1">JPG, PNG, WebP (max 20 MB)</p>
         <input type="file" accept="image/*" onChange={handleFile} className="hidden" />
       </label>
 
       {/* Quality slider */}
       {original && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-[#3A3A3A] mb-1">
             Qualité : {Math.round(quality * 100)}%
           </label>
           <input
@@ -88,21 +88,21 @@ export function ImageCompressor() {
       {/* Stats */}
       {stats && (
         <div className="grid grid-cols-3 gap-3">
-          <div className="bg-red-50 rounded-lg p-3 text-center">
-            <ImageIcon size={16} className="mx-auto text-red-400 mb-1" />
-            <p className="text-sm font-mono font-bold text-red-600">{formatSize(stats.before)}</p>
-            <p className="text-xs text-red-400">Avant</p>
+          <div className="bg-[#FFE0EF] rounded-lg p-3 text-center">
+            <ImageIcon size={16} className="mx-auto text-[#FF2D78] mb-1" />
+            <p className="text-sm font-mono font-bold text-[#FF2D78]">{formatSize(stats.before)}</p>
+            <p className="text-xs text-[#FF2D78]">Avant</p>
           </div>
-          <div className="bg-green-50 rounded-lg p-3 text-center">
-            <ImageIcon size={16} className="mx-auto text-green-400 mb-1" />
-            <p className="text-sm font-mono font-bold text-green-600">{formatSize(stats.after)}</p>
-            <p className="text-xs text-green-400">Après</p>
+          <div className="bg-[#ECFDF5] rounded-lg p-3 text-center">
+            <ImageIcon size={16} className="mx-auto text-[#10B981] mb-1" />
+            <p className="text-sm font-mono font-bold text-[#10B981]">{formatSize(stats.after)}</p>
+            <p className="text-xs text-[#10B981]">Après</p>
           </div>
-          <div className="bg-blue-50 rounded-lg p-3 text-center">
-            <p className="text-sm font-mono font-bold text-blue-600 mt-3">
+          <div className="bg-[#E0EBF5] rounded-lg p-3 text-center">
+            <p className="text-sm font-mono font-bold text-[#6B8CAE] mt-3">
               -{Math.round((1 - stats.after / stats.before) * 100)}%
             </p>
-            <p className="text-xs text-blue-400">Réduction</p>
+            <p className="text-xs text-[#6B8CAE]">Réduction</p>
           </div>
         </div>
       )}
@@ -120,7 +120,7 @@ export function ImageCompressor() {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-gray-400 animate-pulse">Compression en cours...</p>
+        <p className="text-center text-sm text-[#999999] animate-pulse">Compression en cours...</p>
       )}
     </div>
   )

@@ -177,17 +177,17 @@ const getStatutColor = (statut: 'complete' | 'active' | 'pending') => {
   switch (statut) {
     case 'complete':
       return {
-        circle: 'bg-green-500 border-green-500',
-        line: 'bg-green-500',
-        text: 'text-green-700',
-        bg: 'bg-green-50'
+        circle: 'bg-[#10B981] border-[#10B981]',
+        line: 'bg-[#10B981]',
+        text: 'text-[#10B981]',
+        bg: 'bg-[#ECFDF5]'
       }
     case 'active':
       return {
         circle: 'bg-primary border-primary animate-pulse',
         line: 'bg-slate-300',
         text: 'text-primary',
-        bg: 'bg-blue-50'
+        bg: 'bg-[#E0EBF5]'
       }
     case 'pending':
       return {
@@ -221,15 +221,15 @@ export default function ParcoursClient({ leadId, compact = false }: ParcoursClie
   // Vérifier si le lead est dans un statut d'échec
   if (['PERDU', 'SPAM'].includes(lead.statut)) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+      <div className="p-4 bg-[#FFE0EF] border border-[#FF2D78]/30 rounded-lg">
         <div className="flex items-center gap-2">
-          <Circle className="h-5 w-5 text-red-500" />
-          <span className="font-medium text-red-800">
+          <Circle className="h-5 w-5 text-[#FF2D78]" />
+          <span className="font-medium text-[#FF2D78]">
             Parcours interrompu - {lead.statut === 'PERDU' ? 'Lead perdu' : 'Lead marqué comme spam'}
           </span>
         </div>
         {lead.notes && (
-          <p className="text-sm text-red-700 mt-1">Raison: {lead.notes}</p>
+          <p className="text-sm text-[#FF2D78] mt-1">Raison: {lead.notes}</p>
         )}
       </div>
     )
@@ -303,7 +303,7 @@ export default function ParcoursClient({ leadId, compact = false }: ParcoursClie
                 width: `${(etapes.filter(e => e.statut === 'complete').length / (etapes.length - 1)) * 100}%`
               }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="h-full bg-green-500"
+              className="h-full bg-[#10B981]"
             />
           </div>
 
@@ -391,7 +391,7 @@ export default function ParcoursClient({ leadId, compact = false }: ParcoursClie
             </div>
             {lead.score_chaud && (
               <div className="flex items-center gap-1">
-                <Star className="h-3 w-3 text-amber-400" />
+                <Star className="h-3 w-3 text-[#FF8C42]" />
                 <span className="text-slate-600">
                   Score: {lead.score_chaud}/100
                 </span>
@@ -399,14 +399,14 @@ export default function ParcoursClient({ leadId, compact = false }: ParcoursClie
             )}
             {lead.formation_principale && (
               <div className="flex items-center gap-1">
-                <GraduationCap className="h-3 w-3 text-blue-400" />
+                <GraduationCap className="h-3 w-3 text-[#6B8CAE]" />
                 <span className="text-slate-600">
                   {lead.formation_principale.nom}
                 </span>
               </div>
             )}
             <div className="flex items-center gap-1">
-              <TrendingUp className="h-3 w-3 text-green-400" />
+              <TrendingUp className="h-3 w-3 text-[#10B981]" />
               <span className="text-slate-600">
                 {Math.round((etapes.filter(e => e.statut === 'complete').length / etapes.length) * 100)}% accompli
               </span>

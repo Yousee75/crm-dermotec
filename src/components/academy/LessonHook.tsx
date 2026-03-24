@@ -34,7 +34,7 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
               <button
                 key={i}
                 onClick={() => setPreTestAnswer(i)}
-                className="w-full text-left p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-primary transition text-sm"
+                className="w-full text-left p-3 rounded-xl bg-white border-2 border-[#EEEEEE] hover:border-primary transition text-sm"
               >
                 {opt}
               </button>
@@ -44,8 +44,8 @@ export function LessonHook({ type, content, preTestQuestion, onContinue }: Lesso
           <div className="space-y-3">
             <div className={`p-4 rounded-xl text-sm ${
               preTestAnswer === preTestQuestion.correct
-                ? 'bg-green-50 border border-green-200 text-green-800'
-                : 'bg-amber-50 border border-amber-200 text-amber-800'
+                ? 'bg-[#ECFDF5] border border-[#10B981]/30 text-[#10B981]'
+                : 'bg-[#FFF3E8] border border-[#FF8C42]/30 text-[#FF8C42]'
             }`}>
               <p className="font-semibold mb-1">
                 {preTestAnswer === preTestQuestion.correct ? '✅ Bien joué !' : '🤔 Pas tout à fait...'}

@@ -81,7 +81,7 @@ export default function PlaybookPage() {
           onClick={() => setActiveCategorie(undefined)}
           className={cn(
             'px-3 py-1.5 rounded-lg text-sm font-medium transition',
-            !activeCategorie ? 'bg-accent text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            !activeCategorie ? 'bg-accent text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
           )}
         >
           Tout
@@ -96,7 +96,7 @@ export default function PlaybookPage() {
                 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition',
                 activeCategorie === key
                   ? 'text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
               )}
               style={activeCategorie === key ? { backgroundColor: cat.color } : undefined}
             >
@@ -115,9 +115,9 @@ export default function PlaybookPage() {
       ) : entries?.length === 0 ? (
         <Card>
           <CardContent className="text-center py-12">
-            <Shield className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-            <p className="text-gray-500">Aucune entrée dans le playbook.</p>
-            <p className="text-sm text-gray-400 mt-1">Ajoutez votre première objection ou astuce !</p>
+            <Shield className="w-12 h-12 mx-auto mb-3 text-[#999999]" />
+            <p className="text-[#777777]">Aucune entrée dans le playbook.</p>
+            <p className="text-sm text-[#999999] mt-1">Ajoutez votre première objection ou astuce !</p>
             <button
               onClick={() => setShowNewModal(true)}
               className="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium"
@@ -143,7 +143,7 @@ export default function PlaybookPage() {
                 {/* Header de l'entrée */}
                 <button
                   onClick={() => setExpandedEntry(isExpanded ? null : entry.id)}
-                  className="w-full text-left px-5 py-4 flex items-start gap-3 hover:bg-gray-50/50 transition"
+                  className="w-full text-left px-5 py-4 flex items-start gap-3 hover:bg-[#FAF8F5]/50 transition"
                 >
                   <div
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
@@ -154,7 +154,7 @@ export default function PlaybookPage() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-sm text-gray-900 truncate">"{entry.titre}"</h3>
+                      <h3 className="font-semibold text-sm text-[#111111] truncate">"{entry.titre}"</h3>
                       <Badge variant="primary" size="sm">{entry.occurences}×</Badge>
                       {bestResponse && bestResponse.taux_succes > 0 && (
                         <Badge variant={bestResponse.taux_succes >= 70 ? 'success' : 'warning'} size="sm">
@@ -163,12 +163,12 @@ export default function PlaybookPage() {
                       )}
                     </div>
                     {entry.contexte && (
-                      <p className="text-xs text-gray-500 truncate">{entry.contexte}</p>
+                      <p className="text-xs text-[#777777] truncate">{entry.contexte}</p>
                     )}
 
                     {/* Meilleure réponse en preview */}
                     {bestResponse && !isExpanded && (
-                      <p className="text-xs text-gray-600 mt-2 line-clamp-2 bg-gray-50 rounded-lg px-3 py-2">
+                      <p className="text-xs text-[#777777] mt-2 line-clamp-2 bg-[#FAF8F5] rounded-lg px-3 py-2">
                         {bestResponse.is_ai_generated && <Bot className="w-3 h-3 inline mr-1 text-primary" />}
                         {bestResponse.contenu}
                       </p>
@@ -176,24 +176,24 @@ export default function PlaybookPage() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs text-gray-400">{entry.responses?.length || 0} rép.</span>
-                    {isExpanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                    <span className="text-xs text-[#999999]">{entry.responses?.length || 0} rép.</span>
+                    {isExpanded ? <ChevronUp className="w-4 h-4 text-[#999999]" /> : <ChevronDown className="w-4 h-4 text-[#999999]" />}
                   </div>
                 </button>
 
                 {/* Réponses (expandable) */}
                 {isExpanded && (
-                  <div className="border-t border-gray-100 px-5 py-4 space-y-3 bg-gray-50/30">
+                  <div className="border-t border-[#F4F0EB] px-5 py-4 space-y-3 bg-[#FAF8F5]/30">
                     {entry.responses?.sort((a, b) => b.taux_succes - a.taux_succes || b.upvotes - a.upvotes).map((resp, i) => (
                       <div key={resp.id} className={cn(
                         'bg-white rounded-xl p-4 border transition',
-                        i === 0 ? 'border-primary/30 shadow-sm' : 'border-gray-100'
+                        i === 0 ? 'border-primary/30 shadow-sm' : 'border-[#F4F0EB]'
                       )}>
                         {/* Badge meilleure réponse */}
                         {i === 0 && (
                           <div className="flex items-center gap-1.5 mb-2">
-                            <Trophy className="w-3.5 h-3.5 text-amber-500" />
-                            <span className="text-[11px] font-semibold text-amber-500">Meilleure réponse</span>
+                            <Trophy className="w-3.5 h-3.5 text-[#FF8C42]" />
+                            <span className="text-[11px] font-semibold text-[#FF8C42]">Meilleure réponse</span>
                             {resp.promoted_to_kb && (
                               <Badge variant="success" size="sm">Promue en KB</Badge>
                             )}
@@ -205,49 +205,49 @@ export default function PlaybookPage() {
                           {resp.is_ai_generated && (
                             <Bot className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                           )}
-                          <p className="text-sm text-gray-700 leading-relaxed flex-1">{resp.contenu}</p>
+                          <p className="text-sm text-[#3A3A3A] leading-relaxed flex-1">{resp.contenu}</p>
                           <button
                             onClick={() => copyText(resp.contenu, resp.id)}
-                            className="shrink-0 p-1 rounded hover:bg-gray-100 transition text-gray-400"
+                            className="shrink-0 p-1 rounded hover:bg-[#F4F0EB] transition text-[#999999]"
                           >
-                            {copiedId === resp.id ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
+                            {copiedId === resp.id ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
                           </button>
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-3 mt-3 pt-2 border-t border-gray-50">
+                        <div className="flex items-center gap-3 mt-3 pt-2 border-t border-[#FAF8F5]">
                           {/* Votes */}
                           <button
                             onClick={() => voteMutation.mutate({ response_id: resp.id, vote: 'up', user_id: 'current' })}
-                            className="flex items-center gap-1 text-xs text-gray-500 hover:text-green-600 transition"
+                            className="flex items-center gap-1 text-xs text-[#777777] hover:text-[#10B981] transition"
                           >
                             <ThumbsUp className="w-3.5 h-3.5" /> {resp.upvotes}
                           </button>
                           <button
                             onClick={() => voteMutation.mutate({ response_id: resp.id, vote: 'down', user_id: 'current' })}
-                            className="flex items-center gap-1 text-xs text-gray-500 hover:text-red-500 transition"
+                            className="flex items-center gap-1 text-xs text-[#777777] hover:text-[#FF2D78] transition"
                           >
                             <ThumbsDown className="w-3.5 h-3.5" /> {resp.downvotes}
                           </button>
 
-                          <div className="w-px h-4 bg-gray-200" />
+                          <div className="w-px h-4 bg-[#EEEEEE]" />
 
                           {/* Résultat */}
                           <button
                             onClick={() => { resultMutation.mutate({ response_id: resp.id, result: 'succes' }); toast.success('Succès enregistré !') }}
-                            className="flex items-center gap-1 text-xs text-gray-500 hover:text-green-600 transition"
+                            className="flex items-center gap-1 text-xs text-[#777777] hover:text-[#10B981] transition"
                           >
                             <CheckCircle className="w-3.5 h-3.5" /> {resp.succes}
                           </button>
                           <button
                             onClick={() => { resultMutation.mutate({ response_id: resp.id, result: 'echec' }); toast('Échec enregistré') }}
-                            className="flex items-center gap-1 text-xs text-gray-500 hover:text-red-500 transition"
+                            className="flex items-center gap-1 text-xs text-[#777777] hover:text-[#FF2D78] transition"
                           >
                             <XCircle className="w-3.5 h-3.5" /> {resp.echecs}
                           </button>
 
                           {/* Meta */}
-                          <div className="ml-auto flex items-center gap-2 text-[10px] text-gray-400">
+                          <div className="ml-auto flex items-center gap-2 text-[10px] text-[#999999]">
                             {resp.author && <span>{resp.author.prenom}</span>}
                             <span>{new Date(resp.created_at).toLocaleDateString('fr-FR')}</span>
                           </div>
@@ -287,7 +287,7 @@ function AddResponseInline({ entryId, existingResponses }: { entryId: string; ex
   }
 
   return (
-    <div className="bg-white rounded-xl p-3 border border-dashed border-gray-200">
+    <div className="bg-white rounded-xl p-3 border border-dashed border-[#EEEEEE]">
       <div className="flex gap-2">
         <input
           type="text"
@@ -295,7 +295,7 @@ function AddResponseInline({ entryId, existingResponses }: { entryId: string; ex
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
           placeholder="Ajouter votre réponse..."
-          className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none"
+          className="flex-1 px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none"
         />
         <button
           onClick={handleAdd}
@@ -354,7 +354,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
       <div className="space-y-4">
         {/* Catégorie */}
         <div>
-          <label className="text-xs font-medium text-gray-500 mb-1.5 block">Catégorie</label>
+          <label className="text-xs font-medium text-[#777777] mb-1.5 block">Catégorie</label>
           <div className="flex gap-2 flex-wrap">
             {Object.entries(PLAYBOOK_CATEGORIES).map(([key, cat]) => (
               <button
@@ -362,7 +362,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
                 onClick={() => setCategorie(key as typeof categorie)}
                 className={cn(
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition',
-                  categorie === key ? 'text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  categorie === key ? 'text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
                 )}
                 style={categorie === key ? { backgroundColor: cat.color } : undefined}
               >
@@ -374,7 +374,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
 
         {/* Titre / Objection */}
         <div>
-          <label className="text-xs font-medium text-gray-500 mb-1.5 block">
+          <label className="text-xs font-medium text-[#777777] mb-1.5 block">
             {categorie === 'objection' ? 'L\'objection entendue' : 'Titre'}
           </label>
           <input
@@ -382,19 +382,19 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
             placeholder={categorie === 'objection' ? 'Ex: "C\'est trop cher"' : 'Titre de l\'entrée...'}
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
           />
         </div>
 
         {/* Contexte */}
         <div>
-          <label className="text-xs font-medium text-gray-500 mb-1.5 block">Contexte (optionnel)</label>
+          <label className="text-xs font-medium text-[#777777] mb-1.5 block">Contexte (optionnel)</label>
           <input
             type="text"
             value={contexte}
             onChange={(e) => setContexte(e.target.value)}
             placeholder="Ex: Reconversion, intéressée microblading"
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
           />
         </div>
 
@@ -412,19 +412,19 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             )}
 
             {suggestMutation.isPending && (
-              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 text-gray-500 text-xs">
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAF8F5] text-[#777777] text-xs">
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 L'IA réfléchit...
               </div>
             )}
 
             {aiSuggestion && (
-              <div className="bg-blue-50 rounded-xl p-3 border border-blue-100">
+              <div className="bg-[#E0EBF5] rounded-xl p-3 border border-blue-100">
                 <div className="flex items-center gap-1.5 mb-2">
                   <Bot className="w-3.5 h-3.5 text-primary" />
                   <span className="text-[11px] font-medium text-primary">Suggestion IA</span>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">{aiSuggestion}</p>
+                <p className="text-sm text-[#3A3A3A] leading-relaxed">{aiSuggestion}</p>
               </div>
             )}
           </div>
@@ -432,7 +432,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
 
         {/* Actions */}
         <div className="flex gap-2 pt-2">
-          <button onClick={onClose} className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-200 transition">
+          <button onClick={onClose} className="flex-1 px-4 py-2.5 bg-[#F4F0EB] text-[#777777] rounded-xl text-sm font-medium hover:bg-[#EEEEEE] transition">
             Annuler
           </button>
           <button

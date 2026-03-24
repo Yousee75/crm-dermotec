@@ -79,8 +79,8 @@ export default function SecuriteTab() {
       <Card className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">Score de sécurité</h3>
-            <p className="text-sm text-gray-600">Votre compte est bien sécurisé</p>
+            <h3 className="text-lg font-semibold text-[#111111] mb-1">Score de sécurité</h3>
+            <p className="text-sm text-[#777777]">Votre compte est bien sécurisé</p>
           </div>
           <div className="text-center">
             <div className="relative w-20 h-20 mx-auto">
@@ -92,7 +92,7 @@ export default function SecuriteTab() {
                   stroke="currentColor"
                   strokeWidth="8"
                   fill="none"
-                  className="text-gray-200"
+                  className="text-[#EEEEEE]"
                 />
                 <circle
                   cx="50"
@@ -102,11 +102,11 @@ export default function SecuriteTab() {
                   strokeWidth="8"
                   fill="none"
                   strokeDasharray={`${85 * 2.51} 251`}
-                  className="text-green-500"
+                  className="text-[#10B981]"
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xl font-bold text-gray-900">85%</span>
+                <span className="text-xl font-bold text-[#111111]">85%</span>
               </div>
             </div>
           </div>
@@ -118,35 +118,35 @@ export default function SecuriteTab() {
         {/* Authentification */}
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Key className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center">
+              <Key className="w-5 h-5 text-[#6B8CAE]" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Authentification</h3>
+            <h3 className="text-lg font-semibold text-[#111111]">Authentification</h3>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-900">Mot de passe</p>
-                <p className="text-xs text-gray-500">Dernière modification il y a 15 jours</p>
+                <p className="text-sm font-medium text-[#111111]">Mot de passe</p>
+                <p className="text-xs text-[#777777]">Dernière modification il y a 15 jours</p>
               </div>
               <Button size="sm" variant="outline">Modifier</Button>
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-900">Authentification à deux facteurs</p>
-                <p className="text-xs text-gray-500">Protection supplémentaire recommandée</p>
+                <p className="text-sm font-medium text-[#111111]">Authentification à deux facteurs</p>
+                <p className="text-xs text-[#777777]">Protection supplémentaire recommandée</p>
               </div>
               <Badge variant="warning" size="sm">Désactivée</Badge>
             </div>
 
-            <div className="p-3 bg-amber-50 rounded-lg border border-amber-200">
+            <div className="p-3 bg-[#FFF3E8] rounded-lg border border-[#FF8C42]/30">
               <div className="flex items-start gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                <AlertTriangle className="w-4 h-4 text-[#FF8C42] mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-sm text-amber-800 font-medium">A2F recommandée</p>
-                  <p className="text-xs text-amber-700">Activez l'authentification à deux facteurs pour une sécurité renforcée</p>
+                  <p className="text-sm text-[#FF8C42] font-medium">A2F recommandée</p>
+                  <p className="text-xs text-[#FF8C42]">Activez l'authentification à deux facteurs pour une sécurité renforcée</p>
                   <Button size="xs" className="mt-2 bg-amber-600 hover:bg-amber-700">
                     Activer maintenant
                   </Button>
@@ -159,33 +159,33 @@ export default function SecuriteTab() {
         {/* Confidentialité */}
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Eye className="w-5 h-5 text-purple-600" />
+            <div className="w-10 h-10 bg-[#FFE0EF] rounded-lg flex items-center justify-center">
+              <Eye className="w-5 h-5 text-[#FF2D78]" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Confidentialité</h3>
+            <h3 className="text-lg font-semibold text-[#111111]">Confidentialité</h3>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-900">Visibilité du profil</p>
-                <p className="text-xs text-gray-500">Qui peut voir vos informations</p>
+                <p className="text-sm font-medium text-[#111111]">Visibilité du profil</p>
+                <p className="text-xs text-[#777777]">Qui peut voir vos informations</p>
               </div>
               <Badge variant="outline" size="sm">Équipe uniquement</Badge>
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-900">Partage de données</p>
-                <p className="text-xs text-gray-500">Analytics et amélioration du service</p>
+                <p className="text-sm font-medium text-[#111111]">Partage de données</p>
+                <p className="text-xs text-[#777777]">Analytics et amélioration du service</p>
               </div>
               <Badge variant="success" size="sm">Activé</Badge>
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-900">Notifications par email</p>
-                <p className="text-xs text-gray-500">Alertes de sécurité importantes</p>
+                <p className="text-sm font-medium text-[#111111]">Notifications par email</p>
+                <p className="text-xs text-[#777777]">Alertes de sécurité importantes</p>
               </div>
               <Badge variant="success" size="sm">Activé</Badge>
             </div>
@@ -201,25 +201,25 @@ export default function SecuriteTab() {
       {/* Sessions actives */}
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Sessions actives</h3>
+          <h3 className="text-lg font-semibold text-[#111111]">Sessions actives</h3>
           <Button size="sm" variant="outline">Déconnecter tout</Button>
         </div>
 
         <div className="space-y-3">
           {SESSIONS_ACTIVES.map((session) => (
-            <div key={session.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div key={session.id} className="flex items-center justify-between p-4 bg-[#FAF8F5] rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white rounded-lg border border-gray-200 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-gray-600" />
+                <div className="w-10 h-10 bg-white rounded-lg border border-[#EEEEEE] flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-[#777777]" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-medium text-gray-900">{session.device}</p>
+                    <p className="text-sm font-medium text-[#111111]">{session.device}</p>
                     {session.current && (
                       <Badge variant="success" size="xs">Session actuelle</Badge>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-[#777777]">
                     {session.location} • {session.ip} • {new Date(session.derniere_activite).toLocaleDateString('fr-FR')}
                   </p>
                 </div>
@@ -235,7 +235,7 @@ export default function SecuriteTab() {
       {/* Journal de sécurité */}
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Journal de sécurité</h3>
+          <h3 className="text-lg font-semibold text-[#111111]">Journal de sécurité</h3>
           <Link href="/settings/security/logs" className="text-sm text-primary hover:text-primary-dark font-medium">
             Voir tout
           </Link>
@@ -246,22 +246,22 @@ export default function SecuriteTab() {
             const getStatusIcon = (statut: string) => {
               switch (statut) {
                 case 'success':
-                  return <CheckCircle className="w-4 h-4 text-green-600" />
+                  return <CheckCircle className="w-4 h-4 text-[#10B981]" />
                 case 'warning':
-                  return <AlertTriangle className="w-4 h-4 text-amber-600" />
+                  return <AlertTriangle className="w-4 h-4 text-[#FF8C42]" />
                 default:
-                  return <Clock className="w-4 h-4 text-blue-600" />
+                  return <Clock className="w-4 h-4 text-[#6B8CAE]" />
               }
             }
 
             const getStatusColor = (statut: string) => {
               switch (statut) {
                 case 'success':
-                  return 'bg-green-50 border-green-200'
+                  return 'bg-[#ECFDF5] border-[#10B981]/30'
                 case 'warning':
-                  return 'bg-amber-50 border-amber-200'
+                  return 'bg-[#FFF3E8] border-[#FF8C42]/30'
                 default:
-                  return 'bg-blue-50 border-blue-200'
+                  return 'bg-[#E0EBF5] border-[#6B8CAE]/30'
               }
             }
 
@@ -271,13 +271,13 @@ export default function SecuriteTab() {
                   <div className="flex items-center gap-3">
                     {getStatusIcon(log.statut)}
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{log.action}</p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-sm font-medium text-[#111111]">{log.action}</p>
+                      <p className="text-xs text-[#777777]">
                         {log.device} • {log.ip}
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-[#777777]">
                     {new Date(log.timestamp).toLocaleDateString('fr-FR')} à {new Date(log.timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
@@ -289,44 +289,44 @@ export default function SecuriteTab() {
 
       {/* Recommandations de sécurité */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recommandations de sécurité</h3>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Recommandations de sécurité</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+          <div className="p-4 bg-[#ECFDF5] rounded-lg border border-[#10B981]/30">
             <div className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+              <CheckCircle className="w-5 h-5 text-[#10B981] mt-0.5 shrink-0" />
               <div>
-                <p className="text-sm font-medium text-green-800">Mot de passe fort</p>
-                <p className="text-xs text-green-700">Votre mot de passe respecte les bonnes pratiques</p>
+                <p className="text-sm font-medium text-[#10B981]">Mot de passe fort</p>
+                <p className="text-xs text-[#10B981]">Votre mot de passe respecte les bonnes pratiques</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+          <div className="p-4 bg-[#FFF3E8] rounded-lg border border-[#FF8C42]/30">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+              <AlertTriangle className="w-5 h-5 text-[#FF8C42] mt-0.5 shrink-0" />
               <div>
-                <p className="text-sm font-medium text-amber-800">A2F désactivée</p>
-                <p className="text-xs text-amber-700">Activez l'authentification à deux facteurs</p>
+                <p className="text-sm font-medium text-[#FF8C42]">A2F désactivée</p>
+                <p className="text-xs text-[#FF8C42]">Activez l'authentification à deux facteurs</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="p-4 bg-[#E0EBF5] rounded-lg border border-[#6B8CAE]/30">
             <div className="flex items-start gap-3">
-              <Clock className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
+              <Clock className="w-5 h-5 text-[#6B8CAE] mt-0.5 shrink-0" />
               <div>
-                <p className="text-sm font-medium text-blue-800">Révision des accès</p>
-                <p className="text-xs text-blue-700">Révisez les permissions de votre équipe</p>
+                <p className="text-sm font-medium text-[#6B8CAE]">Révision des accès</p>
+                <p className="text-xs text-[#6B8CAE]">Révisez les permissions de votre équipe</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+          <div className="p-4 bg-[#ECFDF5] rounded-lg border border-[#10B981]/30">
             <div className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+              <CheckCircle className="w-5 h-5 text-[#10B981] mt-0.5 shrink-0" />
               <div>
-                <p className="text-sm font-medium text-green-800">Sauvegardes actives</p>
-                <p className="text-xs text-green-700">Vos données sont automatiquement sauvegardées</p>
+                <p className="text-sm font-medium text-[#10B981]">Sauvegardes actives</p>
+                <p className="text-xs text-[#10B981]">Vos données sont automatiquement sauvegardées</p>
               </div>
             </div>
           </div>

@@ -64,21 +64,21 @@ export function EmailSignatureGenerator() {
           { field: 'email', label: 'Email', placeholder: 'contact@dermotec.fr' },
         ].map(f => (
           <div key={f.field}>
-            <label className="block text-xs font-medium text-gray-600 mb-1">{f.label}</label>
+            <label className="block text-xs font-medium text-[#777777] mb-1">{f.label}</label>
             <input
               type="text"
               value={form[f.field as keyof typeof form]}
               onChange={e => update(f.field, e.target.value)}
               placeholder={f.placeholder}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
+              className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
             />
           </div>
         ))}
       </div>
 
       {/* Aperçu */}
-      <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
-        <p className="text-xs text-gray-400 mb-2">Aperçu :</p>
+      <div className="border border-[#EEEEEE] rounded-xl p-4 bg-[#FAF8F5]">
+        <p className="text-xs text-[#999999] mb-2">Aperçu :</p>
         <div dangerouslySetInnerHTML={{ __html: sanitizeEmail(signatureHtml) }} />
       </div>
 

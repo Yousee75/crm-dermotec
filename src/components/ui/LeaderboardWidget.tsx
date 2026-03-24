@@ -150,12 +150,12 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
           <div className="space-y-3">
             {[...Array(limit)].map((_, i) => (
               <div key={i} className="flex items-center gap-3 animate-pulse">
-                <div className="w-8 h-8 bg-gray-200 rounded-full" />
+                <div className="w-8 h-8 bg-[#EEEEEE] rounded-full" />
                 <div className="flex-1">
-                  <div className="h-4 bg-gray-200 rounded w-24 mb-1" />
-                  <div className="h-3 bg-gray-200 rounded w-16" />
+                  <div className="h-4 bg-[#EEEEEE] rounded w-24 mb-1" />
+                  <div className="h-3 bg-[#EEEEEE] rounded w-16" />
                 </div>
-                <div className="h-6 bg-gray-200 rounded w-12" />
+                <div className="h-6 bg-[#EEEEEE] rounded w-12" />
               </div>
             ))}
           </div>
@@ -173,7 +173,7 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-6 text-gray-500">
+          <div className="text-center py-6 text-[#777777]">
             <Trophy className="w-8 h-8 mx-auto mb-2 opacity-50" />
             <div>Aucune donnée disponible</div>
           </div>
@@ -206,8 +206,8 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
               className={cn(
                 "flex items-center gap-3 p-3 rounded-lg transition-all duration-300",
                 entry.isCurrentUser
-                  ? "bg-blue-50 ring-2 ring-blue-200 shadow-sm"
-                  : "hover:bg-gray-50"
+                  ? "bg-[#E0EBF5] ring-2 ring-blue-200 shadow-sm"
+                  : "hover:bg-[#FAF8F5]"
               )}
             >
               {/* Rang + Médaille */}
@@ -215,7 +215,7 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
                 {getMedalIcon(entry.rank) ? (
                   <span className="text-xl">{getMedalIcon(entry.rank)}</span>
                 ) : (
-                  <span className="text-sm font-bold text-gray-500">#{entry.rank}</span>
+                  <span className="text-sm font-bold text-[#777777]">#{entry.rank}</span>
                 )}
               </div>
 
@@ -232,7 +232,7 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
                 <div className="flex items-center gap-2">
                   <span className={cn(
                     "font-medium text-sm truncate",
-                    entry.isCurrentUser ? "text-blue-700" : "text-gray-900"
+                    entry.isCurrentUser ? "text-[#6B8CAE]" : "text-[#111111]"
                   )}>
                     {entry.prenom} {entry.nom}
                   </span>
@@ -259,9 +259,9 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
                     <div className="flex items-center gap-1">
                       <Flame className={cn(
                         "w-3 h-3",
-                        entry.streak >= 5 ? "text-orange-500" : "text-gray-400"
+                        entry.streak >= 5 ? "text-orange-500" : "text-[#999999]"
                       )} />
-                      <span className="text-xs text-gray-600">{entry.streak}j</span>
+                      <span className="text-xs text-[#777777]">{entry.streak}j</span>
                     </div>
                   )}
                 </div>
@@ -269,18 +269,18 @@ export function LeaderboardWidget({ limit = 5, className }: LeaderboardWidgetPro
 
               {/* Points */}
               <div className="text-right shrink-0">
-                <div className="text-sm font-bold text-gray-900">
+                <div className="text-sm font-bold text-[#111111]">
                   {entry.points}
                 </div>
-                <div className="text-xs text-gray-500">points</div>
+                <div className="text-xs text-[#777777]">points</div>
               </div>
             </div>
           ))}
         </div>
 
         {/* Évolution du classement */}
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+        <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
+          <div className="flex items-center justify-center gap-2 text-xs text-[#777777]">
             <TrendingUp className="w-3 h-3" />
             <span>Classement mis à jour en temps réel</span>
           </div>

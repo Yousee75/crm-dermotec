@@ -12,10 +12,10 @@ interface CliffhangerProps {
 
 export function Cliffhanger({ type, content, nextModuleSlug, nextModuleTitle }: CliffhangerProps) {
   const styles = {
-    question: { bg: 'from-purple-500/10 to-indigo-500/10', border: 'border-purple-200', icon: '❓' },
+    question: { bg: 'from-purple-500/10 to-indigo-500/10', border: 'border-[#FF2D78]/30', icon: '❓' },
     teaser: { bg: 'from-primary/10 to-blue-500/10', border: 'border-primary/30', icon: '🔮' },
-    error: { bg: 'from-amber-500/10 to-orange-500/10', border: 'border-amber-200', icon: '🔍' },
-    challenge: { bg: 'from-green-500/10 to-emerald-500/10', border: 'border-green-200', icon: '🎯' },
+    error: { bg: 'from-amber-500/10 to-orange-500/10', border: 'border-[#FF8C42]/30', icon: '🔍' },
+    challenge: { bg: 'from-green-500/10 to-emerald-500/10', border: 'border-[#10B981]/30', icon: '🎯' },
     reveal: { bg: 'from-pink-500/10 to-rose-500/10', border: 'border-pink-200', icon: '✨' },
   }
 
@@ -38,7 +38,7 @@ export function Cliffhanger({ type, content, nextModuleSlug, nextModuleTitle }: 
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           ) : (
-            <div className="flex items-center gap-2 text-sm text-gray-400">
+            <div className="flex items-center gap-2 text-sm text-[#999999]">
               <Lock className="w-4 h-4" /> Module suivant bientôt disponible
             </div>
           )}

@@ -15,7 +15,7 @@ export default function NotFound() {
         >
           Page introuvable
         </h1>
-        <p className="text-gray-500 mb-6 max-w-md">
+        <p className="text-[#777777] mb-6 max-w-md">
           La page que vous recherchez n&apos;existe pas ou a été déplacée.
         </p>
         <Link

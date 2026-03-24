@@ -282,14 +282,14 @@ export function GenerateDevisButton({
             <div className="space-y-4">
               {/* Formation */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-medium text-[#3A3A3A] mb-1">
                   <GraduationCap className="w-3.5 h-3.5 inline mr-1 text-primary" />
                   Formation *
                 </label>
                 <select
                   value={selectedFormation}
                   onChange={(e) => handleFormationChange(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                  className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                 >
                   <option value="">-- Choisir une formation --</option>
                   {FORMATIONS_SEED.map(f => (
@@ -303,13 +303,13 @@ export function GenerateDevisButton({
               {/* Session (optionnel) */}
               {sessions.length > 0 && (
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-medium text-[#3A3A3A] mb-1">
                     Session (optionnel)
                   </label>
                   <select
                     value={selectedSessionId}
                     onChange={(e) => setSelectedSessionId(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                   >
                     <option value="">-- Pas de session specifique --</option>
                     {sessions.map(s => (
@@ -319,7 +319,7 @@ export function GenerateDevisButton({
                 </div>
               )}
               {loadingSessions && (
-                <p className="text-xs text-gray-400 flex items-center gap-1">
+                <p className="text-xs text-[#999999] flex items-center gap-1">
                   <Loader2 className="w-3 h-3 animate-spin" /> Chargement des sessions...
                 </p>
               )}
@@ -327,14 +327,14 @@ export function GenerateDevisButton({
               {/* Financement */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    <Wallet className="w-3.5 h-3.5 inline mr-1 text-amber-500" />
+                  <label className="block text-xs font-medium text-[#3A3A3A] mb-1">
+                    <Wallet className="w-3.5 h-3.5 inline mr-1 text-[#FF8C42]" />
                     Financement
                   </label>
                   <select
                     value={financementType}
                     onChange={(e) => setFinancementType(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                   >
                     {FINANCEMENT_TYPES.map(f => (
                       <option key={f.value} value={f.value}>{f.label}</option>
@@ -344,7 +344,7 @@ export function GenerateDevisButton({
 
                 {financementType !== 'autofinancement' && (
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
+                    <label className="block text-xs font-medium text-[#3A3A3A] mb-1">
                       Montant pris en charge (EUR)
                     </label>
                     <input
@@ -354,7 +354,7 @@ export function GenerateDevisButton({
                       value={financementMontant}
                       onChange={(e) => setFinancementMontant(e.target.value)}
                       placeholder="Ex: 1500"
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                      className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                     />
                   </div>
                 )}
@@ -362,7 +362,7 @@ export function GenerateDevisButton({
 
               {/* Echeances */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-medium text-[#3A3A3A] mb-1">
                   <CreditCard className="w-3.5 h-3.5 inline mr-1 text-violet-500" />
                   Modalite de paiement
                 </label>
@@ -375,7 +375,7 @@ export function GenerateDevisButton({
                         'px-3 py-1.5 rounded-lg text-xs font-medium border transition',
                         echeances === opt.value
                           ? 'bg-primary/10 border-primary text-primary'
-                          : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
+                          : 'bg-white border-[#EEEEEE] text-[#777777] hover:border-[#EEEEEE]'
                       )}
                     >
                       {opt.label}
@@ -386,33 +386,33 @@ export function GenerateDevisButton({
 
               {/* Apercu financier */}
               {selectedFormation && formationPrix > 0 && (
-                <Card className="p-4 bg-gradient-to-br from-gray-50 to-blue-50/30 border-gray-200">
+                <Card className="p-4 bg-gradient-to-br from-gray-50 to-blue-50/30 border-[#EEEEEE]">
                   <div className="flex items-center gap-1.5 mb-3">
                     <FileText className="w-4 h-4 text-primary" />
                     <span className="text-xs font-semibold text-accent">Apercu du devis</span>
                   </div>
                   <div className="space-y-1.5">
                     <div className="flex justify-between text-xs">
-                      <span className="text-gray-500">Total HT</span>
+                      <span className="text-[#777777]">Total HT</span>
                       <span className="font-medium">{apercu.ht.toLocaleString('fr-FR')} EUR</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-gray-500">TVA (20%)</span>
+                      <span className="text-[#777777]">TVA (20%)</span>
                       <span>{apercu.tva.toLocaleString('fr-FR')} EUR</span>
                     </div>
-                    <div className="flex justify-between text-xs pt-1 border-t border-gray-200">
+                    <div className="flex justify-between text-xs pt-1 border-t border-[#EEEEEE]">
                       <span className="font-bold text-accent">Total TTC</span>
                       <span className="font-bold text-primary">{apercu.ttc.toLocaleString('fr-FR')} EUR</span>
                     </div>
                     {apercu.prise > 0 && (
                       <>
-                        <div className="flex justify-between text-xs text-green-600">
+                        <div className="flex justify-between text-xs text-[#10B981]">
                           <span>Prise en charge</span>
                           <span>-{apercu.prise.toLocaleString('fr-FR')} EUR</span>
                         </div>
-                        <div className="flex justify-between text-xs font-bold pt-1 border-t border-gray-200">
+                        <div className="flex justify-between text-xs font-bold pt-1 border-t border-[#EEEEEE]">
                           <span className="text-accent">Reste a charge</span>
-                          <span className="text-amber-600">{apercu.reste.toLocaleString('fr-FR')} EUR</span>
+                          <span className="text-[#FF8C42]">{apercu.reste.toLocaleString('fr-FR')} EUR</span>
                         </div>
                       </>
                     )}
@@ -429,9 +429,9 @@ export function GenerateDevisButton({
               )}
 
               {!leadEmail && (
-                <div className="flex items-center gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
-                  <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
-                  <span className="text-xs text-amber-700">
+                <div className="flex items-center gap-2 p-2.5 bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-lg">
+                  <AlertCircle className="w-4 h-4 text-[#FF8C42] shrink-0" />
+                  <span className="text-xs text-[#FF8C42]">
                     Ce prospect n'a pas d'email. L'envoi par email ne sera pas disponible.
                   </span>
                 </div>
@@ -459,7 +459,7 @@ export function GenerateDevisButton({
             </div>
             <div>
               <h3 className="font-medium text-accent">Generation en cours...</h3>
-              <p className="text-sm text-gray-500 mt-1">Creation du devis PDF et du lien de paiement</p>
+              <p className="text-sm text-[#777777] mt-1">Creation du devis PDF et du lien de paiement</p>
             </div>
           </div>
         )}
@@ -469,25 +469,25 @@ export function GenerateDevisButton({
           <>
             <div className="space-y-4">
               <div className="text-center py-4">
-                <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-3">
-                  <CheckCircle2 className="w-8 h-8 text-green-600" />
+                <div className="w-16 h-16 mx-auto bg-[#D1FAE5] rounded-full flex items-center justify-center mb-3">
+                  <CheckCircle2 className="w-8 h-8 text-[#10B981]" />
                 </div>
                 <h3 className="font-semibold text-accent">Devis {result.devisNumber} cree</h3>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-[#777777] mt-1">
                   {selectedFormation} — {result.montantTtc.toLocaleString('fr-FR')} EUR TTC
                 </p>
               </div>
 
               {/* Recap */}
-              <Card className="p-4 bg-gray-50 border-gray-200">
+              <Card className="p-4 bg-[#FAF8F5] border-[#EEEEEE]">
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <div>
-                    <span className="text-gray-500">Total TTC</span>
+                    <span className="text-[#777777]">Total TTC</span>
                     <p className="font-bold text-accent">{result.montantTtc.toLocaleString('fr-FR')} EUR</p>
                   </div>
                   <div>
-                    <span className="text-gray-500">Reste a charge</span>
-                    <p className="font-bold text-amber-600">{result.resteACharge.toLocaleString('fr-FR')} EUR</p>
+                    <span className="text-[#777777]">Reste a charge</span>
+                    <p className="font-bold text-[#FF8C42]">{result.resteACharge.toLocaleString('fr-FR')} EUR</p>
                   </div>
                   {result.pdfUrl && (
                     <div className="col-span-2">

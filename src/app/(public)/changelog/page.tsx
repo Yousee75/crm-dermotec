@@ -43,7 +43,7 @@ const RELEASES = [
     version: '1.0.0',
     date: '20 mars 2026',
     tag: 'Initial',
-    tagColor: 'bg-gray-100 text-gray-600',
+    tagColor: 'bg-[#F4F0EB] text-[#777777]',
     changes: [
       { type: 'new', text: 'CRM complet : 18 tables Supabase, pipeline 11 statuts' },
       { type: 'new', text: 'Pipeline Kanban drag-and-drop' },
@@ -59,10 +59,10 @@ const RELEASES = [
 ]
 
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
-  new: { label: 'Nouveau', color: 'bg-green-100 text-green-700' },
-  improved: { label: 'Amélioré', color: 'bg-blue-100 text-blue-700' },
-  fixed: { label: 'Corrigé', color: 'bg-amber-100 text-amber-700' },
-  security: { label: 'Sécurité', color: 'bg-red-100 text-red-700' },
+  new: { label: 'Nouveau', color: 'bg-[#D1FAE5] text-[#10B981]' },
+  improved: { label: 'Amélioré', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
+  fixed: { label: 'Corrigé', color: 'bg-[#FFF3E8] text-[#FF8C42]' },
+  security: { label: 'Sécurité', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
 }
 
 export default function ChangelogPage() {
@@ -71,7 +71,7 @@ export default function ChangelogPage() {
       <h1 className="text-3xl font-bold text-accent mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
         Changelog
       </h1>
-      <p className="text-gray-600 mb-12">
+      <p className="text-[#777777] mb-12">
         Toutes les nouveautés et améliorations du CRM Dermotec.
       </p>
 
@@ -83,7 +83,7 @@ export default function ChangelogPage() {
               <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${release.tagColor}`}>
                 {release.tag}
               </span>
-              <span className="text-sm text-gray-400">{release.date}</span>
+              <span className="text-sm text-[#999999]">{release.date}</span>
             </div>
 
             <div className="space-y-2">
@@ -94,7 +94,7 @@ export default function ChangelogPage() {
                     <span className={`px-2 py-0.5 rounded text-[10px] font-medium shrink-0 mt-0.5 ${typeConfig.color}`}>
                       {typeConfig.label}
                     </span>
-                    <p className="text-sm text-gray-700">{change.text}</p>
+                    <p className="text-sm text-[#3A3A3A]">{change.text}</p>
                   </div>
                 )
               })}
@@ -103,8 +103,8 @@ export default function ChangelogPage() {
         ))}
       </div>
 
-      <div className="mt-16 pt-8 border-t border-gray-200 text-center">
-        <p className="text-sm text-gray-400">
+      <div className="mt-16 pt-8 border-t border-[#EEEEEE] text-center">
+        <p className="text-sm text-[#999999]">
           © 2026 Satorea · Dermotec CRM · Made in Paris
         </p>
       </div>

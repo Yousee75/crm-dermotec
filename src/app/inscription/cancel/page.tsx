@@ -11,27 +11,27 @@ export default function InscriptionCancelPage() {
       <div className="mx-auto max-w-2xl px-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <XCircle className="h-8 w-8 text-red-600" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#FFE0EF]">
+            <XCircle className="h-8 w-8 text-[#FF2D78]" />
           </div>
-          <h1 className="text-3xl font-bold text-red-800 mb-2">
+          <h1 className="text-3xl font-bold text-[#FF2D78] mb-2">
             Paiement annulé
           </h1>
-          <p className="text-red-700">
+          <p className="text-[#FF2D78]">
             Votre inscription n'a pas été finalisée
           </p>
         </div>
 
         {/* Message principal */}
-        <div className="rounded-2xl bg-white p-8 shadow-lg border border-gray-100 mb-6 text-center">
+        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB] mb-6 text-center">
           <h2 className="text-xl font-bold text-accent mb-4">Que s'est-il passé ?</h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-[#777777] mb-6">
             Vous avez annulé le processus de paiement. Votre inscription n'a donc pas été confirmée
             et aucun montant n'a été débité.
           </p>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-            <p className="text-amber-800 text-sm">
+          <div className="bg-[#FFF3E8] border border-[#FF8C42]/30 rounded-lg p-4 mb-6">
+            <p className="text-[#FF8C42] text-sm">
               ⚠️ Attention : votre place n'est pas réservée. Les sessions se remplissent rapidement.
             </p>
           </div>
@@ -45,41 +45,41 @@ export default function InscriptionCancelPage() {
               Reprendre l'inscription
             </Link>
 
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-[#777777]">
               ou contactez-nous pour vous inscrire par téléphone
             </div>
           </div>
         </div>
 
         {/* Pourquoi choisir Dermotec */}
-        <div className="rounded-2xl bg-white p-8 shadow-lg border border-gray-100 mb-6">
+        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB] mb-6">
           <h2 className="text-xl font-bold text-accent mb-6">Pourquoi choisir Dermotec Advanced ?</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Formation de qualité</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-2">Formation de qualité</h3>
+              <p className="text-sm text-[#777777]">
                 Certifié Qualiopi • 15 ans d'expérience • Formatrices expertes
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Accompagnement complet</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-2">Accompagnement complet</h3>
+              <p className="text-sm text-[#777777]">
                 Suivi personnalisé • Aide au financement • Support post-formation
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Excellent taux de réussite</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-2">Excellent taux de réussite</h3>
+              <p className="text-sm text-[#777777]">
                 98% de réussite • 2,000+ diplômées • 4.9/5 satisfaction
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Flexibilité de paiement</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-2">Flexibilité de paiement</h3>
+              <p className="text-sm text-[#777777]">
                 Paiement en 3x ou 4x sans frais • Financement OPCO/CPF
               </p>
             </div>
@@ -89,7 +89,7 @@ export default function InscriptionCancelPage() {
         {/* Contact */}
         <div className="rounded-2xl bg-primary/5 p-8 border border-primary/20 text-center">
           <h2 className="text-xl font-bold text-accent mb-4">Besoin d'aide ?</h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-[#777777] mb-6">
             Nos conseillers sont là pour répondre à vos questions et finaliser votre inscription
           </p>
 
@@ -110,41 +110,41 @@ export default function InscriptionCancelPage() {
             </a>
           </div>
 
-          <div className="mt-6 text-sm text-gray-500">
+          <div className="mt-6 text-sm text-[#777777]">
             <p>Horaires : 9h-18h du lundi au vendredi</p>
             <p>Réponse sous 2h en moyenne</p>
           </div>
         </div>
 
         {/* FAQ rapide */}
-        <div className="mt-8 rounded-2xl bg-white p-8 shadow-lg border border-gray-100">
+        <div className="mt-8 rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB]">
           <h2 className="text-xl font-bold text-accent mb-6">Questions fréquentes</h2>
 
           <div className="space-y-4">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Puis-je m'inscrire plus tard ?</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-1">Puis-je m'inscrire plus tard ?</h3>
+              <p className="text-sm text-[#777777]">
                 Oui, tant qu'il reste des places. Cependant, les sessions se remplissent rapidement.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Le paiement en plusieurs fois est-il vraiment sans frais ?</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-1">Le paiement en plusieurs fois est-il vraiment sans frais ?</h3>
+              <p className="text-sm text-[#777777]">
                 Oui, totalement gratuit. Aucun frais supplémentaire avec Alma (3x ou 4x).
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Y a-t-il un délai de rétractation ?</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-1">Y a-t-il un délai de rétractation ?</h3>
+              <p className="text-sm text-[#777777]">
                 Oui, 14 jours selon la loi. Passé ce délai, aucun remboursement n'est possible.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Puis-je être financée ?</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-[#111111] mb-1">Puis-je être financée ?</h3>
+              <p className="text-sm text-[#777777]">
                 Oui, nos formations sont éligibles OPCO, CPF, France Travail selon votre profil.
               </p>
             </div>

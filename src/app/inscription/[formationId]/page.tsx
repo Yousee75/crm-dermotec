@@ -242,7 +242,7 @@ export default function InscriptionPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">Chargement...</p>
+          <p className="mt-4 text-[#777777]">Chargement...</p>
         </div>
       </div>
     )
@@ -252,8 +252,8 @@ export default function InscriptionPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Formation non trouvée</h1>
-          <p className="mt-2 text-gray-600">Cette formation n'existe pas ou n'est plus disponible.</p>
+          <h1 className="text-2xl font-bold text-[#111111]">Formation non trouvée</h1>
+          <p className="mt-2 text-[#777777]">Cette formation n'existe pas ou n'est plus disponible.</p>
         </div>
       </div>
     )
@@ -261,22 +261,22 @@ export default function InscriptionPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#ECFDF5]">
         <div className="max-w-md mx-auto text-center bg-white p-8 rounded-lg shadow-lg">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-16 h-16 bg-[#D1FAE5] rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl font-bold text-[#111111] mb-4">
             Demande d'inscription enregistrée !
           </h1>
-          <p className="text-gray-600 mb-6">
+          <p className="text-[#777777] mb-6">
             Votre demande d'inscription a été enregistrée avec succès.
             Nous vous recontacterons sous 48h pour finaliser votre dossier.
           </p>
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="text-sm text-blue-800">
+          <div className="bg-[#E0EBF5] p-4 rounded-lg">
+            <p className="text-sm text-[#6B8CAE]">
               <strong>Formation :</strong> {formation.nom}<br />
               <strong>Email de confirmation :</strong> Envoyé à {watch('email')}
             </p>
@@ -292,10 +292,10 @@ export default function InscriptionPage() {
       <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between">
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-[#111111] mb-2">
               Inscription : {formation.nom}
             </h1>
-            <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+            <div className="flex flex-wrap gap-4 text-sm text-[#777777]">
               <span className="flex items-center">
                 ⏱️ {formation.duree_jours} jours ({formation.duree_heures}h)
               </span>
@@ -312,7 +312,7 @@ export default function InscriptionPage() {
               <div className="text-2xl font-bold text-primary">
                 {formation.prix_ht.toLocaleString('fr-FR')}€ HT
               </div>
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-[#777777]">
                 soit {(formation.prix_ht * 1.2).toLocaleString('fr-FR')}€ TTC
               </div>
             </div>
@@ -323,12 +323,12 @@ export default function InscriptionPage() {
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-700">Étape {currentStep} sur 4</span>
-          <span className="text-sm text-gray-500">
+          <span className="text-sm font-medium text-[#3A3A3A]">Étape {currentStep} sur 4</span>
+          <span className="text-sm text-[#777777]">
             {Math.round((currentStep / 4) * 100)}% complété
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-[#EEEEEE] rounded-full h-2">
           <div
             className="bg-primary h-2 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / 4) * 100}%` }}
@@ -340,13 +340,13 @@ export default function InscriptionPage() {
         {/* Étape 1: Identité */}
         {currentStep === 1 && (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            <h2 className="text-xl font-semibold text-[#111111] mb-6">
               1. Vos informations personnelles
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#3A3A3A] mb-2">
                   Civilité *
                 </label>
                 <div className="flex space-x-4">
@@ -356,68 +356,68 @@ export default function InscriptionPage() {
                         type="radio"
                         {...register('civilite')}
                         value={option}
-                        className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                        className="h-4 w-4 text-primary focus:ring-primary border-[#EEEEEE]"
                       />
-                      <span className="ml-2 text-sm text-gray-900">{option}</span>
+                      <span className="ml-2 text-sm text-[#111111]">{option}</span>
                     </label>
                   ))}
                 </div>
                 {errors.civilite && (
-                  <p className="mt-1 text-sm text-red-600">{errors.civilite.message}</p>
+                  <p className="mt-1 text-sm text-[#FF2D78]">{errors.civilite.message}</p>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="prenom" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="prenom" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                   Prénom *
                 </label>
                 <input
                   type="text"
                   id="prenom"
                   {...register('prenom')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.prenom && (
-                  <p className="mt-1 text-sm text-red-600">{errors.prenom.message}</p>
+                  <p className="mt-1 text-sm text-[#FF2D78]">{errors.prenom.message}</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="nom" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="nom" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                   Nom *
                 </label>
                 <input
                   type="text"
                   id="nom"
                   {...register('nom')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.nom && (
-                  <p className="mt-1 text-sm text-red-600">{errors.nom.message}</p>
+                  <p className="mt-1 text-sm text-[#FF2D78]">{errors.nom.message}</p>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                   Email *
                 </label>
                 <input
                   type="email"
                   id="email"
                   {...register('email')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                  <p className="mt-1 text-sm text-[#FF2D78]">{errors.email.message}</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="telephone" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="telephone" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                   Téléphone *
                 </label>
                 <input
@@ -425,16 +425,16 @@ export default function InscriptionPage() {
                   id="telephone"
                   placeholder="0X XX XX XX XX"
                   {...register('telephone')}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.telephone && (
-                  <p className="mt-1 text-sm text-red-600">{errors.telephone.message}</p>
+                  <p className="mt-1 text-sm text-[#FF2D78]">{errors.telephone.message}</p>
                 )}
               </div>
             </div>
 
             <div>
-              <label htmlFor="date_naissance" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="date_naissance" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                 Date de naissance
               </label>
               <input
@@ -442,22 +442,22 @@ export default function InscriptionPage() {
                 id="date_naissance"
                 {...register('date_naissance')}
                 max={new Date(new Date().setFullYear(new Date().getFullYear() - 16)).toISOString().split('T')[0]}
-                className="mt-1 block w-full md:w-auto rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="mt-1 block w-full md:w-auto rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
               {errors.date_naissance && (
-                <p className="mt-1 text-sm text-red-600">{errors.date_naissance.message}</p>
+                <p className="mt-1 text-sm text-[#FF2D78]">{errors.date_naissance.message}</p>
               )}
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Adresse (optionnel)</h3>
+              <h3 className="text-lg font-medium text-[#111111] mb-4">Adresse (optionnel)</h3>
               <div className="space-y-4">
                 <div>
                   <input
                     type="text"
                     placeholder="Rue, numéro"
                     {...register('adresse.rue' as any)}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -465,13 +465,13 @@ export default function InscriptionPage() {
                     type="text"
                     placeholder="Code postal"
                     {...register('adresse.code_postal' as any)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                   <input
                     type="text"
                     placeholder="Ville"
                     {...register('adresse.ville' as any)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -482,18 +482,18 @@ export default function InscriptionPage() {
         {/* Étape 2: Profil */}
         {currentStep === 2 && (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            <h2 className="text-xl font-semibold text-[#111111] mb-6">
               2. Votre profil professionnel
             </h2>
 
             <div>
-              <label htmlFor="statut_pro" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="statut_pro" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                 Statut professionnel *
               </label>
               <select
                 id="statut_pro"
                 {...register('statut_pro')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               >
                 <option value="">Sélectionnez votre statut</option>
                 {STATUTS_PRO_OPTIONS.map((option) => (
@@ -503,18 +503,18 @@ export default function InscriptionPage() {
                 ))}
               </select>
               {errors.statut_pro && (
-                <p className="mt-1 text-sm text-red-600">{errors.statut_pro.message}</p>
+                <p className="mt-1 text-sm text-[#FF2D78]">{errors.statut_pro.message}</p>
               )}
             </div>
 
             <div>
-              <label htmlFor="experience_esthetique" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="experience_esthetique" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                 Expérience en esthétique *
               </label>
               <select
                 id="experience_esthetique"
                 {...register('experience_esthetique')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               >
                 <option value="">Sélectionnez votre niveau</option>
                 {EXPERIENCE_OPTIONS.map((option) => (
@@ -524,12 +524,12 @@ export default function InscriptionPage() {
                 ))}
               </select>
               {errors.experience_esthetique && (
-                <p className="mt-1 text-sm text-red-600">{errors.experience_esthetique.message}</p>
+                <p className="mt-1 text-sm text-[#FF2D78]">{errors.experience_esthetique.message}</p>
               )}
             </div>
 
             <div>
-              <label htmlFor="objectif_pro" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="objectif_pro" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                 Objectif professionnel (optionnel)
               </label>
               <textarea
@@ -537,21 +537,21 @@ export default function InscriptionPage() {
                 rows={4}
                 placeholder="Décrivez vos objectifs professionnels après cette formation..."
                 {...register('objectif_pro')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
               {errors.objectif_pro && (
-                <p className="mt-1 text-sm text-red-600">{errors.objectif_pro.message}</p>
+                <p className="mt-1 text-sm text-[#FF2D78]">{errors.objectif_pro.message}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">
+              <label className="block text-sm font-medium text-[#3A3A3A] mb-4">
                 Choisir une session *
               </label>
               {sessions.length === 0 ? (
-                <div className="text-center py-8 bg-gray-50 rounded-lg">
-                  <p className="text-gray-600">Aucune session disponible pour cette formation.</p>
-                  <p className="text-sm text-gray-500 mt-2">
+                <div className="text-center py-8 bg-[#FAF8F5] rounded-lg">
+                  <p className="text-[#777777]">Aucune session disponible pour cette formation.</p>
+                  <p className="text-sm text-[#777777] mt-2">
                     Contactez-nous au 01 43 14 28 28 pour être informé(e) des prochaines sessions.
                   </p>
                 </div>
@@ -567,9 +567,9 @@ export default function InscriptionPage() {
                           value={session.id}
                           className="sr-only"
                         />
-                        <div className="border-2 border-gray-200 rounded-lg p-4 hover:border-primary transition-colors">
+                        <div className="border-2 border-[#EEEEEE] rounded-lg p-4 hover:border-primary transition-colors">
                           <div className="flex justify-between items-start mb-2">
-                            <div className="font-medium text-gray-900">
+                            <div className="font-medium text-[#111111]">
                               {new Date(session.date_debut).toLocaleDateString('fr-FR', {
                                 day: 'numeric',
                                 month: 'long',
@@ -578,20 +578,20 @@ export default function InscriptionPage() {
                             </div>
                             <div className={`text-sm px-2 py-1 rounded ${
                               placesRestantes <= 2
-                                ? 'bg-red-100 text-red-800'
-                                : 'bg-green-100 text-green-800'
+                                ? 'bg-[#FFE0EF] text-[#FF2D78]'
+                                : 'bg-[#D1FAE5] text-[#10B981]'
                             }`}>
                               {placesRestantes} place{placesRestantes > 1 ? 's' : ''} restante{placesRestantes > 1 ? 's' : ''}
                             </div>
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-[#777777]">
                             Du {new Date(session.date_debut).toLocaleDateString('fr-FR')} au {' '}
                             {new Date(session.date_fin).toLocaleDateString('fr-FR')}
                           </div>
-                          <div className="text-sm text-gray-600 mt-1">
+                          <div className="text-sm text-[#777777] mt-1">
                             {session.horaire_debut} - {session.horaire_fin}
                           </div>
-                          <div className="text-sm text-gray-600 mt-1">
+                          <div className="text-sm text-[#777777] mt-1">
                             📍 {session.salle}
                           </div>
                         </div>
@@ -601,7 +601,7 @@ export default function InscriptionPage() {
                 </div>
               )}
               {errors.session_id && (
-                <p className="mt-1 text-sm text-red-600">{errors.session_id.message}</p>
+                <p className="mt-1 text-sm text-[#FF2D78]">{errors.session_id.message}</p>
               )}
             </div>
           </div>
@@ -610,12 +610,12 @@ export default function InscriptionPage() {
         {/* Étape 3: Financement */}
         {currentStep === 3 && (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            <h2 className="text-xl font-semibold text-[#111111] mb-6">
               3. Mode de financement
             </h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">
+              <label className="block text-sm font-medium text-[#3A3A3A] mb-4">
                 Comment souhaitez-vous financer votre formation ? *
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -633,13 +633,13 @@ export default function InscriptionPage() {
                     />
                     <div className={`border-2 rounded-lg p-4 transition-colors ${
                       watch('type_financement') === option.value
-                        ? 'border-primary bg-blue-50'
-                        : 'border-gray-200 hover:border-primary'
+                        ? 'border-primary bg-[#E0EBF5]'
+                        : 'border-[#EEEEEE] hover:border-primary'
                     }`}>
-                      <div className="font-medium text-gray-900 mb-1">
+                      <div className="font-medium text-[#111111] mb-1">
                         {option.label}
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-[#777777]">
                         {option.description}
                       </div>
                     </div>
@@ -647,34 +647,34 @@ export default function InscriptionPage() {
                 ))}
               </div>
               {errors.type_financement && (
-                <p className="mt-1 text-sm text-red-600">{errors.type_financement.message}</p>
+                <p className="mt-1 text-sm text-[#FF2D78]">{errors.type_financement.message}</p>
               )}
             </div>
 
             {/* Champs conditionnels selon le financement */}
             <div className="transition-all duration-300">
               {selectedFinancement === 'opco' && (
-                <div className="space-y-4 bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900">Informations OPCO</h3>
+                <div className="space-y-4 bg-[#E0EBF5] p-4 rounded-lg">
+                  <h3 className="font-medium text-[#111111]">Informations OPCO</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="opco_employeur_nom" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="opco_employeur_nom" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                         Nom de l'employeur *
                       </label>
                       <input
                         type="text"
                         id="opco_employeur_nom"
                         {...register('opco_employeur_nom')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.opco_employeur_nom && (
-                        <p className="mt-1 text-sm text-red-600">{errors.opco_employeur_nom.message}</p>
+                        <p className="mt-1 text-sm text-[#FF2D78]">{errors.opco_employeur_nom.message}</p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor="opco_employeur_siret" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="opco_employeur_siret" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                         SIRET employeur *
                       </label>
                       <input
@@ -682,22 +682,22 @@ export default function InscriptionPage() {
                         id="opco_employeur_siret"
                         placeholder="14 chiffres"
                         {...register('opco_employeur_siret')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.opco_employeur_siret && (
-                        <p className="mt-1 text-sm text-red-600">{errors.opco_employeur_siret.message}</p>
+                        <p className="mt-1 text-sm text-[#FF2D78]">{errors.opco_employeur_siret.message}</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="opco_organisme" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="opco_organisme" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                       Votre OPCO *
                     </label>
                     <select
                       id="opco_organisme"
                       {...register('opco_organisme')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     >
                       <option value="">Sélectionnez votre OPCO</option>
                       {OPCO_OPTIONS.map((opco) => (
@@ -707,33 +707,33 @@ export default function InscriptionPage() {
                       ))}
                     </select>
                     {errors.opco_organisme && (
-                      <p className="mt-1 text-sm text-red-600">{errors.opco_organisme.message}</p>
+                      <p className="mt-1 text-sm text-[#FF2D78]">{errors.opco_organisme.message}</p>
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="opco_contact_rh_email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="opco_contact_rh_email" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                       Email contact RH (optionnel)
                     </label>
                     <input
                       type="email"
                       id="opco_contact_rh_email"
                       {...register('opco_contact_rh_email')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.opco_contact_rh_email && (
-                      <p className="mt-1 text-sm text-red-600">{errors.opco_contact_rh_email.message}</p>
+                      <p className="mt-1 text-sm text-[#FF2D78]">{errors.opco_contact_rh_email.message}</p>
                     )}
                   </div>
                 </div>
               )}
 
               {selectedFinancement === 'cpf' && (
-                <div className="space-y-4 bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900">Informations CPF</h3>
+                <div className="space-y-4 bg-[#E0EBF5] p-4 rounded-lg">
+                  <h3 className="font-medium text-[#111111]">Informations CPF</h3>
 
                   <div>
-                    <label htmlFor="cpf_numero" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="cpf_numero" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                       Numéro CPF *
                     </label>
                     <input
@@ -741,90 +741,90 @@ export default function InscriptionPage() {
                       id="cpf_numero"
                       placeholder="11 chiffres"
                       {...register('cpf_numero')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.cpf_numero && (
-                      <p className="mt-1 text-sm text-red-600">{errors.cpf_numero.message}</p>
+                      <p className="mt-1 text-sm text-[#FF2D78]">{errors.cpf_numero.message}</p>
                     )}
                   </div>
                 </div>
               )}
 
               {selectedFinancement === 'france_travail' && (
-                <div className="space-y-4 bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900">Informations France Travail</h3>
+                <div className="space-y-4 bg-[#E0EBF5] p-4 rounded-lg">
+                  <h3 className="font-medium text-[#111111]">Informations France Travail</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="ft_identifiant" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="ft_identifiant" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                         Identifiant France Travail *
                       </label>
                       <input
                         type="text"
                         id="ft_identifiant"
                         {...register('ft_identifiant')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.ft_identifiant && (
-                        <p className="mt-1 text-sm text-red-600">{errors.ft_identifiant.message}</p>
+                        <p className="mt-1 text-sm text-[#FF2D78]">{errors.ft_identifiant.message}</p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor="ft_agence" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="ft_agence" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                         Agence de rattachement *
                       </label>
                       <input
                         type="text"
                         id="ft_agence"
                         {...register('ft_agence')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.ft_agence && (
-                        <p className="mt-1 text-sm text-red-600">{errors.ft_agence.message}</p>
+                        <p className="mt-1 text-sm text-[#FF2D78]">{errors.ft_agence.message}</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="ft_conseiller" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="ft_conseiller" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                       Nom du conseiller (optionnel)
                     </label>
                     <input
                       type="text"
                       id="ft_conseiller"
                       {...register('ft_conseiller')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.ft_conseiller && (
-                      <p className="mt-1 text-sm text-red-600">{errors.ft_conseiller.message}</p>
+                      <p className="mt-1 text-sm text-[#FF2D78]">{errors.ft_conseiller.message}</p>
                     )}
                   </div>
                 </div>
               )}
 
               {selectedFinancement === 'employeur' && (
-                <div className="space-y-4 bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900">Informations employeur</h3>
+                <div className="space-y-4 bg-[#E0EBF5] p-4 rounded-lg">
+                  <h3 className="font-medium text-[#111111]">Informations employeur</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="emp_nom" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="emp_nom" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                         Nom de l'employeur *
                       </label>
                       <input
                         type="text"
                         id="emp_nom"
                         {...register('emp_nom')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.emp_nom && (
-                        <p className="mt-1 text-sm text-red-600">{errors.emp_nom.message}</p>
+                        <p className="mt-1 text-sm text-[#FF2D78]">{errors.emp_nom.message}</p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor="emp_siret" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="emp_siret" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                         SIRET *
                       </label>
                       <input
@@ -832,26 +832,26 @@ export default function InscriptionPage() {
                         id="emp_siret"
                         placeholder="14 chiffres"
                         {...register('emp_siret')}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       {errors.emp_siret && (
-                        <p className="mt-1 text-sm text-red-600">{errors.emp_siret.message}</p>
+                        <p className="mt-1 text-sm text-[#FF2D78]">{errors.emp_siret.message}</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="emp_contact" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="emp_contact" className="block text-sm font-medium text-[#3A3A3A] mb-2">
                       Nom du contact (optionnel)
                     </label>
                     <input
                       type="text"
                       id="emp_contact"
                       {...register('emp_contact')}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="mt-1 block w-full rounded-md border border-[#EEEEEE] px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                     {errors.emp_contact && (
-                      <p className="mt-1 text-sm text-red-600">{errors.emp_contact.message}</p>
+                      <p className="mt-1 text-sm text-[#FF2D78]">{errors.emp_contact.message}</p>
                     )}
                   </div>
                 </div>
@@ -863,32 +863,32 @@ export default function InscriptionPage() {
         {/* Étape 4: Récapitulatif & Validation */}
         {currentStep === 4 && (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            <h2 className="text-xl font-semibold text-[#111111] mb-6">
               4. Récapitulatif et validation
             </h2>
 
-            <div className="bg-gray-50 p-6 rounded-lg space-y-4">
+            <div className="bg-[#FAF8F5] p-6 rounded-lg space-y-4">
               <div>
-                <h3 className="font-medium text-gray-900 mb-2">Formation sélectionnée</h3>
-                <p className="text-gray-700">{formation.nom}</p>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-medium text-[#111111] mb-2">Formation sélectionnée</h3>
+                <p className="text-[#3A3A3A]">{formation.nom}</p>
+                <p className="text-sm text-[#777777]">
                   {formation.duree_jours} jours • {formation.prix_ht.toLocaleString('fr-FR')}€ HT
                 </p>
               </div>
 
               <div>
-                <h3 className="font-medium text-gray-900 mb-2">Vos informations</h3>
-                <p className="text-gray-700">
+                <h3 className="font-medium text-[#111111] mb-2">Vos informations</h3>
+                <p className="text-[#3A3A3A]">
                   {watch('civilite')} {watch('prenom')} {watch('nom')}
                 </p>
-                <p className="text-sm text-gray-600">{watch('email')}</p>
-                <p className="text-sm text-gray-600">{watch('telephone')}</p>
+                <p className="text-sm text-[#777777]">{watch('email')}</p>
+                <p className="text-sm text-[#777777]">{watch('telephone')}</p>
               </div>
 
               <div>
-                <h3 className="font-medium text-gray-900 mb-2">Session choisie</h3>
+                <h3 className="font-medium text-[#111111] mb-2">Session choisie</h3>
                 {watch('session_id') && sessions.find(s => s.id === watch('session_id')) && (
-                  <p className="text-gray-700">
+                  <p className="text-[#3A3A3A]">
                     Du {new Date(sessions.find(s => s.id === watch('session_id'))!.date_debut).toLocaleDateString('fr-FR')} au {' '}
                     {new Date(sessions.find(s => s.id === watch('session_id'))!.date_fin).toLocaleDateString('fr-FR')}
                   </p>
@@ -896,8 +896,8 @@ export default function InscriptionPage() {
               </div>
 
               <div>
-                <h3 className="font-medium text-gray-900 mb-2">Financement</h3>
-                <p className="text-gray-700">
+                <h3 className="font-medium text-[#111111] mb-2">Financement</h3>
+                <p className="text-[#3A3A3A]">
                   {FINANCEMENT_OPTIONS.find(f => f.value === watch('type_financement'))?.label}
                 </p>
               </div>
@@ -908,9 +908,9 @@ export default function InscriptionPage() {
                 <input
                   type="checkbox"
                   {...register('rgpd_consent')}
-                  className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 text-primary focus:ring-primary border-[#EEEEEE] rounded"
                 />
-                <span className="ml-2 text-sm text-gray-700">
+                <span className="ml-2 text-sm text-[#3A3A3A]">
                   J'accepte que mes données personnelles soient collectées et traitées pour le traitement de ma demande d'inscription.
                   <a href="/politique-confidentialite" target="_blank" className="text-primary hover:underline ml-1">
                     En savoir plus sur notre politique de confidentialité
@@ -918,16 +918,16 @@ export default function InscriptionPage() {
                 </span>
               </label>
               {errors.rgpd_consent && (
-                <p className="text-sm text-red-600">{errors.rgpd_consent.message}</p>
+                <p className="text-sm text-[#FF2D78]">{errors.rgpd_consent.message}</p>
               )}
 
               <label className="flex items-start">
                 <input
                   type="checkbox"
                   {...register('reglement_interieur_accepte')}
-                  className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 text-primary focus:ring-primary border-[#EEEEEE] rounded"
                 />
-                <span className="ml-2 text-sm text-gray-700">
+                <span className="ml-2 text-sm text-[#3A3A3A]">
                   J'accepte le règlement intérieur de Dermotec Advanced.
                   <a href="/reglement-interieur" target="_blank" className="text-primary hover:underline ml-1">
                     Consulter le règlement intérieur
@@ -935,13 +935,13 @@ export default function InscriptionPage() {
                 </span>
               </label>
               {errors.reglement_interieur_accepte && (
-                <p className="text-sm text-red-600">{errors.reglement_interieur_accepte.message}</p>
+                <p className="text-sm text-[#FF2D78]">{errors.reglement_interieur_accepte.message}</p>
               )}
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h3 className="font-medium text-blue-900 mb-2">Prochaines étapes</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
+            <div className="bg-[#E0EBF5] p-4 rounded-lg">
+              <h3 className="font-medium text-[#6B8CAE] mb-2">Prochaines étapes</h3>
+              <ul className="text-sm text-[#6B8CAE] space-y-1">
                 <li>• Votre demande sera traitée sous 48h</li>
                 <li>• Nous vous recontacterons pour finaliser votre dossier</li>
                 <li>• Les documents de formation vous seront envoyés par email</li>
@@ -959,7 +959,7 @@ export default function InscriptionPage() {
             <button
               type="button"
               onClick={prevStep}
-              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              className="px-6 py-2 border border-[#EEEEEE] text-[#3A3A3A] rounded-md hover:bg-[#FAF8F5] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               Retour
             </button>

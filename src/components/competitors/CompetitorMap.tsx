@@ -36,7 +36,7 @@ export function CompetitorMap({ center, competitors, prospectName, onMarkerClick
 
   if (!isLoaded) {
     return (
-      <div className="w-full h-[400px] rounded-xl bg-gray-100 animate-pulse flex items-center justify-center text-gray-400">
+      <div className="w-full h-[400px] rounded-xl bg-[#F4F0EB] animate-pulse flex items-center justify-center text-[#999999]">
         Chargement de la carte...
       </div>
     )
@@ -112,10 +112,10 @@ export function CompetitorMap({ center, competitors, prospectName, onMarkerClick
             {selected.googleRating && (
               <StarRating rating={selected.googleRating} reviewsCount={selected.googleReviewsCount} size={10} />
             )}
-            <div className="flex items-center justify-between mt-1.5 text-xs text-gray-500">
+            <div className="flex items-center justify-between mt-1.5 text-xs text-[#777777]">
               <span>{selected.distanceM}m</span>
               {selected.chiffreAffaires && (
-                <span className="font-medium text-green-600">
+                <span className="font-medium text-[#10B981]">
                   {(selected.chiffreAffaires / 1000).toFixed(0)}K€
                 </span>
               )}

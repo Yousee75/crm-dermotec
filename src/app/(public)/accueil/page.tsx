@@ -22,6 +22,7 @@ import {
   Zap,
   ChevronRight,
 } from 'lucide-react'
+import { PLANS_PRICING } from '@/lib/constants'
 
 // ─── Animation variants ───
 const fadeUp = {
@@ -96,35 +97,7 @@ const stats = [
   { value: '4.8', label: 'Satisfaction', icon: Star, suffix: '\u2605' },
 ]
 
-const plans = [
-  {
-    name: 'D\u00e9couverte',
-    price: 'Gratuit',
-    period: '',
-    features: ['50 leads', '1 utilisateur', 'Pipeline kanban', 'Email templates', 'Support communaut\u00e9'],
-    cta: 'Commencer',
-    ctaHref: '/login',
-    highlighted: false,
-  },
-  {
-    name: 'Pro',
-    price: '49\u20AC',
-    period: '/mois HT',
-    features: ['500 leads', '5 utilisateurs', 'Financement dossiers', 'Analytics avanc\u00e9', 'Cadences automatis\u00e9es', 'Support prioritaire'],
-    cta: 'Essai gratuit 14 jours',
-    ctaHref: '/login',
-    highlighted: true,
-  },
-  {
-    name: 'Expert',
-    price: '99\u20AC',
-    period: '/mois HT',
-    features: ['Leads illimit\u00e9s', '15 utilisateurs', 'Assistant IA', 'API + Webhooks', 'LMS complet', 'Support t\u00e9l\u00e9phonique'],
-    cta: 'Essai gratuit 14 jours',
-    ctaHref: '/login',
-    highlighted: false,
-  },
-]
+const plans = PLANS_PRICING.slice(0, 3) // Prendre seulement les 3 premiers plans pour la landing
 
 const trustBadges = [
   { icon: Shield, label: 'Certifi\u00e9 Qualiopi' },
@@ -177,7 +150,7 @@ export default function LandingPage() {
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg sm:text-xl text-[#999999] max-w-2xl mx-auto mb-10 leading-relaxed">
             G&eacute;rez vos leads, automatisez votre prospection, et doublez vos inscriptions.
             Pipeline, financement, Qualiopi &mdash; tout en un.
           </p>
@@ -261,7 +234,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════ TRUST BADGES ════════════════ */}
-      <section className="bg-white py-12 px-4 border-b border-gray-100">
+      <section className="bg-white py-12 px-4 border-b border-[#F4F0EB]">
         <AnimatedSection className="max-w-4xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
             {trustBadges.map((badge) => {
@@ -298,7 +271,7 @@ export default function LandingPage() {
             >
               Tout ce dont votre centre a besoin
             </motion.h2>
-            <motion.p variants={fadeUp} className="text-gray-500 max-w-xl mx-auto text-lg">
+            <motion.p variants={fadeUp} className="text-[#777777] max-w-xl mx-auto text-lg">
               De la premi&egrave;re prise de contact &agrave; la certification, chaque &eacute;tape est couverte.
             </motion.p>
           </AnimatedSection>
@@ -310,7 +283,7 @@ export default function LandingPage() {
                 <motion.div
                   key={feature.title}
                   variants={fadeUp}
-                  className="group relative p-6 rounded-2xl border border-gray-100 bg-white hover:border-[#FF5C00]/30 hover:shadow-lg hover:shadow-[#FF5C00]/5 transition-all duration-300"
+                  className="group relative p-6 rounded-2xl border border-[#F4F0EB] bg-white hover:border-[#FF5C00]/30 hover:shadow-lg hover:shadow-[#FF5C00]/5 transition-all duration-300"
                 >
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-5 shadow-sm`}>
                     <Icon className="w-6 h-6 text-white" />
@@ -321,7 +294,7 @@ export default function LandingPage() {
                   >
                     {feature.title}
                   </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{feature.description}</p>
+                  <p className="text-sm text-[#777777] leading-relaxed">{feature.description}</p>
                   <div className="mt-4 flex items-center gap-1 text-sm font-medium text-[#FF5C00] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     En savoir plus <ChevronRight className="w-4 h-4" />
                   </div>
@@ -333,7 +306,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════ STATS ════════════════ */}
-      <section className="bg-gray-50 py-20 px-4 sm:px-6">
+      <section className="bg-[#FAF8F5] py-20 px-4 sm:px-6">
         <AnimatedSection className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat) => {
@@ -353,7 +326,7 @@ export default function LandingPage() {
                   >
                     {stat.value}{stat.suffix || ''}
                   </div>
-                  <div className="text-sm text-gray-500">{stat.label}</div>
+                  <div className="text-sm text-[#777777]">{stat.label}</div>
                 </motion.div>
               )
             })}
@@ -376,7 +349,7 @@ export default function LandingPage() {
             >
               Des tarifs pens&eacute;s pour les TPE
             </motion.h2>
-            <motion.p variants={fadeUp} className="text-gray-500 max-w-xl mx-auto text-lg">
+            <motion.p variants={fadeUp} className="text-[#777777] max-w-xl mx-auto text-lg">
               14 jours d&apos;essai gratuit. Sans carte bancaire. Sans engagement.
             </motion.p>
           </AnimatedSection>
@@ -389,7 +362,7 @@ export default function LandingPage() {
                 className={`relative flex flex-col bg-white rounded-2xl border-2 p-7 transition-all duration-300 ${
                   plan.highlighted
                     ? 'border-[#FF5C00] shadow-xl shadow-[#FF5C00]/10 md:scale-[1.03]'
-                    : 'border-gray-100 hover:border-gray-200 hover:shadow-md'
+                    : 'border-[#F4F0EB] hover:border-[#EEEEEE] hover:shadow-md'
                 }`}
               >
                 {plan.highlighted && (
@@ -411,12 +384,12 @@ export default function LandingPage() {
                   >
                     {plan.price}
                   </span>
-                  {plan.period && <span className="text-sm text-gray-400">{plan.period}</span>}
+                  {plan.period && <span className="text-sm text-[#999999]">{plan.period}</span>}
                 </div>
 
                 <ul className="flex-1 space-y-3 mb-8">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm text-gray-600">
+                    <li key={f} className="flex items-start gap-2.5 text-sm text-[#777777]">
                       <Check className="w-4 h-4 text-[#FF5C00] mt-0.5 shrink-0" />
                       <span>{f}</span>
                     </li>
@@ -428,7 +401,7 @@ export default function LandingPage() {
                   className={`block text-center rounded-xl py-3 px-4 text-sm font-semibold transition-all duration-200 ${
                     plan.highlighted
                       ? 'bg-[#FF5C00] hover:bg-[#1ab5e2] text-white shadow-sm hover:shadow-md'
-                      : 'border-2 border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-[#1A1A1A]'
+                      : 'border-2 border-[#EEEEEE] bg-white hover:bg-[#FAF8F5] hover:border-[#EEEEEE] text-[#1A1A1A]'
                   }`}
                 >
                   {plan.cta}
@@ -464,7 +437,7 @@ export default function LandingPage() {
           >
             Pr&ecirc;t &agrave; transformer votre centre de formation ?
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-lg text-gray-300 mb-10 max-w-xl mx-auto">
+          <motion.p variants={fadeUp} className="text-lg text-[#999999] mb-10 max-w-xl mx-auto">
             Rejoignez les centres qui ont d&eacute;j&agrave; doubl&eacute; leurs inscriptions gr&acirc;ce &agrave; Satorea.
           </motion.p>
           <motion.div variants={fadeUp}>
@@ -476,14 +449,14 @@ export default function LandingPage() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
-          <motion.p variants={fadeUp} className="text-sm text-gray-400 mt-6">
+          <motion.p variants={fadeUp} className="text-sm text-[#999999] mt-6">
             Gratuit pour d&eacute;marrer &middot; Sans carte bancaire &middot; Configuration en 5 minutes
           </motion.p>
         </AnimatedSection>
       </section>
 
       {/* ════════════════ FOOTER ════════════════ */}
-      <footer className="bg-[#1A1A1A] text-gray-400 pt-16 pb-8 px-4 sm:px-6">
+      <footer className="bg-[#1A1A1A] text-[#999999] pt-16 pb-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Produit */}
@@ -527,10 +500,10 @@ export default function LandingPage() {
                   </Link>
                 </li>
                 <li>
-                  <span className="text-gray-500">Certifications</span>
+                  <span className="text-[#777777]">Certifications</span>
                 </li>
                 <li>
-                  <span className="text-gray-500">Financement</span>
+                  <span className="text-[#777777]">Financement</span>
                 </li>
               </ul>
             </div>
@@ -587,7 +560,7 @@ export default function LandingPage() {
                 Dermotec Advanced
               </span>
             </div>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-[#777777]">
               &copy; 2026 Dermotec Advanced &middot; Satorea SAS &middot; Made in Paris
             </p>
           </div>

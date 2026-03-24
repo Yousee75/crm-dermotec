@@ -21,16 +21,16 @@ function CollapsibleBlock({ icon, title, children, defaultOpen = false, badge }:
 }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="border border-gray-100 rounded-lg overflow-hidden">
-      <button onClick={() => setOpen(!open)} className="flex items-center justify-between w-full px-3 py-2 hover:bg-gray-50 transition">
+    <div className="border border-[#F4F0EB] rounded-lg overflow-hidden">
+      <button onClick={() => setOpen(!open)} className="flex items-center justify-between w-full px-3 py-2 hover:bg-[#FAF8F5] transition">
         <div className="flex items-center gap-2">
           <span className="text-primary [&>svg]:w-3.5 [&>svg]:h-3.5">{icon}</span>
           <span className="text-xs font-semibold text-accent">{title}</span>
           {badge && <span className="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full font-medium">{badge}</span>}
         </div>
-        {open ? <ChevronUp className="w-3 h-3 text-gray-400" /> : <ChevronDown className="w-3 h-3 text-gray-400" />}
+        {open ? <ChevronUp className="w-3 h-3 text-[#999999]" /> : <ChevronDown className="w-3 h-3 text-[#999999]" />}
       </button>
-      {open && <div className="px-3 pb-3 pt-1 border-t border-gray-50">{children}</div>}
+      {open && <div className="px-3 pb-3 pt-1 border-t border-[#FAF8F5]">{children}</div>}
     </div>
   )
 }
@@ -66,10 +66,10 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
 
   if (totalSources === 0) {
     return (
-      <div className="bg-gray-50 rounded-xl p-4 text-center">
-        <Database className="w-6 h-6 text-gray-300 mx-auto mb-2" />
-        <p className="text-xs text-gray-500">Aucune donnée enrichie</p>
-        <p className="text-[10px] text-gray-400 mt-1">Lancez le pipeline d'enrichissement depuis le briefing IA</p>
+      <div className="bg-[#FAF8F5] rounded-xl p-4 text-center">
+        <Database className="w-6 h-6 text-[#999999] mx-auto mb-2" />
+        <p className="text-xs text-[#777777]">Aucune donnée enrichie</p>
+        <p className="text-[10px] text-[#999999] mt-1">Lancez le pipeline d'enrichissement depuis le briefing IA</p>
       </div>
     )
   }
@@ -115,13 +115,13 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
 
           {/* Dirigeants */}
           {e.pappers?.dirigeants && e.pappers.dirigeants.length > 0 && (
-            <div className="mt-2 pt-2 border-t border-gray-100">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Dirigeant(s)</p>
+            <div className="mt-2 pt-2 border-t border-[#F4F0EB]">
+              <p className="text-[10px] font-semibold text-[#999999] uppercase tracking-wider mb-1">Dirigeant(s)</p>
               {e.pappers.dirigeants.map((d: any, i: number) => (
                 <div key={i} className="flex items-center gap-2 mb-1">
-                  <Users className="w-3 h-3 text-gray-400" />
-                  <span className="text-xs text-gray-700">{d.nom}</span>
-                  <span className="text-[10px] text-gray-400">— {d.fonction}</span>
+                  <Users className="w-3 h-3 text-[#999999]" />
+                  <span className="text-xs text-[#3A3A3A]">{d.nom}</span>
+                  <span className="text-[10px] text-[#999999]">— {d.fonction}</span>
                 </div>
               ))}
             </div>
@@ -129,9 +129,9 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
 
           {/* Statut entreprise */}
           {e.sirene && (
-            <div className="mt-2 pt-2 border-t border-gray-100 flex items-center gap-2">
-              <div className={cn('w-2 h-2 rounded-full', e.sirene.is_active ? 'bg-emerald-500' : 'bg-red-500')} />
-              <span className={cn('text-[11px] font-medium', e.sirene.is_active ? 'text-emerald-700' : 'text-red-700')}>
+            <div className="mt-2 pt-2 border-t border-[#F4F0EB] flex items-center gap-2">
+              <div className={cn('w-2 h-2 rounded-full', e.sirene.is_active ? 'bg-emerald-500' : 'bg-[#FF2D78]')} />
+              <span className={cn('text-[11px] font-medium', e.sirene.is_active ? 'text-emerald-700' : 'text-[#FF2D78]')}>
                 {e.sirene.is_active ? 'Établissement actif' : 'Établissement fermé'}
               </span>
             </div>
@@ -158,11 +158,11 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
 
           {/* Types d'établissement Outscraper */}
           {e.reviews?.placeData?.subtypes && (
-            <div className="mt-2 pt-2 border-t border-gray-100">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Catégories</p>
+            <div className="mt-2 pt-2 border-t border-[#F4F0EB]">
+              <p className="text-[10px] font-semibold text-[#999999] uppercase tracking-wider mb-1">Catégories</p>
               <div className="flex flex-wrap gap-1">
                 {e.reviews.placeData.subtypes.map((t: string, i: number) => (
-                  <span key={i} className="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{t}</span>
+                  <span key={i} className="text-[10px] bg-[#F4F0EB] text-[#777777] px-2 py-0.5 rounded-full">{t}</span>
                 ))}
               </div>
             </div>
@@ -170,13 +170,13 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
 
           {/* Horaires Outscraper */}
           {e.reviews?.placeData?.working_hours && (
-            <div className="mt-2 pt-2 border-t border-gray-100">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Horaires</p>
+            <div className="mt-2 pt-2 border-t border-[#F4F0EB]">
+              <p className="text-[10px] font-semibold text-[#999999] uppercase tracking-wider mb-1">Horaires</p>
               <div className="grid grid-cols-2 gap-0.5">
                 {Object.entries(e.reviews.placeData.working_hours).map(([day, hours]: [string, any]) => (
                   <div key={day} className="flex justify-between text-[10px]">
-                    <span className="text-gray-500">{day}</span>
-                    <span className="text-gray-700">{hours}</span>
+                    <span className="text-[#777777]">{day}</span>
+                    <span className="text-[#3A3A3A]">{hours}</span>
                   </div>
                 ))}
               </div>
@@ -185,9 +185,9 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
 
           {/* Description Outscraper */}
           {e.reviews?.placeData?.description && (
-            <div className="mt-2 pt-2 border-t border-gray-100">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Description Google</p>
-              <p className="text-[11px] text-gray-600 leading-relaxed">{e.reviews.placeData.description}</p>
+            <div className="mt-2 pt-2 border-t border-[#F4F0EB]">
+              <p className="text-[10px] font-semibold text-[#999999] uppercase tracking-wider mb-1">Description Google</p>
+              <p className="text-[11px] text-[#777777] leading-relaxed">{e.reviews.placeData.description}</p>
             </div>
           )}
         </CollapsibleBlock>
@@ -224,22 +224,22 @@ export function EnrichedDataSection({ leadId, enrichmentData: propData, onFieldU
               { icon: '💅', value: e.quartier.concurrentsBeaute, label: 'Beauté' },
               { icon: '💊', value: e.quartier.pharmacies, label: 'Pharma' },
             ].map((item, i) => (
-              <div key={i} className="text-center bg-gray-50 rounded-lg p-2">
+              <div key={i} className="text-center bg-[#FAF8F5] rounded-lg p-2">
                 <span className="text-sm">{item.icon}</span>
                 <p className="text-xs font-bold text-accent">{item.value}</p>
-                <p className="text-[9px] text-gray-400">{item.label}</p>
+                <p className="text-[9px] text-[#999999]">{item.label}</p>
               </div>
             ))}
           </div>
           {/* Barre trafic */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] text-gray-500">Trafic piéton</span>
-              <span className={cn('text-[10px] font-bold', e.quartier.footTrafficScore >= 60 ? 'text-emerald-600' : e.quartier.footTrafficScore >= 30 ? 'text-amber-600' : 'text-red-600')}>
+              <span className="text-[10px] text-[#777777]">Trafic piéton</span>
+              <span className={cn('text-[10px] font-bold', e.quartier.footTrafficScore >= 60 ? 'text-emerald-600' : e.quartier.footTrafficScore >= 30 ? 'text-[#FF8C42]' : 'text-[#FF2D78]')}>
                 {e.quartier.footTrafficScore}/100
               </span>
             </div>
-            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-[#EEEEEE] rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all"
                 style={{

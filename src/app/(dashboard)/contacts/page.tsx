@@ -12,19 +12,19 @@ import { cn } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 
 const ProspectsTab = dynamic(() => import('./tabs/ProspectsTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const PipelineTab = dynamic(() => import('./tabs/PipelineTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const ClientsTab = dynamic(() => import('./tabs/ClientsTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 const ApprenantsTab = dynamic(() => import('./tabs/ApprenantsTab'), {
-  loading: () => <div className="animate-pulse bg-gray-100 rounded-lg h-96" />
+  loading: () => <div className="animate-pulse bg-[#F4F0EB] rounded-lg h-96" />
 })
 
 export default function ContactsPage() {
@@ -88,7 +88,7 @@ export default function ContactsPage() {
 
       {/* Toggle personnalisé Satorea - 3 onglets */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-xl">
+        <div className="flex items-center gap-2 p-1 bg-[#FAF8F5] rounded-xl">
           {tabs.map(tab => (
             <button
               key={tab.id}
@@ -97,14 +97,14 @@ export default function ContactsPage() {
                 'px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200',
                 activeTab === tab.id
                   ? 'bg-[#FF5C00] text-white shadow-sm'
-                  : 'bg-white text-gray-600 hover:text-gray-800 hover:bg-gray-50 border border-gray-200'
+                  : 'bg-white text-[#777777] hover:text-[#1A1A1A] hover:bg-[#FAF8F5] border border-[#EEEEEE]'
               )}
             >
               {tab.label}
               {tab.count !== undefined && (
                 <span className={cn(
                   'ml-1.5 text-xs',
-                  activeTab === tab.id ? 'text-orange-100' : 'text-gray-400'
+                  activeTab === tab.id ? 'text-orange-100' : 'text-[#999999]'
                 )}>
                   ({tab.count})
                 </span>
@@ -115,14 +115,14 @@ export default function ContactsPage() {
 
         {/* Toggle vue table/kanban pour l'onglet Prospects */}
         {activeTab === 'prospects' && (
-          <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-lg">
+          <div className="flex items-center gap-2 p-1 bg-[#FAF8F5] rounded-lg">
             <button
               onClick={() => setViewMode('table')}
               className={cn(
                 'px-3 py-2 text-xs font-medium rounded-md transition-all',
                 viewMode === 'table'
                   ? 'bg-[#FF5C00] text-white'
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-[#777777] hover:text-[#1A1A1A]'
               )}
             >
               Table
@@ -133,7 +133,7 @@ export default function ContactsPage() {
                 'px-3 py-2 text-xs font-medium rounded-md transition-all',
                 viewMode === 'kanban'
                   ? 'bg-[#FF5C00] text-white'
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-[#777777] hover:text-[#1A1A1A]'
               )}
             >
               Kanban
