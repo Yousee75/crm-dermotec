@@ -54,7 +54,9 @@ export default function PrivacySettingsPage() {
   async function handleExportData() {
     setExporting(true)
     try {
-      const res = await fetch('/api/gdpr/export', { method: 'POST' })
+      // TODO: Récupérer le lead_id depuis le user connecté ou le state
+      const leadId = 'user-lead-id' // Placeholder - à implémenter
+      const res = await fetch(`/api/gdpr/export?lead_id=${leadId}`, { method: 'GET' })
       if (!res.ok) throw new Error('Export échoué')
       const data = await res.json()
 
@@ -77,7 +79,18 @@ export default function PrivacySettingsPage() {
   async function handleDeleteData() {
     setDeleting(true)
     try {
-      const res = await fetch('/api/gdpr/delete', { method: 'POST' })
+      // TODO: Récupérer le lead_id depuis le user connecté ou le state
+      const leadId = 'user-lead-id' // Placeholder - à implémenter
+      const res = await fetch('/api/gdpr/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lead_id: leadId,
+          reason: 'Demande de suppression utilisateur'
+        })
+      })
       if (!res.ok) throw new Error('Suppression échouée')
       toast.success('Demande de suppression enregistrée. Vous recevrez une confirmation par email.')
       setShowDeleteConfirm(false)
@@ -126,14 +139,14 @@ export default function PrivacySettingsPage() {
         <CardContent className="p-6 pt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {DROITS_RGPD.map((d) => (
-              <div key={d.article} className="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 transition">
-                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+              <div key={d.article} className="flex items-start gap-3 p-3 rounded-lg border border-[#F4F0EB] hover:bg-[#FAF8F5] transition">
+                <CheckCircle className="w-4 h-4 text-[#10B981] mt-0.5 shrink-0" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-accent">{d.droit}</span>
                     <Badge variant="outline" size="sm">{d.article}</Badge>
                   </div>
-                  <p className="text-xs text-gray-500 mt-0.5">{d.description}</p>
+                  <p className="text-xs text-[#777777] mt-0.5">{d.description}</p>
                 </div>
                 {d.action === 'export' && (
                   <Button variant="ghost" size="sm" onClick={handleExportData} disabled={exporting}>
@@ -145,7 +158,7 @@ export default function PrivacySettingsPage() {
                     onClick={handleOptOutAnalytics}
                     className={cn(
                       'shrink-0 w-10 h-6 rounded-full transition-colors relative',
-                      analyticsOptOut ? 'bg-green-500' : 'bg-gray-300'
+                      analyticsOptOut ? 'bg-[#10B981]' : 'bg-[#EEEEEE]'
                     )}
                   >
                     <span className={cn(
@@ -158,7 +171,7 @@ export default function PrivacySettingsPage() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-3 mt-6 pt-4 border-t border-gray-100">
+          <div className="flex flex-wrap gap-3 mt-6 pt-4 border-t border-[#F4F0EB]">
             <Button
               variant="outline"
               size="sm"
@@ -171,7 +184,7 @@ export default function PrivacySettingsPage() {
             <Button
               variant="ghost"
               size="sm"
-              className="text-red-500 hover:bg-red-50"
+              className="text-[#FF2D78] hover:bg-[#FFE0EF]"
               icon={<Trash2 className="w-4 h-4" />}
               onClick={() => setShowDeleteConfirm(true)}
             >
@@ -192,12 +205,12 @@ export default function PrivacySettingsPage() {
           </div>
         </CardHeader>
         <CardContent className="p-6 pt-4">
-          <div className="bg-gray-50 rounded-lg p-4 mb-4">
+          <div className="bg-[#FAF8F5] rounded-lg p-4 mb-4">
             <div className="flex items-start gap-3">
               <Info className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-[#777777]">
                 <p>Satorea collecte des <strong>données d&apos;usage anonymisées</strong> pour améliorer le produit :</p>
-                <ul className="list-disc ml-4 mt-2 space-y-1 text-xs text-gray-500">
+                <ul className="list-disc ml-4 mt-2 space-y-1 text-xs text-[#777777]">
                   <li>Pages visitées et temps passé (sans contenu)</li>
                   <li>Fonctionnalités utilisées (fréquence, parcours)</li>
                   <li>Performances techniques (temps de chargement)</li>
@@ -210,16 +223,16 @@ export default function PrivacySettingsPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg border border-gray-200">
+          <div className="flex items-center justify-between p-3 rounded-lg border border-[#EEEEEE]">
             <div>
               <p className="text-sm font-medium text-accent">Collecter les données d&apos;usage</p>
-              <p className="text-xs text-gray-500">Aide Satorea à améliorer le produit pour vous</p>
+              <p className="text-xs text-[#777777]">Aide Satorea à améliorer le produit pour vous</p>
             </div>
             <button
               onClick={handleOptOutAnalytics}
               className={cn(
                 'shrink-0 w-12 h-7 rounded-full transition-colors relative',
-                !analyticsOptOut ? 'bg-primary' : 'bg-gray-300'
+                !analyticsOptOut ? 'bg-primary' : 'bg-[#EEEEEE]'
               )}
             >
               <span className={cn(
@@ -237,23 +250,23 @@ export default function PrivacySettingsPage() {
           <CardTitle icon={<Server className="w-4 h-4" />}>Nos sous-traitants techniques</CardTitle>
         </CardHeader>
         <CardContent className="p-6 pt-4">
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-[#777777] mb-4">
             Liste des services tiers qui traitent vos données. Tout changement vous sera notifié 30 jours à l&apos;avance.
           </p>
           <div className="space-y-2">
             {SOUS_TRAITANTS.map((st) => {
               const Icon = st.icon
               return (
-                <div key={st.nom} className="flex items-center gap-3 p-3 rounded-lg border border-gray-100">
-                  <div className="p-2 rounded-lg bg-gray-50 shrink-0">
-                    <Icon className="w-4 h-4 text-gray-500" />
+                <div key={st.nom} className="flex items-center gap-3 p-3 rounded-lg border border-[#F4F0EB]">
+                  <div className="p-2 rounded-lg bg-[#FAF8F5] shrink-0">
+                    <Icon className="w-4 h-4 text-[#777777]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-accent">{st.nom}</span>
                       <Badge variant="outline" size="sm">{st.localisation}</Badge>
                     </div>
-                    <p className="text-xs text-gray-500">{st.role}</p>
+                    <p className="text-xs text-[#777777]">{st.role}</p>
                   </div>
                   <Badge variant="success" size="sm">{st.garanties}</Badge>
                 </div>
@@ -272,18 +285,18 @@ export default function PrivacySettingsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="text-left py-2 text-xs font-semibold text-gray-500 uppercase">Type de données</th>
-                  <th className="text-left py-2 text-xs font-semibold text-gray-500 uppercase">Durée</th>
-                  <th className="text-left py-2 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Base légale</th>
+                <tr className="border-b border-[#F4F0EB]">
+                  <th className="text-left py-2 text-xs font-semibold text-[#777777] uppercase">Type de données</th>
+                  <th className="text-left py-2 text-xs font-semibold text-[#777777] uppercase">Durée</th>
+                  <th className="text-left py-2 text-xs font-semibold text-[#777777] uppercase hidden sm:table-cell">Base légale</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAF8F5]">
                 {CONSERVATION.map((c) => (
                   <tr key={c.type}>
-                    <td className="py-2.5 text-gray-700">{c.type}</td>
+                    <td className="py-2.5 text-[#3A3A3A]">{c.type}</td>
                     <td className="py-2.5 font-medium text-accent">{c.duree}</td>
-                    <td className="py-2.5 text-gray-500 hidden sm:table-cell">{c.base}</td>
+                    <td className="py-2.5 text-[#777777] hidden sm:table-cell">{c.base}</td>
                   </tr>
                 ))}
               </tbody>
@@ -309,16 +322,16 @@ export default function PrivacySettingsPage() {
                 key={doc.href}
                 href={doc.href}
                 target="_blank"
-                className="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-gray-50 transition group"
+                className="flex items-center justify-between p-3 rounded-lg border border-[#F4F0EB] hover:bg-[#FAF8F5] transition group"
               >
-                <span className="text-sm text-gray-700 group-hover:text-primary">{doc.label}</span>
-                <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-primary" />
+                <span className="text-sm text-[#3A3A3A] group-hover:text-primary">{doc.label}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-[#999999] group-hover:text-primary" />
               </Link>
             ))}
           </div>
 
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-500">
+          <div className="mt-4 p-3 bg-[#FAF8F5] rounded-lg">
+            <p className="text-xs text-[#777777]">
               <strong>DPO :</strong> dpo@satorea.fr — <strong>Réclamation CNIL :</strong>{' '}
               <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 www.cnil.fr/plaintes
@@ -335,15 +348,15 @@ export default function PrivacySettingsPage() {
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 z-50">
             <div className="bg-white rounded-2xl shadow-2xl p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-red-50">
-                  <AlertTriangle className="w-5 h-5 text-red-500" />
+                <div className="p-2 rounded-lg bg-[#FFE0EF]">
+                  <AlertTriangle className="w-5 h-5 text-[#FF2D78]" />
                 </div>
                 <h3 className="font-semibold text-accent">Supprimer mes données</h3>
               </div>
-              <p className="text-sm text-gray-600 mb-2">
+              <p className="text-sm text-[#777777] mb-2">
                 Cette action est <strong>irréversible</strong>. Toutes vos données personnelles seront supprimées conformément à l&apos;article 17 du RGPD.
               </p>
-              <ul className="text-xs text-gray-500 space-y-1 mb-6 ml-4 list-disc">
+              <ul className="text-xs text-[#777777] space-y-1 mb-6 ml-4 list-disc">
                 <li>Vos leads et contacts seront anonymisés</li>
                 <li>Votre compte sera désactivé</li>
                 <li>Les données de formation Qualiopi seront conservées 6 ans (obligation légale)</li>
@@ -353,7 +366,7 @@ export default function PrivacySettingsPage() {
                 <Button variant="ghost" onClick={() => setShowDeleteConfirm(false)}>Annuler</Button>
                 <Button
                   variant="primary"
-                  className="bg-red-500 hover:bg-red-600"
+                  className="bg-[#FF2D78] hover:bg-red-600"
                   onClick={handleDeleteData}
                   loading={deleting}
                   icon={<Trash2 className="w-4 h-4" />}
