@@ -46,6 +46,8 @@
   --color-surface-hover: #FAF8F5;
   --color-surface-active: #F4F0EB;
   --color-surface-raised: #FFFFFF;
+  --color-surface-tinted: #FFF7F2;
+  --color-surface-tinted-hover: #FFEDE0;
   --color-background: #FAF8F5;
 
   /* ── BORDERS ── */
@@ -395,6 +397,14 @@ h1, h2, h3, h4, h5, h6 {
 /* Skeleton loading — warm paper tone */
 .skeleton {
   background: linear-gradient(90deg, #F4F0EB 25%, #EDE8E0 50%, #F4F0EB 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 10px;
+}
+
+/* Skeleton orange variant — pour zones importantes/CTA */
+.skeleton-orange {
+  background: linear-gradient(90deg, #FFF0E5 25%, #FFE0CC 50%, #FFF0E5 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 10px;
@@ -913,3 +923,15 @@ html {
 
 /* Mode Compact désactivé — causait des !important qui cassaient les marges */
 /* TODO: réimplémenter proprement si besoin avec des CSS custom properties */
+
+/* ============================================================
+   Design System Utilities — Nouveaux tokens v5.1
+   ============================================================ */
+
+/* Surface tinted — orange très subtil pour zones importantes */
+.bg-surface-tinted {
+  background-color: var(--color-surface-tinted);
+}
+.bg-surface-tinted-hover {
+  background-color: var(--color-surface-tinted-hover);
+}

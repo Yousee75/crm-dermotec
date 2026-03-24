@@ -5,14 +5,15 @@ export const dynamic = 'force-dynamic'
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { QRCodeGenerator } from '@/components/ui/QRCodeGenerator'
+import { TerrainEmargementMode } from '@/components/ui/TerrainEmargementMode'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import {
   CheckCircle, XCircle, Clock, Users, QrCode, RefreshCw,
-  AlertTriangle, Smartphone, Wifi
+  AlertTriangle, Smartphone, Wifi, Monitor
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -26,6 +27,7 @@ export default function EmargementLivePage() {
   const params = useParams()
   const sessionId = params?.id as string
   const supabase = createClient()
+  const [terrainMode, setTerrainMode] = useState(false)
 
   const today = new Date().toISOString().split('T')[0]
   const hour = new Date().getHours()
@@ -72,6 +74,21 @@ export default function EmargementLivePage() {
     )
   }
 
+  // Mode terrain activé
+  if (terrainMode) {
+    return (
+      <TerrainEmargementMode
+        sessionId={sessionId}
+        sessionNom={session.formation?.nom || 'Formation'}
+        stagiaires={stagiairesData}
+        qrUrl={qrUrl}
+        onExit={() => setTerrainMode(false)}
+        onRefresh={() => refetch()}
+        onSignatureManuelle={handleSignatureManuelle}
+      />
+    )
+  }
+
   const { session, emargements } = data
   const inscriptions = session.inscriptions?.filter((i: any) =>
     ['CONFIRMEE', 'EN_COURS', 'COMPLETEE'].includes(i.statut)
@@ -86,6 +103,53 @@ export default function EmargementLivePage() {
 
   // URL d'émargement de base
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+  const qrUrl = `${baseUrl}/emargement/${sessionId}?date=${today}`
+
+  // Fonction signature manuelle pour le mode terrain
+  const handleSignatureManuelle = async (stagiaireId: string, signature: string) => {
+    const inscriptionId = stagiaireId === 'manual'
+      ? inscriptions[0]?.id // Si c'est 'manual', prendre la première inscription disponible
+      : inscriptions.find((ins: any) => ins.lead?.id === stagiaireId)?.id
+
+    if (!inscriptionId) throw new Error('Inscription non trouvée')
+
+    const response = await fetch('/api/emargement', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        session_id: sessionId,
+        inscription_id: inscriptionId,
+        date: today,
+        creneau,
+        signature_data: signature
+      })
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'Erreur lors de l\'émargement')
+    }
+  }
+
+  // Données formatées pour le mode terrain
+  const stagiairesData = inscriptions.map((inscription: any) => {
+    const lead = inscription.lead
+    const emargementCurrent = emargements.find(
+      e => e.inscription_id === inscription.id && e.creneau === creneau
+    )
+
+    return {
+      id: lead?.id || inscription.id,
+      inscriptionId: inscription.id,
+      nom: lead?.nom || '',
+      prenom: lead?.prenom || '',
+      telephone: lead?.telephone,
+      emarge: !!emargementCurrent,
+      heureEmargement: emargementCurrent?.signed_at
+        ? new Date(emargementCurrent.signed_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+        : undefined
+    }
+  })
 
   return (
     <div className="space-y-6">
@@ -104,6 +168,15 @@ export default function EmargementLivePage() {
             <Wifi className="w-3.5 h-3.5" />
             Temps réel
           </div>
+          <Button
+            onClick={() => setTerrainMode(true)}
+            variant="outline"
+            size="sm"
+            icon={<Monitor className="w-3.5 h-3.5" />}
+            className="bg-primary/10 border-primary/20 text-primary hover:bg-primary/20"
+          >
+            Mode terrain
+          </Button>
           <Button variant="outline" size="sm" onClick={() => refetch()} icon={<RefreshCw className="w-3.5 h-3.5" />}>
             Actualiser
           </Button>
@@ -135,7 +208,7 @@ export default function EmargementLivePage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* QR Code */}
         <QRCodeGenerator
-          value={`${baseUrl}/emargement/${sessionId}?date=${today}`}
+          value={qrUrl}
           size={220}
           label="Scanner pour émarger"
           sessionInfo={{

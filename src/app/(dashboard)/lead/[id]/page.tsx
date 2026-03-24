@@ -11,7 +11,7 @@ import { useCadenceInstances } from '@/hooks/use-cadences'
 import { useAIResearch } from '@/hooks/use-ai'
 import { STATUTS_LEAD, type Lead, type StatutLead, type Message, type CanalMessage, type Inscription, type Financement } from '@/types'
 import { formatEuro, formatDate, formatPhone } from '@/lib/utils'
-import { getScoreColor, getScoreLabel } from '@/lib/scoring'
+import { getScoreColor, getScoreLabel } from '@/lib/scoring/core'
 import { ActivityTimeline } from '@/components/ui/ActivityTimeline'
 import { InscrireLeadDialog } from '@/components/ui/InscrireLeadDialog'
 import { AssignCommercialDialog } from '@/components/ui/AssignCommercialDialog'
@@ -40,6 +40,10 @@ import { GenerateDevisButton } from '@/components/leads/GenerateDevisButton'
 import FormationSuggester from '@/components/crm/FormationSuggester'
 import FinancementExpress from '@/components/crm/FinancementExpress'
 const WizardInscription = lazy(() => import('@/components/crm/WizardInscription'))
+
+// Composants IA invisibles
+import { ProspectSummary } from '@/components/ui/ProspectSummary'
+import { SmartActions } from '@/components/ui/SmartActions'
 
 // ===== TYPES & CONFIG =====
 
@@ -385,6 +389,33 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const completionPct = getCompletionPercent(lead)
   const validTransitions = VALID_LEAD_TRANSITIONS[lead.statut] || []
 
+  // Handler pour les actions intelligentes
+  const handleSmartAction = (actionId: string) => {
+    switch (actionId) {
+      case 'first-call':
+      case 'follow-up':
+        window.open(`tel:${lead.telephone}`)
+        break
+      case 'verify-email':
+        window.open(`mailto:${lead.email}`)
+        break
+      case 'hot-prospect':
+        setShowWizard(true)
+        break
+      case 'send-quote':
+        // Logique pour générer un devis
+        break
+      case 'follow-funding':
+        // Logique pour relancer OPCO
+        break
+      case 'upsell-training':
+        // Logique pour proposer formation complémentaire
+        break
+      default:
+        console.log('Action non gérée:', actionId)
+    }
+  }
+
   return (
     <div className="bg-[#FAF8F5] min-h-screen">
       {/* ===== HEADER STICKY ===== */}
@@ -539,16 +570,24 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
       </div>
 
       {/* ===== CONTENU PRINCIPAL ===== */}
-      <div className="max-w-4xl mx-auto px-6 py-6 space-y-6">
-
+      <div className="max-w-6xl mx-auto px-6 py-6">
         {/* Stepper parcours */}
-        <ParcoursSteps statut={lead.statut} />
+        <div className="mb-6">
+          <ParcoursSteps statut={lead.statut} />
+        </div>
 
-        {/* Actions intelligentes */}
-        <LeadActionHub leadId={lead.id} onActionClick={(action) => {
-          if (action === 'inscrire' || action === 'proposer_formation') setShowWizard(true)
-          if (action === 'qualifier') setIsEditing(true)
-        }} />
+        {/* Résumé contextuel IA */}
+        <ProspectSummary lead={lead} />
+
+        {/* Layout responsive : 2 colonnes desktop, 1 colonne mobile */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Colonne principale - Contenu */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Actions intelligentes */}
+            <LeadActionHub leadId={lead.id} onActionClick={(action) => {
+              if (action === 'inscrire' || action === 'proposer_formation') setShowWizard(true)
+              if (action === 'qualifier') setIsEditing(true)
+            }} />
 
         {/* Section Informations */}
         <CollapsibleSection
@@ -854,6 +893,23 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
           <div className="p-5">
             <ActivityTimeline leadId={lead.id} limit={20} />
+          </div>
+        </div>
+
+        {/* Smart Actions sur mobile seulement */}
+        <div className="lg:hidden">
+          <div className="bg-white rounded-xl border border-[#EEEEEE] p-5">
+            <SmartActions lead={lead} onAction={handleSmartAction} />
+          </div>
+        </div>
+
+          </div>
+
+          {/* Colonne droite - Actions intelligentes (desktop seulement) */}
+          <div className="hidden lg:block space-y-6">
+            <div className="bg-white rounded-xl border border-[#EEEEEE] p-5 sticky top-24">
+              <SmartActions lead={lead} onAction={handleSmartAction} />
+            </div>
           </div>
         </div>
       </div>

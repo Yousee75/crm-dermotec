@@ -3,12 +3,15 @@ import { cn } from '@/lib/utils'
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: string | number
   height?: string | number
+  variant?: 'default' | 'orange'
 }
 
-function Skeleton({ className, width, height, style, ...props }: SkeletonProps) {
+function Skeleton({ className, width, height, variant = 'default', style, ...props }: SkeletonProps) {
+  const variantClass = variant === 'orange' ? 'skeleton-orange' : 'skeleton'
+
   return (
     <div
-      className={cn('skeleton', className)}
+      className={cn(variantClass, className)}
       style={{ width, height, ...style }}
       {...props}
     />
