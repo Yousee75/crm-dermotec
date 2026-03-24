@@ -15,12 +15,16 @@ function getSupabase() {
   )
 }
 
-interface EnrichmentEvent {
+interface LeadCreatedEvent {
   lead_id: string
   siret?: string
   nom?: string
+  prenom?: string
+  entreprise_nom?: string
   ville?: string
   email?: string
+  source?: string
+  trigger?: 'manual' | 'webhook' | 'client' // Pour identifier l'origine
 }
 
 async function logEnrichment(
@@ -49,9 +53,9 @@ export const autoEnrichLead = (inngest as any).createFunction(
     name: 'Auto-enrich Lead',
     retries: 2
   },
-  { event: 'lead.enrich' },
-  async ({ event, step }: { event: { data: EnrichmentEvent }, step: any }) => {
-    const { lead_id, siret, nom, ville, email } = event.data
+  { event: 'crm/lead.created' },
+  async ({ event, step }: { event: { data: LeadCreatedEvent }, step: any }) => {
+    const { lead_id, siret, nom, prenom, entreprise_nom, ville, email, source, trigger } = event.data
     let enrichmentResults: {
       pappers: any | null;
       google: any | null;
@@ -132,10 +136,11 @@ export const autoEnrichLead = (inngest as any).createFunction(
     // ============================================
     // STEP 2: Enrichissement Google Places
     // ============================================
-    if ((nom || siret) && ville && process.env.GOOGLE_PLACES_API_KEY) {
+    const searchTerm = entreprise_nom || nom || (prenom && nom ? `${prenom} ${nom}` : null)
+    if ((searchTerm || siret) && ville && process.env.GOOGLE_PLACES_API_KEY) {
       enrichmentResults.google = await step.run('enrich-google', async () => {
         try {
-          const query = nom ? `${nom} ${ville}` : `${siret} ${ville}`
+          const query = searchTerm ? `${searchTerm} ${ville}` : `${siret} ${ville}`
           const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(query)}&inputtype=textquery&fields=place_id,name,rating,user_ratings_total,website,formatted_phone_number,formatted_address&key=${process.env.GOOGLE_PLACES_API_KEY}`
 
           const response = await fetch(url)
@@ -332,7 +337,121 @@ export const autoEnrichLead = (inngest as any).createFunction(
     }
 
     // ============================================
-    // STEP 5: Log final dans activités
+    // STEP 5: Calcul du score IA (/100)
+    // ============================================
+    const scoreResult = await step.run('calculate-ai-score', async () => {
+      try {
+        const { scoreLead } = await import('@/lib/ai-scoring')
+
+        // Récupérer le lead mis à jour avec toutes les données enrichies
+        const supabase = getSupabase()
+        const { data: updatedLead, error } = await supabase
+          .from('leads')
+          .select('*')
+          .eq('id', lead_id)
+          .single()
+
+        if (error || !updatedLead) {
+          throw new Error('Lead non trouvé pour scoring')
+        }
+
+        const result = await scoreLead(updatedLead)
+
+        // Mettre à jour le score du lead
+        await supabase
+          .from('leads')
+          .update({ score_chaud: result.score_predictif })
+          .eq('id', lead_id)
+
+        await logEnrichment(lead_id, 'ai_scoring', 'SUCCESS', 0, {
+          score: result.score_predictif,
+          probabilite: result.probabilite_conversion,
+          facteurs: result.facteurs_positifs
+        })
+
+        return result
+      } catch (error) {
+        await logEnrichment(lead_id, 'ai_scoring', 'FAILED', 0, null, error instanceof Error ? error.message : 'Unknown error')
+        console.error('[AutoEnrich] AI scoring failed:', error)
+        return { score_predictif: 0, probabilite_conversion: 0 }
+      }
+    })
+
+    // ============================================
+    // STEP 6: Actions automatiques selon le score
+    // ============================================
+    await step.run('trigger-automatic-actions', async () => {
+      const supabase = getSupabase()
+      const score = scoreResult.score_predictif || 0
+
+      // Si score >= 70 → Prospect chaud, créer un rappel automatique
+      if (score >= 70) {
+        const rappelDate = new Date()
+        rappelDate.setHours(rappelDate.getHours() + 2) // Dans 2h
+
+        await supabase.from('rappels').insert({
+          lead_id,
+          titre: '🔥 Prospect chaud à contacter',
+          description: `Score IA élevé (${score}/100) détecté automatiquement. Contact prioritaire recommandé.`,
+          date_rappel: rappelDate.toISOString(),
+          priorite: 'HAUTE',
+          type: 'appel',
+          statut: 'EN_ATTENTE',
+          metadata: {
+            auto_generated: true,
+            trigger: 'high_score_enrichment',
+            score_detected: score,
+            sources_enriched: Object.keys(enrichmentResults).filter(key =>
+              enrichmentResults[key as keyof typeof enrichmentResults] !== null
+            )
+          }
+        })
+
+        await supabase.from('activites').insert({
+          type: 'RAPPEL',
+          lead_id,
+          description: `🔥 Rappel automatique créé - Prospect chaud détecté (score ${score}/100)`,
+          metadata: {
+            canal: 'auto_enrichment',
+            action: 'rappel_created',
+            score
+          }
+        })
+      }
+
+      // Si score >= 50 ET formation suggérée → Proposition formation
+      if (score >= 50 && enrichmentResults.pappers?.activite) {
+        // Analyser l'activité pour suggérer une formation pertinente
+        const activite = enrichmentResults.pappers.activite.toLowerCase()
+        let formationSuggeree = null
+
+        if (activite.includes('esthétique') || activite.includes('beauté') || activite.includes('cosmétique')) {
+          formationSuggeree = 'Formation Microneedling'
+        } else if (activite.includes('coiffure') || activite.includes('salon')) {
+          formationSuggeree = 'Formation Dermo-cosmétique'
+        } else if (activite.includes('médical') || activite.includes('médecin')) {
+          formationSuggeree = 'Formation Injections'
+        }
+
+        if (formationSuggeree) {
+          await supabase.from('activites').insert({
+            type: 'SUGGESTION',
+            lead_id,
+            description: `💡 Formation suggérée automatiquement : ${formationSuggeree}`,
+            metadata: {
+              canal: 'auto_enrichment',
+              action: 'formation_suggested',
+              formation: formationSuggeree,
+              activite_detected: enrichmentResults.pappers.activite,
+              score
+            }
+          })
+        }
+      }
+    })
+
+    // ============================================
+    // STEP 7: Log final dans activités
     // ============================================
     await step.run('log-final-activity', async () => {
       const supabase = getSupabase()
@@ -343,21 +462,25 @@ export const autoEnrichLead = (inngest as any).createFunction(
       if (enrichmentResults.social) sourcesEnrichies.push('Réseaux sociaux')
       if (enrichmentResults.instagram) sourcesEnrichies.push('Instagram')
 
+      const finalScore = scoreResult.score_predictif || 0
+
       await supabase.from('activites').insert({
         type: 'SYSTEME',
         lead_id,
         description: sourcesEnrichies.length > 0
-          ? `Enrichissement automatique réussi : ${sourcesEnrichies.join(', ')} (${enrichmentResults.total_credits} crédits utilisés)`
-          : 'Enrichissement automatique : aucune donnée trouvée',
+          ? `✅ Enrichissement automatique complet : ${sourcesEnrichies.join(', ')} → Score IA ${finalScore}/100 (${enrichmentResults.total_credits} crédits)`
+          : `⚠️ Enrichissement automatique : aucune donnée trouvée → Score IA ${finalScore}/100`,
         metadata: {
           canal: 'auto_enrichment',
           sources: sourcesEnrichies,
           credits_used: enrichmentResults.total_credits,
+          final_score: finalScore,
           results: {
             pappers: !!enrichmentResults.pappers,
             google: !!enrichmentResults.google,
             social: !!enrichmentResults.social,
-            instagram: !!enrichmentResults.instagram
+            instagram: !!enrichmentResults.instagram,
+            ai_scored: true
           }
         }
       })
@@ -367,7 +490,10 @@ export const autoEnrichLead = (inngest as any).createFunction(
       lead_id,
       enrichment_complete: true,
       sources_enriched: Object.keys(enrichmentResults).filter(key => enrichmentResults[key as keyof typeof enrichmentResults] !== null),
-      total_credits_used: enrichmentResults.total_credits
+      total_credits_used: enrichmentResults.total_credits,
+      final_score: scoreResult.score_predictif || 0,
+      actions_triggered: scoreResult.score_predictif >= 70 ? ['rappel_created'] : [],
+      formation_suggested: scoreResult.score_predictif >= 50 && enrichmentResults.pappers?.activite
     }
   }
 )
