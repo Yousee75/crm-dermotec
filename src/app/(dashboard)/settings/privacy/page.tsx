@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/Badge'
 import {
   Shield, Download, Trash2, Eye, FileText, ExternalLink,
   Database, Lock, Globe, Clock, CheckCircle, AlertTriangle,
-  Server, Users, ChevronRight, Info
+  Server, Info
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -344,7 +344,17 @@ export default function PrivacySettingsPage() {
       {/* Dialog de confirmation suppression */}
       {showDeleteConfirm && (
         <>
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" onClick={() => setShowDeleteConfirm(false)} />
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50"
+            onClick={() => setShowDeleteConfirm(false)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape' || e.key === 'Enter') {
+                setShowDeleteConfirm(false)
+              }
+            }}
+          />
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 z-50">
             <div className="bg-white rounded-2xl shadow-2xl p-6">
               <div className="flex items-center gap-3 mb-4">

@@ -15,7 +15,7 @@ import {
   Send
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { logger } from '@/lib/logger'
+import { toast } from 'sonner'
 
 interface ActionButton {
   id: string
@@ -75,7 +75,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Implémenter l'import CSV
-            logger.debug('Import CSV action clicked', { service: 'ui', feature: 'import-csv' })
+            toast.info('Fonctionnalité à venir')
           }
         },
         {
@@ -85,7 +85,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Implémenter l'export
-            logger.debug('Export data action clicked', { service: 'ui', feature: 'export-data' })
+            toast.info('Fonctionnalité à venir')
           }
         }
       ]
@@ -100,8 +100,8 @@ export function SmartActionBar() {
           icon: Phone,
           variant: 'primary',
           onClick: () => {
-            // TODO: Intégrer avec le système d'appel
-            logger.debug('Call prospect action clicked', { service: 'ui', feature: 'call-prospect' })
+            // Ouvrir l'app de téléphone native
+            window.location.href = 'tel:'
           }
         },
         {
@@ -110,8 +110,8 @@ export function SmartActionBar() {
           icon: Mail,
           variant: 'secondary',
           onClick: () => {
-            // TODO: Ouvrir l'éditeur d'email
-            logger.debug('Send email action clicked', { service: 'ui', feature: 'send-email' })
+            // Ouvrir le client email natif
+            window.location.href = 'mailto:'
           }
         },
         {
@@ -120,8 +120,8 @@ export function SmartActionBar() {
           icon: MessageCircle,
           variant: 'secondary',
           onClick: () => {
-            // TODO: Ouvrir WhatsApp
-            logger.debug('Send WhatsApp action clicked', { service: 'ui', feature: 'send-whatsapp' })
+            // Ouvrir WhatsApp Web
+            window.open('https://wa.me/', '_blank')
           }
         },
         {
@@ -131,7 +131,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Ouvrir le dialog d'inscription
-            logger.debug('Enroll in formation action clicked', { service: 'ui', feature: 'enroll-formation' })
+            toast.info('Fonctionnalité à venir')
           }
         }
       ]
@@ -147,7 +147,7 @@ export function SmartActionBar() {
           variant: 'primary',
           onClick: () => {
             // TODO: Ouvrir le dialog de création de session
-            logger.debug('Create new session action clicked', { service: 'ui', feature: 'create-session' })
+            toast.info('Fonctionnalité à venir')
           }
         },
         {
@@ -172,7 +172,7 @@ export function SmartActionBar() {
           variant: 'primary',
           onClick: () => {
             // TODO: Ouvrir l'éditeur de message
-            logger.debug('New message action clicked', { service: 'ui', feature: 'new-message' })
+            toast.info('Fonctionnalité à venir')
           }
         }
       ]

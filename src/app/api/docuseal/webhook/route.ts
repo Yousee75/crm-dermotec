@@ -9,8 +9,21 @@ export const dynamic = 'force-dynamic'
  */
 export async function POST(req: NextRequest) {
   try {
+    // Vérifier le secret webhook DocuSeal
+    const authHeader = req.headers.get('authorization') || req.headers.get('x-docuseal-secret')
+    const expectedSecret = process.env.DOCUSEAL_WEBHOOK_SECRET
+
+    if (expectedSecret && authHeader !== `Bearer ${expectedSecret}` && authHeader !== expectedSecret) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+    }
+
     const body = await req.json()
     const { event_type, data } = body
+
+    // Validation basique du payload
+    if (!event_type || !data) {
+      return NextResponse.json({ error: 'Payload invalide' }, { status: 400 })
+    }
 
     logger.info('DocuSeal webhook event received', {
       service: 'docuseal-webhook',

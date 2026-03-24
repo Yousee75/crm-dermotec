@@ -52,17 +52,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Seuls les admins peuvent inviter' }, { status: 403 })
     }
 
-    // Vérifier que l'email n'est pas déjà membre
-    const { data: existingMember } = await supabase
-      .from('org_members')
+    // Vérifier que l'email n'est pas déjà membre via la table equipe
+    const { data: existingTeamMember } = await supabase
+      .from('equipe')
       .select('id')
-      .eq('org_id', membership.org_id)
-      .eq('user_id', (
-        await supabase.from('auth.users').select('id').eq('email', parsed.data.email).single()
-      ).data?.id || '00000000-0000-0000-0000-000000000000')
+      .eq('email', parsed.data.email)
       .single()
 
-    if (existingMember) {
+    if (existingTeamMember) {
       return NextResponse.json({ error: 'Cet utilisateur est déjà membre' }, { status: 409 })
     }
 

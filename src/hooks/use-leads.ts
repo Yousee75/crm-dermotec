@@ -208,9 +208,31 @@ export function useCreateLead() {
       if (error) throw error
       return data
     },
-    onSuccess: () => {
+    onSuccess: async (newLead) => {
       queryClient.invalidateQueries({ queryKey: ['leads'] })
       toast.success('Lead créé avec succès')
+
+      // Déclencher l'enrichissement automatique (non-bloquant)
+      try {
+        const { inngest } = await import('@/lib/inngest')
+        await inngest.send({
+          name: 'crm/lead.created',
+          data: {
+            lead_id: newLead.id,
+            siret: newLead.siret || undefined,
+            nom: newLead.nom || undefined,
+            prenom: newLead.prenom || undefined,
+            entreprise_nom: newLead.entreprise_nom || undefined,
+            ville: newLead.metadata?.ville || undefined,
+            email: newLead.email || undefined,
+            source: newLead.source || 'unknown',
+            trigger: 'client'
+          }
+        })
+      } catch (inngestError) {
+        // Non-bloquant : le lead est créé même si l'enrichissement échoue
+        console.error('[useCreateLead] Enrichment trigger failed:', inngestError)
+      }
     },
     onError: (error: Error) => {
       console.error('[useCreateLead]', error)
@@ -311,7 +333,10 @@ export function useDeleteLead() {
     mutationFn: async (id: string) => {
       const { error } = await supabase
         .from('leads')
-        .delete()
+        .update({
+          statut: 'SPAM',
+          deleted_at: new Date().toISOString()
+        })
         .eq('id', id)
       if (error) throw error
     },

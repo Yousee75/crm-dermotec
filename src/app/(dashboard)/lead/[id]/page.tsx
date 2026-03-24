@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { use, useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import Link from 'next/link'
-import { useLead, useUpdateLead, useChangeStatut } from '@/hooks/use-leads'
+import { useLead, useUpdateLead, useChangeStatut, useDeleteLead } from '@/hooks/use-leads'
 import { trackLeadView } from '@/components/ui/CommandPalette'
 import { useMessages, useSendMessage } from '@/hooks/use-messages'
 import { useCadenceInstances } from '@/hooks/use-cadences'
@@ -30,7 +30,7 @@ import {
   Target, Play, Pause, AlertCircle, Download,
   Wallet, Circle, CheckCircle, ChevronDown, Copy,
   Sparkles, Calendar, Activity,
-  MoreHorizontal, FolderOpen
+  MoreHorizontal, FolderOpen, Zap, Trash2
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -306,6 +306,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
   const updateLead = useUpdateLead()
   const changeStatut = useChangeStatut()
+  const deleteLead = useDeleteLead()
   const sendMessage = useSendMessage()
   const aiResearch = useAIResearch()
 
@@ -353,6 +354,40 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
     navigator.clipboard.writeText(text)
     toast.success(`${label} copié`)
   }, [])
+
+  const [isEnriching, setIsEnriching] = useState(false)
+
+  const handleEnrich = useCallback(async () => {
+    setIsEnriching(true)
+    setShowMoreActions(false)
+    try {
+      const response = await fetch('/api/enrichment/full', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId: id }),
+      })
+      if (!response.ok) throw new Error('Erreur enrichissement')
+      toast.success('Enrichissement terminé')
+      // Refresh lead data
+      window.location.reload()
+    } catch (error) {
+      toast.error('Erreur lors de l\'enrichissement')
+    } finally {
+      setIsEnriching(false)
+    }
+  }, [id])
+
+  const handleDelete = useCallback(async () => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce prospect ? Il sera marqué comme SPAM.')) return
+    setShowMoreActions(false)
+    try {
+      await deleteLead.mutateAsync(id)
+      // Redirect to leads list after deletion
+      window.location.href = '/leads'
+    } catch {
+      // Error handled by hook
+    }
+  }, [id, deleteLead])
 
   if (isLoading) {
     return (
@@ -560,6 +595,22 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                     >
                       <Edit3 className="w-4 h-4 text-[#666666]" />
                       Modifier la fiche
+                    </button>
+                    <button
+                      data-action="enrich"
+                      onClick={handleEnrich}
+                      disabled={isEnriching}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAF8F5] text-left disabled:opacity-50"
+                    >
+                      <Zap className="w-4 h-4 text-[#FF5C00]" />
+                      {isEnriching ? 'Enrichissement...' : 'Enrichir ce prospect'}
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAF8F5] text-left text-[#FF2D78]"
+                    >
+                      <Trash2 className="w-4 h-4 text-[#FF2D78]" />
+                      Supprimer le prospect
                     </button>
                   </div>
                 </>

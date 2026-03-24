@@ -8,6 +8,7 @@ import { renderToBuffer } from '@react-pdf/renderer'
 import React from 'react'
 import { DevisPDF, EMETTEUR_DERMOTEC, type DevisProps } from '@/lib/pdf/devis'
 import { FORMATIONS_SEED } from '@/lib/constants'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,6 +17,10 @@ const VALIDITE_JOURS = 30
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth obligatoire
+    const authSupabase = await createServerSupabase()
+    const { data: { user } } = await authSupabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
     const body = await request.json()
     const {
       lead_id,

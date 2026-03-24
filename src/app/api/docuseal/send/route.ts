@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { envoyerConventionSignature, envoyerCertificatSignature, isDocuSealConfigured } from '@/lib/docuseal'
 import { BRAND } from '@/lib/constants'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
+  // Auth obligatoire
+  const supabase = await createServerSupabase()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+
   if (!isDocuSealConfigured()) {
     return NextResponse.json({ error: 'DocuSeal non configuré' }, { status: 503 })
   }

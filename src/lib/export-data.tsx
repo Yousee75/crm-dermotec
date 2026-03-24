@@ -112,7 +112,7 @@ export async function exportToPDF(
     headerTitle: {
       fontSize: 18,
       fontFamily: 'Helvetica-Bold',
-      color: 'var(--color-accent)',
+      color: '#1A1A1A',
       marginBottom: 4,
     },
     headerMeta: {
@@ -124,7 +124,7 @@ export async function exportToPDF(
     },
     tableHeader: {
       flexDirection: 'row' as const,
-      backgroundColor: 'var(--color-primary)',
+      backgroundColor: '#FF5C00',
       borderRadius: 4,
       marginBottom: 2,
     },
