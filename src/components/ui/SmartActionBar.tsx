@@ -85,7 +85,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Implémenter l'export
-            console.log('Export données')
+            logger.debug('Export data action clicked', { service: 'ui', feature: 'export-data' })
           }
         }
       ]
@@ -101,7 +101,7 @@ export function SmartActionBar() {
           variant: 'primary',
           onClick: () => {
             // TODO: Intégrer avec le système d'appel
-            console.log('Appeler le prospect')
+            logger.debug('Call prospect action clicked', { service: 'ui', feature: 'call-prospect' })
           }
         },
         {
@@ -111,7 +111,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Ouvrir l'éditeur d'email
-            console.log('Envoyer email')
+            logger.debug('Send email action clicked', { service: 'ui', feature: 'send-email' })
           }
         },
         {
@@ -121,7 +121,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Ouvrir WhatsApp
-            console.log('Envoyer WhatsApp')
+            logger.debug('Send WhatsApp action clicked', { service: 'ui', feature: 'send-whatsapp' })
           }
         },
         {
@@ -131,7 +131,7 @@ export function SmartActionBar() {
           variant: 'secondary',
           onClick: () => {
             // TODO: Ouvrir le dialog d'inscription
-            console.log('Inscrire à une formation')
+            logger.debug('Enroll in formation action clicked', { service: 'ui', feature: 'enroll-formation' })
           }
         }
       ]
@@ -147,7 +147,7 @@ export function SmartActionBar() {
           variant: 'primary',
           onClick: () => {
             // TODO: Ouvrir le dialog de création de session
-            console.log('Créer nouvelle session')
+            logger.debug('Create new session action clicked', { service: 'ui', feature: 'create-session' })
           }
         },
         {
@@ -172,7 +172,7 @@ export function SmartActionBar() {
           variant: 'primary',
           onClick: () => {
             // TODO: Ouvrir l'éditeur de message
-            console.log('Nouveau message')
+            logger.debug('New message action clicked', { service: 'ui', feature: 'new-message' })
           }
         }
       ]

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { logger } from '@/lib/logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,7 +14,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { triggerEvent, payload } = body
 
-    console.log('[Cal.com Webhook] Event reçu:', { triggerEvent, payload: JSON.stringify(payload) })
+    logger.info('Cal.com webhook event received', {
+      service: 'calcom-webhook',
+      triggerEvent,
+      payloadSize: JSON.stringify(payload).length
+    })
 
     // Helper pour créer des rappels
     async function createRappel(data: {
@@ -125,7 +130,12 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        console.log('[Cal.com Webhook] RDV créé:', { lead_id: lead?.id, rdv_date: rdvDate })
+        logger.info('RDV created from Cal.com booking', {
+          service: 'calcom-webhook',
+          event: 'booking-created',
+          leadId: lead?.id,
+          rdvDate
+        })
         break
       }
 
@@ -171,7 +181,12 @@ export async function POST(req: NextRequest) {
           })
         }
 
-        console.log('[Cal.com Webhook] RDV reprogrammé:', { uid, nouveau_date: nouveauDate })
+        logger.info('RDV rescheduled from Cal.com', {
+          service: 'calcom-webhook',
+          event: 'booking-rescheduled',
+          uid,
+          nouveauDate
+        })
         break
       }
 
@@ -210,7 +225,11 @@ export async function POST(req: NextRequest) {
           })
         }
 
-        console.log('[Cal.com Webhook] RDV annulé:', { uid })
+        logger.info('RDV cancelled from Cal.com', {
+          service: 'calcom-webhook',
+          event: 'booking-cancelled',
+          uid
+        })
         break
       }
 
@@ -251,12 +270,20 @@ export async function POST(req: NextRequest) {
           }
         })
 
-        console.log('[Cal.com Webhook] Suivi post-RDV créé:', { lead_id: lead.id, suivi_date: suiviDate })
+        logger.info('Post-RDV followup created', {
+          service: 'calcom-webhook',
+          event: 'meeting-ended',
+          leadId: lead.id,
+          suiviDate
+        })
         break
       }
 
       default:
-        console.log('[Cal.com Webhook] Event non géré:', triggerEvent)
+        logger.warn('Unhandled Cal.com webhook event', {
+          service: 'calcom-webhook',
+          triggerEvent
+        })
         break
     }
 
