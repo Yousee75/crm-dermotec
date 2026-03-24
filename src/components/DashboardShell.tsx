@@ -29,7 +29,6 @@ import { CommandPalette } from '@/components/ui/CommandPalette'
 import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
 import { AgentChat } from '@/components/ui/AgentChat'
-import SimpleChatTest from '@/components/ui/SimpleChatTest'
 import { QuickAddLead } from '@/components/ui/QuickAddLead'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
 import { SmartActionBar } from '@/components/ui/SmartActionBar'
@@ -532,8 +531,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       <KeyboardShortcuts />
       <MobileBottomNav />
       <AgentChat />
-      {/* TEST DEBUG — composant chat minimal pour diagnostiquer */}
-      <SimpleChatTest />
       <QuickAddLead />
       <OnboardingWizard />
       <SmartActionBar />

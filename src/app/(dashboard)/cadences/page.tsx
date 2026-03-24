@@ -80,7 +80,7 @@ function CadenceStep({
       {/* Timeline line */}
       {!isLast && (
         <div
-          className="absolute left-4 top-8 w-px h-12 bg-gray-200"
+          className="absolute left-4 top-8 w-px h-12 bg-[#EEEEEE]"
           style={{ backgroundColor: '#E5E7EB' }}
         />
       )}
@@ -99,7 +99,7 @@ function CadenceStep({
       {/* Step content */}
       <div className="flex-1 pb-4">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-sm font-medium text-gray-900">
+          <span className="text-sm font-medium text-[#111111]">
             Étape {step.ordre}
           </span>
           <Badge
@@ -116,12 +116,12 @@ function CadenceStep({
         </div>
 
         {step.sujet && (
-          <p className="text-sm font-medium text-gray-700 mb-1">
+          <p className="text-sm font-medium text-[#3A3A3A] mb-1">
             {step.sujet}
           </p>
         )}
 
-        <p className="text-xs text-gray-500 line-clamp-2">
+        <p className="text-xs text-[#777777] line-clamp-2">
           {step.contenu || 'Contenu automatique'}
         </p>
       </div>
@@ -149,13 +149,13 @@ function CadenceTemplateCard({
   return (
     <Card className="overflow-hidden">
       <div
-        className="p-4 cursor-pointer hover:bg-gray-50 transition"
+        className="p-4 cursor-pointer hover:bg-[#FAF8F5] transition"
         onClick={onToggle}
       >
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="font-semibold text-gray-900">{template.nom}</h3>
+              <h3 className="font-semibold text-[#111111]">{template.nom}</h3>
               <Badge
                 variant={template.declencheur === 'nouveau_lead' ? 'primary' : 'outline'}
                 size="sm"
@@ -163,13 +163,13 @@ function CadenceTemplateCard({
                 {triggerLabels[template.declencheur] || template.declencheur}
               </Badge>
             </div>
-            <p className="text-sm text-gray-600 mb-2">{template.description}</p>
-            <div className="flex items-center gap-4 text-xs text-gray-500">
+            <p className="text-sm text-[#777777] mb-2">{template.description}</p>
+            <div className="flex items-center gap-4 text-xs text-[#777777]">
               <span>{template.etapes.length} étapes</span>
               <span className="flex items-center gap-1">
                 <div className={cn(
                   'w-2 h-2 rounded-full',
-                  template.is_active ? 'bg-green-500' : 'bg-gray-300'
+                  template.is_active ? 'bg-[#10B981]' : 'bg-[#EEEEEE]'
                 )} />
                 {template.is_active ? 'Active' : 'Inactive'}
               </span>
@@ -178,7 +178,7 @@ function CadenceTemplateCard({
 
           <div className="flex items-center gap-2">
             <ChevronDown className={cn(
-              'w-4 h-4 text-gray-400 transition-transform',
+              'w-4 h-4 text-[#999999] transition-transform',
               isExpanded && 'rotate-180'
             )} />
           </div>
@@ -187,9 +187,9 @@ function CadenceTemplateCard({
 
       {/* Timeline des étapes (expanded) */}
       {isExpanded && (
-        <div className="px-4 pb-4 border-t border-gray-100 bg-gray-50/50">
+        <div className="px-4 pb-4 border-t border-[#F4F0EB] bg-[#FAF8F5]/50">
           <div className="pt-4 space-y-2">
-            <h4 className="text-sm font-medium text-gray-900 mb-3">
+            <h4 className="text-sm font-medium text-[#111111] mb-3">
               Timeline des étapes
             </h4>
             {template.etapes.map((step, index) => (
@@ -221,16 +221,16 @@ function CadenceInstanceRow({
   }
 
   const statutConfig = {
-    active: { label: 'Active', color: 'bg-green-100 text-green-800' },
-    terminee: { label: 'Terminée', color: 'bg-blue-100 text-blue-800' },
-    arretee: { label: 'Arrêtée', color: 'bg-red-100 text-red-800' },
+    active: { label: 'Active', color: 'bg-[#D1FAE5] text-[#10B981]' },
+    terminee: { label: 'Terminée', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
+    arretee: { label: 'Arrêtée', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
     en_pause: { label: 'En pause', color: 'bg-yellow-100 text-yellow-800' }
   }
 
   const statut = statutConfig[instance.statut] || statutConfig.active
 
   return (
-    <tr className="hover:bg-gray-50">
+    <tr className="hover:bg-[#FAF8F5]">
       <td className="px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
@@ -239,25 +239,25 @@ function CadenceInstanceRow({
           <div>
             <Link
               href={`/leads/${instance.lead_id}`}
-              className="font-medium text-gray-900 hover:text-blue-600 transition"
+              className="font-medium text-[#111111] hover:text-[#FF5C00] transition"
             >
               {instance.lead?.prenom} {instance.lead?.nom}
             </Link>
-            <p className="text-xs text-gray-500">{instance.lead?.email}</p>
+            <p className="text-xs text-[#777777]">{instance.lead?.email}</p>
           </div>
         </div>
       </td>
 
       <td className="px-4 py-3">
-        <span className="text-sm text-gray-900">{instance.template?.nom}</span>
+        <span className="text-sm text-[#111111]">{instance.template?.nom}</span>
       </td>
 
       <td className="px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-900">
+          <span className="text-sm font-medium text-[#111111]">
             {instance.etape_courante}/{instance.template?.etapes.length || 0}
           </span>
-          <div className="w-16 bg-gray-200 rounded-full h-1.5">
+          <div className="w-16 bg-[#EEEEEE] rounded-full h-1.5">
             <div
               className="bg-blue-500 h-1.5 rounded-full transition-all"
               style={{
@@ -270,11 +270,11 @@ function CadenceInstanceRow({
 
       <td className="px-4 py-3">
         {instance.prochaine_execution ? (
-          <span className="text-sm text-gray-900">
+          <span className="text-sm text-[#111111]">
             {formatRelativeDate(instance.prochaine_execution)}
           </span>
         ) : (
-          <span className="text-sm text-gray-500">—</span>
+          <span className="text-sm text-[#777777]">—</span>
         )}
       </td>
 
@@ -397,8 +397,8 @@ export default function CadencesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Cadences de vente</h1>
-          <p className="text-gray-600">Gérez vos séquences marketing automatisées</p>
+          <h1 className="text-2xl font-bold text-[#111111]">Cadences de vente</h1>
+          <p className="text-[#777777]">Gérez vos séquences marketing automatisées</p>
         </div>
         <Button>
           <Plus className="w-4 h-4 mr-2" />
@@ -412,8 +412,8 @@ export default function CadencesPage() {
           <Card key={index} className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">{kpi.label}</p>
-                <p className="text-2xl font-bold text-gray-900">{kpi.value}</p>
+                <p className="text-sm text-[#777777] mb-1">{kpi.label}</p>
+                <p className="text-2xl font-bold text-[#111111]">{kpi.value}</p>
                 {kpi.change && (
                   <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
                     <TrendingUp className="w-3 h-3" />
@@ -433,7 +433,7 @@ export default function CadencesPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-[#EEEEEE]">
         <nav className="flex space-x-8">
           <button
             onClick={() => setActiveTab('templates')}
@@ -441,7 +441,7 @@ export default function CadencesPage() {
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'templates'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-gray-300'
             )}
           >
             Templates de cadences
@@ -452,7 +452,7 @@ export default function CadencesPage() {
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'instances'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-gray-300'
             )}
           >
             Instances actives
@@ -472,9 +472,9 @@ export default function CadencesPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {[...Array(4)].map((_, i) => (
                 <Card key={i} className="p-4 animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded mb-2" />
-                  <div className="h-3 bg-gray-200 rounded mb-1 w-3/4" />
-                  <div className="h-3 bg-gray-200 rounded w-1/2" />
+                  <div className="h-4 bg-[#EEEEEE] rounded mb-2" />
+                  <div className="h-3 bg-[#EEEEEE] rounded mb-1 w-3/4" />
+                  <div className="h-3 bg-[#EEEEEE] rounded w-1/2" />
                 </Card>
               ))}
             </div>
@@ -499,7 +499,7 @@ export default function CadencesPage() {
         <div className="space-y-4">
           {/* Filtres */}
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-gray-400" />
+            <Filter className="w-4 h-4 text-[#999999]" />
             <div className="flex gap-1">
               {[
                 { key: 'all', label: 'Toutes' },
@@ -514,7 +514,7 @@ export default function CadencesPage() {
                     'px-3 py-1 rounded-lg text-sm font-medium transition',
                     instancesFilter === filter.key
                       ? 'bg-primary text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-[#F4F0EB] text-[#3A3A3A] hover:bg-[#EEEEEE]'
                   )}
                 >
                   {filter.label}
@@ -527,24 +527,24 @@ export default function CadencesPage() {
           <Card className="overflow-hidden">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-[#FAF8F5]">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-[#777777] uppercase tracking-wider">
                       Lead
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-[#777777] uppercase tracking-wider">
                       Cadence
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-[#777777] uppercase tracking-wider">
                       Étape courante
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-[#777777] uppercase tracking-wider">
                       Prochain envoi
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-[#777777] uppercase tracking-wider">
                       Statut
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-[#777777] uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -553,17 +553,17 @@ export default function CadencesPage() {
                   {instancesLoading ? (
                     [...Array(5)].map((_, i) => (
                       <tr key={i} className="animate-pulse">
-                        <td className="px-4 py-3"><div className="h-4 bg-gray-200 rounded" /></td>
-                        <td className="px-4 py-3"><div className="h-4 bg-gray-200 rounded" /></td>
-                        <td className="px-4 py-3"><div className="h-4 bg-gray-200 rounded" /></td>
-                        <td className="px-4 py-3"><div className="h-4 bg-gray-200 rounded" /></td>
-                        <td className="px-4 py-3"><div className="h-4 bg-gray-200 rounded" /></td>
-                        <td className="px-4 py-3"><div className="h-4 bg-gray-200 rounded" /></td>
+                        <td className="px-4 py-3"><div className="h-4 bg-[#EEEEEE] rounded" /></td>
+                        <td className="px-4 py-3"><div className="h-4 bg-[#EEEEEE] rounded" /></td>
+                        <td className="px-4 py-3"><div className="h-4 bg-[#EEEEEE] rounded" /></td>
+                        <td className="px-4 py-3"><div className="h-4 bg-[#EEEEEE] rounded" /></td>
+                        <td className="px-4 py-3"><div className="h-4 bg-[#EEEEEE] rounded" /></td>
+                        <td className="px-4 py-3"><div className="h-4 bg-[#EEEEEE] rounded" /></td>
                       </tr>
                     ))
                   ) : filteredInstances.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                      <td colSpan={6} className="px-4 py-8 text-center text-[#777777]">
                         Aucune instance de cadence trouvée
                       </td>
                     </tr>

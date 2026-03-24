@@ -239,13 +239,13 @@ export default function CommandesPage() {
         <div className="flex flex-wrap gap-4 items-center">
           <div className="flex-1 min-w-64">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999999]" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Rechercher par n° commande, nom, email..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
               />
             </div>
           </div>
@@ -253,7 +253,7 @@ export default function CommandesPage() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value as StatutCommande | '')}
-            className="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+            className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Tous les statuts</option>
             {Object.entries(STATUT_CONFIG).map(([key, config]) => (
@@ -262,13 +262,13 @@ export default function CommandesPage() {
           </select>
 
           <div className="relative">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999999]" />
             <input
               type="text"
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
               placeholder="01/01/2024 - 31/01/2024"
-              className="pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none w-48"
+              className="pl-10 pr-4 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none w-48"
             />
           </div>
         </div>
@@ -282,30 +282,30 @@ export default function CommandesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50/80 border-b border-gray-100">
+                <tr className="bg-[#FAF8F5]/80 border-b border-[#F4F0EB]">
                   <th className="w-8 px-4 py-3"></th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     # Commande
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     Client
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     Produits
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     Montant TTC
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     Statut
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     Livraison
                   </th>
-                  <th className="w-16 px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="w-16 px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -334,12 +334,12 @@ export default function CommandesPage() {
                         <td className="px-4 py-3">
                           <button
                             onClick={() => toggleRowExpansion(commande.id)}
-                            className="p-1 rounded hover:bg-gray-100 transition-colors"
+                            className="p-1 rounded hover:bg-[#F4F0EB] transition-colors"
                           >
                             {isExpanded ? (
-                              <ChevronDown className="w-4 h-4 text-gray-400" />
+                              <ChevronDown className="w-4 h-4 text-[#999999]" />
                             ) : (
-                              <ChevronRight className="w-4 h-4 text-gray-400" />
+                              <ChevronRight className="w-4 h-4 text-[#999999]" />
                             )}
                           </button>
                         </td>
@@ -362,23 +362,23 @@ export default function CommandesPage() {
                             <Avatar name={clientName} size="sm" />
                             <div className="min-w-0">
                               <p className="font-medium text-accent truncate">{clientName}</p>
-                              <p className="text-xs text-gray-500 truncate">{commande.client_email}</p>
+                              <p className="text-xs text-[#777777] truncate">{commande.client_email}</p>
                             </div>
                           </div>
                         </td>
 
                         {/* Date */}
                         <td className="px-4 py-3">
-                          <span className="text-sm text-gray-600">{formatDate(commande.created_at)}</span>
+                          <span className="text-sm text-[#777777]">{formatDate(commande.created_at)}</span>
                         </td>
 
                         {/* Produits */}
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full text-xs font-medium text-gray-600">
+                            <span className="inline-flex items-center justify-center w-6 h-6 bg-[#F4F0EB] rounded-full text-xs font-medium text-[#777777]">
                               {commande.produits.length}
                             </span>
-                            <span className="text-sm text-gray-600">
+                            <span className="text-sm text-[#777777]">
                               {commande.produits.length === 1 ? 'produit' : 'produits'}
                             </span>
                           </div>
@@ -391,7 +391,7 @@ export default function CommandesPage() {
                               {formatEuro(commande.montant_ttc)}
                             </span>
                             {commande.frais_port > 0 && (
-                              <span className="text-xs text-gray-500">
+                              <span className="text-xs text-[#777777]">
                                 +{formatEuro(commande.frais_port)} port
                               </span>
                             )}
@@ -414,15 +414,15 @@ export default function CommandesPage() {
                         <td className="px-4 py-3">
                           <div className="flex flex-col gap-1">
                             {commande.transporteur && (
-                              <span className="text-xs text-gray-600">{commande.transporteur}</span>
+                              <span className="text-xs text-[#777777]">{commande.transporteur}</span>
                             )}
                             {commande.date_expedition && (
-                              <span className="text-xs text-gray-500">
+                              <span className="text-xs text-[#777777]">
                                 Exp. {formatDate(commande.date_expedition)}
                               </span>
                             )}
                             {commande.date_livraison && (
-                              <span className="text-xs text-green-600">
+                              <span className="text-xs text-[#10B981]">
                                 Livré {formatDate(commande.date_livraison)}
                               </span>
                             )}
@@ -460,18 +460,18 @@ export default function CommandesPage() {
 
                       {/* Expanded row details */}
                       {isExpanded && (
-                        <tr className="bg-gray-50/50">
+                        <tr className="bg-[#FAF8F5]/50">
                           <td colSpan={9} className="px-4 py-4">
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                               {/* Produits */}
                               <div>
-                                <h4 className="text-sm font-semibold text-gray-900 mb-2">Produits commandés</h4>
+                                <h4 className="text-sm font-semibold text-[#111111] mb-2">Produits commandés</h4>
                                 <div className="space-y-2">
                                   {commande.produits.map((produit, index) => (
                                     <div key={index} className="flex items-center justify-between text-sm">
                                       <div className="flex-1">
                                         <span className="font-medium">{produit.nom}</span>
-                                        <span className="text-gray-500 ml-2">×{produit.quantite}</span>
+                                        <span className="text-[#777777] ml-2">×{produit.quantite}</span>
                                       </div>
                                       <span className="font-medium">{formatEuro(produit.prix_unitaire_ht * produit.quantite)}</span>
                                     </div>
@@ -481,11 +481,11 @@ export default function CommandesPage() {
 
                               {/* Adresse livraison */}
                               <div>
-                                <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                                <h4 className="text-sm font-semibold text-[#111111] mb-2 flex items-center gap-2">
                                   <MapPin className="w-4 h-4" />
                                   Adresse de livraison
                                 </h4>
-                                <div className="text-sm text-gray-600 space-y-1">
+                                <div className="text-sm text-[#777777] space-y-1">
                                   {(() => {
                                     const addr = commande.adresse_livraison as {rue?: string, code_postal?: string, ville?: string, pays?: string} | null
                                     return (
@@ -501,10 +501,10 @@ export default function CommandesPage() {
 
                               {/* Informations supplémentaires */}
                               <div>
-                                <h4 className="text-sm font-semibold text-gray-900 mb-2">Informations</h4>
+                                <h4 className="text-sm font-semibold text-[#111111] mb-2">Informations</h4>
                                 <div className="space-y-2 text-sm">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-gray-600">Paiement:</span>
+                                    <span className="text-[#777777]">Paiement:</span>
                                     <Badge
                                       variant={commande.paiement_statut === 'PAYE' ? 'success' :
                                               commande.paiement_statut === 'ECHOUE' ? 'error' : 'default'}
@@ -515,14 +515,14 @@ export default function CommandesPage() {
                                   </div>
                                   {commande.tracking_number && (
                                     <div className="flex items-center justify-between">
-                                      <span className="text-gray-600">Suivi:</span>
+                                      <span className="text-[#777777]">Suivi:</span>
                                       <span className="font-mono text-xs">{commande.tracking_number}</span>
                                     </div>
                                   )}
                                   {commande.notes && (
                                     <div>
-                                      <span className="text-gray-600">Notes:</span>
-                                      <p className="text-gray-800 mt-1">{commande.notes}</p>
+                                      <span className="text-[#777777]">Notes:</span>
+                                      <p className="text-[#1A1A1A] mt-1">{commande.notes}</p>
                                     </div>
                                   )}
                                 </div>
@@ -540,8 +540,8 @@ export default function CommandesPage() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
-              <div className="text-sm text-gray-500">
+            <div className="px-4 py-3 border-t border-[#F4F0EB] flex items-center justify-between">
+              <div className="text-sm text-[#777777]">
                 Page {page} sur {totalPages} · {response?.totalCount} commandes
               </div>
               <div className="flex items-center gap-2">
@@ -603,13 +603,13 @@ export default function CommandesPage() {
             />
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-[#3A3A3A]">
                 Transporteur
               </label>
               <select
                 name="transporteur"
                 defaultValue={trackingModal?.transporteur || ''}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+                className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
               >
                 <option value="">Sélectionner un transporteur...</option>
                 <option value="La Poste">La Poste</option>

@@ -7,10 +7,10 @@ import { Flame, Thermometer, Search, Snowflake } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const SCORE_TIERS = [
-  { min: 80, label: 'Chaud', icon: Flame, bg: 'bg-red-50 text-red-700 border-red-200', animate: true },
-  { min: 60, label: 'Tiède', icon: Thermometer, bg: 'bg-amber-50 text-amber-700 border-amber-200', animate: false },
-  { min: 40, label: 'À qualifier', icon: Search, bg: 'bg-blue-50 text-blue-700 border-blue-200', animate: false },
-  { min: 0, label: 'Froid', icon: Snowflake, bg: 'bg-gray-50 text-gray-400 border-gray-200', animate: false },
+  { min: 80, label: 'Chaud', icon: Flame, bg: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30', animate: true },
+  { min: 60, label: 'Tiède', icon: Thermometer, bg: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30', animate: false },
+  { min: 40, label: 'À qualifier', icon: Search, bg: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30', animate: false },
+  { min: 0, label: 'Froid', icon: Snowflake, bg: 'bg-[#FAF8F5] text-[#999999] border-[#EEEEEE]', animate: false },
 ]
 
 export { SCORE_TIERS }
@@ -45,14 +45,14 @@ export function ScoreChip({ score, size = 'sm', showLabel = false, showBar = fal
         'inline-flex items-center rounded-full font-semibold border transition-all',
         sizes[size],
         tier.bg,
-        isHot && 'glow-hot border-red-300 shadow-sm',
+        isHot && 'glow-hot border-[#FF2D78]/40 shadow-sm',
       )}>
         <Icon className={cn(iconSizes[size], isHot && 'animate-pulse')} />
         <span className="tabular-nums">{score}</span>
         {showLabel && <span className="ml-0.5 font-medium">{tier.label}</span>}
       </span>
       {showBar && (
-        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden" style={{ minWidth: 48 }}>
+        <div className="w-full h-1.5 bg-[#F4F0EB] rounded-full overflow-hidden" style={{ minWidth: 48 }}>
           <div
             className="h-full rounded-full score-fill"
             style={{

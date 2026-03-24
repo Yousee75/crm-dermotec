@@ -61,7 +61,7 @@ function TeamAvatar({ membre, size = 'md' }: { membre: Equipe; size?: 'sm' | 'md
         {initials}
       </div>
       {membre.is_active && (
-        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#10B981] rounded-full border-2 border-white" />
       )}
     </div>
   )
@@ -180,7 +180,7 @@ export default function EquipePage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-accent">Équipe</h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-[#777777] mt-1">
             {equipe?.length || 0} membres · {totalActifs} actifs
           </p>
         </div>
@@ -192,22 +192,22 @@ export default function EquipePage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Membres actifs</p>
+              <p className="text-sm font-medium text-[#777777]">Membres actifs</p>
               <p className="text-2xl font-bold text-accent mt-1">{totalActifs}</p>
             </div>
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 text-[#6B8CAE]" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Formatrices</p>
+              <p className="text-sm font-medium text-[#777777]">Formatrices</p>
               <p className="text-2xl font-bold text-accent mt-1">{totalFormatrices}</p>
             </div>
             <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center">
@@ -216,26 +216,26 @@ export default function EquipePage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Commerciaux</p>
+              <p className="text-sm font-medium text-[#777777]">Commerciaux</p>
               <p className="text-2xl font-bold text-accent mt-1">{totalCommerciaux}</p>
             </div>
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Phone className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center">
+              <Phone className="w-5 h-5 text-[#6B8CAE]" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Sessions ce mois</p>
+              <p className="text-sm font-medium text-[#777777]">Sessions ce mois</p>
               <p className="text-2xl font-bold text-accent mt-1">{sessionsAssignees}</p>
             </div>
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-green-600" />
+            <div className="w-10 h-10 bg-[#D1FAE5] rounded-lg flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-[#10B981]" />
             </div>
           </div>
         </div>
@@ -254,7 +254,7 @@ export default function EquipePage() {
                 'inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition',
                 isActive
                   ? 'bg-primary text-white border-primary'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-primary/50'
+                  : 'bg-white text-[#3A3A3A] border-[#EEEEEE] hover:border-primary/50'
               )}
             >
               <Icon className="w-4 h-4" />
@@ -268,28 +268,28 @@ export default function EquipePage() {
       {loadingEquipe ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+            <div key={i} className="bg-white rounded-lg border border-[#EEEEEE] p-6 animate-pulse">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-gray-200 rounded-full" />
+                <div className="w-10 h-10 bg-[#EEEEEE] rounded-full" />
                 <div className="space-y-2">
-                  <div className="w-24 h-4 bg-gray-200 rounded" />
-                  <div className="w-16 h-3 bg-gray-200 rounded" />
+                  <div className="w-24 h-4 bg-[#EEEEEE] rounded" />
+                  <div className="w-16 h-3 bg-[#EEEEEE] rounded" />
                 </div>
               </div>
               <div className="space-y-3">
-                <div className="w-full h-3 bg-gray-200 rounded" />
-                <div className="w-3/4 h-3 bg-gray-200 rounded" />
+                <div className="w-full h-3 bg-[#EEEEEE] rounded" />
+                <div className="w-3/4 h-3 bg-[#EEEEEE] rounded" />
               </div>
             </div>
           ))}
         </div>
       ) : filteredEquipe.length === 0 ? (
-        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-          <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <div className="bg-white rounded-lg border border-[#EEEEEE] p-12 text-center">
+          <Users className="w-12 h-12 text-[#999999] mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-[#111111] mb-2">
             {roleFilter === 'all' ? 'Aucun membre' : `Aucun ${ROLE_FILTERS.find(f => f.value === roleFilter)?.label.toLowerCase()}`}
           </h3>
-          <p className="text-gray-500 mb-6">
+          <p className="text-[#777777] mb-6">
             {roleFilter === 'all'
               ? 'Commencez par ajouter votre premier membre d\'équipe'
               : 'Aucun membre trouvé pour ce rôle'
@@ -308,7 +308,7 @@ export default function EquipePage() {
             <div
               key={membre.id}
               className={cn(
-                'bg-white rounded-lg border border-gray-200 p-6 cursor-pointer hover:border-primary/50 transition',
+                'bg-white rounded-lg border border-[#EEEEEE] p-6 cursor-pointer hover:border-primary/50 transition',
                 !membre.is_active && 'opacity-60'
               )}
               onClick={() => setSelectedMember(membre)}
@@ -332,8 +332,8 @@ export default function EquipePage() {
                   className={cn(
                     'p-1.5 rounded-lg transition',
                     membre.is_active
-                      ? 'text-green-500 hover:bg-green-50'
-                      : 'text-gray-400 hover:bg-gray-50'
+                      ? 'text-[#10B981] hover:bg-green-50'
+                      : 'text-[#999999] hover:bg-[#FAF8F5]'
                   )}
                 >
                   {membre.is_active ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
@@ -345,7 +345,7 @@ export default function EquipePage() {
                 <a
                   href={`mailto:${membre.email}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition"
+                  className="flex items-center gap-2 text-sm text-[#777777] hover:text-primary transition"
                 >
                   <Mail className="w-4 h-4" />
                   {membre.email}
@@ -354,7 +354,7 @@ export default function EquipePage() {
                   <a
                     href={`tel:${membre.telephone}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition"
+                    className="flex items-center gap-2 text-sm text-[#777777] hover:text-primary transition"
                   >
                     <Phone className="w-4 h-4" />
                     {membre.telephone}
@@ -369,13 +369,13 @@ export default function EquipePage() {
                     {membre.specialites.slice(0, 3).map((spec) => (
                       <span
                         key={spec}
-                        className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-700"
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-[#F4F0EB] text-[#3A3A3A]"
                       >
                         {spec}
                       </span>
                     ))}
                     {membre.specialites.length > 3 && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-[#777777]">
                         +{membre.specialites.length - 3}
                       </span>
                     )}
@@ -385,7 +385,7 @@ export default function EquipePage() {
 
               {/* Formatrice extras */}
               {membre.role === 'formatrice' && (
-                <div className="space-y-3 pt-3 border-t border-gray-100">
+                <div className="space-y-3 pt-3 border-t border-[#F4F0EB]">
                   {membre.cv_url && (
                     <a
                       href={membre.cv_url}
@@ -400,15 +400,15 @@ export default function EquipePage() {
                     </a>
                   )}
                   {membre.certifications && membre.certifications.length > 0 && (
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-[#777777]">
                       <Award className="w-4 h-4" />
                       {membre.certifications.length} certification{membre.certifications.length > 1 ? 's' : ''}
                     </div>
                   )}
                   {membre.taux_horaire && (
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Taux horaire</span>
-                      <span className="font-semibold text-green-600">
+                      <span className="text-[#777777]">Taux horaire</span>
+                      <span className="font-semibold text-[#10B981]">
                         {formatEuro(membre.taux_horaire)}/h
                       </span>
                     </div>
@@ -417,9 +417,9 @@ export default function EquipePage() {
               )}
 
               {/* Action */}
-              <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
-                <span className="text-sm text-gray-500">Voir le profil</span>
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#F4F0EB]">
+                <span className="text-sm text-[#777777]">Voir le profil</span>
+                <ChevronRight className="w-4 h-4 text-[#999999]" />
               </div>
             </div>
           ))}
@@ -430,7 +430,7 @@ export default function EquipePage() {
       {selectedMember && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-6 border-b border-[#EEEEEE]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <TeamAvatar membre={selectedMember} size="lg" />
@@ -443,7 +443,7 @@ export default function EquipePage() {
                 </div>
                 <button
                   onClick={() => setSelectedMember(null)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-[#999999] hover:text-[#777777]"
                 >
                   ✕
                 </button>
@@ -451,7 +451,7 @@ export default function EquipePage() {
             </div>
 
             <div className="p-6 space-y-6">
-              <p className="text-center text-gray-500">
+              <p className="text-center text-[#777777]">
                 Détail du profil à implémenter
               </p>
             </div>
