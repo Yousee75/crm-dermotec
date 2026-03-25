@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase-client'
 import { toast } from 'sonner'
 import type { Session } from '@/types'
 
-export function useSessions(filters: { month?: string; formation_id?: string; statut?: string } = {}) {
+export function useSessions(filters: { month?: string; formation_id?: string; formation_slug?: string; statut?: string } = {}) {
   const supabase = createClient()
 
   return useQuery({
@@ -36,7 +36,15 @@ export function useSessions(filters: { month?: string; formation_id?: string; st
 
       const { data, error } = await query
       if (error) throw error
-      return (data || []) as Session[]
+
+      let sessions = (data || []) as Session[]
+
+      // Filtre côté client par slug si nécessaire (pour le wizard d'inscription)
+      if (filters.formation_slug) {
+        sessions = sessions.filter(session => session.formation?.slug === filters.formation_slug)
+      }
+
+      return sessions
     },
     staleTime: 2 * 60_000, // 2 min — liste sessions
     gcTime: 10 * 60_000,

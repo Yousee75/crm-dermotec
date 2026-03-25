@@ -188,7 +188,7 @@ export function TerrainEmargementMode({
           </div>
 
           {/* Barre de progression */}
-          <div className="w-64 h-3 bg-gray-700 rounded-full overflow-hidden mx-auto">
+          <div className="w-64 h-3 bg-[#3A3A3A] rounded-full overflow-hidden mx-auto">
             <div
               className="h-full bg-gradient-to-r from-primary to-action transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
@@ -278,7 +278,7 @@ export function TerrainEmargementMode({
                     'flex items-center gap-4 p-4 rounded-xl border transition-all',
                     stagiaire.emarge
                       ? 'bg-green-900/30 border-[#10B981]/30'
-                      : 'bg-[#1A1A1A]/50 border-gray-600/30'
+                      : 'bg-[#1A1A1A]/50 border-[#3A3A3A]/30'
                   )}
                 >
                   {/* Statut */}
@@ -286,7 +286,7 @@ export function TerrainEmargementMode({
                     'w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0',
                     stagiaire.emarge
                       ? 'bg-[#10B981]/20 border-2 border-[#10B981]'
-                      : 'bg-gray-700/50 border-2 border-gray-600'
+                      : 'bg-[#3A3A3A]/50 border-2 border-[#3A3A3A]'
                   )}>
                     {stagiaire.emarge ? (
                       <CheckCircle className="w-6 h-6 text-[#10B981]" />

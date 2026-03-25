@@ -22,14 +22,14 @@ interface StatusConfig {
 // ============================================
 export const LEAD_STATUS: Record<StatutLead, StatusConfig> = {
   NOUVEAU:              { label: 'Nouveau',           color: '#6B7280', bgColor: '#F3F4F6', dotColor: '#9CA3AF', order: 0 },
-  CONTACTE:             { label: 'Contacté',          color: '#3B82F6', bgColor: '#EFF6FF', dotColor: '#3B82F6', order: 1 },
-  QUALIFIE:             { label: 'Qualifié',          color: '#8B5CF6', bgColor: '#F5F3FF', dotColor: '#8B5CF6', order: 2 },
+  CONTACTE:             { label: 'Contacté',          color: '#FF5C00', bgColor: '#FFF0E5', dotColor: '#FF5C00', order: 1 },
+  QUALIFIE:             { label: 'Qualifié',          color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 2 },
   FINANCEMENT_EN_COURS: { label: 'Financement',       color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 3 },
   INSCRIT:              { label: 'Inscrit',           color: '#10B981', bgColor: '#ECFDF5', dotColor: '#10B981', order: 4 },
-  EN_FORMATION:         { label: 'En formation',      color: '#06B6D4', bgColor: '#ECFEFF', dotColor: '#06B6D4', order: 5 },
+  EN_FORMATION:         { label: 'En formation',      color: '#FF8C42', bgColor: '#FFF3E8', dotColor: '#FF8C42', order: 5 },
   FORME:                { label: 'Formé(e)',          color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 6 },
   ALUMNI:               { label: 'Alumni',            color: '#059669', bgColor: '#ECFDF5', dotColor: '#059669', order: 7 },
-  PERDU:                { label: 'Perdu',             color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 8 },
+  PERDU:                { label: 'Perdu',             color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 8 },
   REPORTE:              { label: 'Reporté',           color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 9 },
   SPAM:                 { label: 'Spam',              color: '#9CA3AF', bgColor: '#F3F4F6', dotColor: '#9CA3AF', order: 10 },
 }
@@ -39,11 +39,11 @@ export const LEAD_STATUS: Record<StatutLead, StatusConfig> = {
 // ============================================
 export const SESSION_STATUS: Record<StatutSession, StatusConfig> = {
   BROUILLON:  { label: 'Brouillon',  color: '#9CA3AF', bgColor: '#F3F4F6', dotColor: '#9CA3AF', order: 0 },
-  PLANIFIEE:  { label: 'Planifiée',  color: '#3B82F6', bgColor: '#EFF6FF', dotColor: '#3B82F6', order: 1 },
+  PLANIFIEE:  { label: 'Planifiée',  color: '#FF5C00', bgColor: '#FFF0E5', dotColor: '#FF5C00', order: 1 },
   CONFIRMEE:  { label: 'Confirmée',  color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 2 },
-  EN_COURS:   { label: 'En cours',   color: '#06B6D4', bgColor: '#ECFEFF', dotColor: '#06B6D4', order: 3 },
-  TERMINEE:   { label: 'Terminée',   color: '#8B5CF6', bgColor: '#F5F3FF', dotColor: '#8B5CF6', order: 4 },
-  ANNULEE:    { label: 'Annulée',    color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 5 },
+  EN_COURS:   { label: 'En cours',   color: '#FF8C42', bgColor: '#FFF3E8', dotColor: '#FF8C42', order: 3 },
+  TERMINEE:   { label: 'Terminée',   color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 4 },
+  ANNULEE:    { label: 'Annulée',    color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 5 },
   REPORTEE:   { label: 'Reportée',   color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 6 },
 }
 
@@ -53,11 +53,11 @@ export const SESSION_STATUS: Record<StatutSession, StatusConfig> = {
 export const INSCRIPTION_STATUS: Record<StatutInscription, StatusConfig> = {
   EN_ATTENTE:  { label: 'En attente',  color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 0 },
   CONFIRMEE:   { label: 'Confirmée',   color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 1 },
-  EN_COURS:    { label: 'En cours',    color: '#06B6D4', bgColor: '#ECFEFF', dotColor: '#06B6D4', order: 2 },
-  COMPLETEE:   { label: 'Complétée',   color: '#8B5CF6', bgColor: '#F5F3FF', dotColor: '#8B5CF6', order: 3 },
-  ANNULEE:     { label: 'Annulée',     color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 4 },
+  EN_COURS:    { label: 'En cours',    color: '#FF8C42', bgColor: '#FFF3E8', dotColor: '#FF8C42', order: 2 },
+  COMPLETEE:   { label: 'Complétée',   color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 3 },
+  ANNULEE:     { label: 'Annulée',     color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 4 },
   REMBOURSEE:  { label: 'Remboursée',  color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 5 },
-  NO_SHOW:     { label: 'Absent',      color: '#DC2626', bgColor: '#FEF2F2', dotColor: '#DC2626', order: 6 },
+  NO_SHOW:     { label: 'Absent',      color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 6 },
 }
 
 // ============================================
@@ -67,11 +67,11 @@ export const FINANCEMENT_STATUS: Record<StatutFinancement, StatusConfig> = {
   PREPARATION:         { label: 'Préparation',       color: '#9CA3AF', bgColor: '#F3F4F6', dotColor: '#9CA3AF', order: 0 },
   DOCUMENTS_REQUIS:    { label: 'Documents requis',   color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 1 },
   DOSSIER_COMPLET:     { label: 'Dossier complet',    color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 2 },
-  SOUMIS:              { label: 'Soumis',             color: '#3B82F6', bgColor: '#EFF6FF', dotColor: '#3B82F6', order: 3 },
-  EN_EXAMEN:           { label: 'En examen',          color: '#8B5CF6', bgColor: '#F5F3FF', dotColor: '#8B5CF6', order: 4 },
+  SOUMIS:              { label: 'Soumis',             color: '#FF5C00', bgColor: '#FFF0E5', dotColor: '#FF5C00', order: 3 },
+  EN_EXAMEN:           { label: 'En examen',          color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 4 },
   COMPLEMENT_DEMANDE:  { label: 'Complément demandé', color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 5 },
   VALIDE:              { label: 'Validé',             color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 6 },
-  REFUSE:              { label: 'Refusé',             color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 7 },
+  REFUSE:              { label: 'Refusé',             color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 7 },
   VERSE:               { label: 'Versé',              color: '#059669', bgColor: '#ECFDF5', dotColor: '#059669', order: 8 },
   CLOTURE:             { label: 'Clôturé',            color: '#6B7280', bgColor: '#F3F4F6', dotColor: '#6B7280', order: 9 },
 }
@@ -80,7 +80,7 @@ export const FINANCEMENT_STATUS: Record<StatutFinancement, StatusConfig> = {
 // PRIORITÉS — 4 niveaux
 // ============================================
 export const PRIORITE_CONFIG: Record<PrioriteLead, StatusConfig> = {
-  URGENTE:  { label: 'Urgente',  color: '#DC2626', bgColor: '#FEF2F2', dotColor: '#DC2626', order: 0 },
+  URGENTE:  { label: 'Urgente',  color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 0 },
   HAUTE:    { label: 'Haute',    color: '#EA580C', bgColor: '#FFF7ED', dotColor: '#EA580C', order: 1 },
   NORMALE:  { label: 'Normale',  color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 2 },
   BASSE:    { label: 'Basse',    color: '#6B7280', bgColor: '#F3F4F6', dotColor: '#6B7280', order: 3 },
@@ -91,11 +91,11 @@ export const PRIORITE_CONFIG: Record<PrioriteLead, StatusConfig> = {
 // ============================================
 export const PAIEMENT_STATUS: Record<PaiementStatut, StatusConfig> = {
   EN_ATTENTE:          { label: 'En attente',    color: '#F59E0B', bgColor: '#FFFBEB', dotColor: '#F59E0B', order: 0 },
-  ACOMPTE:             { label: 'Acompte',       color: '#3B82F6', bgColor: '#EFF6FF', dotColor: '#3B82F6', order: 1 },
+  ACOMPTE:             { label: 'Acompte',       color: '#FF5C00', bgColor: '#FFF0E5', dotColor: '#FF5C00', order: 1 },
   PARTIEL:             { label: 'Partiel',       color: '#F97316', bgColor: '#FFF7ED', dotColor: '#F97316', order: 2 },
   PAYE:                { label: 'Payé',          color: 'var(--color-success)', bgColor: '#F0FDF4', dotColor: 'var(--color-success)', order: 3 },
   REMBOURSE:           { label: 'Remboursé',     color: '#9CA3AF', bgColor: '#F3F4F6', dotColor: '#9CA3AF', order: 4 },
-  LITIGE:              { label: 'Litige',        color: '#EF4444', bgColor: '#FEF2F2', dotColor: '#EF4444', order: 5 },
+  LITIGE:              { label: 'Litige',        color: '#FF2D78', bgColor: '#FFE0EF', dotColor: '#FF2D78', order: 5 },
 }
 
 // ============================================
@@ -105,7 +105,7 @@ export const BRAND = {
   primary: '#FF5C00',        // Orange Satorea — Palette v5
   primaryHover: '#E65200',
   primaryDark: '#E65200',
-  accent: '#1A1A1A',         // Noir Satorea
+  accent: '#111111',         // Noir Satorea
   accentLight: '#3A3A3A',
   success: '#10B981',        // Vert
   warning: '#FF8C42',        // Orange clair
@@ -120,9 +120,9 @@ export const FORMATION_CATEGORIES: Record<string, { color: string; bgColor: stri
   'Dermo-Esthétique':  { color: '#E11D48', bgColor: '#FFF1F2' },
   'Dermo-Correctrice': { color: '#DB2777', bgColor: '#FDF2F8' },
   'Soins Visage':      { color: '#F59E0B', bgColor: '#FFFBEB' },
-  'Laser & IPL':       { color: '#7C3AED', bgColor: '#F5F3FF' },
+  'Laser & IPL':       { color: '#FF2D78', bgColor: '#FFE0EF' },
   'Soins Corps':       { color: '#10B981', bgColor: '#ECFDF5' },
-  'Hygiène':           { color: '#3B82F6', bgColor: '#EFF6FF' },
+  'Hygiène':           { color: '#FF5C00', bgColor: '#FFF0E5' },
 }
 
 // ============================================

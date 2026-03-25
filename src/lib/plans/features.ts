@@ -5,7 +5,7 @@
 export const PLANS = {
   free: { name: 'Découverte', price: 0, color: '#71717a' },      // zinc-500
   pro: { name: 'Pro', price: 49, color: '#d4a853' },            // amber-600
-  expert: { name: 'Expert', price: 99, color: '#3b82f6' },      // blue-500
+  expert: { name: 'Expert', price: 99, color: '#FF2D78' },      // rose Satorea
   clinique: { name: 'Clinique', price: null, color: '#22c55e' }, // green-500
 } as const
 

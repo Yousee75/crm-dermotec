@@ -13,6 +13,7 @@ import { toast } from 'sonner'
 import { useLeads, useChangeStatut } from '@/hooks/use-leads'
 import { PHASES_PIPELINE, STATUTS_LEAD } from '@/types'
 import type { Lead, StatutLead } from '@/types'
+import { validateLeadTransition } from '@/lib/validators'
 import { formatEuro, formatDateShort, daysBetween, getInitials } from '@/lib/utils'
 import { cn } from '@/lib/utils'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -599,6 +600,15 @@ export default function PipelinePage() {
     const newStatut = targetPhase.statuts[0] as StatutLead
     const currentLead = leadsData?.leads.find(l => l.id === leadId)
     if (!currentLead || currentLead.statut === newStatut) return
+
+    // Validation des transitions
+    const transitionError = validateLeadTransition(currentLead.statut, newStatut)
+    if (transitionError) {
+      toast.error('Transition impossible', {
+        description: `${currentLead.prenom} ${currentLead.nom} • ${transitionError}`,
+      })
+      return
+    }
 
     const previousStatut = currentLead.statut
     changeStatut.mutate({

@@ -198,7 +198,7 @@ export default function CoursePlayer({
   }, [])
 
   return (
-    <div className="h-screen flex flex-col bg-gray-950 text-white">
+    <div className="h-screen flex flex-col bg-[#111111] text-white">
       {/* ============================================================ */}
       {/* HEADER BAR */}
       {/* ============================================================ */}
@@ -302,7 +302,7 @@ export default function CoursePlayer({
                   {currentContent.telechargeable && currentContent.file_name && (
                     <button
                       onClick={() => onDownload(currentContent.id)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1A1A1A] hover:bg-gray-700 text-sm transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1A1A1A] hover:bg-[#3A3A3A] text-sm transition-colors"
                     >
                       <Download className="w-4 h-4" />
                       Télécharger

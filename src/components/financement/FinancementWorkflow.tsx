@@ -592,7 +592,8 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                     Annuler
                   </Button>
                   <Button onClick={() => {
-                    toast.success('Étape mise à jour')
+                    // TODO: Connecter à Supabase pour vraiment mettre à jour l'étape
+                    toast.info('Fonctionnalité à connecter à Supabase')
                     setShowActionModal(false)
                   }}>
                     Valider
@@ -647,7 +648,8 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                     Annuler
                   </Button>
                   <Button onClick={() => {
-                    toast.success('Paiement enregistré')
+                    // TODO: Connecter à Supabase pour vraiment enregistrer le paiement
+                    toast.info('Fonctionnalité à connecter à Supabase')
                     setShowPaymentModal(false)
                   }}>
                     Enregistrer
@@ -666,6 +668,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
 function DocumentsTab() {
   const [filter, setFilter] = useState('tous')
 
+  // TODO: Remplacer mockDocuments par de vraies données depuis un hook ou API
   const filteredDocuments = mockDocuments.filter(doc => {
     if (filter === 'tous') return true
     return doc.statut === filter
@@ -682,6 +685,15 @@ function DocumentsTab() {
 
   return (
     <div className="space-y-6">
+      {/* Badge données de démonstration */}
+      <Card className="p-3 border-amber-200 bg-amber-50">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-amber-600" />
+          <span className="text-sm font-medium text-amber-800">Données de démonstration</span>
+          <span className="text-xs text-amber-600">– Les documents affichés sont fictifs</span>
+        </div>
+      </Card>
+
       {/* Progress et filtres */}
       <Card className="p-4">
         <div className="flex items-center justify-between mb-4">

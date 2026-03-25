@@ -5,7 +5,7 @@
 /* ============================================================
    CRM SATOREA — Design System v5 "Palette Officielle"
    Source : satorea_light_options.html — Option B "Blanc Chaud"
-   Orange #FF5C00 · Rose #FF2D78 · Noir #1A1A1A · Papier #FAF8F5
+   Orange #FF5C00 · Rose #FF2D78 · Noir #111111 · Papier #FAF8F5
    ============================================================ */
 
 @theme {
@@ -17,9 +17,9 @@
   --color-primary-100: #FFE0CC;
   --color-primary-200: #FFCAAA;
 
-  /* ── ACCENT : Noir Satorea (Option B : #1a1a1a, #3a3a3a) ── */
-  --color-accent: #1A1A1A;
-  --color-accent-light: #3A3A3A;
+  /* ── ACCENT : Noir Satorea (Option B : #111111, #222222) ── */
+  --color-accent: #111111;
+  --color-accent-light: #222222;
   --color-accent-50: #F7F7F7;
 
   /* ── ACTION CTA : Rose Hot Pink Satorea (accent, distinction, beauté) ── */
@@ -55,17 +55,17 @@
   --color-border-light: #F4F0EB;
   --color-border-focus: #FF5C00;
 
-  /* ── TEXT (Option B : #1a1a1a primary, #3a3a3a secondary) ── */
-  --color-text: #1A1A1A;
+  /* ── TEXT (Option B : #111111 primary, #3A3A3A secondary) ── */
+  --color-text: #111111;
   --color-text-secondary: #3A3A3A;
   --color-text-muted: #777777;
   --color-text-inverse: #FFFFFF;
 
-  /* ── SIDEBAR (Option B : bg #1a1a1a, hover #3a3a3a) ── */
-  --color-sidebar-bg: #1A1A1A;
+  /* ── SIDEBAR (Option B : bg #111111, hover #222222) ── */
+  --color-sidebar-bg: #111111;
   --color-sidebar-text: #999999;
   --color-sidebar-active: #FF5C00;
-  --color-sidebar-hover: #3A3A3A;
+  --color-sidebar-hover: #222222;
 
   /* ── PIPELINE : gris → orange → rose → vert ── */
   --color-stage-cold: #999999;
@@ -110,14 +110,14 @@
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  --shadow-xs: 0 1px 2px rgba(26, 26, 26, 0.05);
-  --shadow-sm: 0 1px 3px rgba(26, 26, 26, 0.07), 0 1px 2px rgba(26, 26, 26, 0.04);
-  --shadow-md: 0 4px 12px -2px rgba(26, 26, 26, 0.10), 0 2px 4px rgba(26, 26, 26, 0.05);
-  --shadow-lg: 0 12px 24px -4px rgba(26, 26, 26, 0.12), 0 4px 8px rgba(26, 26, 26, 0.05);
-  --shadow-xl: 0 24px 48px -8px rgba(26, 26, 26, 0.14), 0 8px 16px rgba(26, 26, 26, 0.05);
+  --shadow-xs: 0 1px 2px rgba(17, 17, 17, 0.05);
+  --shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.07), 0 1px 2px rgba(17, 17, 17, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(17, 17, 17, 0.10), 0 2px 4px rgba(17, 17, 17, 0.05);
+  --shadow-lg: 0 12px 24px -4px rgba(17, 17, 17, 0.12), 0 4px 8px rgba(17, 17, 17, 0.05);
+  --shadow-xl: 0 24px 48px -8px rgba(17, 17, 17, 0.14), 0 8px 16px rgba(17, 17, 17, 0.05);
   --shadow-glow: 0 0 24px rgba(255, 92, 0, 0.25);
-  --shadow-card: 0 1px 4px rgba(26, 26, 26, 0.04), 0 1px 2px rgba(26, 26, 26, 0.02);
-  --shadow-card-hover: 0 12px 32px rgba(255, 92, 0, 0.14), 0 4px 12px rgba(26, 26, 26, 0.08);
+  --shadow-card: 0 1px 4px rgba(17, 17, 17, 0.04), 0 1px 2px rgba(17, 17, 17, 0.02);
+  --shadow-card-hover: 0 12px 32px rgba(255, 92, 0, 0.14), 0 4px 12px rgba(17, 17, 17, 0.08);
 }
 
 /* Dark mode SUPPRIMÉ — palette Satorea light only */
@@ -529,7 +529,7 @@ tr.row-urgent,
 }
 
 .glass-dark {
-  background: rgba(26, 26, 26, 0.90);
+  background: rgba(17, 17, 17, 0.90);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 92, 0, 0.08);
@@ -553,7 +553,7 @@ tr.row-urgent,
 }
 
 .gradient-beauty {
-  background: linear-gradient(135deg, #FF5C00 0%, #FF2D78 50%, #1A1A1A 100%);
+  background: linear-gradient(135deg, #FF5C00 0%, #FF2D78 50%, #111111 100%);
 }
 
 .gradient-mesh {

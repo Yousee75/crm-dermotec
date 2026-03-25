@@ -19,7 +19,7 @@ const NOTIF_CONFIG: Record<string, { icon: React.ElementType; color: string; bg:
   rappel: { icon: Clock, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   systeme: { icon: Bell, color: 'text-[#777777]', bg: 'bg-[#F4F0EB]' },
   alerte: { icon: AlertTriangle, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
-  message: { icon: MessageSquare, color: 'text-cyan-500', bg: 'bg-cyan-50' },
+  message: { icon: MessageSquare, color: 'text-[#FF5C00]', bg: 'bg-[#FFF0E5]' },
 }
 
 function NotificationItem({

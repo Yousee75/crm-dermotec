@@ -112,7 +112,7 @@ export default function WizardInscription({
   // Hooks
   const { data: lead } = useLead(leadId)
   const { data: sessions } = useSessions({
-    formation_id: wizardData.formation ? wizardData.formation.slug : undefined
+    formation_slug: wizardData.formation ? wizardData.formation.slug : undefined
   })
   const createInscription = useCreateInscription()
   const createFinancement = useCreateFinancement()
@@ -1047,26 +1047,45 @@ export default function WizardInscription({
                     <CardTitle className="text-lg">Prochaines actions</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Button size="sm" className="w-full justify-start">
+                    <Button
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => toast.info('Fonctionnalité à venir - Convention via DocuSeal')}
+                    >
                       <FileCheck className="w-4 h-4 mr-2" />
                       Envoyer la convention
                     </Button>
 
                     {wizardData.financement.mode === 'personnel' && (
-                      <Button size="sm" variant="outline" className="w-full justify-start">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full justify-start"
+                        onClick={() => toast.info('Fonctionnalité à venir - Lien de paiement Stripe')}
+                      >
                         <CreditCard className="w-4 h-4 mr-2" />
                         Envoyer le lien de paiement
                       </Button>
                     )}
 
                     {wizardData.financement.mode === 'organisme' && (
-                      <Button size="sm" variant="outline" className="w-full justify-start">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full justify-start"
+                        onClick={() => toast.info('Fonctionnalité à venir - Workflow financement')}
+                      >
                         <FileCheck className="w-4 h-4 mr-2" />
                         Monter le dossier de financement
                       </Button>
                     )}
 
-                    <Button size="sm" variant="outline" className="w-full justify-start">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="w-full justify-start"
+                      onClick={() => toast.info('Fonctionnalité à venir - Convocation par email')}
+                    >
                       <Mail className="w-4 h-4 mr-2" />
                       Envoyer la convocation
                     </Button>
