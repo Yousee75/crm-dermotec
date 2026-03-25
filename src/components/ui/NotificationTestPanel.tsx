@@ -102,7 +102,7 @@ export function NotificationTestPanel() {
           className="w-full justify-start gap-2 h-8"
           onClick={testSessionPleine}
         >
-          <Calendar className="w-3.5 h-3.5 text-blue-500" />
+          <Calendar className="w-3.5 h-3.5 text-[#FF5C00]" />
           Session proche
         </Button>
 
@@ -112,7 +112,7 @@ export function NotificationTestPanel() {
           className="w-full justify-start gap-2 h-8"
           onClick={testRappelRetard}
         >
-          <Clock className="w-3.5 h-3.5 text-red-500" />
+          <Clock className="w-3.5 h-3.5 text-[#FF2D78]" />
           Rappel en retard
         </Button>
 
@@ -122,7 +122,7 @@ export function NotificationTestPanel() {
           className="w-full justify-start gap-2 h-8"
           onClick={testLeadRecuperable}
         >
-          <Fire className="w-3.5 h-3.5 text-purple-500" />
+          <Fire className="w-3.5 h-3.5 text-[#FF2D78]" />
           Lead récupérable
         </Button>
       </div>

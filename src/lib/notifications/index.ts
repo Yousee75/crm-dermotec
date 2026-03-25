@@ -44,22 +44,22 @@ export const NOTIFICATION_CONFIG = {
   },
   session_pleine: {
     icon: 'Calendar',
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-50',
+    color: 'text-[#FF5C00]',
+    bgColor: 'bg-[#FFF0E5]',
     toastType: 'info' as const,
     duration: 6000
   },
   rappel_retard: {
     icon: 'Clock',
-    color: 'text-red-500',
-    bgColor: 'bg-red-50',
+    color: 'text-[#FF2D78]',
+    bgColor: 'bg-[#FFE0EF]',
     toastType: 'error' as const,
     duration: 10000
   },
   lead_recuperable: {
     icon: 'Fire',
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-50',
+    color: 'text-[#FF2D78]',
+    bgColor: 'bg-[#FFE0EF]',
     toastType: 'default' as const,
     duration: 8000
   }

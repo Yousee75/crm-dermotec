@@ -73,7 +73,7 @@ export default function ProgressDashboard({
       <div className={`
         relative overflow-hidden rounded-2xl p-6 md:p-8
         ${isComplete
-          ? 'bg-gradient-to-br from-emerald-600 to-cyan-600'
+          ? 'bg-gradient-to-br from-emerald-600 to-emerald-500'
           : 'bg-gradient-to-br from-accent to-accent-light'
         }
       `}>
@@ -131,7 +131,7 @@ export default function ProgressDashboard({
             ) : (
               <button
                 onClick={onStartCourse}
-                className="flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white rounded-lg font-medium text-sm transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#FF5C00] hover:bg-[#E65200] text-white rounded-lg font-medium text-sm transition-colors"
               >
                 <Play className="w-4 h-4" />
                 Commencer la formation
@@ -152,10 +152,10 @@ export default function ProgressDashboard({
           color="emerald"
         />
         <KpiCard
-          icon={<Clock className="w-4 h-4 text-cyan-500" />}
+          icon={<Clock className="w-4 h-4 text-[#FF5C00]" />}
           label="Temps passé"
           value={tempsPasseMinutes < 60 ? `${tempsPasseMinutes} min` : `${Math.floor(tempsPasseMinutes / 60)}h${tempsPasseMinutes % 60 > 0 ? tempsPasseMinutes % 60 : ''}`}
-          color="cyan"
+          color="orange"
         />
         <KpiCard
           icon={<Award className="w-4 h-4 text-[#FF8C42]" />}

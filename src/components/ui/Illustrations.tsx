@@ -1,6 +1,6 @@
 // ============================================================
 // CRM DERMOTEC — Illustrations SVG custom
-// Couleurs : #2EC6F3 (cyan), #082545 (bleu nuit), accents
+// Couleurs : #FF5C00 (orange), #111111 (noir), #FF2D78 (rose) — Palette Satorea
 // Usage : empty states, onboarding, succès, erreurs
 // ============================================================
 
