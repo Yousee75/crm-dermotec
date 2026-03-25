@@ -1017,7 +1017,7 @@ function CoursePlayerFullscreen({
     return (
       <div className="fixed inset-0 z-50 bg-[#111111] flex items-center justify-center">
         <div className="text-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto text-cyan-500" />
+          <Loader2 className="h-8 w-8 animate-spin mx-auto text-[#FF5C00]" />
           <p className="text-[#999999]">Chargement de la formation...</p>
         </div>
       </div>

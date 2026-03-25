@@ -140,7 +140,7 @@ export default function CompetitorDetailSheet({ competitor, open, onClose }: Com
             className="fixed right-0 top-0 h-full w-[480px] max-w-[90vw] bg-white shadow-2xl rounded-l-2xl z-[60] overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="p-6 border-b bg-gradient-to-r from-blue-50 to-purple-50">
+            <div className="p-6 border-b bg-gradient-to-r from-[#FFF0E5] to-[#FFE0EF]">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   {competitor.rank && (

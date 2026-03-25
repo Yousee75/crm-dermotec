@@ -397,7 +397,7 @@ export default function SettingsPage() {
 
               {templatesLoading ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
+                  <div className="animate-spin w-6 h-6 border-2 border-[#FF5C00] border-t-transparent rounded-full mx-auto"></div>
                   <p className="text-sm text-[#777777] mt-2">Chargement des templates...</p>
                 </div>
               ) : (
@@ -515,7 +515,7 @@ export default function SettingsPage() {
 
               {partenairesLoading ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
+                  <div className="animate-spin w-6 h-6 border-2 border-[#FF5C00] border-t-transparent rounded-full mx-auto"></div>
                   <p className="text-sm text-[#777777] mt-2">Chargement des partenaires...</p>
                 </div>
               ) : (

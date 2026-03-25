@@ -203,7 +203,7 @@ export function CoachingCard({ className }: CoachingCardProps) {
   const getBackgroundClass = (type: CoachingInsight['type']) => {
     switch (type) {
       case 'tip':
-        return 'bg-gradient-to-r from-blue-50 to-blue-100/50 border-[#6B8CAE]/30'
+        return 'bg-gradient-to-r from-[#FFF0E5] to-[#FFE0CC]/50 border-[#6B8CAE]/30'
       case 'alert':
         return 'bg-gradient-to-r from-amber-50 to-amber-100/50 border-[#FF8C42]/30'
       case 'celebration':

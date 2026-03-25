@@ -26,7 +26,7 @@ const NOTIF_ICONS: Record<string, { icon: React.ElementType; color: string; bg: 
   rappel: { icon: Clock, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   system: { icon: Bell, color: 'text-[#777777]', bg: 'bg-[#FAF8F5]' },
   alert: { icon: AlertTriangle, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
-  message: { icon: MessageSquare, color: 'text-cyan-500', bg: 'bg-cyan-50' },
+  message: { icon: MessageSquare, color: 'text-[#FF5C00]', bg: 'bg-[#FFF0E5]' },
   analytics: { icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50' },
 }
 

@@ -41,7 +41,7 @@ interface ModuleWithStats extends FormationModule {
 // ============================================================
 
 const TYPE_CONFIG: Record<string, { icon: typeof FileText; color: string; label: string }> = {
-  video: { icon: Video, color: 'text-cyan-600 bg-cyan-50', label: 'Video' },
+  video: { icon: Video, color: 'text-[#FF5C00] bg-[#FFF0E5]', label: 'Video' },
   pdf: { icon: FileText, color: 'text-[#FF2D78] bg-[#FFE0EF]', label: 'PDF' },
   quiz: { icon: BookOpen, color: 'text-[#FF8C42] bg-[#FFF3E8]', label: 'Quiz' },
   texte: { icon: FileText, color: 'text-[#777777] bg-[#FAF8F5]', label: 'Texte' },
@@ -274,10 +274,10 @@ export default function FormationContenuPage() {
       {/* Stats cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard
-          icon={<Layers className="w-5 h-5 text-cyan-600" />}
+          icon={<Layers className="w-5 h-5 text-[#FF5C00]" />}
           label="Modules"
           value={totalModules}
-          bgColor="bg-cyan-50"
+          bgColor="bg-[#FFF0E5]"
         />
         <StatCard
           icon={<Package className="w-5 h-5 text-emerald-600" />}
@@ -339,7 +339,7 @@ export default function FormationContenuPage() {
                     onClick={() => toggleModule(module.id)}
                     className="w-full flex items-center gap-4 p-4 hover:bg-[#FAF8F5] transition-colors text-left"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-cyan-50 text-cyan-700 flex items-center justify-center flex-shrink-0 font-bold text-sm">
+                    <div className="w-10 h-10 rounded-lg bg-[#FFF0E5] text-[#FF5C00] flex items-center justify-center flex-shrink-0 font-bold text-sm">
                       {moduleIdx + 1}
                     </div>
 

@@ -235,7 +235,7 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
                 <div className={cn(
                   "w-5 h-5 rounded-full border-2 flex items-center justify-center",
                   answers[currentQuestion] === optIndex
-                    ? "border-blue-500 bg-[#6B8CAE]"
+                    ? "border-[#FF5C00] bg-[#6B8CAE]"
                     : "border-[#EEEEEE]"
                 )}>
                   {answers[currentQuestion] === optIndex && (

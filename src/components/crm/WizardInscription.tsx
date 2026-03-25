@@ -329,9 +329,9 @@ export default function WizardInscription({
                 <div className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium mb-2 transition-colors",
                   currentStep > step.id
-                    ? "bg-blue-600 text-white"
+                    ? "bg-[#FF5C00] text-white"
                     : currentStep === step.id
-                    ? "bg-[#E0EBF5] text-[#6B8CAE] border-2 border-blue-600"
+                    ? "bg-[#E0EBF5] text-[#6B8CAE] border-2 border-[#FF5C00]"
                     : "bg-slate-100 text-slate-400"
                 )}>
                   {currentStep > step.id ? (
@@ -413,7 +413,7 @@ export default function WizardInscription({
                               className={cn(
                                 "cursor-pointer transition-all duration-200 hover:shadow-lg",
                                 wizardData.formation?.slug === formation.slug
-                                  ? "ring-2 ring-blue-500 shadow-lg"
+                                  ? "ring-2 ring-[#FF5C00] shadow-lg"
                                   : "hover:shadow-md"
                               )}
                               onClick={() => selectFormation(formation)}
@@ -513,7 +513,7 @@ export default function WizardInscription({
                               className={cn(
                                 "cursor-pointer transition-all duration-200",
                                 wizardData.session?.id === session.id
-                                  ? "ring-2 ring-blue-500 shadow-lg"
+                                  ? "ring-2 ring-[#FF5C00] shadow-lg"
                                   : "hover:shadow-md"
                               )}
                               onClick={() => selectSession(session)}

@@ -192,7 +192,7 @@ export default function ProgressDashboard({
                   ${isModuleComplete
                     ? 'bg-emerald-50 text-emerald-600'
                     : pct > 0
-                      ? 'bg-cyan-50 text-cyan-600'
+                      ? 'bg-[#FFF0E5] text-[#FF5C00]'
                       : 'bg-[#FAF8F5] text-[#999999]'
                   }
                 `}>
@@ -219,7 +219,7 @@ export default function ProgressDashboard({
                   <div className="h-2 bg-[#F4F0EB] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
-                        isModuleComplete ? 'bg-emerald-500' : 'bg-cyan-500'
+                        isModuleComplete ? 'bg-emerald-500' : 'bg-[#FF5C00]'
                       }`}
                       style={{ width: `${pct}%` }}
                     />
@@ -232,7 +232,7 @@ export default function ProgressDashboard({
                   {isModuleComplete ? (
                     <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                   ) : pct > 0 ? (
-                    <TrendingUp className="w-5 h-5 text-cyan-500" />
+                    <TrendingUp className="w-5 h-5 text-[#FF5C00]" />
                   ) : (
                     <Circle className="w-5 h-5 text-[#999999]" />
                   )}

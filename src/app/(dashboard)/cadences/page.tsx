@@ -233,7 +233,7 @@ function CadenceInstanceRow({
     <tr className="hover:bg-[#FAF8F5]">
       <td className="px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF5C00] to-[#FF2D78] flex items-center justify-center text-white text-sm font-medium">
             {instance.lead?.prenom?.charAt(0) || 'L'}
           </div>
           <div>

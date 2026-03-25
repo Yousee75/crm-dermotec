@@ -56,7 +56,7 @@ const features = [
     icon: Brain,
     title: 'Pipeline intelligent',
     description: 'Scoring IA /100, 11 statuts personnalisables, drag-drop Kanban. Vos leads les plus chauds remontent automatiquement.',
-    gradient: 'from-blue-500 to-cyan-400',
+    gradient: 'from-[#FF5C00] to-[#FF8C42]',
   },
   {
     icon: Wallet,

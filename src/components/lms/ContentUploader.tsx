@@ -80,7 +80,7 @@ function formatSize(bytes: number): string {
 const TYPE_CONFIG: Record<string, { icon: typeof FileText; color: string; label: string }> = {
   ppt: { icon: FileText, color: 'text-orange-400 bg-orange-500/10', label: 'Présentation' },
   pdf: { icon: FileText, color: 'text-[#FF2D78] bg-[#FF2D78]/10', label: 'PDF' },
-  video: { icon: Video, color: 'text-cyan-400 bg-cyan-500/10', label: 'Vidéo' },
+  video: { icon: Video, color: 'text-[#FF8C42] bg-[#FF5C00]/10', label: 'Vidéo' },
   audio: { icon: Music, color: 'text-violet-400 bg-violet-500/10', label: 'Audio' },
   image: { icon: ImageIcon, color: 'text-emerald-400 bg-emerald-500/10', label: 'Image' },
 }
@@ -230,7 +230,7 @@ export default function ContentUploader({
           </button>
           <button
             onClick={() => setShowNewModule(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-cyan-50 text-cyan-700 hover:bg-cyan-100 text-sm font-medium transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FFF0E5] text-[#FF5C00] hover:bg-[#FFF0E5] text-sm font-medium transition-colors"
           >
             <Plus className="w-4 h-4" />
             Nouveau module
@@ -247,7 +247,7 @@ export default function ContentUploader({
         className={`
           relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all
           ${dragOver
-            ? 'border-cyan-400 bg-cyan-50'
+            ? 'border-[#FF8C42] bg-[#FFF0E5]'
             : 'border-[#EEEEEE] hover:border-[#EEEEEE] hover:bg-[#FAF8F5]'
           }
         `}
@@ -260,7 +260,7 @@ export default function ContentUploader({
           onChange={(e) => e.target.files && addFiles(e.target.files)}
           className="hidden"
         />
-        <Upload className={`w-10 h-10 mx-auto mb-3 ${dragOver ? 'text-cyan-500' : 'text-[#999999]'}`} />
+        <Upload className={`w-10 h-10 mx-auto mb-3 ${dragOver ? 'text-[#FF5C00]' : 'text-[#999999]'}`} />
         <p className="text-sm font-medium text-[#3A3A3A]">
           Glissez-déposez vos fichiers ici
         </p>
@@ -306,7 +306,7 @@ export default function ContentUploader({
           <button
             onClick={addVideoByUrl}
             disabled={!videoUrl || !videoTitre}
-            className="px-4 py-2 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-500 disabled:opacity-50 transition-colors"
+            className="px-4 py-2 bg-[#FF5C00] text-white rounded-lg text-sm font-medium hover:bg-[#FF5C00] disabled:opacity-50 transition-colors"
           >
             Ajouter
           </button>
@@ -341,7 +341,7 @@ export default function ContentUploader({
           <button
             onClick={createModule}
             disabled={!newModuleTitre}
-            className="px-4 py-2 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-500 disabled:opacity-50 transition-colors"
+            className="px-4 py-2 bg-[#FF5C00] text-white rounded-lg text-sm font-medium hover:bg-[#FF5C00] disabled:opacity-50 transition-colors"
           >
             Créer le module
           </button>
@@ -359,7 +359,7 @@ export default function ContentUploader({
               <button
                 onClick={uploadAll}
                 disabled={isUploading}
-                className="flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-500 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-[#FF5C00] text-white rounded-lg text-sm font-medium hover:bg-[#FF5C00] disabled:opacity-50 transition-colors"
               >
                 {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                 {isUploading ? 'Envoi...' : 'Tout envoyer'}
@@ -400,7 +400,7 @@ export default function ContentUploader({
                   {item.status === 'uploading' && (
                     <div className="h-1 bg-[#F4F0EB] rounded-full mt-1.5 overflow-hidden">
                       <div
-                        className="h-full bg-cyan-500 rounded-full transition-all duration-300"
+                        className="h-full bg-[#FF5C00] rounded-full transition-all duration-300"
                         style={{ width: `${item.progress}%` }}
                       />
                     </div>
@@ -428,7 +428,7 @@ export default function ContentUploader({
                 {/* Statut */}
                 {item.status === 'success' && <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />}
                 {item.status === 'error' && <AlertCircle className="w-5 h-5 text-[#FF2D78] flex-shrink-0" />}
-                {item.status === 'uploading' && <Loader2 className="w-5 h-5 text-cyan-500 animate-spin flex-shrink-0" />}
+                {item.status === 'uploading' && <Loader2 className="w-5 h-5 text-[#FF5C00] animate-spin flex-shrink-0" />}
 
                 {/* Supprimer */}
                 {item.status === 'pending' && (

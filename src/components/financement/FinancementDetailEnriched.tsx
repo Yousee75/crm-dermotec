@@ -68,7 +68,7 @@ const ACTION_CONFIG = {
   'Changement statut': { color: 'bg-[#FFE0EF] text-[#FF2D78]' },
   'Document ajouté': { color: 'bg-[#D1FAE5] text-[#10B981]' },
   'Note ajoutée': { color: 'bg-[#F4F0EB] text-[#1A1A1A]' },
-  'Ligne financement ajoutée': { color: 'bg-cyan-100 text-cyan-800' }
+  'Ligne financement ajoutée': { color: 'bg-[#FFF0E5] text-[#FF5C00]' }
 } as const
 
 // Interface pour les coûts

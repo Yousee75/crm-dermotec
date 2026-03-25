@@ -131,7 +131,7 @@ function formatSize(bytes?: number): string {
 function getStatusIcon(statut?: string, locked?: boolean) {
   if (locked) return <Lock className="w-4 h-4 text-[#999999]" />
   if (statut === 'complete') return <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-  if (statut === 'en_cours') return <Play className="w-4 h-4 text-cyan-500" />
+  if (statut === 'en_cours') return <Play className="w-4 h-4 text-[#FF5C00]" />
   return <Circle className="w-4 h-4 text-[#999999]" />
 }
 
@@ -221,7 +221,7 @@ export default function CoursePlayer({
         <div className="hidden md:flex items-center gap-3 flex-1 max-w-md mx-8">
           <div className="flex-1 h-2 bg-[#1A1A1A] rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full transition-all duration-700"
+              className="h-full bg-gradient-to-r from-[#FF5C00] to-emerald-500 rounded-full transition-all duration-700"
               style={{ width: `${progressionGlobale}%` }}
             />
           </div>
@@ -315,7 +315,7 @@ export default function CoursePlayer({
                   {currentContent.progress_statut !== 'complete' && (
                     <button
                       onClick={() => onComplete(currentContent.id)}
-                      className="ml-auto flex items-center gap-2 px-5 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-sm font-medium transition-colors"
+                      className="ml-auto flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#FF5C00] hover:bg-[#FF5C00] text-sm font-medium transition-colors"
                     >
                       <CheckCircle2 className="w-4 h-4" />
                       Marquer comme terminé
@@ -392,7 +392,7 @@ export default function CoursePlayer({
               <div className="flex items-center gap-2 mt-2">
                 <div className="flex-1 h-1.5 bg-[#1A1A1A] rounded-full">
                   <div
-                    className="h-full bg-cyan-500 rounded-full transition-all duration-500"
+                    className="h-full bg-[#FF5C00] rounded-full transition-all duration-500"
                     style={{ width: `${progressionGlobale}%` }}
                   />
                 </div>
@@ -412,7 +412,7 @@ export default function CoursePlayer({
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         {module.jour_formation && (
-                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400">
+                          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#FF5C00]/10 text-[#FF8C42]">
                             J{module.jour_formation}
                           </span>
                         )}
@@ -453,7 +453,7 @@ export default function CoursePlayer({
                             className={`
                               w-full flex items-start gap-3 px-4 py-2.5 text-left transition-colors
                               ${isActive
-                                ? 'bg-cyan-500/10 border-l-2 border-cyan-500'
+                                ? 'bg-[#FF5C00]/10 border-l-2 border-[#FF5C00]'
                                 : 'hover:bg-[#1A1A1A]/50 border-l-2 border-transparent'
                               }
                               ${content.locked ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
@@ -466,7 +466,7 @@ export default function CoursePlayer({
 
                             {/* Info contenu */}
                             <div className="flex-1 min-w-0">
-                              <p className={`text-xs leading-relaxed ${isActive ? 'text-cyan-300 font-medium' : 'text-[#999999]'}`}>
+                              <p className={`text-xs leading-relaxed ${isActive ? 'text-[#FF8C42] font-medium' : 'text-[#999999]'}`}>
                                 {content.titre}
                               </p>
                               <div className="flex items-center gap-2 mt-0.5">
@@ -498,7 +498,7 @@ export default function CoursePlayer({
             {/* Footer sidebar : certificat */}
             {progressionGlobale >= 100 && (
               <div className="p-4 border-t border-[#1A1A1A]">
-                <div className="p-3 rounded-lg bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20">
+                <div className="p-3 rounded-lg bg-gradient-to-r from-emerald-500/10 to-[#FF5C00]/10 border border-emerald-500/20">
                   <div className="flex items-center gap-2">
                     <Award className="w-5 h-5 text-emerald-400" />
                     <span className="text-sm font-medium text-emerald-300">Formation terminée !</span>
@@ -601,7 +601,7 @@ function AudioRenderer({ content }: { content: Content }) {
   return (
     <div className="p-8">
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-500 to-[#FF5C00] flex items-center justify-center">
           <Music className="w-8 h-8 text-white" />
         </div>
         <div>
@@ -629,7 +629,7 @@ function TextRenderer({ content }: { content: Content }) {
         if (line.startsWith('## ')) return <h2 key={i} className="text-lg font-semibold mt-5 mb-2">{line.slice(3)}</h2>
         if (line.startsWith('### ')) return <h3 key={i} className="text-base font-medium mt-4 mb-2">{line.slice(4)}</h3>
         if (line.startsWith('- ')) return <li key={i} className="ml-4 text-[#999999]">{line.slice(2)}</li>
-        if (line.startsWith('> ')) return <blockquote key={i} className="border-l-2 border-cyan-500 pl-4 text-[#999999] italic">{line.slice(2)}</blockquote>
+        if (line.startsWith('> ')) return <blockquote key={i} className="border-l-2 border-[#FF5C00] pl-4 text-[#999999] italic">{line.slice(2)}</blockquote>
         if (line.trim() === '') return <br key={i} />
         return <p key={i} className="text-[#999999] leading-relaxed mb-2">{line}</p>
       })}

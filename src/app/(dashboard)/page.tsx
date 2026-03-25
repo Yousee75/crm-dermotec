@@ -288,7 +288,7 @@ export default function DashboardPage() {
                 {r.lead?.email && (
                   <a
                     href={`mailto:${r.lead.email}`}
-                    className="p-2 rounded-lg bg-[#6B8CAE] hover:bg-blue-600 text-white transition-colors"
+                    className="p-2 rounded-lg bg-[#FF5C00] hover:bg-[#E65200] text-white transition-colors"
                     title="Email"
                   >
                     <Mail className="w-4 h-4" />

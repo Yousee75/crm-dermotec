@@ -205,7 +205,7 @@ function SessionPill({
           border transition-all duration-150
           ${colors.bg} ${colors.text} ${colors.border}
           hover:shadow-sm hover:brightness-95
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5C00]
         `}
       >
         <span className="flex items-center gap-1">
@@ -253,7 +253,7 @@ function WeekBlock({
           transition-all duration-150
           ${colors.bg} ${colors.text} ${colors.border}
           hover:shadow-md hover:brightness-95
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5C00]
         `}
       >
         <p className="text-xs font-semibold truncate">{session.formation_nom}</p>
@@ -437,7 +437,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                   className={`
                     min-h-[100px] border-b border-r border-[#FAF8F5] p-1
                     ${!inMonth ? 'bg-[#FAF8F5]/50' : ''}
-                    ${today ? 'ring-2 ring-inset ring-[#FF5C00]/40 bg-cyan-50/30' : ''}
+                    ${today ? 'ring-2 ring-inset ring-[#FF5C00]/40 bg-[#FFF0E5]/30' : ''}
                     ${i % 7 === 0 ? 'border-l border-[#FAF8F5]' : ''}
                   `}
                 >
@@ -484,7 +484,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                   key={i}
                   className={`
                     py-2 text-center border-l border-[#F4F0EB]
-                    ${today ? 'bg-cyan-50/50' : ''}
+                    ${today ? 'bg-[#FFF0E5]/50' : ''}
                   `}
                 >
                   <div className="text-xs text-[#777777] uppercase">{JOURS[i]}</div>
@@ -524,7 +524,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                   key={di}
                   className={`
                     relative border-l border-[#F4F0EB]
-                    ${today ? 'bg-cyan-50/20' : ''}
+                    ${today ? 'bg-[#FFF0E5]/20' : ''}
                   `}
                 >
                   {/* Hour lines */}

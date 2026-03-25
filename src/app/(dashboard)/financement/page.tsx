@@ -108,7 +108,7 @@ const ORGANISME_COLORS: Record<OrganismeFinancement, string> = {
   MISSIONS_LOCALES: 'pink',
   REGION: 'indigo',
   EMPLOYEUR: 'gray',
-  TRANSITIONS_PRO: 'cyan',
+  TRANSITIONS_PRO: 'orange',
   AUTRE: 'gray'
 }
 
@@ -178,7 +178,7 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
             ORGANISME_COLORS[financement.organisme] === 'purple' && 'border-[#FF2D78]/30 text-[#FF2D78] bg-[#FFE0EF]',
             ORGANISME_COLORS[financement.organisme] === 'pink' && 'border-pink-200 text-pink-700 bg-pink-50',
             ORGANISME_COLORS[financement.organisme] === 'indigo' && 'border-indigo-200 text-indigo-700 bg-indigo-50',
-            ORGANISME_COLORS[financement.organisme] === 'cyan' && 'border-cyan-200 text-cyan-700 bg-cyan-50',
+            ORGANISME_COLORS[financement.organisme] === 'cyan' && 'border-[#FF8C42] text-[#FF5C00] bg-[#FFF0E5]',
             ORGANISME_COLORS[financement.organisme] === 'gray' && 'border-[#EEEEEE] text-[#3A3A3A] bg-[#FAF8F5]'
           )}
         >

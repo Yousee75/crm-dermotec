@@ -45,13 +45,13 @@ const CATEGORIES_CONFIG = {
   'soins-visage': {
     label: 'Soins Visage',
     count: 2,
-    color: 'from-blue-500 to-cyan-600',
+    color: 'from-[#FF5C00] to-[#FF8C42]',
     icon: Sun
   },
   'laser-ipl': {
     label: 'Laser & IPL',
     count: 1,
-    color: 'from-purple-500 to-violet-600',
+    color: 'from-[#FF2D78] to-[#FF6BA8]',
     icon: Zap
   },
   reglementaire: {
@@ -91,7 +91,7 @@ function HeroSection({ searchTerm, onSearchChange }: {
 }) {
   return (
     <motion.div
-      className="relative overflow-hidden bg-gradient-to-br from-primary via-blue-500 to-accent text-white"
+      className="relative overflow-hidden bg-gradient-to-br from-primary via-[#FF2D78] to-accent text-white"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6 }}
@@ -257,7 +257,7 @@ function ParcoursTimeline() {
                 <div className="flex-1 lg:px-8">
                   <div className="bg-white rounded-xl p-6 shadow-lg border border-[#F4F0EB]">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-[#FF2D78] rounded-full flex items-center justify-center text-white font-bold text-lg">
                         {etape.etape}
                       </div>
                       <div>
