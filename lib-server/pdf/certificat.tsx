@@ -9,6 +9,7 @@ interface CertificatPDFProps {
   session: Session
   inscription: Inscription
   certificatNumero?: string
+  qrCodeDataUrl?: string  // Base64 data URL du QR code de vérification
 }
 
 const styles = StyleSheet.create({
@@ -173,7 +174,8 @@ export function CertificatPDF({
   formation,
   session,
   inscription,
-  certificatNumero
+  certificatNumero,
+  qrCodeDataUrl
 }: CertificatPDFProps) {
   const numero = certificatNumero || inscription.certificat_numero || generateCertificatNumero()
   const dateFormation = formatDate(session.date_fin, { day: 'numeric', month: 'long', year: 'numeric' })
@@ -260,12 +262,18 @@ export function CertificatPDF({
           </View>
         </View>
 
-        {/* Footer */}
+        {/* Footer avec QR Code */}
         <View style={styles.footer}>
           <View>
             <Text style={styles.certificateNumber}>N° {numero}</Text>
             <Text style={styles.certificateNumber}>Délivré le {formatDate(new Date())}</Text>
           </View>
+          {qrCodeDataUrl && (
+            <View style={{ alignItems: 'center' }}>
+              <Image src={qrCodeDataUrl} style={{ width: 60, height: 60 }} />
+              <Text style={{ fontSize: 7, color: '#999', marginTop: 2 }}>Scanner pour vérifier</Text>
+            </View>
+          )}
           <View>
             <Text style={styles.npmLogo}>Matériel NPM International</Text>
             <Text style={styles.npmLogo}>Techniques professionnelles</Text>
@@ -276,7 +284,7 @@ export function CertificatPDF({
           Ce certificat atteste de la réussite aux évaluations pratiques et théoriques de la formation.
         </Text>
         <Text style={styles.validationText}>
-          Certificat vérifiable sur {BRAND.website} avec le numéro {numero}
+          Certificat vérifiable sur {BRAND.website}/certificat/{numero}
         </Text>
       </Page>
     </Document>

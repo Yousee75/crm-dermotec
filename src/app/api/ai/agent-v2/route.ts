@@ -10,6 +10,9 @@ import { getModel, DERMOTEC_SYSTEM } from '@/lib/ai-sdk'
 import { crmTools } from '@/lib/ai/tools'
 import { semanticCacheGet, semanticCacheSet } from '@/lib/ai/semantic-cache'
 import { generateCoachingInsights, coachingToSystemPrompt } from '@/lib/win-patterns'
+import { createServerSupabase, createServiceSupabase } from '@/lib/supabase-server'
+import { saveAgentMessage } from '@/lib/communication/message-store'
+import { logActivity, logAgentAction } from '@/lib/activity-logger'
 import type { WinPattern } from '@/lib/pipeline-forecast'
 
 export const dynamic = 'force-dynamic'
@@ -20,7 +23,6 @@ export async function POST(request: Request) {
     // Auth obligatoire — vérifier l'utilisateur connecté
     let userId = 'anonymous'
     try {
-      const { createServerSupabase } = await import('@/lib/supabase-server')
       const supabase = await createServerSupabase()
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
@@ -46,7 +48,6 @@ export async function POST(request: Request) {
 
     // Rate limiting serveur — max 15 requêtes/min par user (protection crédits IA)
     try {
-      const { createServiceSupabase } = await import('@/lib/supabase-server')
       const sb = await createServiceSupabase() as any
       const rateLimitKey = `agent_ratelimit:${userId}`
       const now = new Date()
@@ -140,7 +141,6 @@ export async function POST(request: Request) {
     // Charger les win patterns pour le coaching IA (cache 15 min côté agent)
     let coachingPrompt = ''
     try {
-      const { createServiceSupabase } = await import('@/lib/supabase-server')
       const sb = await createServiceSupabase() as any
       const { data: winPatterns } = await sb.from('v_win_patterns').select('*')
       if (winPatterns?.length) {
@@ -246,9 +246,8 @@ COMPORTEMENT en mode formation :
         }
         // Sauvegarder la conversation dans agent_conversations
         try {
-          const { createServiceSupabase } = await import('@/lib/supabase-server')
-          const sb = await createServiceSupabase() as any
-          await sb.from('agent_conversations').insert({
+          const sb2 = await createServiceSupabase() as any
+          await sb2.from('agent_conversations').insert({
             user_id: userId,
             lead_id: leadId || null,
             mode: mode || 'commercial',
@@ -261,7 +260,6 @@ COMPORTEMENT en mode formation :
           // Sauvegarder dans messages omnicanal (canal = agent_ia)
           if (leadId) {
             try {
-              const { saveAgentMessage } = await import('@/lib/communication/message-store')
               // Question du commercial (inbound = vient vers le CRM)
               await saveAgentMessage({
                 lead_id: leadId,
@@ -282,6 +280,18 @@ COMPORTEMENT en mode formation :
               console.error('[Agent v3] Message save failed:', msgErr)
             }
           }
+
+          // Log activité agent IA
+          if (leadId) {
+            logAgentAction(leadId, `Chat ${mode || 'commercial'}`, lastUserMessage.slice(0, 100))
+          }
+          logActivity({
+            type: 'SYSTEME',
+            description: `Agent IA ${mode || 'commercial'} — ${lastUserMessage.slice(0, 80)}`,
+            lead_id: leadId || undefined,
+            user_id: userId !== 'anonymous' ? userId : undefined,
+            metadata: { action: 'agent_ia_chat', mode: mode || 'commercial', tokens: usage?.totalTokens, has_lead: !!leadId },
+          })
         } catch (saveErr) {
           console.error('[Agent v3] Conversation save failed:', saveErr)
         }

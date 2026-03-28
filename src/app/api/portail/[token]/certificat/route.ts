@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { randomBytes } from 'crypto'
+import QRCode from 'qrcode'
+import { logActivity } from '@/lib/activity-logger'
 
 function getSupabase() {
   return createClient(
@@ -69,6 +71,28 @@ export async function GET(
     const formation = inscription.session?.formation
     const lead = inscription.lead
 
+    // Générer QR code de vérification
+    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}/certificat/${certificatNumero}`
+    let qrCodeDataUrl: string | undefined
+    try {
+      qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
+        width: 200,
+        margin: 1,
+        color: { dark: '#1A1A1A', light: '#FFFFFF' },
+        errorCorrectionLevel: 'M',
+      })
+    } catch {
+      // QR generation non-bloquante
+    }
+
+    // Log activité
+    logActivity({
+      type: 'DOCUMENT',
+      description: `Certificat ${certificatNumero} consulté — ${lead?.prenom} ${lead?.nom} (${formation?.nom})`,
+      lead_id: inscription.lead_id || undefined,
+      metadata: { action: 'certificat_consultation', numero: certificatNumero },
+    })
+
     return NextResponse.json({
       certificat: {
         numero: certificatNumero,
@@ -83,7 +107,8 @@ export async function GET(
         taux_presence: inscription.taux_presence || 100,
         note_satisfaction: inscription.note_satisfaction,
         date_emission: new Date().toISOString(),
-        verification_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://crm-dermotec.vercel.app'}/certificat/${certificatNumero}`,
+        verification_url: verificationUrl,
+        qr_code_data_url: qrCodeDataUrl,
       }
     })
   } catch (err) {

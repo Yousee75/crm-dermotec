@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiGenerateEmail } from '@/lib/ai/core'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
@@ -28,6 +29,14 @@ export async function POST(request: NextRequest) {
     if (!result) {
       return NextResponse.json({ error: 'Service IA indisponible' }, { status: 503 })
     }
+
+    logActivity({
+      type: 'SYSTEME',
+      description: `IA génération ${type} — ${lead.prenom} ${lead.nom || ''}`,
+      lead_id: lead.id || undefined,
+      user_id: auth.user?.id,
+      metadata: { action: 'ai_generate', type, lead_prenom: lead.prenom },
+    })
 
     return NextResponse.json({ success: true, ...result })
   } catch (err) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiResearchProspect } from '@/lib/ai/core'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 45
@@ -23,6 +24,13 @@ export async function POST(request: NextRequest) {
     if (!result) {
       return NextResponse.json({ error: 'Service IA indisponible' }, { status: 503 })
     }
+
+    logActivity({
+      type: 'SYSTEME',
+      description: `IA recherche prospect : ${nom || ''} ${entreprise || ''} (${ville || ''})`,
+      user_id: auth.user?.id,
+      metadata: { action: 'ai_prospect_research', nom, entreprise, ville, secteur },
+    })
 
     return NextResponse.json({ success: true, ...result })
   } catch (err) {
