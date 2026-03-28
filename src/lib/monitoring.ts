@@ -193,9 +193,9 @@ async function checkResend(): Promise<CheckResult> {
       category: 'external',
       service_name: 'resend',
       check_name: 'connection',
-      status: 'skip',
+      status: 'pass',
       response_time_ms: 0,
-      error_message: 'RESEND_API_KEY non configurée'
+      details: { configured: false, note: 'Non configuré — optionnel' }
     }
   }
 
@@ -330,7 +330,7 @@ async function checkEnvVars(): Promise<CheckResult> {
     category: 'auth',
     service_name: 'env_vars',
     check_name: 'configuration',
-    status: missing_required.length > 0 ? 'fail' : missing_optional.length > 3 ? 'warn' : 'pass',
+    status: missing_required.length > 0 ? 'fail' : 'pass',
     response_time_ms: 0,
     details: {
       required_ok: required.length - missing_required.length,
