@@ -32,7 +32,7 @@ async function checkSupabaseHealth(): Promise<HealthCheck> {
 
     // Test de base: SELECT 1
     const { data, error } = await supabase
-      .from('user_profiles')
+      .from('leads')
       .select('count')
       .limit(1)
       .single()
@@ -281,7 +281,7 @@ export async function quickHealthCheck(): Promise<Omit<HealthStatus, 'checks'> &
 
   try {
     const supabase = await createServiceSupabase()
-    await supabase.from('user_profiles').select('count').limit(1).single()
+    await supabase.from('leads').select('count').limit(1).single()
 
     return {
       overall_status: 'healthy',
