@@ -40,6 +40,8 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Entreprise non trouvée' }, { status: 404 })
       }
 
+      logActivity({ type: 'SYSTEME', description: `Recherche SIRET ${siret} — ${etab.nom_complet || 'trouvé'}`, user_id: auth.user?.id, metadata: { action: 'siret_lookup', siret } })
+
       return NextResponse.json({
         siret: etab.matching_etablissements?.[0]?.siret || siret,
         siren: etab.siren || siret.slice(0, 9),

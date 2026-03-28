@@ -12,7 +12,7 @@ function PageHeader({ title, description, children, className }: PageHeaderProps
     <div className={cn('flex flex-col sm:flex-row sm:items-center justify-between gap-4', className)}>
       <div>
         <h1
-          className="text-2xl font-bold text-accent tracking-tight"
+          className="text-[28px] font-bold text-accent tracking-tight leading-tight"
          
         >
           {title}

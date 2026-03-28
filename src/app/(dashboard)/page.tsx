@@ -7,14 +7,9 @@ import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
 import { createClient } from '@/lib/infra/supabase-client'
 import { useQuery } from '@tanstack/react-query'
 import {
-  Users, UserCheck, Euro, Target, AlertTriangle,
-  Phone, ChevronRight, MessageCircle, Mail
+  Phone
 } from 'lucide-react'
-import {
-  UsersThree, Warning, PhoneCall, CalendarCheck
-} from '@phosphor-icons/react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { cn } from '@/lib/utils'
 import { Skeleton, SkeletonCard } from '@/components/ui/Skeleton'
@@ -23,86 +18,57 @@ import { OnboardingProgressBar } from '@/components/ui/OnboardingProgressBar'
 // Composant skeleton pour le dashboard
 function DashboardSkeleton() {
   return (
-    <div className="space-y-6 animate-pulse">
+    <div className="space-y-8 animate-pulse">
       {/* Header skeleton */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Skeleton className="h-8 w-32" />
-          <div className="space-y-2">
-            <Skeleton className="h-6 w-48" />
-            <Skeleton className="h-4 w-32" />
-          </div>
-        </div>
+      <div>
+        <Skeleton className="h-8 w-64 mb-2" />
+        <Skeleton className="h-4 w-48" />
       </div>
 
-      {/* Focus message skeleton */}
-      <div className="h-16 bg-[#F4F0EB] rounded-xl" />
+      {/* KPI cards skeleton */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[1,2,3,4].map(i => (
+          <div key={i} className="bg-white rounded-2xl border border-[var(--color-border)] p-5">
+            <Skeleton className="h-3 w-20 mb-2" />
+            <Skeleton className="h-9 w-16" />
+          </div>
+        ))}
+      </div>
 
-      {/* Pipeline mini skeleton */}
-      <div className="bg-white rounded-xl border border-[#F4F0EB] p-4">
-        <div className="flex items-center justify-between mb-3">
+      {/* À faire skeleton */}
+      <div className="bg-white rounded-2xl border border-[var(--color-border)]">
+        <div className="px-5 py-4 border-b border-[var(--color-border)]">
           <Skeleton className="h-4 w-32" />
-          <Skeleton className="h-3 w-20" />
         </div>
-        <div className="flex gap-1">
-          {[1,2,3,4,5].map(i => (
-            <div key={i} className="flex-1">
-              <div className="h-2 bg-[#F4F0EB] rounded-full mb-1.5" />
-              <Skeleton className="h-3 w-4 mx-auto mb-1" />
-              <Skeleton className="h-2 w-8 mx-auto" />
+        <div className="divide-y divide-[var(--color-border)]">
+          {[1,2,3].map(i => (
+            <div key={i} className="flex items-center justify-between px-5 py-3">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-[#EEEEEE]" />
+                <div className="space-y-1">
+                  <Skeleton className="h-3 w-24" />
+                  <Skeleton className="h-3 w-32" />
+                </div>
+              </div>
+              <Skeleton className="h-6 w-6 rounded" />
             </div>
           ))}
         </div>
       </div>
 
-      {/* 2 colonnes skeleton */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Actions du jour */}
-        <div className="bg-white rounded-2xl border border-[#F4F0EB]">
-          <div className="px-5 py-3 border-b border-[#F4F0EB]">
-            <Skeleton className="h-4 w-32" />
-          </div>
-          <div className="space-y-3 p-5">
-            {[1,2,3].map(i => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#EEEEEE]" />
-                <div className="flex-1 space-y-1">
-                  <Skeleton className="h-3 w-32" />
-                  <Skeleton className="h-2 w-24" />
-                </div>
-                <div className="flex gap-1">
-                  <Skeleton className="h-6 w-6 rounded" />
-                  <Skeleton className="h-6 w-6 rounded" />
-                </div>
+      {/* Leads skeleton */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[1,2,3].map(i => (
+          <div key={i} className="bg-white rounded-2xl border border-[var(--color-border)] p-5">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-full bg-[#F4F0EB]" />
+              <div className="flex-1 space-y-1">
+                <Skeleton className="h-3 w-28" />
+                <Skeleton className="h-3 w-20" />
               </div>
-            ))}
+            </div>
+            <Skeleton className="h-1.5 w-full rounded-full" />
           </div>
-        </div>
-
-        {/* Derniers prospects */}
-        <div className="bg-white rounded-2xl border border-[#F4F0EB]">
-          <div className="px-5 py-3 border-b border-[#F4F0EB]">
-            <Skeleton className="h-4 w-32" />
-          </div>
-          <div className="space-y-3 p-5">
-            {[1,2,3,4,5].map(i => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#F4F0EB]" />
-                <div className="flex-1 space-y-1">
-                  <Skeleton className="h-3 w-28" />
-                  <Skeleton className="h-2 w-16" />
-                </div>
-                <Skeleton className="h-1.5 w-8" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* KPI cards skeleton */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {[1,2,3,4,5,6].map(i => (
-          <SkeletonCard key={i} />
         ))}
       </div>
     </div>
@@ -114,7 +80,8 @@ export default function DashboardPage() {
   const { data: currentUser } = useCurrentUser()
 
   // Données existantes
-  const { data: leadsData, isLoading: leadsLoading } = useLeads({ per_page: 5 })
+  const { data: leadsData, isLoading: leadsLoading } = useLeads({ per_page: 50 })
+  const recentLeads = leadsData?.leads || []
   const { data: sessions, isLoading: sessionsLoading } = useSessions()
   const { data: overdueRappels, isLoading: rappelsLoading } = useOverdueRappels()
   const { data: todayRappels } = useTodayRappels()
@@ -184,6 +151,7 @@ export default function DashboardPage() {
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir'
+  const firstName = currentUser?.prenom || ''
 
   // Loading state global
   const isLoading = leadsLoading || sessionsLoading || rappelsLoading || caLoading
@@ -202,309 +170,174 @@ export default function DashboardPage() {
     }).format(amount)
   }
 
-  const formatRelativeTime = (date: string) => {
-    const now = new Date()
-    const past = new Date(date)
-    const diffMs = now.getTime() - past.getTime()
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-
-    if (diffHours < 1) return 'À l\'instant'
-    if (diffHours < 24) return `Il y a ${diffHours}h`
-    if (diffDays < 7) return `Il y a ${diffDays}j`
-    return past.toLocaleDateString('fr-FR')
-  }
 
   return (
     <div>
       {/* Barre d'onboarding sticky */}
       <OnboardingProgressBar />
 
-      <div className="space-y-6">
-        {/* ZONE 1 — SALUTATION IA CONTEXTUELLE */}
-      <div className="bg-white rounded-xl border border-[#EEEEEE] shadow-sm p-4">
-        <div className="flex items-center gap-4">
-          <Image
-            src="/logo-dermotec.png"
-            alt="Dermotec Advanced"
-            width={120}
-            height={40}
-            className="h-8 w-auto object-contain"
-          />
-          <div className="flex-1">
-            <h1 className="text-lg font-[family-name:var(--font-heading)] font-bold text-[#1A1A1A]">
-              {greeting}{currentUser?.prenom ? ` ${currentUser.prenom}` : ''} 👋
+      <div className="space-y-8">
+        {/* Header Zen Futur */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-[28px] font-bold text-[#111111] tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
+              {greeting} {firstName} 👋
             </h1>
-            <p className="text-sm text-[#777777]">
-              {overdueCount > 0
-                ? `${overdueCount} rappel${overdueCount > 1 ? 's' : ''} urgent${overdueCount > 1 ? 's' : ''} et ${(todayCount + enPipeline)} prospect${(todayCount + enPipeline) > 1 ? 's' : ''} chaud${(todayCount + enPipeline) > 1 ? 's' : ''} vous attendent.`
-                : todayCount > 0
-                  ? `${todayCount} prospect${todayCount > 1 ? 's' : ''} à rappeler aujourd'hui et ${enPipeline} en pipeline.`
-                  : `Tout va bien ! ${enPipeline} prospects en cours et ${sessionsAVenir} formation${sessionsAVenir > 1 ? 's' : ''} planifiée${sessionsAVenir > 1 ? 's' : ''}.`
-              }
+            <p className="text-[15px] text-[#777777] mt-1">
+              {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
+              {overdueCount > 0 && ` — ${overdueCount} action${overdueCount > 1 ? 's' : ''} en attente`}
             </p>
           </div>
         </div>
-      </div>
 
-      {/* ZONE 2 — ACTIONS URGENTES (MAX 5 ITEMS) */}
-      <div className="space-y-3">
-        {/* Rappels en retard - border rouge */}
-        {overdueRappels && overdueRappels.length > 0 && overdueRappels.slice(0, 3).map((r) => (
-          <div key={r.id} className="bg-white rounded-xl border-l-4 border-[#FF2D78] border border-[#EEEEEE] shadow-sm p-4 hover:shadow-md transition-all">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <AlertTriangle className="w-4 h-4 text-[#FF2D78]" />
-                  <span className="text-sm font-medium text-[#111111]">
-                    {r.lead?.prenom} {r.lead?.nom}
-                  </span>
-                  <span className="text-xs px-2 py-0.5 bg-[#FFE0EF] text-[#FF2D78] rounded-full font-medium">
-                    EN RETARD
-                  </span>
-                </div>
-                <p className="text-xs text-[#777777]">{r.titre || r.type}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                {r.lead?.telephone && (
-                  <a
-                    href={`tel:${r.lead.telephone}`}
-                    className="p-2 rounded-lg bg-[#FF5C00] hover:bg-[#E65200] text-white transition-colors"
-                    title="Appeler maintenant"
-                  >
-                    <Phone className="w-4 h-4" />
-                  </a>
-                )}
-                {r.lead?.telephone && (
-                  <a
-                    href={`https://wa.me/${(r.lead.telephone || '').replace(/\s/g, '').replace(/^0/, '33')}`}
-                    target="_blank"
-                    className="p-2 rounded-lg bg-[#10B981] hover:bg-[#10B981] text-white transition-colors"
-                    title="WhatsApp"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                  </a>
-                )}
-                {r.lead?.email && (
-                  <a
-                    href={`mailto:${r.lead.email}`}
-                    className="p-2 rounded-lg bg-[#FF5C00] hover:bg-[#E65200] text-white transition-colors"
-                    title="Email"
-                  >
-                    <Mail className="w-4 h-4" />
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-
-        {/* Rappels du jour - border orange */}
-        {todayRappels && todayRappels.length > 0 && todayRappels.slice(0, 2).map((r) => (
-          <div key={r.id} className="bg-white rounded-xl border-l-4 border-[#FF5C00] border border-[#EEEEEE] shadow-sm p-4 hover:shadow-md transition-all">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <Phone className="w-4 h-4 text-[#FF5C00]" />
-                  <span className="text-sm font-medium text-[#111111]">
-                    {r.lead?.prenom} {r.lead?.nom}
-                  </span>
-                  <span className="text-xs px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full font-medium">
-                    AUJOURD'HUI
-                  </span>
-                </div>
-                <p className="text-xs text-[#777777]">{r.titre || r.type}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                {r.lead?.telephone && (
-                  <a
-                    href={`tel:${r.lead.telephone}`}
-                    className="p-2 rounded-lg bg-[#FF5C00] hover:bg-[#E65200] text-white transition-colors"
-                    title="Appeler"
-                  >
-                    <Phone className="w-4 h-4" />
-                  </a>
-                )}
-                {r.lead?.telephone && (
-                  <a
-                    href={`https://wa.me/${(r.lead.telephone || '').replace(/\s/g, '').replace(/^0/, '33')}`}
-                    target="_blank"
-                    className="p-2 rounded-lg bg-[#10B981] hover:bg-[#10B981] text-white transition-colors"
-                    title="WhatsApp"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ZONE 3 — PIPELINE EXPRESS (BARRE HORIZONTALE CLIQUABLE) */}
-      <div className="bg-white rounded-xl border border-[#EEEEEE] shadow-sm p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-[family-name:var(--font-heading)] font-semibold text-[#1A1A1A]">
-            Pipeline Commercial
-          </h3>
-          <Link href="/pipeline" className="text-sm text-[#FF5C00] hover:text-[#E65200] font-medium flex items-center gap-1">
-            Voir le Kanban <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-5 gap-3">
+        {/* KPIs — chiffres géants */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Nouveau', count: leadsData?.leads?.filter(l => l.statut === 'NOUVEAU').length || 0, color: '#999999', href: '/leads?statut=NOUVEAU' },
-            { label: 'Qualifié', count: leadsData?.leads?.filter(l => l.statut === 'QUALIFIE').length || 0, color: '#FF5C00', href: '/leads?statut=QUALIFIE' },
-            { label: 'Financement', count: leadsData?.leads?.filter(l => l.statut === 'FINANCEMENT_EN_COURS').length || 0, color: '#FF5C00', href: '/leads?statut=FINANCEMENT_EN_COURS' },
-            { label: 'Inscrit', count: leadsData?.leads?.filter(l => l.statut === 'INSCRIT').length || 0, color: '#FF2D78', href: '/leads?statut=INSCRIT' },
-            { label: 'Formé', count: leadsData?.leads?.filter(l => l.statut === 'FORME' || l.statut === 'ALUMNI').length || 0, color: '#10B981', href: '/leads?statut=FORME,ALUMNI' },
-          ].map((stage) => (
-            <Link
-              key={stage.label}
-              href={stage.href}
-              className="group cursor-pointer"
-            >
-              <div className="text-center p-4 rounded-lg border border-[#F4F0EB] hover:border-[#EEEEEE] hover:shadow-sm transition-all">
-                <div className="text-3xl font-bold text-[#111111] mb-1 count-up tabular-nums group-hover:scale-110 transition-transform">
-                  {stage.count}
-                </div>
-                <div className="text-sm font-medium text-[#777777] mb-2">{stage.label}</div>
-                <div
-                  className="h-1 rounded-full"
-                  style={{ backgroundColor: stage.color }}
-                />
-              </div>
-            </Link>
+            { label: 'Leads actifs', value: enPipeline || 0, color: '#FF5C00' },
+            { label: 'Sessions à venir', value: sessionsAVenir || 0, color: '#FF2D78' },
+            { label: 'CA ce mois', value: formatEuro(caRealise || 0), color: '#FF5C00' },
+            { label: 'Conversion', value: `${tauxConversion || 0}%`, color: '#10B981' },
+          ].map((kpi, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-[var(--color-border)] p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 transition-all duration-200">
+              <p className="text-[13px] text-[#777777] uppercase tracking-wide font-medium">{kpi.label}</p>
+              <p className="text-[36px] font-bold text-[#111111] mt-1 tabular-nums count-up" style={{ fontFamily: 'var(--font-heading)', color: kpi.color === '#10B981' ? '#111111' : '#111111' }}>
+                {kpi.value}
+              </p>
+            </div>
           ))}
         </div>
-      </div>
 
-      {/* ZONE 4 — KPIS DU MOIS (4 CARDS) */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        <KpiCard
-          icon={(p: any) => <UsersThree weight="duotone" {...p} />}
-          label="Nouveaux contacts"
-          value={nouveauxCeMois.toLocaleString()}
-          color="#FF5C00"
-          variation={variationNouveaux}
-        />
-        <KpiCard
-          icon={(p: any) => <UserCheck weight="duotone" {...p} />}
-          label="Inscriptions"
-          value={pipelineLeads?.leads?.filter(l => l.statut === 'INSCRIT' || l.statut === 'FORME').length || 0}
-          color="#FF2D78"
-        />
-        <KpiCard
-          icon={(p: any) => <Euro weight="duotone" {...p} />}
-          label="CA ce mois"
-          value={formatEuro(caRealise)}
-          color="#FF5C00"
-        />
-        <KpiCard
-          icon={(p: any) => <Target weight="duotone" {...p} />}
-          label="Taux conversion"
-          value={`${tauxConversion.toFixed(1)}%`}
-          color="#10B981"
-        />
-      </div>
-
-      {/* ZONE 5 — ACTIVITÉ RÉCENTE (TIMELINE) */}
-      <div className="bg-white rounded-xl border border-[#EEEEEE] shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-[#F4F0EB]">
-          <h3 className="text-lg font-[family-name:var(--font-heading)] font-semibold text-[#1A1A1A] flex items-center gap-2">
-            <Users className="w-5 h-5 text-[#FF5C00]" />
-            Activité Récente
-          </h3>
-        </div>
-        <div className="max-h-80 overflow-y-auto">
-          <div className="divide-y divide-[#FAF8F5]">
-            {leadsData?.leads && leadsData.leads.length > 0 ? leadsData.leads.slice(0, 10).map((lead) => (
-              <Link key={lead.id} href={`/lead/${lead.id}`} className="flex items-center gap-4 px-6 py-4 hover:bg-[#FAF8F5] transition-colors group">
-                <div className="w-10 h-10 rounded-full bg-[#FF5C00]/10 flex items-center justify-center text-sm font-bold text-[#FF5C00] shrink-0">
-                  {lead.prenom?.[0]}{lead.nom?.[0]}
+        {/* À faire aujourd'hui */}
+        {((overdueRappels?.length ?? 0) > 0 || (todayRappels?.length ?? 0) > 0) && (
+          <div className="bg-white rounded-2xl border border-[var(--color-border)] shadow-[var(--shadow-card)] overflow-hidden">
+            <div className="px-5 py-4 border-b border-[var(--color-border)]">
+              <h2 className="text-[16px] font-semibold text-[#111111] flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FF5C00] animate-pulse" />
+                À faire aujourd'hui
+              </h2>
+            </div>
+            <div className="divide-y divide-[var(--color-border)]">
+              {[...(overdueRappels || []).slice(0, 3), ...(todayRappels || []).slice(0, 2)].map((rappel, i) => (
+                <div key={i} className="flex items-center justify-between px-5 py-3 hover:bg-[#FAFAFA] transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className={cn(
+                      'w-2 h-2 rounded-full flex-shrink-0',
+                      i < (overdueRappels?.length || 0) ? 'bg-[#FF2D78]' : 'bg-[#FF5C00]'
+                    )} />
+                    <div>
+                      <p className="text-[14px] text-[#111111] font-medium">{(rappel as any).lead_nom || (rappel as any).nom || 'Lead'}</p>
+                      <p className="text-[13px] text-[#777777]">{rappel.description || (rappel as any).type_activite || 'Rappel'}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button className="p-2 rounded-lg hover:bg-[#FFF5EE] text-[#FF5C00] transition-colors">
+                      <Phone size={18} />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-medium text-[#111111] truncate">{lead.prenom} {lead.nom}</p>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#F4F0EB] text-[#777777] font-medium">
-                      {lead.statut}
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Leads chauds */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[16px] font-semibold text-[#111111]">Leads chauds</h2>
+            <Link href="/leads" className="text-[13px] text-[#FF5C00] hover:underline font-medium">
+              Voir tous →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {(recentLeads || [])
+              .filter(l => (l.score_chaud || 0) >= 60)
+              .slice(0, 3)
+              .map(lead => (
+                <Link
+                  key={lead.id}
+                  href={`/lead/${lead.id}`}
+                  className="bg-white rounded-2xl border border-[var(--color-border)] p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 transition-all duration-200 block"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-[#FF5C00] flex items-center justify-center text-white text-sm font-semibold">
+                      {(lead.prenom?.[0] || '').toUpperCase()}{(lead.nom?.[0] || '').toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[14px] font-semibold text-[#111111] truncate">{lead.prenom} {lead.nom}</p>
+                      <p className="text-[13px] text-[#777777] truncate">{(lead as any).formation_souhaitee || 'Non spécifié'}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-1.5 bg-[#F5F5F5] rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-500"
+                        style={{
+                          width: `${lead.score_chaud || 0}%`,
+                          backgroundColor: (lead.score_chaud || 0) >= 80 ? '#FF5C00' : '#FF8C42'
+                        }}
+                      />
+                    </div>
+                    <span className="text-[12px] font-semibold tabular-nums text-[#FF5C00]">
+                      {lead.score_chaud || 0}
                     </span>
                   </div>
-                  <p className="text-xs text-[#777777]">{formatRelativeTime(lead.created_at)}</p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <div className="w-12 h-2 bg-[#F4F0EB] rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all"
-                      style={{
-                        width: `${lead.score_chaud || 0}%`,
-                        backgroundColor: (lead.score_chaud || 0) >= 80 ? '#10B981' : (lead.score_chaud || 0) >= 60 ? '#FF8C42' : '#999999'
-                      }}
-                    />
-                  </div>
-                  <span className="text-xs text-[#999999] w-6 text-right">{lead.score_chaud || 0}</span>
-                  <ChevronRight className="w-4 h-4 text-[#999999] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </div>
-              </Link>
-            )) : (
-              <div className="text-center py-12 text-[#999999]">
-                <Users className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <p className="text-sm font-medium">Aucune activité récente</p>
-                <Link href="/leads" className="text-sm text-[#FF5C00] hover:text-[#E65200] mt-2 inline-block">
-                  Créer votre premier prospect
                 </Link>
+              ))}
+            {(!recentLeads || recentLeads.filter(l => (l.score_chaud || 0) >= 60).length === 0) && (
+              <div className="col-span-full text-center py-8 text-[#777777] text-[14px]">
+                Aucun lead chaud pour le moment
               </div>
             )}
           </div>
         </div>
-      </div>
 
-    </div>
-    </div>
-  )
-}
-
-function KpiCard({
-  icon: Icon,
-  label,
-  value,
-  color,
-  subtitle,
-  variation
-}: {
-  icon: React.ElementType
-  label: string
-  value: string | number
-  color: string
-  subtitle?: string
-  variation?: number
-}) {
-  return (
-    <div className="bg-white rounded-xl border border-[#EEEEEE] shadow-sm p-6 hover:shadow-md transition-all">
-      <div className="flex items-start justify-between mb-4">
-        <div
-          className="p-3 rounded-lg"
-          style={{ backgroundColor: `${color}15` }}
-        >
-          <Icon className="w-6 h-6" style={{ color }} />
+        {/* Prochaines sessions */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[16px] font-semibold text-[#111111]">Prochaines sessions</h2>
+            <Link href="/sessions" className="text-[13px] text-[#FF5C00] hover:underline font-medium">
+              Voir le planning →
+            </Link>
+          </div>
+          <div className="bg-white rounded-2xl border border-[var(--color-border)] shadow-[var(--shadow-card)] overflow-hidden">
+            {sessions && sessions.length > 0 ? (
+              <div className="divide-y divide-[var(--color-border)]">
+                {sessions.slice(0, 5).map((session) => (
+                  <Link
+                    key={session.id}
+                    href={`/session/${session.id}`}
+                    className="flex items-center justify-between px-5 py-3.5 hover:bg-[#FAFAFA] transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="text-center min-w-[48px]">
+                        <p className="text-[12px] text-[#777777] uppercase font-medium">
+                          {new Date(session.date_debut).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[14px] font-medium text-[#111111]">{(session as any).formation_nom || (session as any).titre || 'Session'}</p>
+                        <p className="text-[13px] text-[#777777]">{(session as any).formatrice_nom || ''}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-[13px] text-[#777777] tabular-nums">
+                        {(session as any).nb_inscrits || 0}/{session.places_max || 0}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-[#777777] text-[14px]">
+                Aucune session planifiée
+              </div>
+            )}
+          </div>
         </div>
-        {variation !== undefined && variation !== 0 && (
-          <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-            variation > 0
-              ? 'bg-[#ECFDF5] text-[#10B981]'
-              : 'bg-[#FFE0EF] text-[#FF2D78]'
-          }`}>
-            {variation > 0 ? '+' : ''}{variation.toFixed(0)}%
-          </span>
-        )}
-      </div>
-      <div>
-        <p className="text-3xl font-bold text-[#1A1A1A] count-up tabular-nums mb-2">
-          {value}
-        </p>
-        <p className="text-sm text-[#777777] font-medium">{label}</p>
-        {subtitle && <p className="text-xs text-[#999999] mt-1">{subtitle}</p>}
-      </div>
+
+
+    </div>
     </div>
   )
 }
+

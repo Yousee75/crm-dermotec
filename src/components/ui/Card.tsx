@@ -10,9 +10,9 @@ function Card({ className, hover, padding = 'md', children, ...props }: CardProp
   return (
     <div
       className={cn(
-        'bg-white rounded-xl border border-[#F4F0EB] shadow-card transition-all duration-200',
+        'bg-white rounded-2xl border border-[var(--color-border)] shadow-card transition-all duration-200',
         'focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/30',
-        hover && 'hover-lift hover:border-[#EEEEEE] cursor-pointer',
+        hover && 'hover-lift hover:border-[rgba(255,92,0,0.15)] cursor-pointer',
         paddings[padding],
         className
       )}
@@ -58,7 +58,7 @@ function CardContent({ className, children, ...props }: React.HTMLAttributes<HTM
 
 function CardFooter({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex items-center pt-4 mt-4 border-t border-[#F4F0EB]', className)} {...props}>
+    <div className={cn('flex items-center pt-4 mt-4 border-t border-[var(--color-border)]', className)} {...props}>
       {children}
     </div>
   )

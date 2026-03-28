@@ -40,6 +40,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'IA non disponible' }, { status: 503 })
     }
 
+    logActivity({ type: 'SYSTEME', description: `IA reformulation (${tone || 'professionnel'}) — ${text.slice(0, 60)}...`, user_id: auth.user?.id, metadata: { action: 'ai_reformulate', tone } })
+
     return NextResponse.json({ result: result.content, model: result.model })
   } catch (err) {
     console.error('[Reformulate] Error:', err)

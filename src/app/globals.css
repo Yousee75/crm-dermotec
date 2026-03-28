@@ -397,7 +397,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Skeleton loading — warm paper tone */
 .skeleton {
-  background: linear-gradient(90deg, #F4F0EB 25%, #EDE8E0 50%, #F4F0EB 75%);
+  background: linear-gradient(90deg, #F5F5F5 25%, #EEEEEE 50%, #F5F5F5 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 10px;

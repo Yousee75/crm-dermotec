@@ -49,7 +49,7 @@ function Dialog({ open, onClose, children, className, size = 'md' }: DialogProps
       <div className={cn(
         'dialog-content w-[calc(100%-2rem)]',
         sizes[size],
-        'bg-white rounded-2xl shadow-xl p-6',
+        'bg-white rounded-[20px] shadow-[var(--shadow-modal)] p-6',
         className
       )}>
         {children}

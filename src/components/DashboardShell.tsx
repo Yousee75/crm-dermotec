@@ -12,10 +12,10 @@ import {
   MessageCircle, Repeat
 } from 'lucide-react'
 import {
-  HouseSimple, UsersThree, CalendarBlank,
-  ChartBar, Certificate, GearSix,
-  CreditCard as PhCreditCard,
-  Chalkboard,
+  HouseSimple, UsersThree, CalendarBlank, ChartBar, Certificate, GearSix,
+  CreditCard as PhCreditCard, Chalkboard, Target as PhTarget, Megaphone, BookOpen as PhBookOpen,
+  UserCircle, ClipboardText, GraduationCap as PhGraduationCap, Receipt as PhReceipt, Wallet, ShoppingBag as PhShoppingBag,
+  TrendUp, ShieldCheck as PhShieldCheck, Eye as PhEye
 } from '@phosphor-icons/react'
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 // Rappels charges directement dans NotificationBell via use-notifications
@@ -42,7 +42,9 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { cn } from '@/lib/utils'
 
 interface NavSection {
-  label?: string
+  id: string
+  label: string
+  defaultOpen: boolean
   items: NavItem[]
 }
 
@@ -54,21 +56,13 @@ interface NavItem {
   badgeVariant?: 'primary' | 'error' | 'warning'
 }
 
-// Sidebar : items principaux toujours visibles + sections dépliables
-// Dashboard et Sessions = quotidien, toujours visible
-// Le reste se déplie/replie, état mémorisé en localStorage
+// Sidebar Zen Futur : 5 sections métier collapsibles avec 20 items total
+// Structure business-oriented pour améliorer la navigation
 
-interface CollapsibleSection {
-  id: string
-  label: string
-  icon: React.ElementType
-  href: string // page principale de la section
-  children: NavItem[]
-}
 
 // ============================================================
-// SIDEBAR v2 — 7 sections claires, langage formateur
-// Principe noCRM : "Qu'est-ce que je fais maintenant ?"
+// SIDEBAR Zen Futur — 5 sections métier collapsibles
+// Navigation business-oriented pour centres de formation
 // ============================================================
 // Phosphor wrapper — duotone weight pour la sidebar premium
 function PhIcon(PhComponent: React.ElementType) {
@@ -77,61 +71,69 @@ function PhIcon(PhComponent: React.ElementType) {
   }
 }
 
-const TOP_ITEMS: NavItem[] = [
-  { href: '/', icon: PhIcon(ChartBar), label: 'Tableau de bord' },
-  { href: '/contacts', icon: PhIcon(UsersThree), label: 'Contacts' },
-  { href: '/sessions', icon: PhIcon(CalendarBlank), label: 'Formations' },
-  { href: '/messages', icon: MessageSquare, label: 'Messages' },
-  { href: '/reglages', icon: PhIcon(GearSix), label: 'Réglages' },
+const NAV_SECTIONS = [
+  {
+    id: 'quotidien',
+    label: 'QUOTIDIEN',
+    defaultOpen: true,
+    items: [
+      { href: '/', label: 'Tableau de bord', icon: PhIcon(HouseSimple) },
+      { href: '/pipeline', label: 'Pipeline', icon: PhIcon(PhTarget) },
+      { href: '/sessions', label: 'Sessions', icon: PhIcon(CalendarBlank) },
+      { href: '/messages', label: 'Messages', icon: MessageSquare },  // This one uses Lucide
+    ]
+  },
+  {
+    id: 'commercial',
+    label: 'COMMERCIAL',
+    defaultOpen: true,
+    items: [
+      { href: '/leads', label: 'Leads', icon: PhIcon(UsersThree) },
+      { href: '/contacts', label: 'Contacts', icon: PhIcon(UserCircle) },
+      { href: '/cadences', label: 'Cadences', icon: PhIcon(Megaphone) },
+      { href: '/playbook', label: 'Playbook', icon: PhIcon(PhBookOpen) },
+    ]
+  },
+  {
+    id: 'formation',
+    label: 'FORMATION',
+    defaultOpen: false,
+    items: [
+      { href: '/inscriptions', label: 'Inscriptions', icon: PhIcon(ClipboardText) },
+      { href: '/stagiaires', label: 'Stagiaires', icon: PhIcon(PhGraduationCap) },
+      { href: '/academy', label: 'Academy', icon: PhIcon(Chalkboard) },
+      { href: '/catalogue', label: 'Catalogue', icon: PhIcon(Certificate) },
+    ]
+  },
+  {
+    id: 'gestion',
+    label: 'GESTION',
+    defaultOpen: false,
+    items: [
+      { href: '/facturation', label: 'Facturation', icon: PhIcon(PhReceipt) },
+      { href: '/financement', label: 'Financement', icon: PhIcon(Wallet) },
+      { href: '/commandes', label: 'Commandes', icon: PhIcon(PhShoppingBag) },
+      { href: '/equipe', label: 'Équipe', icon: Users },  // Lucide Users
+    ]
+  },
+  {
+    id: 'pilotage',
+    label: 'PILOTAGE',
+    defaultOpen: false,
+    items: [
+      { href: '/analytics', label: 'Analytics', icon: PhIcon(ChartBar) },
+      { href: '/performance', label: 'Performance', icon: PhIcon(TrendUp) },
+      { href: '/qualiopi', label: 'Qualiopi', icon: PhIcon(PhShieldCheck) },
+      { href: '/audit', label: 'Audit', icon: PhIcon(PhEye) },
+    ]
+  },
 ]
 
-// Plus de sections dépliables — tout est accessible via les pages hub
-// Messages et Notifications → dans le header
-// Academy, Outils, Concurrents → Cmd+K ou liens depuis les pages
-const COLLAPSIBLE_SECTIONS: CollapsibleSection[] = []
+const BOTTOM_ITEMS = [
+  { href: '/notifications', label: 'Notifications', icon: Bell },
+  { href: '/reglages', label: 'Réglages', icon: PhIcon(GearSix) },
+]
 
-// Backward compat : garder NAV_SECTIONS pour le code existant
-const NAV_SECTIONS: NavSection[] = [{ items: TOP_ITEMS }]
-
-function SidebarLink({ item, collapsed, isActive }: { item: NavItem; collapsed: boolean; isActive: boolean }) {
-  const content = (
-    <Link
-      href={item.href}
-      className={cn(
-        'flex items-center gap-3 mx-2 px-3 py-2 rounded-lg text-[13px] transition-all duration-150',
-        isActive
-          ? 'bg-white/10 text-white font-medium shadow-sm shadow-black/10'
-          : 'text-slate-400 hover:bg-white/5 hover:text-slate-200',
-        collapsed && 'justify-center px-2 mx-1'
-      )}
-    >
-      <item.icon className={cn('w-[18px] h-[18px] shrink-0', isActive && 'text-primary')} />
-      {!collapsed && (
-        <>
-          <span className="flex-1 truncate">{item.label}</span>
-          {item.badge !== undefined && (
-            <Badge
-              variant={item.badgeVariant === 'error' ? 'error' : item.badgeVariant === 'warning' ? 'warning' : 'primary'}
-              size="sm"
-            >
-              {item.badge}
-            </Badge>
-          )}
-        </>
-      )}
-    </Link>
-  )
-
-  if (collapsed) {
-    return (
-      <Tooltip content={item.label} side="right" delay={0}>
-        {content}
-      </Tooltip>
-    )
-  }
-
-  return content
-}
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
   // Auto-track navigation dans tout le CRM
@@ -161,23 +163,19 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const roleView = getRoleView(currentUser?.role || 'admin')
 
   // Filtrer la sidebar par rôle
-  const visibleTopItems = TOP_ITEMS.filter(item =>
-    roleView.topItems.includes(item.href) && !roleView.hiddenPages.includes(item.href)
-  )
-  const visibleSections = COLLAPSIBLE_SECTIONS.filter(section =>
-    roleView.sections.includes(section.id)
-  ).map(section => ({
+  const visibleSections = NAV_SECTIONS.map(section => ({
     ...section,
-    children: section.children.filter(c => !roleView.hiddenPages.includes(c.href))
-  }))
+    items: section.items.filter(item => !roleView.hiddenPages.includes(item.href))
+  })).filter(section => section.items.length > 0)
 
   // Sections dépliables — état persisté en localStorage
   const [expandedSections, setExpandedSections] = useState<Set<string>>(() => {
-    if (typeof window === 'undefined') return new Set<string>()
+    if (typeof window === 'undefined') return new Set(['quotidien', 'commercial'])
     try {
       const saved = localStorage.getItem('sidebar-expanded')
-      return saved ? new Set(JSON.parse(saved)) : new Set<string>()
-    } catch { return new Set<string>() }
+      if (saved) return new Set(JSON.parse(saved))
+      return new Set(['quotidien', 'commercial'])
+    } catch { return new Set(['quotidien', 'commercial']) }
   })
   const router = useRouter()
   const supabase = createClient()
@@ -209,63 +207,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   }
 
   const isActive = (href: string): boolean => {
-    if (pathname === href) return true
-
-    const p = pathname ?? ''
-
-    // Tableau de bord : / + cockpit + analytics + performance + audit + formatrice
-    if (href === '/') {
-      return pathname === '/' ||
-             p.startsWith('/cockpit') ||
-             p.startsWith('/analytics') ||
-             p.startsWith('/performance') ||
-             p.startsWith('/audit') ||
-             p.startsWith('/formatrice')
-    }
-
-    // Contacts : leads + pipeline + contacts + clients + apprenants + stagiaires + alumni + cadences + fiche lead
-    if (href === '/contacts') {
-      return p.startsWith('/contacts') ||
-             p.startsWith('/leads') ||
-             p.startsWith('/pipeline') ||
-             p.startsWith('/clients') ||
-             p.startsWith('/apprenants') ||
-             p.startsWith('/stagiaires') ||
-             p.startsWith('/lead/') ||
-             p.startsWith('/cadences')
-    }
-
-    // Formations : sessions + inscriptions + emargement + catalogue + financement + bpf + qualiopi
-    if (href === '/sessions') {
-      return p.startsWith('/sessions') ||
-             p.startsWith('/session/') ||
-             p.startsWith('/inscriptions') ||
-             p.startsWith('/emargement') ||
-             p.startsWith('/catalogue') ||
-             p.startsWith('/financement') ||
-             p.startsWith('/bpf') ||
-             p.startsWith('/qualiopi') ||
-             p.startsWith('/qualite')
-    }
-
-    // Messages : messages + notifications
-    if (href === '/messages') {
-      return p.startsWith('/messages') ||
-             p.startsWith('/notifications')
-    }
-
-    // Réglages : reglages + parametres + settings + equipe + facturation + commandes + onboarding
-    if (href === '/reglages') {
-      return p.startsWith('/reglages') ||
-             p.startsWith('/parametres') ||
-             p.startsWith('/settings') ||
-             p.startsWith('/equipe') ||
-             p.startsWith('/facturation') ||
-             p.startsWith('/commandes') ||
-             p.startsWith('/onboarding')
-    }
-
-    return p.startsWith(href)
+    // Simple: exact match or starts with path/
+    if (href === '/') return pathname === '/'
+    return pathname === href || (pathname?.startsWith(href + '/') ?? false)
   }
 
   return (
@@ -275,7 +219,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         className={cn(
           'fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ease-in-out',
           'bg-sidebar-bg',
-          collapsed ? 'w-[64px]' : 'w-[240px]',
+          collapsed ? 'w-[64px]' : 'w-[260px]',
           mobileOpen ? 'translate-x-0' : '-translate-x-full',
           'md:translate-x-0 md:relative'
         )}
@@ -329,58 +273,74 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           )}
         </div>
 
-        {/* Navigation — items fixes + sections dépliables */}
+        {/* Navigation — sections collapsibles */}
         <nav className="flex-1 py-3 overflow-y-auto space-y-1">
-          {/* Items toujours visibles — filtrés par rôle */}
-          <div className="space-y-0.5">
-            {visibleTopItems.map((item) => (
-              <SidebarLink key={item.href} item={item} collapsed={collapsed} isActive={isActive(item.href)} />
-            ))}
-          </div>
-
-          {/* Séparateur */}
-          <div className="mx-3 h-px bg-white/[0.06] my-2" />
-
-          {/* Sections dépliables — filtrées par rôle */}
           {visibleSections.map((section) => {
-            const sectionActive = section.children.some(c => isActive(c.href)) || isActive(section.href)
+            const sectionActive = section.items.some(item => isActive(item.href))
             const isOpen = expandedSections.has(section.id) || sectionActive
 
             return (
               <div key={section.id}>
-                {/* Header de section (cliquable pour déplier) */}
+                {/* Section title (clickable to toggle) */}
                 <button
                   onClick={() => {
                     setExpandedSections(prev => {
                       const next = new Set(prev)
                       if (next.has(section.id)) next.delete(section.id)
                       else next.add(section.id)
-                      // Sauvegarder en localStorage
+                      // Save to localStorage
                       try { localStorage.setItem('sidebar-expanded', JSON.stringify([...next])) } catch {}
                       return next
                     })
                   }}
                   className={cn(
-                    'flex items-center gap-3 mx-2 px-3 py-2 rounded-lg text-[13px] transition-all duration-150 w-[calc(100%-16px)]',
-                    sectionActive ? 'text-white' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200',
-                    collapsed && 'justify-center px-2 mx-1'
+                    'flex items-center gap-2.5 mx-2 px-2 py-1.5 text-[10px] font-semibold uppercase tracking-[1px] text-[#666666] hover:text-[#999999] transition-colors w-[calc(100%-16px)]',
+                    collapsed && 'justify-center'
                   )}
                 >
-                  <section.icon className={cn('w-[18px] h-[18px] shrink-0', sectionActive && 'text-primary')} />
                   {!collapsed && (
                     <>
-                      <span className="flex-1 text-left truncate">{section.label}</span>
-                      <ChevronDown className={cn('w-3.5 h-3.5 text-slate-500 transition-transform duration-200', isOpen && 'rotate-180')} />
+                      <span className="flex-1 text-left">{section.label}</span>
+                      <ChevronDown className={cn('w-3 h-3 transition-transform duration-200',
+                        isOpen ? 'rotate-0' : '-rotate-90'
+                      )} />
                     </>
                   )}
                 </button>
 
-                {/* Children (dépliables) */}
-                {isOpen && !collapsed && (
-                  <div className="ml-4 mt-0.5 space-y-0.5 animate-fadeIn">
-                    {section.children.map((item) => (
-                      <SidebarLink key={item.href} item={item} collapsed={collapsed} isActive={isActive(item.href)} />
-                    ))}
+                {/* Section items */}
+                {(isOpen || collapsed) && (
+                  <div className={cn('space-y-0.5 mt-1', !collapsed && 'animate-fadeIn')}>
+                    {section.items.map((item) => {
+                      const active = isActive(item.href)
+                      const content = (
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            'flex items-center gap-3 mx-2 px-3 py-2.5 rounded-lg text-[13px] transition-all duration-150 relative',
+                            active
+                              ? 'bg-[rgba(255,92,0,0.08)] text-white font-medium before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[3px] before:h-6 before:bg-primary before:rounded-r'
+                              : 'text-[#999999] hover:bg-[#222222] hover:text-[#CCCCCC]',
+                            collapsed && 'justify-center px-2 mx-1'
+                          )}
+                        >
+                          <item.icon className={cn('w-[18px] h-[18px] shrink-0', active && 'text-primary fill-current')} />
+                          {!collapsed && (
+                            <span className="flex-1 truncate">{item.label}</span>
+                          )}
+                        </Link>
+                      )
+
+                      if (collapsed) {
+                        return (
+                          <Tooltip key={item.href} content={item.label} side="right" delay={0}>
+                            {content}
+                          </Tooltip>
+                        )
+                      }
+
+                      return <div key={item.href}>{content}</div>
+                    })}
                   </div>
                 )}
               </div>
@@ -401,6 +361,39 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               </button>
             </Tooltip>
           )}
+
+          {/* Bottom navigation items */}
+          <div className="border-t border-white/10 mx-3 my-2" />
+          {BOTTOM_ITEMS.map((item) => {
+            const active = isActive(item.href)
+            const content = (
+              <Link
+                href={item.href}
+                className={cn(
+                  'flex items-center gap-3 mx-2 px-3 py-2.5 rounded-lg text-[13px] transition-all duration-150 relative',
+                  active
+                    ? 'bg-[rgba(255,92,0,0.08)] text-white font-medium before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[3px] before:h-6 before:bg-primary before:rounded-r'
+                    : 'text-[#999999] hover:bg-[#222222] hover:text-[#CCCCCC]',
+                  collapsed && 'justify-center px-2 mx-1'
+                )}
+              >
+                <item.icon className={cn('w-[18px] h-[18px] shrink-0', active && 'text-primary')} />
+                {!collapsed && (
+                  <span className="flex-1 truncate">{item.label}</span>
+                )}
+              </Link>
+            )
+
+            if (collapsed) {
+              return (
+                <Tooltip key={item.href} content={item.label} side="right" delay={0}>
+                  {content}
+                </Tooltip>
+              )
+            }
+
+            return <div key={item.href}>{content}</div>
+          })}
 
           {/* Keyboard shortcuts link */}
           {collapsed ? (
@@ -428,11 +421,11 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             'flex items-center gap-2.5 rounded-lg p-2 hover:bg-white/5 transition cursor-pointer group',
             collapsed && 'justify-center'
           )}>
-            <Avatar name="Admin" size="sm" color="var(--color-primary)" status="online" />
+            <Avatar name={currentUser?.prenom || 'Utilisateur'} size="sm" color="var(--color-primary)" status="online" />
             {!collapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-[12px] font-medium text-slate-300 truncate">Admin</p>
-                <p className="text-[10px] text-slate-500 truncate">Dermotec CRM</p>
+                <p className="text-[12px] font-medium text-slate-300 truncate">{currentUser?.prenom || 'Utilisateur'}</p>
+                <p className="text-[10px] text-slate-500 truncate">{currentUser?.role || 'Commercial'}</p>
               </div>
             )}
           </div>
