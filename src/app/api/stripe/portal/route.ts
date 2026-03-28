@@ -7,6 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/api/auth'
 import Stripe from 'stripe'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -61,6 +62,13 @@ export async function POST(request: NextRequest) {
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.id,
       return_url: returnUrl,
+    })
+
+    logActivity({
+      type: 'PAIEMENT',
+      description: `Accès portail client Stripe (${user.email})`,
+      user_id: user.id,
+      metadata: { action: 'stripe_portal_access', customer_id: customer.id, email: user.email },
     })
 
     return NextResponse.json({

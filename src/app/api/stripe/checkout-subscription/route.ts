@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/api/auth'
 import { z } from 'zod'
 import Stripe from 'stripe'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -134,6 +135,13 @@ export async function POST(request: NextRequest) {
       billing_address_collection: 'required', // Adresse de facturation obligatoire
       payment_method_types: ['card', 'sepa_debit'], // Support carte + SEPA
       locale: 'fr', // Interface en français
+    })
+
+    logActivity({
+      type: 'PAIEMENT',
+      description: `Checkout abonnement SaaS — plan ${planId} (${user.email})`,
+      user_id: user.id,
+      metadata: { action: 'stripe_checkout_subscription', plan: planId, session_id: session.id, email: user.email },
     })
 
     return NextResponse.json({

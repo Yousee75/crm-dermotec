@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createPaymentLink } from '@/lib/integrations/stripe'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,6 +24,14 @@ export async function POST(request: NextRequest) {
       formationNom,
       montant,
       inscriptionId,
+    })
+
+    logActivity({
+      type: 'PAIEMENT',
+      description: `Lien paiement Stripe créé — ${formationNom} (${montant}€)`,
+      inscription_id: inscriptionId,
+      user_id: auth.user?.id,
+      metadata: { action: 'stripe_payment_link', formation: formationNom, montant, stripe_link_id: paymentLink.id },
     })
 
     return NextResponse.json({
