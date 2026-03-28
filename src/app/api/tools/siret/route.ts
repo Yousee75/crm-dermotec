@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 

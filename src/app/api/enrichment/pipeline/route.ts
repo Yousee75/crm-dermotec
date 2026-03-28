@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { runEnrichmentPipeline } from '@/lib/enrichment-pipeline'
+import { logActivity } from '@/lib/activity-logger'
 import { enrichComplet } from '@/lib/enrichment-orchestrator'
 import { generateProspectNarrative } from '@/lib/prospect/narrator'
 import { reviewsToStorable } from '@/lib/reviews-analyzer'
@@ -202,6 +203,14 @@ export async function POST(req: NextRequest) {
       const { cacheDelete } = await import('@/lib/upstash')
       await cacheDelete(`lock:enrich:${leadId}`)
     } catch { /* silent */ }
+
+    logActivity({
+      type: 'SYSTEME',
+      description: `Pipeline enrichissement — score ${enrichment.totalScore}, ${enrichment.classification} (${enrichment.totalDurationMs}ms)`,
+      lead_id: leadId || undefined,
+      user_id: user?.id,
+      metadata: { action: 'enrichment_pipeline', score: enrichment.totalScore, classification: enrichment.classification, steps: enrichment.steps.length },
+    })
 
     return NextResponse.json({
       enrichment: {

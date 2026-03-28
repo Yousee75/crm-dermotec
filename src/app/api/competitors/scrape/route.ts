@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { scrapeCompetitorFull } from '@/lib/competitor-scraper'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,6 +30,8 @@ export async function POST(request: NextRequest) {
       result.planity?.found ? 'Planity' : null,
       result.treatwell?.found ? 'Treatwell' : null,
     ].filter(Boolean)
+
+    logActivity({ type: 'SYSTEME', description: 'Scraping avis concurrents', user_id: auth.user?.id, metadata: { action: 'competitor_scrape' } })
 
     return NextResponse.json({
       ...result,

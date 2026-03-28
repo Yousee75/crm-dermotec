@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -155,6 +156,14 @@ export async function POST(req: NextRequest) {
       }).eq('id', leadId))
 
     }
+
+    logActivity({
+      type: 'SYSTEME',
+      description: `Enrichissement complet — score ${intel.score_global}, niveau ${intel.niveau}, ${intel.nb_donnees_collectees} données (${durationMs}ms)`,
+      lead_id: leadId || undefined,
+      user_id: user?.id,
+      metadata: { action: 'enrichment_full', score: intel.score_global, niveau: intel.niveau, duration_ms: durationMs },
+    })
 
     return NextResponse.json({
       success: true,

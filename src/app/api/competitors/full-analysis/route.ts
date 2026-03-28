@@ -8,6 +8,7 @@ import { computeMultiScore } from '@/lib/competitor-scoring'
 import { validateWithAI } from '@/lib/competitor-ai-validator'
 import { saveCompetitorProfile } from '@/lib/competitor/persistence'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -129,6 +130,8 @@ export async function POST(request: NextRequest) {
         savedId,
       })
     }
+
+    logActivity({ type: 'SYSTEME', description: 'Analyse complète concurrents', user_id: auth.user?.id, metadata: { action: 'competitor_full_analysis' } })
 
     return NextResponse.json({
       prospect: discovery.prospect,

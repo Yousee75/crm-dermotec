@@ -3,6 +3,7 @@ import { renderToBuffer } from '@react-pdf/renderer'
 import { RapportConcurrentiel } from '@/lib/pdf/rapport-concurrentiel'
 import React from 'react'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +37,8 @@ export async function POST(request: NextRequest) {
 
     // Retourner le PDF
     const filename = `rapport-concurrentiel-${(prospect.nom || 'analyse').replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`
+
+    logActivity({ type: 'SYSTEME', description: 'Export PDF concurrents', user_id: auth.user?.id, metadata: { action: 'competitor_pdf_export' } })
 
     return new NextResponse(buffer as unknown as BodyInit, {
       status: 200,

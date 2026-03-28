@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { discoverCompetitors } from '@/lib/competitor/discovery'
 import { analyzeCompetitors } from '@/lib/competitor/analyzer'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,6 +29,8 @@ export async function POST(request: NextRequest) {
       discovery.prospect,
       discovery.competitors
     )
+
+    logActivity({ type: 'SYSTEME', description: 'Analyse concurrentielle lancée', user_id: auth.user?.id, metadata: { action: 'competitor_analyze' } })
 
     return NextResponse.json(analysis)
   } catch (err) {

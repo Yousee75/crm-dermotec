@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { discoverSocialProfiles, scrapeInstagram } from '@/lib/competitor/social-discovery'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,6 +30,8 @@ export async function POST(request: NextRequest) {
       const igData = await scrapeInstagram(igUsername)
       if (igData) social.instagram = igData
     }
+
+    logActivity({ type: 'SYSTEME', description: 'Analyse réseaux sociaux concurrents', user_id: auth.user?.id, metadata: { action: 'competitor_social' } })
 
     return NextResponse.json({
       profiles,

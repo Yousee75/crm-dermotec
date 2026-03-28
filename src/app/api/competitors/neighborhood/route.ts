@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchNeighborhoodData } from '@/lib/neighborhood-data'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,6 +18,8 @@ export async function GET(request: NextRequest) {
     }
 
     const data = await fetchNeighborhoodData(lat, lng, radius)
+
+    logActivity({ type: 'SYSTEME', description: 'Analyse quartier/zone concurrents', user_id: auth.user?.id, metadata: { action: 'competitor_neighborhood' } })
 
     return NextResponse.json(data)
   } catch (err) {

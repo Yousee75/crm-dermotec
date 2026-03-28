@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { chatCompletion } from '@/lib/ai/core'
 import { requireAuth } from '@/lib/api/auth'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
