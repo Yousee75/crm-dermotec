@@ -3,7 +3,7 @@
 // Traite les webhooks entrants avec retry automatique
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const webhookRetry = inngest.createFunction(
   {

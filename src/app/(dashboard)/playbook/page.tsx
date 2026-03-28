@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState } from 'react'
 import { usePlaybookEntries, useVotePlaybookResponse, useRecordPlaybookResult, useCreatePlaybookEntry, useAddPlaybookResponse, useSuggestResponse } from '@/hooks/use-playbook'
-import { PLAYBOOK_CATEGORIES } from '@/lib/playbook'
+import { PLAYBOOK_CATEGORIES } from '@/lib/automation/playbook'
 import {
   Shield, MessageCircle, Lightbulb, Star, Zap, Plus,
   ThumbsUp, ThumbsDown, CheckCircle, XCircle, Trophy,

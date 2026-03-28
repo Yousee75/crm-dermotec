@@ -4,7 +4,7 @@
 // Données pseudonymisées, propriété Satorea (art. 6.1.f RGPD)
 // ============================================================
 
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 
 // ===== Types =====
 

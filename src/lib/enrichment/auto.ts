@@ -16,7 +16,7 @@ function getSupabase() {
 
 function getInngest() {
   // Lazy import pour éviter le crash SSG
-  return import('./inngest').then(m => m.inngest)
+  return import('../infra/inngest').then(m => m.inngest)
 }
 
 interface EnrichmentTriggerData {

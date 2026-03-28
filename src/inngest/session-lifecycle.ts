@@ -9,7 +9,7 @@
 // 5. Sessions incomplètes dans 14 jours → Alerte cockpit
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const sessionLifecycle = inngest.createFunction(
   {

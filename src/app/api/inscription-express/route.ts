@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServiceSupabase } from '@/lib/supabase-server'
-import { createCheckoutSession } from '@/lib/stripe'
+import { createCheckoutSession } from '@/lib/integrations/stripe'
 import type { Lead, Inscription } from '@/types'
 
 const inscriptionExpressSchema = z.object({

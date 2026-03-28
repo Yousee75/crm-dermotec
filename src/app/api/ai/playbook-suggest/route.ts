@@ -5,8 +5,8 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
-import { suggestPlaybookResponse } from '@/lib/playbook'
-import { requireAuth } from '@/lib/api-auth'
+import { suggestPlaybookResponse } from '@/lib/automation/playbook'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 20

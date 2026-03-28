@@ -1,11 +1,12 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import type { RoleEquipe } from '@/types'
 
 export interface CurrentUser {
   auth_id: string
+  auth_user_id?: string
   equipe_id: string | null
   role: RoleEquipe
   prenom: string

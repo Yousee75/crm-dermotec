@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyEmail, verifyEmailQuick } from '@/lib/email-verify'
-import { requireAuth } from '@/lib/api-auth'
+import { verifyEmail, verifyEmailQuick } from '@/lib/communication/email-verify'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

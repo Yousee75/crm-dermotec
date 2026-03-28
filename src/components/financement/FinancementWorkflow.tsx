@@ -1287,7 +1287,7 @@ function HistoriqueTab() {
     'Document': 'bg-[#D1FAE5] text-[#10B981]',
     'Modification': 'bg-orange-100 text-orange-700',
     'Paiement': 'bg-[#FFF0E5] text-[#FF5C00]',
-    'Facture': 'bg-indigo-100 text-indigo-700',
+    'Facture': 'bg-[#FFF0E5] text-[#FF5C00]',
     'Relance': 'bg-[#FFF3E8] text-[#FF8C42]',
     'Alerte': 'bg-[#FFE0EF] text-[#FF2D78]'
   }

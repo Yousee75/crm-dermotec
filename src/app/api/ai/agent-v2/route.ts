@@ -7,8 +7,8 @@
 
 import { streamText } from 'ai'
 import { getModel, DERMOTEC_SYSTEM } from '@/lib/ai-sdk'
-import { crmTools } from '@/lib/ai-tools'
-import { semanticCacheGet, semanticCacheSet } from '@/lib/semantic-cache'
+import { crmTools } from '@/lib/ai/tools'
+import { semanticCacheGet, semanticCacheSet } from '@/lib/ai/semantic-cache'
 import { generateCoachingInsights, coachingToSystemPrompt } from '@/lib/win-patterns'
 import type { WinPattern } from '@/lib/pipeline-forecast'
 
@@ -228,7 +228,7 @@ COMPORTEMENT en mode formation :
           // Sauvegarder dans messages omnicanal (canal = agent_ia)
           if (leadId) {
             try {
-              const { saveAgentMessage } = await import('@/lib/message-store')
+              const { saveAgentMessage } = await import('@/lib/communication/message-store')
               // Question du commercial (inbound = vient vers le CRM)
               await saveAgentMessage({
                 lead_id: leadId,

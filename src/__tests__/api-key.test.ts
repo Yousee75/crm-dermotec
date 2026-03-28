@@ -4,7 +4,7 @@
 // ============================================================
 
 import { describe, it, expect } from 'vitest'
-import { generateApiKey, hashApiKey, hasScope } from '@/lib/api-key-auth'
+import { generateApiKey, hashApiKey, hasScope } from '@/lib/api/key-auth'
 
 describe('API Key Generation', () => {
   it('genere une cle au format dmtc_live_<hex>', () => {

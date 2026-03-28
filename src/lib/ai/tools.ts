@@ -7,7 +7,7 @@ import 'server-only'
 
 import { tool, type Tool, jsonSchema as aiJsonSchema } from 'ai'
 import { z } from 'zod'
-import { createServiceSupabase } from './supabase-server'
+import { createServiceSupabase } from '../supabase-server'
 import { hybridSearchKB } from './hybrid-search'
 
 // AI SDK v6 + Anthropic : la combinaison tool() + Zod produit un schema sans type:"object"
@@ -465,7 +465,7 @@ EXEMPLE : "Envoie un email de relance à Marie" → D'ABORD getLeadDetails pour 
 
       // Sauvegarder dans messages (source de vérité)
       if (lead_id) {
-        const { saveEmailSent } = await import('./message-store')
+        const { saveEmailSent } = await import('../communication/message-store')
         await saveEmailSent({
           lead_id, sujet: subject, contenu: body,
           destinataire: to, source: 'agent_ia',
@@ -741,7 +741,7 @@ EXEMPLE : "Combien on devrait closer ce mois ?" → getPipelineForecast({})`,
 
 // --- TOOL 15: Revenue Graph (profil 360° enrichi, inspiré Gong Revenue Graph + Klaviyo CDP) ---
 // Import Score 360°
-import { calculateScore360, score360ToText } from './lead-score-360'
+import { calculateScore360, score360ToText } from '../lead-score-360'
 
 export const getRevenueGraphTool = defineTool({
   description: `Vue 360° ENRICHIE d'un lead : revenue, engagement, financements, rappels, tout en UN SEUL appel.

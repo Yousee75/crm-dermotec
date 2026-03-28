@@ -12,7 +12,7 @@ import {
 import { Badge } from '@/components/ui'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import type { ProspectNarrative } from '@/lib/prospect-narrator'
+import type { ProspectNarrative } from '@/lib/prospect/narrator'
 
 interface ProspectReportViewerProps {
   leadId: string
@@ -541,9 +541,9 @@ function MiniCard({ label, value, icon }: { label: string; value: string; icon: 
 function ScriptLine({ label, text, color }: { label: string; text: string; color: string }) {
   const colors: Record<string, string> = {
     sky: 'border-l-sky-400 bg-sky-50',
-    indigo: 'border-l-indigo-400 bg-indigo-50',
+    indigo: 'border-l-[#FF5C00] bg-[#FFF0E5]',
     emerald: 'border-l-emerald-400 bg-emerald-50',
-    violet: 'border-l-violet-400 bg-violet-50',
+    violet: 'border-l-[#FF2D78] bg-[#FFE0EF]',
   }
   return (
     <div className={cn('border-l-3 rounded-r-lg p-2.5', colors[color] || 'border-l-gray-400 bg-[#FAF8F5]')}>
@@ -563,7 +563,7 @@ function ObjLine({ label, text }: { label: string; text: string }) {
 }
 
 function ActionStep({ num, text, color }: { num: number; text: string; color: string }) {
-  const colors: Record<string, string> = { emerald: 'bg-emerald-500', sky: 'bg-sky-500', violet: 'bg-violet-500' }
+  const colors: Record<string, string> = { emerald: 'bg-emerald-500', sky: 'bg-sky-500', violet: 'bg-[#FFE0EF]0' }
   return (
     <div className="flex items-start gap-2.5">
       <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0 mt-0.5', colors[color] || 'bg-[#FAF8F5]0')}>

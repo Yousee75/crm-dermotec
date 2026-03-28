@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { discoverSocialProfiles, scrapeInstagram } from '@/lib/social-discovery'
-import { requireAuth } from '@/lib/api-auth'
+import { discoverSocialProfiles, scrapeInstagram } from '@/lib/competitor/social-discovery'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

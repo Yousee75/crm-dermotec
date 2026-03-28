@@ -4,12 +4,12 @@ import 'server-only'
 // Sauvegarde dans Supabase competitor_profiles + competitor_reviews
 // ============================================================
 
-import type { AnalyzedCompetitor } from './competitor-analyzer'
-import type { ScrapedCompetitor, PlatformReview } from './competitor-scraper'
+import type { AnalyzedCompetitor } from './analyzer'
+import type { ScrapedCompetitor, PlatformReview } from '../competitor-scraper'
 import type { SocialMetrics } from './social-discovery'
-import type { CompetitorScores } from './competitor-scoring'
-import type { AIValidationResult } from './competitor-ai-validator'
-import type { NeighborhoodData } from './neighborhood-data'
+import type { CompetitorScores } from './scoring'
+import type { AIValidationResult } from '../competitor-ai-validator'
+import type { NeighborhoodData } from '../neighborhood-data'
 
 interface CompetitorFullData {
   competitor: Partial<AnalyzedCompetitor>

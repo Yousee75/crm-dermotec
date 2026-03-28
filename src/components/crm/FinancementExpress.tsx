@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Progress } from '@/components/ui/progress'
-import { calculerFinancement, ORGANISMES_FINANCEMENT, identifierOrganisme } from '@/lib/financement-data'
+import { calculerFinancement, ORGANISMES_FINANCEMENT, identifierOrganisme } from '@/lib/financement/data'
 import { formatEuro } from '@/lib/utils'
 import { toast } from 'sonner'
 import {

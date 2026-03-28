@@ -4,9 +4,9 @@
 // selon la pertinence et l'intérêt économique du prospect
 // ============================================================
 
-import { verifySIRET, verifySIREN, getOPCOFromNAF, type EntrepriseSirene } from './sirene-api'
+import { verifySIRET, verifySIREN, getOPCOFromNAF, type EntrepriseSirene } from './integrations/sirene-api'
 import { fetchGoogleReviews, fetchAllReviewsOutscraper, analyzeReviews, type GoogleReview, type ReviewAnalysis, type OutscraperPlaceData } from './reviews-analyzer'
-import { verifyEmail, type EmailVerificationResult } from './email-verify'
+import { verifyEmail, type EmailVerificationResult } from './communication/email-verify'
 
 // ── Types ──────────────────────────────────────────────────
 

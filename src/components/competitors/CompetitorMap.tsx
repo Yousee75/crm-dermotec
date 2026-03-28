@@ -3,7 +3,7 @@
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api'
 import { useState, useCallback } from 'react'
 import { StarRating } from './StarRating'
-import type { AnalyzedCompetitor } from '@/lib/competitor-analyzer'
+import type { AnalyzedCompetitor } from '@/lib/competitor/analyzer'
 
 interface CompetitorMapProps {
   center: { lat: number; lng: number }

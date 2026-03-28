@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireAuth } from '@/lib/api-auth'
+import { requireAuth } from '@/lib/api/auth'
 import { enrichLead, enrichWithPappers, enrichWithGooglePlaces } from '@/lib/enrichment'
-import { checkAndConsumeCredits, getCreditStatus } from '@/lib/credit-guard'
+import { checkAndConsumeCredits, getCreditStatus } from '@/lib/api/credit-guard'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30

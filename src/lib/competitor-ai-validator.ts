@@ -5,8 +5,8 @@ import 'server-only'
 // Compare les deux résultats pour garantir la fiabilité
 // ============================================================
 
-import type { AnalyzedCompetitor } from './competitor-analyzer'
-import type { SocialMetrics } from './social-discovery'
+import type { AnalyzedCompetitor } from './competitor/analyzer'
+import type { SocialMetrics } from './competitor/social-discovery'
 import type { ScrapedCompetitor } from './competitor-scraper'
 import type { NeighborhoodData } from './neighborhood-data'
 import type { CompetitorScores } from './competitor-scoring'

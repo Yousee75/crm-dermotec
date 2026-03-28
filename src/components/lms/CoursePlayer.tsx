@@ -601,7 +601,7 @@ function AudioRenderer({ content }: { content: Content }) {
   return (
     <div className="p-8">
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-500 to-[#FF5C00] flex items-center justify-center">
+        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#FF2D78] to-[#FF5C00] flex items-center justify-center">
           <Music className="w-8 h-8 text-white" />
         </div>
         <div>

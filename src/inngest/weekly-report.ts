@@ -4,7 +4,7 @@
 // Génère HTML + sauvegarde DB + envoie par email
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 function getSupabase() {
   // eslint-disable-next-line @typescript-eslint/no-require-imports

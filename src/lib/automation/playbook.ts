@@ -3,7 +3,7 @@
 // Intelligence collective : objections, scripts, arguments
 // ============================================================
 
-import { chatCompletion, type AIMessage } from './ai'
+import { chatCompletion, type AIMessage } from '../ai/core'
 
 // --- Types ---
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import type { RoleEquipe } from '@/types'
 import { toast } from 'sonner'
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './Dialog'

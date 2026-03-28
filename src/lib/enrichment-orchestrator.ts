@@ -8,7 +8,7 @@ import 'server-only'
 // Seules les API routes l'utilisent.
 // ============================================================
 
-import { assembleIntelligence, type IntelligenceComplete } from './enrichment-proxy'
+import { assembleIntelligence, type IntelligenceComplete } from './enrichment/proxy'
 
 // ============================================================
 // Types internes (JAMAIS exposés au frontend)
@@ -145,7 +145,7 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
     // Sirene + Convention + BODACC + DGEFP en parallèle
     identityBranch.push(
       safeCall('I1', async () => {
-        const { verifySIRET } = await import('./sirene-api')
+        const { verifySIRET } = await import('./integrations/sirene-api')
         const r = await verifySIRET(params.siret!)
         if (r.valid && r.entreprise) {
           data.sirene = r.entreprise
@@ -260,7 +260,7 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
 
       reputationBranch.push(
         safeCall('R2', async () => {
-          const { discoverSocialProfiles } = await import('./social-discovery')
+          const { discoverSocialProfiles } = await import('./competitor/social-discovery')
           data.social = await discoverSocialProfiles(website, params.nom)
         }, perCallTimeout)
       )
@@ -286,7 +286,7 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
       // SI Instagram trouvé → scrapeInstagram
       if (data.social?.instagram) {
         await safeCall('R4', async () => {
-          const { scrapeInstagram } = await import('./social-discovery')
+          const { scrapeInstagram } = await import('./competitor/social-discovery')
           data.instagram = await scrapeInstagram(data.social.instagram)
         }, perCallTimeout)
       }

@@ -15,7 +15,7 @@ import { Card } from '@/components/ui/Card'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { cn } from '@/lib/utils'
 import { useCadenceTemplates, useCadenceInstances, useStopCadence } from '@/hooks/use-cadences'
-import { CADENCES_PREDEFINES } from '@/lib/cadence-engine'
+import { CADENCES_PREDEFINES } from '@/lib/automation/cadence-engine'
 import type { CadenceTemplate, CadenceInstance, CadenceStepType, CadenceStep } from '@/types'
 
 // Types utilitaires

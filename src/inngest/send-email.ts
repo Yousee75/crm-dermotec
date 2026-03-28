@@ -3,7 +3,7 @@
 // Trigger: crm/email.send
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const sendEmail = inngest.createFunction(
   {
@@ -83,7 +83,7 @@ export const sendEmail = inngest.createFunction(
         promises.push(logEmailSent(lead_id, emailResult.sujet, to, 'resend'))
 
         // Sauvegarder dans messages (source de vérité omnicanale)
-        const { saveEmailSent } = await import('@/lib/message-store')
+        const { saveEmailSent } = await import('@/lib/communication/message-store')
         promises.push(saveEmailSent({
           lead_id,
           sujet: emailResult.sujet,

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useUser } from '@/hooks/use-user'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import {
   ArrowLeft, Clock, Trophy, BookOpen, Video, HelpCircle,
   CheckSquare, MessageSquare, FileText, PenTool, Check,
@@ -45,7 +45,7 @@ function getLessonIcon(type: string, className = "w-4 h-4") {
 
 function getLessonTypeBadge(type: string) {
   const configs = {
-    texte: { label: 'Article', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
+    texte: { label: 'Article', color: 'bg-[#FFF0E5] text-[#FF5C00]' },
     video: { label: 'Vidéo', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
     quiz: { label: 'Quiz', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
     checklist: { label: 'Checklist', color: 'bg-[#D1FAE5] text-[#10B981]' },
@@ -227,7 +227,7 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
               className={cn(
                 "w-full p-3 text-left rounded-lg border transition-colors",
                 answers[currentQuestion] === optIndex
-                  ? "bg-[#E0EBF5] border-blue-300 text-[#6B8CAE]"
+                  ? "bg-[#FFF0E5] border-[#FF8C42] text-[#FF5C00]"
                   : "bg-[#FAF8F5] border-[#EEEEEE] hover:bg-[#F4F0EB]"
               )}
             >
@@ -320,7 +320,7 @@ function ChecklistContent({ contenu, onComplete }: { contenu: any; onComplete: (
                   type="checkbox"
                   checked={checkedItems[index] || false}
                   onChange={(e) => handleCheck(index, e.target.checked)}
-                  className="w-5 h-5 text-[#6B8CAE] rounded focus:ring-[#FF5C00]"
+                  className="w-5 h-5 text-[#FF5C00] rounded focus:ring-[#FF5C00]"
                 />
                 <span className={cn(
                   "flex-1",
@@ -368,12 +368,12 @@ function ScriptContent({ contenu }: { contenu: any }) {
               <div className={cn(
                 "max-w-md p-4 rounded-lg",
                 dialogue.speaker === 'Commercial'
-                  ? "bg-[#E0EBF5] border border-[#6B8CAE]/30"
+                  ? "bg-[#FFF0E5] border border-[#FF5C00]/30"
                   : "bg-[#FAF8F5] border border-[#EEEEEE]"
               )}>
                 <div className="flex items-center gap-2 mb-2">
                   {dialogue.speaker === 'Commercial' ? (
-                    <User className="w-4 h-4 text-[#6B8CAE]" />
+                    <User className="w-4 h-4 text-[#FF5C00]" />
                   ) : (
                     <Bot className="w-4 h-4 text-[#777777]" />
                   )}
@@ -445,9 +445,9 @@ function ExerciceContent({ contenu }: { contenu: any }) {
     <div className="space-y-6">
       {contenu.consigne ? (
         <>
-          <div className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg p-4">
-            <h3 className="font-medium text-[#6B8CAE] mb-2">Consignes</h3>
-            <p className="text-[#6B8CAE] whitespace-pre-wrap">
+          <div className="bg-[#FFF0E5] border border-[#FF5C00]/30 rounded-lg p-4">
+            <h3 className="font-medium text-[#FF5C00] mb-2">Consignes</h3>
+            <p className="text-[#FF5C00] whitespace-pre-wrap">
               {contenu.consigne}
             </p>
           </div>
@@ -653,7 +653,7 @@ export default function LessonPage() {
                     className={cn(
                       "flex items-center gap-3 p-2 rounded-lg text-sm transition-colors",
                       l.id === lesson.id
-                        ? "bg-[#E0EBF5] text-[#6B8CAE] border border-[#6B8CAE]/30"
+                        ? "bg-[#FFF0E5] text-[#FF5C00] border border-[#FF5C00]/30"
                         : "text-[#777777] hover:bg-[#FAF8F5]"
                     )}
                   >

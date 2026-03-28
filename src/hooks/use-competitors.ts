@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import type { CompetitorAnalysis } from '@/lib/competitor-analyzer'
+import type { CompetitorAnalysis } from '@/lib/competitor/analyzer'
 
 export function useCompetitorAnalysis() {
   const [data, setData] = useState<CompetitorAnalysis | null>(null)

@@ -33,7 +33,7 @@ export async function checkAndConsumeCredits(params: {
   ip?: string
 }): Promise<CreditCheckResult> {
   try {
-    const { createServiceSupabase } = await import('./supabase-server')
+    const { createServiceSupabase } = await import('../supabase-server')
     const supabase = await createServiceSupabase() as any
 
     // Appel atomique à la fonction SQL
@@ -79,7 +79,7 @@ export async function getCreditStatus(org_id?: string): Promise<{
   abuse_alerts: number
 }> {
   try {
-    const { createServiceSupabase } = await import('./supabase-server')
+    const { createServiceSupabase } = await import('../supabase-server')
     const supabase = await createServiceSupabase() as any
 
     const [creditsRes, limitsRes, todayRes, hourRes, abuseRes] = await Promise.all([

@@ -3,7 +3,7 @@
 // Chatbot quotidien pas cher, distinct de l'Agent CRM (Claude)
 // ============================================================
 
-import type { AIMessage, AIResponse } from './ai'
+import type { AIMessage, AIResponse } from './core'
 
 const ASSISTANT_PROVIDERS = [
   {

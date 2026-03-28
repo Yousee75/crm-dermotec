@@ -4,7 +4,7 @@
 // Avantage: pas de timeout Stripe (30s), retry automatique, observabilité
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const stripeWebhookProcessor = inngest.createFunction(
   {

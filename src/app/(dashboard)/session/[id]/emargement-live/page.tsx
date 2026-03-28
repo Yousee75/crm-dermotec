@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { QRCodeGenerator } from '@/components/ui/QRCodeGenerator'
 import { TerrainEmargementMode } from '@/components/ui/TerrainEmargementMode'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -74,21 +74,6 @@ export default function EmargementLivePage() {
     )
   }
 
-  // Mode terrain activé
-  if (terrainMode) {
-    return (
-      <TerrainEmargementMode
-        sessionId={sessionId}
-        sessionNom={session.formation?.nom || 'Formation'}
-        stagiaires={stagiairesData}
-        qrUrl={qrUrl}
-        onExit={() => setTerrainMode(false)}
-        onRefresh={() => refetch()}
-        onSignatureManuelle={handleSignatureManuelle}
-      />
-    )
-  }
-
   const { session, emargements } = data
   const inscriptions = session.inscriptions?.filter((i: any) =>
     ['CONFIRMEE', 'EN_COURS', 'COMPLETEE'].includes(i.statut)
@@ -150,6 +135,21 @@ export default function EmargementLivePage() {
         : undefined
     }
   })
+
+  // Mode terrain activé
+  if (terrainMode) {
+    return (
+      <TerrainEmargementMode
+        sessionId={sessionId}
+        sessionNom={session.formation?.nom || 'Formation'}
+        stagiaires={stagiairesData}
+        qrUrl={qrUrl}
+        onExit={() => setTerrainMode(false)}
+        onRefresh={() => refetch()}
+        onSignatureManuelle={handleSignatureManuelle}
+      />
+    )
+  }
 
   return (
     <div className="space-y-6">

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchNeighborhoodData } from '@/lib/neighborhood-data'
-import { requireAuth } from '@/lib/api-auth'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

@@ -81,7 +81,7 @@ const TYPE_CONFIG: Record<string, { icon: typeof FileText; color: string; label:
   ppt: { icon: FileText, color: 'text-orange-400 bg-orange-500/10', label: 'Présentation' },
   pdf: { icon: FileText, color: 'text-[#FF2D78] bg-[#FF2D78]/10', label: 'PDF' },
   video: { icon: Video, color: 'text-[#FF8C42] bg-[#FF5C00]/10', label: 'Vidéo' },
-  audio: { icon: Music, color: 'text-violet-400 bg-violet-500/10', label: 'Audio' },
+  audio: { icon: Music, color: 'text-[#FF2D78] bg-[#FF2D78]/10', label: 'Audio' },
   image: { icon: ImageIcon, color: 'text-emerald-400 bg-emerald-500/10', label: 'Image' },
 }
 

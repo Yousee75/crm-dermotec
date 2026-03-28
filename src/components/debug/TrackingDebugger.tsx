@@ -57,7 +57,7 @@ export function TrackingDebugger() {
           onClick={() => setIsVisible(!isVisible)}
           size="sm"
           variant="outline"
-          className="bg-purple-600 text-white border-purple-600 hover:bg-purple-700"
+          className="bg-[#FF2D78] text-white border-[#FF2D78] hover:bg-[#E6186A]"
         >
           <Bug className="h-4 w-4" />
           Tracking Debug

@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { type Commande, type StatutCommande, type ProduitCommande } from '@/types'
 import { formatEuro, formatDate } from '@/lib/utils'
 import {

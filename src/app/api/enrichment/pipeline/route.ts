@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { runEnrichmentPipeline } from '@/lib/enrichment-pipeline'
 import { enrichComplet } from '@/lib/enrichment-orchestrator'
-import { generateProspectNarrative } from '@/lib/prospect-narrator'
+import { generateProspectNarrative } from '@/lib/prospect/narrator'
 import { reviewsToStorable } from '@/lib/reviews-analyzer'
 import { createServiceSupabase } from '@/lib/supabase-server'
 
@@ -221,10 +221,13 @@ export async function POST(req: NextRequest) {
       version: reportData.version,
     })
   } catch (error: any) {
-    // Libérer le lock même en cas d'erreur
+    // Libérer le lock même en cas d'erreur (leadId peut ne pas être défini si l'erreur est avant le parsing)
     try {
-      const { cacheDelete } = await import('@/lib/upstash')
-      await cacheDelete(`lock:enrich:${leadId}`)
+      const body = await req.clone().json().catch(() => ({}))
+      if (body?.leadId) {
+        const { cacheDelete } = await import('@/lib/upstash')
+        await cacheDelete(`lock:enrich:${body.leadId}`)
+      }
     } catch { /* silent */ }
 
     console.error('[Pipeline] Erreur:', error)

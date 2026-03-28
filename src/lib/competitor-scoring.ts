@@ -4,8 +4,8 @@ import 'server-only'
 // 5 dimensions (0-100 chacune) + score global pondéré
 // ============================================================
 
-import type { AnalyzedCompetitor } from './competitor-analyzer'
-import type { SocialMetrics } from './social-discovery'
+import type { AnalyzedCompetitor } from './competitor/analyzer'
+import type { SocialMetrics } from './competitor/social-discovery'
 import type { NeighborhoodData } from './neighborhood-data'
 
 export interface CompetitorScores {

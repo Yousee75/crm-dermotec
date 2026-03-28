@@ -34,7 +34,7 @@ vi.mock('@/lib/supabase-server', () => ({
 
 // Mock Inngest
 const mockInngestSend = vi.fn()
-vi.mock('@/lib/inngest', () => ({
+vi.mock('@/lib/infra/inngest', () => ({
   inngest: {
     send: mockInngestSend,
   },

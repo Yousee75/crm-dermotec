@@ -4,7 +4,7 @@
 // Complète l'agent proactif pour les sessions pleines et rappels en retard
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const enhancedNotifications = inngest.createFunction(
   {

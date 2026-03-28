@@ -1,6 +1,6 @@
 'use client'
 
-import { Lightning, Phone, FileText, CreditCard, GraduationCap, Mail } from 'lucide-react'
+import { Zap, Phone, FileText, CreditCard, GraduationCap, Mail } from 'lucide-react'
 import { Lead } from '@/types'
 import { daysBetween } from '@/lib/utils'
 
@@ -41,7 +41,7 @@ export function SmartActions({ lead, onAction }: SmartActionsProps) {
         id: 'hot-prospect',
         title: 'Prospect chaud',
         description: 'Proposer inscription immédiate',
-        icon: Lightning,
+        icon: Zap,
         priority: 9
       })
     }
@@ -138,7 +138,7 @@ export function SmartActions({ lead, onAction }: SmartActionsProps) {
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2 mb-3">
-        <Lightning className="w-4 h-4 text-[#FF5C00]" />
+        <Zap className="w-4 h-4 text-[#FF5C00]" />
         <span className="text-sm font-medium text-[#3A3A3A]">Actions suggérées</span>
       </div>
 

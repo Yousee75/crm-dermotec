@@ -28,7 +28,7 @@ const STATUT_COLORS = {
   contacte: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
   qualifie: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30',
   devis_envoye: 'bg-orange-50 text-orange-700 border-orange-200',
-  financement: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+  financement: 'bg-[#FFF0E5] text-[#FF5C00] border-[#FF8C42]',
   inscrit: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
   forme: 'bg-emerald-50 text-emerald-700 border-emerald-200',
   sans_suite: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]',

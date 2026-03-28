@@ -7,7 +7,7 @@ import {
   ChevronRight, Building2, Users, Clock
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { IntelligenceComplete } from '@/lib/enrichment-proxy'
+import type { IntelligenceComplete } from '@/lib/enrichment/proxy'
 
 interface EnrichmentTabsProps {
   leadId: string

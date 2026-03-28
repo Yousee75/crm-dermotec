@@ -9,7 +9,7 @@ import 'server-only'
 // 5. Health check global (Supabase, Stripe, Redis, Sentry)
 // ============================================================
 
-import { inngest } from '../lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 // ============================================================
 // JOB 1 : Audit sécurité complet — TOUTES LES HEURES
@@ -117,7 +117,7 @@ export const securityAuditHourly = (inngest as any).createFunction(
 
       // Stripe
       try {
-        const stripe = (await import('../lib/stripe') as any).default
+        const stripe = (await import('../lib/integrations/stripe') as any).default
         if (stripe) {
           await stripe.balance.retrieve()
           health.stripe = true

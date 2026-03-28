@@ -335,7 +335,7 @@ describe('API Edge Cases & Error Scenarios', () => {
 
   describe('External Service Failures', () => {
     it('résiste à la panne de Stripe', async () => {
-      vi.doMock('@/lib/stripe', () => ({
+      vi.doMock('@/lib/integrations/stripe', () => ({
         createCheckoutSession: () => Promise.reject(new Error('Stripe API down')),
       }))
 
@@ -359,7 +359,7 @@ describe('API Edge Cases & Error Scenarios', () => {
     })
 
     it('résiste à la panne du service d\'enrichissement', async () => {
-      vi.doMock('@/lib/enrichment-proxy', () => ({
+      vi.doMock('@/lib/enrichment/proxy', () => ({
         enrichmentProxy: () => Promise.reject(new Error('Enrichment service down')),
       }))
 

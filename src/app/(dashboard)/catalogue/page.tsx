@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search,
@@ -20,15 +20,20 @@ import {
   Heart,
   Sun,
   ShieldCheck,
-  X
+  X,
+  Calendar,
+  GraduationCap,
+  BarChart3
 } from 'lucide-react'
 import {
   FORMATIONS_ENRICHIES,
   getFormationsByCategorie,
   PARCOURS_RECOMMANDE,
   TABLEAU_ROI_COMPARATIF
-} from '@/lib/formations-content-enriched'
+} from '@/lib/formation/content-enriched'
 import type { FormationEnriched } from '@/types/formations-content'
+import { createClient } from '@/lib/infra/supabase-client'
+import { useQuery } from '@tanstack/react-query'
 
 // Types
 type CategorieFormation = FormationEnriched['categorie']
@@ -84,6 +89,73 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
+// Composant KPIs temps réel depuis Supabase
+function FormationsKPIs() {
+  const supabase = createClient()
+
+  const { data: stats } = useQuery({
+    queryKey: ['formations-kpis'],
+    queryFn: async () => {
+      const [formationsRes, sessionsRes, inscriptionsRes] = await Promise.all([
+        supabase.from('formations').select('id, prix_ht', { count: 'exact' }).eq('is_active', true),
+        supabase.from('sessions').select('id, places_max, places_occupees, statut, ca_prevu, ca_realise')
+          .in('statut', ['PLANIFIEE', 'CONFIRMEE', 'EN_COURS']),
+        supabase.from('inscriptions').select('id, montant_total, paiement_statut')
+          .in('statut', ['CONFIRMEE', 'EN_COURS', 'COMPLETEE']),
+      ])
+      const formations = formationsRes.data || []
+      const sessions = sessionsRes.data || []
+      const inscriptions = inscriptionsRes.data || []
+
+      const totalPlaces = sessions.reduce((s: number, x: any) => s + (x.places_max || 0), 0)
+      const placesOccupees = sessions.reduce((s: number, x: any) => s + (x.places_occupees || 0), 0)
+      const tauxRemplissage = totalPlaces > 0 ? Math.round((placesOccupees / totalPlaces) * 100) : 0
+      const caPipeline = inscriptions.reduce((s: number, x: any) => s + (x.montant_total || 0), 0)
+      const caPaye = inscriptions.filter((i: any) => i.paiement_statut === 'PAYE').reduce((s: number, x: any) => s + (x.montant_total || 0), 0)
+
+      return {
+        nbFormations: formations.length,
+        nbSessions: sessions.length,
+        nbInscrits: inscriptions.length,
+        tauxRemplissage,
+        caPipeline,
+        caPaye,
+      }
+    },
+    staleTime: 60_000,
+  })
+
+  if (!stats) return null
+
+  const kpis = [
+    { label: 'Formations actives', value: stats.nbFormations, icon: GraduationCap, color: '#FF5C00' },
+    { label: 'Sessions ouvertes', value: stats.nbSessions, icon: Calendar, color: '#FF2D78' },
+    { label: 'Inscrits confirmés', value: stats.nbInscrits, icon: Users, color: '#10B981' },
+    { label: 'Taux remplissage', value: `${stats.tauxRemplissage}%`, icon: BarChart3, color: '#FF8C42' },
+    { label: 'CA pipeline', value: `${(stats.caPipeline / 1000).toFixed(1)}k€`, icon: TrendingUp, color: '#FF5C00' },
+    { label: 'CA encaissé', value: `${(stats.caPaye / 1000).toFixed(1)}k€`, icon: Euro, color: '#10B981' },
+  ]
+
+  return (
+    <div className="px-6 py-4" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #EEEEEE' }}>
+      <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        {kpis.map((kpi, i) => (
+          <div key={i} className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#FAF8F5' }}>
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: `${kpi.color}15` }}>
+              <kpi.icon size={18} style={{ color: kpi.color }} />
+            </div>
+            <div className="min-w-0">
+              <div className="text-lg font-bold leading-tight" style={{ color: '#111111' }}>{kpi.value}</div>
+              <div className="text-xs truncate" style={{ color: '#777777' }}>{kpi.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // Composant Hero Section
 function HeroSection({ searchTerm, onSearchChange }: {
   searchTerm: string
@@ -105,7 +177,7 @@ function HeroSection({ searchTerm, onSearchChange }: {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white to-[#FFE0CC] bg-clip-text text-transparent">
               Catalogue Formations
             </span>
             <br />
@@ -113,7 +185,7 @@ function HeroSection({ searchTerm, onSearchChange }: {
           </motion.h1>
 
           <motion.p
-            className="mb-8 text-xl text-[#6B8CAE] lg:text-2xl"
+            className="mb-8 text-xl text-[#FF5C00] lg:text-2xl"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -134,7 +206,7 @@ function HeroSection({ searchTerm, onSearchChange }: {
                 placeholder="Rechercher une formation..."
                 value={searchTerm}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full px-12 py-4 text-[#111111] bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 text-lg"
+                className="w-full px-12 py-4 text-[#111111] bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5C00] text-lg"
               />
             </div>
           </motion.div>
@@ -147,15 +219,15 @@ function HeroSection({ searchTerm, onSearchChange }: {
           >
             <div>
               <div className="text-3xl font-bold">11</div>
-              <div className="text-[#6B8CAE]">Formations</div>
+              <div className="text-[#FF5C00]">Formations</div>
             </div>
             <div>
               <div className="text-3xl font-bold">5</div>
-              <div className="text-[#6B8CAE]">Catégories</div>
+              <div className="text-[#FF5C00]">Catégories</div>
             </div>
             <div>
               <div className="text-3xl font-bold">2</div>
-              <div className="text-[#6B8CAE]">Mois ROI</div>
+              <div className="text-[#FF5C00]">Mois ROI</div>
             </div>
           </motion.div>
         </div>
@@ -202,14 +274,14 @@ function CategoryTabs({
                 </span>
                 {!isAll && (
                   <span className={`px-2 py-0.5 rounded-full text-xs ${
-                    isActive ? 'bg-blue-400 text-white' : 'bg-[#EEEEEE] text-[#777777]'
+                    isActive ? 'bg-[#FF5C00] text-white' : 'bg-[#EEEEEE] text-[#777777]'
                   }`}>
                     {config?.count}
                   </span>
                 )}
                 {isActive && (
                   <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-blue-300 rounded-full"
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-[#FF5C00] rounded-full"
                     layoutId="activeTab"
                   />
                 )}
@@ -275,7 +347,7 @@ function ParcoursTimeline() {
                         return (
                           <span
                             key={formationSlug}
-                            className="px-3 py-1 bg-[#E0EBF5] text-primary rounded-full text-sm font-medium"
+                            className="px-3 py-1 bg-[#FFF0E5] text-primary rounded-full text-sm font-medium"
                           >
                             {formation.nom}
                           </span>
@@ -358,7 +430,7 @@ function FormationCard({
           </div>
         )}
 
-        <button className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-[#6B8CAE] transition-colors group-hover:bg-[#6B8CAE]">
+        <button className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-[#E65200] transition-colors group-hover:bg-[#E65200]">
           Voir détails
           <ChevronRight className="w-4 h-4 inline ml-1" />
         </button>
@@ -425,15 +497,15 @@ function ROICalculator({ formation }: { formation: FormationEnriched }) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <motion.div
-          className="bg-[#E0EBF5] border border-[#6B8CAE]/30 rounded-lg p-4 text-center"
+          className="bg-[#FFF0E5] border border-[#FF5C00]/30 rounded-lg p-4 text-center"
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 0.3 }}
           key={calculations.gainMensuel}
         >
-          <div className="text-2xl font-bold text-[#6B8CAE]">
+          <div className="text-2xl font-bold text-[#FF5C00]">
             {calculations.gainMensuel.toLocaleString('fr-FR')}€
           </div>
-          <div className="text-sm text-[#6B8CAE]">Gain mensuel</div>
+          <div className="text-sm text-[#FF5C00]">Gain mensuel</div>
         </motion.div>
 
         <motion.div
@@ -971,6 +1043,9 @@ export default function CatalogueFormationsPage() {
 
   return (
     <div className="space-y-0">
+      {/* KPIs temps réel */}
+      <FormationsKPIs />
+
       {/* Hero Section */}
       <HeroSection searchTerm={searchTerm} onSearchChange={setSearchTerm} />
 

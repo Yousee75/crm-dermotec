@@ -53,7 +53,7 @@ const mockStripeSession = {
   payment_intent: 'pi_test_123',
 }
 
-vi.mock('@/lib/stripe', () => ({
+vi.mock('@/lib/integrations/stripe', () => ({
   createCheckoutSession: vi.fn().mockResolvedValue(mockStripeSession),
   createPaymentLink: vi.fn().mockResolvedValue({
     id: 'plink_test_123',
@@ -62,7 +62,7 @@ vi.mock('@/lib/stripe', () => ({
 }))
 
 // Mock enrichissement
-vi.mock('@/lib/enrichment-proxy', () => ({
+vi.mock('@/lib/enrichment/proxy', () => ({
   enrichmentProxy: vi.fn().mockResolvedValue({
     success: true,
     data: {
@@ -214,7 +214,7 @@ describe('API Integration - Critical CRM Flows', () => {
       expect(inscriptionBody.inscription_id).toBeDefined()
 
       // 2. Vérifier création du payment link
-      expect(vi.mocked(require('@/lib/stripe').createCheckoutSession)).toHaveBeenCalledWith({
+      expect(vi.mocked(require('@/lib/integrations/stripe').createCheckoutSession)).toHaveBeenCalledWith({
         leadEmail: inscriptionData.email,
         leadNom: `${inscriptionData.prenom} ${inscriptionData.nom}`,
         formationNom: 'Formation Microneedling',
@@ -313,7 +313,7 @@ describe('API Integration - Critical CRM Flows', () => {
   describe('Error Scenarios', () => {
     it('gère les erreurs de service externe gracieusement', async () => {
       // Mock erreur Stripe
-      vi.mocked(require('@/lib/stripe').createCheckoutSession).mockRejectedValue(
+      vi.mocked(require('@/lib/integrations/stripe').createCheckoutSession).mockRejectedValue(
         new Error('Stripe service unavailable')
       )
 
@@ -342,7 +342,7 @@ describe('API Integration - Critical CRM Flows', () => {
 
     it('gère les timeouts et retry', async () => {
       // Mock timeout enrichissement
-      vi.mocked(require('@/lib/enrichment-proxy').enrichmentProxy).mockImplementation(
+      vi.mocked(require('@/lib/enrichment/proxy').enrichmentProxy).mockImplementation(
         () => new Promise((_, reject) =>
           setTimeout(() => reject(new Error('Timeout')), 100)
         )

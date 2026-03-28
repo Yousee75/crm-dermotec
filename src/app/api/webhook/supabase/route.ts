@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 // ============================================================
 // Webhook Supabase — Database Webhooks pour automatisations
@@ -28,8 +28,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    console.log(`[Supabase Webhook] ${body.type} on ${body.table}:`, body.record?.id)
-
     // ============================================
     // Table LEADS : nouveau lead créé
     // ============================================
@@ -53,7 +51,7 @@ export async function POST(request: NextRequest) {
           }
         })
 
-        console.log(`[Supabase Webhook] Enrichment triggered for lead ${lead.id}`)
+        // Enrichment triggered
       } catch (inngestError) {
         console.error('[Supabase Webhook] Enrichment trigger failed:', inngestError)
         // Continue processing, ne pas faire échouer le webhook
@@ -83,7 +81,7 @@ export async function POST(request: NextRequest) {
           }
         })
 
-        console.log(`[Supabase Webhook] Session lifecycle triggered for ${session.id}`)
+        // Session lifecycle triggered
       } catch (inngestError) {
         console.error('[Supabase Webhook] Session lifecycle trigger failed:', inngestError)
       }
@@ -97,7 +95,6 @@ export async function POST(request: NextRequest) {
     // ============================================
     // Autres tables ou événements non traités
     // ============================================
-    console.log(`[Supabase Webhook] Unhandled event: ${body.type} on ${body.table}`)
     return NextResponse.json({
       success: true,
       processed: 'ignored'

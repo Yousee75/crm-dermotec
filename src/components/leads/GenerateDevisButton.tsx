@@ -245,7 +245,7 @@ export function GenerateDevisButton({
         <button
           onClick={() => setOpen(true)}
           className={cn(
-            'flex items-center justify-center w-9 h-9 bg-violet-50 text-violet-700 rounded-lg hover:bg-violet-100 transition spring-hover',
+            'flex items-center justify-center w-9 h-9 bg-[#FFE0EF] text-[#FF2D78] rounded-lg hover:bg-[#FFE0EF] transition spring-hover',
             className
           )}
           title="Generer un devis"
@@ -363,7 +363,7 @@ export function GenerateDevisButton({
               {/* Echeances */}
               <div>
                 <label className="block text-xs font-medium text-[#3A3A3A] mb-1">
-                  <CreditCard className="w-3.5 h-3.5 inline mr-1 text-violet-500" />
+                  <CreditCard className="w-3.5 h-3.5 inline mr-1 text-[#FF2D78]" />
                   Modalite de paiement
                 </label>
                 <div className="flex gap-2">
@@ -386,7 +386,7 @@ export function GenerateDevisButton({
 
               {/* Apercu financier */}
               {selectedFormation && formationPrix > 0 && (
-                <Card className="p-4 bg-gradient-to-br from-gray-50 to-blue-50/30 border-[#EEEEEE]">
+                <Card className="p-4 bg-gradient-to-br from-gray-50 to-[#FFF0E5]/30 border-[#EEEEEE]">
                   <div className="flex items-center gap-1.5 mb-3">
                     <FileText className="w-4 h-4 text-primary" />
                     <span className="text-xs font-semibold text-accent">Apercu du devis</span>
@@ -417,7 +417,7 @@ export function GenerateDevisButton({
                       </>
                     )}
                     {echeances > 1 && (
-                      <div className="flex justify-between text-xs text-violet-600 mt-1">
+                      <div className="flex justify-between text-xs text-[#FF2D78] mt-1">
                         <span>Mensualite ({echeances}x)</span>
                         <span className="font-medium">
                           {Math.round(apercu.reste / echeances).toLocaleString('fr-FR')} EUR/mois

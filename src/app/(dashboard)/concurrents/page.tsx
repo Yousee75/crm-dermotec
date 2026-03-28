@@ -245,7 +245,7 @@ export default function ConcurrentsPage() {
             <button
               onClick={handleFullAnalysis}
               disabled={fullAnalysisLoading}
-              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 disabled:opacity-50 text-white rounded-lg px-5 py-2.5 flex items-center gap-2 text-sm font-medium transition-all shadow-md hover:shadow-lg"
+              className="bg-gradient-to-r from-[#FF2D78] to-[#FF2D78] hover:from-[#E6186A] hover:to-[#E6186A] disabled:opacity-50 text-white rounded-lg px-5 py-2.5 flex items-center gap-2 text-sm font-medium transition-all shadow-md hover:shadow-lg"
             >
               <Zap size={16} />
               {fullAnalysisLoading ? 'Analyse en cours... (30-60s)' : 'Analyse complète (Scraping + IA + Social)'}

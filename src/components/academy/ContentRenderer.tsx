@@ -271,7 +271,7 @@ function PdfContent({ url, titre }: { url: string; titre: string }) {
 function ExerciceContent({ consigne, exemple, criteres }: { consigne: string; exemple?: string; criteres?: string[] }) {
   return (
     <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
-      <div className="bg-[#FFE0EF] px-6 py-4 border-b border-purple-100">
+      <div className="bg-[#FFE0EF] px-6 py-4 border-b border-[#FF2D78]/20">
         <h3 className="font-semibold text-[#FF2D78] flex items-center gap-2">
           <span className="text-lg">✍️</span> Exercice pratique
         </h3>

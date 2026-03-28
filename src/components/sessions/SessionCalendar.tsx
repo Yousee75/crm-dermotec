@@ -46,7 +46,7 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
   'Dermo-Esthétique':  { bg: 'bg-rose-50',    text: 'text-rose-700',    border: 'border-rose-200',  dot: 'bg-rose-500' },
   'Dermo-Correctrice': { bg: 'bg-pink-50',     text: 'text-pink-700',    border: 'border-pink-200',  dot: 'bg-pink-500' },
   'Soins Visage':      { bg: 'bg-[#FFF3E8]',    text: 'text-[#FF8C42]',   border: 'border-[#FF8C42]/30', dot: 'bg-[#FF8C42]' },
-  'Laser & IPL':       { bg: 'bg-violet-50',   text: 'text-violet-700',  border: 'border-violet-200', dot: 'bg-violet-500' },
+  'Laser & IPL':       { bg: 'bg-[#FFE0EF]',   text: 'text-[#FF2D78]',  border: 'border-[#FF2D78]/30', dot: 'bg-[#FFE0EF]0' },
   'Soins Corps':       { bg: 'bg-emerald-50',  text: 'text-emerald-700', border: 'border-emerald-200', dot: 'bg-emerald-500' },
   'Hygiène':           { bg: 'bg-[#E0EBF5]',     text: 'text-[#6B8CAE]',    border: 'border-[#6B8CAE]/30',  dot: 'bg-[#6B8CAE]' },
 }

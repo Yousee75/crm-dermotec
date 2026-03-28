@@ -5,7 +5,7 @@
 // ============================================================
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { encryptPII, decryptPII } from '@/lib/api-key-auth'
+import { encryptPII, decryptPII } from '@/lib/api/key-auth'
 
 describe('PII Encryption (AES-256-GCM)', () => {
   const ORIGINAL_KEY = process.env.PII_ENCRYPTION_KEY

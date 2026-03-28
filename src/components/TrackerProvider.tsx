@@ -7,7 +7,7 @@
 // ============================================================
 
 import { useEffect } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { tracker } from '@/lib/user-tracker'
 import { useErrorTracker } from '@/hooks/use-tracker'
 

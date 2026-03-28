@@ -9,7 +9,7 @@ import {
   RotateCcw, Sparkles, X, Code2, Table,
   Award, TrendingUp, Star, Eye
 } from 'lucide-react'
-import { ACADEMY_FORMATIONS_MODULES } from '@/lib/academy-formations-content'
+import { ACADEMY_FORMATIONS_MODULES } from '@/lib/formation/academy-content'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'

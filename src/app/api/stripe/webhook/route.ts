@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
 
   // 4. Envoyer à Inngest pour traitement async
   try {
-    const { inngest } = await import('@/lib/inngest')
+    const { inngest } = await import('@/lib/infra/inngest')
     await inngest.send({
       name: 'stripe/webhook.process',
       data: {

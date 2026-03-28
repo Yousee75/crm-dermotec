@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useUpdateLead } from '@/hooks/use-leads'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import type { Equipe, Lead } from '@/types'
 import { toast } from 'sonner'
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './Dialog'

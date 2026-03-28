@@ -365,7 +365,7 @@ export default function LeadActionHub({ leadId, onActionClick }: LeadActionHubPr
                 {isAISuggested && (
                   <Badge
                     variant="secondary"
-                    className="ml-1 px-1.5 py-0 text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0"
+                    className="ml-1 px-1.5 py-0 text-xs bg-gradient-to-r from-[#FF2D78] to-[#FF6BA8] text-white border-0"
                   >
                     <Sparkles className="h-2.5 w-2.5 mr-0.5" />
                     IA

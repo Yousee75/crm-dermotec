@@ -64,7 +64,7 @@ export async function createLead(
   // 4. Déclencher la cadence (optionnel, via Inngest)
   if (options?.triggerCadence && lead.email) {
     try {
-      const { triggerLeadCadence } = await import('@/lib/inngest-events')
+      const { triggerLeadCadence } = await import('@/lib/infra/inngest-events')
       await triggerLeadCadence({
         lead_id: lead.id,
         email: lead.email,
@@ -80,7 +80,7 @@ export async function createLead(
   // 5. Email de bienvenue (optionnel)
   if (options?.sendWelcomeEmail && lead.email) {
     try {
-      const { triggerAsyncEmail } = await import('@/lib/inngest-events')
+      const { triggerAsyncEmail } = await import('@/lib/infra/inngest-events')
       await triggerAsyncEmail({
         to: lead.email,
         template_slug: 'bienvenue',
@@ -136,7 +136,7 @@ export async function changeLeadStatus(
     // Déclencher cadence post-formation
     sideEffects.push('post_formation_cadence')
     try {
-      const { triggerAsyncEmail } = await import('@/lib/inngest-events')
+      const { triggerAsyncEmail } = await import('@/lib/infra/inngest-events')
       await triggerAsyncEmail({
         to: result.value.email || '',
         template_slug: 'satisfaction',
@@ -180,7 +180,7 @@ export async function scoreAndUpdateLead(
   const current = await repo.findById(leadId)
   if (!current.ok) return current
 
-  const { scoreLead } = await import('@/lib/scoring')
+  const { scoreLead } = await import('@/lib/ai/scoring')
   const scoreResult = scoreLead(current.value)
 
   const updated = await repo.update(leadId, {

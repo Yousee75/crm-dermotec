@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui'
 import { SkeletonCard } from '@/components/ui/Skeleton'
 import { STATUTS_LEAD, type StatutLead } from '@/types'
 import { formatDate, formatPhone, formatEuro } from '@/lib/utils'
-import { getScoreColor } from '@/lib/scoring'
+import { getScoreColor } from '@/lib/ai/scoring'
 import {
   Phone, Mail, MessageCircle, Calendar, ExternalLink,
   Building2, MapPin, GraduationCap, ChevronDown, Sparkles,

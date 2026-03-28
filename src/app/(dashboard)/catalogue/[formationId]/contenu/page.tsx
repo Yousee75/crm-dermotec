@@ -46,9 +46,9 @@ const TYPE_CONFIG: Record<string, { icon: typeof FileText; color: string; label:
   quiz: { icon: BookOpen, color: 'text-[#FF8C42] bg-[#FFF3E8]', label: 'Quiz' },
   texte: { icon: FileText, color: 'text-[#777777] bg-[#FAF8F5]', label: 'Texte' },
   exercice: { icon: BookOpen, color: 'text-emerald-600 bg-emerald-50', label: 'Exercice' },
-  lien: { icon: ExternalLink, color: 'text-violet-600 bg-violet-50', label: 'Lien' },
+  lien: { icon: ExternalLink, color: 'text-[#FF2D78] bg-[#FFE0EF]', label: 'Lien' },
   ppt: { icon: FileText, color: 'text-orange-600 bg-orange-50', label: 'Presentation' },
-  audio: { icon: Music, color: 'text-violet-600 bg-violet-50', label: 'Audio' },
+  audio: { icon: Music, color: 'text-[#FF2D78] bg-[#FFE0EF]', label: 'Audio' },
   image: { icon: ImageIcon, color: 'text-emerald-600 bg-emerald-50', label: 'Image' },
 }
 
@@ -286,10 +286,10 @@ export default function FormationContenuPage() {
           bgColor="bg-emerald-50"
         />
         <StatCard
-          icon={<BarChart3 className="w-5 h-5 text-violet-600" />}
+          icon={<BarChart3 className="w-5 h-5 text-[#FF2D78]" />}
           label="Duree totale"
           value={formatDuration(totalDuree) || '0 min'}
-          bgColor="bg-violet-50"
+          bgColor="bg-[#FFE0EF]"
         />
       </div>
 

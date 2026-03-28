@@ -30,7 +30,7 @@ const SOURCE_CONFIG: Record<string, { icon: React.ElementType; label: string; co
   'api:google': { icon: Globe, label: 'Google Places', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'api:outscraper': { icon: Database, label: 'Outscraper', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'api:sirene': { icon: Database, label: 'API Sirene (INSEE)', color: 'text-emerald-500', bg: 'bg-emerald-50' },
-  'ai:claude': { icon: Sparkles, label: 'IA (Claude)', color: 'text-violet-500', bg: 'bg-violet-50' },
+  'ai:claude': { icon: Sparkles, label: 'IA (Claude)', color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   'csv:import': { icon: FileSpreadsheet, label: 'Import CSV', color: 'text-[#777777]', bg: 'bg-[#FAF8F5]' },
   'webhook:formulaire': { icon: Globe, label: 'Formulaire web', color: 'text-[#FF8C42]', bg: 'bg-[#FFF3E8]' },
 }

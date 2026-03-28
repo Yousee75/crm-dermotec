@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { discoverCompetitors } from '@/lib/competitor-discovery'
-import { analyzeCompetitors } from '@/lib/competitor-analyzer'
-import { requireAuth } from '@/lib/api-auth'
+import { discoverCompetitors } from '@/lib/competitor/discovery'
+import { analyzeCompetitors } from '@/lib/competitor/analyzer'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

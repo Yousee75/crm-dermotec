@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { RapportConcurrentiel } from '@/lib/pdf/rapport-concurrentiel'
 import React from 'react'
-import { requireAuth } from '@/lib/api-auth'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

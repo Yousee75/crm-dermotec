@@ -25,6 +25,13 @@ export interface GoogleReview {
   review_likes?: number
   owner_answer?: string
   owner_answer_date?: string
+  // Outscraper alternate field names (used in enrichment pipeline)
+  author_title?: string
+  review_rating?: number
+  review_text?: string
+  review_datetime_utc?: string
+  review_timestamp?: number
+  review_language?: string
 }
 
 /** Données place complètes retournées par Outscraper en plus des avis */

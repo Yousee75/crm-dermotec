@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { discoverCompetitors } from '@/lib/competitor-discovery'
-import { analyzeCompetitors } from '@/lib/competitor-analyzer'
-import { discoverSocialProfiles, scrapeInstagram } from '@/lib/social-discovery'
+import { discoverCompetitors } from '@/lib/competitor/discovery'
+import { analyzeCompetitors } from '@/lib/competitor/analyzer'
+import { discoverSocialProfiles, scrapeInstagram } from '@/lib/competitor/social-discovery'
 import { scrapeCompetitorFull } from '@/lib/competitor-scraper'
 import { fetchNeighborhoodData } from '@/lib/neighborhood-data'
 import { computeMultiScore } from '@/lib/competitor-scoring'
 import { validateWithAI } from '@/lib/competitor-ai-validator'
-import { saveCompetitorProfile } from '@/lib/competitor-persistence'
-import { requireAuth } from '@/lib/api-auth'
+import { saveCompetitorProfile } from '@/lib/competitor/persistence'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

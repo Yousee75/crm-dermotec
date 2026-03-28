@@ -4,7 +4,7 @@ import 'server-only'
 // Fusion multi-sources + score réputation + ranking
 // ============================================================
 
-import type { DiscoveredCompetitor } from './competitor-discovery'
+import type { DiscoveredCompetitor } from './discovery'
 
 export interface AnalyzedCompetitor extends DiscoveredCompetitor {
   // Pappers

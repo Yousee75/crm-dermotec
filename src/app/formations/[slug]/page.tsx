@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import FormationClientPage from './FormationClientPage'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {

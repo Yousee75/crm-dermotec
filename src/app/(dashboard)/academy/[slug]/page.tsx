@@ -3,7 +3,7 @@
 import { useParams, useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { useUser } from '@/hooks/use-user'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import {
   ArrowLeft, Clock, Trophy, BookOpen, Video, HelpCircle,
   CheckSquare, MessageSquare, FileText, PenTool, Check,

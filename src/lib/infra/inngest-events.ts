@@ -3,7 +3,7 @@
 // Importer dans les API routes et server actions
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 /**
  * Envoyer un email de façon asynchrone via Inngest

@@ -4,7 +4,7 @@
 // Crée des alertes, relances et actions automatiques
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const proactiveAgent = inngest.createFunction(
   {

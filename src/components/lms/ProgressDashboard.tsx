@@ -164,10 +164,10 @@ export default function ProgressDashboard({
           color="amber"
         />
         <KpiCard
-          icon={<Star className="w-4 h-4 text-violet-500" />}
+          icon={<Star className="w-4 h-4 text-[#FF2D78]" />}
           label="Score quiz moyen"
           value={scoreQuizMoyen !== undefined ? `${scoreQuizMoyen}%` : '—'}
-          color="violet"
+          color="rose"
         />
       </div>
 

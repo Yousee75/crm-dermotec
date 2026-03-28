@@ -4,7 +4,7 @@
 // Capture l'état du CRM pour comparaison M-1, M-3, M-12
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const monthlySnapshot = inngest.createFunction(
   {

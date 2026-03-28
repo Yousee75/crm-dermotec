@@ -52,7 +52,7 @@ export async function saveMessage(params: SaveMessageParams): Promise<string | n
   }
 
   try {
-    const { createServiceSupabase } = await import('./supabase-server')
+    const { createServiceSupabase } = await import('../supabase-server')
     const supabase = await createServiceSupabase() as any
 
     const { data, error } = await supabase
@@ -72,7 +72,7 @@ export async function saveMessage(params: SaveMessageParams): Promise<string | n
     // Supabase complètement down — tenter quand même le DLQ
     console.error('[MessageStore] Critical error, attempting DLQ:', err)
     try {
-      const { createServiceSupabase } = await import('./supabase-server')
+      const { createServiceSupabase } = await import('../supabase-server')
       const supabase = await createServiceSupabase() as any
       await saveToDeadLetterQueue(supabase, 'messages', 'save_message', payload, idempotencyKey, (err as Error).message)
     } catch {

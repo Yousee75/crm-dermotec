@@ -5,7 +5,7 @@
 // Inngest functions handle side effects (emails, webhooks, etc.)
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 import type { EventBus, CRMDomainEvent } from '../../domain/shared/domain-events'
 
 export class InngestEventBus implements EventBus {

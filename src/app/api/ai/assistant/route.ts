@@ -4,8 +4,8 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
-import { assistantChat, getCacheKey } from '@/lib/ai-assistant'
-import type { AIMessage } from '@/lib/ai'
+import { assistantChat, getCacheKey } from '@/lib/ai/assistant'
+import type { AIMessage } from '@/lib/ai/core'
 
 export const dynamic = 'force-dynamic'
 

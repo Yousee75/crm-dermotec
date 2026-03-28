@@ -4,7 +4,7 @@
 // Dead letter queue pour les echecs permanents
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 // --- Bulk Email Send (fan-out pattern) ---
 

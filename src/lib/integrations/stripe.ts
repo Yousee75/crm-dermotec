@@ -26,7 +26,7 @@ function idempotencyKey(...parts: string[]): string {
 async function safeStripeCall<T>(fn: () => Promise<T>, context: string): Promise<T> {
   try {
     // Tenter d'utiliser le circuit breaker s'il est dispo
-    const { stripeCall } = await import('./circuit-breaker')
+    const { stripeCall } = await import('../circuit-breaker')
     return await stripeCall(fn)
   } catch (importErr) {
     // Fallback si circuit breaker pas dispo (dev, tests)

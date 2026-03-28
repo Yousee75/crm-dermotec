@@ -4,7 +4,7 @@
 // Identifie les leads à relancer et génère des messages personnalisés via IA
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 function getSupabase() {
   // eslint-disable-next-line @typescript-eslint/no-require-imports

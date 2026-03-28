@@ -6,7 +6,7 @@ import {
   getOrganismeById,
   getOrganismeParProfil,
   calculerFinancement,
-} from '@/lib/financement-data'
+} from '@/lib/financement/data'
 
 // ============================================================
 // SECTION 1 — CONSTANTES RÉGLEMENTAIRES

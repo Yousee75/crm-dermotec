@@ -42,14 +42,14 @@ vi.mock('@supabase/ssr', () => ({
 }))
 
 // Mock services externes
-vi.mock('@/lib/stripe', () => ({
+vi.mock('@/lib/integrations/stripe', () => ({
   createPaymentLink: vi.fn().mockResolvedValue({
     id: 'plink_test_123',
     url: 'https://pay.stripe.com/test',
   }),
 }))
 
-vi.mock('@/lib/enrichment-proxy', () => ({
+vi.mock('@/lib/enrichment/proxy', () => ({
   enrichmentProxy: vi.fn().mockResolvedValue({
     success: true,
     data: { nom: 'Test Company' },

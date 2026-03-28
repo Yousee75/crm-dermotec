@@ -7,7 +7,7 @@
 import type { StatutLead, PrioriteLead, SourceLead } from '@/types'
 import { type Result, Ok, Err, Errors } from '../shared/result'
 import { Email, PhoneFR } from '../shared/value-objects'
-import { scoreLead } from '@/lib/scoring'
+import { scoreLead } from '@/lib/ai/scoring'
 import { createEvent, type LeadCreatedEvent, type LeadStatusChangedEvent, type LeadContactedEvent, type LeadAssignedEvent, type LeadLostEvent, type CRMDomainEvent } from '../shared/domain-events'
 
 // --- State machine: exact copy of validators.ts, enforced here ---

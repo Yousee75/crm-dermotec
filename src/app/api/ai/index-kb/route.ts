@@ -7,7 +7,7 @@
 
 import { NextResponse } from 'next/server'
 import { createServiceSupabase } from '@/lib/supabase-server'
-import { generateEmbedding } from '@/lib/embeddings'
+import { generateEmbedding } from '@/lib/ai/embeddings'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 300 // 5 minutes (beaucoup d'articles)

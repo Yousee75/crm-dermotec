@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/Button'
 import { toast } from 'sonner'
-import { Fire, Clock, Calendar, AlertTriangle } from 'lucide-react'
+import { Flame, Clock, Calendar, AlertTriangle } from 'lucide-react'
 
 /**
  * Composant de test pour les notifications realtime
@@ -82,7 +82,7 @@ export function NotificationTestPanel() {
           className="w-full justify-start gap-2 h-8"
           onClick={testProspectChaud}
         >
-          <Fire className="w-3.5 h-3.5 text-orange-500" />
+          <Flame className="w-3.5 h-3.5 text-orange-500" />
           Prospect chaud
         </Button>
 
@@ -122,7 +122,7 @@ export function NotificationTestPanel() {
           className="w-full justify-start gap-2 h-8"
           onClick={testLeadRecuperable}
         >
-          <Fire className="w-3.5 h-3.5 text-[#FF2D78]" />
+          <Flame className="w-3.5 h-3.5 text-[#FF2D78]" />
           Lead récupérable
         </Button>
       </div>

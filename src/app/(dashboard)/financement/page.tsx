@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { ORGANISMES_FINANCEMENT, type Financement, type StatutFinancement, type OrganismeFinancement } from '@/types'
 import {
   CreditCard,
@@ -177,8 +177,8 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
             ORGANISME_COLORS[financement.organisme] === 'orange' && 'border-orange-200 text-orange-700 bg-orange-50',
             ORGANISME_COLORS[financement.organisme] === 'purple' && 'border-[#FF2D78]/30 text-[#FF2D78] bg-[#FFE0EF]',
             ORGANISME_COLORS[financement.organisme] === 'pink' && 'border-pink-200 text-pink-700 bg-pink-50',
-            ORGANISME_COLORS[financement.organisme] === 'indigo' && 'border-indigo-200 text-indigo-700 bg-indigo-50',
-            ORGANISME_COLORS[financement.organisme] === 'cyan' && 'border-[#FF8C42] text-[#FF5C00] bg-[#FFF0E5]',
+            ORGANISME_COLORS[financement.organisme] === 'indigo' && 'border-[#FF8C42] text-[#FF5C00] bg-[#FFF0E5]',
+
             ORGANISME_COLORS[financement.organisme] === 'gray' && 'border-[#EEEEEE] text-[#3A3A3A] bg-[#FAF8F5]'
           )}
         >

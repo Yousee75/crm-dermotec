@@ -171,6 +171,14 @@ export interface IntelligenceComplete {
   aides_disponibles?: AideFinancement[]     // aides financement par zone
   signaux?: SignauxCommerciaux              // flags décision commerciale
 
+  // Données brutes accessibles pour le narrateur (legacy compat)
+  sirene?: any
+  pappers?: any
+  google?: any
+  opco?: any
+  quartier?: any
+  social?: any
+
   // Méta (sans sources)
   derniere_mise_a_jour: string // ISO date
   nb_donnees_collectees: number // nb de champs remplis

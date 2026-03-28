@@ -3,7 +3,7 @@
 // Envoie une notification admin avec les rappels en attente
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const dailyRappels = inngest.createFunction(
   {

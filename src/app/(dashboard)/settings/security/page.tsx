@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useMFA } from '@/hooks/use-mfa'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -436,8 +436,8 @@ function KnownDevicesTable() {
     <Card padding="none">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-indigo-50 rounded-lg flex items-center justify-center">
-            <Fingerprint className="w-5 h-5 text-indigo-600" />
+          <div className="w-10 h-10 bg-[#FFF0E5] rounded-lg flex items-center justify-center">
+            <Fingerprint className="w-5 h-5 text-[#FF5C00]" />
           </div>
           <div>
             <h3 className="text-lg font-semibold text-[#111111]">

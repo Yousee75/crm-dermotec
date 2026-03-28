@@ -9,7 +9,7 @@ import {
 import {
   ORGANISMES_FINANCEMENT, CHECKLISTS_FINANCEMENT, CAS_MONTAGE_FINANCIER, MOTIFS_REFUS,
   getOrganismeParProfil, calculerFinancement
-} from '@/lib/financement-data'
+} from '@/lib/financement/data'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'

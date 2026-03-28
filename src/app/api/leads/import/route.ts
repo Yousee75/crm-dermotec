@@ -5,7 +5,7 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
-import { requireAuth } from '@/lib/api-auth'
+import { requireAuth } from '@/lib/api/auth'
 import { logActivity } from '@/lib/activity-logger'
 import { isDisposableEmail } from '@/lib/disposable-emails'
 
@@ -232,7 +232,7 @@ export async function POST(request: NextRequest) {
     // Lancer l'auto-enrichissement Inngest pour les leads importés (non-bloquant)
     if (insertedIds.length > 0) {
       try {
-        const { inngest } = await import('@/lib/inngest')
+        const { inngest } = await import('@/lib/infra/inngest')
         // Envoyer les événements par batch (max 20 à la fois pour ne pas surcharger)
         const enrichBatch = insertedIds.slice(0, 20)
         await Promise.allSettled(

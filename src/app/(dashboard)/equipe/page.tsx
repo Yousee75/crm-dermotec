@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { type Equipe, type RoleEquipe, type Formation, type Session } from '@/types'
 import { formatEuro, cn } from '@/lib/utils'
 import {
@@ -22,7 +22,7 @@ const ROLE_CONFIG: Record<RoleEquipe, {
   color: string;
   icon: React.ElementType
 }> = {
-  admin: { label: 'Admin', variant: 'purple', color: '#8B5CF6', icon: Shield },
+  admin: { label: 'Admin', variant: 'purple', color: '#FF2D78', icon: Shield },
   commercial: { label: 'Commercial', variant: 'blue', color: 'var(--color-primary)', icon: Phone },
   formatrice: { label: 'Formatrice', variant: 'pink', color: '#EC4899', icon: GraduationCap },
   assistante: { label: 'Assistante', variant: 'green', color: '#10B981', icon: Heart },

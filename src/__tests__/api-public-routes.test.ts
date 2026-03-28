@@ -41,7 +41,7 @@ vi.mock('@/lib/health', () => ({
 }))
 
 // Mock Stripe
-vi.mock('@/lib/stripe', () => ({
+vi.mock('@/lib/integrations/stripe', () => ({
   createCheckoutSession: vi.fn().mockResolvedValue({
     id: 'cs_test_123',
     url: 'https://checkout.stripe.com/test',

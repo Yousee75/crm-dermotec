@@ -3,7 +3,7 @@
 // Coaching personnalisé basé sur l'analyse des données commerciales
 // ============================================================
 
-import type { CommercialStats } from './gamification'
+import type { CommercialStats } from '../gamification'
 import type { Activite, Lead, Session, Financement } from '@/types'
 
 export interface CoachingInsight {

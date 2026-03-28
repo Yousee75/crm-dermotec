@@ -1,180 +1,144 @@
 // ============================================================
-// CRM DERMOTEC — Scoring Prédictif IA (Claude API)
-// Analyse le profil du lead et prédit la probabilité de conversion
+// CRM DERMOTEC — Scoring Lead (probabilité d'inscription)
+// Utilisé côté client (affichage) ET serveur (calcul)
 // ============================================================
 
-interface LeadForScoring {
-  prenom: string
-  nom?: string
-  email?: string
-  telephone?: string
-  source: string
-  statut: string
-  statut_pro?: string
-  experience_esthetique?: string
-  formation_principale_id?: string
-  formations_interessees?: string[]
-  financement_souhaite?: boolean
-  nb_contacts: number
-  date_premier_contact?: string
-  date_dernier_contact?: string
-  tags?: string[]
-  score_chaud: number
-  objectif_pro?: string
-  message?: string
+import type { Lead } from '@/types'
+
+interface ScoreBreakdown {
+  completude: number      // Qualité des données /30
+  engagement: number      // Interactions /25
+  financement: number     // Éligibilité financement /20
+  profil: number          // Adéquation profil /15
+  urgence: number         // Signaux d'urgence /10
+  total: number           // Score final /100
+  details: string[]       // Explication
 }
 
-interface ScoringResult {
-  score_predictif: number // 0-100
-  probabilite_conversion: number // 0-100%
-  facteurs_positifs: string[]
-  facteurs_negatifs: string[]
-  action_recommandee: string
-  canal_prefere: string
-  meilleur_moment: string
-  formation_recommandee?: string
-}
+export function scoreLead(lead: Lead): ScoreBreakdown {
+  const details: string[] = []
+  let completude = 0
+  let engagement = 0
+  let financement = 0
+  let profil = 0
+  let urgence = 0
 
-export async function scoreLead(lead: LeadForScoring): Promise<ScoringResult> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
+  // === COMPLÉTUDE (qualité données) /30 ===
+  if (lead.email) completude += 5
+  if (lead.telephone) completude += 5
+  if (lead.prenom && lead.nom) completude += 3
+  if (lead.statut_pro) completude += 4
+  if (lead.formation_principale_id) completude += 5
+  if (lead.experience_esthetique) completude += 3
+  if (lead.objectif_pro) completude += 3
+  if (lead.adresse?.code_postal) completude += 2
 
-  if (!apiKey) {
-    return fallbackScoring(lead)
+  // === ENGAGEMENT (interactions) /25 ===
+  if (lead.nb_contacts >= 3) {
+    engagement += 10
+    details.push('+10 : 3+ contacts')
+  } else if (lead.nb_contacts >= 1) {
+    engagement += 5
   }
 
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 800,
-        system: `Tu es un expert en conversion de leads pour un centre de formation esthétique. Analyse le profil du lead et retourne un JSON avec :
-- score_predictif (0-100)
-- probabilite_conversion (0-100)
-- facteurs_positifs (array de strings)
-- facteurs_negatifs (array de strings)
-- action_recommandee (string, une action concrète)
-- canal_prefere ("whatsapp"|"email"|"telephone"|"sms")
-- meilleur_moment ("matin"|"apres_midi"|"soir")
-- formation_recommandee (string optionnel)
-
-Contexte : formations esthétique 400-2500€, cible esthéticiennes et reconversions pro. Les leads "demandeur_emploi" ou "reconversion" avec financement sont les plus susceptibles de convertir. L'expérience préalable augmente la probabilité. Un contact récent est positif.
-
-IMPORTANT : Retourne UNIQUEMENT le JSON, sans texte autour.`,
-        messages: [{
-          role: 'user',
-          content: JSON.stringify(lead, null, 2)
-        }],
-      }),
-    })
-
-    if (!res.ok) {
-      return fallbackScoring(lead)
-    }
-
-    const data = await res.json()
-    const text = data.content?.[0]?.text || ''
-
-    try {
-      const jsonMatch = text.match(/\{[\s\S]*\}/)
-      if (jsonMatch) {
-        return JSON.parse(jsonMatch[0]) as ScoringResult
-      }
-    } catch {
-      // JSON parsing failed
-    }
-
-    return fallbackScoring(lead)
-  } catch {
-    return fallbackScoring(lead)
-  }
-}
-
-// Scoring déterministe de fallback (si pas d'API key)
-function fallbackScoring(lead: LeadForScoring): ScoringResult {
-  let score = 30
-  const facteurs_positifs: string[] = []
-  const facteurs_negatifs: string[] = []
-
-  // Email + téléphone
-  if (lead.email) { score += 5; facteurs_positifs.push('Email renseigné') }
-  if (lead.telephone) { score += 5; facteurs_positifs.push('Téléphone renseigné') }
-
-  // Statut pro
-  if (lead.statut_pro === 'demandeur_emploi' || lead.statut_pro === 'reconversion') {
-    score += 15; facteurs_positifs.push('Profil reconversion/demandeur emploi — forte motivation')
-  } else if (lead.statut_pro === 'independante' || lead.statut_pro === 'auto_entrepreneur') {
-    score += 10; facteurs_positifs.push('Indépendante — investit dans ses compétences')
-  } else if (lead.statut_pro === 'salariee') {
-    score += 8; facteurs_positifs.push('Salariée — financement OPCO probable')
-  }
-
-  // Financement
-  if (lead.financement_souhaite) {
-    score += 10; facteurs_positifs.push('Financement souhaité — engagement fort')
-  }
-
-  // Expérience
-  if (lead.experience_esthetique === 'confirmee' || lead.experience_esthetique === 'experte') {
-    score += 8; facteurs_positifs.push('Expérience confirmée — sait ce qu\'elle veut')
-  } else if (lead.experience_esthetique === 'aucune') {
-    score += 3; facteurs_negatifs.push('Aucune expérience — besoin de rassurer')
-  }
-
-  // Engagement
-  if (lead.nb_contacts > 3) {
-    score += 10; facteurs_positifs.push(`${lead.nb_contacts} contacts — lead engagé`)
-  } else if (lead.nb_contacts === 0) {
-    facteurs_negatifs.push('Jamais contacté — à qualifier')
-  }
-
-  // Récence
   if (lead.date_dernier_contact) {
-    const daysSince = Math.floor((Date.now() - new Date(lead.date_dernier_contact).getTime()) / 86400000)
-    if (daysSince <= 3) { score += 10; facteurs_positifs.push('Contact récent (< 3 jours)') }
-    else if (daysSince > 14) { score -= 5; facteurs_negatifs.push('Pas de contact depuis 14+ jours') }
+    const jours = Math.floor((Date.now() - new Date(lead.date_dernier_contact).getTime()) / 86400000)
+    if (jours <= 3) {
+      engagement += 8
+      details.push('+8 : contact < 3 jours')
+    } else if (jours <= 7) {
+      engagement += 5
+    } else if (jours <= 14) {
+      engagement += 2
+    }
   }
 
-  // Source
-  if (lead.source === 'formulaire' || lead.source === 'site_web') {
-    score += 5; facteurs_positifs.push('Lead organique (site web)')
-  } else if (lead.source === 'ancien_stagiaire') {
-    score += 12; facteurs_positifs.push('Recommandation ancienne stagiaire')
+  if (lead.source === 'formulaire' || lead.source === 'telephone') engagement += 4
+  if (lead.source === 'whatsapp') engagement += 5
+  if (lead.source === 'ancien_stagiaire') engagement += 3
+
+  // === FINANCEMENT /20 ===
+  if (lead.financement_souhaite) {
+    financement += 10
+    details.push('+10 : financement souhaité')
   }
 
-  // Formation ciblée
-  if (lead.formation_principale_id) {
-    score += 5; facteurs_positifs.push('Formation ciblée identifiée')
+  // Profils éligibles financement total
+  if (lead.statut_pro === 'salariee') {
+    financement += 8
+    details.push('+8 : salariée (OPCO probable)')
+  } else if (lead.statut_pro === 'demandeur_emploi') {
+    financement += 7
+    details.push('+7 : demandeur emploi (France Travail)')
+  } else if (lead.statut_pro === 'independante' || lead.statut_pro === 'auto_entrepreneur') {
+    financement += 5
+  } else if (lead.statut_pro === 'reconversion') {
+    financement += 6
+    details.push('+6 : reconversion (Transitions Pro)')
   }
 
-  score = Math.max(0, Math.min(100, score))
-
-  // Canal préféré
-  let canal_prefere = 'telephone'
-  if (lead.source === 'whatsapp' || lead.source === 'instagram') canal_prefere = 'whatsapp'
-  else if (lead.source === 'formulaire') canal_prefere = 'email'
-
-  // Action recommandée
-  let action_recommandee = 'Appeler pour qualifier'
-  if (score >= 70) action_recommandee = 'Proposer inscription directe avec lien de paiement'
-  else if (score >= 50) action_recommandee = 'Envoyer brochure + proposer RDV découverte'
-  else if (score >= 30) action_recommandee = 'Lancer cadence de nurturing automatique'
-  else action_recommandee = 'Vérifier la qualité du lead avant d\'investir du temps'
-
-  return {
-    score_predictif: score,
-    probabilite_conversion: Math.round(score * 0.7),
-    facteurs_positifs,
-    facteurs_negatifs,
-    action_recommandee,
-    canal_prefere,
-    meilleur_moment: 'matin',
+  // === PROFIL /15 ===
+  if (lead.experience_esthetique === 'aucune' || lead.experience_esthetique === 'debutante') {
+    profil += 5 // Débutantes = cœur de cible
   }
+  if (lead.experience_esthetique === 'intermediaire') {
+    profil += 8 // Intermédiaires = savent ce qu'elles veulent
+    details.push('+8 : profil intermédiaire motivé')
+  }
+
+  if (lead.objectif_pro) profil += 4
+  if (lead.formations_interessees.length >= 2) {
+    profil += 3
+    details.push('+3 : intéressée par 2+ formations')
+  }
+
+  // === URGENCE /10 ===
+  if (lead.statut === 'QUALIFIE') urgence += 5
+  if (lead.statut === 'FINANCEMENT_EN_COURS') urgence += 8
+  if (lead.priorite === 'URGENTE') urgence += 5
+  if (lead.priorite === 'HAUTE') urgence += 3
+
+  if (lead.tags?.includes('urgent')) {
+    urgence += 4
+    details.push('+4 : tag urgent')
+  }
+
+  // === SCORE DECAY (pénalité inactivité) ===
+  // -3pts par semaine sans activité, max -20 pts
+  // Evite les "faux chauds" qui étaient actifs il y a 6 mois
+  let decay = 0
+  const lastActivity = lead.date_dernier_contact || lead.updated_at
+  if (lastActivity) {
+    const semaines = Math.floor((Date.now() - new Date(lastActivity).getTime()) / (7 * 86400000))
+    if (semaines >= 2) {
+      decay = Math.min(20, semaines * 3)
+      if (decay > 0) details.push(`-${decay} : inactif depuis ${semaines} semaines`)
+    }
+  }
+
+  // === SCORING NÉGATIF ===
+  // Pénaliser les signaux négatifs
+  let negatif = 0
+  if (lead.statut === 'PERDU') { negatif += 15; details.push('-15 : statut PERDU') }
+  if (lead.statut === 'SPAM') { negatif += 30; details.push('-30 : statut SPAM') }
+  if (lead.tags?.includes('non_interesse')) { negatif += 10; details.push('-10 : tag non_intéressé') }
+
+  const raw = completude + engagement + financement + profil + urgence - decay - negatif
+  const total = Math.max(0, Math.min(100, raw))
+
+  return { completude, engagement, financement, profil, urgence, total, details }
 }
 
-export { fallbackScoring }
+export function getScoreColor(score: number): string {
+  if (score >= 80) return 'var(--color-success)' // vert — chaud
+  if (score >= 60) return '#F59E0B' // orange — tiède
+  if (score >= 40) return '#3B82F6' // bleu — à qualifier
+  return '#9CA3AF' // gris — froid
+}
+
+export function getScoreLabel(score: number): string {
+  if (score >= 80) return 'Chaud'
+  if (score >= 60) return 'Tiède'
+  if (score >= 40) return 'À qualifier'
+  return 'Froid'
+}

@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { type EmailTemplate, type Partenaire } from '@/types'
 import { BRAND } from '@/lib/constants'
 import { formatEuro } from '@/lib/utils'
@@ -32,8 +32,8 @@ const INTEGRATIONS = [
     name: 'Stripe',
     description: 'Paiements & facturation',
     icon: CreditCard,
-    color: 'text-indigo-500',
-    bgColor: 'bg-indigo-50',
+    color: 'text-[#FF5C00]',
+    bgColor: 'bg-[#FFF0E5]',
     envVars: ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY'],
     status: process.env.NODE_ENV === 'production' ? 'test' : 'configured',
     accountId: 'acct_1RpvbQ1NzDARltfq'

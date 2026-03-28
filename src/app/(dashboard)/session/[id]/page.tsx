@@ -10,7 +10,7 @@ import {
   Euro, CheckCircle, QrCode, FileText, Mail, Phone, Eye,
   Camera, Plus, Check, X, BookOpen, Target, BarChart3
 } from 'lucide-react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { formatEuro, formatDate, formatTime } from '@/lib/utils'
 import { toast } from 'sonner'
 import { QRCodeGenerator } from '@/components/ui/QRCodeGenerator'

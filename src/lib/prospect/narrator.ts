@@ -7,9 +7,9 @@
 import 'server-only'
 
 import { generateText } from 'ai'
-import { getModel } from './ai-sdk'
-import type { AggregatedProspectData } from './enrichment-pipeline'
-import { FORMATIONS_SEED, BRAND } from './constants'
+import { getModel } from '../ai-sdk'
+import type { AggregatedProspectData } from '../enrichment-pipeline'
+import { FORMATIONS_SEED, BRAND } from '../constants'
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -97,7 +97,7 @@ export interface NarrativeInput {
     source?: string
   }
   enrichment: AggregatedProspectData
-  intelligence?: import('./enrichment-proxy').IntelligenceComplete
+  intelligence?: import('../enrichment/proxy').IntelligenceComplete
   score: number
   classification: 'CHAUD' | 'TIEDE' | 'FROID'
 }
@@ -158,7 +158,7 @@ ${input.intelligence.carte_soins?.join(', ') || 'Non détectée — demande-lui 
 → Compare avec nos formations ci-dessus et identifie les GAPS (soins qu'elle ne propose PAS encore et qu'on peut lui apprendre)
 
 RÉPUTATION MULTI-PLATEFORMES :
-${input.intelligence.plateformes_avis?.map(p => `- ${p.plateforme}: ${p.note || '?'}/5 (${p.nb_avis || 0} avis)`).join('\n') || 'Données non disponibles'}
+${input.intelligence.plateformes_avis?.map((p: any) => `- ${p.plateforme}: ${p.note || '?'}/5 (${p.nb_avis || 0} avis)`).join('\n') || 'Données non disponibles'}
 → Utilise les plateformes avec peu d'avis comme argument : "Vous êtes peu visible sur certaines plateformes, la formation vous aide à monter en gamme"
 
 CONVENTION COLLECTIVE :
@@ -166,7 +166,7 @@ ${input.intelligence.convention_collective ? `IDCC ${input.intelligence.conventi
 → ARGUMENT MASSUE : "Vous avez ${input.intelligence.convention_collective.droit_formation_heures}h de formation par an prévues par votre convention, autant en profiter plutôt que de les perdre"` : 'Non détectée'}
 
 AIDES FINANCEMENT DISPONIBLES DANS SA ZONE :
-${input.intelligence.aides_disponibles?.map(a => `- ${a.nom} (${a.financeur}) — max ${a.montant_max || '?'}€`).join('\n') || 'Aucune aide spécifique détectée'}
+${input.intelligence.aides_disponibles?.map((a: any) => `- ${a.nom} (${a.financeur}) — max ${a.montant_max || '?'}€`).join('\n') || 'Aucune aide spécifique détectée'}
 
 CONCURRENTS DANS SA ZONE :
 ${input.intelligence.concurrents_zone ? `${input.intelligence.concurrents_zone.length} établissements beauté dans un rayon de 2km` : 'Données non disponibles'}

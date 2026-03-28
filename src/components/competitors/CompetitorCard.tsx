@@ -3,7 +3,7 @@
 import { MapPin, Euro, ExternalLink, Globe } from 'lucide-react'
 import { StarRating } from './StarRating'
 import { ReputationScore } from './ReputationScore'
-import type { AnalyzedCompetitor } from '@/lib/competitor-analyzer'
+import type { AnalyzedCompetitor } from '@/lib/competitor/analyzer'
 
 interface CompetitorCardProps {
   competitor: AnalyzedCompetitor

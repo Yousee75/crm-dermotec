@@ -3,7 +3,7 @@
 // ============================================================
 
 import { describe, it, expect } from 'vitest'
-import { scoreLead, getScoreColor, getScoreLabel } from '@/lib/scoring'
+import { scoreLead, getScoreColor, getScoreLabel } from '@/lib/ai/scoring'
 import type { Lead } from '@/types'
 
 // Helper pour créer un lead minimal pour les tests

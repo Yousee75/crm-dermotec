@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { useLeads } from '@/hooks/use-leads'
 import { useSessions } from '@/hooks/use-sessions'
 import { useOverdueRappels, useTodayRappels } from '@/hooks/use-reminders'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { useQuery } from '@tanstack/react-query'
 import {
   Users, UserCheck, Euro, Target, AlertTriangle,

@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { useOnboardingProgress, useCompleteOnboardingStep } from '@/hooks/use-onboarding'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { useQueryClient } from '@tanstack/react-query'
 import confetti from 'canvas-confetti'
 

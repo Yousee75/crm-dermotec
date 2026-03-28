@@ -79,10 +79,10 @@ export function TerrainEmargementMode({
         if ('wakeLock' in navigator) {
           const lock = await (navigator as any).wakeLock.request('screen')
           setWakeLock(lock)
-          console.log('Wake lock activé - écran allumé')
+          // Wake lock activé
         }
       } catch (err) {
-        console.log('Wake lock non supporté ou permission refusée:', err)
+        // Wake lock non supporté
       }
     }
 
@@ -91,7 +91,7 @@ export function TerrainEmargementMode({
     return () => {
       if (wakeLock) {
         wakeLock.release()
-        console.log('Wake lock libéré')
+        // Wake lock libéré
       }
     }
   }, [wakeLock])

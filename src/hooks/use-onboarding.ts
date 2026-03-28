@@ -1,8 +1,8 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
-import { ONBOARDING_STEPS, calculateProgress } from '@/lib/playbook'
+import { createClient } from '@/lib/infra/supabase-client'
+import { ONBOARDING_STEPS, calculateProgress } from '@/lib/automation/playbook'
 
 const supabase = createClient()
 

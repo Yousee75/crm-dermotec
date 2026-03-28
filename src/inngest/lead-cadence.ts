@@ -7,7 +7,7 @@
 // J+14: Dernier email
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 function getSupabase() {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -56,7 +56,7 @@ export const leadCadence = inngest.createFunction(
       await sendBienvenueEmail({ to: email, prenom, formation_nom })
 
       // Sauvegarder dans messages (source de vérité)
-      const { saveEmailSent } = await import('@/lib/message-store')
+      const { saveEmailSent } = await import('@/lib/communication/message-store')
       await saveEmailSent({
         lead_id, sujet: `Bienvenue — ${formation_nom}`,
         contenu: `Email bienvenue cadence J+0`, destinataire: email, source: 'cadence',
@@ -76,16 +76,16 @@ export const leadCadence = inngest.createFunction(
       if (!lead?.telephone) return { skipped: true, reason: 'Pas de téléphone' }
 
       try {
-        const { sendSMS, isSMSConfigured } = await import('@/lib/sms')
+        const { sendSMS, isSMSConfigured } = await import('@/lib/communication/sms')
         if (!isSMSConfigured()) return { skipped: true, reason: 'SMS non configuré' }
 
-        const { SMS_TEMPLATES } = await import('@/lib/sms')
+        const { SMS_TEMPLATES } = await import('@/lib/communication/sms')
         const smsContent = SMS_TEMPLATES.confirmation_inscription(prenom, formation_nom)
         await sendSMS(lead.telephone, smsContent)
         await logActivity(lead_id, 'Cadence J+1 : SMS bienvenue envoyé', 'cadence_j1_sms', formation_nom)
 
         // Sauvegarder dans messages
-        const { saveSmsSent } = await import('@/lib/message-store')
+        const { saveSmsSent } = await import('@/lib/communication/message-store')
         await saveSmsSent({ lead_id, contenu: smsContent, destinataire: lead.telephone, source: 'cadence' })
         return { sent: true }
       } catch {
@@ -128,7 +128,7 @@ export const leadCadence = inngest.createFunction(
       })
       await logActivity(lead_id, 'Cadence J+3 : Email relance envoyé', 'cadence_j3', formation_nom)
 
-      const { saveEmailSent } = await import('@/lib/message-store')
+      const { saveEmailSent } = await import('@/lib/communication/message-store')
       await saveEmailSent({
         lead_id, sujet: `Relance — ${formation_nom}`,
         contenu: `Email relance cadence J+3${prochaine_session ? ` — Prochaine session : ${prochaine_session}` : ''}`,
@@ -170,7 +170,7 @@ export const leadCadence = inngest.createFunction(
 
       await logActivity(lead_id, 'Cadence terminée (J+14) — aucune conversion', 'cadence_j14_fin', formation_nom)
 
-      const { saveEmailSent } = await import('@/lib/message-store')
+      const { saveEmailSent } = await import('@/lib/communication/message-store')
       await saveEmailSent({
         lead_id, sujet: `Dernier message — ${formation_nom}`,
         contenu: `Email dernier contact cadence J+14`, destinataire: email, source: 'cadence',

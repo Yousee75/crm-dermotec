@@ -38,7 +38,7 @@ const getAvatarColor = (avatarColor?: string) => {
     orange: 'bg-orange-500',
     pink: 'bg-pink-500',
     red: 'bg-[#FF2D78]',
-    indigo: 'bg-indigo-500',
+    indigo: 'bg-[#FF5C00]',
     yellow: 'bg-[#FF8C42]',
   }
   return colors[avatarColor as keyof typeof colors] || 'bg-slate-500'

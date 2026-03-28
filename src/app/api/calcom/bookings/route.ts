@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { listBookings, createBooking, isCalComConfigured } from '@/lib/calcom'
-import { requireAuth } from '@/lib/api-auth'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

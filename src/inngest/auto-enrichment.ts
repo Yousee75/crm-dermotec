@@ -4,7 +4,7 @@
 // Pappers (SIRET), Google Places, Social Media, etc.
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 import { createClient } from '@supabase/supabase-js'
 
 function getSupabase() {
@@ -285,7 +285,7 @@ export const autoEnrichLead = (inngest as any).createFunction(
           }
 
           // Utiliser scrapeInstagram de social-discovery (Bright Data Scraping Browser)
-          const { scrapeInstagram } = await import('@/lib/social-discovery')
+          const { scrapeInstagram } = await import('@/lib/competitor/social-discovery')
           const metrics = await scrapeInstagram(username)
 
           if (!metrics) {

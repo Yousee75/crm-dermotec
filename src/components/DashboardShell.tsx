@@ -20,7 +20,7 @@ import {
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 // Rappels charges directement dans NotificationBell via use-notifications
 import { NotificationBell } from '@/components/ui/NotificationBell'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { useRouter } from 'next/navigation'
 import { Avatar } from '@/components/ui/Avatar'
 import { Tooltip } from '@/components/ui/Tooltip'

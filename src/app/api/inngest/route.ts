@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 // Lazy import to prevent inngest createFunction crash during SSG
 async function getHandler() {
   const { serve } = await import('inngest/next')
-  const { inngest } = await import('@/lib/inngest')
+  const { inngest } = await import('@/lib/infra/inngest')
   const inngestFunctions = await import('@/inngest')
   const securityCrons = await import('@/inngest/security-audit-cron')
 

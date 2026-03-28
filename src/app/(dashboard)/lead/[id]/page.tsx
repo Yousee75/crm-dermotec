@@ -11,7 +11,7 @@ import { useCadenceInstances } from '@/hooks/use-cadences'
 import { useAIResearch } from '@/hooks/use-ai'
 import { STATUTS_LEAD, type Lead, type StatutLead, type Message, type CanalMessage, type Inscription, type Financement } from '@/types'
 import { formatEuro, formatDate, formatPhone } from '@/lib/utils'
-import { getScoreColor, getScoreLabel } from '@/lib/scoring'
+import { getScoreColor, getScoreLabel } from '@/lib/ai/scoring'
 import { ActivityTimeline } from '@/components/ui/ActivityTimeline'
 import { InscrireLeadDialog } from '@/components/ui/InscrireLeadDialog'
 import { AssignCommercialDialog } from '@/components/ui/AssignCommercialDialog'
@@ -447,7 +447,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
         // Logique pour proposer formation complémentaire
         break
       default:
-        console.log('Action non gérée:', actionId)
+        break
     }
   }
 

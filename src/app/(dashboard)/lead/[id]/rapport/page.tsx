@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 import { use, useMemo } from 'react'
 import { useLead } from '@/hooks/use-leads'
 import { formatPhone } from '@/lib/utils'
-import { getScoreColor, getScoreLabel } from '@/lib/scoring'
+import { getScoreColor, getScoreLabel } from '@/lib/ai/scoring'
 import Link from 'next/link'
 import { ArrowLeft, Printer } from 'lucide-react'
 

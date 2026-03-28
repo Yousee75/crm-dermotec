@@ -434,7 +434,7 @@ export async function enrichWithOpenRouter(
 // 4. ENRICHISSEMENT COMPLET
 // ============================================================
 
-import type { EntrepriseSirene } from './sirene-api'
+import type { EntrepriseSirene } from './integrations/sirene-api'
 
 export interface FullEnrichmentResult {
   sirene?: EntrepriseSirene
@@ -458,7 +458,7 @@ export async function enrichLead(params: {
   // 1. SIRENE (gratuit)
   if (params.siret) {
     try {
-      const { verifySIRET } = await import('./sirene-api')
+      const { verifySIRET } = await import('./integrations/sirene-api')
       const sireneResult = await verifySIRET(params.siret)
       if (sireneResult.valid && sireneResult.entreprise) { result.sirene = sireneResult.entreprise; result.sources_used.push('sirene') }
     } catch (err) { result.errors.push(`SIRENE: ${err instanceof Error ? err.message : 'erreur'}`) }

@@ -68,7 +68,7 @@ const features = [
     icon: CalendarCheck,
     title: 'Sessions & planning',
     description: 'Calendrier visuel, gestion formatrices et salles, \u00e9margement QR digital. Conformit\u00e9 Qualiopi int\u00e9gr\u00e9e.',
-    gradient: 'from-violet-500 to-purple-400',
+    gradient: 'from-[#FF2D78] to-[#FF6BA8]',
   },
   {
     icon: Search,
@@ -86,7 +86,7 @@ const features = [
     icon: MessageSquareText,
     title: 'Chatbot IA commercial',
     description: '13 outils IA : scoring, objections, scripts, relances. Votre assistant commercial qui ne dort jamais.',
-    gradient: 'from-indigo-500 to-blue-400',
+    gradient: 'from-[#FF5C00] to-[#FF8C42]',
   },
 ]
 

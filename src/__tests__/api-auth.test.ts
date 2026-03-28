@@ -5,7 +5,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { NextRequest } from 'next/server'
-import { getAuthUser, requireAuth } from '@/lib/api-auth'
+import { getAuthUser, requireAuth } from '@/lib/api/auth'
 import type { User } from '@supabase/supabase-js'
 
 // Mock Supabase

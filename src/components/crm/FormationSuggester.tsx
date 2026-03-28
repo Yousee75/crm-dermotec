@@ -273,7 +273,7 @@ export default function FormationSuggester({ leadId, onSelect, compact = false }
               <Card className={cn(
                 'transition-all duration-200 hover:shadow-md',
                 isSelected && 'ring-2 ring-primary ring-offset-2',
-                suggestion.isRecommended && 'border-primary bg-gradient-to-r from-blue-50/30 to-transparent'
+                suggestion.isRecommended && 'border-primary bg-gradient-to-r from-[#FFF0E5]/30 to-transparent'
               )}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-3">

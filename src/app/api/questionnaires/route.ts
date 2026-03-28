@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireAuth } from '@/lib/api-auth'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       if (lead?.email) {
         // Envoyer via Inngest (async)
         try {
-          const { inngest } = await import('@/lib/inngest')
+          const { inngest } = await import('@/lib/infra/inngest')
           await inngest.send({
             name: 'crm/email.send',
             data: {

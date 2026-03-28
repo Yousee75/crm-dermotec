@@ -7,7 +7,7 @@
 // ============================================================
 
 import { useState, useEffect, useMemo } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -65,7 +65,7 @@ const EVENT_COLORS: Record<string, string> = {
   'logout': 'bg-red-400',
   'export_csv': 'bg-orange-500',
   'export_pdf': 'bg-orange-600',
-  'document_uploaded': 'bg-indigo-500',
+  'document_uploaded': 'bg-[#FF5C00]',
   'ai_used': 'bg-pink-500',
   'click': 'bg-[#EEEEEE]',
   'default': 'bg-slate-400'

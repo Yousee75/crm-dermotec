@@ -6,7 +6,7 @@
 // J+90 : Check alumni + e-shop + parrainage
 // ============================================================
 
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 
 export const postFormationCadence = inngest.createFunction(
   {

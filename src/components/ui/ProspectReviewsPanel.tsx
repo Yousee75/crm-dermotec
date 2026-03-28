@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { Star, MessageSquare, TrendingUp, TrendingDown, Minus, User, ThumbsUp, Camera, Clock, ChevronDown, ChevronUp } from 'lucide-react'
 import { Badge } from '@/components/ui'
 import { cn } from '@/lib/utils'

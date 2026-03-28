@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useLeads } from '@/hooks/use-leads'
 import { useSessions } from '@/hooks/use-sessions'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { useQuery } from '@tanstack/react-query'
 import { X, Check, Users, Mail, Calendar, FileText, UserPlus } from 'lucide-react'
 import { cn } from '@/lib/utils'

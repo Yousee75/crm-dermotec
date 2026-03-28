@@ -4,9 +4,9 @@ import 'server-only'
 // 5 dimensions (0-100 chacune) + score global pondéré
 // ============================================================
 
-import type { AnalyzedCompetitor } from './competitor-analyzer'
+import type { AnalyzedCompetitor } from './analyzer'
 import type { SocialMetrics } from './social-discovery'
-import type { NeighborhoodData } from './neighborhood-data'
+import type { NeighborhoodData } from '../neighborhood-data'
 
 export interface CompetitorScores {
   reputation: number      // 0-100 — Notes et avis

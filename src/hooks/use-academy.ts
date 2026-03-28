@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import type { AcademyModule, AcademyLesson, AcademyProgress, AcademyBadge, AcademyUserStats } from '@/types'
 
 // Calcule le streak (jours consécutifs d'activité)

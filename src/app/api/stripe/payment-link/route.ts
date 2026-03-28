@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { createPaymentLink } from '@/lib/stripe'
-import { requireAuth } from '@/lib/api-auth'
+import { createPaymentLink } from '@/lib/integrations/stripe'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 

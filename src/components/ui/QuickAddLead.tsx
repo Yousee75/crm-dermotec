@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Plus, X, User, Phone, BookOpen, Check, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { toast } from 'sonner'
 
 const FORMATIONS = [

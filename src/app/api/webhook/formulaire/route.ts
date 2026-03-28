@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { isDisposableEmail } from '@/lib/disposable-emails'
 import { sanitizeString } from '@/lib/validators'
-import { inngest } from '@/lib/inngest'
+import { inngest } from '@/lib/infra/inngest'
 import { createServiceSupabase } from '@/lib/supabase-server'
 
 // ============================================================

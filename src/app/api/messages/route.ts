@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
         erreur_detail = 'Échec envoi email'
       }
     } else if (canal === 'whatsapp' && (lead.whatsapp || lead.telephone)) {
-      const { sendWhatsAppText, isWhatsAppConfigured } = await import('@/lib/whatsapp')
+      const { sendWhatsAppText, isWhatsAppConfigured } = await import('@/lib/communication/whatsapp')
       if (isWhatsAppConfigured()) {
         const result = await sendWhatsAppText(lead.whatsapp || lead.telephone!, contenu)
         if (result.success) {
@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
         erreur_detail = 'WhatsApp non configuré'
       }
     } else if (canal === 'sms' && lead.telephone) {
-      const { sendSMS, isSMSConfigured } = await import('@/lib/sms')
+      const { sendSMS, isSMSConfigured } = await import('@/lib/communication/sms')
       if (isSMSConfigured()) {
         const result = await sendSMS(lead.telephone, contenu)
         if (result.success) {

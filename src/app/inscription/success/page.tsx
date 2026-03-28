@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { CheckCircle, Calendar, MapPin, Mail, Phone } from 'lucide-react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 
 interface InscriptionData {
   inscription: {

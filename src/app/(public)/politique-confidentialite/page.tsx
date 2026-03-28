@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PolitiqueConfidentialitePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-[#FAF8F5] to-[#FFF0E5]/20">
       <div className="max-w-5xl mx-auto px-6 py-16">
 
         {/* Hero Section */}
@@ -389,7 +389,7 @@ export default function PolitiqueConfidentialitePage() {
               <strong>Les données anonymisées nous aident à améliorer le produit.</strong> Une fois anonymisées,
               elles ne vous identifient plus et sortent du champ RGPD.
             </p>
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border border-[#6B8CAE]/30 mb-6">
+            <div className="bg-gradient-to-r from-[#FFF0E5] to-[#FFE0EF] p-6 rounded-lg border border-[#6B8CAE]/30 mb-6">
               <h3 className="font-semibold text-accent mb-3">Ce qu'on peut faire avec les données anonymisées :</h3>
               <ul className="space-y-2 text-sm text-accent">
                 <li>• Produire des benchmarks sectoriels anonymisés</li>
@@ -585,7 +585,7 @@ export default function PolitiqueConfidentialitePage() {
               </div>
             </div>
 
-            <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-[#6B8CAE]/30">
+            <div className="p-6 bg-gradient-to-r from-[#FFF0E5] to-[#FFE0EF] rounded-lg border border-[#6B8CAE]/30">
               <h3 className="font-semibold text-accent mb-2">Comment exercer vos droits ?</h3>
               <p className="text-accent mb-3">
                 Envoyez simplement un email à{' '}

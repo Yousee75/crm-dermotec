@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { useState, useMemo } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import type { Formation } from '@/types'
 import { CATEGORIES_FORMATION } from '@/types'
 import {
@@ -25,7 +25,12 @@ import {
   Euro,
   Star,
   Filter,
-  X
+  X,
+  LayoutGrid,
+  LayoutList,
+  ArrowUpDown,
+  TrendingUp,
+  MapPin
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -40,12 +45,24 @@ const categoryIcons: Record<string, typeof Palette> = {
 }
 
 type FinancementFilter = 'all' | 'opco' | 'cpf' | 'france_travail'
+type SortOption = 'default' | 'prix_asc' | 'prix_desc' | 'date_prochaine' | 'duree_asc'
+type ViewMode = 'grid' | 'list'
+
+const sortLabels: Record<SortOption, string> = {
+  default: 'Recommandé',
+  prix_asc: 'Prix croissant',
+  prix_desc: 'Prix décroissant',
+  date_prochaine: 'Prochaine session',
+  duree_asc: 'Durée courte',
+}
 
 export default function FormationsCatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [financementFilter, setFinancementFilter] = useState<FinancementFilter>('all')
   const [showFilters, setShowFilters] = useState(false)
+  const [sortBy, setSortBy] = useState<SortOption>('default')
+  const [viewMode, setViewMode] = useState<ViewMode>('grid')
 
   const supabase = createClient()
 
@@ -108,8 +125,26 @@ export default function FormationsCatalogPage() {
       filtered = filtered.filter(f => f.prix_ht >= 500)
     }
 
+    // Tri
+    if (sortBy === 'prix_asc') {
+      filtered = [...filtered].sort((a, b) => a.prix_ht - b.prix_ht)
+    } else if (sortBy === 'prix_desc') {
+      filtered = [...filtered].sort((a, b) => b.prix_ht - a.prix_ht)
+    } else if (sortBy === 'duree_asc') {
+      filtered = [...filtered].sort((a, b) => a.duree_jours - b.duree_jours)
+    } else if (sortBy === 'date_prochaine') {
+      filtered = [...filtered].sort((a, b) => {
+        const sA = sessionsByFormation[a.id]
+        const sB = sessionsByFormation[b.id]
+        if (!sA && !sB) return 0
+        if (!sA) return 1
+        if (!sB) return -1
+        return new Date(sA.date_debut).getTime() - new Date(sB.date_debut).getTime()
+      })
+    }
+
     return filtered
-  }, [formations, selectedCategory, searchTerm, financementFilter])
+  }, [formations, selectedCategory, searchTerm, financementFilter, sortBy, sessionsByFormation])
 
   const activeFiltersCount = [
     selectedCategory !== 'all',
@@ -276,26 +311,71 @@ export default function FormationsCatalogPage() {
             })}
           </div>
 
-          {/* Compteur résultats */}
+          {/* Compteur résultats + tri + vue */}
           <div className="mt-3 flex items-center justify-between text-sm" style={{ color: '#777777' }}>
             <span>
               <strong style={{ color: '#111111' }}>{filteredFormations.length}</strong> formation{filteredFormations.length !== 1 ? 's' : ''}
               {searchTerm && <span> pour « {searchTerm} »</span>}
             </span>
-            {activeFiltersCount > 0 && (
-              <button
-                onClick={() => {
-                  setSelectedCategory('all')
-                  setFinancementFilter('all')
-                  setSearchTerm('')
-                }}
-                className="flex items-center gap-1 text-xs font-medium hover:underline"
-                style={{ color: '#FF5C00' }}
-              >
-                <X size={12} />
-                Réinitialiser les filtres
-              </button>
-            )}
+
+            <div className="flex items-center gap-3">
+              {activeFiltersCount > 0 && (
+                <button
+                  onClick={() => {
+                    setSelectedCategory('all')
+                    setFinancementFilter('all')
+                    setSearchTerm('')
+                    setSortBy('default')
+                  }}
+                  className="flex items-center gap-1 text-xs font-medium hover:underline"
+                  style={{ color: '#FF5C00' }}
+                >
+                  <X size={12} />
+                  Réinitialiser
+                </button>
+              )}
+
+              {/* Tri */}
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  className="appearance-none pl-7 pr-6 py-1.5 rounded-lg text-xs font-medium cursor-pointer focus:outline-none focus:ring-2"
+                  style={{
+                    backgroundColor: '#F4F0EB',
+                    color: '#3A3A3A',
+                    border: 'none',
+                    // @ts-expect-error -- CSS custom property
+                    '--tw-ring-color': '#FF5C00'
+                  }}
+                >
+                  {Object.entries(sortLabels).map(([key, label]) => (
+                    <option key={key} value={key}>{label}</option>
+                  ))}
+                </select>
+                <ArrowUpDown size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: '#777777' }} />
+              </div>
+
+              {/* Vue grille / liste */}
+              <div className="flex items-center rounded-lg overflow-hidden" style={{ backgroundColor: '#F4F0EB' }}>
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className="p-1.5 transition-colors"
+                  style={{ backgroundColor: viewMode === 'grid' ? '#FF5C00' : 'transparent', color: viewMode === 'grid' ? '#FFFFFF' : '#777777' }}
+                  aria-label="Vue grille"
+                >
+                  <LayoutGrid size={14} />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className="p-1.5 transition-colors"
+                  style={{ backgroundColor: viewMode === 'list' ? '#FF5C00' : 'transparent', color: viewMode === 'list' ? '#FFFFFF' : '#777777' }}
+                  aria-label="Vue liste"
+                >
+                  <LayoutList size={14} />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -308,11 +388,14 @@ export default function FormationsCatalogPage() {
           <AnimatePresence mode="wait">
             {filteredFormations.length > 0 ? (
               <motion.div
-                key="grid"
+                key={viewMode}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                className={viewMode === 'grid'
+                  ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+                  : 'flex flex-col gap-4'
+                }
               >
                 {filteredFormations.map((formation, index) => {
                   const cat = CATEGORIES_FORMATION.find(c => c.id === formation.categorie)
@@ -326,6 +409,101 @@ export default function FormationsCatalogPage() {
                     ? ((nextSession.places_occupees / nextSession.places_max) * 100)
                     : 0
 
+                  // ─── VUE LISTE ───
+                  if (viewMode === 'list') {
+                    return (
+                      <motion.div
+                        key={formation.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: Math.min(index * 0.04, 0.2) }}
+                      >
+                        <Link
+                          href={`/formations/${formation.slug}`}
+                          className="group flex flex-col md:flex-row items-stretch rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"
+                          style={{
+                            backgroundColor: '#FFFFFF',
+                            border: '1px solid #EEEEEE',
+                            boxShadow: '0 1px 4px rgba(26, 26, 26, 0.04)',
+                          }}
+                        >
+                          {/* Barre latérale catégorie */}
+                          <div className="w-full md:w-1.5 h-1.5 md:h-auto flex-shrink-0" style={{ backgroundColor: cat?.color || '#FF5C00' }} />
+
+                          <div className="flex-1 p-5 flex flex-col md:flex-row md:items-center gap-4">
+                            {/* Info principale */}
+                            <div className="flex-1 min-w-0 space-y-1.5">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold text-white"
+                                  style={{ backgroundColor: cat?.color || '#FF5C00' }}>
+                                  {Icon && <Icon size={10} />}
+                                  {formation.categorie}
+                                </span>
+                                <span className="px-2 py-0.5 rounded-full text-xs font-medium"
+                                  style={{ backgroundColor: '#F4F0EB', color: '#3A3A3A' }}>
+                                  {formation.niveau === 'debutant' ? 'Débutant' : formation.niveau === 'intermediaire' ? 'Intermédiaire' : 'Confirmé'}
+                                </span>
+                                {isFinancable && (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium"
+                                    style={{ backgroundColor: '#D1FAE5', color: '#10B981' }}>
+                                    <CheckCircle size={10} /> Finançable
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className="text-lg font-bold leading-tight group-hover:text-[#FF5C00] transition-colors truncate"
+                                style={{ color: '#111111', fontFamily: 'var(--font-heading, "Bricolage Grotesque", serif)' }}>
+                                {formation.nom}
+                              </h3>
+                              <p className="text-sm line-clamp-1" style={{ color: '#3A3A3A' }}>
+                                {formation.description_commerciale || formation.description || 'Formation professionnelle certifiante'}
+                              </p>
+                            </div>
+
+                            {/* Meta */}
+                            <div className="flex items-center gap-5 text-sm flex-shrink-0" style={{ color: '#777777' }}>
+                              <span className="flex items-center gap-1">
+                                <Clock size={14} />
+                                {formation.duree_jours}j
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Users size={14} />
+                                {formation.places_max} max
+                              </span>
+                              {nextSession && (
+                                <span className="flex items-center gap-1">
+                                  <Calendar size={14} style={{ color: '#FF5C00' }} />
+                                  <span style={{ color: '#111111' }}>
+                                    {new Date(nextSession.date_debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                                  </span>
+                                  {placesRestantes !== null && placesRestantes < 3 && (
+                                    <span className="text-xs font-semibold" style={{ color: '#FF2D78' }}>
+                                      ({placesRestantes} place{placesRestantes !== 1 ? 's' : ''})
+                                    </span>
+                                  )}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Prix + CTA */}
+                            <div className="flex items-center gap-4 flex-shrink-0">
+                              <div className="text-right">
+                                <div className="text-xl font-bold" style={{ color: '#111111' }}>
+                                  {formation.prix_ht}€ <span className="text-xs font-normal" style={{ color: '#777777' }}>HT</span>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all group-hover:scale-105"
+                                style={{ backgroundColor: '#FF5C00' }}>
+                                Découvrir
+                                <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    )
+                  }
+
+                  // ─── VUE GRILLE (existante amelioree) ───
                   return (
                     <motion.div
                       key={formation.id}
@@ -335,19 +513,11 @@ export default function FormationsCatalogPage() {
                     >
                       <Link
                         href={`/formations/${formation.slug}`}
-                        className="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                        className="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(255,92,0,0.14)] hover:border-[rgba(255,92,0,0.2)]"
                         style={{
                           backgroundColor: '#FFFFFF',
                           border: '1px solid #EEEEEE',
                           boxShadow: '0 1px 4px rgba(26, 26, 26, 0.04)',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.boxShadow = '0 12px 32px rgba(255, 92, 0, 0.14)'
-                          e.currentTarget.style.borderColor = 'rgba(255, 92, 0, 0.2)'
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.boxShadow = '0 1px 4px rgba(26, 26, 26, 0.04)'
-                          e.currentTarget.style.borderColor = '#EEEEEE'
                         }}
                       >
                         {/* Barre catégorie top */}
@@ -385,11 +555,15 @@ export default function FormationsCatalogPage() {
                             </p>
                           </div>
 
-                          {/* Infos : durée + Qualiopi */}
+                          {/* Infos : durée + places + Qualiopi */}
                           <div className="flex items-center gap-4 text-sm" style={{ color: '#777777' }}>
                             <span className="flex items-center gap-1">
                               <Clock size={14} />
                               {formation.duree_jours}j • {formation.duree_heures}h
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Users size={14} />
+                              {formation.places_max} max
                             </span>
                             <span className="flex items-center gap-1">
                               <Award size={14} style={{ color: '#FF5C00' }} />
@@ -458,7 +632,7 @@ export default function FormationsCatalogPage() {
                           {/* Compétences preview */}
                           {formation.competences_acquises && formation.competences_acquises.length > 0 && (
                             <div className="flex flex-wrap gap-1 pt-1">
-                              {formation.competences_acquises.slice(0, 2).map((comp, idx) => (
+                              {formation.competences_acquises.slice(0, 2).map((comp: string, idx: number) => (
                                 <span
                                   key={idx}
                                   className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium"
@@ -504,6 +678,7 @@ export default function FormationsCatalogPage() {
                       setSearchTerm('')
                       setSelectedCategory('all')
                       setFinancementFilter('all')
+                      setSortBy('default')
                     }}
                     className="px-6 py-3 rounded-xl font-semibold text-white transition-colors"
                     style={{ backgroundColor: '#FF5C00' }}

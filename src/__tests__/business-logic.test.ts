@@ -6,9 +6,9 @@
 
 import { describe, it, expect } from 'vitest'
 import { normalizePhone } from '@/lib/duplicate-detection'
-import { scoreLead, getScoreColor, getScoreLabel } from '@/lib/scoring'
+import { scoreLead, getScoreColor, getScoreLabel } from '@/lib/ai/scoring'
 import { calculateSLA, calculateSLAMetrics } from '@/lib/sla-tracking'
-import { getTasksForStage, buildRappelsForStage } from '@/lib/stage-tasks'
+import { getTasksForStage, buildRappelsForStage } from '@/lib/automation/stage-tasks'
 import { generateDigestData } from '@/lib/daily-digest'
 import type { Lead } from '@/types'
 

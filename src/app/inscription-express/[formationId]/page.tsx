@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { ChevronDown, ChevronUp, Lock, ShieldCheck, Calendar, Users, Timer, CheckCircle } from 'lucide-react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { Formation, Session } from '@/types'
 
 // Validation schema

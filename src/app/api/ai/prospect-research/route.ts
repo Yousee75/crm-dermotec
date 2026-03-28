@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { aiResearchProspect } from '@/lib/ai'
-import { requireAuth } from '@/lib/api-auth'
+import { aiResearchProspect } from '@/lib/ai/core'
+import { requireAuth } from '@/lib/api/auth'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 45

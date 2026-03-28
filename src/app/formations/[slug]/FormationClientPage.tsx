@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import type { Formation, Session } from '@/types'
 import { StickyBottomBar } from '@/components/ui/StickyBottomBar'
 import { WhatsAppButton } from '@/components/ui/WhatsAppButton'
@@ -29,7 +29,12 @@ import {
   Play,
   Shield,
   Heart,
-  GraduationCap
+  GraduationCap,
+  Package,
+  Video,
+  FileText,
+  HelpCircle,
+  Layers
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -38,9 +43,29 @@ interface FormationClientPageProps {
   slug: string
 }
 
+interface ProgrammeModule {
+  id: string
+  titre: string
+  description?: string
+  ordre: number
+  duree_minutes?: number
+  jour_formation?: number
+  contenus_count: number
+}
+
+const contenTypeIcons: Record<string, typeof Video> = {
+  video: Video,
+  pdf: FileText,
+  quiz: HelpCircle,
+  texte: BookOpen,
+  exercice: Target,
+}
+
 export default function FormationClientPage({ slug }: FormationClientPageProps) {
   const [formation, setFormation] = useState<Formation | null>(null)
   const [sessions, setSessions] = useState<Session[]>([])
+  const [modules, setModules] = useState<ProgrammeModule[]>([])
+  const [formatrice, setFormatrice] = useState<{ prenom: string; nom: string; specialite?: string; photo_url?: string } | null>(null)
   const [loading, setLoading] = useState(true)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [openModule, setOpenModule] = useState<number | null>(0)
@@ -62,16 +87,46 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
         if (formationData) {
           setFormation(formationData)
 
-          const { data: sessionsData } = await supabase
-            .from('sessions')
-            .select(`*, formatrice:equipe(prenom, nom)`)
-            .eq('formation_id', formationData.id)
-            .in('statut', ['PLANIFIEE', 'CONFIRMEE'])
-            .gte('date_debut', new Date().toISOString())
-            .order('date_debut', { ascending: true })
-            .limit(6)
+          // Fetch sessions, modules, formatrice en parallele
+          const [sessionsRes, modulesRes] = await Promise.all([
+            supabase
+              .from('sessions')
+              .select(`*, formatrice:equipe(prenom, nom, specialite, photo_url)`)
+              .eq('formation_id', formationData.id)
+              .in('statut', ['PLANIFIEE', 'CONFIRMEE'])
+              .gte('date_debut', new Date().toISOString())
+              .order('date_debut', { ascending: true })
+              .limit(6),
+            supabase
+              .from('formation_modules')
+              .select('id, titre, description, ordre, duree_minutes, jour_formation')
+              .eq('formation_id', formationData.id)
+              .eq('is_published', true)
+              .order('ordre', { ascending: true })
+          ])
 
-          setSessions(sessionsData || [])
+          const sessionsData = sessionsRes.data || []
+          setSessions(sessionsData)
+
+          // Modules avec count contenus
+          const modulesData = modulesRes.data || []
+          if (modulesData.length > 0) {
+            const { data: contenusCount } = await supabase
+              .from('formation_contenus')
+              .select('module_id')
+              .in('module_id', modulesData.map((m: any) => m.id))
+              .eq('is_published', true)
+            const countMap: Record<string, number> = {}
+            for (const c of contenusCount || []) {
+              countMap[c.module_id] = (countMap[c.module_id] || 0) + 1
+            }
+            setModules(modulesData.map((m: any) => ({ ...m, contenus_count: countMap[m.id] || 0 })))
+          }
+
+          // Formatrice depuis la premiere session
+          if (sessionsData[0]?.formatrice) {
+            setFormatrice(sessionsData[0].formatrice as any)
+          }
         }
       } catch (error) {
         // silently fail
@@ -150,12 +205,38 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
     { icon: CreditCard, name: '3x / 4x', tag: 'Sans frais', desc: 'Paiement échelonné avec Alma' },
   ]
 
-  // Simuler des modules de programme basés sur les objectifs
-  const programmeModules = formation.objectifs?.map((obj, i) => ({
-    title: obj,
-    day: `Jour ${Math.floor(i / Math.max(1, Math.ceil((formation.objectifs?.length || 1) / formation.duree_jours))) + 1}`,
-    items: [obj],
-  })) || []
+  // Calcul ROI estime
+  const roiData = {
+    prixFormation: formation.prix_ht,
+    prixSeanceMoyen: formation.prix_ht < 800 ? 60 : formation.prix_ht < 1500 ? 80 : 120,
+    seancesParSemaine: 3,
+    get roiSemaines() {
+      return Math.ceil(this.prixFormation / (this.prixSeanceMoyen * this.seancesParSemaine))
+    },
+    get revenuAnnuel() {
+      return this.prixSeanceMoyen * this.seancesParSemaine * 48
+    }
+  }
+
+  // Programme : modules DB si disponibles, sinon objectifs
+  const hasRealModules = modules.length > 0
+  const programmeItems = hasRealModules
+    ? modules.map(m => ({
+        id: m.id,
+        title: m.titre,
+        description: m.description || 'Théorie et pratique avec feedback personnalisé.',
+        day: m.jour_formation ? `Jour ${m.jour_formation}` : undefined,
+        duration: m.duree_minutes,
+        contenusCount: m.contenus_count,
+      }))
+    : (formation.objectifs || []).map((obj, i) => ({
+        id: String(i),
+        title: obj,
+        description: 'Théorie et pratique sur modèles. Mise en situation professionnelle avec feedback personnalisé de la formatrice.',
+        day: `Jour ${Math.floor(i / Math.max(1, Math.ceil((formation.objectifs?.length || 1) / formation.duree_jours))) + 1}`,
+        duration: undefined as number | undefined,
+        contenusCount: 0,
+      }))
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
@@ -389,9 +470,9 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
           </div>
 
           <div className="space-y-3">
-            {formation.objectifs?.map((objectif, index) => (
+            {programmeItems.length > 0 ? programmeItems.map((item, index) => (
               <motion.div
-                key={index}
+                key={item.id}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -408,10 +489,27 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                     style={{ backgroundColor: '#FF5C00' }}>
                     {index + 1}
                   </div>
-                  <span className="flex-1 font-semibold" style={{ color: '#111111' }}>{objectif}</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-semibold block" style={{ color: '#111111' }}>{item.title}</span>
+                    <div className="flex items-center gap-3 mt-0.5 text-xs" style={{ color: '#777777' }}>
+                      {item.day && <span>{item.day}</span>}
+                      {item.duration && (
+                        <span className="flex items-center gap-1">
+                          <Clock size={10} />
+                          {item.duration >= 60 ? `${Math.floor(item.duration / 60)}h${item.duration % 60 > 0 ? String(item.duration % 60).padStart(2, '0') : ''}` : `${item.duration}min`}
+                        </span>
+                      )}
+                      {item.contenusCount > 0 && (
+                        <span className="flex items-center gap-1">
+                          <Layers size={10} />
+                          {item.contenusCount} contenu{item.contenusCount > 1 ? 's' : ''}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <ChevronDown
                     size={18}
-                    className="transition-transform"
+                    className="transition-transform flex-shrink-0"
                     style={{
                       color: '#777777',
                       transform: openModule === index ? 'rotate(180deg)' : 'rotate(0deg)'
@@ -427,16 +525,16 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-5 pb-4 pl-17" style={{ paddingLeft: '4.25rem' }}>
+                      <div className="px-5 pb-4" style={{ paddingLeft: '4.25rem' }}>
                         <p className="text-sm" style={{ color: '#3A3A3A' }}>
-                          Théorie et pratique sur modèles. Mise en situation professionnelle avec feedback personnalisé de la formatrice.
+                          {item.description}
                         </p>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </motion.div>
-            )) || (
+            )) : (
               <div className="text-center py-8" style={{ color: '#777777' }}>
                 Programme détaillé envoyé lors de l'inscription
               </div>
@@ -458,6 +556,116 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               </div>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════ */}
+      {/* MATERIEL INCLUS                                         */}
+      {/* ═══════════════════════════════════════════════════════ */}
+      {formation.materiel_inclus && (
+        <section className="py-16" style={{ backgroundColor: '#FFFFFF' }}>
+          <div className="container mx-auto px-4 max-w-4xl">
+            <div className="flex items-start gap-6 p-6 rounded-2xl" style={{ backgroundColor: '#FFF0E5', border: '1px solid #FFCAAA' }}>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: '#FF5C00' }}>
+                <Package size={28} className="text-white" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>
+                  Kit matériel inclus
+                </h3>
+                <p className="text-sm leading-relaxed" style={{ color: '#3A3A3A' }}>
+                  {formation.materiel_details || 'Tout le matériel professionnel est fourni et inclus dans le prix. Vous repartez avec votre kit complet pour pratiquer immédiatement.'}
+                </p>
+                <div className="flex items-center gap-4 pt-2 text-xs font-medium flex-wrap" style={{ color: '#777777' }}>
+                  <span className="flex items-center gap-1">
+                    <CheckCircle size={12} style={{ color: '#10B981' }} />
+                    Matériel professionnel
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <CheckCircle size={12} style={{ color: '#10B981' }} />
+                    Kit personnel à conserver
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <CheckCircle size={12} style={{ color: '#10B981' }} />
+                    Marques premium
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════ */}
+      {/* ROI — Retour sur investissement                        */}
+      {/* ═══════════════════════════════════════════════════════ */}
+      <section className="py-16" style={{ backgroundColor: formation.materiel_inclus ? '#FAF8F5' : '#FFFFFF' }}>
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>
+              Rentabilisez votre formation rapidement
+            </h2>
+            <p style={{ color: '#777777' }}>Un investissement qui se rembourse en quelques semaines</p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center p-6 rounded-2xl"
+              style={{ backgroundColor: '#FFFFFF', border: '1px solid #EEEEEE' }}
+            >
+              <div className="text-3xl font-bold mb-1" style={{ color: '#FF5C00', fontFamily: 'var(--font-heading)' }}>
+                ~{roiData.roiSemaines} sem.
+              </div>
+              <div className="text-sm font-medium" style={{ color: '#111111' }}>Retour sur investissement</div>
+              <div className="text-xs mt-1" style={{ color: '#777777' }}>
+                avec {roiData.seancesParSemaine} séances/semaine
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-center p-6 rounded-2xl"
+              style={{ backgroundColor: '#FFFFFF', border: '1px solid #EEEEEE' }}
+            >
+              <div className="text-3xl font-bold mb-1" style={{ color: '#10B981', fontFamily: 'var(--font-heading)' }}>
+                {roiData.prixSeanceMoyen}€
+              </div>
+              <div className="text-sm font-medium" style={{ color: '#111111' }}>Prix moyen / séance</div>
+              <div className="text-xs mt-1" style={{ color: '#777777' }}>
+                Tarif constaté marché
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-center p-6 rounded-2xl"
+              style={{ backgroundColor: '#FFFFFF', border: '1px solid #EEEEEE' }}
+            >
+              <div className="text-3xl font-bold mb-1" style={{ color: '#FF2D78', fontFamily: 'var(--font-heading)' }}>
+                {(roiData.revenuAnnuel / 1000).toFixed(0)}k€
+              </div>
+              <div className="text-sm font-medium" style={{ color: '#111111' }}>Revenu annuel potentiel</div>
+              <div className="text-xs mt-1" style={{ color: '#777777' }}>
+                {roiData.seancesParSemaine} séances/sem × 48 sem
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <p className="text-xs" style={{ color: '#999999' }}>
+              * Estimations basées sur les tarifs moyens du marché esthétique en France. Résultats variables selon l'activité.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -679,7 +887,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
       </section>
 
       {/* ═══════════════════════════════════════════════════════ */}
-      {/* FORMATEUR — Section confiance                          */}
+      {/* FORMATEUR — Section confiance (données réelles si dispo)*/}
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="py-16" style={{ backgroundColor: '#111111' }}>
         <div className="container mx-auto px-4 max-w-4xl">
@@ -688,19 +896,24 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold mb-4"
                 style={{ backgroundColor: 'rgba(255,92,0,0.15)', color: '#FF8C42' }}>
                 <Heart size={12} />
-                Notre équipe
+                {formatrice ? 'Votre formatrice' : 'Notre équipe'}
               </span>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
-                Des formatrices expertes et passionnées
+                {formatrice
+                  ? `${formatrice.prenom} ${formatrice.nom}`
+                  : 'Des formatrices expertes et passionnées'
+                }
               </h2>
               <p className="leading-relaxed mb-6" style={{ color: '#999999' }}>
-                Nos formatrices sont des professionnelles en exercice avec plus de 10 ans d'expérience.
-                Elles partagent leur savoir-faire et leurs techniques dans une ambiance bienveillante.
+                {formatrice?.specialite
+                  ? `Spécialiste en ${formatrice.specialite}. Professionnelle en exercice avec une expertise terrain reconnue. Elle partage son savoir-faire dans une ambiance bienveillante et exigeante.`
+                  : 'Nos formatrices sont des professionnelles en exercice avec plus de 10 ans d\'expérience. Elles partagent leur savoir-faire et leurs techniques dans une ambiance bienveillante.'
+                }
               </p>
               <div className="space-y-3">
                 {[
                   '10+ ans d\'expérience terrain',
-                  'Formatrices certifiées Qualiopi',
+                  'Formatrice certifiée Qualiopi',
                   'Suivi personnalisé post-formation',
                   'Pratique sur modèles réels',
                 ].map((item, i) => (
@@ -712,17 +925,34 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               </div>
             </div>
             <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-2xl flex items-center justify-center" style={{
-                backgroundColor: '#1A1A1A',
-                border: '1px solid rgba(255,92,0,0.2)',
-                boxShadow: '0 0 40px rgba(255,92,0,0.1)'
-              }}>
-                <div className="text-center">
-                  <GraduationCap size={48} style={{ color: '#FF5C00' }} className="mx-auto mb-3" />
-                  <div className="text-2xl font-bold text-white">10+ ans</div>
-                  <div className="text-sm" style={{ color: '#777777' }}>d'expertise</div>
+              {formatrice?.photo_url ? (
+                <div className="w-64 h-64 rounded-2xl overflow-hidden" style={{
+                  border: '2px solid rgba(255,92,0,0.3)',
+                  boxShadow: '0 0 40px rgba(255,92,0,0.15)'
+                }}>
+                  <img
+                    src={formatrice.photo_url}
+                    alt={`${formatrice.prenom} ${formatrice.nom}`}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-              </div>
+              ) : (
+                <div className="w-64 h-64 rounded-2xl flex items-center justify-center" style={{
+                  backgroundColor: '#1A1A1A',
+                  border: '1px solid rgba(255,92,0,0.2)',
+                  boxShadow: '0 0 40px rgba(255,92,0,0.1)'
+                }}>
+                  <div className="text-center">
+                    <GraduationCap size={48} style={{ color: '#FF5C00' }} className="mx-auto mb-3" />
+                    <div className="text-2xl font-bold text-white">
+                      {formatrice ? `${formatrice.prenom} ${formatrice.nom.charAt(0)}.` : '10+ ans'}
+                    </div>
+                    <div className="text-sm" style={{ color: '#777777' }}>
+                      {formatrice ? 'Formatrice certifiée' : 'd\'expertise'}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import 'server-only'
-import { createServiceSupabase } from './supabase-server'
+import { createServiceSupabase } from '../supabase-server'
 import { generateEmbedding } from './embeddings'
 
 interface CacheEntry {

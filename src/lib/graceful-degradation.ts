@@ -74,7 +74,7 @@ export async function queueOperation(params: {
 
   // Tenter de passer par Inngest (pour le retry automatique)
   try {
-    const { inngest } = await import('./inngest')
+    const { inngest } = await import('./infra/inngest')
     await inngest.send({
       name: 'crm/webhook.received',
       data: {
@@ -186,7 +186,7 @@ export async function createPaymentWithDegradation(params: {
   return withGracefulDegradation(
     'stripe',
     async () => {
-      const { createCheckoutSession } = await import('./stripe')
+      const { createCheckoutSession } = await import('./integrations/stripe')
       const session = await createCheckoutSession({
         leadEmail: params.leadEmail,
         leadNom: '',
@@ -294,7 +294,7 @@ export async function processQueue(): Promise<{
     try {
       switch (op.service) {
         case 'stripe': {
-          const { createCheckoutSession } = await import('./stripe')
+          const { createCheckoutSession } = await import('./integrations/stripe')
           const payload = op.payload as Record<string, unknown>
           await createCheckoutSession({
             leadEmail: payload.leadEmail as string,
