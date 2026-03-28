@@ -343,6 +343,349 @@ async function checkEnvVars(): Promise<CheckResult> {
   }
 }
 
+// ---- Checks Enrichissement & Scraping ----
+
+async function checkPappers(): Promise<CheckResult> {
+  const start = Date.now()
+  const key = process.env.PAPPERS_API_KEY
+
+  if (!key) {
+    return {
+      category: 'enrichment',
+      service_name: 'pappers',
+      check_name: 'api_key',
+      status: 'fail',
+      response_time_ms: 0,
+      error_message: 'PAPPERS_API_KEY manquante'
+    }
+  }
+
+  try {
+    // Test avec un SIRET connu (Dermotec)
+    const res = await fetch(`https://api.pappers.fr/v2/entreprise?siret=88301396500013&api_token=${key}`)
+    return {
+      category: 'enrichment',
+      service_name: 'pappers',
+      check_name: 'connection',
+      status: res.ok ? 'pass' : 'fail',
+      response_time_ms: Date.now() - start,
+      status_code: res.status,
+      error_message: res.ok ? undefined : `HTTP ${res.status}`
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'pappers',
+      check_name: 'connection',
+      status: 'fail',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkGooglePlaces(): Promise<CheckResult> {
+  const start = Date.now()
+  const key = process.env.GOOGLE_PLACES_API_KEY
+
+  if (!key) {
+    return {
+      category: 'enrichment',
+      service_name: 'google_places',
+      check_name: 'api_key',
+      status: 'fail',
+      response_time_ms: 0,
+      error_message: 'GOOGLE_PLACES_API_KEY manquante'
+    }
+  }
+
+  try {
+    const res = await fetch(
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Dermotec+Paris&inputtype=textquery&fields=place_id,name&key=${key}`
+    )
+    const data = await res.json()
+    return {
+      category: 'enrichment',
+      service_name: 'google_places',
+      check_name: 'connection',
+      status: data.status === 'OK' || data.status === 'ZERO_RESULTS' ? 'pass' : 'fail',
+      response_time_ms: Date.now() - start,
+      status_code: res.status,
+      details: { api_status: data.status, candidates: data.candidates?.length || 0 }
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'google_places',
+      check_name: 'connection',
+      status: 'fail',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkOutscraper(): Promise<CheckResult> {
+  const start = Date.now()
+  const key = process.env.OUTSCRAPER_API_KEY
+
+  if (!key) {
+    return {
+      category: 'scraping',
+      service_name: 'outscraper',
+      check_name: 'api_key',
+      status: 'pass',
+      response_time_ms: 0,
+      details: { configured: false, note: 'Non configuré — optionnel' }
+    }
+  }
+
+  try {
+    const res = await fetch('https://api.app.outscraper.com/accounts/profile', {
+      headers: { 'X-API-KEY': key }
+    })
+    const data = res.ok ? await res.json() : null
+    return {
+      category: 'scraping',
+      service_name: 'outscraper',
+      check_name: 'connection',
+      status: res.ok ? 'pass' : 'fail',
+      response_time_ms: Date.now() - start,
+      status_code: res.status,
+      details: data ? { credits: data.credits_amount, email: data.email } : undefined
+    }
+  } catch (e) {
+    return {
+      category: 'scraping',
+      service_name: 'outscraper',
+      check_name: 'connection',
+      status: 'fail',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkBrightData(): Promise<CheckResult> {
+  const start = Date.now()
+  const key = process.env.BRIGHTDATA_API_KEY
+
+  if (!key) {
+    return {
+      category: 'scraping',
+      service_name: 'brightdata',
+      check_name: 'api_key',
+      status: 'pass',
+      response_time_ms: 0,
+      details: { configured: false, note: 'Non configuré — optionnel' }
+    }
+  }
+
+  try {
+    // Vérifier les zones actives
+    const res = await fetch('https://api.brightdata.com/zone/get_active_zones', {
+      headers: { 'Authorization': `Bearer ${key}` }
+    })
+    const data = res.ok ? await res.json() : null
+    return {
+      category: 'scraping',
+      service_name: 'brightdata',
+      check_name: 'zones',
+      status: res.ok ? 'pass' : 'fail',
+      response_time_ms: Date.now() - start,
+      status_code: res.status,
+      details: data ? { active_zones: Array.isArray(data) ? data.length : 0 } : undefined,
+      error_message: res.ok ? undefined : `HTTP ${res.status}`
+    }
+  } catch (e) {
+    return {
+      category: 'scraping',
+      service_name: 'brightdata',
+      check_name: 'zones',
+      status: 'fail',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkSirene(): Promise<CheckResult> {
+  const start = Date.now()
+  try {
+    const res = await fetch('https://api.recherche-entreprises.fabrique.social.gouv.fr/api/v1/search?query=dermotec&limit=1')
+    const data = await res.json()
+    return {
+      category: 'enrichment',
+      service_name: 'sirene',
+      check_name: 'recherche_entreprises',
+      status: res.ok && data.entreprises?.length > 0 ? 'pass' : 'warn',
+      response_time_ms: Date.now() - start,
+      status_code: res.status,
+      details: { results: data.entreprises?.length || 0 }
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'sirene',
+      check_name: 'recherche_entreprises',
+      status: 'fail',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkOSM(): Promise<CheckResult> {
+  const start = Date.now()
+  try {
+    // Requête Overpass ultra-légère : 1 institut beauté Paris 11e
+    const query = '[out:json][timeout:10];node["shop"="beauty"](48.855,2.370,48.865,2.380);out 1;'
+    const res = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`)
+    const data = await res.json()
+    return {
+      category: 'enrichment',
+      service_name: 'openstreetmap',
+      check_name: 'overpass_api',
+      status: res.ok ? 'pass' : 'fail',
+      response_time_ms: Date.now() - start,
+      status_code: res.status,
+      details: { elements: data.elements?.length || 0 }
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'openstreetmap',
+      check_name: 'overpass_api',
+      status: 'fail',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkINSEE_IRIS(): Promise<CheckResult> {
+  const start = Date.now()
+  try {
+    // Géo API gouv — Paris 11e
+    const res = await fetch('https://geo.api.gouv.fr/communes/75111?fields=nom,codesPostaux,population')
+    const data = await res.json()
+    return {
+      category: 'enrichment',
+      service_name: 'insee_iris',
+      check_name: 'geo_api',
+      status: res.ok && data.nom ? 'pass' : 'fail',
+      response_time_ms: Date.now() - start,
+      status_code: res.status,
+      details: { commune: data.nom, population: data.population }
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'insee_iris',
+      check_name: 'geo_api',
+      status: 'fail',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkDVF(): Promise<CheckResult> {
+  const start = Date.now()
+  try {
+    const res = await fetch('https://api.cquest.org/dvf?code_postal=75011&limit=1')
+    return {
+      category: 'enrichment',
+      service_name: 'dvf',
+      check_name: 'prix_immobilier',
+      status: res.ok ? 'pass' : 'warn',
+      response_time_ms: Date.now() - start,
+      status_code: res.status
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'dvf',
+      check_name: 'prix_immobilier',
+      status: 'warn',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkFranceCompetences(): Promise<CheckResult> {
+  const start = Date.now()
+  try {
+    const res = await fetch('https://api.francecompetences.fr/fc/v1/rs?INTITULE=maquillage+permanent&ETAT_FICHE=Actif&LIMIT=1')
+    return {
+      category: 'enrichment',
+      service_name: 'france_competences',
+      check_name: 'rncp_rs',
+      status: res.ok ? 'pass' : 'warn',
+      response_time_ms: Date.now() - start,
+      status_code: res.status
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'france_competences',
+      check_name: 'rncp_rs',
+      status: 'warn',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkBODACC(): Promise<CheckResult> {
+  const start = Date.now()
+  try {
+    const res = await fetch('https://bodacc-datadila.opendatasoft.com/api/records/1.0/search/?dataset=annonces-commerciales&q=dermotec&rows=1')
+    return {
+      category: 'enrichment',
+      service_name: 'bodacc',
+      check_name: 'annonces_legales',
+      status: res.ok ? 'pass' : 'warn',
+      response_time_ms: Date.now() - start,
+      status_code: res.status
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'bodacc',
+      check_name: 'annonces_legales',
+      status: 'warn',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
+async function checkDGEFP(): Promise<CheckResult> {
+  const start = Date.now()
+  try {
+    const res = await fetch('https://dgefp-opendatasoft.opendatasoft.com/api/records/1.0/search/?dataset=liste-publique-des-of-v2&q=dermotec&rows=1')
+    return {
+      category: 'enrichment',
+      service_name: 'dgefp',
+      check_name: 'organismes_formation',
+      status: res.ok ? 'pass' : 'warn',
+      response_time_ms: Date.now() - start,
+      status_code: res.status
+    }
+  } catch (e) {
+    return {
+      category: 'enrichment',
+      service_name: 'dgefp',
+      check_name: 'organismes_formation',
+      status: 'warn',
+      response_time_ms: Date.now() - start,
+      error_message: e instanceof Error ? e.message : 'Unknown error'
+    }
+  }
+}
+
 // ---- Orchestrateur principal ----
 
 export async function runFullMonitoring(triggerSource: 'cron' | 'manual' | 'api' = 'manual') {
@@ -364,18 +707,9 @@ export async function runFullMonitoring(triggerSource: 'cron' | 'manual' | 'api'
   const runId = (run as any).id as string
   const startTime = Date.now()
 
-  // Lancer tous les checks en parallèle
-  const [
-    supabaseConn,
-    supabaseTables,
-    supabaseRPC,
-    storage,
-    stripe,
-    resend,
-    apiRoutes,
-    auth,
-    envVars
-  ] = await Promise.allSettled([
+  // Lancer TOUS les checks en parallèle (services + enrichissement + scraping)
+  const results = await Promise.allSettled([
+    // --- Services core ---
     checkSupabaseConnection(),
     checkSupabaseTables(),
     checkSupabaseRPC(),
@@ -384,22 +718,35 @@ export async function runFullMonitoring(triggerSource: 'cron' | 'manual' | 'api'
     checkResend(),
     checkAPIRoutes(),
     checkAuth(),
-    checkEnvVars()
+    checkEnvVars(),
+    // --- Enrichissement (APIs payantes) ---
+    checkPappers(),
+    checkGooglePlaces(),
+    // --- Scraping ---
+    checkOutscraper(),
+    checkBrightData(),
+    // --- Enrichissement (APIs gratuites) ---
+    checkSirene(),
+    checkOSM(),
+    checkINSEE_IRIS(),
+    checkDVF(),
+    checkFranceCompetences(),
+    checkBODACC(),
+    checkDGEFP(),
   ])
 
   // Collecter les résultats
   const allChecks: CheckResult[] = []
 
-  const settled = [supabaseConn, supabaseTables, supabaseRPC, storage, stripe, resend, auth, envVars]
-  for (const result of settled) {
+  for (const result of results) {
     if (result.status === 'fulfilled') {
-      allChecks.push(result.value as CheckResult)
+      const value = result.value
+      if (Array.isArray(value)) {
+        allChecks.push(...value)
+      } else {
+        allChecks.push(value as CheckResult)
+      }
     }
-  }
-
-  // apiRoutes retourne un tableau
-  if (apiRoutes.status === 'fulfilled') {
-    allChecks.push(...(apiRoutes.value as CheckResult[]))
   }
 
   // Insérer les checks

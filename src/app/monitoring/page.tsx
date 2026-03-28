@@ -116,6 +116,8 @@ export default function MonitoringPage() {
     api: 'Routes API',
     storage: 'Stockage',
     auth: 'Authentification',
+    enrichment: 'Enrichissement données',
+    scraping: 'Scraping & Concurrents',
   }
 
   return (
