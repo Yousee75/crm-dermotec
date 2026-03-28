@@ -1,102 +1,35 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { ProgressBar } from '@/components/ui/ProgressBar'
+import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Award, CheckCircle, AlertTriangle, Clock, FileText, Users, Target } from 'lucide-react'
-
-// Structure des 7 critères Qualiopi et leurs 32 indicateurs
-const CRITERES_QUALIOPI = [
-  {
-    id: 'c1',
-    titre: 'Critère 1 - Conditions d\'information du public',
-    description: 'Information claire et accessible sur les prestations proposées',
-    indicateurs: [
-      { id: 'i1', titre: 'Diffuser des informations accessibles au public', conforme: true },
-      { id: 'i2', titre: 'Indicateurs de résultats de la prestation', conforme: true },
-      { id: 'i3', titre: 'Obtenir les appréciations des parties prenantes', conforme: false }
-    ]
-  },
-  {
-    id: 'c2',
-    titre: 'Critère 2 - Identification précise des objectifs',
-    description: 'Définition claire des objectifs et de l\'adaptation aux bénéficiaires',
-    indicateurs: [
-      { id: 'i4', titre: 'Analyse du besoin du bénéficiaire', conforme: true },
-      { id: 'i5', titre: 'Définition des objectifs opérationnels et évaluables', conforme: true },
-      { id: 'i6', titre: 'Adéquation des modalités d\'accès', conforme: true },
-      { id: 'i7', titre: 'Positionnement du bénéficiaire', conforme: false }
-    ]
-  },
-  {
-    id: 'c3',
-    titre: 'Critère 3 - Adaptation aux publics bénéficiaires',
-    description: 'Prise en compte des spécificités des bénéficiaires',
-    indicateurs: [
-      { id: 'i8', titre: 'Adaptation aux publics et modalités d\'accueil', conforme: true },
-      { id: 'i9', titre: 'Adaptation aux publics et contenus de la prestation', conforme: true },
-      { id: 'i10', titre: 'Adaptation aux publics et modalités de la prestation', conforme: true },
-      { id: 'i11', titre: 'Mise à disposition de ressources pédagogiques', conforme: false },
-      { id: 'i12', titre: 'Accompagnement des bénéficiaires', conforme: true }
-    ]
-  },
-  {
-    id: 'c4',
-    titre: 'Critère 4 - Adéquation des moyens pédagogiques',
-    description: 'Moyens humains et techniques adaptés',
-    indicateurs: [
-      { id: 'i13', titre: 'Adéquation des moyens humains et techniques', conforme: true },
-      { id: 'i14', titre: 'Coordination entre les différents intervenants', conforme: true },
-      { id: 'i15', titre: 'Entretien et maintenance des équipements', conforme: true },
-      { id: 'i16', titre: 'Mise à jour des compétences des intervenants', conforme: false }
-    ]
-  },
-  {
-    id: 'c5',
-    titre: 'Critère 5 - Qualification et développement des connaissances',
-    description: 'Compétences des intervenants et leur développement',
-    indicateurs: [
-      { id: 'i17', titre: 'Définition des compétences des intervenants', conforme: true },
-      { id: 'i18', titre: 'Développement des compétences des intervenants', conforme: false },
-      { id: 'i19', titre: 'Veille sur les évolutions des compétences', conforme: true }
-    ]
-  },
-  {
-    id: 'c6',
-    titre: 'Critère 6 - Inscription dans son environnement',
-    description: 'Veille et adaptation aux évolutions',
-    indicateurs: [
-      { id: 'i20', titre: 'Veille sur les évolutions réglementaires', conforme: true },
-      { id: 'i21', titre: 'Veille sur les évolutions technologiques', conforme: true },
-      { id: 'i22', titre: 'Veille sur les évolutions des métiers', conforme: false },
-      { id: 'i23', titre: 'Mise en place de partenariats', conforme: true }
-    ]
-  },
-  {
-    id: 'c7',
-    titre: 'Critère 7 - Recueil des appréciations et amélioration',
-    description: 'Amélioration continue de la qualité',
-    indicateurs: [
-      { id: 'i24', titre: 'Recueil des appréciations des parties prenantes', conforme: false },
-      { id: 'i25', titre: 'Description des modalités d\'amélioration', conforme: true },
-      { id: 'i26', titre: 'Mise en œuvre des améliorations', conforme: true },
-      { id: 'i27', titre: 'Résultats de l\'amélioration continue', conforme: true }
-    ]
-  }
-]
+import { useQualiopiIndicateurs } from '@/hooks/use-qualiopi'
 
 export default function IndicateursTab() {
-  const t = useTranslations('qualiopi')
-  const [selectedCritere, setSelectedCritere] = useState<string | null>(null)
+  const [selectedCritere, setSelectedCritere] = useState<number | null>(null)
+  const { data, isLoading, error } = useQualiopiIndicateurs()
 
-  // Calculs globaux
-  const totalIndicateurs = CRITERES_QUALIOPI.reduce((sum, c) => sum + c.indicateurs.length, 0)
-  const indicateursConformes = CRITERES_QUALIOPI.reduce((sum, c) =>
-    sum + c.indicateurs.filter(i => i.conforme).length, 0)
-  const tauxConformite = Math.round((indicateursConformes / totalIndicateurs) * 100)
+  if (isLoading) return <SkeletonTable rows={4} cols={4} />
+
+  if (error) {
+    return (
+      <Card className="p-8 text-center">
+        <AlertTriangle className="w-8 h-8 text-[#FF2D78] mx-auto mb-2" />
+        <p className="text-[#777777]">{(error as Error).message}</p>
+      </Card>
+    )
+  }
+
+  const score_global = data?.score_global || 0
+  const criteres = data?.criteres || []
+  const stats = data?.stats
+
+  const totalIndicateursConformes = criteres.reduce((s, c) => s + c.indicateurs_conformes, 0)
+  const totalIndicateurs = criteres.reduce((s, c) => s + c.indicateurs_total, 0)
 
   return (
     <div className="space-y-6">
@@ -105,19 +38,19 @@ export default function IndicateursTab() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#777777]">Taux de conformité</p>
-              <p className="text-2xl font-bold text-[#111111]">{tauxConformite}%</p>
+              <p className="text-sm text-[#777777]">Score global</p>
+              <p className="text-2xl font-bold text-[#111111]">{score_global}%</p>
             </div>
             <Award className="w-8 h-8 text-primary" />
           </div>
-          <ProgressBar value={tauxConformite} className="mt-2" />
+          <ProgressBar value={score_global} className="mt-2" />
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-[#777777]">Indicateurs</p>
-              <p className="text-2xl font-bold text-[#111111]">{indicateursConformes}/{totalIndicateurs}</p>
+              <p className="text-2xl font-bold text-[#111111]">{totalIndicateursConformes}/{totalIndicateurs}</p>
             </div>
             <Target className="w-8 h-8 text-[#10B981]" />
           </div>
@@ -126,116 +59,125 @@ export default function IndicateursTab() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#777777]">Critères</p>
-              <p className="text-2xl font-bold text-[#111111]">7/7</p>
+              <p className="text-sm text-[#777777]">Formations</p>
+              <p className="text-2xl font-bold text-[#111111]">{stats?.nb_formations || 0}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-[#10B981]" />
+            <FileText className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#777777]">Non-conformes</p>
-              <p className="text-2xl font-bold text-[#FF2D78]">{totalIndicateurs - indicateursConformes}</p>
+              <p className="text-sm text-[#777777]">Satisfaction</p>
+              <p className="text-2xl font-bold text-[#10B981]">{stats?.taux_satisfaction || 0}%</p>
             </div>
-            <AlertTriangle className="w-8 h-8 text-[#FF2D78]" />
+            <Users className="w-8 h-8 text-[#10B981]" />
           </div>
         </Card>
       </div>
 
       {/* Alerte conformité */}
-      {tauxConformite < 100 && (
+      {score_global < 80 && (
         <Card className="p-4 border-[#FF8C42]/30 bg-[#FFF3E8]">
           <div className="flex items-center gap-3">
             <AlertTriangle className="w-5 h-5 text-[#FF8C42] shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-[#FF8C42]">
-                Attention : {totalIndicateurs - indicateursConformes} indicateurs non conformes
+                Score de conformité insuffisant ({score_global}%)
               </p>
               <p className="text-sm text-[#FF8C42]">
-                Travaillez sur ces points avant votre prochain audit Qualiopi.
+                Objectif minimum : 80% pour passer l'audit Qualiopi sereinement.
               </p>
             </div>
-            <Button size="sm" variant="outline" className="border-amber-300 text-[#FF8C42] hover:bg-[#FFF3E8]">
-              Plan d'action
-            </Button>
           </div>
         </Card>
       )}
 
-      {/* Liste des critères */}
+      {/* Données clés */}
+      {stats && (
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+          <Card className="p-3 text-center">
+            <p className="text-xs text-[#777777]">Sessions</p>
+            <p className="text-lg font-bold text-[#111111]">{stats.nb_sessions}</p>
+          </Card>
+          <Card className="p-3 text-center">
+            <p className="text-xs text-[#777777]">Inscriptions</p>
+            <p className="text-lg font-bold text-[#111111]">{stats.nb_inscriptions}</p>
+          </Card>
+          <Card className="p-3 text-center">
+            <p className="text-xs text-[#777777]">Certificats</p>
+            <p className="text-lg font-bold text-[#10B981]">{stats.nb_certificats}</p>
+          </Card>
+          <Card className="p-3 text-center">
+            <p className="text-xs text-[#777777]">Présence</p>
+            <p className="text-lg font-bold text-[#111111]">{stats.taux_presence}%</p>
+          </Card>
+          <Card className="p-3 text-center">
+            <p className="text-xs text-[#777777]">Réclamations</p>
+            <p className="text-lg font-bold text-[#FF2D78]">{stats.nb_reclamations}</p>
+          </Card>
+          <Card className="p-3 text-center">
+            <p className="text-xs text-[#777777]">Formatrices</p>
+            <p className="text-lg font-bold text-[#111111]">{stats.nb_formatrices}</p>
+          </Card>
+        </div>
+      )}
+
+      {/* Liste des 7 critères */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {CRITERES_QUALIOPI.map((critere) => {
-          const conformes = critere.indicateurs.filter(i => i.conforme).length
-          const total = critere.indicateurs.length
-          const pourcentage = Math.round((conformes / total) * 100)
-          const isSelected = selectedCritere === critere.id
+        {criteres.map((critere) => {
+          const pourcentage = critere.score
+          const isSelected = selectedCritere === critere.numero
 
           return (
             <Card
-              key={critere.id}
+              key={critere.numero}
               className={`p-6 cursor-pointer transition-all hover:shadow-md ${
                 isSelected ? 'ring-2 ring-primary border-primary' : ''
               }`}
-              onClick={() => setSelectedCritere(isSelected ? null : critere.id)}
+              onClick={() => setSelectedCritere(isSelected ? null : critere.numero)}
             >
               <div className="space-y-4">
-                {/* En-tête */}
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold text-[#111111] mb-1">
-                      {critere.titre}
+                      Critère {critere.numero} — {critere.label}
                     </h3>
-                    <p className="text-xs text-[#777777]">{critere.description}</p>
                   </div>
                   <Badge
-                    variant={pourcentage === 100 ? 'success' : pourcentage >= 75 ? 'warning' : 'error'}
-                    className="ml-3"
+                    className={
+                      pourcentage >= 80 ? 'bg-[#ECFDF5] text-[#10B981]' :
+                      pourcentage >= 50 ? 'bg-[#FFF3E8] text-[#FF8C42]' :
+                      'bg-[#FFE0EF] text-[#FF2D78]'
+                    }
                   >
-                    {conformes}/{total}
+                    {critere.indicateurs_conformes}/{critere.indicateurs_total}
                   </Badge>
                 </div>
 
-                {/* Barre de progression */}
                 <ProgressBar
                   value={pourcentage}
                   className="h-2"
-                  color={pourcentage === 100 ? 'var(--color-success)' : pourcentage >= 75 ? '#F59E0B' : '#EF4444'}
+                  color={pourcentage >= 80 ? 'var(--color-success)' : pourcentage >= 50 ? '#FF8C42' : '#FF2D78'}
                 />
 
-                {/* Détail des indicateurs si sélectionné */}
-                {isSelected && (
-                  <div className="space-y-2 pt-2 border-t border-[#F4F0EB]">
-                    {critere.indicateurs.map((indicateur) => (
-                      <div key={indicateur.id} className="flex items-center justify-between text-xs">
-                        <span className="text-[#3A3A3A] flex-1">{indicateur.titre}</span>
-                        {indicateur.conforme ? (
-                          <CheckCircle className="w-4 h-4 text-[#10B981] ml-2" />
-                        ) : (
-                          <AlertTriangle className="w-4 h-4 text-[#FF2D78] ml-2" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <div className="flex items-center justify-between text-xs text-[#777777]">
+                  <span>Score : {pourcentage}%</span>
+                  <span>{critere.indicateurs_conformes} conforme{critere.indicateurs_conformes > 1 ? 's' : ''} sur {critere.indicateurs_total}</span>
+                </div>
               </div>
             </Card>
           )
         })}
       </div>
 
-      {/* Actions */}
-      <div className="flex justify-center gap-4">
-        <Button variant="outline">
-          <FileText className="w-4 h-4 mr-2" />
-          Générer rapport
-        </Button>
-        <Button>
-          <Users className="w-4 h-4 mr-2" />
-          Planifier audit
-        </Button>
-      </div>
+      {/* Dernière mise à jour */}
+      {data?.updated_at && (
+        <p className="text-xs text-[#999999] text-center">
+          Dernière actualisation : {new Date(data.updated_at).toLocaleString('fr-FR')}
+        </p>
+      )}
     </div>
   )
 }
