@@ -322,9 +322,27 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
     case 'invoice.payment_failed': {
       const invoice = event.data.object as Stripe.Invoice
       const inscriptionId = invoice.metadata?.inscription_id
+
+      // Gestion échec paiement inscription
       if (inscriptionId) {
         await supabase.from('inscriptions').update({ paiement_statut: 'LITIGE' }).eq('id', inscriptionId)
         await supabase.from('factures').update({ statut: 'EN_RETARD' }).eq('stripe_invoice_id', invoice.id)
+      }
+
+      // Gestion échec paiement abonnement
+      if (invoice.subscription) {
+        const subscriptionId = invoice.subscription as string
+        await supabase.from('activites').insert({
+          type: 'SYSTEME',
+          titre: 'Échec paiement abonnement',
+          description: `Facture ${invoice.number} — Tentative de paiement échouée`,
+          metadata: {
+            invoice_id: invoice.id,
+            subscription_id: subscriptionId,
+            amount: invoice.amount_due,
+            attempt_count: invoice.attempt_count,
+          },
+        })
       }
       break
     }
@@ -347,6 +365,128 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
       }
       break
     }
+
+    // ============================================================
+    // ABONNEMENTS SAAS — Nouveaux événements pour les plans
+    // ============================================================
+    case 'customer.subscription.created': {
+      const subscription = event.data.object as Stripe.Subscription
+      const customerId = subscription.customer as string
+      const userId = subscription.metadata?.userId
+      const planId = subscription.metadata?.planId
+
+      if (userId && planId) {
+        // Mettre à jour les métadonnées de l'utilisateur avec le plan SaaS
+        await supabase.auth.admin.updateUserById(userId, {
+          user_metadata: {
+            subscription_id: subscription.id,
+            plan: planId,
+            subscription_status: subscription.status,
+            subscription_created: subscription.created,
+            current_period_end: subscription.current_period_end,
+          }
+        })
+
+        // Logger l'activité
+        await supabase.from('activites').insert({
+          type: 'SYSTEME',
+          titre: `Abonnement ${planId} créé`,
+          description: `Souscription au plan ${planId} (${subscription.id})`,
+          metadata: {
+            subscription_id: subscription.id,
+            plan: planId,
+            amount: subscription.items.data[0]?.price?.unit_amount || 0,
+            interval: subscription.items.data[0]?.price?.recurring?.interval,
+          },
+        })
+      }
+      break
+    }
+
+    case 'customer.subscription.updated': {
+      const subscription = event.data.object as Stripe.Subscription
+      const userId = subscription.metadata?.userId
+      const planId = subscription.metadata?.planId
+
+      if (userId) {
+        // Mettre à jour les métadonnées de l'utilisateur
+        await supabase.auth.admin.updateUserById(userId, {
+          user_metadata: {
+            subscription_id: subscription.id,
+            plan: planId,
+            subscription_status: subscription.status,
+            current_period_end: subscription.current_period_end,
+            cancel_at_period_end: subscription.cancel_at_period_end,
+          }
+        })
+
+        // Logger le changement
+        await supabase.from('activites').insert({
+          type: 'SYSTEME',
+          titre: `Abonnement ${planId || 'inconnu'} mis à jour`,
+          description: `Statut: ${subscription.status}, Fin: ${new Date(subscription.current_period_end * 1000).toLocaleDateString('fr-FR')}`,
+          metadata: {
+            subscription_id: subscription.id,
+            status: subscription.status,
+            cancel_at_period_end: subscription.cancel_at_period_end,
+          },
+        })
+      }
+      break
+    }
+
+    case 'customer.subscription.deleted': {
+      const subscription = event.data.object as Stripe.Subscription
+      const userId = subscription.metadata?.userId
+      const planId = subscription.metadata?.planId
+
+      if (userId) {
+        // Revenir au plan gratuit
+        await supabase.auth.admin.updateUserById(userId, {
+          user_metadata: {
+            subscription_id: null,
+            plan: 'decouverte',
+            subscription_status: 'canceled',
+            canceled_at: Math.floor(Date.now() / 1000),
+          }
+        })
+
+        // Logger l'annulation
+        await supabase.from('activites').insert({
+          type: 'SYSTEME',
+          titre: `Abonnement ${planId || 'inconnu'} annulé`,
+          description: `Retour au plan Découverte gratuit`,
+          metadata: {
+            subscription_id: subscription.id,
+            canceled_at: Math.floor(Date.now() / 1000),
+          },
+        })
+      }
+      break
+    }
+
+    case 'invoice.payment_succeeded': {
+      const invoice = event.data.object as Stripe.Invoice
+      if (invoice.subscription && invoice.billing_reason === 'subscription_cycle') {
+        // Paiement d'abonnement réussi
+        const subscriptionId = invoice.subscription as string
+
+        await supabase.from('activites').insert({
+          type: 'PAIEMENT',
+          titre: 'Paiement abonnement réussi',
+          description: `Facture ${invoice.number} — ${(invoice.amount_paid / 100).toFixed(2)}€`,
+          metadata: {
+            invoice_id: invoice.id,
+            subscription_id: subscriptionId,
+            amount: invoice.amount_paid,
+            period_start: invoice.period_start,
+            period_end: invoice.period_end,
+          },
+        })
+      }
+      break
+    }
+
 
     default:
       // Event non géré

@@ -49,6 +49,10 @@ export type StatutCommande = 'NOUVELLE' | 'PREPAREE' | 'EXPEDIEE' | 'LIVREE' | '
 
 export type StatutModele = 'INSCRIT' | 'CONFIRME' | 'PRESENT' | 'ABSENT' | 'ANNULE'
 
+// Types abonnements SaaS
+export type PlanSaaS = 'decouverte' | 'pro' | 'expert' | 'clinique'
+export type SubscriptionStatus = 'active' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'past_due' | 'trialing' | 'unpaid'
+
 export type TypeFacture = 'devis' | 'facture' | 'avoir'
 export type StatutFacture = 'BROUILLON' | 'ENVOYEE' | 'PAYEE' | 'EN_RETARD' | 'ANNULEE' | 'PARTIELLEMENT_PAYEE'
 
