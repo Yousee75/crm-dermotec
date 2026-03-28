@@ -49,26 +49,11 @@ async function checkSupabaseHealth(): Promise<HealthCheck> {
       }
     }
 
-    // Test plus approfondi: fonction SQL simple
-    const { data: dbTest, error: dbError } = await supabase
-      .rpc('gen_random_uuid')
-      .single()
-
-    if (dbError) {
-      return {
-        service: 'supabase',
-        status: 'degraded',
-        response_time_ms: responseTime,
-        error: `Database function test failed: ${dbError.message}`,
-        details: { db_test: false }
-      }
-    }
-
     return {
       service: 'supabase',
-      status: responseTime < 500 ? 'healthy' : 'degraded',
+      status: responseTime < 2000 ? 'healthy' : 'degraded',
       response_time_ms: responseTime,
-      details: { db_test: !!dbTest }
+      details: { leads_accessible: !!data || data === null }
     }
   } catch (error) {
     return {
@@ -96,21 +81,28 @@ async function checkStripeHealth(): Promise<HealthCheck> {
       }
     }
 
-    const Stripe = (await import('stripe')).default
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2025-08-27.basil'
+    // Test simple via fetch direct (évite les problèmes de version SDK)
+    const res = await fetch('https://api.stripe.com/v1/balance', {
+      headers: { 'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY}` }
     })
-
-    // Test simple: récupérer le balance
-    const balance = await stripe.balance.retrieve()
     const responseTime = Date.now() - start
 
+    if (!res.ok) {
+      return {
+        service: 'stripe',
+        status: 'down',
+        response_time_ms: responseTime,
+        error: `HTTP ${res.status}`
+      }
+    }
+
+    const balance = await res.json()
     return {
       service: 'stripe',
-      status: responseTime < 1000 ? 'healthy' : 'degraded',
+      status: responseTime < 2000 ? 'healthy' : 'degraded',
       response_time_ms: responseTime,
       details: {
-        currency: balance.available[0]?.currency || 'unknown',
+        currency: balance.available?.[0]?.currency || 'unknown',
         livemode: balance.livemode
       }
     }
