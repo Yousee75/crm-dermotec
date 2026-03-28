@@ -8,13 +8,16 @@ import { NextRequest } from 'next/server'
 import { getAuthUser, requireAuth } from '@/lib/api/auth'
 import type { User } from '@supabase/supabase-js'
 
-// Mock Supabase
+// Mock Supabase — return the SAME object reference every time
+const mockGetUser = vi.fn()
+const mockSupabaseInstance = {
+  auth: {
+    getUser: mockGetUser,
+  },
+}
+
 vi.mock('@supabase/ssr', () => ({
-  createServerClient: vi.fn(() => ({
-    auth: {
-      getUser: vi.fn(),
-    },
-  })),
+  createServerClient: vi.fn(() => mockSupabaseInstance),
 }))
 
 describe('getAuthUser', () => {
@@ -52,7 +55,7 @@ describe('getAuthUser', () => {
   })
 
   it('retourne utilisateur authentifié valide', async () => {
-    const mockUser: User = {
+    const mockUserData: User = {
       id: 'user-123',
       email: 'test@dermotec.fr',
       aud: 'authenticated',
@@ -63,27 +66,21 @@ describe('getAuthUser', () => {
       user_metadata: {},
     }
 
-    const { createServerClient } = await import('@supabase/ssr')
-    const mockSupabase = (createServerClient as any)() as any
-    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: mockUser } })
+    mockGetUser.mockResolvedValue({ data: { user: mockUserData } })
 
     const result = await getAuthUser(mockRequest)
-    expect(result).toEqual(mockUser)
+    expect(result).toEqual(mockUserData)
   })
 
   it('retourne null si pas d\'utilisateur', async () => {
-    const { createServerClient } = await import('@supabase/ssr')
-    const mockSupabase = (createServerClient as any)() as any
-    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: null } })
+    mockGetUser.mockResolvedValue({ data: { user: null } })
 
     const result = await getAuthUser(mockRequest)
     expect(result).toBeNull()
   })
 
   it('retourne null si erreur Supabase', async () => {
-    const { createServerClient } = await import('@supabase/ssr')
-    const mockSupabase = (createServerClient as any)() as any
-    mockSupabase.auth.getUser.mockRejectedValue(new Error('Network error'))
+    mockGetUser.mockRejectedValue(new Error('Network error'))
 
     await expect(getAuthUser(mockRequest)).rejects.toThrow('Network error')
   })
@@ -120,9 +117,7 @@ describe('requireAuth', () => {
   })
 
   it('retourne erreur 401 si non authentifié', async () => {
-    const { createServerClient } = await import('@supabase/ssr')
-    const mockSupabase = (createServerClient as any)() as any
-    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: null } })
+    mockGetUser.mockResolvedValue({ data: { user: null } })
 
     const result = await requireAuth(mockRequest)
 
@@ -150,9 +145,7 @@ describe('requireAuth', () => {
       user_metadata: {},
     }
 
-    const { createServerClient } = await import('@supabase/ssr')
-    const mockSupabase = (createServerClient as any)() as any
-    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: mockUser } })
+    mockGetUser.mockResolvedValue({ data: { user: mockUser } })
 
     const result = await requireAuth(mockRequest)
 
@@ -162,10 +155,7 @@ describe('requireAuth', () => {
 
   it('gère les cookies vides gracieusement', async () => {
     mockRequest.cookies.getAll = vi.fn(() => [])
-
-    const { createServerClient } = await import('@supabase/ssr')
-    const mockSupabase = (createServerClient as any)() as any
-    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: null } })
+    mockGetUser.mockResolvedValue({ data: { user: null } })
 
     const result = await requireAuth(mockRequest)
 
@@ -177,10 +167,7 @@ describe('requireAuth', () => {
     mockRequest.cookies.getAll = vi.fn(() => [
       { name: 'sb-access-token', value: 'invalid-token' },
     ])
-
-    const { createServerClient } = await import('@supabase/ssr')
-    const mockSupabase = (createServerClient as any)() as any
-    mockSupabase.auth.getUser.mockResolvedValue({ data: { user: null } })
+    mockGetUser.mockResolvedValue({ data: { user: null } })
 
     const result = await requireAuth(mockRequest)
 

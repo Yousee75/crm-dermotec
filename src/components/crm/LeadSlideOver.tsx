@@ -56,7 +56,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
           const transitions = VALID_TRANSITIONS[lead.statut] || []
 
           return (
-            <div className="divide-y divide-[#FAF8F5]">
+            <div className="divide-y divide-[#FAFAFA]">
               {/* Header prospect */}
               <div className="p-5">
                 <div className="flex items-center gap-3 mb-3">
@@ -86,7 +86,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
                             <button key={sk} onClick={() => {
                               changeStatut.mutate({ id: lead.id, statut: sk })
                               setShowStatut(false)
-                            }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-[#FAF8F5] text-left">
+                            }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-[#FAFAFA] text-left">
                               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: STATUTS_LEAD[sk].color }} />{STATUTS_LEAD[sk].label}
                             </button>
                           ))}
@@ -131,7 +131,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
                     </div>
                   )}
                   {lead.inscriptions?.map((insc: any) => (
-                    <div key={insc.id} className="flex items-center justify-between text-xs p-2 bg-[#FAF8F5] rounded-lg">
+                    <div key={insc.id} className="flex items-center justify-between text-xs p-2 bg-[#FAFAFA] rounded-lg">
                       <span className="text-accent font-medium truncate">{insc.session?.formation?.nom || 'Formation'}</span>
                       <Badge variant={insc.paiement_statut === 'PAYE' ? 'success' : 'warning'} size="sm">
                         {insc.paiement_statut === 'PAYE' ? 'Payé' : 'En attente'}
@@ -159,7 +159,7 @@ export function LeadSlideOver({ leadId, onClose }: LeadSlideOverProps) {
                 <div className="p-5">
                   <div className="flex flex-wrap gap-1">
                     {lead.tags.map((tag: string) => (
-                      <span key={tag} className="px-2 py-0.5 bg-[#F4F0EB] text-text-secondary rounded-full text-[10px]">{tag}</span>
+                      <span key={tag} className="px-2 py-0.5 bg-[#F5F5F5] text-text-secondary rounded-full text-[10px]">{tag}</span>
                     ))}
                   </div>
                 </div>

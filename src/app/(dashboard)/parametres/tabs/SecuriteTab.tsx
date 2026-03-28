@@ -207,9 +207,9 @@ export default function SecuriteTab() {
 
         <div className="space-y-3">
           {SESSIONS_ACTIVES.map((session) => (
-            <div key={session.id} className="flex items-center justify-between p-4 bg-[#FAF8F5] rounded-lg">
+            <div key={session.id} className="flex items-center justify-between p-4 bg-[#FAFAFA] rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white rounded-lg border border-[#EEEEEE] flex items-center justify-center">
+                <div className="w-10 h-10 bg-white rounded-lg border border-[#F0F0F0] flex items-center justify-center">
                   <Shield className="w-5 h-5 text-[#777777]" />
                 </div>
                 <div>

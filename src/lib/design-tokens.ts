@@ -1,7 +1,7 @@
 // ============================================================
 // CRM SATOREA — Design Tokens v5 "Palette Officielle"
 // Source : satorea_light_options.html — Option B "Blanc Chaud"
-// Orange #FF5C00 · Rose #FF2D78 · Noir #1A1A1A · Papier #FAF8F5
+// Orange #FF5C00 · Rose #FF2D78 · Noir #1A1A1A · Papier #FAFAFA
 // ============================================================
 
 export const tokens = {
@@ -33,8 +33,8 @@ export const tokens = {
 
     surface: {
       default: '#FFFFFF',
-      hover: '#FAF8F5',         // Blanc chaud papier
-      active: '#F4F0EB',
+      hover: '#FAFAFA',         // Blanc chaud papier
+      active: '#F5F5F5',
       border: '#EEEEEE',
     },
 

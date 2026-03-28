@@ -57,7 +57,7 @@ export function PasswordGenerator() {
     <div className="space-y-4">
       {/* Résultat */}
       {password && (
-        <div className="flex items-center gap-2 bg-[#FAF8F5] border border-[#EEEEEE] rounded-lg p-3">
+        <div className="flex items-center gap-2 bg-[#FAFAFA] border border-[#F0F0F0] rounded-lg p-3">
           <code className="flex-1 text-sm font-mono break-all select-all">{password}</code>
           <button onClick={copy} className="p-2 hover:bg-[#EEEEEE] rounded-lg shrink-0">
             {copied ? <Check size={16} className="text-[#10B981]" /> : <Copy size={16} className="text-[#999999]" />}
@@ -94,7 +94,7 @@ export function PasswordGenerator() {
               type="checkbox"
               checked={options[opt.key as keyof typeof options]}
               onChange={e => setOptions(prev => ({ ...prev, [opt.key]: e.target.checked }))}
-              className="rounded border-[#EEEEEE] text-primary focus:ring-primary"
+              className="rounded border-[#F0F0F0] text-primary focus:ring-primary"
             />
             {opt.label}
           </label>

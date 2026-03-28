@@ -42,7 +42,7 @@ function Badge({ variant = 'default', children }: {
   children: React.ReactNode
 }) {
   const variants = {
-    default: 'bg-surface-hover text-[#777777] border-[#EEEEEE]',
+    default: 'bg-surface-hover text-[#777777] border-[#F0F0F0]',
     success: 'bg-success-50 text-success border-success/20',
     warning: 'bg-warning-50 text-warning border-warning/20',
     error: 'bg-error-50 text-error border-error/20',
@@ -75,7 +75,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-[#EEEEEE] p-4">
+      <div className="bg-white rounded-xl border border-[#F0F0F0] p-4">
         <div className="animate-pulse">
           <div className="h-6 bg-[#EEEEEE] rounded w-1/3 mb-4"></div>
           <div className="h-32 bg-[#EEEEEE] rounded"></div>
@@ -99,9 +99,9 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
   const intelligence = intelligenceResponse.intelligence as IntelligenceComplete
 
   return (
-    <div className="bg-white rounded-xl border border-[#EEEEEE] overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#F0F0F0] overflow-hidden">
       {/* Header avec onglets */}
-      <div className="border-b border-[#EEEEEE]">
+      <div className="border-b border-[#F0F0F0]">
         <div className="flex overflow-x-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon
@@ -115,7 +115,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
                   'min-w-0 touch-none', // Touch target
                   isActive
                     ? 'border-primary text-primary bg-primary-50'
-                    : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
+                    : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#F0F0F0]'
                 )}
                 style={{ minHeight: '44px' }} // Touch target
               >
@@ -234,7 +234,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
                 </div>
 
                 {intelligence.concurrents_zone.slice(0, 5).map((concurrent, index) => (
-                  <div key={index} className="flex items-center justify-between py-2 border-b border-[#F4F0EB] last:border-0">
+                  <div key={index} className="flex items-center justify-between py-2 border-b border-[#F0F0F0] last:border-0">
                     <div className="flex items-center gap-2">
                       <Building2 className="w-4 h-4 text-[#999999]" />
                       <span className="text-sm text-[#111111]">{concurrent.nom || 'Non renseigné'}</span>
@@ -312,7 +312,7 @@ export function EnrichmentTabs({ leadId }: EnrichmentTabsProps) {
                 <p className="text-sm font-medium text-[#3A3A3A] mb-2">Aides disponibles</p>
                 <div className="space-y-2">
                   {intelligence.aides_disponibles.map((aide, index) => (
-                    <div key={index} className="bg-white border border-[#EEEEEE] rounded-lg p-3">
+                    <div key={index} className="bg-white border border-[#F0F0F0] rounded-lg p-3">
                       <div className="flex items-start justify-between">
                         <div>
                           <p className="text-sm font-medium text-[#111111]">{aide.nom}</p>

@@ -54,8 +54,10 @@ export default function PrivacySettingsPage() {
   async function handleExportData() {
     setExporting(true)
     try {
-      // TODO: Récupérer le lead_id depuis le user connecté ou le state
-      const leadId = 'user-lead-id' // Placeholder - à implémenter
+      // Récupérer le user_id depuis Supabase Auth
+      const { data: { user } } = await supabase.auth.getUser()
+      const leadId = user?.id || ''
+      if (!leadId) { toast.error('Utilisateur non connecté'); setExporting(false); return }
       const res = await fetch(`/api/gdpr/export?lead_id=${leadId}`, { method: 'GET' })
       if (!res.ok) throw new Error('Export échoué')
       const data = await res.json()
@@ -79,8 +81,10 @@ export default function PrivacySettingsPage() {
   async function handleDeleteData() {
     setDeleting(true)
     try {
-      // TODO: Récupérer le lead_id depuis le user connecté ou le state
-      const leadId = 'user-lead-id' // Placeholder - à implémenter
+      // Récupérer le user_id depuis Supabase Auth
+      const { data: { user } } = await supabase.auth.getUser()
+      const leadId = user?.id || ''
+      if (!leadId) { toast.error('Utilisateur non connecté'); setDeleting(false); return }
       const res = await fetch('/api/gdpr/delete', {
         method: 'POST',
         headers: {
@@ -139,7 +143,7 @@ export default function PrivacySettingsPage() {
         <CardContent className="p-6 pt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {DROITS_RGPD.map((d) => (
-              <div key={d.article} className="flex items-start gap-3 p-3 rounded-lg border border-[#F4F0EB] hover:bg-[#FAF8F5] transition">
+              <div key={d.article} className="flex items-start gap-3 p-3 rounded-lg border border-[#F0F0F0] hover:bg-[#FAFAFA] transition">
                 <CheckCircle className="w-4 h-4 text-[#10B981] mt-0.5 shrink-0" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
@@ -171,7 +175,7 @@ export default function PrivacySettingsPage() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-3 mt-6 pt-4 border-t border-[#F4F0EB]">
+          <div className="flex flex-wrap gap-3 mt-6 pt-4 border-t border-[#F0F0F0]">
             <Button
               variant="outline"
               size="sm"
@@ -205,7 +209,7 @@ export default function PrivacySettingsPage() {
           </div>
         </CardHeader>
         <CardContent className="p-6 pt-4">
-          <div className="bg-[#FAF8F5] rounded-lg p-4 mb-4">
+          <div className="bg-[#FAFAFA] rounded-lg p-4 mb-4">
             <div className="flex items-start gap-3">
               <Info className="w-4 h-4 text-primary mt-0.5 shrink-0" />
               <div className="text-sm text-[#777777]">
@@ -223,7 +227,7 @@ export default function PrivacySettingsPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg border border-[#EEEEEE]">
+          <div className="flex items-center justify-between p-3 rounded-lg border border-[#F0F0F0]">
             <div>
               <p className="text-sm font-medium text-accent">Collecter les données d&apos;usage</p>
               <p className="text-xs text-[#777777]">Aide Satorea à améliorer le produit pour vous</p>
@@ -257,8 +261,8 @@ export default function PrivacySettingsPage() {
             {SOUS_TRAITANTS.map((st) => {
               const Icon = st.icon
               return (
-                <div key={st.nom} className="flex items-center gap-3 p-3 rounded-lg border border-[#F4F0EB]">
-                  <div className="p-2 rounded-lg bg-[#FAF8F5] shrink-0">
+                <div key={st.nom} className="flex items-center gap-3 p-3 rounded-lg border border-[#F0F0F0]">
+                  <div className="p-2 rounded-lg bg-[#FAFAFA] shrink-0">
                     <Icon className="w-4 h-4 text-[#777777]" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -285,13 +289,13 @@ export default function PrivacySettingsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#F4F0EB]">
+                <tr className="border-b border-[#F0F0F0]">
                   <th className="text-left py-2 text-xs font-semibold text-[#777777] uppercase">Type de données</th>
                   <th className="text-left py-2 text-xs font-semibold text-[#777777] uppercase">Durée</th>
                   <th className="text-left py-2 text-xs font-semibold text-[#777777] uppercase hidden sm:table-cell">Base légale</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {CONSERVATION.map((c) => (
                   <tr key={c.type}>
                     <td className="py-2.5 text-[#3A3A3A]">{c.type}</td>
@@ -322,7 +326,7 @@ export default function PrivacySettingsPage() {
                 key={doc.href}
                 href={doc.href}
                 target="_blank"
-                className="flex items-center justify-between p-3 rounded-lg border border-[#F4F0EB] hover:bg-[#FAF8F5] transition group"
+                className="flex items-center justify-between p-3 rounded-lg border border-[#F0F0F0] hover:bg-[#FAFAFA] transition group"
               >
                 <span className="text-sm text-[#3A3A3A] group-hover:text-primary">{doc.label}</span>
                 <ExternalLink className="w-3.5 h-3.5 text-[#999999] group-hover:text-primary" />
@@ -330,7 +334,7 @@ export default function PrivacySettingsPage() {
             ))}
           </div>
 
-          <div className="mt-4 p-3 bg-[#FAF8F5] rounded-lg">
+          <div className="mt-4 p-3 bg-[#FAFAFA] rounded-lg">
             <p className="text-xs text-[#777777]">
               <strong>DPO :</strong> dpo@satorea.fr — <strong>Réclamation CNIL :</strong>{' '}
               <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">

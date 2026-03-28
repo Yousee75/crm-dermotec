@@ -151,7 +151,7 @@ export default function PortailBadges({ data }: PortailBadgesProps) {
                 transition={{ delay: index * 0.08 }}
                 className="flex flex-col items-center gap-1.5 p-3 rounded-xl text-center"
                 style={{
-                  backgroundColor: badge.earned ? badge.bgColor : '#F4F0EB',
+                  backgroundColor: badge.earned ? badge.bgColor : '#F5F5F5',
                   opacity: badge.earned ? 1 : 0.5,
                 }}
                 title={badge.description}
@@ -205,7 +205,7 @@ export default function PortailBadges({ data }: PortailBadgesProps) {
             >
               <button
                 onClick={dismissAchievement}
-                className="absolute top-3 right-3 p-1 rounded-full hover:bg-[#F4F0EB]"
+                className="absolute top-3 right-3 p-1 rounded-full hover:bg-[#F5F5F5]"
               >
                 <X size={16} style={{ color: '#999999' }} />
               </button>

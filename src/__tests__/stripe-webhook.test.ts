@@ -9,13 +9,15 @@ import { POST } from '@/app/api/stripe/webhook/route'
 
 // Mock Stripe
 const mockConstructEvent = vi.fn()
-vi.mock('stripe', () => ({
-  default: vi.fn().mockImplementation(() => ({
+vi.mock('stripe', () => {
+  const MockStripe = vi.fn().mockImplementation(() => ({
     webhooks: {
       constructEvent: mockConstructEvent,
     },
-  })),
-}))
+  }))
+  MockStripe.default = MockStripe
+  return { default: MockStripe, __esModule: true }
+})
 
 // Mock Supabase
 const mockSupabaseQuery = {

@@ -252,7 +252,7 @@ export default function SettingsPage() {
         'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
         isActive
           ? 'bg-[#E0EBF5] text-[#6B8CAE] border border-[#6B8CAE]/30'
-          : 'text-[#777777] hover:text-[#111111] hover:bg-[#FAF8F5]'
+          : 'text-[#777777] hover:text-[#111111] hover:bg-[#FAFAFA]'
       )}
     >
       <Icon className="w-4 h-4" />
@@ -269,7 +269,7 @@ export default function SettingsPage() {
 
       {/* Navigation onglets */}
       <Card>
-        <div className="p-4 border-b border-[#F4F0EB]">
+        <div className="p-4 border-b border-[#F0F0F0]">
           <div className="flex flex-wrap gap-2">
             <TabButton
               id="general"
@@ -333,7 +333,7 @@ export default function SettingsPage() {
                         {item.copyable && (
                           <button
                             onClick={() => copyToClipboard(item.value)}
-                            className="p-1 hover:bg-[#F4F0EB] rounded text-[#999999] hover:text-[#777777] transition"
+                            className="p-1 hover:bg-[#F5F5F5] rounded text-[#999999] hover:text-[#777777] transition"
                           >
                             <Copy className="w-3 h-3" />
                           </button>
@@ -346,7 +346,7 @@ export default function SettingsPage() {
 
               <div>
                 <h4 className="text-sm font-medium text-[#3A3A3A] mb-3">Logo</h4>
-                <div className="border-2 border-dashed border-[#EEEEEE] rounded-lg p-6 text-center">
+                <div className="border-2 border-dashed border-[#F0F0F0] rounded-lg p-6 text-center">
                   <Upload className="w-8 h-8 text-[#999999] mx-auto mb-2" />
                   <p className="text-sm text-[#777777]">Glisser-déposer ou cliquer pour uploader</p>
                   <p className="text-xs text-[#999999] mt-1">PNG, JPG jusqu'à 2MB</p>
@@ -361,7 +361,7 @@ export default function SettingsPage() {
                     <input
                       type="time"
                       defaultValue="09:00"
-                      className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg"
+                      className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg"
                     />
                   </div>
                   <div>
@@ -369,7 +369,7 @@ export default function SettingsPage() {
                     <input
                       type="time"
                       defaultValue="18:00"
-                      className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg"
+                      className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg"
                     />
                   </div>
                 </div>
@@ -403,7 +403,7 @@ export default function SettingsPage() {
               ) : (
                 <div className="space-y-3">
                   {emailTemplates?.map(template => (
-                    <div key={template.id} className="border border-[#EEEEEE] rounded-lg p-4">
+                    <div key={template.id} className="border border-[#F0F0F0] rounded-lg p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
@@ -434,7 +434,7 @@ export default function SettingsPage() {
                               {template.variables.map(variable => (
                                 <code
                                   key={variable}
-                                  className="px-2 py-1 bg-[#F4F0EB] text-xs rounded text-[#3A3A3A]"
+                                  className="px-2 py-1 bg-[#F5F5F5] text-xs rounded text-[#3A3A3A]"
                                 >
                                   {variable}
                                 </code>
@@ -465,7 +465,7 @@ export default function SettingsPage() {
 
               <div className="space-y-4">
                 {INTEGRATIONS.map(integration => (
-                  <div key={integration.id} className="border border-[#EEEEEE] rounded-lg p-4">
+                  <div key={integration.id} className="border border-[#F0F0F0] rounded-lg p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center', integration.bgColor)}>
@@ -489,7 +489,7 @@ export default function SettingsPage() {
                             href="https://dashboard.stripe.com"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 hover:bg-[#F4F0EB] rounded-lg transition"
+                            className="p-2 hover:bg-[#F5F5F5] rounded-lg transition"
                           >
                             <Globe className="w-4 h-4 text-[#999999]" />
                           </a>
@@ -522,7 +522,7 @@ export default function SettingsPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-[#EEEEEE]">
+                      <tr className="border-b border-[#F0F0F0]">
                         <th className="text-left py-3 px-4 font-medium text-[#3A3A3A]">Nom</th>
                         <th className="text-left py-3 px-4 font-medium text-[#3A3A3A]">Type</th>
                         <th className="text-left py-3 px-4 font-medium text-[#3A3A3A]">Contact</th>
@@ -535,7 +535,7 @@ export default function SettingsPage() {
                     </thead>
                     <tbody>
                       {partenaires?.map(partenaire => (
-                        <tr key={partenaire.id} className="border-b border-[#F4F0EB]">
+                        <tr key={partenaire.id} className="border-b border-[#F0F0F0]">
                           <td className="py-3 px-4 font-medium text-[#111111]">{partenaire.nom}</td>
                           <td className="py-3 px-4">
                             <Badge variant="outline" size="sm">
@@ -606,7 +606,7 @@ export default function SettingsPage() {
                       { label: 'Inscriptions', table: 'inscriptions' },
                       { label: 'Financements', table: 'financements' }
                     ].map(item => (
-                      <div key={item.table} className="flex items-center justify-between p-3 border border-[#EEEEEE] rounded-lg">
+                      <div key={item.table} className="flex items-center justify-between p-3 border border-[#F0F0F0] rounded-lg">
                         <div>
                           <p className="font-medium text-[#111111]">{item.label}</p>
                           <p className="text-sm text-[#777777]">Export CSV</p>
@@ -627,7 +627,7 @@ export default function SettingsPage() {
                 {/* Import */}
                 <div>
                   <h4 className="font-medium text-[#111111] mb-4">Importer des données</h4>
-                  <div className="border-2 border-dashed border-[#EEEEEE] rounded-lg p-6 text-center">
+                  <div className="border-2 border-dashed border-[#F0F0F0] rounded-lg p-6 text-center">
                     <Upload className="w-8 h-8 text-[#999999] mx-auto mb-2" />
                     <p className="text-sm text-[#777777] mb-1">Glisser-déposer un fichier CSV</p>
                     <p className="text-xs text-[#999999]">Format leads uniquement</p>
@@ -644,7 +644,7 @@ export default function SettingsPage() {
                   <h4 className="font-medium text-[#111111] mb-4">Statistiques base de données</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     {Object.entries(dbStats).map(([table, count]) => (
-                      <div key={table} className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+                      <div key={table} className="text-center p-4 bg-[#FAFAFA] rounded-lg">
                         <p className="text-2xl font-bold text-[#6B8CAE]">{count}</p>
                         <p className="text-sm text-[#777777] capitalize">{table}</p>
                       </div>

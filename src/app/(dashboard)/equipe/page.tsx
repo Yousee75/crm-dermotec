@@ -192,7 +192,7 @@ export default function EquipePage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-[#777777]">Membres actifs</p>
@@ -204,7 +204,7 @@ export default function EquipePage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-[#777777]">Formatrices</p>
@@ -216,7 +216,7 @@ export default function EquipePage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-[#777777]">Commerciaux</p>
@@ -228,7 +228,7 @@ export default function EquipePage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-[#EEEEEE] p-6">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-[#777777]">Sessions ce mois</p>
@@ -254,7 +254,7 @@ export default function EquipePage() {
                 'inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition',
                 isActive
                   ? 'bg-primary text-white border-primary'
-                  : 'bg-white text-[#3A3A3A] border-[#EEEEEE] hover:border-primary/50'
+                  : 'bg-white text-[#3A3A3A] border-[#F0F0F0] hover:border-primary/50'
               )}
             >
               <Icon className="w-4 h-4" />
@@ -268,7 +268,7 @@ export default function EquipePage() {
       {loadingEquipe ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-lg border border-[#EEEEEE] p-6 animate-pulse">
+            <div key={i} className="bg-white rounded-lg border border-[#F0F0F0] p-6 animate-pulse">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-[#EEEEEE] rounded-full" />
                 <div className="space-y-2">
@@ -284,7 +284,7 @@ export default function EquipePage() {
           ))}
         </div>
       ) : filteredEquipe.length === 0 ? (
-        <div className="bg-white rounded-lg border border-[#EEEEEE] p-12 text-center">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-12 text-center">
           <Users className="w-12 h-12 text-[#999999] mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-[#111111] mb-2">
             {roleFilter === 'all' ? 'Aucun membre' : `Aucun ${ROLE_FILTERS.find(f => f.value === roleFilter)?.label.toLowerCase()}`}
@@ -308,7 +308,7 @@ export default function EquipePage() {
             <div
               key={membre.id}
               className={cn(
-                'bg-white rounded-lg border border-[#EEEEEE] p-6 cursor-pointer hover:border-primary/50 transition',
+                'bg-white rounded-lg border border-[#F0F0F0] p-6 cursor-pointer hover:border-primary/50 transition',
                 !membre.is_active && 'opacity-60'
               )}
               onClick={() => setSelectedMember(membre)}
@@ -333,7 +333,7 @@ export default function EquipePage() {
                     'p-1.5 rounded-lg transition',
                     membre.is_active
                       ? 'text-[#10B981] hover:bg-[#ECFDF5]'
-                      : 'text-[#999999] hover:bg-[#FAF8F5]'
+                      : 'text-[#999999] hover:bg-[#FAFAFA]'
                   )}
                 >
                   {membre.is_active ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
@@ -369,7 +369,7 @@ export default function EquipePage() {
                     {membre.specialites.slice(0, 3).map((spec) => (
                       <span
                         key={spec}
-                        className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-[#F4F0EB] text-[#3A3A3A]"
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-[#F5F5F5] text-[#3A3A3A]"
                       >
                         {spec}
                       </span>
@@ -385,7 +385,7 @@ export default function EquipePage() {
 
               {/* Formatrice extras */}
               {membre.role === 'formatrice' && (
-                <div className="space-y-3 pt-3 border-t border-[#F4F0EB]">
+                <div className="space-y-3 pt-3 border-t border-[#F0F0F0]">
                   {membre.cv_url && (
                     <a
                       href={membre.cv_url}
@@ -417,7 +417,7 @@ export default function EquipePage() {
               )}
 
               {/* Action */}
-              <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#F4F0EB]">
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#F0F0F0]">
                 <span className="text-sm text-[#777777]">Voir le profil</span>
                 <ChevronRight className="w-4 h-4 text-[#999999]" />
               </div>
@@ -430,7 +430,7 @@ export default function EquipePage() {
       {selectedMember && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="p-6 border-b border-[#EEEEEE]">
+            <div className="p-6 border-b border-[#F0F0F0]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <TeamAvatar membre={selectedMember} size="lg" />

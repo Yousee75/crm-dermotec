@@ -151,7 +151,7 @@ export default function OutilsPage() {
             <button
               key={t.id}
               onClick={() => setActiveTool(t.id)}
-              className="group text-left bg-white border border-[#EEEEEE] rounded-xl p-5 hover:shadow-md hover:border-[#EEEEEE] transition-all duration-200"
+              className="group text-left bg-white border border-[#F0F0F0] rounded-xl p-5 hover:shadow-md hover:border-[#F0F0F0] transition-all duration-200"
             >
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"

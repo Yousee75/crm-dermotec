@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AccessibilitePage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
       {/* Hero */}
       <section className="py-16" style={{ backgroundColor: '#111111' }}>
         <div className="container mx-auto px-4 max-w-4xl text-center">
@@ -111,7 +111,7 @@ export default function AccessibilitePage() {
               { name: 'Cap Emploi', desc: 'Accompagnement vers et dans l\'emploi', url: 'https://www.capemploi.net' },
               { name: 'MDPH', desc: 'Maison départementale des personnes handicapées', url: 'https://mdph.fr' },
             ].map((partner, i) => (
-              <div key={i} className="p-4 rounded-xl" style={{ backgroundColor: '#FAF8F5' }}>
+              <div key={i} className="p-4 rounded-xl" style={{ backgroundColor: '#FAFAFA' }}>
                 <h4 className="font-bold text-sm mb-1" style={{ color: '#111111' }}>{partner.name}</h4>
                 <p className="text-xs mb-2" style={{ color: '#777777' }}>{partner.desc}</p>
                 <a href={partner.url} target="_blank" rel="noopener noreferrer"

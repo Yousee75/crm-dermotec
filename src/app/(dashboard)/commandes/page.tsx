@@ -245,7 +245,7 @@ export default function CommandesPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Rechercher par n° commande, nom, email..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
               />
             </div>
           </div>
@@ -253,7 +253,7 @@ export default function CommandesPage() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value as StatutCommande | '')}
-            className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+            className="px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Tous les statuts</option>
             {Object.entries(STATUT_CONFIG).map(([key, config]) => (
@@ -268,7 +268,7 @@ export default function CommandesPage() {
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
               placeholder="01/01/2024 - 31/01/2024"
-              className="pl-10 pr-4 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none w-48"
+              className="pl-10 pr-4 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none w-48"
             />
           </div>
         </div>
@@ -282,7 +282,7 @@ export default function CommandesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#FAF8F5]/80 border-b border-[#F4F0EB]">
+                <tr className="bg-[#FAFAFA]/80 border-b border-[#F0F0F0]">
                   <th className="w-8 px-4 py-3"></th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">
                     # Commande
@@ -310,7 +310,7 @@ export default function CommandesPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {!commandes.length ? (
                   <tr>
                     <td colSpan={9}>
@@ -334,7 +334,7 @@ export default function CommandesPage() {
                         <td className="px-4 py-3">
                           <button
                             onClick={() => toggleRowExpansion(commande.id)}
-                            className="p-1 rounded hover:bg-[#F4F0EB] transition-colors"
+                            className="p-1 rounded hover:bg-[#F5F5F5] transition-colors"
                           >
                             {isExpanded ? (
                               <ChevronDown className="w-4 h-4 text-[#999999]" />
@@ -375,7 +375,7 @@ export default function CommandesPage() {
                         {/* Produits */}
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center justify-center w-6 h-6 bg-[#F4F0EB] rounded-full text-xs font-medium text-[#777777]">
+                            <span className="inline-flex items-center justify-center w-6 h-6 bg-[#F5F5F5] rounded-full text-xs font-medium text-[#777777]">
                               {commande.produits.length}
                             </span>
                             <span className="text-sm text-[#777777]">
@@ -460,7 +460,7 @@ export default function CommandesPage() {
 
                       {/* Expanded row details */}
                       {isExpanded && (
-                        <tr className="bg-[#FAF8F5]/50">
+                        <tr className="bg-[#FAFAFA]/50">
                           <td colSpan={9} className="px-4 py-4">
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                               {/* Produits */}
@@ -540,7 +540,7 @@ export default function CommandesPage() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="px-4 py-3 border-t border-[#F4F0EB] flex items-center justify-between">
+            <div className="px-4 py-3 border-t border-[#F0F0F0] flex items-center justify-between">
               <div className="text-sm text-[#777777]">
                 Page {page} sur {totalPages} · {response?.totalCount} commandes
               </div>
@@ -609,7 +609,7 @@ export default function CommandesPage() {
               <select
                 name="transporteur"
                 defaultValue={trackingModal?.transporteur || ''}
-                className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+                className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
               >
                 <option value="">Sélectionner un transporteur...</option>
                 <option value="La Poste">La Poste</option>

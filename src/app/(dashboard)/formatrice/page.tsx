@@ -198,7 +198,7 @@ function SessionDuJour({ session }: { session: Session }) {
           {inscriptions.length > 0 ? (
             <div className="flex flex-wrap gap-3">
               {inscriptions.map((ins: Inscription) => (
-                <div key={ins.id} className="flex items-center gap-2 bg-[#FAF8F5] rounded-lg px-3 py-2">
+                <div key={ins.id} className="flex items-center gap-2 bg-[#FAFAFA] rounded-lg px-3 py-2">
                   <Avatar
                     name={`${ins.lead?.prenom || ''} ${ins.lead?.nom || ''}`}
                     src={ins.lead?.photo_url}
@@ -388,7 +388,7 @@ function StagiairesRecentsTable({ sessions }: { sessions: Session[] }) {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-[#F4F0EB]">
+          <tr className="border-b border-[#F0F0F0]">
             <th className="text-left py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide">Stagiaire</th>
             <th className="text-left py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide hidden md:table-cell">Formation</th>
             <th className="text-left py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide">Date</th>
@@ -396,9 +396,9 @@ function StagiairesRecentsTable({ sessions }: { sessions: Session[] }) {
             <th className="text-center py-3 px-3 text-xs font-medium text-[#777777] uppercase tracking-wide">Satisfaction</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#FAF8F5]">
+        <tbody className="divide-y divide-[#FAFAFA]">
           {stagiaires.map((s) => (
-            <tr key={s.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+            <tr key={s.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
               <td className="py-3 px-3">
                 <div className="flex items-center gap-2">
                   <Avatar name={`${s.prenom} ${s.nom}`} size="xs" />
@@ -583,10 +583,10 @@ export default function FormatricePage() {
       {sessionDuJour ? (
         <SessionDuJour session={sessionDuJour} />
       ) : (
-        <Card className="border-dashed border-[#EEEEEE]">
+        <Card className="border-dashed border-[#F0F0F0]">
           <CardContent>
             <div className="flex items-center gap-3 py-2">
-              <div className="p-2.5 rounded-xl bg-[#FAF8F5]">
+              <div className="p-2.5 rounded-xl bg-[#FAFAFA]">
                 <Calendar className="w-5 h-5 text-[#999999]" />
               </div>
               <div>

@@ -27,7 +27,7 @@ export function KpiCard({ icon: Icon, value, label, sublabel, prefix, suffix, co
 
   return (
     <div className={cn(
-      'bg-white border border-[#EEEEEE] rounded-xl p-3 md:p-4 text-center relative overflow-hidden shadow-sm',
+      'bg-white border border-[#F0F0F0] rounded-xl p-3 md:p-4 text-center relative overflow-hidden shadow-sm',
       'hover:shadow-[0_12px_32px_rgba(255,92,0,0.14)] hover:border-[#FF5C00]/20 transition-all duration-300',
       className
     )}>

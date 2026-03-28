@@ -199,8 +199,13 @@ export function SmartActionBar() {
           icon: UserPlus,
           variant: 'secondary',
           onClick: () => {
-            // TODO: Ouvrir le dialog d'inscription
-            toast.info('Fonctionnalité à venir')
+            // Naviguer vers le formulaire d'inscription avec le lead pré-rempli
+            const leadId = path.split('/lead/')[1]?.split('/')[0]
+            if (leadId) {
+              window.location.href = `/inscription?lead_id=${leadId}`
+            } else {
+              window.location.href = '/inscription'
+            }
           }
         }
       ]
@@ -215,8 +220,8 @@ export function SmartActionBar() {
           icon: Plus,
           variant: 'primary',
           onClick: () => {
-            // TODO: Ouvrir le dialog de création de session
-            toast.info('Fonctionnalité à venir')
+            const event = new CustomEvent('open-create-session')
+            window.dispatchEvent(event)
           }
         },
         {
@@ -240,8 +245,8 @@ export function SmartActionBar() {
           icon: Send,
           variant: 'primary',
           onClick: () => {
-            // TODO: Ouvrir l'éditeur de message
-            toast.info('Fonctionnalité à venir')
+            const event = new CustomEvent('open-compose-message')
+            window.dispatchEvent(event)
           }
         }
       ]
@@ -272,7 +277,7 @@ export function SmartActionBar() {
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         className="md:hidden fixed bottom-[72px] left-0 right-0 px-4 pb-2 z-40"
       >
-        <div className="bg-white/95 backdrop-blur-sm shadow-lg border border-[#EEEEEE] rounded-2xl p-3">
+        <div className="bg-white/95 backdrop-blur-sm shadow-lg border border-[#F0F0F0] rounded-2xl p-3">
           <div className="flex gap-2 overflow-x-auto">
             {actions.map((action) => (
               <button
@@ -282,7 +287,7 @@ export function SmartActionBar() {
                   'flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200',
                   action.variant === 'primary'
                     ? 'bg-[#FF5C00] text-white hover:bg-[#E65200] shadow-sm'
-                    : 'bg-white border border-[#EEEEEE] text-[#111111] hover:bg-[#FAF8F5] hover:border-[#FF5C00]/20'
+                    : 'bg-white border border-[#F0F0F0] text-[#111111] hover:bg-[#FAFAFA] hover:border-[#FF5C00]/20'
                 )}
               >
                 <action.icon className="w-4 h-4" />
@@ -301,7 +306,7 @@ export function SmartActionBar() {
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         className="hidden md:block fixed bottom-6 right-6 z-40"
       >
-        <div className="bg-white/95 backdrop-blur-sm shadow-lg border border-[#EEEEEE] rounded-2xl p-3">
+        <div className="bg-white/95 backdrop-blur-sm shadow-lg border border-[#F0F0F0] rounded-2xl p-3">
           <div className="flex gap-2">
             {actions.map((action) => (
               <button
@@ -311,7 +316,7 @@ export function SmartActionBar() {
                   'flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
                   action.variant === 'primary'
                     ? 'bg-[#FF5C00] text-white hover:bg-[#E65200] shadow-sm hover:shadow-md'
-                    : 'bg-white border border-[#EEEEEE] text-[#111111] hover:bg-[#FAF8F5] hover:border-[#FF5C00]/20 hover:text-[#FF5C00]'
+                    : 'bg-white border border-[#F0F0F0] text-[#111111] hover:bg-[#FAFAFA] hover:border-[#FF5C00]/20 hover:text-[#FF5C00]'
                 )}
               >
                 <action.icon className="w-4 h-4" />

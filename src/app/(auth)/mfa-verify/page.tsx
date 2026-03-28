@@ -263,7 +263,7 @@ export default function MFAVerifyPage() {
                   value={digit}
                   onChange={(e) => handleCodeChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-14 text-center text-2xl font-mono border-2 border-[#EEEEEE] rounded-xl focus:border-primary focus:ring-0 focus:outline-none transition-colors"
+                  className="w-12 h-14 text-center text-2xl font-mono border-2 border-[#F0F0F0] rounded-xl focus:border-primary focus:ring-0 focus:outline-none transition-colors"
                   disabled={loading}
                 />
               ))}

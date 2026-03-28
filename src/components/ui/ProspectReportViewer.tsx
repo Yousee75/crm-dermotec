@@ -118,7 +118,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
   }
 
   if (isLoading) {
-    return <div className="bg-white rounded-xl border p-6 animate-pulse"><div className="h-4 bg-[#EEEEEE] rounded w-1/2 mb-3" /><div className="h-3 bg-[#F4F0EB] rounded w-3/4 mb-2" /><div className="h-3 bg-[#F4F0EB] rounded w-2/3" /></div>
+    return <div className="bg-white rounded-xl border p-6 animate-pulse"><div className="h-4 bg-[#EEEEEE] rounded w-1/2 mb-3" /><div className="h-3 bg-[#F5F5F5] rounded w-3/4 mb-2" /><div className="h-3 bg-[#F5F5F5] rounded w-2/3" /></div>
   }
 
   if (!n) return null
@@ -127,7 +127,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
   const badgeVariant = n.classification === 'CHAUD' ? 'success' as const : n.classification === 'TIEDE' ? 'warning' as const : 'default' as const
 
   return (
-    <div className="bg-white rounded-xl border border-[#EEEEEE] overflow-hidden shadow-sm">
+    <div className="bg-white rounded-xl border border-[#F0F0F0] overflow-hidden shadow-sm">
       {/* ── HEADER ── */}
       <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-accent to-accent-light">
         <div className="flex items-center gap-2.5">
@@ -176,9 +176,9 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         </div>
       </div>
 
-      <div className="divide-y divide-[#F4F0EB]">
+      <div className="divide-y divide-[#F0F0F0]">
         {/* ── VERDICT (toujours visible) ── */}
-        <div className={cn('px-4 py-3', n.classification === 'CHAUD' ? 'bg-emerald-50' : n.classification === 'TIEDE' ? 'bg-[#FFF3E8]' : 'bg-[#FAF8F5]')}>
+        <div className={cn('px-4 py-3', n.classification === 'CHAUD' ? 'bg-emerald-50' : n.classification === 'TIEDE' ? 'bg-[#FFF3E8]' : 'bg-[#FAFAFA]')}>
           <p className={cn('text-sm font-semibold', n.classification === 'CHAUD' ? 'text-emerald-800' : n.classification === 'TIEDE' ? 'text-[#FF8C42]' : 'text-[#3A3A3A]')}>
             {n.verdict}
           </p>
@@ -198,7 +198,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
         <CollapsibleSection icon={<TrendingUp />} title="Sa situation business" id="business" expanded={expandedSections} toggle={toggleSection}>
           <EditableText value={n.situation_business} editing={editing} onChange={(v) => editedNarrative && setEditedNarrative({ ...editedNarrative, situation_business: v })} />
           {n.reputation_visibilite && (
-            <div className="mt-2 pt-2 border-t border-[#F4F0EB]">
+            <div className="mt-2 pt-2 border-t border-[#F0F0F0]">
               <p className="text-[10px] font-semibold text-[#999999] uppercase tracking-wider mb-1">Réputation & visibilité</p>
               <EditableText value={n.reputation_visibilite} editing={editing} onChange={(v) => editedNarrative && setEditedNarrative({ ...editedNarrative, reputation_visibilite: v })} />
             </div>
@@ -267,7 +267,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
             {n.formations_recommandees?.map((f, i) => (
               <div key={i} className={cn(
                 'rounded-lg p-3 border',
-                f.niveau_priorite === 'principal' ? 'bg-sky-50 border-sky-200' : 'bg-[#FAF8F5] border-[#EEEEEE]'
+                f.niveau_priorite === 'principal' ? 'bg-sky-50 border-sky-200' : 'bg-[#FAFAFA] border-[#F0F0F0]'
               )}>
                 <div className="flex items-start justify-between mb-1">
                   <div className="flex items-center gap-2">
@@ -334,7 +334,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                   </thead>
                   <tbody>
                     {reportData.intelligence.plateformes_avis.map((p: any, i: number) => (
-                      <tr key={i} className="border-b border-[#F4F0EB]">
+                      <tr key={i} className="border-b border-[#F0F0F0]">
                         <td className="py-2 font-medium text-[#1A1A1A]">{p.plateforme}</td>
                         <td className="py-2">
                           {p.note && (
@@ -355,7 +355,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                   </tbody>
                 </table>
               </div>
-              <div className="text-xs text-[#777777] pt-2 border-t border-[#F4F0EB]">
+              <div className="text-xs text-[#777777] pt-2 border-t border-[#F0F0F0]">
                 Total avis : {reportData.intelligence.plateformes_avis.reduce((acc: number, p: any) => acc + (p.nb_avis || 0), 0)}
               </div>
             </div>
@@ -397,7 +397,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
               )}
               <div className="space-y-1">
                 {reportData.intelligence.concurrents_zone.slice(0, 5).map((c: any, i: number) => (
-                  <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-[#FAF8F5] rounded-lg">
+                  <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-[#FAFAFA] rounded-lg">
                     <div>
                       <span className="text-xs font-medium text-[#1A1A1A]">{c.nom || 'Sans nom'}</span>
                       <span className="ml-2 text-xs text-[#777777] capitalize">{c.type}</span>
@@ -509,7 +509,7 @@ function CollapsibleSection({ icon, title, id, expanded, toggle, children }: {
   const isOpen = expanded.has(id)
   return (
     <div>
-      <button onClick={() => toggle(id)} className="flex items-center justify-between w-full px-4 py-2.5 hover:bg-[#FAF8F5] transition">
+      <button onClick={() => toggle(id)} className="flex items-center justify-between w-full px-4 py-2.5 hover:bg-[#FAFAFA] transition">
         <div className="flex items-center gap-2">
           <span className="text-primary w-4 h-4 [&>svg]:w-4 [&>svg]:h-4">{icon}</span>
           <span className="text-xs font-semibold text-accent">{title}</span>
@@ -524,14 +524,14 @@ function CollapsibleSection({ icon, title, id, expanded, toggle, children }: {
 function EditableText({ value, editing, onChange }: { value: string; editing: boolean; onChange: (v: string) => void }) {
   if (editing) {
     return <textarea value={value} onChange={(e) => onChange(e.target.value)}
-      className="w-full text-xs text-[#1A1A1A] bg-white border border-[#EEEEEE] rounded-lg p-2 resize-none focus:outline-none focus:border-primary min-h-[60px]" />
+      className="w-full text-xs text-[#1A1A1A] bg-white border border-[#F0F0F0] rounded-lg p-2 resize-none focus:outline-none focus:border-primary min-h-[60px]" />
   }
   return <p className="text-xs text-[#3A3A3A] leading-relaxed">{value}</p>
 }
 
 function MiniCard({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="bg-[#FAF8F5] rounded-lg p-2.5 border border-[#F4F0EB]">
+    <div className="bg-[#FAFAFA] rounded-lg p-2.5 border border-[#F0F0F0]">
       <p className="text-[10px] text-[#999999] mb-0.5">{icon} {label}</p>
       <p className="text-xs text-[#1A1A1A]">{value}</p>
     </div>
@@ -546,7 +546,7 @@ function ScriptLine({ label, text, color }: { label: string; text: string; color
     violet: 'border-l-[#FF2D78] bg-[#FFE0EF]',
   }
   return (
-    <div className={cn('border-l-3 rounded-r-lg p-2.5', colors[color] || 'border-l-gray-400 bg-[#FAF8F5]')}>
+    <div className={cn('border-l-3 rounded-r-lg p-2.5', colors[color] || 'border-l-gray-400 bg-[#FAFAFA]')}>
       <p className="text-[10px] font-bold text-[#777777] uppercase tracking-wider mb-0.5">{label}</p>
       <p className="text-xs text-[#1A1A1A] italic">« {text} »</p>
     </div>
@@ -566,7 +566,7 @@ function ActionStep({ num, text, color }: { num: number; text: string; color: st
   const colors: Record<string, string> = { emerald: 'bg-emerald-500', sky: 'bg-sky-500', violet: 'bg-[#FFE0EF]0' }
   return (
     <div className="flex items-start gap-2.5">
-      <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0 mt-0.5', colors[color] || 'bg-[#FAF8F5]0')}>
+      <div className={cn('w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0 mt-0.5', colors[color] || 'bg-[#FAFAFA]0')}>
         {num}
       </div>
       <p className="text-xs text-[#1A1A1A]">{text}</p>

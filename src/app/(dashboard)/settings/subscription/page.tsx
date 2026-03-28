@@ -146,16 +146,16 @@ function SubscriptionSkeleton() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12">
       <div>
-        <div className="h-7 w-40 bg-[#F4F0EB] rounded-lg animate-pulse" />
-        <div className="h-4 w-72 bg-[#F4F0EB] rounded-lg animate-pulse mt-2" />
+        <div className="h-7 w-40 bg-[#F5F5F5] rounded-lg animate-pulse" />
+        <div className="h-4 w-72 bg-[#F5F5F5] rounded-lg animate-pulse mt-2" />
       </div>
       {[1, 2, 3].map((i) => (
         <Card key={i} padding="lg">
           <CardContent>
             <div className="space-y-4">
-              <div className="h-5 w-32 bg-[#F4F0EB] rounded animate-pulse" />
-              <div className="h-4 w-full bg-[#F4F0EB] rounded animate-pulse" />
-              <div className="h-4 w-3/4 bg-[#F4F0EB] rounded animate-pulse" />
+              <div className="h-5 w-32 bg-[#F5F5F5] rounded animate-pulse" />
+              <div className="h-4 w-full bg-[#F5F5F5] rounded animate-pulse" />
+              <div className="h-4 w-3/4 bg-[#F5F5F5] rounded animate-pulse" />
             </div>
           </CardContent>
         </Card>
@@ -392,7 +392,7 @@ export default function SubscriptionPage() {
                   className={`relative rounded-xl border-2 p-4 transition-shadow ${
                     isCurrent
                       ? 'border-primary bg-primary/5'
-                      : 'border-[#F4F0EB] hover:border-[#EEEEEE]'
+                      : 'border-[#F0F0F0] hover:border-[#F0F0F0]'
                   }`}
                 >
                   {isCurrent && (
@@ -481,7 +481,7 @@ export default function SubscriptionPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#F4F0EB]">
+                  <tr className="border-b border-[#F0F0F0]">
                     <th className="text-left py-2 pr-4 font-medium text-[#777777]">Date</th>
                     <th className="text-left py-2 pr-4 font-medium text-[#777777]">Montant</th>
                     <th className="text-left py-2 pr-4 font-medium text-[#777777]">Statut</th>
@@ -490,7 +490,7 @@ export default function SubscriptionPage() {
                 </thead>
                 <tbody>
                   {invoices.map((inv) => (
-                    <tr key={inv.id} className="border-b border-[#FAF8F5] last:border-0">
+                    <tr key={inv.id} className="border-b border-[#FAFAFA] last:border-0">
                       <td className="py-3 pr-4 text-[#3A3A3A]">
                         {new Date(inv.created * 1000).toLocaleDateString('fr-FR', {
                           day: 'numeric',

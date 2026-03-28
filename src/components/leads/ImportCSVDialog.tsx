@@ -370,7 +370,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                 'relative border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition',
                 isDragging
                   ? 'border-primary bg-primary/5'
-                  : 'border-[#EEEEEE] hover:border-[#EEEEEE] hover:bg-[#FAF8F5]/50',
+                  : 'border-[#F0F0F0] hover:border-[#F0F0F0] hover:bg-[#FAFAFA]/50',
               )}
             >
               <input
@@ -453,7 +453,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                         'w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30',
                         required && !mapping[key]
                           ? 'border-red-300 focus:border-red-500'
-                          : 'border-[#EEEEEE] focus:border-primary',
+                          : 'border-[#F0F0F0] focus:border-primary',
                       )}
                     >
                       <option value="">-- Non mappe --</option>
@@ -499,10 +499,10 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
               Voici les 5 premieres lignes telles qu'elles seront importees :
             </p>
 
-            <div className="overflow-x-auto rounded-lg border border-[#EEEEEE]">
+            <div className="overflow-x-auto rounded-lg border border-[#F0F0F0]">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="bg-[#FAF8F5] border-b border-[#EEEEEE]">
+                  <tr className="bg-[#FAFAFA] border-b border-[#F0F0F0]">
                     <th className="px-3 py-2 text-left font-medium text-[#777777] w-10">#</th>
                     {CRM_FIELDS.filter(f => mapping[f.key]).map(f => (
                       <th key={f.key} className="px-3 py-2 text-left font-medium text-[#3A3A3A]">
@@ -513,7 +513,7 @@ export function ImportCSVDialog({ open, onClose, onImported }: ImportCSVDialogPr
                 </thead>
                 <tbody>
                   {previewRows.map((row, i) => (
-                    <tr key={i} className="border-b border-[#F4F0EB] hover:bg-[#FAF8F5]/50">
+                    <tr key={i} className="border-b border-[#F0F0F0] hover:bg-[#FAFAFA]/50">
                       <td className="px-3 py-2 text-[#999999]">{i + 1}</td>
                       {CRM_FIELDS.filter(f => mapping[f.key]).map(f => (
                         <td key={f.key} className="px-3 py-2 text-[#3A3A3A]">

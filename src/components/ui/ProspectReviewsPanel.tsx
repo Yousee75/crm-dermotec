@@ -52,7 +52,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
   })
 
   if (isLoading) {
-    return <div className="bg-white rounded-xl border p-4 animate-pulse"><div className="h-4 bg-[#EEEEEE] rounded w-1/3 mb-2" /><div className="h-3 bg-[#F4F0EB] rounded w-2/3" /></div>
+    return <div className="bg-white rounded-xl border p-4 animate-pulse"><div className="h-4 bg-[#EEEEEE] rounded w-1/3 mb-2" /><div className="h-3 bg-[#F5F5F5] rounded w-2/3" /></div>
   }
 
   if (!reviews || reviews.length === 0) return null
@@ -82,9 +82,9 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
   const displayed = showAll ? filtered : filtered.slice(0, 5)
 
   return (
-    <div className="bg-white rounded-xl border border-[#EEEEEE] overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#F0F0F0] overflow-hidden">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-[#F4F0EB] bg-[#FAF8F5]/50">
+      <div className="px-4 py-3 border-b border-[#F0F0F0] bg-[#FAFAFA]/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MessageSquare className="w-4 h-4 text-primary" />
@@ -105,7 +105,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       </div>
 
       {/* Stats row */}
-      <div className="px-4 py-2 border-b border-[#FAF8F5] flex items-center gap-4 text-[11px] text-[#777777]">
+      <div className="px-4 py-2 border-b border-[#FAFAFA] flex items-center gap-4 text-[11px] text-[#777777]">
         <span>{withText.length} avec texte</span>
         <span>{withPhotos.length} avec photo</span>
         <span>{withOwnerAnswer.length} réponses proprio ({totalReviews > 0 ? Math.round((withOwnerAnswer.length / totalReviews) * 100) : 0}%)</span>
@@ -113,7 +113,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       </div>
 
       {/* Distribution bars */}
-      <div className="px-4 py-3 border-b border-[#FAF8F5]">
+      <div className="px-4 py-3 border-b border-[#FAFAFA]">
         <div className="flex items-center gap-3">
           {distribution.map(d => (
             <button
@@ -121,7 +121,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
               onClick={() => setFilterStars(filterStars === d.stars ? null : d.stars)}
               className={cn(
                 'flex-1 rounded-lg p-1.5 text-center transition border',
-                filterStars === d.stars ? 'border-primary bg-sky-50' : 'border-transparent hover:bg-[#FAF8F5]'
+                filterStars === d.stars ? 'border-primary bg-sky-50' : 'border-transparent hover:bg-[#FAFAFA]'
               )}
             >
               <div className="flex items-center justify-center gap-0.5 mb-1">
@@ -149,9 +149,9 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       </div>
 
       {/* Liste des avis */}
-      <div className="divide-y divide-[#FAF8F5]">
+      <div className="divide-y divide-[#FAFAFA]">
         {displayed.map(review => (
-          <div key={review.id} className="px-4 py-3 hover:bg-[#FAF8F5]/50 transition">
+          <div key={review.id} className="px-4 py-3 hover:bg-[#FAFAFA]/50 transition">
             {/* Header avis */}
             <div className="flex items-start justify-between mb-1.5">
               <div className="flex items-center gap-2">
@@ -193,7 +193,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
                   <Image key={i} src={url} alt="" width={64} height={64} className="rounded-lg object-cover" unoptimized />
                 ))}
                 {review.metadata.review_img_urls.length > 3 && (
-                  <div className="w-16 h-16 rounded-lg bg-[#F4F0EB] flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-lg bg-[#F5F5F5] flex items-center justify-center">
                     <span className="text-xs text-[#777777]">+{review.metadata.review_img_urls.length - 3}</span>
                   </div>
                 )}
@@ -228,7 +228,7 @@ export function ProspectReviewsPanel({ leadId }: ProspectReviewsPanelProps) {
       {filtered.length > 5 && (
         <button
           onClick={() => setShowAll(!showAll)}
-          className="w-full px-4 py-2.5 text-xs text-primary font-medium hover:bg-[#FAF8F5] transition border-t border-[#F4F0EB] flex items-center justify-center gap-1"
+          className="w-full px-4 py-2.5 text-xs text-primary font-medium hover:bg-[#FAFAFA] transition border-t border-[#F0F0F0] flex items-center justify-center gap-1"
         >
           {showAll ? <><ChevronUp className="w-3 h-3" /> Réduire</> : <><ChevronDown className="w-3 h-3" /> Voir les {filtered.length - 5} autres avis</>}
         </button>

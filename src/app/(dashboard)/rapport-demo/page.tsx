@@ -229,7 +229,7 @@ export default function RapportDemoPage() {
   // Mode generating
   if (mode === 'generating') {
     return (
-      <div className="flex items-center justify-center h-dvh bg-[#FAF8F5]">
+      <div className="flex items-center justify-center h-dvh bg-[#FAFAFA]">
         <div className="text-center">
           <Loader2 className="w-10 h-10 text-[#FF5C00] animate-spin mx-auto" />
           <div className="mt-4 text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>

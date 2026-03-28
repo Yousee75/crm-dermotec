@@ -62,7 +62,7 @@ export function PomodoroTimer() {
             key={p.label}
             onClick={() => selectPreset(i)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              preset === i ? 'text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+              preset === i ? 'text-white' : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
             }`}
             style={preset === i ? { backgroundColor: p.color } : undefined}
           >
@@ -95,7 +95,7 @@ export function PomodoroTimer() {
       <div className="flex items-center justify-center gap-3">
         <button
           onClick={reset}
-          className="p-3 bg-[#F4F0EB] hover:bg-[#EEEEEE] rounded-full transition-colors"
+          className="p-3 bg-[#F5F5F5] hover:bg-[#EEEEEE] rounded-full transition-colors"
         >
           <RotateCcw size={18} className="text-[#777777]" />
         </button>

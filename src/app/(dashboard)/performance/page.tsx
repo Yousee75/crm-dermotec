@@ -46,7 +46,7 @@ export default function PerformancePage() {
             Suivi en temps réel de l&apos;équipe commerciale
           </p>
         </div>
-        <div className="flex gap-1 bg-[#F4F0EB] rounded-lg p-1">
+        <div className="flex gap-1 bg-[#F5F5F5] rounded-lg p-1">
           {(['mois', 'trimestre', 'annee'] as Periode[]).map((p) => (
             <button
               key={p}
@@ -66,7 +66,7 @@ export default function PerformancePage() {
       {isLoading ? (
         <div className="grid grid-cols-4 gap-4">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="h-28 bg-[#F4F0EB] rounded-xl animate-pulse" />
+            <div key={i} className="h-28 bg-[#F5F5F5] rounded-xl animate-pulse" />
           ))}
         </div>
       ) : data ? (
@@ -115,7 +115,7 @@ export default function PerformancePage() {
                 {data.totaux.progression_objectif_global}%
               </span>
             </div>
-            <div className="h-3 bg-[#F4F0EB] rounded-full overflow-hidden">
+            <div className="h-3 bg-[#F5F5F5] rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
@@ -131,7 +131,7 @@ export default function PerformancePage() {
 
           {/* Leaderboard */}
           <div className="bg-white rounded-xl border overflow-hidden">
-            <div className="p-4 border-b bg-[#FAF8F5]">
+            <div className="p-4 border-b bg-[#FAFAFA]">
               <h2 className="font-semibold text-accent flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-[#FF8C42]" />
                 Classement — {periodeLabels[periode]}
@@ -139,7 +139,7 @@ export default function PerformancePage() {
             </div>
             <div className="divide-y">
               {data.commerciaux.map((commercial) => (
-                <div key={commercial.id} className="p-4 hover:bg-[#FAF8F5] transition-colors">
+                <div key={commercial.id} className="p-4 hover:bg-[#FAFAFA] transition-colors">
                   <div className="flex items-center gap-4">
                     {/* Rang */}
                     <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg"
@@ -184,7 +184,7 @@ export default function PerformancePage() {
                       <div>
                         <p className="text-xs text-[#777777]">Objectif</p>
                         <div className="flex items-center gap-2">
-                          <div className="flex-1 h-2 bg-[#F4F0EB] rounded-full overflow-hidden">
+                          <div className="flex-1 h-2 bg-[#F5F5F5] rounded-full overflow-hidden">
                             <div
                               className="h-full rounded-full"
                               style={{
@@ -261,7 +261,7 @@ export default function PerformancePage() {
                     </span>
                     <span className="font-medium">{c.progression_objectif}%</span>
                   </div>
-                  <div className="h-2.5 bg-[#F4F0EB] rounded-full overflow-hidden">
+                  <div className="h-2.5 bg-[#F5F5F5] rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
                       style={{
@@ -274,17 +274,17 @@ export default function PerformancePage() {
 
                 {/* Mini KPIs */}
                 <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="bg-[#FAF8F5] rounded-lg p-2">
+                  <div className="bg-[#FAFAFA] rounded-lg p-2">
                     <p className="text-lg font-bold text-accent">{c.leads_periode}</p>
                     <p className="text-[10px] text-[#777777]">Leads</p>
                   </div>
-                  <div className="bg-[#FAF8F5] rounded-lg p-2">
+                  <div className="bg-[#FAFAFA] rounded-lg p-2">
                     <p className="text-lg font-bold" style={{ color: c.taux_conversion >= 20 ? 'var(--color-success)' : '#F59E0B' }}>
                       {c.taux_conversion}%
                     </p>
                     <p className="text-[10px] text-[#777777]">Conversion</p>
                   </div>
-                  <div className="bg-[#FAF8F5] rounded-lg p-2">
+                  <div className="bg-[#FAFAFA] rounded-lg p-2">
                     <p className="text-lg font-bold text-accent">{c.pipeline_actif}</p>
                     <p className="text-[10px] text-[#777777]">Pipeline</p>
                   </div>
@@ -328,7 +328,7 @@ function KpiCard({ label, value, subvalue, progress, icon, color, alert }: {
       <p className="text-2xl font-bold text-accent">{value}</p>
       <p className="text-xs text-[#777777] mt-1">{subvalue}</p>
       {progress !== undefined && (
-        <div className="mt-2 h-1.5 bg-[#F4F0EB] rounded-full overflow-hidden">
+        <div className="mt-2 h-1.5 bg-[#F5F5F5] rounded-full overflow-hidden">
           <div
             className="h-full rounded-full"
             style={{

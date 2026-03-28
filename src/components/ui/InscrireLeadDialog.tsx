@@ -108,7 +108,7 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                     'w-full text-left p-3 rounded-xl border-2 transition',
                     isSelected
                       ? 'border-primary bg-primary/5'
-                      : 'border-[#F4F0EB] hover:border-[#EEEEEE]'
+                      : 'border-[#F0F0F0] hover:border-[#F0F0F0]'
                   )}
                 >
                   <div className="flex items-start justify-between">
@@ -144,14 +144,14 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
 
         {/* Payment details */}
         {selectedSession && (
-          <div className="space-y-3 pt-3 border-t border-[#F4F0EB]">
+          <div className="space-y-3 pt-3 border-t border-[#F0F0F0]">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <label className="block text-sm font-medium text-[#3A3A3A]">Mode de paiement</label>
                 <select
                   value={modePaiement}
                   onChange={(e) => setModePaiement(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+                  className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
                 >
                   <option value="carte">Carte bancaire</option>
                   <option value="virement">Virement</option>
@@ -168,13 +168,13 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                   max={montantTotal}
                   value={montantFinance}
                   onChange={(e) => setMontantFinance(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none"
                 />
               </div>
             </div>
 
             {/* Summary */}
-            <div className="bg-[#FAF8F5] rounded-xl p-3 space-y-1">
+            <div className="bg-[#FAFAFA] rounded-xl p-3 space-y-1">
               <div className="flex justify-between text-sm">
                 <span className="text-[#777777]">Montant total</span>
                 <span className="font-medium">{montantTotal}€ HT</span>
@@ -185,7 +185,7 @@ export function InscrireLeadDialog({ open, onClose, lead }: Props) {
                   <span className="text-[#10B981] font-medium">-{montantFinance}€</span>
                 </div>
               )}
-              <div className="flex justify-between text-sm font-bold border-t border-[#EEEEEE] pt-1 mt-1">
+              <div className="flex justify-between text-sm font-bold border-t border-[#F0F0F0] pt-1 mt-1">
                 <span>Reste à charge</span>
                 <span className="text-accent">{resteACharge}€</span>
               </div>

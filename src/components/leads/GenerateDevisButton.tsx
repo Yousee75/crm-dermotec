@@ -289,7 +289,7 @@ export function GenerateDevisButton({
                 <select
                   value={selectedFormation}
                   onChange={(e) => handleFormationChange(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                  className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                 >
                   <option value="">-- Choisir une formation --</option>
                   {FORMATIONS_SEED.map(f => (
@@ -309,7 +309,7 @@ export function GenerateDevisButton({
                   <select
                     value={selectedSessionId}
                     onChange={(e) => setSelectedSessionId(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                   >
                     <option value="">-- Pas de session specifique --</option>
                     {sessions.map(s => (
@@ -334,7 +334,7 @@ export function GenerateDevisButton({
                   <select
                     value={financementType}
                     onChange={(e) => setFinancementType(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                   >
                     {FINANCEMENT_TYPES.map(f => (
                       <option key={f.value} value={f.value}>{f.label}</option>
@@ -354,7 +354,7 @@ export function GenerateDevisButton({
                       value={financementMontant}
                       onChange={(e) => setFinancementMontant(e.target.value)}
                       placeholder="Ex: 1500"
-                      className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                      className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                     />
                   </div>
                 )}
@@ -375,7 +375,7 @@ export function GenerateDevisButton({
                         'px-3 py-1.5 rounded-lg text-xs font-medium border transition',
                         echeances === opt.value
                           ? 'bg-primary/10 border-primary text-primary'
-                          : 'bg-white border-[#EEEEEE] text-[#777777] hover:border-[#EEEEEE]'
+                          : 'bg-white border-[#F0F0F0] text-[#777777] hover:border-[#F0F0F0]'
                       )}
                     >
                       {opt.label}
@@ -386,7 +386,7 @@ export function GenerateDevisButton({
 
               {/* Apercu financier */}
               {selectedFormation && formationPrix > 0 && (
-                <Card className="p-4 bg-gradient-to-br from-gray-50 to-[#FFF0E5]/30 border-[#EEEEEE]">
+                <Card className="p-4 bg-gradient-to-br from-gray-50 to-[#FFF0E5]/30 border-[#F0F0F0]">
                   <div className="flex items-center gap-1.5 mb-3">
                     <FileText className="w-4 h-4 text-primary" />
                     <span className="text-xs font-semibold text-accent">Apercu du devis</span>
@@ -400,7 +400,7 @@ export function GenerateDevisButton({
                       <span className="text-[#777777]">TVA (20%)</span>
                       <span>{apercu.tva.toLocaleString('fr-FR')} EUR</span>
                     </div>
-                    <div className="flex justify-between text-xs pt-1 border-t border-[#EEEEEE]">
+                    <div className="flex justify-between text-xs pt-1 border-t border-[#F0F0F0]">
                       <span className="font-bold text-accent">Total TTC</span>
                       <span className="font-bold text-primary">{apercu.ttc.toLocaleString('fr-FR')} EUR</span>
                     </div>
@@ -410,7 +410,7 @@ export function GenerateDevisButton({
                           <span>Prise en charge</span>
                           <span>-{apercu.prise.toLocaleString('fr-FR')} EUR</span>
                         </div>
-                        <div className="flex justify-between text-xs font-bold pt-1 border-t border-[#EEEEEE]">
+                        <div className="flex justify-between text-xs font-bold pt-1 border-t border-[#F0F0F0]">
                           <span className="text-accent">Reste a charge</span>
                           <span className="text-[#FF8C42]">{apercu.reste.toLocaleString('fr-FR')} EUR</span>
                         </div>
@@ -479,7 +479,7 @@ export function GenerateDevisButton({
               </div>
 
               {/* Recap */}
-              <Card className="p-4 bg-[#FAF8F5] border-[#EEEEEE]">
+              <Card className="p-4 bg-[#FAFAFA] border-[#F0F0F0]">
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <div>
                     <span className="text-[#777777]">Total TTC</span>

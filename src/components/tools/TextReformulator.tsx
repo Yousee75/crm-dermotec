@@ -60,7 +60,7 @@ export function TextReformulator() {
             className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
               tone === t.id
                 ? 'bg-action text-white'
-                : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
             }`}
           >
             {t.emoji} {t.label}
@@ -73,7 +73,7 @@ export function TextReformulator() {
         value={input}
         onChange={e => setInput(e.target.value)}
         placeholder="Collez le texte à reformuler..."
-        className="w-full border border-[#EEEEEE] rounded-lg px-4 py-3 text-sm min-h-[100px] resize-y focus:outline-none focus:border-action focus:ring-1 focus:ring-action/30"
+        className="w-full border border-[#F0F0F0] rounded-lg px-4 py-3 text-sm min-h-[100px] resize-y focus:outline-none focus:border-action focus:ring-1 focus:ring-action/30"
       />
 
       {/* Button */}

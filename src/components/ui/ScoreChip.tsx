@@ -10,7 +10,7 @@ const SCORE_TIERS = [
   { min: 80, label: 'Chaud', icon: Flame, bg: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30', animate: true },
   { min: 60, label: 'Tiède', icon: Thermometer, bg: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30', animate: false },
   { min: 40, label: 'À qualifier', icon: Search, bg: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30', animate: false },
-  { min: 0, label: 'Froid', icon: Snowflake, bg: 'bg-[#FAF8F5] text-[#999999] border-[#EEEEEE]', animate: false },
+  { min: 0, label: 'Froid', icon: Snowflake, bg: 'bg-[#FAFAFA] text-[#999999] border-[#F0F0F0]', animate: false },
 ]
 
 export { SCORE_TIERS }
@@ -52,7 +52,7 @@ export function ScoreChip({ score, size = 'sm', showLabel = false, showBar = fal
         {showLabel && <span className="ml-0.5 font-medium">{tier.label}</span>}
       </span>
       {showBar && (
-        <div className="w-full h-1.5 bg-[#F4F0EB] rounded-full overflow-hidden" style={{ minWidth: 48 }}>
+        <div className="w-full h-1.5 bg-[#F5F5F5] rounded-full overflow-hidden" style={{ minWidth: 48 }}>
           <div
             className="h-full rounded-full score-fill"
             style={{

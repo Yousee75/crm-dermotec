@@ -29,7 +29,7 @@ export default function MentionsLegalesPage() {
 
         <div className="grid gap-8">
           {/* Qui sommes-nous */}
-          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#F0F0F0] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Building className="w-6 h-6 text-primary" />
@@ -81,7 +81,7 @@ export default function MentionsLegalesPage() {
             </div>
 
             {/* Contact */}
-            <div className="mt-6 pt-6 border-t border-[#F4F0EB]">
+            <div className="mt-6 pt-6 border-t border-[#F0F0F0]">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-primary" />
@@ -105,7 +105,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Hébergement & Données */}
-          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#F0F0F0] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Globe className="w-6 h-6 text-primary" />
@@ -152,7 +152,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Propriété intellectuelle */}
-          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#F0F0F0] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Shield className="w-6 h-6 text-primary" />
@@ -175,7 +175,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Données personnelles */}
-          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#F0F0F0] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Users className="w-6 h-6 text-primary" />
@@ -190,7 +190,7 @@ export default function MentionsLegalesPage() {
                 Nous prenons la protection de vos données très au sérieux.
                 Toutes les informations sur la collecte et le traitement sont détaillées dans notre politique dédiée.
               </p>
-              <div className="flex items-center gap-3 p-4 bg-[#FAF8F5] rounded-lg">
+              <div className="flex items-center gap-3 p-4 bg-[#FAFAFA] rounded-lg">
                 <Shield className="w-5 h-5 text-primary" />
                 <span className="text-[#3A3A3A]">Pour tout savoir sur vos droits et nos pratiques : </span>
                 <a href="/politique-confidentialite" className="text-primary hover:underline font-medium">
@@ -201,7 +201,7 @@ export default function MentionsLegalesPage() {
           </div>
 
           {/* Cookies */}
-          <div className="bg-white rounded-2xl border border-[#EEEEEE] shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#F0F0F0] shadow-sm p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Shield className="w-6 h-6 text-primary" />

@@ -159,7 +159,7 @@ export function TerrainEmargementMode({
         <Button
           onClick={handleExit}
           variant="outline"
-          className="bg-white/90 border-[#EEEEEE] text-[#3A3A3A] hover:bg-white"
+          className="bg-white/90 border-[#F0F0F0] text-[#3A3A3A] hover:bg-white"
           icon={<X className="w-4 h-4" />}
         >
           Sortir du mode terrain
@@ -226,7 +226,7 @@ export function TerrainEmargementMode({
                     className="block"
                   />
                 ) : (
-                  <div className="w-[300px] h-[300px] bg-[#F4F0EB] animate-pulse rounded-lg flex items-center justify-center">
+                  <div className="w-[300px] h-[300px] bg-[#F5F5F5] animate-pulse rounded-lg flex items-center justify-center">
                     <QrCode className="w-16 h-16 text-[#999999]" />
                   </div>
                 )}

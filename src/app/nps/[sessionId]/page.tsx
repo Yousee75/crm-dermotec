@@ -82,7 +82,7 @@ export default function NPSPage() {
         </div>
 
         {/* Score selector */}
-        <div className="bg-white rounded-2xl border border-[#F4F0EB] shadow-card p-6 mb-4">
+        <div className="bg-white rounded-2xl border border-[#F0F0F0] shadow-card p-6 mb-4">
           <p className="text-sm font-medium text-[#3A3A3A] mb-4 text-center">
             Recommanderiez-vous cette formation à un(e) collègue ?
           </p>
@@ -99,7 +99,7 @@ export default function NPSPage() {
                     ? i >= 9 ? 'bg-[#10B981] text-white shadow-md'
                     : i >= 7 ? 'bg-[#FF8C42] text-white shadow-md'
                     : 'bg-[#FF2D78] text-white shadow-md'
-                    : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                    : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
                 )}
               >
                 {i}
@@ -115,7 +115,7 @@ export default function NPSPage() {
 
         {/* Comment — only for detractors and passives */}
         {score !== null && score <= 8 && (
-          <div className="bg-white rounded-2xl border border-[#F4F0EB] shadow-card p-6 mb-4 animate-fadeIn">
+          <div className="bg-white rounded-2xl border border-[#F0F0F0] shadow-card p-6 mb-4 animate-fadeIn">
             <p className="text-sm font-medium text-[#3A3A3A] mb-2">
               {score <= 6 ? 'Que pourrions-nous améliorer ?' : 'Un commentaire ? (optionnel)'}
             </p>
@@ -124,7 +124,7 @@ export default function NPSPage() {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Votre retour nous aide à progresser..."
               rows={3}
-              className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none resize-none"
+              className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none resize-none"
             />
           </div>
         )}

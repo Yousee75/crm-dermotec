@@ -59,12 +59,12 @@ function Sheet({ open, onClose, children, side = 'right', className, width = 'w-
 
 function SheetHeader({ children, onClose, className }: { children: React.ReactNode; onClose?: () => void; className?: string }) {
   return (
-    <div className={cn('flex items-start justify-between p-6 border-b border-[#F4F0EB]', className)}>
+    <div className={cn('flex items-start justify-between p-6 border-b border-[#F0F0F0]', className)}>
       <div>{children}</div>
       {onClose && (
         <button
           onClick={onClose}
-          className="p-1.5 -m-1.5 rounded-lg hover:bg-[#F4F0EB] text-[#999999] hover:text-[#777777] transition"
+          className="p-1.5 -m-1.5 rounded-lg hover:bg-[#F5F5F5] text-[#999999] hover:text-[#777777] transition"
         >
           <X className="w-4 h-4" />
         </button>
@@ -91,7 +91,7 @@ function SheetBody({ children, className }: { children: React.ReactNode; classNa
 
 function SheetFooter({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('flex items-center justify-end gap-2 p-6 border-t border-[#F4F0EB]', className)}>
+    <div className={cn('flex items-center justify-end gap-2 p-6 border-t border-[#F0F0F0]', className)}>
       {children}
     </div>
   )

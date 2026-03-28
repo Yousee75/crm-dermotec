@@ -84,7 +84,7 @@ export default function ConventionPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-[#777777]">Chargement...</p>
@@ -95,7 +95,7 @@ export default function ConventionPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
         <div className="text-center">
           <div className="text-[#FF2D78] text-xl mb-4">❌</div>
           <p className="text-[#1A1A1A]">{error}</p>
@@ -106,7 +106,7 @@ export default function ConventionPage() {
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
         <p className="text-[#1A1A1A]">Aucune donnée trouvée</p>
       </div>
     )
@@ -122,7 +122,7 @@ export default function ConventionPage() {
     : null
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className="min-h-screen bg-[#FAFAFA]">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 py-6">
@@ -317,7 +317,7 @@ export default function ConventionPage() {
                     type="checkbox"
                     checked={rgpdConsent}
                     onChange={(e) => setRgpdConsent(e.target.checked)}
-                    className="mt-1 h-4 w-4 text-primary focus:ring-primary border-[#EEEEEE] rounded"
+                    className="mt-1 h-4 w-4 text-primary focus:ring-primary border-[#F0F0F0] rounded"
                   />
                   <span className="text-sm text-[#3A3A3A] leading-relaxed">
                     J'ai lu et j'accepte les conditions de la convention de formation.

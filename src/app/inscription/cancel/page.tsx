@@ -23,7 +23,7 @@ export default function InscriptionCancelPage() {
         </div>
 
         {/* Message principal */}
-        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB] mb-6 text-center">
+        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F0F0F0] mb-6 text-center">
           <h2 className="text-xl font-bold text-accent mb-4">Que s'est-il passé ?</h2>
           <p className="text-[#777777] mb-6">
             Vous avez annulé le processus de paiement. Votre inscription n'a donc pas été confirmée
@@ -52,7 +52,7 @@ export default function InscriptionCancelPage() {
         </div>
 
         {/* Pourquoi choisir Dermotec */}
-        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB] mb-6">
+        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F0F0F0] mb-6">
           <h2 className="text-xl font-bold text-accent mb-6">Pourquoi choisir Dermotec Advanced ?</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -117,7 +117,7 @@ export default function InscriptionCancelPage() {
         </div>
 
         {/* FAQ rapide */}
-        <div className="mt-8 rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB]">
+        <div className="mt-8 rounded-2xl bg-white p-8 shadow-lg border border-[#F0F0F0]">
           <h2 className="text-xl font-bold text-accent mb-6">Questions fréquentes</h2>
 
           <div className="space-y-4">

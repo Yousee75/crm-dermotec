@@ -246,13 +246,13 @@ export default function EmargementLivePage() {
                     'flex items-center gap-3 p-3 rounded-xl border transition-all',
                     currentSigned
                       ? 'bg-[#ECFDF5] border-[#10B981]/30'
-                      : 'bg-white border-[#EEEEEE]'
+                      : 'bg-white border-[#F0F0F0]'
                   )}
                 >
                   {/* Status icon */}
                   <div className={cn(
                     'w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0',
-                    currentSigned ? 'bg-[#D1FAE5]' : 'bg-[#F4F0EB]'
+                    currentSigned ? 'bg-[#D1FAE5]' : 'bg-[#F5F5F5]'
                   )}>
                     {currentSigned ? (
                       <CheckCircle className="w-5 h-5 text-[#10B981]" />
@@ -270,14 +270,14 @@ export default function EmargementLivePage() {
                       {/* Matin */}
                       <span className={cn(
                         'text-[10px] px-1.5 py-0.5 rounded',
-                        emargementMatin ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F4F0EB] text-[#999999]'
+                        emargementMatin ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F5F5F5] text-[#999999]'
                       )}>
                         {emargementMatin ? '✓ Matin' : '○ Matin'}
                       </span>
                       {/* Après-midi */}
                       <span className={cn(
                         'text-[10px] px-1.5 py-0.5 rounded',
-                        emargementAprem ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F4F0EB] text-[#999999]'
+                        emargementAprem ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#F5F5F5] text-[#999999]'
                       )}>
                         {emargementAprem ? '✓ PM' : '○ PM'}
                       </span>

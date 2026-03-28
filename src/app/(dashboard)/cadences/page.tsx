@@ -149,7 +149,7 @@ function CadenceTemplateCard({
   return (
     <Card className="overflow-hidden">
       <div
-        className="p-4 cursor-pointer hover:bg-[#FAF8F5] transition"
+        className="p-4 cursor-pointer hover:bg-[#FAFAFA] transition"
         onClick={onToggle}
       >
         <div className="flex items-start justify-between mb-3">
@@ -187,7 +187,7 @@ function CadenceTemplateCard({
 
       {/* Timeline des étapes (expanded) */}
       {isExpanded && (
-        <div className="px-4 pb-4 border-t border-[#F4F0EB] bg-[#FAF8F5]/50">
+        <div className="px-4 pb-4 border-t border-[#F0F0F0] bg-[#FAFAFA]/50">
           <div className="pt-4 space-y-2">
             <h4 className="text-sm font-medium text-[#111111] mb-3">
               Timeline des étapes
@@ -230,7 +230,7 @@ function CadenceInstanceRow({
   const statut = statutConfig[instance.statut] || statutConfig.active
 
   return (
-    <tr className="hover:bg-[#FAF8F5]">
+    <tr className="hover:bg-[#FAFAFA]">
       <td className="px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF5C00] to-[#FF2D78] flex items-center justify-center text-white text-sm font-medium">
@@ -433,7 +433,7 @@ export default function CadencesPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-[#EEEEEE]">
+      <div className="border-b border-[#F0F0F0]">
         <nav className="flex space-x-8">
           <button
             onClick={() => setActiveTab('templates')}
@@ -441,7 +441,7 @@ export default function CadencesPage() {
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'templates'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
+                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#F0F0F0]'
             )}
           >
             Templates de cadences
@@ -452,7 +452,7 @@ export default function CadencesPage() {
               'py-2 px-1 border-b-2 font-medium text-sm transition',
               activeTab === 'instances'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
+                : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#F0F0F0]'
             )}
           >
             Instances actives
@@ -514,7 +514,7 @@ export default function CadencesPage() {
                     'px-3 py-1 rounded-lg text-sm font-medium transition',
                     instancesFilter === filter.key
                       ? 'bg-primary text-white'
-                      : 'bg-[#F4F0EB] text-[#3A3A3A] hover:bg-[#EEEEEE]'
+                      : 'bg-[#F5F5F5] text-[#3A3A3A] hover:bg-[#EEEEEE]'
                   )}
                 >
                   {filter.label}
@@ -527,7 +527,7 @@ export default function CadencesPage() {
           <Card className="overflow-hidden">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-[#FAF8F5]">
+                <thead className="bg-[#FAFAFA]">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-[#777777] uppercase tracking-wider">
                       Lead

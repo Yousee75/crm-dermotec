@@ -33,7 +33,7 @@ export default function CookieConsent() {
         visible ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="bg-white border-t border-[#EEEEEE] shadow-xl">
+      <div className="bg-white border-t border-[#F0F0F0] shadow-xl">
         <div className="max-w-5xl mx-auto px-4 py-4 sm:py-5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <p className="flex-1 text-sm text-[#777777] leading-relaxed">
@@ -49,7 +49,7 @@ export default function CookieConsent() {
             <div className="flex items-center gap-3 shrink-0">
               <button
                 onClick={handleRefuse}
-                className="min-h-[44px] px-5 py-2 text-sm font-medium text-[#777777] border border-[#EEEEEE] rounded-lg hover:bg-[#FAF8F5] hover:border-gray-400 transition-colors cursor-pointer"
+                className="min-h-[44px] px-5 py-2 text-sm font-medium text-[#777777] border border-[#F0F0F0] rounded-lg hover:bg-[#FAFAFA] hover:border-gray-400 transition-colors cursor-pointer"
               >
                 Refuser
               </button>

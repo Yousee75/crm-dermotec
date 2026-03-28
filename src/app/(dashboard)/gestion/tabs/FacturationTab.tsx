@@ -15,7 +15,7 @@ import { toast } from 'sonner'
 const STATUT_CONFIG: Record<string, { label: string; color: string; icon: any }> = {
   brouillon: {
     label: 'Brouillon',
-    color: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]',
+    color: 'bg-[#FAFAFA] text-[#777777] border-[#F0F0F0]',
     icon: Clock
   },
   validee: {
@@ -60,7 +60,7 @@ const STATUT_CONFIG: Record<string, { label: string; color: string; icon: any }>
   },
   annulee: {
     label: 'Annulée',
-    color: 'bg-[#FAF8F5] text-[#999999] border-[#EEEEEE]',
+    color: 'bg-[#FAFAFA] text-[#999999] border-[#F0F0F0]',
     icon: Trash2
   },
 }
@@ -236,7 +236,7 @@ export default function FacturationTab() {
           <select
             value={statutFilter}
             onChange={(e) => { setStatutFilter(e.target.value); setPage(1) }}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="brouillon">Brouillon</option>
@@ -265,10 +265,10 @@ export default function FacturationTab() {
           description="Les factures de formation apparaîtront ici une fois émises."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F0F0F0] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
+              <thead className="bg-[#FAFAFA]/50 border-b border-[#F0F0F0]">
                 <tr>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Numéro</th>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Destinataire</th>
@@ -280,14 +280,14 @@ export default function FacturationTab() {
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F4F0EB]">
+              <tbody className="divide-y divide-[#F0F0F0]">
                 {factures.map((facture) => {
                   const conf = STATUT_CONFIG[facture.statut] || STATUT_CONFIG.brouillon
                   const StatutIcon = conf.icon
                   const isOverdue = ['envoyee', 'emise'].includes(facture.statut) && facture.date_echeance && new Date(facture.date_echeance) < new Date()
 
                   return (
-                    <tr key={facture.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                    <tr key={facture.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                       <td className="px-6 py-4">
                         <span className="text-primary font-medium text-sm">{facture.numero_facture}</span>
                         <span className="block text-xs text-[#999999]">{facture.type}</span>
@@ -382,7 +382,7 @@ export default function FacturationTab() {
 
           {/* Pagination */}
           {pagination.total_pages > 1 && (
-            <div className="flex items-center justify-between px-6 py-3 border-t border-[#F4F0EB] bg-[#FAF8F5]/30">
+            <div className="flex items-center justify-between px-6 py-3 border-t border-[#F0F0F0] bg-[#FAFAFA]/30">
               <span className="text-sm text-[#777777]">
                 {pagination.total} facture{pagination.total > 1 ? 's' : ''} — Page {pagination.page}/{pagination.total_pages}
               </span>

@@ -76,7 +76,7 @@ export function QuickNotes() {
         value={notes}
         onChange={handleNotesChange}
         placeholder="Prenez vos notes ici... (sauvegarde automatique)"
-        className="w-full h-80 p-4 border border-[#EEEEEE] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        className="w-full h-80 p-4 border border-[#F0F0F0] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
       />
 
       {/* Footer Info */}
@@ -107,7 +107,7 @@ export function QuickNotes() {
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowClearConfirm(false)}
-                className="px-4 py-2 text-[#777777] hover:bg-[#F4F0EB] rounded-md transition-colors"
+                className="px-4 py-2 text-[#777777] hover:bg-[#F5F5F5] rounded-md transition-colors"
               >
                 Annuler
               </button>

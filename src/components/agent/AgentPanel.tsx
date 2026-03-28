@@ -22,7 +22,7 @@ import { getSuggestions, getPlaceholder } from './agent-suggestions'
 const SATOREA = {
   primary: '#FF5C00',
   accent: '#1A1A1A',
-  bg: '#FAF8F5',
+  bg: '#FAFAFA',
   success: '#10B981',
   action: '#FF2D78',
   muted: '#8A8A8A',
@@ -339,7 +339,7 @@ export function AgentPanel() {
                 {/* Powered by */}
                 <p className="text-center text-[9px] mt-2 flex items-center justify-center gap-2" style={{ color: SATOREA.muted }}>
                   <span>Agent IA Satorea · 15 outils CRM</span>
-                  <kbd className="px-1 py-0.5 bg-[#F4F0EB] rounded text-[8px] font-medium border border-[#EEEEEE]">⌘J</kbd>
+                  <kbd className="px-1 py-0.5 bg-[#F5F5F5] rounded text-[8px] font-medium border border-[#F0F0F0]">⌘J</kbd>
                 </p>
               </div>
             </>

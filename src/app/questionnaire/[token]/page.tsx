@@ -80,14 +80,14 @@ export default function QuestionnairePage() {
 
   // --- Loading ---
   if (loading) return (
-    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+    <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
       <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
     </div>
   )
 
   // --- Déjà rempli ---
   if (submitted) return (
-    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
         <div className="w-16 h-16 bg-[#D1FAE5] rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle className="w-8 h-8 text-[#10B981]" />
@@ -107,7 +107,7 @@ export default function QuestionnairePage() {
 
   // --- Erreur ---
   if (error && !data) return (
-    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
         <AlertCircle className="w-12 h-12 text-[#FF2D78] mx-auto mb-4" />
         <h1 className="text-xl font-bold text-[#111111] mb-2">Questionnaire indisponible</h1>
@@ -122,7 +122,7 @@ export default function QuestionnairePage() {
   const progress = Math.round((answeredCount / data.questions.length) * 100)
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className="min-h-screen bg-[#FAFAFA]">
       {/* Header */}
       <div className="bg-white border-b sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4">
@@ -136,7 +136,7 @@ export default function QuestionnairePage() {
               <p className="text-sm font-medium text-primary">{progress}%</p>
             </div>
           </div>
-          <div className="h-1.5 bg-[#F4F0EB] rounded-full overflow-hidden">
+          <div className="h-1.5 bg-[#F5F5F5] rounded-full overflow-hidden">
             <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
@@ -180,7 +180,7 @@ export default function QuestionnairePage() {
                     className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
                       reponses[q.id] === n
                         ? 'bg-primary text-white shadow-md scale-110'
-                        : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                        : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
                     }`}
                   >
                     {n}
@@ -223,7 +223,7 @@ export default function QuestionnairePage() {
                     className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       reponses[q.id] === opt
                         ? 'bg-primary text-white shadow-md'
-                        : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                        : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
                     }`}
                   >
                     {opt}
@@ -242,7 +242,7 @@ export default function QuestionnairePage() {
                     className={`w-full text-start px-4 py-3 rounded-lg text-sm transition-all border ${
                       reponses[q.id] === opt
                         ? 'bg-primary/5 border-primary text-primary font-medium'
-                        : 'bg-white border-[#EEEEEE] text-[#3A3A3A] hover:border-[#EEEEEE]'
+                        : 'bg-white border-[#F0F0F0] text-[#3A3A3A] hover:border-[#F0F0F0]'
                     }`}
                   >
                     {opt}
@@ -258,7 +258,7 @@ export default function QuestionnairePage() {
                 onChange={e => setReponses(prev => ({ ...prev, [q.id]: e.target.value }))}
                 placeholder="Votre réponse..."
                 rows={3}
-                className="w-full rounded-lg border border-[#EEEEEE] px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full rounded-lg border border-[#F0F0F0] px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 style={{ fontSize: '16px' }}
               />
             )}
@@ -273,7 +273,7 @@ export default function QuestionnairePage() {
             onChange={e => setCommentaire(e.target.value)}
             placeholder="Autre chose à nous dire ?"
             rows={3}
-            className="w-full rounded-lg border border-[#EEEEEE] px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            className="w-full rounded-lg border border-[#F0F0F0] px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
             style={{ fontSize: '16px' }}
           />
         </div>

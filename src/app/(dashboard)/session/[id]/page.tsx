@@ -138,7 +138,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
   if (!session || !formation) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-[#FAF8F5] flex items-center justify-center mb-4">
+        <div className="w-14 h-14 rounded-2xl bg-[#FAFAFA] flex items-center justify-center mb-4">
           <Calendar className="w-6 h-6 text-[#999999]" />
         </div>
         <h3 className="text-sm font-semibold text-[#111111] mb-1">Session introuvable</h3>
@@ -173,7 +173,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/sessions" className="p-2 hover:bg-[#F4F0EB] rounded-lg transition-colors">
+          <Link href="/sessions" className="p-2 hover:bg-[#F5F5F5] rounded-lg transition-colors">
             <ArrowLeft className="w-5 h-5 text-[#777777]" />
           </Link>
           <div>
@@ -228,7 +228,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-[#EEEEEE]">
+      <div className="border-b border-[#F0F0F0]">
         <nav className="flex space-x-8">
           {tabs.map((tab) => (
             <button
@@ -237,7 +237,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.id
                   ? 'border-primary text-primary'
-                  : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#EEEEEE]'
+                  : 'border-transparent text-[#777777] hover:text-[#3A3A3A] hover:border-[#F0F0F0]'
               }`}
             >
               {tab.icon}
@@ -345,7 +345,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                     onChange={(e) => setNotes(e.target.value)}
                     onBlur={handleNotesUpdate}
                     placeholder="Ajouter des notes sur cette session..."
-                    className="w-full h-24 p-3 border border-[#EEEEEE] rounded-lg resize-none focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm"
+                    className="w-full h-24 p-3 border border-[#F0F0F0] rounded-lg resize-none focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm"
                   />
                 </div>
               </Card>
@@ -392,7 +392,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#F4F0EB]">
+                  <tr className="border-b border-[#F0F0F0]">
                     <th className="text-left py-3 font-medium text-[#777777]">Stagiaire</th>
                     <th className="text-left py-3 font-medium text-[#777777]">Statut inscription</th>
                     <th className="text-left py-3 font-medium text-[#777777]">Paiement</th>
@@ -407,7 +407,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                     const statutPaiement = STATUTS_PAIEMENT[inscription.paiement_statut as PaiementStatut]
 
                     return (
-                      <tr key={inscription.id} className="border-b border-[#FAF8F5]">
+                      <tr key={inscription.id} className="border-b border-[#FAFAFA]">
                         <td className="py-3">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
@@ -472,7 +472,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                         <td className="py-3">
                           <Link
                             href={`/lead/${lead?.id}`}
-                            className="p-2 hover:bg-[#F4F0EB] rounded-lg transition-colors"
+                            className="p-2 hover:bg-[#F5F5F5] rounded-lg transition-colors"
                           >
                             <Eye className="w-4 h-4 text-[#999999]" />
                           </Link>
@@ -509,7 +509,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
 
               <Card title="Lien d'émargement" icon={<FileText className="w-4 h-4" />}>
                 <div className="space-y-4">
-                  <div className="p-3 bg-[#FAF8F5] rounded-lg">
+                  <div className="p-3 bg-[#FAFAFA] rounded-lg">
                     <p className="text-sm text-[#777777] mb-2">Lien pour émargement mobile :</p>
                     <div className="flex items-center gap-2">
                       <code className="flex-1 text-xs bg-white p-2 rounded border">
@@ -540,13 +540,13 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
               <div className="overflow-x-auto">
                 <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="bg-[#FAF8F5]">
-                      <th className="text-left p-3 border border-[#EEEEEE] font-medium">Stagiaire</th>
-                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 1 - Matin</th>
-                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 1 - AM</th>
-                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 2 - Matin</th>
-                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Jour 2 - AM</th>
-                      <th className="text-center p-3 border border-[#EEEEEE] font-medium">Taux</th>
+                    <tr className="bg-[#FAFAFA]">
+                      <th className="text-left p-3 border border-[#F0F0F0] font-medium">Stagiaire</th>
+                      <th className="text-center p-3 border border-[#F0F0F0] font-medium">Jour 1 - Matin</th>
+                      <th className="text-center p-3 border border-[#F0F0F0] font-medium">Jour 1 - AM</th>
+                      <th className="text-center p-3 border border-[#F0F0F0] font-medium">Jour 2 - Matin</th>
+                      <th className="text-center p-3 border border-[#F0F0F0] font-medium">Jour 2 - AM</th>
+                      <th className="text-center p-3 border border-[#F0F0F0] font-medium">Taux</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -559,8 +559,8 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                       const tauxPresence = Math.round((presences.filter(Boolean).length / presences.length) * 100)
 
                       return (
-                        <tr key={inscription.id} className="hover:bg-[#FAF8F5]">
-                          <td className="p-3 border border-[#EEEEEE]">
+                        <tr key={inscription.id} className="hover:bg-[#FAFAFA]">
+                          <td className="p-3 border border-[#F0F0F0]">
                             <div className="flex items-center gap-2">
                               <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
                                 <span className="text-xs font-medium text-primary">
@@ -571,7 +571,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                             </div>
                           </td>
                           {presences.map((present, index) => (
-                            <td key={index} className="p-3 border border-[#EEEEEE] text-center">
+                            <td key={index} className="p-3 border border-[#F0F0F0] text-center">
                               {present === true ? (
                                 <Check className="w-5 h-5 text-[#10B981] mx-auto" />
                               ) : present === false ? (
@@ -581,7 +581,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                               )}
                             </td>
                           ))}
-                          <td className="p-3 border border-[#EEEEEE] text-center font-medium">
+                          <td className="p-3 border border-[#F0F0F0] text-center font-medium">
                             <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
                               tauxPresence >= 80 ? 'bg-[#D1FAE5] text-[#10B981]' :
                               tauxPresence >= 60 ? 'bg-orange-100 text-orange-700' :
@@ -617,7 +617,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                 const statutModele = STATUTS_MODELE[modele.statut as StatutModele]
 
                 return (
-                  <div key={modele.id} className="border border-[#EEEEEE] rounded-lg p-4">
+                  <div key={modele.id} className="border border-[#F0F0F0] rounded-lg p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <h4 className="font-medium text-accent">{modele.prenom} {modele.nom}</h4>
@@ -644,7 +644,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
                         </div>
                       )}
 
-                      <div className="flex items-center gap-4 pt-2 border-t border-[#F4F0EB]">
+                      <div className="flex items-center gap-4 pt-2 border-t border-[#F0F0F0]">
                         <div className="flex items-center gap-1">
                           <span className="text-xs text-[#777777]">Consentement :</span>
                           {modele.consentement_signe ? (
@@ -673,7 +673,7 @@ export default function SessionDetailPage({ params }: { params: Promise<{ id: st
 
               {modeles.length === 0 && (
                 <div className="col-span-full text-center py-8 text-[#777777]">
-                  <div className="w-12 h-12 bg-[#F4F0EB] rounded-full flex items-center justify-center mx-auto mb-3">
+                  <div className="w-12 h-12 bg-[#F5F5F5] rounded-full flex items-center justify-center mx-auto mb-3">
                     <User className="w-6 h-6 text-[#999999]" />
                   </div>
                   <p>Aucun modèle pour cette session</p>
@@ -701,8 +701,8 @@ function Card({
   action?: React.ReactNode
 }) {
   return (
-    <div className="bg-white rounded-xl border border-[#F4F0EB] overflow-hidden">
-      <div className="flex items-center justify-between p-4 border-b border-[#F4F0EB]">
+    <div className="bg-white rounded-xl border border-[#F0F0F0] overflow-hidden">
+      <div className="flex items-center justify-between p-4 border-b border-[#F0F0F0]">
         <h3 className="font-semibold text-accent flex items-center gap-2">
           <span className="text-primary">{icon}</span>
           {title}
@@ -726,7 +726,7 @@ function ChecklistItem({
   onChange: () => void
 }) {
   return (
-    <div className="flex items-center justify-between p-3 bg-[#FAF8F5] rounded-lg">
+    <div className="flex items-center justify-between p-3 bg-[#FAFAFA] rounded-lg">
       <span className="text-sm font-medium text-[#3A3A3A]">{label}</span>
       <button
         onClick={onChange}

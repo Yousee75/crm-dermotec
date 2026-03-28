@@ -91,7 +91,7 @@ export default function PricingPage() {
             className={`relative flex flex-col bg-white rounded-2xl border-2 p-6 transition-shadow ${
               plan.highlighted
                 ? 'border-primary shadow-lg shadow-primary/10'
-                : 'border-[#F4F0EB] shadow-card'
+                : 'border-[#F0F0F0] shadow-card'
             }`}
           >
             {/* Badge */}
@@ -122,7 +122,7 @@ export default function PricingPage() {
                 )}
               </div>
               {plan.period && (
-                <span className="inline-block mt-1 text-[10px] text-[#999999] bg-[#FAF8F5] rounded px-1.5 py-0.5">
+                <span className="inline-block mt-1 text-[10px] text-[#999999] bg-[#FAFAFA] rounded px-1.5 py-0.5">
                   TVA non incluse
                 </span>
               )}
@@ -144,7 +144,7 @@ export default function PricingPage() {
               className={`block text-center rounded-xl py-2.5 px-4 text-sm font-medium transition-all duration-150 ${
                 plan.highlighted
                   ? 'bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md'
-                  : 'border border-[#EEEEEE] bg-white hover:bg-[#FAF8F5] text-[#3A3A3A]'
+                  : 'border border-[#F0F0F0] bg-white hover:bg-[#FAFAFA] text-[#3A3A3A]'
               }`}
             >
               {plan.cta}

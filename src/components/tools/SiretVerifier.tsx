@@ -60,7 +60,7 @@ export function SiretVerifier() {
           onKeyDown={e => e.key === 'Enter' && search()}
           placeholder="Entrez un SIRET (14 chiffres)"
           maxLength={17}
-          className="flex-1 border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+          className="flex-1 border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
         />
         <button
           onClick={search}
@@ -80,7 +80,7 @@ export function SiretVerifier() {
       )}
 
       {result && (
-        <div className="bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl p-4 space-y-3">
+        <div className="bg-[#FAFAFA] border border-[#F0F0F0] rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-accent">{result.nom}</h3>
             <span className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${

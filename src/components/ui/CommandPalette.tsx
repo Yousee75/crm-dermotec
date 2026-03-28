@@ -137,11 +137,11 @@ export function CommandPalette() {
       {/* Command */}
       <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-full max-w-xl px-4 animate-scaleIn">
         <Command
-          className="bg-white rounded-2xl shadow-2xl border border-[#EEEEEE]/80 overflow-hidden"
+          className="bg-white rounded-2xl shadow-2xl border border-[#F0F0F0]/80 overflow-hidden"
           shouldFilter={false}
         >
           {/* Input */}
-          <div className="flex items-center gap-3 px-4 border-b border-[#F4F0EB]">
+          <div className="flex items-center gap-3 px-4 border-b border-[#F0F0F0]">
             <Search className="w-4 h-4 text-[#999999] shrink-0" />
             <Command.Input
               value={query}
@@ -150,7 +150,7 @@ export function CommandPalette() {
               className="w-full py-3.5 text-sm outline-none placeholder:text-[#999999] bg-transparent"
               autoFocus
             />
-            <kbd className="text-[10px] text-[#999999] bg-[#F4F0EB] px-1.5 py-0.5 rounded border border-[#EEEEEE] shrink-0">
+            <kbd className="text-[10px] text-[#999999] bg-[#F5F5F5] px-1.5 py-0.5 rounded border border-[#F0F0F0] shrink-0">
               ESC
             </kbd>
           </div>
@@ -232,7 +232,7 @@ export function CommandPalette() {
                     </div>
                     <span className="flex-1 text-[#3A3A3A]">{item.label}</span>
                     {item.shortcut && (
-                      <kbd className="text-[10px] text-[#999999] bg-[#F4F0EB] px-1.5 py-0.5 rounded border border-[#EEEEEE]">
+                      <kbd className="text-[10px] text-[#999999] bg-[#F5F5F5] px-1.5 py-0.5 rounded border border-[#F0F0F0]">
                         {item.shortcut}
                       </kbd>
                     )}
@@ -254,7 +254,7 @@ export function CommandPalette() {
                     <item.icon className="w-4 h-4 text-[#999999] shrink-0" />
                     <span className="flex-1 text-[#777777]">{item.label}</span>
                     {item.shortcut && (
-                      <kbd className="text-[10px] text-[#999999] bg-[#F4F0EB] px-1.5 py-0.5 rounded border border-[#EEEEEE]">
+                      <kbd className="text-[10px] text-[#999999] bg-[#F5F5F5] px-1.5 py-0.5 rounded border border-[#F0F0F0]">
                         {item.shortcut}
                       </kbd>
                     )}
@@ -265,14 +265,14 @@ export function CommandPalette() {
           </Command.List>
 
           {/* Footer */}
-          <div className="px-4 py-2 border-t border-[#F4F0EB] flex items-center justify-between text-[10px] text-[#999999]">
+          <div className="px-4 py-2 border-t border-[#F0F0F0] flex items-center justify-between text-[10px] text-[#999999]">
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1"><kbd className="bg-[#F4F0EB] px-1 rounded">↑↓</kbd> naviguer</span>
-              <span className="flex items-center gap-1"><kbd className="bg-[#F4F0EB] px-1 rounded">↵</kbd> ouvrir</span>
-              <span className="flex items-center gap-1"><kbd className="bg-[#F4F0EB] px-1 rounded">esc</kbd> fermer</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#F5F5F5] px-1 rounded">↑↓</kbd> naviguer</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#F5F5F5] px-1 rounded">↵</kbd> ouvrir</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#F5F5F5] px-1 rounded">esc</kbd> fermer</span>
             </div>
             <span className="flex items-center gap-1">
-              <kbd className="bg-[#F4F0EB] px-1 rounded">⌘K</kbd>
+              <kbd className="bg-[#F5F5F5] px-1 rounded">⌘K</kbd>
             </span>
           </div>
         </Command>

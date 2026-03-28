@@ -53,7 +53,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed bottom-36 right-6 z-50 bg-white rounded-lg shadow-xl border border-[#EEEEEE] w-80 max-w-[calc(100vw-3rem)]"
+            className="fixed bottom-36 right-6 z-50 bg-white rounded-lg shadow-xl border border-[#F0F0F0] w-80 max-w-[calc(100vw-3rem)]"
           >
             {/* Header */}
             <div className="bg-accent text-white p-4 rounded-t-lg">
@@ -64,10 +64,10 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
             {/* Messages */}
             <div className="p-4 h-48 overflow-y-auto">
               <div className="mb-4">
-                <div className="bg-[#F4F0EB] rounded-lg p-3 mb-2">
+                <div className="bg-[#F5F5F5] rounded-lg p-3 mb-2">
                   <p className="text-sm">👋 Bonjour ! Je suis là pour vous aider.</p>
                 </div>
-                <div className="bg-[#F4F0EB] rounded-lg p-3">
+                <div className="bg-[#F5F5F5] rounded-lg p-3">
                   <p className="text-sm">
                     Vous avez des questions sur nos formations ?
                     Besoin d'aide pour le financement ?
@@ -78,7 +78,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-[#EEEEEE]">
+            <div className="p-4 border-t border-[#F0F0F0]">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -86,7 +86,7 @@ export function ChatWidget({ className = "" }: ChatWidgetProps) {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Tapez votre message..."
-                  className="flex-1 border border-[#EEEEEE] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="flex-1 border border-[#F0F0F0] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
                 <button
                   onClick={handleSend}

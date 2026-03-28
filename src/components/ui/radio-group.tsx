@@ -41,7 +41,7 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
         checked={ctx.value === value}
         onChange={() => ctx.onValueChange?.(value)}
         className={cn(
-          'h-4 w-4 border-[#EEEEEE] text-primary focus:ring-primary cursor-pointer',
+          'h-4 w-4 border-[#F0F0F0] text-primary focus:ring-primary cursor-pointer',
           className
         )}
       />

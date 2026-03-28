@@ -190,7 +190,7 @@ export default function IntegrationsTab() {
             <Card key={integration.id} className={`p-6 ${integration.connecte ? 'ring-2 ring-green-200 bg-[#ECFDF5]/50' : ''}`}>
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white rounded-lg shadow-sm border border-[#F4F0EB] flex items-center justify-center">
+                  <div className="w-10 h-10 bg-white rounded-lg shadow-sm border border-[#F0F0F0] flex items-center justify-center">
                     <IconComponent className="w-5 h-5 text-[#3A3A3A]" />
                   </div>
                   <div>
@@ -255,7 +255,7 @@ export default function IntegrationsTab() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+          <div className="text-center p-4 bg-[#FAFAFA] rounded-lg">
             <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center mx-auto mb-3">
               <Settings className="w-5 h-5 text-[#6B8CAE]" />
             </div>
@@ -263,7 +263,7 @@ export default function IntegrationsTab() {
             <p className="text-xs text-[#777777]">Accès complet aux données via notre API REST moderne</p>
           </div>
 
-          <div className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+          <div className="text-center p-4 bg-[#FAFAFA] rounded-lg">
             <div className="w-10 h-10 bg-[#FFE0EF] rounded-lg flex items-center justify-center mx-auto mb-3">
               <Zap className="w-5 h-5 text-[#FF2D78]" />
             </div>
@@ -271,7 +271,7 @@ export default function IntegrationsTab() {
             <p className="text-xs text-[#777777]">Notifications en temps réel des événements importants</p>
           </div>
 
-          <div className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+          <div className="text-center p-4 bg-[#FAFAFA] rounded-lg">
             <div className="w-10 h-10 bg-[#D1FAE5] rounded-lg flex items-center justify-center mx-auto mb-3">
               <CheckCircle className="w-5 h-5 text-[#10B981]" />
             </div>
@@ -282,7 +282,7 @@ export default function IntegrationsTab() {
       </Card>
 
       {/* Demande d'intégration */}
-      <Card className="p-6 border-dashed border-2 border-[#EEEEEE]">
+      <Card className="p-6 border-dashed border-2 border-[#F0F0F0]">
         <div className="text-center">
           <AlertCircle className="w-10 h-10 text-[#999999] mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-[#111111] mb-2">

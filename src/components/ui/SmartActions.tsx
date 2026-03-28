@@ -149,7 +149,7 @@ export function SmartActions({ lead, onAction }: SmartActionsProps) {
             <button
               key={action.id}
               onClick={() => handleActionClick(action.id)}
-              className="w-full p-3 bg-white border border-[#EEEEEE] rounded-lg hover:border-[#FF5C00]/30 hover:shadow-sm transition-all duration-200 text-left group"
+              className="w-full p-3 bg-white border border-[#F0F0F0] rounded-lg hover:border-[#FF5C00]/30 hover:shadow-sm transition-all duration-200 text-left group"
             >
               <div className="flex items-start gap-3">
                 <IconComponent className="w-4 h-4 text-[#FF5C00] mt-0.5 flex-shrink-0" />

@@ -51,7 +51,7 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
   'Hygiène':           { bg: 'bg-[#E0EBF5]',     text: 'text-[#6B8CAE]',    border: 'border-[#6B8CAE]/30',  dot: 'bg-[#6B8CAE]' },
 }
 
-const DEFAULT_COLOR = { bg: 'bg-[#FAF8F5]', text: 'text-[#3A3A3A]', border: 'border-[#EEEEEE]', dot: 'bg-[#999999]' }
+const DEFAULT_COLOR = { bg: 'bg-[#FAFAFA]', text: 'text-[#3A3A3A]', border: 'border-[#F0F0F0]', dot: 'bg-[#999999]' }
 
 function getCategoryColor(cat: string) {
   return CATEGORY_COLORS[cat] ?? DEFAULT_COLOR
@@ -140,8 +140,8 @@ function SessionTooltip({ session }: { session: CalendarSession }) {
   const colors = getCategoryColor(session.formation_categorie)
 
   return (
-    <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-white rounded-lg shadow-lg border border-[#EEEEEE] p-3 pointer-events-none">
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-[#EEEEEE]" />
+    <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-white rounded-lg shadow-lg border border-[#F0F0F0] p-3 pointer-events-none">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-[#F0F0F0]" />
       <p className={`font-semibold text-sm ${colors.text} mb-1`}>{session.formation_nom}</p>
       <div className="space-y-1 text-xs text-[#777777]">
         <div className="flex items-center gap-1.5">
@@ -360,15 +360,15 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
   }, [sessions])
 
   return (
-    <div className="bg-white rounded-xl border border-[#F4F0EB] overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#F0F0F0] overflow-hidden">
       {/* ===== Header ===== */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-[#F4F0EB]">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-[#F0F0F0]">
         {/* Navigation */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="p-1.5 rounded-lg hover:bg-[#F4F0EB] transition-colors"
+            className="p-1.5 rounded-lg hover:bg-[#F5F5F5] transition-colors"
             aria-label="Précédent"
           >
             <ChevronLeft className="w-5 h-5 text-[#777777]" />
@@ -377,7 +377,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
           <button
             type="button"
             onClick={() => navigate(1)}
-            className="p-1.5 rounded-lg hover:bg-[#F4F0EB] transition-colors"
+            className="p-1.5 rounded-lg hover:bg-[#F5F5F5] transition-colors"
             aria-label="Suivant"
           >
             <ChevronRight className="w-5 h-5 text-[#777777]" />
@@ -385,14 +385,14 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
           <button
             type="button"
             onClick={goToday}
-            className="ml-1 px-3 py-1 text-xs font-medium rounded-md border border-[#EEEEEE] text-[#777777] hover:bg-[#FAF8F5] transition-colors"
+            className="ml-1 px-3 py-1 text-xs font-medium rounded-md border border-[#F0F0F0] text-[#777777] hover:bg-[#FAFAFA] transition-colors"
           >
             Aujourd&apos;hui
           </button>
         </div>
 
         {/* View toggle */}
-        <div className="flex rounded-lg border border-[#EEEEEE] overflow-hidden">
+        <div className="flex rounded-lg border border-[#F0F0F0] overflow-hidden">
           {(['month', 'week'] as const).map(v => (
             <button
               key={v}
@@ -402,7 +402,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 px-4 py-1.5 text-xs font-medium transition-colors
                 ${view === v
                   ? 'bg-[#1A1A1A] text-white'
-                  : 'bg-white text-[#777777] hover:bg-[#FAF8F5]'
+                  : 'bg-white text-[#777777] hover:bg-[#FAFAFA]'
                 }
               `}
             >
@@ -416,7 +416,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
       {view === 'month' && (
         <div className="overflow-x-auto">
           {/* Day headers */}
-          <div className="grid grid-cols-7 border-b border-[#F4F0EB]">
+          <div className="grid grid-cols-7 border-b border-[#F0F0F0]">
             {JOURS.map(j => (
               <div key={j} className="py-2 text-center text-xs font-medium text-[#777777] uppercase tracking-wider">
                 {j}
@@ -435,10 +435,10 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 <div
                   key={i}
                   className={`
-                    min-h-[100px] border-b border-r border-[#FAF8F5] p-1
-                    ${!inMonth ? 'bg-[#FAF8F5]/50' : ''}
+                    min-h-[100px] border-b border-r border-[#FAFAFA] p-1
+                    ${!inMonth ? 'bg-[#FAFAFA]/50' : ''}
                     ${today ? 'ring-2 ring-inset ring-[#FF5C00]/40 bg-[#FFF0E5]/30' : ''}
-                    ${i % 7 === 0 ? 'border-l border-[#FAF8F5]' : ''}
+                    ${i % 7 === 0 ? 'border-l border-[#FAFAFA]' : ''}
                   `}
                 >
                   <div className={`
@@ -475,7 +475,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
       {view === 'week' && (
         <div className="overflow-x-auto">
           {/* Day headers */}
-          <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-[#F4F0EB]">
+          <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-[#F0F0F0]">
             <div className="py-2" /> {/* gutter */}
             {weekDates.map((date, i) => {
               const today = isToday(date)
@@ -483,7 +483,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 <div
                   key={i}
                   className={`
-                    py-2 text-center border-l border-[#F4F0EB]
+                    py-2 text-center border-l border-[#F0F0F0]
                     ${today ? 'bg-[#FFF0E5]/50' : ''}
                   `}
                 >
@@ -502,7 +502,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
           {/* Time grid */}
           <div className="grid grid-cols-[60px_repeat(7,1fr)]" style={{ height: `${HEURES.length * 60}px` }}>
             {/* Hour labels */}
-            <div className="relative border-r border-[#F4F0EB]">
+            <div className="relative border-r border-[#F0F0F0]">
               {HEURES.map(h => (
                 <div
                   key={h}
@@ -523,7 +523,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                 <div
                   key={di}
                   className={`
-                    relative border-l border-[#F4F0EB]
+                    relative border-l border-[#F0F0F0]
                     ${today ? 'bg-[#FFF0E5]/20' : ''}
                   `}
                 >
@@ -531,7 +531,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
                   {HEURES.map(h => (
                     <div
                       key={h}
-                      className="absolute w-full border-t border-[#FAF8F5]"
+                      className="absolute w-full border-t border-[#FAFAFA]"
                       style={{ top: `${(h - 8) * 60}px` }}
                     />
                   ))}
@@ -553,7 +553,7 @@ export default function SessionCalendar({ sessions, onSessionClick, initialView 
 
       {/* ===== Legend ===== */}
       {activeCategories.length > 0 && (
-        <div className="flex flex-wrap gap-3 px-4 py-2.5 border-t border-[#F4F0EB] bg-[#FAF8F5]/50">
+        <div className="flex flex-wrap gap-3 px-4 py-2.5 border-t border-[#F0F0F0] bg-[#FAFAFA]/50">
           {activeCategories.map(cat => {
             const colors = getCategoryColor(cat.id)
             return (

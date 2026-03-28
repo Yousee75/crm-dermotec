@@ -73,7 +73,7 @@ export default function CertificatVerificationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="text-center space-y-4">
           <Loader2 className="h-8 w-8 animate-spin mx-auto" style={{ color: '#FF5C00' }} />
           <p style={{ color: '#777777' }}>Vérification du certificat...</p>
@@ -84,7 +84,7 @@ export default function CertificatVerificationPage() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ export default function CertificatVerificationPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
       <div className="max-w-lg mx-auto px-4 py-12">
         {/* En-tete verification */}
         <motion.div
@@ -204,7 +204,7 @@ export default function CertificatVerificationPage() {
 
             {/* Details */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-3 rounded-xl" style={{ backgroundColor: '#FAF8F5' }}>
+              <div className="p-3 rounded-xl" style={{ backgroundColor: '#FAFAFA' }}>
                 <div className="flex items-center gap-2 text-xs mb-1" style={{ color: '#777777' }}>
                   <Calendar size={12} />
                   Dates
@@ -218,7 +218,7 @@ export default function CertificatVerificationPage() {
                   </div>
                 )}
               </div>
-              <div className="p-3 rounded-xl" style={{ backgroundColor: '#FAF8F5' }}>
+              <div className="p-3 rounded-xl" style={{ backgroundColor: '#FAFAFA' }}>
                 <div className="flex items-center gap-2 text-xs mb-1" style={{ color: '#777777' }}>
                   <Clock size={12} />
                   Durée
@@ -243,7 +243,7 @@ export default function CertificatVerificationPage() {
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid #EEEEEE' }}>
+          <div className="px-6 py-4" style={{ backgroundColor: '#FAFAFA', borderTop: '1px solid #EEEEEE' }}>
             <div className="flex items-center gap-2 text-xs" style={{ color: '#999999' }}>
               <Award size={12} style={{ color: '#FF5C00' }} />
               Dermotec Advanced — 75 Bd Richard Lenoir, 75011 Paris — Certifié Qualiopi

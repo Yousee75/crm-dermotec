@@ -70,14 +70,14 @@ export function EmailSignatureGenerator() {
               value={form[f.field as keyof typeof form]}
               onChange={e => update(f.field, e.target.value)}
               placeholder={f.placeholder}
-              className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
+              className="w-full border border-[#F0F0F0] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
             />
           </div>
         ))}
       </div>
 
       {/* Aperçu */}
-      <div className="border border-[#EEEEEE] rounded-xl p-4 bg-[#FAF8F5]">
+      <div className="border border-[#F0F0F0] rounded-xl p-4 bg-[#FAFAFA]">
         <p className="text-xs text-[#999999] mb-2">Aperçu :</p>
         <div dangerouslySetInnerHTML={{ __html: sanitizeEmail(signatureHtml) }} />
       </div>

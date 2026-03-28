@@ -11,7 +11,7 @@ interface ObjectionCardProps {
 
 export function ObjectionCard({ objection, className }: ObjectionCardProps) {
   return (
-    <div className={cn('rounded-xl overflow-hidden border border-[#EEEEEE] shadow-sm', className)}>
+    <div className={cn('rounded-xl overflow-hidden border border-[#F0F0F0] shadow-sm', className)}>
       {/* Question (rose) */}
       <div className="bg-[#FFF0F5] border-b border-[#FFD6E8] px-3 py-2.5 flex items-start gap-2">
         <MessageCircleWarning className="w-3.5 h-3.5 text-[#FF2D78] shrink-0 mt-0.5" />
@@ -37,7 +37,7 @@ export function ObjectionCard({ objection, className }: ObjectionCardProps) {
 
         {/* Pivot si insistance */}
         {objection.pivot_si_insistance && (
-          <div className="text-[10px] text-[#777777] mt-1.5 pl-4 border-l-2 border-[#EEEEEE]">
+          <div className="text-[10px] text-[#777777] mt-1.5 pl-4 border-l-2 border-[#F0F0F0]">
             Si insiste : {objection.pivot_si_insistance}
           </div>
         )}

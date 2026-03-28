@@ -184,7 +184,7 @@ export default function ProgressDashboard({
             return (
               <div
                 key={module.id}
-                className="flex items-center gap-4 p-4 rounded-xl border border-[#F4F0EB] bg-white hover:border-[#EEEEEE] transition-colors"
+                className="flex items-center gap-4 p-4 rounded-xl border border-[#F0F0F0] bg-white hover:border-[#F0F0F0] transition-colors"
               >
                 {/* Numéro / Jour */}
                 <div className={`
@@ -193,7 +193,7 @@ export default function ProgressDashboard({
                     ? 'bg-emerald-50 text-emerald-600'
                     : pct > 0
                       ? 'bg-[#FFF0E5] text-[#FF5C00]'
-                      : 'bg-[#FAF8F5] text-[#999999]'
+                      : 'bg-[#FAFAFA] text-[#999999]'
                   }
                 `}>
                   {module.jour_formation ? `J${module.jour_formation}` : idx + 1}
@@ -216,7 +216,7 @@ export default function ProgressDashboard({
 
                 {/* Barre progression */}
                 <div className="w-24 flex-shrink-0">
-                  <div className="h-2 bg-[#F4F0EB] rounded-full overflow-hidden">
+                  <div className="h-2 bg-[#F5F5F5] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         isModuleComplete ? 'bg-emerald-500' : 'bg-[#FF5C00]'
@@ -257,7 +257,7 @@ function KpiCard({ icon, label, value, color }: {
   color: string
 }) {
   return (
-    <div className="p-3 rounded-xl border border-[#F4F0EB] bg-white">
+    <div className="p-3 rounded-xl border border-[#F0F0F0] bg-white">
       <div className="flex items-center gap-2 mb-2">
         {icon}
         <span className="text-[10px] text-[#777777] uppercase tracking-wide">{label}</span>

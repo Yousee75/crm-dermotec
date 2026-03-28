@@ -15,12 +15,17 @@ const mockSupabase = {
 
 vi.mock('@/lib/supabase-server', () => ({
   createServerClient: vi.fn(() => mockSupabase),
-  createServiceSupabase: vi.fn(() => mockSupabase),
+  createServiceSupabase: vi.fn(() => Promise.resolve(mockSupabase)),
+  createServerSupabase: vi.fn(() => Promise.resolve(mockSupabase)),
+  createClient: vi.fn(() => Promise.resolve(mockSupabase)),
 }))
 
 vi.mock('@supabase/ssr', () => ({
   createServerClient: vi.fn(() => mockSupabase),
 }))
+
+// Mock server-only to prevent import errors in test environment
+vi.mock('server-only', () => ({}))
 
 // Helper pour créer une requête sans cookies d'auth
 function createUnauthenticatedRequest(url: string, options?: RequestInit) {
@@ -118,7 +123,8 @@ describe('API Security - Auth Required Routes', () => {
       const body = await response.json()
 
       expect(response.status).toBe(401)
-      expect(body.error).toBe('Authentification requise')
+      // La route enrichment/full utilise son propre message d'erreur
+      expect(body.error).toMatch(/authentifi/i)
     })
   })
 
@@ -152,7 +158,8 @@ describe('API Security - Auth Required Routes', () => {
       const body = await response.json()
 
       expect(response.status).toBe(401)
-      expect(body.error).toBe('Authentification requise')
+      // La route ai/score utilise son propre message d'erreur
+      expect(body.error).toMatch(/authentifi/i)
     })
   })
 

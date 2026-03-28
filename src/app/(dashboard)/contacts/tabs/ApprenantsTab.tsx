@@ -121,10 +121,10 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
           description="Aucun apprenant ne correspond à votre recherche."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F0F0F0] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
+              <thead className="bg-[#FAFAFA]/50 border-b border-[#F0F0F0]">
                 <tr>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Apprenant
@@ -143,9 +143,9 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F4F0EB]">
+              <tbody className="divide-y divide-[#F0F0F0]">
                 {apprenants.map((apprenant) => (
-                  <tr key={apprenant.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                  <tr key={apprenant.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                     <td className="px-6 py-4">
                       <Link href={`/apprenant/${apprenant.id}`} className="group block">
                         <div className="flex items-center gap-3">
@@ -223,23 +223,23 @@ export default function ApprenantsTab({ onCreateApprenant }: ApprenantsTabProps)
 
       {/* Stats rapides */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-[#F4F0EB] p-4">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-4">
           <div className="text-sm text-[#777777]">Total apprenants</div>
           <div className="text-xl font-semibold text-[#111111]">{apprenants.length}</div>
         </div>
-        <div className="bg-white rounded-lg border border-[#F4F0EB] p-4">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-4">
           <div className="text-sm text-[#777777]">En formation</div>
           <div className="text-xl font-semibold text-orange-600">
             {apprenants.filter(a => a.formations_en_cours > 0).length}
           </div>
         </div>
-        <div className="bg-white rounded-lg border border-[#F4F0EB] p-4">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-4">
           <div className="text-sm text-[#777777]">Certifiés</div>
           <div className="text-xl font-semibold text-[#10B981]">
             {apprenants.filter(a => a.certifie).length}
           </div>
         </div>
-        <div className="bg-white rounded-lg border border-[#F4F0EB] p-4">
+        <div className="bg-white rounded-lg border border-[#F0F0F0] p-4">
           <div className="text-sm text-[#777777]">Alumni</div>
           <div className="text-xl font-semibold text-[#6B8CAE]">
             {apprenants.filter(a => a.formations_suivies > 0 && a.formations_en_cours === 0).length}

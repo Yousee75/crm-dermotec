@@ -17,7 +17,7 @@ interface TabBarProps {
 
 export function TabBar({ tabs, activeTab, onChange, className }: TabBarProps) {
   return (
-    <div className={cn("flex items-center gap-1 border-b border-[#EEEEEE] mb-6", className)}>
+    <div className={cn("flex items-center gap-1 border-b border-[#F0F0F0] mb-6", className)}>
       {tabs.map(tab => (
         <button
           key={tab.id}

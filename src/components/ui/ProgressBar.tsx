@@ -19,7 +19,7 @@ function ProgressBar({ value, max = 100, size = 'sm', color, showLabel, classNam
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <div className={cn('flex-1 bg-[#F4F0EB] rounded-full overflow-hidden', heights[size])}>
+      <div className={cn('flex-1 bg-[#F5F5F5] rounded-full overflow-hidden', heights[size])}>
         <div
           className="h-full rounded-full transition-all duration-500 ease-out"
           style={{ width: `${percent}%`, backgroundColor: barColor }}

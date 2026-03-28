@@ -145,7 +145,7 @@ export default function EmargementTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="EN_COURS,TERMINEE">En cours et terminées</option>
             <option value="EN_COURS">En cours uniquement</option>
@@ -266,7 +266,7 @@ export default function EmargementTab() {
                   {/* Actions émargement */}
                   <div className="shrink-0 text-right space-y-3">
                     {/* QR Code */}
-                    <div className="w-24 h-24 bg-[#F4F0EB] rounded-lg flex items-center justify-center mb-2">
+                    <div className="w-24 h-24 bg-[#F5F5F5] rounded-lg flex items-center justify-center mb-2">
                       <QrCode className="w-8 h-8 text-[#999999]" />
                     </div>
 
@@ -303,7 +303,7 @@ export default function EmargementTab() {
       )}
 
       {/* Info box */}
-      <Card className="p-4 bg-[#E0EBF5] border-[#6B8CAE]/30">
+      <Card className="p-4 bg-[#F0F5FA] border-[#6B8CAE]/30">
         <div className="flex gap-3">
           <AlertCircle className="w-5 h-5 text-[#6B8CAE] shrink-0 mt-0.5" />
           <div className="text-sm">

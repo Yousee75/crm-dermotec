@@ -92,7 +92,7 @@ export default function ConditionsGeneralesPage() {
             </section>
 
             {/* Article 2 - Définitions */}
-            <section id="definitions" className="bg-[#FAF8F5] rounded-lg p-8">
+            <section id="definitions" className="bg-[#FAFAFA] rounded-lg p-8">
               <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 2. Les mots importants
               </h2>
@@ -154,7 +154,7 @@ export default function ConditionsGeneralesPage() {
             </section>
 
             {/* Article 4 - Tarifs */}
-            <section id="tarifs" className="bg-[#FAF8F5] rounded-lg p-8">
+            <section id="tarifs" className="bg-[#FAFAFA] rounded-lg p-8">
               <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 4. Combien ça coûte
               </h2>
@@ -257,7 +257,7 @@ export default function ConditionsGeneralesPage() {
             </section>
 
             {/* Article 6 - Propriété intellectuelle */}
-            <section id="propriete" className="bg-[#FAF8F5] rounded-lg p-8">
+            <section id="propriete" className="bg-[#FAFAFA] rounded-lg p-8">
               <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 6. Ce qui est à vous, ce qui est à nous
               </h2>
@@ -333,7 +333,7 @@ export default function ConditionsGeneralesPage() {
             </section>
 
             {/* Article 8 - Responsabilité */}
-            <section id="responsabilite" className="bg-[#FAF8F5] rounded-lg p-8">
+            <section id="responsabilite" className="bg-[#FAFAFA] rounded-lg p-8">
               <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 8. Nos limites
               </h2>
@@ -401,7 +401,7 @@ export default function ConditionsGeneralesPage() {
             </section>
 
             {/* Article 10 - Droit applicable */}
-            <section id="droit" className="bg-[#FAF8F5] rounded-lg p-8">
+            <section id="droit" className="bg-[#FAFAFA] rounded-lg p-8">
               <h2 className="text-2xl font-bold text-accent font-[family-name:var(--font-heading)] mb-3">
                 10. Droit applicable
               </h2>
@@ -439,7 +439,7 @@ export default function ConditionsGeneralesPage() {
                 </a>
                 <a
                   href="/contact"
-                  className="border border-[#EEEEEE] text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-accent transition-colors text-center"
+                  className="border border-[#F0F0F0] text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-accent transition-colors text-center"
                 >
                   Formulaire de contact
                 </a>

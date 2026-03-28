@@ -218,14 +218,14 @@ function SecurityStatsCards() {
           {kpis.map((kpi) => (
             <div
               key={kpi.label}
-              className="border border-[#F4F0EB] rounded-xl p-4 flex flex-col gap-3"
+              className="border border-[#F0F0F0] rounded-xl p-4 flex flex-col gap-3"
             >
               <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center', kpi.color)}>
                 {kpi.icon}
               </div>
               <div>
                 {isLoading ? (
-                  <div className="h-8 w-16 bg-[#F4F0EB] rounded animate-pulse" />
+                  <div className="h-8 w-16 bg-[#F5F5F5] rounded animate-pulse" />
                 ) : (
                   <p className="text-2xl font-bold text-[#111111]">{kpi.value}</p>
                 )}
@@ -338,7 +338,7 @@ function PendingAlertsTable() {
         {isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-[#FAF8F5] rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-[#FAFAFA] rounded-lg animate-pulse" />
             ))}
           </div>
         ) : !alerts || alerts.length === 0 ? (
@@ -350,7 +350,7 @@ function PendingAlertsTable() {
           <div className="overflow-x-auto -mx-6">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#F4F0EB]">
+                <tr className="border-b border-[#F0F0F0]">
                   <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Date</th>
                   <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">User</th>
                   <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Niveau</th>
@@ -359,9 +359,9 @@ function PendingAlertsTable() {
                   <th className="text-right px-6 py-2 text-xs font-medium text-[#777777] uppercase"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {alerts.map((alert) => (
-                  <tr key={alert.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                  <tr key={alert.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                     <td className="px-6 py-3 text-[#777777] whitespace-nowrap">
                       {formatDateFR(alert.created_at)}
                     </td>
@@ -452,7 +452,7 @@ function KnownDevicesTable() {
         {isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-[#FAF8F5] rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-[#FAFAFA] rounded-lg animate-pulse" />
             ))}
           </div>
         ) : !devices || devices.length === 0 ? (
@@ -464,7 +464,7 @@ function KnownDevicesTable() {
           <div className="overflow-x-auto -mx-6">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#F4F0EB]">
+                <tr className="border-b border-[#F0F0F0]">
                   <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Fingerprint</th>
                   <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">User</th>
                   <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Dernière connexion</th>
@@ -473,11 +473,11 @@ function KnownDevicesTable() {
                   <th className="text-right px-6 py-2 text-xs font-medium text-[#777777] uppercase"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {devices.map((device) => (
-                  <tr key={device.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                  <tr key={device.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                     <td className="px-6 py-3">
-                      <code className="text-xs font-mono bg-[#F4F0EB] px-2 py-0.5 rounded text-[#3A3A3A]">
+                      <code className="text-xs font-mono bg-[#F5F5F5] px-2 py-0.5 rounded text-[#3A3A3A]">
                         {truncate(device.fingerprint, 16)}
                       </code>
                     </td>
@@ -602,7 +602,7 @@ function RecentRiskEventsTable() {
         {isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-[#FAF8F5] rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-[#FAFAFA] rounded-lg animate-pulse" />
             ))}
           </div>
         ) : !events || events.length === 0 ? (
@@ -614,7 +614,7 @@ function RecentRiskEventsTable() {
           <div className="overflow-x-auto -mx-6">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#F4F0EB]">
+                <tr className="border-b border-[#F0F0F0]">
                   <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Date</th>
                   <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">User</th>
                   <th className="text-left px-3 py-2 text-xs font-medium text-[#777777] uppercase">Action</th>
@@ -623,9 +623,9 @@ function RecentRiskEventsTable() {
                   <th className="text-left px-6 py-2 text-xs font-medium text-[#777777] uppercase">Flags</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {events.map((event) => (
-                  <tr key={event.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                  <tr key={event.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                     <td className="px-6 py-3 text-[#777777] whitespace-nowrap text-xs">
                       {formatDateFR(event.created_at)}
                     </td>
@@ -912,7 +912,7 @@ export default function SecuritySettingsPage() {
 
           <div className="space-y-4">
             {/* TOTP Method */}
-            <div className="border border-[#EEEEEE] rounded-xl p-4">
+            <div className="border border-[#F0F0F0] rounded-xl p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 bg-[#ECFDF5] rounded-lg flex items-center justify-center mt-1">
@@ -961,11 +961,11 @@ export default function SecuritySettingsPage() {
 
               {/* Activation TOTP */}
               {activeMethod === 'totp-verify' && enrollmentData?.type === 'totp' && (
-                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
+                <div className="mt-4 pt-4 border-t border-[#F0F0F0]">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <h5 className="font-medium text-[#111111] mb-3">1. Scannez le QR Code</h5>
-                      <div className="bg-white border border-[#EEEEEE] rounded-lg p-4 text-center">
+                      <div className="bg-white border border-[#F0F0F0] rounded-lg p-4 text-center">
                         <Image
                           src={enrollmentData.totp?.qr_code || ''}
                           alt="QR Code"
@@ -982,7 +982,7 @@ export default function SecuritySettingsPage() {
 
                     <div>
                       <h5 className="font-medium text-[#111111] mb-3">2. Code de secours (optionnel)</h5>
-                      <div className="bg-[#FAF8F5] border border-[#EEEEEE] rounded-lg p-3 mb-4">
+                      <div className="bg-[#FAFAFA] border border-[#F0F0F0] rounded-lg p-3 mb-4">
                         <div className="flex items-center justify-between">
                           <code className="text-sm font-mono text-[#1A1A1A] break-all">
                             {enrollmentData.totp?.secret}
@@ -1003,7 +1003,7 @@ export default function SecuritySettingsPage() {
                           value={verificationCode}
                           onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                           placeholder="Code à 6 chiffres"
-                          className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
+                          className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg focus:border-primary focus:ring-0"
                           maxLength={6}
                         />
                         <div className="flex gap-2">
@@ -1032,7 +1032,7 @@ export default function SecuritySettingsPage() {
             </div>
 
             {/* SMS Method */}
-            <div className="border border-[#EEEEEE] rounded-xl p-4">
+            <div className="border border-[#F0F0F0] rounded-xl p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 bg-[#E0EBF5] rounded-lg flex items-center justify-center mt-1">
@@ -1079,7 +1079,7 @@ export default function SecuritySettingsPage() {
 
               {/* Activation SMS */}
               {activeMethod === 'phone-enroll-sms' && (
-                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
+                <div className="mt-4 pt-4 border-t border-[#F0F0F0]">
                   <div className="max-w-md">
                     <h5 className="font-medium text-[#111111] mb-3">Configuration SMS</h5>
                     <div className="space-y-3">
@@ -1088,7 +1088,7 @@ export default function SecuritySettingsPage() {
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+33 6 12 34 56 78"
-                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg focus:border-primary focus:ring-0"
                       />
                       <div className="flex gap-2">
                         <Button
@@ -1115,7 +1115,7 @@ export default function SecuritySettingsPage() {
 
               {/* Vérification SMS */}
               {activeMethod === 'phone-verify-sms' && enrollmentData?.type === 'phone' && (
-                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
+                <div className="mt-4 pt-4 border-t border-[#F0F0F0]">
                   <div className="max-w-md">
                     <h5 className="font-medium text-[#111111] mb-3">
                       Code envoyé au {enrollmentData.phone}
@@ -1126,7 +1126,7 @@ export default function SecuritySettingsPage() {
                         value={verificationCode}
                         onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                         placeholder="Code à 6 chiffres"
-                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg focus:border-primary focus:ring-0"
                         maxLength={6}
                       />
                       <div className="flex gap-2">
@@ -1154,7 +1154,7 @@ export default function SecuritySettingsPage() {
             </div>
 
             {/* WhatsApp Method */}
-            <div className="border border-[#EEEEEE] rounded-xl p-4">
+            <div className="border border-[#F0F0F0] rounded-xl p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 bg-[#ECFDF5] rounded-lg flex items-center justify-center mt-1">
@@ -1185,7 +1185,7 @@ export default function SecuritySettingsPage() {
 
               {/* Activation WhatsApp */}
               {activeMethod === 'phone-enroll-whatsapp' && (
-                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
+                <div className="mt-4 pt-4 border-t border-[#F0F0F0]">
                   <div className="max-w-md">
                     <h5 className="font-medium text-[#111111] mb-3">Configuration WhatsApp</h5>
                     <div className="space-y-3">
@@ -1194,7 +1194,7 @@ export default function SecuritySettingsPage() {
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+33 6 12 34 56 78"
-                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg focus:border-primary focus:ring-0"
                       />
                       <div className="flex gap-2">
                         <Button
@@ -1221,7 +1221,7 @@ export default function SecuritySettingsPage() {
 
               {/* Vérification WhatsApp */}
               {activeMethod === 'phone-verify-whatsapp' && enrollmentData?.type === 'phone' && (
-                <div className="mt-4 pt-4 border-t border-[#F4F0EB]">
+                <div className="mt-4 pt-4 border-t border-[#F0F0F0]">
                   <div className="max-w-md">
                     <h5 className="font-medium text-[#111111] mb-3">
                       Code WhatsApp envoyé au {enrollmentData.phone}
@@ -1232,7 +1232,7 @@ export default function SecuritySettingsPage() {
                         value={verificationCode}
                         onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                         placeholder="Code à 6 chiffres"
-                        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg focus:border-primary focus:ring-0"
+                        className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg focus:border-primary focus:ring-0"
                         maxLength={6}
                       />
                       <div className="flex gap-2">
@@ -1280,7 +1280,7 @@ export default function SecuritySettingsPage() {
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 border border-[#EEEEEE] rounded-lg">
+            <div className="flex items-center justify-between p-3 border border-[#F0F0F0] rounded-lg">
               <div>
                 <p className="font-medium text-[#111111]">Session actuelle</p>
                 <p className="text-sm text-[#777777]">
@@ -1293,7 +1293,7 @@ export default function SecuritySettingsPage() {
               <Badge variant="success" size="sm">Actuelle</Badge>
             </div>
 
-            <div className="pt-4 border-t border-[#F4F0EB]">
+            <div className="pt-4 border-t border-[#F0F0F0]">
               <Button
                 variant="outline"
                 size="sm"
@@ -1311,7 +1311,7 @@ export default function SecuritySettingsPage() {
       {/* DASHBOARD SECURITE ADMIN */}
       {/* ============================================================ */}
 
-      <div className="pt-4 border-t border-[#EEEEEE]">
+      <div className="pt-4 border-t border-[#F0F0F0]">
         <h2 className="text-xl font-bold text-[#111111] mb-1 flex items-center gap-2">
           <Shield className="w-5 h-5 text-primary" />
           Dashboard sécurité

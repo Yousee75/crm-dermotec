@@ -140,7 +140,7 @@ function FormationsKPIs() {
     <div className="px-6 py-4" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #EEEEEE' }}>
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
         {kpis.map((kpi, i) => (
-          <div key={i} className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#FAF8F5' }}>
+          <div key={i} className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#FAFAFA' }}>
             <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: `${kpi.color}15` }}>
               <kpi.icon size={18} style={{ color: kpi.color }} />
@@ -247,7 +247,7 @@ function CategoryTabs({
   const categories = ['all', ...Object.keys(CATEGORIES_CONFIG)] as const
 
   return (
-    <div className="px-6 py-8 bg-[#FAF8F5]">
+    <div className="px-6 py-8 bg-[#FAFAFA]">
       <div className="max-w-7xl mx-auto">
         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
           {categories.map((category) => {
@@ -263,7 +263,7 @@ function CategoryTabs({
                 className={`relative flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   isActive
                     ? 'bg-primary text-white shadow-lg'
-                    : 'bg-white text-[#777777] hover:bg-[#F4F0EB]'
+                    : 'bg-white text-[#777777] hover:bg-[#F5F5F5]'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -327,7 +327,7 @@ function ParcoursTimeline() {
               >
                 {/* Content */}
                 <div className="flex-1 lg:px-8">
-                  <div className="bg-white rounded-xl p-6 shadow-lg border border-[#F4F0EB]">
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-[#F0F0F0]">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-primary to-[#FF2D78] rounded-full flex items-center justify-center text-white font-bold text-lg">
                         {etape.etape}
@@ -384,7 +384,7 @@ function FormationCard({
 
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-lg border border-[#F4F0EB] overflow-hidden group cursor-pointer"
+      className="bg-white rounded-xl shadow-lg border border-[#F0F0F0] overflow-hidden group cursor-pointer"
       variants={itemVariants}
       whileHover={{ scale: 1.02, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
       onClick={onClick}
@@ -594,7 +594,7 @@ function FormationDetailModal({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-[#EEEEEE]">
+            <div className="flex items-center justify-between p-6 border-b border-[#F0F0F0]">
               <div>
                 <h2 className="text-2xl font-heading font-bold text-accent">
                   {formation.nom}
@@ -607,14 +607,14 @@ function FormationDetailModal({
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-[#F4F0EB] rounded-lg transition-colors"
+                className="p-2 hover:bg-[#F5F5F5] rounded-lg transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex border-b border-[#EEEEEE]">
+            <div className="flex border-b border-[#F0F0F0]">
               {tabs.map((tab) => {
                 const Icon = tab.icon
                 const isActive = activeTab === tab.id
@@ -657,8 +657,8 @@ function FormationDetailModal({
                         <div>
                           <h3 className="text-lg font-bold text-accent mb-3">Techniques comparées</h3>
                           <div className="overflow-x-auto">
-                            <table className="w-full border border-[#EEEEEE] rounded-lg">
-                              <thead className="bg-[#FAF8F5]">
+                            <table className="w-full border border-[#F0F0F0] rounded-lg">
+                              <thead className="bg-[#FAFAFA]">
                                 <tr>
                                   <th className="px-4 py-2 text-left">Technique</th>
                                   <th className="px-4 py-2 text-left">Méthode</th>
@@ -668,7 +668,7 @@ function FormationDetailModal({
                               </thead>
                               <tbody>
                                 {formation.techniquesComparees.map((technique, index) => (
-                                  <tr key={index} className="border-t border-[#EEEEEE]">
+                                  <tr key={index} className="border-t border-[#F0F0F0]">
                                     <td className="px-4 py-2 font-medium">{technique.nom}</td>
                                     <td className="px-4 py-2">{technique.methode}</td>
                                     <td className="px-4 py-2">{technique.rendu}</td>
@@ -686,7 +686,7 @@ function FormationDetailModal({
                           <h3 className="text-lg font-bold text-accent mb-3">Matériel nécessaire</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {formation.materiel.map((item, index) => (
-                              <div key={index} className="border border-[#EEEEEE] rounded-lg p-4">
+                              <div key={index} className="border border-[#F0F0F0] rounded-lg p-4">
                                 <h4 className="font-bold text-[#111111] mb-2">{item.nom}</h4>
                                 <p className="text-[#777777] text-sm mb-2">{item.description}</p>
                                 <p className="text-primary font-bold mb-2">{item.prixIndicatif}</p>
@@ -712,11 +712,11 @@ function FormationDetailModal({
                   {activeTab === 'faq' && (
                     <div className="space-y-4">
                       {formation.faq.map((item, index) => (
-                        <details key={index} className="border border-[#EEEEEE] rounded-lg">
-                          <summary className="px-4 py-3 font-medium text-[#111111] cursor-pointer hover:bg-[#FAF8F5]">
+                        <details key={index} className="border border-[#F0F0F0] rounded-lg">
+                          <summary className="px-4 py-3 font-medium text-[#111111] cursor-pointer hover:bg-[#FAFAFA]">
                             {item.question}
                           </summary>
-                          <div className="px-4 py-3 border-t border-[#EEEEEE] text-[#3A3A3A]">
+                          <div className="px-4 py-3 border-t border-[#F0F0F0] text-[#3A3A3A]">
                             {item.reponse}
                           </div>
                         </details>
@@ -799,7 +799,7 @@ function GlossaireSection() {
   }, [allTerms, searchTerm])
 
   return (
-    <div className="px-6 py-16 bg-[#FAF8F5]">
+    <div className="px-6 py-16 bg-[#FAFAFA]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-12"
@@ -820,7 +820,7 @@ function GlossaireSection() {
               placeholder="Rechercher un terme..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-10 py-3 border border-[#EEEEEE] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-10 py-3 border border-[#F0F0F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
         </motion.div>
@@ -835,7 +835,7 @@ function GlossaireSection() {
           {filteredTerms.map((item, index) => (
             <motion.div
               key={item.terme}
-              className="bg-white rounded-lg p-6 shadow-lg border border-[#F4F0EB]"
+              className="bg-white rounded-lg p-6 shadow-lg border border-[#F0F0F0]"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
             >
@@ -926,11 +926,11 @@ function ROIComparatifTable() {
         </motion.div>
 
         <div className="overflow-x-auto">
-          <table className="w-full border border-[#EEEEEE] rounded-lg bg-white shadow-lg">
-            <thead className="bg-[#FAF8F5]">
+          <table className="w-full border border-[#F0F0F0] rounded-lg bg-white shadow-lg">
+            <thead className="bg-[#FAFAFA]">
               <tr>
                 <th
-                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F4F0EB]"
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F5F5F5]"
                   onClick={() => handleSort('formation')}
                 >
                   <div className="flex items-center gap-2">
@@ -939,7 +939,7 @@ function ROIComparatifTable() {
                   </div>
                 </th>
                 <th
-                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F4F0EB]"
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F5F5F5]"
                   onClick={() => handleSort('cout')}
                 >
                   <div className="flex items-center gap-2">
@@ -948,7 +948,7 @@ function ROIComparatifTable() {
                   </div>
                 </th>
                 <th
-                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F4F0EB]"
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-[#F5F5F5]"
                   onClick={() => handleSort('prixSeance')}
                 >
                   <div className="flex items-center gap-2">
@@ -964,7 +964,7 @@ function ROIComparatifTable() {
               {sortedData.map((row, index) => (
                 <motion.tr
                   key={row.formation}
-                  className="border-t border-[#EEEEEE] hover:bg-[#FAF8F5]"
+                  className="border-t border-[#F0F0F0] hover:bg-[#FAFAFA]"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -1147,7 +1147,7 @@ export default function CatalogueFormationsPage() {
       <ParcoursTimeline />
 
       {/* Grid Formations */}
-      <div className="px-6 py-16 bg-[#FAF8F5]">
+      <div className="px-6 py-16 bg-[#FAFAFA]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-heading font-bold text-accent mb-4">

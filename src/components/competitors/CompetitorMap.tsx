@@ -36,7 +36,7 @@ export function CompetitorMap({ center, competitors, prospectName, onMarkerClick
 
   if (!isLoaded) {
     return (
-      <div className="w-full h-[400px] rounded-xl bg-[#F4F0EB] animate-pulse flex items-center justify-center text-[#999999]">
+      <div className="w-full h-[400px] rounded-xl bg-[#F5F5F5] animate-pulse flex items-center justify-center text-[#999999]">
         Chargement de la carte...
       </div>
     )

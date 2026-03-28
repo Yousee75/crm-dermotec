@@ -22,7 +22,7 @@ const STATUT_CONFIG: Record<string, { label: string; color: string; icon: any }>
   OUVERTE: { label: 'Ouverte', color: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30', icon: AlertTriangle },
   EN_COURS: { label: 'En cours', color: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30', icon: Clock },
   RESOLUE: { label: 'Résolue', color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30', icon: CheckCircle },
-  CLOTUREE: { label: 'Clôturée', color: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]', icon: XCircle },
+  CLOTUREE: { label: 'Clôturée', color: 'bg-[#FAFAFA] text-[#777777] border-[#F0F0F0]', icon: XCircle },
 }
 
 const PRIORITE_CONFIG: Record<string, { label: string; color: string }> = {
@@ -125,7 +125,7 @@ export default function ReclamationsTab() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="">Tous les types</option>
             <option value="reclamation">Réclamation</option>
@@ -136,7 +136,7 @@ export default function ReclamationsTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="">Tous les statuts</option>
             <option value="OUVERTE">Ouverte</option>
@@ -155,10 +155,10 @@ export default function ReclamationsTab() {
           description="Les réclamations et actions d'amélioration apparaîtront ici."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F0F0F0] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
+              <thead className="bg-[#FAFAFA]/50 border-b border-[#F0F0F0]">
                 <tr>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Titre</th>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Type</th>
@@ -168,7 +168,7 @@ export default function ReclamationsTab() {
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Date</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F4F0EB]">
+              <tbody className="divide-y divide-[#F0F0F0]">
                 {items.map((item: QualiteItem) => {
                   const typeConf = TYPE_CONFIG[item.type] || TYPE_CONFIG.reclamation
                   const statutConf = STATUT_CONFIG[item.statut] || STATUT_CONFIG.OUVERTE
@@ -176,7 +176,7 @@ export default function ReclamationsTab() {
                   const StatutIcon = statutConf.icon
 
                   return (
-                    <tr key={item.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                    <tr key={item.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                       <td className="px-6 py-4">
                         <span className="text-sm font-medium text-[#111111]">{item.titre}</span>
                         <p className="text-xs text-[#777777] mt-1 line-clamp-1">{item.description}</p>

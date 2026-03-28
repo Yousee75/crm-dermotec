@@ -138,11 +138,11 @@ export function QRCodeGenerator({
 
       <CardContent className="space-y-4">
         <div className="flex justify-center">
-          <div className="p-4 bg-white border-2 border-[#F4F0EB] rounded-xl shadow-sm">
+          <div className="p-4 bg-white border-2 border-[#F0F0F0] rounded-xl shadow-sm">
             {qrDataUrl ? (
               <Image src={qrDataUrl} alt="QR Code émargement" width={size} height={size} unoptimized />
             ) : (
-              <div style={{ width: size, height: size }} className="bg-[#F4F0EB] animate-pulse rounded-lg" />
+              <div style={{ width: size, height: size }} className="bg-[#F5F5F5] animate-pulse rounded-lg" />
             )}
           </div>
         </div>
@@ -150,7 +150,7 @@ export function QRCodeGenerator({
         {autoRefresh && (
           <div className={cn(
             'flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm',
-            secondsLeft < 30 ? 'bg-orange-50 text-orange-600' : 'bg-[#FAF8F5] text-[#777777]'
+            secondsLeft < 30 ? 'bg-orange-50 text-orange-600' : 'bg-[#FAFAFA] text-[#777777]'
           )}>
             <RefreshCw className={cn('w-3.5 h-3.5', secondsLeft < 30 && 'animate-spin')} />
             Renouvellement dans {Math.floor(secondsLeft / 60)}:{(secondsLeft % 60).toString().padStart(2, '0')}
@@ -177,7 +177,7 @@ export function QRCodeGenerator({
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 p-2.5 bg-[#FAF8F5] rounded-lg">
+        <div className="flex items-center gap-2 p-2.5 bg-[#FAFAFA] rounded-lg">
           <span className="flex-1 text-xs text-[#777777] truncate font-mono">{currentUrl}</span>
           <button onClick={() => window.open(currentUrl, '_blank')} className="p-1.5 hover:bg-[#EEEEEE] rounded transition">
             <ExternalLink className="w-3.5 h-3.5 text-[#999999]" />

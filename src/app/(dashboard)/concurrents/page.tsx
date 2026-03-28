@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState } from 'react'
 import dynamic2 from 'next/dynamic'
+import { toast } from 'sonner'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Search, Target, TrendingUp, Star, Users, Euro, AlertTriangle, Zap, FileDown } from 'lucide-react'
 import { useCompetitorAnalysis } from '@/hooks/use-competitors'
@@ -11,7 +12,7 @@ import { CompetitorCard } from '@/components/competitors/CompetitorCard'
 
 const CompetitorMap = dynamic2(
   () => import('@/components/competitors/CompetitorMap').then(m => ({ default: m.CompetitorMap })),
-  { ssr: false, loading: () => <div className="w-full h-[400px] rounded-xl bg-[#F4F0EB] animate-pulse" /> }
+  { ssr: false, loading: () => <div className="w-full h-[400px] rounded-xl bg-[#F5F5F5] animate-pulse" /> }
 )
 
 const RADIUS_OPTIONS = [
@@ -29,6 +30,7 @@ export default function ConcurrentsPage() {
   const [searchMode, setSearchMode] = useState<'siret' | 'nom'>('siret')
   const [warning, setWarning] = useState<string | null>(null)
   const [fullAnalysisLoading, setFullAnalysisLoading] = useState(false)
+  const [fullAnalysisResult, setFullAnalysisResult] = useState<any>(null)
   const { data, isLoading, error, analyze } = useCompetitorAnalysis()
 
   const handleSearch = async () => {
@@ -76,8 +78,8 @@ export default function ConcurrentsPage() {
       })
       const fullData = await res.json()
       if (res.ok) {
-        // TODO: afficher les résultats complets dans un dialog/sheet
-        // TODO: afficher les résultats complets dans un dialog/sheet
+        setFullAnalysisResult(fullData)
+        toast.success(`Analyse complète terminée : ${fullData.competitors?.length || 0} concurrents détaillés`)
       }
     } catch { /* silent */ } finally {
       setFullAnalysisLoading(false)
@@ -92,13 +94,13 @@ export default function ConcurrentsPage() {
       />
 
       {/* Barre de recherche */}
-      <div className="bg-white border border-[#EEEEEE] rounded-xl p-4 space-y-3">
+      <div className="bg-white border border-[#F0F0F0] rounded-xl p-4 space-y-3">
         {/* Mode toggle */}
         <div className="flex gap-2">
           <button
             onClick={() => setSearchMode('siret')}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              searchMode === 'siret' ? 'bg-accent text-white' : 'bg-[#F4F0EB] text-[#777777]'
+              searchMode === 'siret' ? 'bg-accent text-white' : 'bg-[#F5F5F5] text-[#777777]'
             }`}
           >
             Par SIRET
@@ -106,7 +108,7 @@ export default function ConcurrentsPage() {
           <button
             onClick={() => setSearchMode('nom')}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              searchMode === 'nom' ? 'bg-accent text-white' : 'bg-[#F4F0EB] text-[#777777]'
+              searchMode === 'nom' ? 'bg-accent text-white' : 'bg-[#F5F5F5] text-[#777777]'
             }`}
           >
             Par nom
@@ -121,7 +123,7 @@ export default function ConcurrentsPage() {
               onChange={e => setSiret(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
               placeholder="SIRET de votre établissement (14 chiffres)"
-              className="flex-1 min-w-[200px] border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary"
+              className="flex-1 min-w-[200px] border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-primary"
             />
           ) : (
             <>
@@ -130,7 +132,7 @@ export default function ConcurrentsPage() {
                 value={nom}
                 onChange={e => setNom(e.target.value)}
                 placeholder="Nom de l'établissement"
-                className="flex-1 min-w-[150px] border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
+                className="flex-1 min-w-[150px] border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
               <input
                 type="text"
@@ -138,7 +140,7 @@ export default function ConcurrentsPage() {
                 onChange={e => setVille(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 placeholder="Ville"
-                className="w-[150px] border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
+                className="w-[150px] border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </>
           )}
@@ -146,7 +148,7 @@ export default function ConcurrentsPage() {
           <select
             value={radiusM}
             onChange={e => setRadiusM(Number(e.target.value))}
-            className="border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm"
+            className="border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-sm"
           >
             {RADIUS_OPTIONS.map(o => (
               <option key={o.value} value={o.value}>Rayon {o.label}</option>
@@ -203,7 +205,7 @@ export default function ConcurrentsPage() {
             ].map(kpi => {
               const Icon = kpi.icon
               return (
-                <div key={kpi.label} className="bg-white border border-[#EEEEEE] rounded-xl p-4 text-center">
+                <div key={kpi.label} className="bg-white border border-[#F0F0F0] rounded-xl p-4 text-center">
                   <Icon size={20} className="mx-auto mb-1" style={{ color: kpi.color }} />
                   <p className="text-xl font-bold text-accent">{kpi.value}</p>
                   <p className="text-xs text-[#777777]">{kpi.label}</p>
@@ -253,7 +255,7 @@ export default function ConcurrentsPage() {
           </div>
 
           {/* Carte */}
-          <div className="bg-white border border-[#EEEEEE] rounded-xl p-4">
+          <div className="bg-white border border-[#F0F0F0] rounded-xl p-4">
             <h3 className="font-semibold text-sm text-accent mb-3">
               Carte des concurrents — Rayon {radiusM >= 1000 ? `${radiusM / 1000}km` : `${radiusM}m`}
             </h3>

@@ -16,7 +16,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   default: 'bg-primary hover:bg-primary-dark text-white active:scale-[0.97]',
   primary: 'bg-primary hover:bg-primary-dark text-white active:scale-[0.97]',
   secondary: 'bg-accent hover:bg-accent-light text-white active:scale-[0.97]',
-  ghost: 'hover:bg-[#F4F0EB] text-[#3A3A3A] active:scale-[0.97]',
+  ghost: 'hover:bg-[#F5F5F5] text-[#3A3A3A] active:scale-[0.97]',
   destructive: 'bg-error hover:bg-error/90 text-white active:scale-[0.97]',
   outline: 'border border-border bg-white hover:bg-surface-hover text-text active:scale-[0.97]',
   link: 'text-primary hover:text-primary-dark underline-offset-4 hover:underline p-0 h-auto',

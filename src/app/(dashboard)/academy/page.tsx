@@ -311,8 +311,8 @@ export default function AcademyPage() {
                 className={cn(
                   "group relative rounded-xl border transition-all duration-200",
                   isLocked
-                    ? "bg-[#FAF8F5] border-[#EEEEEE] cursor-not-allowed"
-                    : "bg-white border-[#EEEEEE] hover:border-primary hover:shadow-lg cursor-pointer"
+                    ? "bg-[#FAFAFA] border-[#F0F0F0] cursor-not-allowed"
+                    : "bg-white border-[#F0F0F0] hover:border-primary hover:shadow-lg cursor-pointer"
                 )}
               >
                 <div className="p-6">
@@ -479,9 +479,9 @@ export default function AcademyPage() {
                     <div className={cn(
                       "w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold",
                       index === 0 ? "bg-[#FFF3E8] text-[#FF8C42]" :
-                      index === 1 ? "bg-[#F4F0EB] text-[#3A3A3A]" :
+                      index === 1 ? "bg-[#F5F5F5] text-[#3A3A3A]" :
                       index === 2 ? "bg-orange-100 text-orange-700" :
-                      "bg-[#FAF8F5] text-[#777777]"
+                      "bg-[#FAFAFA] text-[#777777]"
                     )}>
                       {index + 1}
                     </div>

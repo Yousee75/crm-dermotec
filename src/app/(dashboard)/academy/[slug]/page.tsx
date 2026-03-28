@@ -47,7 +47,7 @@ function getLessonTypeBadge(type: string) {
     quiz: { label: 'Quiz', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
     checklist: { label: 'Checklist', color: 'bg-[#D1FAE5] text-[#10B981]' },
     script: { label: 'Script', color: 'bg-orange-100 text-orange-700' },
-    pdf: { label: 'PDF', color: 'bg-[#F4F0EB] text-[#3A3A3A]' },
+    pdf: { label: 'PDF', color: 'bg-[#F5F5F5] text-[#3A3A3A]' },
     exercice: { label: 'Exercice', color: 'bg-pink-100 text-pink-700' }
   }
 
@@ -226,8 +226,8 @@ export default function ModuleDetailPage() {
                           "flex items-center gap-4 p-4 rounded-xl border transition-all duration-200",
                           isCompleted ? "bg-[#ECFDF5] border-[#10B981]/30" :
                           isCurrent ? "bg-[#E0EBF5] border-primary ring-2 ring-primary/20" :
-                          isLocked ? "bg-[#FAF8F5] border-[#EEEEEE] cursor-not-allowed opacity-60" :
-                          "bg-white border-[#EEEEEE] hover:border-[#EEEEEE] hover:shadow-sm"
+                          isLocked ? "bg-[#FAFAFA] border-[#F0F0F0] cursor-not-allowed opacity-60" :
+                          "bg-white border-[#F0F0F0] hover:border-[#F0F0F0] hover:shadow-sm"
                         )}
                       >
                         {/* Numéro de leçon */}
@@ -366,7 +366,7 @@ export default function ModuleDetailPage() {
                         "flex items-center gap-3 p-2 rounded-lg text-sm transition-colors",
                         isCurrent ? "bg-[#E0EBF5] text-primary" :
                         isCompleted ? "bg-[#ECFDF5] text-[#10B981]" :
-                        "text-[#777777] hover:bg-[#FAF8F5]"
+                        "text-[#777777] hover:bg-[#FAFAFA]"
                       )}
                     >
                       <div className={cn(

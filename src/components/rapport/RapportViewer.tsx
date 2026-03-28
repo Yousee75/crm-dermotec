@@ -89,7 +89,7 @@ export function RapportViewer({ prospect, rapport }: RapportViewerProps) {
   }, [currentSlide, goToSlide])
 
   return (
-    <div className="flex h-dvh bg-[#FAF8F5] print:block print:h-auto">
+    <div className="flex h-dvh bg-[#FAFAFA] print:block print:h-auto">
       {/* Sidebar */}
       <RapportSidebar
         prospect={prospect}

@@ -78,7 +78,7 @@ export async function POST(
           <strong>${(facture.montant_ttc || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € TTC</strong>.
         </p>
 
-        <div style="background: #FAF8F5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <div style="background: #FAFAFA; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 5px 0; color: #777;">Référence</td>

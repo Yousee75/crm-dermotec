@@ -108,7 +108,7 @@ function KpiCard({
 function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-[#EEEEEE] px-4 py-3 text-sm">
+    <div className="bg-white rounded-xl shadow-lg border border-[#F0F0F0] px-4 py-3 text-sm">
       {label && <p className="text-xs text-[#999999] mb-1.5 font-medium">{label}</p>}
       {payload.map((entry: any, i: number) => (
         <div key={i} className="flex items-center gap-2">
@@ -537,7 +537,7 @@ export default function AnalyticsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-[#EEEEEE]">
+                    <tr className="border-b border-[#F0F0F0]">
                       <th className="text-left py-2.5 text-xs text-[#777777] font-medium">Organisme</th>
                       <th className="text-right py-2.5 text-xs text-[#777777] font-medium">Dossiers</th>
                       <th className="text-right py-2.5 text-xs text-[#777777] font-medium">Montant</th>
@@ -545,7 +545,7 @@ export default function AnalyticsPage() {
                   </thead>
                   <tbody>
                     {data.financement.map((item, i) => (
-                      <tr key={i} className="border-b border-[#F4F0EB] last:border-0">
+                      <tr key={i} className="border-b border-[#F0F0F0] last:border-0">
                         <td className="py-2.5 font-medium text-accent">{item.organisme}</td>
                         <td className="text-right py-2.5 text-[#777777]">{item.count}</td>
                         <td className="text-right py-2.5 font-semibold text-accent">{formatEuro(item.montant)}</td>

@@ -34,7 +34,7 @@ function Tabs({ tabs, defaultTab, onChange, className, variant = 'default' }: Si
 
   const variants = {
     default: {
-      container: 'flex gap-1 p-1 bg-[#F4F0EB] rounded-lg',
+      container: 'flex gap-1 p-1 bg-[#F5F5F5] rounded-lg',
       tab: (isActive: boolean) => cn(
         baseStyles,
         'px-3 py-1.5 rounded-md',
@@ -50,11 +50,11 @@ function Tabs({ tabs, defaultTab, onChange, className, variant = 'default' }: Si
         'px-3 py-1.5 rounded-full',
         isActive
           ? 'bg-primary/10 text-primary-dark'
-          : 'text-[#777777] hover:bg-[#F4F0EB] hover:text-[#3A3A3A]'
+          : 'text-[#777777] hover:bg-[#F5F5F5] hover:text-[#3A3A3A]'
       ),
     },
     underline: {
-      container: 'flex gap-6 border-b border-[#EEEEEE]',
+      container: 'flex gap-6 border-b border-[#F0F0F0]',
       tab: (isActive: boolean) => cn(
         baseStyles,
         'pb-2.5 -mb-px',
@@ -116,7 +116,7 @@ function TabsRoot({ value, onValueChange, className, children }: TabsRootProps) 
 
 function TabsList({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
-    <div className={cn('flex gap-1 p-1 bg-[#F4F0EB] rounded-lg', className)}>
+    <div className={cn('flex gap-1 p-1 bg-[#F5F5F5] rounded-lg', className)}>
       {children}
     </div>
   )

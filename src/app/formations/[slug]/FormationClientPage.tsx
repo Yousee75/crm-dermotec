@@ -144,7 +144,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#FF5C00' }} />
           <p style={{ color: '#3A3A3A' }}>Chargement...</p>
@@ -155,7 +155,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
 
   if (!formation) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4" style={{ color: '#111111' }}>Formation non trouvée</h1>
           <p className="mb-8" style={{ color: '#3A3A3A' }}>Cette formation n'existe pas ou n'est plus disponible.</p>
@@ -240,7 +240,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
       }))
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
 
       {/* ═══════════════════════════════════════════════════════ */}
       {/* HERO — Compact, impactant, fond noir + glow orange      */}
@@ -439,7 +439,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
                 className="flex items-start gap-3 p-3 rounded-xl transition-colors"
-                style={{ backgroundColor: i % 2 === 0 ? '#FAF8F5' : 'transparent' }}
+                style={{ backgroundColor: i % 2 === 0 ? '#FAFAFA' : 'transparent' }}
               >
                 <CheckCircle size={20} className="mt-0.5 flex-shrink-0" style={{ color: '#10B981' }} />
                 <span style={{ color: '#111111' }}>{item}</span>
@@ -459,7 +459,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
       {/* ═══════════════════════════════════════════════════════ */}
       {/* PROGRAMME — Accordéon par objectif                      */}
       {/* ═══════════════════════════════════════════════════════ */}
-      <section className="py-16" style={{ backgroundColor: '#FAF8F5' }}>
+      <section className="py-16" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>
@@ -601,7 +601,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
       {/* ═══════════════════════════════════════════════════════ */}
       {/* ROI — Retour sur investissement                        */}
       {/* ═══════════════════════════════════════════════════════ */}
-      <section className="py-16" style={{ backgroundColor: formation.materiel_inclus ? '#FAF8F5' : '#FFFFFF' }}>
+      <section className="py-16" style={{ backgroundColor: formation.materiel_inclus ? '#FAFAFA' : '#FFFFFF' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>
@@ -703,7 +703,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 className="p-6 rounded-2xl"
-                style={{ backgroundColor: '#FAF8F5', border: '1px solid #EEEEEE' }}
+                style={{ backgroundColor: '#FAFAFA', border: '1px solid #EEEEEE' }}
               >
                 <div className="flex gap-0.5 mb-3">
                   {[...Array(5)].map((_, j) => (
@@ -726,7 +726,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
       {/* ═══════════════════════════════════════════════════════ */}
       {/* FINANCEMENT — 4 options                                */}
       {/* ═══════════════════════════════════════════════════════ */}
-      <section className="py-16" style={{ backgroundColor: '#FAF8F5' }}>
+      <section className="py-16" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>
@@ -814,7 +814,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.08 }}
                     className="p-5 rounded-2xl space-y-4"
-                    style={{ backgroundColor: '#FAF8F5', border: '1px solid #EEEEEE' }}
+                    style={{ backgroundColor: '#FAFAFA', border: '1px solid #EEEEEE' }}
                   >
                     {/* Date */}
                     <div>
@@ -962,7 +962,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
       {/* ═══════════════════════════════════════════════════════ */}
       {/* FAQ — Accordéon                                        */}
       {/* ═══════════════════════════════════════════════════════ */}
-      <section className="py-16" style={{ backgroundColor: '#FAF8F5' }}>
+      <section className="py-16" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="container mx-auto px-4 max-w-3xl">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>
             Questions fréquentes

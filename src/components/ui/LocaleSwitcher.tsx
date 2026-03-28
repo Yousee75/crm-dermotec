@@ -125,8 +125,8 @@ export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
         className={cn(
           'flex items-center gap-2 rounded-lg transition-all',
           compact
-            ? 'p-2 hover:bg-[#F4F0EB]'
-            : 'px-3 py-1.5 text-sm border border-[#EEEEEE] hover:bg-[#FAF8F5]'
+            ? 'p-2 hover:bg-[#F5F5F5]'
+            : 'px-3 py-1.5 text-sm border border-[#F0F0F0] hover:bg-[#FAFAFA]'
         )}
         title="Changer de langue"
       >
@@ -145,7 +145,7 @@ export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
       </button>
 
       {open && (
-        <div className="absolute top-full mt-2 end-0 z-50 bg-white rounded-xl border border-[#EEEEEE] shadow-xl py-1.5 min-w-[200px]"
+        <div className="absolute top-full mt-2 end-0 z-50 bg-white rounded-xl border border-[#F0F0F0] shadow-xl py-1.5 min-w-[200px]"
           style={{ animation: 'fadeIn 0.15s ease-out' }}
         >
           <div className="px-3 py-1.5 mb-1">
@@ -162,7 +162,7 @@ export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
                   'w-full flex items-center gap-3 px-3 py-2.5 text-sm transition-colors text-start',
                   isActive
                     ? 'bg-[#E0EBF5]/80'
-                    : 'hover:bg-[#FAF8F5]'
+                    : 'hover:bg-[#FAFAFA]'
                 )}
               >
                 <div className="w-6 h-4 rounded-[3px] overflow-hidden shadow-sm ring-1 ring-black/10 flex-shrink-0">

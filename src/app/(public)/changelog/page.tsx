@@ -43,7 +43,7 @@ const RELEASES = [
     version: '1.0.0',
     date: '20 mars 2026',
     tag: 'Initial',
-    tagColor: 'bg-[#F4F0EB] text-[#777777]',
+    tagColor: 'bg-[#F5F5F5] text-[#777777]',
     changes: [
       { type: 'new', text: 'CRM complet : 18 tables Supabase, pipeline 11 statuts' },
       { type: 'new', text: 'Pipeline Kanban drag-and-drop' },
@@ -103,7 +103,7 @@ export default function ChangelogPage() {
         ))}
       </div>
 
-      <div className="mt-16 pt-8 border-t border-[#EEEEEE] text-center">
+      <div className="mt-16 pt-8 border-t border-[#F0F0F0] text-center">
         <p className="text-sm text-[#999999]">
           © 2026 Satorea · Dermotec CRM · Made in Paris
         </p>

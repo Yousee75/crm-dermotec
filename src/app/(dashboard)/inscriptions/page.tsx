@@ -140,7 +140,7 @@ export default function InscriptionsPage() {
         <select
           value={statutFilter}
           onChange={(e) => setStatutFilter(e.target.value)}
-          className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="">Tous les statuts</option>
           {Object.entries(STATUT_CONFIG).map(([key, val]) => (
@@ -162,10 +162,10 @@ export default function InscriptionsPage() {
           />
         </Card>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F0F0F0] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
+              <thead className="bg-[#FAFAFA]/50 border-b border-[#F0F0F0]">
                 <tr>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Stagiaire</th>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Formation</th>
@@ -175,13 +175,13 @@ export default function InscriptionsPage() {
                   <th className="text-right text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">Montant</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F4F0EB]">
+              <tbody className="divide-y divide-[#F0F0F0]">
                 {filtered?.map((inscription) => {
                   const sc = STATUT_CONFIG[inscription.statut] || STATUT_CONFIG.EN_ATTENTE
                   const pc = PAIEMENT_CONFIG[inscription.paiement_statut] || PAIEMENT_CONFIG.EN_ATTENTE
                   const Icon = sc.icon
                   return (
-                    <tr key={inscription.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                    <tr key={inscription.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                       <td className="px-6 py-4">
                         <Link href={`/lead/${inscription.lead?.id}`} className="flex items-center gap-3 group">
                           <Avatar name={`${inscription.lead?.prenom} ${inscription.lead?.nom}`} size="sm" />

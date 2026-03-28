@@ -12,7 +12,7 @@ export function VocabTable({ mots, className }: VocabTableProps) {
   return (
     <div className={cn('space-y-1', className)}>
       {mots.map((mot, i) => (
-        <div key={i} className="flex items-start gap-3 py-1.5 border-b border-[#EEEEEE] last:border-b-0">
+        <div key={i} className="flex items-start gap-3 py-1.5 border-b border-[#F0F0F0] last:border-b-0">
           <span className="text-[11px] text-[#FF2D78] line-through min-w-[130px] shrink-0">
             &laquo; {mot.interdit} &raquo;
           </span>

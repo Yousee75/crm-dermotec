@@ -312,7 +312,8 @@ describe('Pipeline Transitions - Ligne Financement', () => {
   describe('Transitions invalides', () => {
     it('Saut d\'étapes interdits', () => {
       expect(validateLigneFinancementTransition('PREPARATION', 'EN_EXAMEN')).toBe('Transition ligne financement invalide : PREPARATION → EN_EXAMEN')
-      expect(validateLigneFinancementTransition('SOUMIS', 'VALIDE')).toBe('Transition ligne financement invalide : SOUMIS → VALIDE')
+      // SOUMIS → VALIDE est autorisé dans validators.ts (validation directe sans examen)
+      expect(validateLigneFinancementTransition('SOUMIS', 'VALIDE')).toBeNull()
       expect(validateLigneFinancementTransition('PREPARATION', 'VERSE')).toBe('Transition ligne financement invalide : PREPARATION → VERSE')
     })
 

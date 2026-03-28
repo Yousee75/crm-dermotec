@@ -250,7 +250,7 @@ function getNextAction(currentStep: number): string {
 // Composant pour la barre de pipeline
 function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStepClick: (step: number) => void }) {
   return (
-    <div className="bg-white border border-[#EEEEEE] rounded-lg p-4 mb-6">
+    <div className="bg-white border border-[#F0F0F0] rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-accent">Pipeline de financement</h2>
         <div className="text-sm text-[#777777]">
@@ -278,7 +278,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
                   'h-12 rounded-lg border-2 flex items-center justify-center text-xs font-medium transition-all',
                   isCompleted && 'bg-[#ECFDF5] border-[#10B981]/30 text-[#10B981]',
                   isActive && 'bg-primary/10 border-primary text-accent',
-                  isFuture && 'bg-[#FAF8F5] border-[#EEEEEE] text-[#777777] hover:bg-[#F4F0EB]'
+                  isFuture && 'bg-[#FAFAFA] border-[#F0F0F0] text-[#777777] hover:bg-[#F5F5F5]'
                 )}
                 onClick={() => onStepClick(index)}
               >
@@ -323,7 +323,7 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
                   'flex-shrink-0 w-20 h-12 rounded-lg border-2 flex items-center justify-center text-xs font-medium',
                   isCompleted && 'bg-[#ECFDF5] border-[#10B981]/30 text-[#10B981]',
                   isActive && 'bg-primary/10 border-primary text-accent',
-                  !isCompleted && !isActive && 'bg-[#FAF8F5] border-[#EEEEEE] text-[#777777]'
+                  !isCompleted && !isActive && 'bg-[#FAFAFA] border-[#F0F0F0] text-[#777777]'
                 )}
               >
                 <div className="flex items-center gap-1">
@@ -398,7 +398,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-[#F4F0EB]">
+              <div className="pt-2 border-t border-[#F0F0F0]">
                 <p className="text-sm text-[#777777] mb-1">N° dossier</p>
                 <p className="font-mono text-sm">OPCO-2026-0341</p>
               </div>
@@ -440,7 +440,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                 <Progress value={0} className="h-2" />
               </div>
 
-              <div className="pt-2 border-t border-[#F4F0EB]">
+              <div className="pt-2 border-t border-[#F0F0F0]">
                 <div className="flex justify-between">
                   <span className="text-sm text-[#777777]">Reste à charge</span>
                   <span className="font-semibold text-orange-600">300,00 €</span>
@@ -451,7 +451,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
         </div>
 
         {/* Mode de paiement */}
-        <div className="mt-6 pt-6 border-t border-[#F4F0EB]">
+        <div className="mt-6 pt-6 border-t border-[#F0F0F0]">
           <div className="flex items-center gap-2 mb-2">
             <CreditCard className="w-4 h-4 text-primary" />
             <span className="font-medium text-accent">Mode de paiement:</span>
@@ -463,7 +463,7 @@ function ResumeActionsTab({ financement }: { financement: any }) {
         </div>
 
         {/* Dates clés */}
-        <div className="mt-6 pt-6 border-t border-[#F4F0EB]">
+        <div className="mt-6 pt-6 border-t border-[#F0F0F0]">
           <h4 className="font-medium text-accent mb-3 flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             Dates importantes
@@ -862,7 +862,7 @@ function DocumentsTab({ financementId }: { financementId: string }) {
       {/* Liste des documents */}
       {!isLoadingDocs && documents.length > 0 && (
       <Card padding="none">
-        <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
+        <div className="p-4 border-b border-[#F0F0F0] flex justify-between items-center">
           <h3 className="font-semibold text-accent">Documents du dossier</h3>
           <div className="flex gap-2">
             <Button size="sm" variant="outline" className="gap-2">
@@ -876,13 +876,13 @@ function DocumentsTab({ financementId }: { financementId: string }) {
           </div>
         </div>
 
-        <div className="divide-y divide-[#FAF8F5]">
+        <div className="divide-y divide-[#FAFAFA]">
           {filteredDocuments.map((doc) => (
             <motion.div
               key={doc.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-4 hover:bg-[#FAF8F5]/50 transition-colors"
+              className="p-4 hover:bg-[#FAFAFA]/50 transition-colors"
             >
               <div className="flex items-start gap-4">
                 <div className="mt-1">
@@ -991,7 +991,7 @@ function PaiementsTab({ financementId }: { financementId: string }) {
       </Card>
 
       {/* Sous-onglets */}
-      <div className="border-b border-[#EEEEEE]">
+      <div className="border-b border-[#F0F0F0]">
         <nav className="flex space-x-8">
           {[
             { key: 'factures', label: 'Factures', count: factures.length },
@@ -1017,7 +1017,7 @@ function PaiementsTab({ financementId }: { financementId: string }) {
       {/* Contenu des sous-onglets */}
       {activeSubTab === 'factures' && (
         <Card padding="none">
-          <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
+          <div className="p-4 border-b border-[#F0F0F0] flex justify-between items-center">
             <h4 className="font-medium text-accent">Factures émises</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
@@ -1028,7 +1028,7 @@ function PaiementsTab({ financementId }: { financementId: string }) {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#FAF8F5] border-b border-[#F4F0EB]">
+                <tr className="bg-[#FAFAFA] border-b border-[#F0F0F0]">
                   <th className="px-4 py-3 text-left font-semibold text-[#777777]">N° facture</th>
                   <th className="px-4 py-3 text-left font-semibold text-[#777777]">Type</th>
                   <th className="px-4 py-3 text-left font-semibold text-[#777777]">Destinataire</th>
@@ -1038,9 +1038,9 @@ function PaiementsTab({ financementId }: { financementId: string }) {
                   <th className="px-4 py-3 text-left font-semibold text-[#777777]">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {factures.map((facture) => (
-                  <tr key={facture.id} className="hover:bg-[#FAF8F5]/50">
+                  <tr key={facture.id} className="hover:bg-[#FAFAFA]/50">
                     <td className="px-4 py-3 font-mono text-xs">{facture.numero}</td>
                     <td className="px-4 py-3">
                       <Badge variant="outline" size="sm">
@@ -1089,7 +1089,7 @@ function PaiementsTab({ financementId }: { financementId: string }) {
 
       {activeSubTab === 'paiements' && (
         <Card padding="none">
-          <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
+          <div className="p-4 border-b border-[#F0F0F0] flex justify-between items-center">
             <h4 className="font-medium text-accent">Paiements reçus</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
@@ -1100,7 +1100,7 @@ function PaiementsTab({ financementId }: { financementId: string }) {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#FAF8F5] border-b border-[#F4F0EB]">
+                <tr className="bg-[#FAFAFA] border-b border-[#F0F0F0]">
                   <th className="px-4 py-3 text-left font-semibold text-[#777777]">Type</th>
                   <th className="px-4 py-3 text-left font-semibold text-[#777777]">Moyen</th>
                   <th className="px-4 py-3 text-right font-semibold text-[#777777]">Montant</th>
@@ -1109,9 +1109,9 @@ function PaiementsTab({ financementId }: { financementId: string }) {
                   <th className="px-4 py-3 text-left font-semibold text-[#777777]">Date</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {paiements.map((paiement) => (
-                  <tr key={paiement.id} className="hover:bg-[#FAF8F5]/50">
+                  <tr key={paiement.id} className="hover:bg-[#FAFAFA]/50">
                     <td className="px-4 py-3">
                       <Badge variant="outline" size="sm">
                         {paiement.type.replace('_', ' ')}
@@ -1146,7 +1146,7 @@ function PaiementsTab({ financementId }: { financementId: string }) {
 
       {activeSubTab === 'echeancier' && (
         <Card padding="none">
-          <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
+          <div className="p-4 border-b border-[#F0F0F0] flex justify-between items-center">
             <h4 className="font-medium text-accent">Échéancier de paiement</h4>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
@@ -1165,9 +1165,9 @@ function PaiementsTab({ financementId }: { financementId: string }) {
 
             <div className="space-y-3">
               {emptyEcheancier.map((echeance) => (
-                <div key={echeance.id} className="flex items-center justify-between p-3 border border-[#EEEEEE] rounded-lg">
+                <div key={echeance.id} className="flex items-center justify-between p-3 border border-[#F0F0F0] rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-[#F4F0EB] rounded-full flex items-center justify-center text-sm font-medium">
+                    <div className="w-8 h-8 bg-[#F5F5F5] rounded-full flex items-center justify-center text-sm font-medium">
                       {echeance.numero}
                     </div>
                     <div>
@@ -1271,7 +1271,7 @@ function MultiFinancementTab() {
 
           {/* Lignes de financement */}
           <Card padding="none">
-            <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
+            <div className="p-4 border-b border-[#F0F0F0] flex justify-between items-center">
               <h4 className="font-medium text-accent">Lignes de financement</h4>
               <Button size="sm" className="gap-2">
                 <Plus className="w-4 h-4" />
@@ -1282,7 +1282,7 @@ function MultiFinancementTab() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#FAF8F5] border-b border-[#F4F0EB]">
+                  <tr className="bg-[#FAFAFA] border-b border-[#F0F0F0]">
                     <th className="px-4 py-3 text-left font-semibold text-[#777777]">Organisme</th>
                     <th className="px-4 py-3 text-right font-semibold text-[#777777]">Demandé</th>
                     <th className="px-4 py-3 text-right font-semibold text-[#777777]">Accordé</th>
@@ -1291,9 +1291,9 @@ function MultiFinancementTab() {
                     <th className="px-4 py-3 text-center font-semibold text-[#777777]">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#FAF8F5]">
+                <tbody className="divide-y divide-[#FAFAFA]">
                   {lignes.map((ligne) => (
-                    <tr key={ligne.id} className="hover:bg-[#FAF8F5]/50">
+                    <tr key={ligne.id} className="hover:bg-[#FAFAFA]/50">
                       <td className="px-4 py-3">
                         <Badge variant="outline" className="bg-[#E0EBF5] border-[#6B8CAE]/30 text-[#6B8CAE]">
                           {ligne.organisme}
@@ -1486,7 +1486,7 @@ function HistoriqueTab({ financementId, leadId }: { financementId: string; leadI
         <div className="space-y-6">
           {filteredHistorique.map((entry, index) => {
             const Icon = actionIcons[entry.action as keyof typeof actionIcons] || Info
-            const colorClass = actionColors[entry.action as keyof typeof actionColors] || 'bg-[#F4F0EB] text-[#3A3A3A]'
+            const colorClass = actionColors[entry.action as keyof typeof actionColors] || 'bg-[#F5F5F5] text-[#3A3A3A]'
 
             return (
               <motion.div
@@ -1621,7 +1621,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         className="w-full max-w-6xl max-h-[90vh] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-[#EEEEEE] bg-white">
+        <div className="flex items-center justify-between p-6 border-b border-[#F0F0F0] bg-white">
           <div>
             <h1 className="text-xl font-bold text-accent">Workflow de financement</h1>
             <p className="text-[#777777]">
@@ -1644,7 +1644,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         {/* Tabs */}
         <div className="flex-1 overflow-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-            <div className="px-6 border-b border-[#EEEEEE]">
+            <div className="px-6 border-b border-[#F0F0F0]">
               <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="resume">Résumé & Actions</TabsTrigger>
                 <TabsTrigger value="documents">Documents</TabsTrigger>
@@ -1679,7 +1679,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
         </div>
 
         {/* Footer sticky */}
-        <div className="border-t border-[#EEEEEE] bg-white p-4">
+        <div className="border-t border-[#F0F0F0] bg-white p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">

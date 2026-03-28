@@ -223,7 +223,7 @@ export default function ContentUploader({
         <div className="flex gap-2">
           <button
             onClick={() => setShowVideoUrlForm(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#EEEEEE] hover:bg-[#FAF8F5] text-sm transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#F0F0F0] hover:bg-[#FAFAFA] text-sm transition-colors"
           >
             <Video className="w-4 h-4" />
             Ajouter vidéo YouTube
@@ -248,7 +248,7 @@ export default function ContentUploader({
           relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all
           ${dragOver
             ? 'border-[#FF8C42] bg-[#FFF0E5]'
-            : 'border-[#EEEEEE] hover:border-[#EEEEEE] hover:bg-[#FAF8F5]'
+            : 'border-[#F0F0F0] hover:border-[#F0F0F0] hover:bg-[#FAFAFA]'
           }
         `}
       >
@@ -271,10 +271,10 @@ export default function ContentUploader({
 
       {/* Formulaire vidéo URL */}
       {showVideoUrlForm && (
-        <div className="p-4 rounded-lg border border-[#EEEEEE] bg-white space-y-3">
+        <div className="p-4 rounded-lg border border-[#F0F0F0] bg-white space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Ajouter une vidéo par URL</h3>
-            <button onClick={() => setShowVideoUrlForm(false)} className="p-1 hover:bg-[#F4F0EB] rounded">
+            <button onClick={() => setShowVideoUrlForm(false)} className="p-1 hover:bg-[#F5F5F5] rounded">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -315,10 +315,10 @@ export default function ContentUploader({
 
       {/* Formulaire nouveau module */}
       {showNewModule && (
-        <div className="p-4 rounded-lg border border-[#EEEEEE] bg-white space-y-3">
+        <div className="p-4 rounded-lg border border-[#F0F0F0] bg-white space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Nouveau module</h3>
-            <button onClick={() => setShowNewModule(false)} className="p-1 hover:bg-[#F4F0EB] rounded">
+            <button onClick={() => setShowNewModule(false)} className="p-1 hover:bg-[#F5F5F5] rounded">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -374,7 +374,7 @@ export default function ContentUploader({
             return (
               <div
                 key={item.id}
-                className="flex items-center gap-3 p-3 rounded-lg border border-[#EEEEEE] bg-white"
+                className="flex items-center gap-3 p-3 rounded-lg border border-[#F0F0F0] bg-white"
               >
                 {/* Icône type */}
                 <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${config.color}`}>
@@ -398,7 +398,7 @@ export default function ContentUploader({
                   </div>
                   {/* Barre de progression */}
                   {item.status === 'uploading' && (
-                    <div className="h-1 bg-[#F4F0EB] rounded-full mt-1.5 overflow-hidden">
+                    <div className="h-1 bg-[#F5F5F5] rounded-full mt-1.5 overflow-hidden">
                       <div
                         className="h-full bg-[#FF5C00] rounded-full transition-all duration-300"
                         style={{ width: `${item.progress}%` }}
@@ -415,7 +415,7 @@ export default function ContentUploader({
                   <select
                     value={item.moduleId}
                     onChange={(e) => updateItem(item.id, { moduleId: e.target.value })}
-                    className="text-xs border rounded-lg px-2 py-1.5 bg-[#FAF8F5] max-w-[150px]"
+                    className="text-xs border rounded-lg px-2 py-1.5 bg-[#FAFAFA] max-w-[150px]"
                   >
                     {modules.map(m => (
                       <option key={m.id} value={m.id}>
@@ -434,7 +434,7 @@ export default function ContentUploader({
                 {item.status === 'pending' && (
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="p-1.5 hover:bg-[#F4F0EB] rounded-lg transition-colors flex-shrink-0"
+                    className="p-1.5 hover:bg-[#F5F5F5] rounded-lg transition-colors flex-shrink-0"
                   >
                     <Trash2 className="w-4 h-4 text-[#999999]" />
                   </button>

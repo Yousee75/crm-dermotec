@@ -31,7 +31,7 @@ export function SlidePlanAction({ prospect, rapport }: SlidePlanActionProps) {
       </motion.div>
 
       <motion.div {...anim(2)} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-        <div className="bg-white border border-[#EEEEEE] rounded-xl p-4 shadow-sm">
+        <div className="bg-white border border-[#F0F0F0] rounded-xl p-4 shadow-sm">
           <h3 className="text-[11px] font-bold text-[#111111] uppercase tracking-wider mb-3 flex items-center gap-1.5">
             <span className="w-[3px] h-3.5 bg-[#FF5C00] rounded-sm" /> L&apos;offre formation
           </h3>
@@ -44,7 +44,7 @@ export function SlidePlanAction({ prospect, rapport }: SlidePlanActionProps) {
                 ['Financement', 'OPCO EP · 100%'],
                 ['ROI', `Remboursée en ${rapport.kpi.remboursement_jours} jours`],
               ] as const).map(([label, value]) => (
-                <tr key={label} className="border-b border-[#F4F0EB] last:border-b-0">
+                <tr key={label} className="border-b border-[#F0F0F0] last:border-b-0">
                   <td className="py-1.5 text-[#777777] pr-3">{label}</td>
                   <td className="py-1.5 font-medium text-[#111111]">
                     {label === 'Financement' ? <span className="text-[#10B981] font-bold">{value}</span> : value}
@@ -55,7 +55,7 @@ export function SlidePlanAction({ prospect, rapport }: SlidePlanActionProps) {
           </table>
         </div>
 
-        <div className="bg-white border border-[#EEEEEE] rounded-xl p-4 shadow-sm">
+        <div className="bg-white border border-[#F0F0F0] rounded-xl p-4 shadow-sm">
           <h3 className="text-[11px] font-bold text-[#111111] uppercase tracking-wider mb-3 flex items-center gap-1.5">
             <span className="w-[3px] h-3.5 bg-[#10B981] rounded-sm" /> Tarifs prestations post-formation
           </h3>
@@ -67,7 +67,7 @@ export function SlidePlanAction({ prospect, rapport }: SlidePlanActionProps) {
                 ['Full Lips', '300€', '#FF5C00'],
                 ['Retouche (4-6 sem.)', '80-100€', '#777777'],
               ] as const).map(([prestation, prix, color]) => (
-                <tr key={prestation} className="border-b border-[#F4F0EB] last:border-b-0">
+                <tr key={prestation} className="border-b border-[#F0F0F0] last:border-b-0">
                   <td className="py-1.5 text-[#111111]">{prestation}</td>
                   <td className="py-1.5 font-semibold" style={{ color }}>{prix}</td>
                 </tr>

@@ -50,7 +50,7 @@ function getLessonTypeBadge(type: string) {
     quiz: { label: 'Quiz', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
     checklist: { label: 'Checklist', color: 'bg-[#D1FAE5] text-[#10B981]' },
     script: { label: 'Script', color: 'bg-orange-100 text-orange-700' },
-    pdf: { label: 'PDF', color: 'bg-[#F4F0EB] text-[#3A3A3A]' },
+    pdf: { label: 'PDF', color: 'bg-[#F5F5F5] text-[#3A3A3A]' },
     exercice: { label: 'Exercice', color: 'bg-pink-100 text-pink-700' }
   }
 
@@ -98,7 +98,7 @@ function VideoContent({ contenu }: { contenu: any }) {
           )}
         </div>
       ) : (
-        <div className="aspect-video bg-[#F4F0EB] rounded-lg flex items-center justify-center">
+        <div className="aspect-video bg-[#F5F5F5] rounded-lg flex items-center justify-center">
           <div className="text-center text-[#777777]">
             <Video className="w-12 h-12 mx-auto mb-2" />
             <p>Vidéo à venir</p>
@@ -107,7 +107,7 @@ function VideoContent({ contenu }: { contenu: any }) {
       )}
 
       {contenu.transcript && (
-        <div className="bg-[#FAF8F5] p-4 rounded-lg">
+        <div className="bg-[#FAFAFA] p-4 rounded-lg">
           <h4 className="font-medium mb-2">Transcription</h4>
           <p className="text-sm text-[#777777] whitespace-pre-wrap">
             {contenu.transcript}
@@ -228,7 +228,7 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
                 "w-full p-3 text-left rounded-lg border transition-colors",
                 answers[currentQuestion] === optIndex
                   ? "bg-[#FFF0E5] border-[#FF8C42] text-[#FF5C00]"
-                  : "bg-[#FAF8F5] border-[#EEEEEE] hover:bg-[#F4F0EB]"
+                  : "bg-[#FAFAFA] border-[#F0F0F0] hover:bg-[#F5F5F5]"
               )}
             >
               <div className="flex items-center gap-3">
@@ -236,7 +236,7 @@ function QuizContent({ contenu, onComplete }: { contenu: any; onComplete: (score
                   "w-5 h-5 rounded-full border-2 flex items-center justify-center",
                   answers[currentQuestion] === optIndex
                     ? "border-[#FF5C00] bg-[#6B8CAE]"
-                    : "border-[#EEEEEE]"
+                    : "border-[#F0F0F0]"
                 )}>
                   {answers[currentQuestion] === optIndex && (
                     <Check className="w-3 h-3 text-white" />
@@ -314,7 +314,7 @@ function ChecklistContent({ contenu, onComplete }: { contenu: any; onComplete: (
             {items.map((item: string, index: number) => (
               <label
                 key={index}
-                className="flex items-center gap-3 p-3 rounded-lg border bg-[#FAF8F5] cursor-pointer hover:bg-[#F4F0EB]"
+                className="flex items-center gap-3 p-3 rounded-lg border bg-[#FAFAFA] cursor-pointer hover:bg-[#F5F5F5]"
               >
                 <input
                   type="checkbox"
@@ -369,7 +369,7 @@ function ScriptContent({ contenu }: { contenu: any }) {
                 "max-w-md p-4 rounded-lg",
                 dialogue.speaker === 'Commercial'
                   ? "bg-[#FFF0E5] border border-[#FF5C00]/30"
-                  : "bg-[#FAF8F5] border border-[#EEEEEE]"
+                  : "bg-[#FAFAFA] border border-[#F0F0F0]"
               )}>
                 <div className="flex items-center gap-2 mb-2">
                   {dialogue.speaker === 'Commercial' ? (
@@ -408,7 +408,7 @@ function PdfContent({ contenu }: { contenu: any }) {
   return (
     <div className="space-y-4">
       {contenu.url ? (
-        <div className="bg-[#FAF8F5] border rounded-lg p-6 text-center">
+        <div className="bg-[#FAFAFA] border rounded-lg p-6 text-center">
           <FileText className="w-12 h-12 text-[#999999] mx-auto mb-4" />
           <h3 className="font-medium mb-2">Document PDF</h3>
           <p className="text-sm text-[#777777] mb-4">
@@ -453,7 +453,7 @@ function ExerciceContent({ contenu }: { contenu: any }) {
           </div>
 
           {contenu.example && (
-            <div className="bg-[#FAF8F5] border rounded-lg p-4">
+            <div className="bg-[#FAFAFA] border rounded-lg p-4">
               <h4 className="font-medium mb-2">Exemple</h4>
               <p className="text-[#3A3A3A] whitespace-pre-wrap">
                 {contenu.example}
@@ -654,7 +654,7 @@ export default function LessonPage() {
                       "flex items-center gap-3 p-2 rounded-lg text-sm transition-colors",
                       l.id === lesson.id
                         ? "bg-[#FFF0E5] text-[#FF5C00] border border-[#FF5C00]/30"
-                        : "text-[#777777] hover:bg-[#FAF8F5]"
+                        : "text-[#777777] hover:bg-[#FAFAFA]"
                     )}
                   >
                     <div className={cn(
@@ -676,7 +676,7 @@ export default function LessonPage() {
       </div>
 
       {/* Bottom bar */}
-      <div className="sticky bottom-0 bg-white border-t border-[#EEEEEE] p-4">
+      <div className="sticky bottom-0 bg-white border-t border-[#F0F0F0] p-4">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-4">
             {!isCompleted && (lesson.type === 'texte' || lesson.type === 'video' || lesson.type === 'script' || lesson.type === 'pdf' || lesson.type === 'exercice') && (

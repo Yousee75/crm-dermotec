@@ -128,7 +128,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl border border-[#F4F0EB] overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xl border border-[#F0F0F0] overflow-hidden">
           {/* Header */}
           <div className="bg-accent px-8 py-6 text-center">
             <h1 className="text-2xl font-bold text-primary mb-1">Dermotec CRM</h1>
@@ -151,11 +151,11 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
             {/* Infos */}
             <div className="space-y-3 mb-8">
-              <div className="flex items-center gap-3 p-3 bg-[#FAF8F5] rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-[#FAFAFA] rounded-lg">
                 <Shield className="w-4 h-4 text-[#999999]" />
                 <span className="text-sm text-[#777777]">Rôle : <strong>{roleLabel}</strong></span>
               </div>
-              <div className="flex items-center gap-3 p-3 bg-[#FAF8F5] rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-[#FAFAFA] rounded-lg">
                 <Clock className="w-4 h-4 text-[#999999]" />
                 <span className="text-sm text-[#777777]">
                   Expire le {new Date(invitation!.expires_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}

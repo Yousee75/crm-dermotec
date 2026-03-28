@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PolitiqueConfidentialitePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FAF8F5] to-[#FFF0E5]/20">
+    <div className="min-h-screen bg-gradient-to-br from-[#FAFAFA] to-[#FFF0E5]/20">
       <div className="max-w-5xl mx-auto px-6 py-16">
 
         {/* Hero Section */}

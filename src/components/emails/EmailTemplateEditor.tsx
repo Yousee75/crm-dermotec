@@ -352,7 +352,7 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
   return (
     <div className="flex flex-col h-full max-h-[85vh]">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-[#F4F0EB]">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F0F0]">
         <div className="flex items-center gap-3">
           <h2 className="text-lg font-semibold text-accent">
             {isNew ? 'Nouveau template' : 'Modifier le template'}
@@ -361,14 +361,14 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
         </div>
         <button
           onClick={onClose}
-          className="p-1.5 -m-1.5 rounded-lg hover:bg-[#F4F0EB] text-[#999999] hover:text-[#777777] transition"
+          className="p-1.5 -m-1.5 rounded-lg hover:bg-[#F5F5F5] text-[#999999] hover:text-[#777777] transition"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
       {/* Name + Subject */}
-      <div className="px-6 py-4 border-b border-[#FAF8F5] space-y-3">
+      <div className="px-6 py-4 border-b border-[#FAFAFA] space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <Input
             label="Nom du template"
@@ -381,7 +381,7 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
             <select
               value={categorie}
               onChange={e => setCategorie(e.target.value as EmailTemplate['categorie'])}
-              className="w-full rounded-lg border border-[#EEEEEE] bg-white text-sm px-3 py-2 focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none"
+              className="w-full rounded-lg border border-[#F0F0F0] bg-white text-sm px-3 py-2 focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none"
             >
               {CATEGORIES.map(c => (
                 <option key={c.value} value={c.value}>{c.label}</option>
@@ -399,7 +399,7 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
       </div>
 
       {/* Variables bar */}
-      <div className="px-6 py-3 border-b border-[#FAF8F5] bg-[#FAF8F5]/50">
+      <div className="px-6 py-3 border-b border-[#FAFAFA] bg-[#FAFAFA]/50">
         <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => setShowVariables(!showVariables)}
@@ -429,9 +429,9 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
       {/* Editor + Preview */}
       <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Left: Editor (60%) */}
-        <div className="w-[60%] flex flex-col border-r border-[#F4F0EB]">
+        <div className="w-[60%] flex flex-col border-r border-[#F0F0F0]">
           {/* Toolbar */}
-          <div className="flex items-center gap-1 px-4 py-2 border-b border-[#F4F0EB] bg-[#FAF8F5]/50">
+          <div className="flex items-center gap-1 px-4 py-2 border-b border-[#F0F0F0] bg-[#FAFAFA]/50">
             <button
               onClick={() => wrapSelection('<strong>', '</strong>')}
               className="p-1.5 rounded hover:bg-[#EEEEEE] text-[#777777] transition"
@@ -489,8 +489,8 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
         </div>
 
         {/* Right: Preview (40%) */}
-        <div className="w-[40%] flex flex-col bg-[#FAF8F5]">
-          <div className="flex items-center justify-between px-4 py-2 border-b border-[#F4F0EB]">
+        <div className="w-[40%] flex flex-col bg-[#FAFAFA]">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-[#F0F0F0]">
             <div className="flex items-center gap-2">
               <Eye className="w-4 h-4 text-[#777777]" />
               <span className="text-xs font-medium text-[#777777]">Apercu</span>
@@ -518,11 +518,11 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
           </div>
           <div className="flex-1 overflow-auto p-4">
             <div className={cn(
-              'bg-white rounded-lg shadow-sm border border-[#EEEEEE] overflow-hidden mx-auto',
+              'bg-white rounded-lg shadow-sm border border-[#F0F0F0] overflow-hidden mx-auto',
               previewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
             )}>
               {/* Email subject preview */}
-              <div className="px-4 py-3 bg-[#FAF8F5] border-b border-[#EEEEEE]">
+              <div className="px-4 py-3 bg-[#FAFAFA] border-b border-[#F0F0F0]">
                 <p className="text-xs text-[#777777]">Sujet</p>
                 <p className="text-sm font-medium text-[#111111] mt-0.5">
                   {replaceVariables(sujet).replace(/<[^>]+>/g, '')}
@@ -538,10 +538,10 @@ export default function EmailTemplateEditor({ template, onClose, onSaved }: Emai
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between px-6 py-4 border-t border-[#F4F0EB] bg-white">
+      <div className="flex items-center justify-between px-6 py-4 border-t border-[#F0F0F0] bg-white">
         <div className="text-xs text-[#999999]">
           {extractVariablesFromBody(corps).length} variable(s) detectee(s)
-          {slug && <span className="ml-3">Slug: <code className="bg-[#F4F0EB] px-1 rounded">{slug}</code></span>}
+          {slug && <span className="ml-3">Slug: <code className="bg-[#F5F5F5] px-1 rounded">{slug}</code></span>}
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={onClose}>

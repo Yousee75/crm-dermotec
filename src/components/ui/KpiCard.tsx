@@ -28,14 +28,14 @@ function KpiCard({ icon: Icon, label, value, color, subtitle, trend, className, 
   const trendColor = trend
     ? trend.value > 0 ? 'text-[#10B981] bg-[#ECFDF5]'
     : trend.value < 0 ? 'text-[#FF2D78] bg-[#FFE0EF]'
-    : 'text-[#777777] bg-[#FAF8F5]'
+    : 'text-[#777777] bg-[#FAFAFA]'
     : ''
 
   return (
     <div
       className={cn(
-        'group bg-white rounded-xl border border-[#F4F0EB] p-4 md:p-5',
-        'hover:shadow-lg hover:border-[#EEEEEE] hover:-translate-y-0.5 transition-all duration-200',
+        'group bg-white rounded-xl border border-[#F0F0F0] p-4 md:p-5',
+        'hover:shadow-lg hover:border-[#F0F0F0] hover:-translate-y-0.5 transition-all duration-200',
         'animate-fadeIn',
         onClick && 'cursor-pointer',
         className

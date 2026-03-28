@@ -130,10 +130,10 @@ function CollapsibleSection({
   const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <div className={cn("bg-white rounded-xl border border-[#EEEEEE]", className)}>
+    <div className={cn("bg-white rounded-xl border border-[#F0F0F0]", className)}>
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-5 py-4 hover:bg-[#FAF8F5] transition"
+        className="w-full flex items-center justify-between px-5 py-4 hover:bg-[#FAFAFA] transition"
       >
         <div className="flex items-center gap-2">
           {icon}
@@ -141,7 +141,7 @@ function CollapsibleSection({
             {title}
           </h3>
           {badge && (
-            <span className="text-[10px] bg-[#FAF8F5] text-[#666666] px-2 py-0.5 rounded-full">
+            <span className="text-[10px] bg-[#FAFAFA] text-[#666666] px-2 py-0.5 rounded-full">
               {badge}
             </span>
           )}
@@ -149,7 +149,7 @@ function CollapsibleSection({
         <ChevronDown className={cn("w-4 h-4 transition-transform text-[#666666]", open && "rotate-180")} />
       </button>
       {open && (
-        <div className="px-5 pb-5 border-t border-[#EEEEEE] pt-4">
+        <div className="px-5 pb-5 border-t border-[#F0F0F0] pt-4">
           {children}
         </div>
       )}
@@ -161,7 +161,7 @@ function ParcoursSteps({ statut }: { statut: StatutLead }) {
   const etapeIndex = getEtapeIndex(statut)
 
   return (
-    <div className="bg-white rounded-xl border border-[#EEEEEE] p-5">
+    <div className="bg-white rounded-xl border border-[#F0F0F0] p-5">
       <div className="flex items-center gap-2 mb-4">
         <Target className="w-4 h-4 text-[#FF5C00]" />
         <h3 className="font-semibold text-[#111111]" style={{ fontFamily: 'var(--font-heading)' }}>
@@ -235,7 +235,7 @@ function EditableField({ label, value, field, isEditing, editedLead, setEditedLe
           value={getEditValue()}
           onChange={(e) => handleChange(e.target.value)}
           autoFocus={autoFocus}
-          className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
+          className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
         />
       ) : (
         <p className="text-sm text-[#111111] py-2 min-h-[36px] flex items-center">
@@ -269,7 +269,7 @@ function SelectField({ label, value, field, isEditing, editedLead, setEditedLead
       <select
         value={currentValue}
         onChange={(e) => setEditedLead(prev => ({ ...prev, [field]: e.target.value }))}
-        className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm bg-white focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
+        className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm bg-white focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
       >
         <option value="">— Sélectionner —</option>
         {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
@@ -391,7 +391,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
   if (isLoading) {
     return (
-      <div className="space-y-6 bg-[#FAF8F5] min-h-screen p-6">
+      <div className="space-y-6 bg-[#FAFAFA] min-h-screen p-6">
         <div className="flex items-center gap-3">
           <div className="skeleton h-5 w-5 rounded" />
           <div className="skeleton h-12 w-12 rounded-full" />
@@ -405,7 +405,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
   if (!lead) {
     return (
-      <div className="bg-[#FAF8F5] min-h-screen flex items-center justify-center">
+      <div className="bg-[#FAFAFA] min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center justify-center text-center">
           <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-4">
             <User className="w-6 h-6 text-[#999999]" />
@@ -452,15 +452,15 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   }
 
   return (
-    <div className="bg-[#FAF8F5] min-h-screen">
+    <div className="bg-[#FAFAFA] min-h-screen">
       {/* ===== HEADER STICKY ===== */}
-      <div className="sticky top-0 z-10 bg-white border-b border-[#EEEEEE] px-6 py-4">
+      <div className="sticky top-0 z-10 bg-white border-b border-[#F0F0F0] px-6 py-4">
         <div className="max-w-4xl mx-auto">
           {/* Ligne 1: Navigation + Nom + Score + Statut */}
           <div className="flex items-center gap-4 mb-3">
             <Link
               href="/leads"
-              className="p-2 hover:bg-[#FAF8F5] rounded-lg transition shrink-0"
+              className="p-2 hover:bg-[#FAFAFA] rounded-lg transition shrink-0"
             >
               <ArrowLeft className="w-4 h-4 text-[#666666]" />
             </Link>
@@ -496,7 +496,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                           <button
                             key={sk}
                             onClick={() => handleChangeStatut(sk)}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-xs hover:bg-[#FAF8F5] text-left"
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs hover:bg-[#FAFAFA] text-left"
                           >
                             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: STATUTS_LEAD[sk].color }} />
                             {STATUTS_LEAD[sk].label}
@@ -573,7 +573,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             <div className="relative">
               <button
                 onClick={() => setShowMoreActions(p => !p)}
-                className="flex items-center justify-center w-10 h-10 bg-[#FAF8F5] text-[#666666] rounded-lg hover:bg-[#F4F0EB] transition"
+                className="flex items-center justify-center w-10 h-10 bg-[#FAFAFA] text-[#666666] rounded-lg hover:bg-[#F5F5F5] transition"
               >
                 <MoreHorizontal className="w-4 h-4" />
               </button>
@@ -584,14 +584,14 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                   <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-xl border z-50 py-1">
                     <button
                       onClick={() => { setShowMoreActions(false); setShowAssign(true) }}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAF8F5] text-left"
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAFAFA] text-left"
                     >
                       <Target className="w-4 h-4 text-[#666666]" />
                       {lead.commercial_assigne ? 'Réassigner' : 'Assigner commercial'}
                     </button>
                     <button
                       onClick={() => { setShowMoreActions(false); setIsEditing(true) }}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAF8F5] text-left"
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAFAFA] text-left"
                     >
                       <Edit3 className="w-4 h-4 text-[#666666]" />
                       Modifier la fiche
@@ -600,14 +600,14 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                       data-action="enrich"
                       onClick={handleEnrich}
                       disabled={isEnriching}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAF8F5] text-left disabled:opacity-50"
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAFAFA] text-left disabled:opacity-50"
                     >
                       <Zap className="w-4 h-4 text-[#FF5C00]" />
                       {isEnriching ? 'Enrichissement...' : 'Enrichir ce prospect'}
                     </button>
                     <button
                       onClick={handleDelete}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAF8F5] text-left text-[#FF2D78]"
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs hover:bg-[#FAFAFA] text-left text-[#FF2D78]"
                     >
                       <Trash2 className="w-4 h-4 text-[#FF2D78]" />
                       Supprimer le prospect
@@ -648,10 +648,10 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           badge={`${completionPct}%`}
         >
           {isEditing && (
-            <div className="flex items-center justify-end gap-2 mb-4 pb-4 border-b border-[#EEEEEE]">
+            <div className="flex items-center justify-end gap-2 mb-4 pb-4 border-b border-[#F0F0F0]">
               <button
                 onClick={() => { setIsEditing(false); setEditedLead({}) }}
-                className="px-3 py-1.5 text-xs text-[#666666] border border-[#EEEEEE] rounded-lg hover:bg-[#FAF8F5] transition"
+                className="px-3 py-1.5 text-xs text-[#666666] border border-[#F0F0F0] rounded-lg hover:bg-[#FAFAFA] transition"
               >
                 Annuler
               </button>
@@ -759,7 +759,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             <label className="block text-xs font-medium text-[#666666] mb-2">Tags</label>
             <div className="flex flex-wrap gap-2">
               {lead.tags.map(tag => (
-                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 bg-[#FAF8F5] text-[#111111] rounded-full text-xs group">
+                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 bg-[#FAFAFA] text-[#111111] rounded-full text-xs group">
                   {tag}
                   <button
                     onClick={() => handleRemoveTag(tag)}
@@ -775,7 +775,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 onChange={e => setNewTag(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleAddTag()}
                 placeholder="+ tag"
-                className="px-2 py-1 border border-dashed border-[#EEEEEE] rounded-full text-xs text-center focus:border-[#FF5C00] focus:w-20 transition-all outline-none w-12"
+                className="px-2 py-1 border border-dashed border-[#F0F0F0] rounded-full text-xs text-center focus:border-[#FF5C00] focus:w-20 transition-all outline-none w-12"
               />
             </div>
           </div>
@@ -789,7 +789,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
               disabled={!isEditing}
               rows={3}
               placeholder="Notes internes..."
-              className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm disabled:bg-[#FAF8F5] disabled:text-[#666666] resize-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
+              className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm disabled:bg-[#FAFAFA] disabled:text-[#666666] resize-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
             />
           </div>
         </CollapsibleSection>
@@ -804,7 +804,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           >
             <div className="space-y-3">
               {lead.financements.map((fin: Financement, i: number) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-[#FAF8F5] rounded-lg">
+                <div key={i} className="flex items-center justify-between p-4 bg-[#FAFAFA] rounded-lg">
                   <div>
                     <h4 className="font-medium text-[#111111]">{fin.organisme}</h4>
                     <p className="text-xs text-[#666666] mt-1">
@@ -832,7 +832,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           >
             <div className="space-y-3">
               {lead.inscriptions.map((insc: Inscription) => (
-                <div key={insc.id} className="flex items-center justify-between p-4 border border-[#EEEEEE] rounded-lg">
+                <div key={insc.id} className="flex items-center justify-between p-4 border border-[#F0F0F0] rounded-lg">
                   <div className="min-w-0 flex-1">
                     <h4 className="font-medium text-[#111111] truncate">
                       {insc.session?.formation?.nom || 'Formation'}
@@ -848,7 +848,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                         'px-2 py-0.5 rounded-full text-[10px] font-medium',
                         insc.paiement_statut === 'PAYE' ? 'bg-[#10B981]/10 text-[#10B981]' :
                         insc.paiement_statut === 'EN_ATTENTE' ? 'bg-[#FF8C42]/10 text-[#FF8C42]' :
-                        'bg-[#FAF8F5] text-[#666666]'
+                        'bg-[#FAFAFA] text-[#666666]'
                       )}>
                         {insc.paiement_statut.replace(/_/g, ' ').toLowerCase()}
                       </span>
@@ -876,21 +876,21 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
         <FormationSuggester leadId={lead.id} compact onSelect={() => setShowWizard(true)} />
 
         {/* Section Timeline - TOUJOURS OUVERTE */}
-        <div className="bg-white rounded-xl border border-[#EEEEEE]">
-          <div className="px-5 py-4 border-b border-[#EEEEEE] flex items-center gap-2">
+        <div className="bg-white rounded-xl border border-[#F0F0F0]">
+          <div className="px-5 py-4 border-b border-[#F0F0F0] flex items-center gap-2">
             <Activity className="w-4 h-4 text-[#FF5C00]" />
             <h3 className="font-semibold text-[#111111]" style={{ fontFamily: 'var(--font-heading)' }}>
               Timeline
             </h3>
             {messages.length > 0 && (
-              <span className="text-[10px] bg-[#FAF8F5] text-[#666666] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] bg-[#FAFAFA] text-[#666666] px-2 py-0.5 rounded-full">
                 {messages.length}
               </span>
             )}
           </div>
 
           {/* Envoi rapide */}
-          <div className="px-5 py-4 border-b border-[#EEEEEE] bg-[#FAF8F5]/50">
+          <div className="px-5 py-4 border-b border-[#F0F0F0] bg-[#FAFAFA]/50">
             <div className="flex items-center gap-2 mb-3 overflow-x-auto">
               {CANAUX_MESSAGE.map(c => (
                 <button
@@ -898,7 +898,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                   onClick={() => setMessageCanal(c.id)}
                   className={cn(
                     'flex items-center gap-2 px-3 py-2 rounded-lg text-xs whitespace-nowrap transition',
-                    messageCanal === c.id ? 'bg-white shadow-sm font-medium border border-[#EEEEEE]' : 'text-[#666666] hover:bg-white/50'
+                    messageCanal === c.id ? 'bg-white shadow-sm font-medium border border-[#F0F0F0]' : 'text-[#666666] hover:bg-white/50'
                   )}
                 >
                   <c.icon
@@ -916,7 +916,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 value={messageSubject}
                 onChange={e => setMessageSubject(e.target.value)}
                 placeholder="Objet..."
-                className="w-full px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm mb-3 focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
+                className="w-full px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm mb-3 focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
               />
             )}
 
@@ -926,7 +926,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 onChange={e => setMessageContent(e.target.value)}
                 placeholder={messageCanal === 'note_interne' ? 'Note...' : 'Message...'}
                 rows={2}
-                className="flex-1 px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm resize-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
+                className="flex-1 px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm resize-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] outline-none"
               />
               <button
                 onClick={handleSendMessage}
@@ -949,7 +949,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
         {/* Smart Actions sur mobile seulement */}
         <div className="lg:hidden">
-          <div className="bg-white rounded-xl border border-[#EEEEEE] p-5">
+          <div className="bg-white rounded-xl border border-[#F0F0F0] p-5">
             <SmartActions lead={lead} onAction={handleSmartAction} />
           </div>
         </div>
@@ -958,7 +958,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
           {/* Colonne droite - Actions intelligentes (desktop seulement) */}
           <div className="hidden lg:block space-y-6">
-            <div className="bg-white rounded-xl border border-[#EEEEEE] p-5 sticky top-24">
+            <div className="bg-white rounded-xl border border-[#F0F0F0] p-5 sticky top-24">
               <SmartActions lead={lead} onAction={handleSmartAction} />
             </div>
           </div>

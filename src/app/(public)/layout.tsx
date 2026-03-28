@@ -15,7 +15,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
-      <header className="border-b border-[#F4F0EB]">
+      <header className="border-b border-[#F0F0F0]">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/accueil" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-lg bg-[#FF5C00] flex items-center justify-center">
@@ -48,7 +48,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#F4F0EB] bg-[#FAF8F5]">
+      <footer className="border-t border-[#F0F0F0] bg-[#FAFAFA]">
         <div className="max-w-5xl mx-auto px-4 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-[#777777]">

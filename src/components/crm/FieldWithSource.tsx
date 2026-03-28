@@ -31,7 +31,7 @@ const SOURCE_CONFIG: Record<string, { icon: React.ElementType; label: string; co
   'api:outscraper': { icon: Database, label: 'Outscraper', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'api:sirene': { icon: Database, label: 'API Sirene (INSEE)', color: 'text-emerald-500', bg: 'bg-emerald-50' },
   'ai:claude': { icon: Sparkles, label: 'IA (Claude)', color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
-  'csv:import': { icon: FileSpreadsheet, label: 'Import CSV', color: 'text-[#777777]', bg: 'bg-[#FAF8F5]' },
+  'csv:import': { icon: FileSpreadsheet, label: 'Import CSV', color: 'text-[#777777]', bg: 'bg-[#FAFAFA]' },
   'webhook:formulaire': { icon: Globe, label: 'Formulaire web', color: 'text-[#FF8C42]', bg: 'bg-[#FFF3E8]' },
 }
 
@@ -164,7 +164,7 @@ export function FieldWithSource({
           {editable && onSave && (
             <button
               onClick={() => { setEditValue(String(value ?? '')); setEditing(true) }}
-              className="opacity-0 group-hover:opacity-100 p-0.5 rounded hover:bg-[#F4F0EB] text-[#999999] transition"
+              className="opacity-0 group-hover:opacity-100 p-0.5 rounded hover:bg-[#F5F5F5] text-[#999999] transition"
             >
               <Pencil className="w-3 h-3" />
             </button>

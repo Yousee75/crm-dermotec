@@ -67,10 +67,10 @@ export function AssignCommercialDialog({ open, onClose, lead }: Props) {
           onClick={() => setSelectedId('')}
           className={cn(
             'w-full flex items-center gap-3 p-3 rounded-xl border-2 transition text-left',
-            !selectedId ? 'border-primary bg-primary/5' : 'border-[#F4F0EB] hover:border-[#EEEEEE]'
+            !selectedId ? 'border-primary bg-primary/5' : 'border-[#F0F0F0] hover:border-[#F0F0F0]'
           )}
         >
-          <div className="w-9 h-9 rounded-full bg-[#F4F0EB] flex items-center justify-center text-[#999999] text-xs">—</div>
+          <div className="w-9 h-9 rounded-full bg-[#F5F5F5] flex items-center justify-center text-[#999999] text-xs">—</div>
           <span className="text-sm text-[#777777]">Non assigné</span>
         </button>
 
@@ -81,7 +81,7 @@ export function AssignCommercialDialog({ open, onClose, lead }: Props) {
             onClick={() => setSelectedId(c.id)}
             className={cn(
               'w-full flex items-center gap-3 p-3 rounded-xl border-2 transition text-left',
-              selectedId === c.id ? 'border-primary bg-primary/5' : 'border-[#F4F0EB] hover:border-[#EEEEEE]'
+              selectedId === c.id ? 'border-primary bg-primary/5' : 'border-[#F0F0F0] hover:border-[#F0F0F0]'
             )}
           >
             <Avatar name={`${c.prenom} ${c.nom}`} size="sm" color={c.avatar_color} status="online" />

@@ -81,7 +81,7 @@ export default function PlaybookPage() {
           onClick={() => setActiveCategorie(undefined)}
           className={cn(
             'px-3 py-1.5 rounded-lg text-sm font-medium transition',
-            !activeCategorie ? 'bg-accent text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+            !activeCategorie ? 'bg-accent text-white' : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
           )}
         >
           Tout
@@ -96,7 +96,7 @@ export default function PlaybookPage() {
                 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition',
                 activeCategorie === key
                   ? 'text-white shadow-sm'
-                  : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                  : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
               )}
               style={activeCategorie === key ? { backgroundColor: cat.color } : undefined}
             >
@@ -143,7 +143,7 @@ export default function PlaybookPage() {
                 {/* Header de l'entrée */}
                 <button
                   onClick={() => setExpandedEntry(isExpanded ? null : entry.id)}
-                  className="w-full text-left px-5 py-4 flex items-start gap-3 hover:bg-[#FAF8F5]/50 transition"
+                  className="w-full text-left px-5 py-4 flex items-start gap-3 hover:bg-[#FAFAFA]/50 transition"
                 >
                   <div
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
@@ -168,7 +168,7 @@ export default function PlaybookPage() {
 
                     {/* Meilleure réponse en preview */}
                     {bestResponse && !isExpanded && (
-                      <p className="text-xs text-[#777777] mt-2 line-clamp-2 bg-[#FAF8F5] rounded-lg px-3 py-2">
+                      <p className="text-xs text-[#777777] mt-2 line-clamp-2 bg-[#FAFAFA] rounded-lg px-3 py-2">
                         {bestResponse.is_ai_generated && <Bot className="w-3 h-3 inline mr-1 text-primary" />}
                         {bestResponse.contenu}
                       </p>
@@ -183,11 +183,11 @@ export default function PlaybookPage() {
 
                 {/* Réponses (expandable) */}
                 {isExpanded && (
-                  <div className="border-t border-[#F4F0EB] px-5 py-4 space-y-3 bg-[#FAF8F5]/30">
+                  <div className="border-t border-[#F0F0F0] px-5 py-4 space-y-3 bg-[#FAFAFA]/30">
                     {entry.responses?.sort((a, b) => b.taux_succes - a.taux_succes || b.upvotes - a.upvotes).map((resp, i) => (
                       <div key={resp.id} className={cn(
                         'bg-white rounded-xl p-4 border transition',
-                        i === 0 ? 'border-primary/30 shadow-sm' : 'border-[#F4F0EB]'
+                        i === 0 ? 'border-primary/30 shadow-sm' : 'border-[#F0F0F0]'
                       )}>
                         {/* Badge meilleure réponse */}
                         {i === 0 && (
@@ -208,14 +208,14 @@ export default function PlaybookPage() {
                           <p className="text-sm text-[#3A3A3A] leading-relaxed flex-1">{resp.contenu}</p>
                           <button
                             onClick={() => copyText(resp.contenu, resp.id)}
-                            className="shrink-0 p-1 rounded hover:bg-[#F4F0EB] transition text-[#999999]"
+                            className="shrink-0 p-1 rounded hover:bg-[#F5F5F5] transition text-[#999999]"
                           >
                             {copiedId === resp.id ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
                           </button>
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-3 mt-3 pt-2 border-t border-[#FAF8F5]">
+                        <div className="flex items-center gap-3 mt-3 pt-2 border-t border-[#FAFAFA]">
                           {/* Votes */}
                           <button
                             onClick={() => voteMutation.mutate({ response_id: resp.id, vote: 'up', user_id: 'current' })}
@@ -287,7 +287,7 @@ function AddResponseInline({ entryId, existingResponses }: { entryId: string; ex
   }
 
   return (
-    <div className="bg-white rounded-xl p-3 border border-dashed border-[#EEEEEE]">
+    <div className="bg-white rounded-xl p-3 border border-dashed border-[#F0F0F0]">
       <div className="flex gap-2">
         <input
           type="text"
@@ -295,7 +295,7 @@ function AddResponseInline({ entryId, existingResponses }: { entryId: string; ex
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
           placeholder="Ajouter votre réponse..."
-          className="flex-1 px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none"
+          className="flex-1 px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none"
         />
         <button
           onClick={handleAdd}
@@ -362,7 +362,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
                 onClick={() => setCategorie(key as typeof categorie)}
                 className={cn(
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition',
-                  categorie === key ? 'text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                  categorie === key ? 'text-white' : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
                 )}
                 style={categorie === key ? { backgroundColor: cat.color } : undefined}
               >
@@ -382,7 +382,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
             placeholder={categorie === 'objection' ? 'Ex: "C\'est trop cher"' : 'Titre de l\'entrée...'}
-            className="w-full px-3 py-2.5 rounded-xl border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
           />
         </div>
 
@@ -394,7 +394,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             value={contexte}
             onChange={(e) => setContexte(e.target.value)}
             placeholder="Ex: Reconversion, intéressée microblading"
-            className="w-full px-3 py-2.5 rounded-xl border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none"
           />
         </div>
 
@@ -412,7 +412,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
             )}
 
             {suggestMutation.isPending && (
-              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAF8F5] text-[#777777] text-xs">
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAFAFA] text-[#777777] text-xs">
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 L'IA réfléchit...
               </div>
@@ -432,7 +432,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
 
         {/* Actions */}
         <div className="flex gap-2 pt-2">
-          <button onClick={onClose} className="flex-1 px-4 py-2.5 bg-[#F4F0EB] text-[#777777] rounded-xl text-sm font-medium hover:bg-[#EEEEEE] transition">
+          <button onClick={onClose} className="flex-1 px-4 py-2.5 bg-[#F5F5F5] text-[#777777] rounded-xl text-sm font-medium hover:bg-[#EEEEEE] transition">
             Annuler
           </button>
           <button

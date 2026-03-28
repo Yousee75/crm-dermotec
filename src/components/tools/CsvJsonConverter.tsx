@@ -103,7 +103,7 @@ export function CsvJsonConverter() {
 
         <button
           onClick={toggleDirection}
-          className="p-2 hover:bg-[#F4F0EB] rounded-full transition-colors"
+          className="p-2 hover:bg-[#F5F5F5] rounded-full transition-colors"
           title="Inverser la direction"
         >
           <ArrowLeftRight className="w-5 h-5 text-primary" />
@@ -130,7 +130,7 @@ export function CsvJsonConverter() {
               ? 'Collez votre JSON ici...\n[\n  {"nom": "John", "age": 30},\n  {"nom": "Jane", "age": 25}\n]'
               : 'Collez votre CSV ici...\nnom,age\nJohn,30\nJane,25'
             }
-            className="w-full h-64 p-4 border border-[#EEEEEE] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono text-sm"
+            className="w-full h-64 p-4 border border-[#F0F0F0] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono text-sm"
           />
         </div>
 
@@ -145,7 +145,7 @@ export function CsvJsonConverter() {
               <div className="flex gap-2">
                 <button
                   onClick={copyResult}
-                  className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-[#F4F0EB] hover:bg-[#EEEEEE] rounded transition-colors"
+                  className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-[#F5F5F5] hover:bg-[#EEEEEE] rounded transition-colors"
                 >
                   <Copy className="w-4 h-4" />
                   {copied ? 'Copié !' : 'Copier'}
@@ -164,7 +164,7 @@ export function CsvJsonConverter() {
             value={output}
             readOnly
             placeholder="Le résultat apparaîtra ici après conversion..."
-            className="w-full h-64 p-4 border border-[#EEEEEE] rounded-md resize-none bg-[#FAF8F5] font-mono text-sm"
+            className="w-full h-64 p-4 border border-[#F0F0F0] rounded-md resize-none bg-[#FAFAFA] font-mono text-sm"
           />
         </div>
       </div>

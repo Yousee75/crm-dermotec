@@ -187,7 +187,7 @@ export default function AidePage() {
           <input
             type="text"
             placeholder="Rechercher dans l'aide..."
-            className="w-full rounded-xl border border-[#EEEEEE] bg-white py-3 pl-12 pr-4 text-sm text-[#3A3A3A] placeholder:text-[#999999] focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+            className="w-full rounded-xl border border-[#F0F0F0] bg-white py-3 pl-12 pr-4 text-sm text-[#3A3A3A] placeholder:text-[#999999] focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
             readOnly
           />
         </div>
@@ -206,7 +206,7 @@ export default function AidePage() {
                 {section.items.map((item) => (
                   <details
                     key={item.question}
-                    className="group rounded-xl border border-[#F4F0EB] bg-white"
+                    className="group rounded-xl border border-[#F0F0F0] bg-white"
                   >
                     <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-accent hover:text-primary transition-colors [&::-webkit-details-marker]:hidden list-none">
                       <span>{item.question}</span>
@@ -225,7 +225,7 @@ export default function AidePage() {
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-16 text-center rounded-2xl bg-background border border-[#F4F0EB] py-10 px-6">
+        <div className="mt-16 text-center rounded-2xl bg-background border border-[#F0F0F0] py-10 px-6">
           <h3
             className="text-lg font-bold text-accent mb-2"
             style={{ fontFamily: 'var(--font-heading)' }}

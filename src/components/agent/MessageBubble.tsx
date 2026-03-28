@@ -309,9 +309,9 @@ export function MessageBubble({ message, onFeedback }: MessageBubbleProps) {
               <span className="text-[9px]" style={{ color: S.muted }}>{formatTime(message.timestamp)}</span>
               {!isError && (
                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button onClick={() => { navigator.clipboard.writeText(textContent); toast.success('Copie') }} className="p-1 rounded hover:bg-[#F4F0EB] transition" title="Copier"><Copy className="w-3 h-3" style={{ color: S.muted }} /></button>
-                  <button onClick={() => onFeedback(message.id, 'up')} className={cn('p-1 rounded transition', message.feedback === 'up' ? 'bg-[#10B981]/10' : 'hover:bg-[#F4F0EB]')}><ThumbsUp className="w-3 h-3" style={{ color: message.feedback === 'up' ? S.success : S.muted }} /></button>
-                  <button onClick={() => onFeedback(message.id, 'down')} className={cn('p-1 rounded transition', message.feedback === 'down' ? 'bg-[#FF2D78]/10' : 'hover:bg-[#F4F0EB]')}><ThumbsDown className="w-3 h-3" style={{ color: message.feedback === 'down' ? '#FF2D78' : S.muted }} /></button>
+                  <button onClick={() => { navigator.clipboard.writeText(textContent); toast.success('Copie') }} className="p-1 rounded hover:bg-[#F5F5F5] transition" title="Copier"><Copy className="w-3 h-3" style={{ color: S.muted }} /></button>
+                  <button onClick={() => onFeedback(message.id, 'up')} className={cn('p-1 rounded transition', message.feedback === 'up' ? 'bg-[#10B981]/10' : 'hover:bg-[#F5F5F5]')}><ThumbsUp className="w-3 h-3" style={{ color: message.feedback === 'up' ? S.success : S.muted }} /></button>
+                  <button onClick={() => onFeedback(message.id, 'down')} className={cn('p-1 rounded transition', message.feedback === 'down' ? 'bg-[#FF2D78]/10' : 'hover:bg-[#F5F5F5]')}><ThumbsDown className="w-3 h-3" style={{ color: message.feedback === 'down' ? '#FF2D78' : S.muted }} /></button>
                 </div>
               )}
             </div>

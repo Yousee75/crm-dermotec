@@ -13,7 +13,7 @@ import { toast } from 'sonner'
 const STATUT_CONFIG: Record<string, { label: string; color: string; icon: any }> = {
   en_cours: { label: 'En cours', color: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30', icon: Calendar },
   finalise: { label: 'Finalisé', color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30', icon: CheckCircle },
-  transmis: { label: 'Transmis', color: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]', icon: CheckCircle },
+  transmis: { label: 'Transmis', color: 'bg-[#FAFAFA] text-[#777777] border-[#F0F0F0]', icon: CheckCircle },
 }
 
 function formatEur(n: number) {
@@ -125,7 +125,7 @@ export default function BpfTab() {
           <select
             value={anneeSelectionnee}
             onChange={(e) => setAnneeSelectionnee(Number(e.target.value))}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             {[annee, annee - 1, annee - 2].map(y => (
               <option key={y} value={y}>{y}</option>
@@ -192,7 +192,7 @@ export default function BpfTab() {
           <h3 className="text-lg font-semibold text-[#111111] mb-4">Détail par formation</h3>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
+              <thead className="bg-[#FAFAFA]/50 border-b border-[#F0F0F0]">
                 <tr>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">Formation</th>
                   <th className="text-right text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">Sessions</th>
@@ -202,9 +202,9 @@ export default function BpfTab() {
                   <th className="text-right text-xs font-semibold text-[#777777] uppercase tracking-wider px-4 py-3">Satisfaction</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F4F0EB]">
+              <tbody className="divide-y divide-[#F0F0F0]">
                 {bpf.formations.map((f) => (
-                  <tr key={f.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                  <tr key={f.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                     <td className="px-4 py-3">
                       <span className="text-sm font-medium text-[#111111]">{f.intitule}</span>
                     </td>
@@ -235,7 +235,7 @@ export default function BpfTab() {
                   </tr>
                 ))}
                 {/* Total */}
-                <tr className="bg-[#FAF8F5] font-medium">
+                <tr className="bg-[#FAFAFA] font-medium">
                   <td className="px-4 py-3 text-sm text-[#111111]">Total</td>
                   <td className="px-4 py-3 text-right text-sm">{bpf.nb_actions}</td>
                   <td className="px-4 py-3 text-right text-sm">{bpf.nb_stagiaires}</td>

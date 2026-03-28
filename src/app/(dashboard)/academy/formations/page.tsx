@@ -161,11 +161,11 @@ function HeroStats() {
 function TableauComponent({ tableau }: { tableau: any }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border-collapse border border-[#EEEEEE] rounded-lg">
+      <table className="w-full border-collapse border border-[#F0F0F0] rounded-lg">
         <thead>
-          <tr className="bg-[#FAF8F5]">
+          <tr className="bg-[#FAFAFA]">
             {tableau.colonnes.map((colonne: string, index: number) => (
-              <th key={index} className="border border-[#EEEEEE] px-4 py-3 text-left text-sm font-semibold text-[#111111]">
+              <th key={index} className="border border-[#F0F0F0] px-4 py-3 text-left text-sm font-semibold text-[#111111]">
                 {colonne}
               </th>
             ))}
@@ -173,9 +173,9 @@ function TableauComponent({ tableau }: { tableau: any }) {
         </thead>
         <tbody>
           {tableau.lignes.map((ligne: string[], rowIndex: number) => (
-            <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-[#FAF8F5]/50'}>
+            <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-[#FAFAFA]/50'}>
               {ligne.map((cellule: string, cellIndex: number) => (
-                <td key={cellIndex} className="border border-[#EEEEEE] px-4 py-3 text-sm text-[#3A3A3A]">
+                <td key={cellIndex} className="border border-[#F0F0F0] px-4 py-3 text-sm text-[#3A3A3A]">
                   {cellule}
                 </td>
               ))}
@@ -194,11 +194,11 @@ function SectionAccordion({ section }: { section: AcademySection }) {
   return (
     <motion.div
       initial={false}
-      className="border border-[#EEEEEE] rounded-lg overflow-hidden"
+      className="border border-[#F0F0F0] rounded-lg overflow-hidden"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 text-left bg-[#FAF8F5] hover:bg-[#F4F0EB] transition-colors duration-200 flex items-center justify-between"
+        className="w-full px-6 py-4 text-left bg-[#FAFAFA] hover:bg-[#F5F5F5] transition-colors duration-200 flex items-center justify-between"
       >
         <div>
           <h3 className="font-semibold text-[#111111]">{section.titre}</h3>
@@ -367,7 +367,7 @@ function QuizPlayer({
         className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 border-b border-[#EEEEEE] bg-gradient-to-r from-primary/10 to-accent/10">
+        <div className="p-6 border-b border-[#F0F0F0] bg-gradient-to-r from-primary/10 to-accent/10">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-[#111111]">Quiz - {moduleTitle}</h2>
@@ -463,7 +463,7 @@ function QuizPlayer({
                     const isCorrect = index === currentQuestion.correctIndex
                     const showResult = showExplanation
 
-                    let cardStyle = "border border-[#EEEEEE] hover:border-primary"
+                    let cardStyle = "border border-[#F0F0F0] hover:border-primary"
 
                     if (showResult) {
                       if (isCorrect) {
@@ -471,7 +471,7 @@ function QuizPlayer({
                       } else if (isSelected && !isCorrect) {
                         cardStyle = "border-red-500 bg-[#FFE0EF]"
                       } else {
-                        cardStyle = "border-[#EEEEEE] bg-[#FAF8F5]"
+                        cardStyle = "border-[#F0F0F0] bg-[#FAFAFA]"
                       }
                     } else if (isSelected) {
                       cardStyle = "border-primary bg-primary/5"
@@ -493,7 +493,7 @@ function QuizPlayer({
                             showResult && isCorrect ? "border-[#10B981] bg-[#10B981] text-white" :
                             showResult && isSelected && !isCorrect ? "border-red-500 bg-[#FF2D78] text-white" :
                             isSelected ? "border-primary bg-primary text-white" :
-                            "border-[#EEEEEE]"
+                            "border-[#F0F0F0]"
                           )}>
                             {String.fromCharCode(65 + index)}
                           </div>
@@ -586,7 +586,7 @@ function ModuleDetail({
         className="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 border-b border-[#EEEEEE]" style={{ backgroundColor: `${getCategorieColor(module.categorie)}10` }}>
+        <div className="p-6 border-b border-[#F0F0F0]" style={{ backgroundColor: `${getCategorieColor(module.categorie)}10` }}>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-4">
               <div
@@ -708,7 +708,7 @@ function ModuleDetail({
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-[#EEEEEE] bg-[#FAF8F5]">
+        <div className="p-6 border-t border-[#F0F0F0] bg-[#FAFAFA]">
           <div className="flex items-center justify-between">
             <div className="text-sm text-[#777777]">
               {module.quiz.length} questions dans ce quiz
@@ -743,7 +743,7 @@ function ModuleCard({ module, onClick }: { module: AcademyModule, onClick: () =>
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
       onClick={onClick}
-      className="group cursor-pointer bg-white rounded-2xl border-2 border-[#EEEEEE] hover:border-primary hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className="group cursor-pointer bg-white rounded-2xl border-2 border-[#F0F0F0] hover:border-primary hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       {/* Border colorée selon catégorie */}
       <div

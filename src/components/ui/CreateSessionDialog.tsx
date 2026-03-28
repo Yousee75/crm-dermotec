@@ -110,7 +110,7 @@ export function CreateSessionDialog({ open, onClose }: Props) {
             value={formationId}
             onChange={(e) => handleFormationChange(e.target.value)}
             required
-            className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+            className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Sélectionner une formation</option>
             {formations?.map(f => (
@@ -136,7 +136,7 @@ export function CreateSessionDialog({ open, onClose }: Props) {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-[#3A3A3A]">Formatrice</label>
-            <select value={formatriceId} onChange={(e) => setFormatriceId(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white">
+            <select value={formatriceId} onChange={(e) => setFormatriceId(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white">
               <option value="">Sélectionner...</option>
               {formatrices?.map(f => <option key={f.id} value={f.id}>{f.prenom} {f.nom}</option>)}
             </select>

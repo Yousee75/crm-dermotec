@@ -63,7 +63,7 @@ const DEFAULT_VALUES: CreateLeadFormData = {
 }
 
 // --- Styles partagés ---
-const inputClass = 'w-full px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors'
+const inputClass = 'w-full px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors'
 const selectClass = `${inputClass} bg-white`
 const labelClass = 'block text-xs font-medium text-[#777777] mb-1'
 const errorClass = 'text-xs text-[#FF2D78] mt-0.5'
@@ -290,7 +290,7 @@ export function CreateLeadDialog({ open, onClose }: CreateLeadDialogProps) {
               type="checkbox"
               checked={keepOpen}
               onChange={(e) => setKeepOpen(e.target.checked)}
-              className="rounded border-[#EEEEEE] text-primary focus:ring-primary/30"
+              className="rounded border-[#F0F0F0] text-primary focus:ring-primary/30"
             />
             Créer et ajouter un autre
           </label>

@@ -45,7 +45,7 @@ export function FinancingSimulator() {
         <select
           value={formationIdx}
           onChange={e => setFormationIdx(Number(e.target.value))}
-          className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
+          className="w-full border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
         >
           {FORMATIONS.map((f, i) => (
             <option key={f.nom} value={i}>{f.nom} — {f.prix}€ HT</option>
@@ -59,7 +59,7 @@ export function FinancingSimulator() {
         <select
           value={financementId}
           onChange={e => setFinancementId(e.target.value)}
-          className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
+          className="w-full border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
         >
           {FINANCEMENTS.map(f => (
             <option key={f.id} value={f.id}>{f.label}</option>

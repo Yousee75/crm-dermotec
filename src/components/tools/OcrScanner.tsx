@@ -78,7 +78,7 @@ export function OcrScanner() {
       <div
         onDrop={handleDrop}
         onDragOver={e => e.preventDefault()}
-        className="border-2 border-dashed border-[#EEEEEE] rounded-lg p-8 text-center hover:border-primary transition-colors"
+        className="border-2 border-dashed border-[#F0F0F0] rounded-lg p-8 text-center hover:border-primary transition-colors"
       >
         {image ? (
           <div className="space-y-4">
@@ -157,7 +157,7 @@ export function OcrScanner() {
             <h3 className="text-lg font-medium text-[#111111]">Texte extrait</h3>
             <button
               onClick={copyText}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm bg-[#F4F0EB] hover:bg-[#EEEEEE] rounded-md transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-2 text-sm bg-[#F5F5F5] hover:bg-[#EEEEEE] rounded-md transition-colors"
             >
               <Copy className="w-4 h-4" />
               {copied ? 'Copié !' : 'Copier'}
@@ -166,7 +166,7 @@ export function OcrScanner() {
           <textarea
             value={extractedText}
             onChange={e => setExtractedText(e.target.value)}
-            className="w-full h-64 p-4 border border-[#EEEEEE] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="w-full h-64 p-4 border border-[#F0F0F0] rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="Le texte extrait apparaîtra ici..."
           />
         </div>

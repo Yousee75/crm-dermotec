@@ -34,7 +34,7 @@ export function TvaCalculator() {
         <button
           onClick={() => setMode('ht-to-ttc')}
           className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-            mode === 'ht-to-ttc' ? 'bg-primary text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+            mode === 'ht-to-ttc' ? 'bg-primary text-white' : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
           }`}
         >
           HT → TTC
@@ -42,7 +42,7 @@ export function TvaCalculator() {
         <button
           onClick={() => setMode('ttc-to-ht')}
           className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-            mode === 'ttc-to-ht' ? 'bg-primary text-white' : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+            mode === 'ttc-to-ht' ? 'bg-primary text-white' : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
           }`}
         >
           TTC → HT
@@ -60,7 +60,7 @@ export function TvaCalculator() {
             value={ht}
             onChange={e => calculate(e.target.value, 'ht')}
             placeholder="0.00"
-            className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="w-full border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
             readOnly={mode === 'ttc-to-ht'}
           />
         </div>
@@ -81,7 +81,7 @@ export function TvaCalculator() {
             value={ttc}
             onChange={e => calculate(e.target.value, 'ttc')}
             placeholder="0.00"
-            className="w-full border border-[#EEEEEE] rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="w-full border border-[#F0F0F0] rounded-lg px-3 py-2.5 text-lg font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
             readOnly={mode === 'ht-to-ttc'}
           />
         </div>

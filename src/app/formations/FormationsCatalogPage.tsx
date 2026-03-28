@@ -161,7 +161,7 @@ export default function FormationsCatalogPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#FF5C00' }} />
@@ -174,7 +174,7 @@ export default function FormationsCatalogPage() {
 
   if (isError) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center max-w-md">
             <div className="rounded-xl p-4 mb-4" style={{ backgroundColor: '#FFE0EF', color: '#FF2D78' }}>
@@ -194,7 +194,7 @@ export default function FormationsCatalogPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
       {/* ═══════════════════════════════════════════════════════ */}
       {/* HERO — Fond papier chaud, pas de gradient sombre       */}
       {/* ═══════════════════════════════════════════════════════ */}
@@ -264,7 +264,7 @@ export default function FormationsCatalogPage() {
                 {searchTerm && (
                   <button
                     onClick={() => setSearchTerm('')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-[#F4F0EB]"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-[#F5F5F5]"
                   >
                     <X size={16} style={{ color: '#999999' }} />
                   </button>
@@ -286,7 +286,7 @@ export default function FormationsCatalogPage() {
               onClick={() => setSelectedCategory('all')}
               className="flex-shrink-0 px-4 py-2 rounded-full font-medium text-sm transition-all"
               style={{
-                backgroundColor: selectedCategory === 'all' ? '#FF5C00' : '#F4F0EB',
+                backgroundColor: selectedCategory === 'all' ? '#FF5C00' : '#F5F5F5',
                 color: selectedCategory === 'all' ? '#FFFFFF' : '#3A3A3A',
               }}
             >
@@ -305,7 +305,7 @@ export default function FormationsCatalogPage() {
                   onClick={() => setSelectedCategory(cat.id)}
                   className="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all"
                   style={{
-                    backgroundColor: isActive ? cat.color : '#F4F0EB',
+                    backgroundColor: isActive ? cat.color : '#F5F5F5',
                     color: isActive ? '#FFFFFF' : '#3A3A3A',
                   }}
                 >
@@ -328,7 +328,7 @@ export default function FormationsCatalogPage() {
                   onClick={() => setFinancementFilter(isActive ? 'all' : f)}
                   className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-full font-medium text-xs transition-all"
                   style={{
-                    backgroundColor: isActive ? '#10B981' : '#F4F0EB',
+                    backgroundColor: isActive ? '#10B981' : '#F5F5F5',
                     color: isActive ? '#FFFFFF' : '#3A3A3A',
                   }}
                 >
@@ -370,7 +370,7 @@ export default function FormationsCatalogPage() {
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
                   className="appearance-none pl-7 pr-6 py-1.5 rounded-lg text-xs font-medium cursor-pointer focus:outline-none focus:ring-2"
                   style={{
-                    backgroundColor: '#F4F0EB',
+                    backgroundColor: '#F5F5F5',
                     color: '#3A3A3A',
                     border: 'none',
                     // @ts-expect-error -- CSS custom property
@@ -385,7 +385,7 @@ export default function FormationsCatalogPage() {
               </div>
 
               {/* Vue grille / liste */}
-              <div className="flex items-center rounded-lg overflow-hidden" style={{ backgroundColor: '#F4F0EB' }}>
+              <div className="flex items-center rounded-lg overflow-hidden" style={{ backgroundColor: '#F5F5F5' }}>
                 <button
                   onClick={() => setViewMode('grid')}
                   className="p-1.5 transition-colors"
@@ -468,7 +468,7 @@ export default function FormationsCatalogPage() {
                                   {formation.categorie}
                                 </span>
                                 <span className="px-2 py-0.5 rounded-full text-xs font-medium"
-                                  style={{ backgroundColor: '#F4F0EB', color: '#3A3A3A' }}>
+                                  style={{ backgroundColor: '#F5F5F5', color: '#3A3A3A' }}>
                                   {formation.niveau === 'debutant' ? 'Débutant' : formation.niveau === 'intermediaire' ? 'Intermédiaire' : 'Confirmé'}
                                 </span>
                                 {isFinancable && (
@@ -563,7 +563,7 @@ export default function FormationsCatalogPage() {
                             </div>
                             <span
                               className="px-2 py-0.5 rounded-full text-xs font-medium"
-                              style={{ backgroundColor: '#F4F0EB', color: '#3A3A3A' }}
+                              style={{ backgroundColor: '#F5F5F5', color: '#3A3A3A' }}
                             >
                               {formation.niveau === 'debutant' ? 'Débutant' :
                                formation.niveau === 'intermediaire' ? 'Intermédiaire' : 'Confirmé'}
@@ -601,7 +601,7 @@ export default function FormationsCatalogPage() {
 
                           {/* Prochaine session + jauge places */}
                           {nextSession && (
-                            <div className="p-3 rounded-xl space-y-2" style={{ backgroundColor: '#FAF8F5' }}>
+                            <div className="p-3 rounded-xl space-y-2" style={{ backgroundColor: '#FAFAFA' }}>
                               <div className="flex items-center justify-between text-xs">
                                 <span className="flex items-center gap-1.5 font-medium" style={{ color: '#111111' }}>
                                   <Calendar size={12} style={{ color: '#FF5C00' }} />
@@ -671,7 +671,7 @@ export default function FormationsCatalogPage() {
                                 </span>
                               ))}
                               {formation.competences_acquises.length > 2 && (
-                                <span className="px-2 py-0.5 rounded-md text-xs" style={{ backgroundColor: '#F4F0EB', color: '#777777' }}>
+                                <span className="px-2 py-0.5 rounded-md text-xs" style={{ backgroundColor: '#F5F5F5', color: '#777777' }}>
                                   +{formation.competences_acquises.length - 2}
                                 </span>
                               )}
@@ -691,7 +691,7 @@ export default function FormationsCatalogPage() {
                 exit={{ opacity: 0 }}
                 className="text-center py-20"
               >
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#F4F0EB' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#F5F5F5' }}>
                   <Search size={28} style={{ color: '#999999' }} />
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>

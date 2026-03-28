@@ -47,8 +47,8 @@ function DraggableLeadCard({ lead, onLeadClick }: { lead: Lead; onLeadClick?: (l
       style={style}
       {...attributes}
       className={cn(
-        "bg-white p-3 rounded-xl border border-[#F4F0EB] shadow-card",
-        "hover:shadow-md hover:border-[#EEEEEE] transition-all duration-150",
+        "bg-white p-3 rounded-2xl border border-[var(--color-border)] shadow-card",
+        "hover:shadow-md hover:border-[var(--color-border)] transition-all duration-150",
         "relative group/drag card-interactive",
         isDragging && "opacity-70 shadow-none",
         lead.score_chaud >= 80 && "glow-hot"
@@ -99,7 +99,7 @@ function LeadCard({ lead }: { lead: Lead }) {
           <div className={cn(
             "w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-semibold",
             lead.score_chaud >= 70 ? "bg-[#D1FAE5] text-[#10B981]" :
-            lead.score_chaud >= 40 ? "bg-[#FFF3E8] text-[#FF8C42]" : "bg-[#F4F0EB] text-[#777777]"
+            lead.score_chaud >= 40 ? "bg-[#FFF3E8] text-[#FF8C42]" : "bg-[var(--color-border)] text-[#777777]"
           )}>
             {lead.score_chaud}
           </div>
@@ -164,12 +164,12 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
     <div
       ref={setNodeRef}
       className={cn(
-        "flex-shrink-0 w-[280px] flex flex-col transition-all duration-200 rounded-xl",
+        "flex-shrink-0 w-[280px] flex flex-col transition-all duration-200 rounded-2xl",
         isActive && "ring-2 ring-primary ring-offset-2 bg-[#E0EBF5]/50"
       )}
     >
       {/* Header */}
-      <div className="bg-white rounded-xl border border-[#F4F0EB] shadow-card p-3.5 mb-2">
+      <div className="bg-white rounded-2xl border border-[var(--color-border)] shadow-card p-3.5 mb-2">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div
@@ -203,7 +203,7 @@ function PipelineColumn({ phase, leads, totalValue, isDropTarget, onLeadClick }:
         </SortableContext>
         {leads.length === 0 && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
-            <div className="w-10 h-10 rounded-xl bg-[#FAF8F5] flex items-center justify-center mb-2">
+            <div className="w-10 h-10 rounded-2xl bg-[#FAFAFA] flex items-center justify-center mb-2">
               <Users className="w-5 h-5 text-[#999999]" />
             </div>
             <p className="text-xs text-[#777777] font-medium mb-0.5">Colonne vide</p>
@@ -237,7 +237,7 @@ function MobileListView({ leadsByPhase }: { leadsByPhase: Array<{ phase: { id: s
               </div>
               <div className="space-y-2 pl-4">
                 {leads.map(lead => (
-                  <div key={lead.id} className="bg-white p-3 rounded-lg border border-[#F4F0EB] shadow-sm">
+                  <div key={lead.id} className="bg-white p-3 rounded-2xl border border-[var(--color-border)] shadow-sm">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <Avatar
@@ -320,7 +320,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
             className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 overflow-y-auto"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-[#F4F0EB] p-4 flex items-center justify-between z-10">
+            <div className="sticky top-0 bg-white border-b border-[var(--color-border)] p-4 flex items-center justify-between z-10">
               <div className="flex items-center gap-3">
                 <Avatar
                   name={`${lead.prenom} ${lead.nom}`}
@@ -342,12 +342,12 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
               <div className="flex items-center gap-1">
                 <Link
                   href={`/lead/${lead.id}`}
-                  className="p-2 rounded-lg hover:bg-[#F4F0EB] text-[#777777] hover:text-primary transition"
+                  className="p-2 rounded-2xl hover:bg-[var(--color-border)] text-[#777777] hover:text-primary transition"
                   title="Ouvrir la fiche complète"
                 >
                   <ExternalLink className="w-4 h-4" />
                 </Link>
-                <button onClick={onClose} className="p-2 rounded-lg hover:bg-[#F4F0EB] text-[#777777] transition">
+                <button onClick={onClose} className="p-2 rounded-2xl hover:bg-[var(--color-border)] text-[#777777] transition">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -360,7 +360,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                 {lead.telephone && (
                   <a
                     href={`tel:${lead.telephone}`}
-                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-[#ECFDF5] text-[#10B981] rounded-lg hover:bg-[#D1FAE5] transition text-sm font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-[#ECFDF5] text-[#10B981] rounded-2xl hover:bg-[#D1FAE5] transition text-sm font-medium"
                   >
                     <Phone className="w-4 h-4" />
                     Appeler
@@ -369,7 +369,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                 {lead.email && (
                   <a
                     href={`mailto:${lead.email}`}
-                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-[#E0EBF5] text-[#6B8CAE] rounded-lg hover:bg-[#E0EBF5] transition text-sm font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-[#E0EBF5] text-[#6B8CAE] rounded-2xl hover:bg-[#E0EBF5] transition text-sm font-medium"
                   >
                     <Mail className="w-4 h-4" />
                     Email
@@ -380,7 +380,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
                     href={`https://wa.me/${lead.telephone.replace(/\s/g, '')}`}
                     target="_blank"
                     rel="noopener"
-                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition text-sm font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-emerald-50 text-emerald-700 rounded-2xl hover:bg-emerald-100 transition text-sm font-medium"
                   >
                     WhatsApp
                   </a>
@@ -388,7 +388,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
               </div>
 
               {/* Infos clés */}
-              <div className="bg-[#FAF8F5] rounded-lg p-3 space-y-2">
+              <div className="bg-[#FAFAFA] rounded-2xl p-3 space-y-2">
                 <h4 className="text-xs font-semibold text-[#777777] uppercase">Informations</h4>
                 {lead.email && (
                   <div className="flex items-center justify-between text-sm">
@@ -428,7 +428,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
 
               {/* Formation */}
               {lead.formation_principale && (
-                <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
+                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-3">
                   <h4 className="text-xs font-semibold text-accent uppercase mb-1">Formation intéressée</h4>
                   <p className="text-sm font-medium text-accent">{lead.formation_principale.nom}</p>
                   {lead.formation_principale.prix_ht && (
@@ -439,7 +439,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
 
               {/* Notes */}
               {lead.notes && (
-                <div className="bg-[#FFF3E8] border border-amber-100 rounded-lg p-3">
+                <div className="bg-[#FFF3E8] border border-amber-100 rounded-2xl p-3">
                   <h4 className="text-xs font-semibold text-[#FF8C42] uppercase mb-1">Notes</h4>
                   <p className="text-sm text-[#3A3A3A]">{lead.notes}</p>
                 </div>
@@ -448,7 +448,7 @@ function LeadSlideOver({ lead, onClose }: { lead: Lead | null; onClose: () => vo
               {/* Bouton fiche complète */}
               <Link
                 href={`/lead/${lead.id}`}
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent text-white rounded-lg hover:bg-accent-light transition font-medium text-sm"
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent text-white rounded-2xl hover:bg-accent-light transition font-medium text-sm"
               >
                 <Eye className="w-4 h-4" />
                 Voir la fiche complète
@@ -492,7 +492,7 @@ function PipelineSkeleton() {
       {/* Kanban columns skeleton */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 min-h-[600px]">
         {[1,2,3,4,5].map(colIndex => (
-          <div key={colIndex} className="bg-[#FAF8F5] rounded-xl p-3">
+          <div key={colIndex} className="bg-[#FAFAFA] rounded-2xl p-3">
             {/* Column header */}
             <div className="flex items-center justify-between mb-3">
               <Skeleton className="h-4 w-20" />
@@ -503,7 +503,7 @@ function PipelineSkeleton() {
             {/* Cards skeleton */}
             <div className="space-y-2">
               {Array.from({ length: Math.floor(Math.random() * 4) + 1 }).map((_, cardIndex) => (
-                <div key={cardIndex} className="bg-white p-3 rounded-xl border border-[#F4F0EB]">
+                <div key={cardIndex} className="bg-white p-3 rounded-2xl border border-[var(--color-border)]">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Skeleton className="h-5 w-5 rounded-full" />
@@ -669,10 +669,10 @@ export default function PipelinePage() {
           <button
             onClick={() => setShowMyLeadsOnly(p => !p)}
             className={cn(
-              'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition whitespace-nowrap',
+              'flex items-center gap-1.5 px-3 py-2 rounded-2xl text-sm font-medium transition whitespace-nowrap',
               showMyLeadsOnly
                 ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
-                : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                : 'bg-[var(--color-border)] text-[#777777] hover:bg-[var(--color-border)]'
             )}
           >
             <UserCheck className="w-4 h-4" />
@@ -704,7 +704,7 @@ export default function PipelinePage() {
 
           <DragOverlay>
             {draggedLead && (
-              <div className="bg-white p-3 rounded-xl shadow-xl border border-primary/20 opacity-95 w-[280px]">
+              <div className="bg-white p-3 rounded-2xl shadow-xl border border-primary/20 opacity-95 w-[280px]">
                 <LeadCard lead={draggedLead} />
               </div>
             )}

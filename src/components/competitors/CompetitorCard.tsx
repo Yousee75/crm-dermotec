@@ -16,7 +16,7 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
   return (
     <button
       onClick={onClick}
-      className="w-full text-left bg-white border border-[#EEEEEE] rounded-xl p-4 hover:shadow-md hover:border-[#EEEEEE] transition-all group"
+      className="w-full text-left bg-white border border-[#F0F0F0] rounded-xl p-4 hover:shadow-md hover:border-[#F0F0F0] transition-all group"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
@@ -64,7 +64,7 @@ export function CompetitorCard({ competitor, onClick }: CompetitorCardProps) {
             {c.sources.map(source => (
               <span
                 key={source}
-                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#F4F0EB] text-[#777777]"
+                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#F5F5F5] text-[#777777]"
               >
                 {source}
               </span>

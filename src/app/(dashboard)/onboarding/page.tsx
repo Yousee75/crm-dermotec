@@ -117,7 +117,7 @@ export default function OnboardingPage() {
   return (
     <div className="flex flex-col -m-4 md:-m-6 lg:-m-8">
       {/* Header */}
-      <header className="bg-white border-b border-[#F4F0EB] px-6 py-4">
+      <header className="bg-white border-b border-[#F0F0F0] px-6 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <h1 className="text-lg font-bold text-accent">
             <span className="text-primary">Dermotec</span> CRM
@@ -127,7 +127,7 @@ export default function OnboardingPage() {
       </header>
 
       {/* Progress bar */}
-      <div className="bg-white border-b border-[#F4F0EB]">
+      <div className="bg-white border-b border-[#F0F0F0]">
         <div className="max-w-2xl mx-auto px-6">
           <div className="flex items-center gap-2 py-3">
             {STEPS.map((s, i) => {
@@ -174,7 +174,7 @@ export default function OnboardingPage() {
                     value={entreprise.nom}
                     onChange={e => setEntreprise(p => ({ ...p, nom: e.target.value }))}
                     placeholder="Mon Institut Beauté"
-                    className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-[#F0F0F0] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     autoFocus
                   />
                 </div>
@@ -190,7 +190,7 @@ export default function OnboardingPage() {
                           'px-3 py-2.5 rounded-lg text-sm text-left transition border min-h-[44px]',
                           entreprise.secteur === s
                             ? 'bg-primary/10 border-primary/30 text-primary font-medium'
-                            : 'border-[#EEEEEE] text-[#777777] hover:bg-[#FAF8F5]'
+                            : 'border-[#F0F0F0] text-[#777777] hover:bg-[#FAFAFA]'
                         )}
                       >
                         {s}
@@ -207,7 +207,7 @@ export default function OnboardingPage() {
                       value={entreprise.siret}
                       onChange={e => setEntreprise(p => ({ ...p, siret: e.target.value }))}
                       placeholder="123 456 789 00012"
-                      className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-[#F0F0F0] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     />
                   </div>
                   <div>
@@ -217,7 +217,7 @@ export default function OnboardingPage() {
                       value={entreprise.ville}
                       onChange={e => setEntreprise(p => ({ ...p, ville: e.target.value }))}
                       placeholder="Paris"
-                      className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-[#F0F0F0] text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                     />
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export default function OnboardingPage() {
                           'px-4 py-4 rounded-xl text-left transition border min-h-[60px]',
                           equipe.taille === t.value
                             ? 'bg-primary/10 border-primary/30 ring-2 ring-primary/20'
-                            : 'border-[#EEEEEE] hover:bg-[#FAF8F5]'
+                            : 'border-[#F0F0F0] hover:bg-[#FAFAFA]'
                         )}
                       >
                         <span className={cn('text-sm font-medium', equipe.taille === t.value ? 'text-primary' : 'text-[#1A1A1A]')}>
@@ -261,7 +261,7 @@ export default function OnboardingPage() {
                   <select
                     value={equipe.role}
                     onChange={e => setEquipe(p => ({ ...p, role: e.target.value }))}
-                    className="w-full px-4 py-3 rounded-xl border border-[#EEEEEE] text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-[#F0F0F0] text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
                   >
                     <option value="">Sélectionnez...</option>
                     <option value="dirigeant">Dirigeant(e)</option>
@@ -292,14 +292,14 @@ export default function OnboardingPage() {
                       'w-full flex items-start gap-3 p-4 rounded-xl text-left transition border min-h-[60px]',
                       objectifs.includes(obj.id)
                         ? 'bg-primary/5 border-primary/30 ring-2 ring-primary/20'
-                        : 'border-[#EEEEEE] hover:bg-[#FAF8F5]'
+                        : 'border-[#F0F0F0] hover:bg-[#FAFAFA]'
                     )}
                   >
                     <div className={cn(
                       'w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 transition',
                       objectifs.includes(obj.id)
                         ? 'bg-primary border-primary'
-                        : 'border-[#EEEEEE]'
+                        : 'border-[#F0F0F0]'
                     )}>
                       {objectifs.includes(obj.id) && <Check className="w-3 h-3 text-white" />}
                     </div>
@@ -318,7 +318,7 @@ export default function OnboardingPage() {
       </main>
 
       {/* Footer navigation */}
-      <footer className="bg-white border-t border-[#F4F0EB] px-6 py-4">
+      <footer className="bg-white border-t border-[#F0F0F0] px-6 py-4">
         <div className="max-w-lg mx-auto flex items-center justify-between">
           {step > 0 ? (
             <Button variant="ghost" onClick={() => setStep(s => s - 1)} icon={<ChevronLeft className="w-4 h-4" />}>

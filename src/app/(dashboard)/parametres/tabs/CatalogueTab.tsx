@@ -116,7 +116,7 @@ const NIVEAU_CONFIG = {
 
 const STATUT_CONFIG = {
   active: { label: 'Active', color: 'bg-[#ECFDF5] text-[#10B981]' },
-  brouillon: { label: 'Brouillon', color: 'bg-[#FAF8F5] text-[#777777]' },
+  brouillon: { label: 'Brouillon', color: 'bg-[#FAFAFA] text-[#777777]' },
   archivee: { label: 'Archivée', color: 'bg-[#FFE0EF] text-[#FF2D78]' }
 }
 
@@ -200,7 +200,7 @@ export default function CatalogueTab() {
             const ca = formations.filter(f => f.categorie === categorie).reduce((sum, f) => sum + (f.prix * f.nb_sessions), 0)
 
             return (
-              <div key={categorie} className="text-center p-4 bg-[#FAF8F5] rounded-lg">
+              <div key={categorie} className="text-center p-4 bg-[#FAFAFA] rounded-lg">
                 <p className="text-sm font-medium text-[#111111]">{config.label}</p>
                 <p className="text-lg font-bold text-[#111111]">{count}</p>
                 <p className="text-xs text-[#777777]">{ca.toLocaleString()}€ CA</p>
@@ -222,7 +222,7 @@ export default function CatalogueTab() {
           <select
             value={categorieFilter}
             onChange={(e) => setCategorieFilter(e.target.value)}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Toutes les catégories</option>
             <option value="maquillage">Maquillage</option>
@@ -233,7 +233,7 @@ export default function CatalogueTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="active">Active</option>
@@ -256,10 +256,10 @@ export default function CatalogueTab() {
           description={search || categorieFilter || statutFilter ? "Modifiez vos filtres pour voir plus de résultats." : "Créez votre première formation pour commencer."}
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F0F0F0] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
+              <thead className="bg-[#FAFAFA]/50 border-b border-[#F0F0F0]">
                 <tr>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Formation
@@ -290,14 +290,14 @@ export default function CatalogueTab() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F4F0EB]">
+              <tbody className="divide-y divide-[#F0F0F0]">
                 {formations.map((formation) => {
                   const categorieConfig = CATEGORIE_CONFIG[formation.categorie]
                   const niveauConfig = NIVEAU_CONFIG[formation.niveau]
                   const statutConfig = STATUT_CONFIG[formation.statut]
 
                   return (
-                    <tr key={formation.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                    <tr key={formation.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                       <td className="px-6 py-4">
                         <div>
                           <p className="text-sm font-medium text-[#111111]">{formation.titre}</p>
@@ -375,7 +375,7 @@ export default function CatalogueTab() {
             .sort((a, b) => b.nb_inscrits_total - a.nb_inscrits_total)
             .slice(0, 3)
             .map((formation, index) => (
-              <div key={formation.id} className="flex items-center gap-3 p-4 bg-[#FAF8F5] rounded-lg">
+              <div key={formation.id} className="flex items-center gap-3 p-4 bg-[#FAFAFA] rounded-lg">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-medium ${
                   index === 0 ? 'bg-[#FF8C42]' : index === 1 ? 'bg-[#999999]' : 'bg-orange-500'
                 }`}>

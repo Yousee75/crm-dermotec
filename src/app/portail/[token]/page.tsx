@@ -989,7 +989,7 @@ export default function PortailPage() {
                   </div>
 
                   {/* Contact alumni */}
-                  <div className="p-4 rounded-xl text-center" style={{ backgroundColor: '#FAF8F5' }}>
+                  <div className="p-4 rounded-xl text-center" style={{ backgroundColor: '#FAFAFA' }}>
                     <p className="text-sm" style={{ color: '#777777' }}>
                       Besoin d'aide ? Votre équipe Dermotec reste à votre disposition.
                     </p>

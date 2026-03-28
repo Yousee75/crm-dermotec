@@ -150,7 +150,7 @@ export default function PlanTab() {
 
       {/* Toggle facturation */}
       <div className="flex justify-center">
-        <div className="bg-[#F4F0EB] rounded-lg p-1 flex">
+        <div className="bg-[#F5F5F5] rounded-lg p-1 flex">
           <button className="px-4 py-2 text-sm font-medium rounded-md text-[#777777]">
             Mensuel
           </button>
@@ -230,14 +230,14 @@ export default function PlanTab() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#EEEEEE]">
+              <tr className="border-b border-[#F0F0F0]">
                 <th className="text-left py-3 px-4 font-medium text-[#111111]">Fonctionnalité</th>
                 <th className="text-center py-3 px-4 font-medium text-[#111111]">Starter</th>
                 <th className="text-center py-3 px-4 font-medium text-[#111111]">Pro</th>
                 <th className="text-center py-3 px-4 font-medium text-[#111111]">Enterprise</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F4F0EB]">
+            <tbody className="divide-y divide-[#F0F0F0]">
               <tr>
                 <td className="py-3 px-4 text-sm font-medium text-[#111111]">Utilisateurs</td>
                 <td className="py-3 px-4 text-center text-sm text-[#777777]">2</td>

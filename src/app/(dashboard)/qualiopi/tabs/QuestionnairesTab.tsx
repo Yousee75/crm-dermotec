@@ -58,7 +58,7 @@ const DECLENCHEUR_LABELS: Record<string, string> = {
 }
 
 const STATUT_CONFIG: Record<string, { label: string; color: string }> = {
-  en_attente: { label: 'En attente', color: 'bg-[#FAF8F5] text-[#777777]' },
+  en_attente: { label: 'En attente', color: 'bg-[#FAFAFA] text-[#777777]' },
   envoye: { label: 'Envoyé', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
   ouvert: { label: 'Ouvert', color: 'bg-[#FFF0E5] text-[#FF5C00]' },
   en_cours: { label: 'En cours', color: 'bg-[#FFF3E8] text-[#FF8C42]' },
@@ -148,7 +148,7 @@ export default function QuestionnairesTab() {
                 <Card key={template.id} className="p-4 hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-[#FAF8F5] rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-[#FAFAFA] rounded-lg flex items-center justify-center">
                         <TypeIcon className="w-5 h-5 text-[#FF5C00]" />
                       </div>
                       <div>
@@ -170,7 +170,7 @@ export default function QuestionnairesTab() {
                           Auto
                         </Badge>
                       )}
-                      <Badge className={template.is_active ? 'bg-[#ECFDF5] text-[#10B981]' : 'bg-[#FAF8F5] text-[#999999]'} size="sm">
+                      <Badge className={template.is_active ? 'bg-[#ECFDF5] text-[#10B981]' : 'bg-[#FAFAFA] text-[#999999]'} size="sm">
                         {template.is_active ? 'Actif' : 'Inactif'}
                       </Badge>
                     </div>
@@ -190,7 +190,7 @@ export default function QuestionnairesTab() {
             const TypeIcon = conf.icon
             const hasTemplate = templates.some((t: any) => t.type === type && t.is_active)
             return (
-              <div key={type} className="flex items-center gap-3 p-3 rounded-lg bg-[#FAF8F5]">
+              <div key={type} className="flex items-center gap-3 p-3 rounded-lg bg-[#FAFAFA]">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${hasTemplate ? 'bg-[#ECFDF5]' : 'bg-[#FFE0EF]'}`}>
                   {hasTemplate ? (
                     <CheckCircle className="w-4 h-4 text-[#10B981]" />

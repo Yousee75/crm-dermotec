@@ -388,7 +388,7 @@ export default function WizardInscription({
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                           selectedCategory === cat
                             ? 'bg-primary text-white'
-                            : 'bg-[#F4F0EB] text-[#777777] hover:bg-[#EEEEEE]'
+                            : 'bg-[#F5F5F5] text-[#777777] hover:bg-[#EEEEEE]'
                         }`}
                       >
                         {cat === 'Toutes' ? 'Toutes' : cat.replace('Dermo-', '')}

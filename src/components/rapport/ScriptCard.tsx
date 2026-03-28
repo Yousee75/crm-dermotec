@@ -12,7 +12,7 @@ interface ScriptCardProps {
 
 export function ScriptCard({ steps, prospectName, className }: ScriptCardProps) {
   return (
-    <div className={cn('rounded-xl overflow-hidden border border-[#EEEEEE] shadow-sm', className)}>
+    <div className={cn('rounded-xl overflow-hidden border border-[#F0F0F0] shadow-sm', className)}>
       {/* Header gradient */}
       <div className="bg-gradient-to-r from-[#111111] to-[#222222] px-4 py-2.5 flex items-center gap-2">
         <Phone className="w-4 h-4 text-[#FF5C00]" />

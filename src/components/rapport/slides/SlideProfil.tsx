@@ -31,7 +31,7 @@ export function SlideProfil({ prospect, rapport }: SlideProfilProps) {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <motion.div {...anim(2)} className="bg-white border border-[#EEEEEE] rounded-xl p-4 shadow-sm">
+        <motion.div {...anim(2)} className="bg-white border border-[#F0F0F0] rounded-xl p-4 shadow-sm">
           <h3 className="text-[11px] font-bold text-[#111111] uppercase tracking-wider mb-3 flex items-center gap-1.5">
             <span className="w-[3px] h-3.5 bg-[#FF5C00] rounded-sm" /> Fiche identité
           </h3>
@@ -47,7 +47,7 @@ export function SlideProfil({ prospect, rapport }: SlideProfilProps) {
                 ['Mixte H+F', prospect.mixte ? 'OUI — double marché' : 'Non'],
                 ['BODACC', prospect.finances.bodacc_clean ? '0 procédure · dossier sain' : 'À vérifier'],
               ] as const).map(([label, value]) => (
-                <tr key={label} className="border-b border-[#F4F0EB] last:border-b-0">
+                <tr key={label} className="border-b border-[#F0F0F0] last:border-b-0">
                   <td className="py-1.5 text-[#777777] pr-3">{label}</td>
                   <td className="py-1.5 font-medium text-[#111111]">
                     {label === 'Mobile' ? (
@@ -64,7 +64,7 @@ export function SlideProfil({ prospect, rapport }: SlideProfilProps) {
           </table>
         </motion.div>
 
-        <motion.div {...anim(3)} className="bg-white border border-[#EEEEEE] rounded-xl p-4 shadow-sm">
+        <motion.div {...anim(3)} className="bg-white border border-[#F0F0F0] rounded-xl p-4 shadow-sm">
           <h3 className="text-[11px] font-bold text-[#111111] uppercase tracking-wider mb-3 flex items-center gap-1.5">
             <span className="w-[3px] h-3.5 bg-[#10B981] rounded-sm" /> Réputation — Score {rapport.kpi.score_reputation}/100
           </h3>
@@ -78,14 +78,14 @@ export function SlideProfil({ prospect, rapport }: SlideProfilProps) {
             </thead>
             <tbody>
               {prospect.reputation.planity_note != null && (
-                <tr className="border-b border-[#F4F0EB]">
+                <tr className="border-b border-[#F0F0F0]">
                   <td className="py-1.5 px-2 font-medium">Planity</td>
                   <td className="py-1.5 px-2 text-[#10B981] font-bold">{prospect.reputation.planity_note}/5</td>
                   <td className="py-1.5 px-2">{prospect.reputation.planity_nb_avis}</td>
                 </tr>
               )}
               {prospect.reputation.google_note != null && (
-                <tr className="border-b border-[#F4F0EB]">
+                <tr className="border-b border-[#F0F0F0]">
                   <td className="py-1.5 px-2 font-medium">Google</td>
                   <td className="py-1.5 px-2 text-[#FF5C00] font-semibold">{prospect.reputation.google_note}/5</td>
                   <td className="py-1.5 px-2">{prospect.reputation.google_nb_avis}</td>
@@ -108,7 +108,7 @@ export function SlideProfil({ prospect, rapport }: SlideProfilProps) {
       </motion.div>
 
       {prospect.concurrents_500m && (
-        <motion.div {...anim(5)} className="mt-3 bg-white border border-[#EEEEEE] rounded-xl p-4 shadow-sm">
+        <motion.div {...anim(5)} className="mt-3 bg-white border border-[#F0F0F0] rounded-xl p-4 shadow-sm">
           <table className="w-full text-[12px]">
             <thead>
               <tr className="bg-[#111111] text-white text-[9px] uppercase tracking-wide">
@@ -118,13 +118,13 @@ export function SlideProfil({ prospect, rapport }: SlideProfilProps) {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-[#F4F0EB]">
+              <tr className="border-b border-[#F0F0F0]">
                 <td className="py-1.5 px-2">Concurrents dans 500m</td>
                 <td className="py-1.5 px-2 font-bold">{prospect.concurrents_500m}</td>
                 <td className="py-1.5 px-2 text-[#777777]">Zone concurrentielle</td>
               </tr>
               {prospect.concurrents_avec_dermo != null && (
-                <tr className="border-b border-[#F4F0EB]">
+                <tr className="border-b border-[#F0F0F0]">
                   <td className="py-1.5 px-2">Avec dermopigmentation</td>
                   <td className="py-1.5 px-2 font-bold" style={{ color: prospect.concurrents_avec_dermo === 0 ? '#10B981' : '#FF2D78' }}>
                     {prospect.concurrents_avec_dermo}

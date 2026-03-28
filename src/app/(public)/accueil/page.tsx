@@ -234,7 +234,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════ TRUST BADGES ════════════════ */}
-      <section className="bg-white py-12 px-4 border-b border-[#F4F0EB]">
+      <section className="bg-white py-12 px-4 border-b border-[#F0F0F0]">
         <AnimatedSection className="max-w-4xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
             {trustBadges.map((badge) => {
@@ -283,7 +283,7 @@ export default function LandingPage() {
                 <motion.div
                   key={feature.title}
                   variants={fadeUp}
-                  className="group relative p-6 rounded-2xl border border-[#F4F0EB] bg-white hover:border-[#FF5C00]/30 hover:shadow-lg hover:shadow-[#FF5C00]/5 transition-all duration-300"
+                  className="group relative p-6 rounded-2xl border border-[#F0F0F0] bg-white hover:border-[#FF5C00]/30 hover:shadow-lg hover:shadow-[#FF5C00]/5 transition-all duration-300"
                 >
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-5 shadow-sm`}>
                     <Icon className="w-6 h-6 text-white" />
@@ -306,7 +306,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════ STATS ════════════════ */}
-      <section className="bg-[#FAF8F5] py-20 px-4 sm:px-6">
+      <section className="bg-[#FAFAFA] py-20 px-4 sm:px-6">
         <AnimatedSection className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat) => {
@@ -362,7 +362,7 @@ export default function LandingPage() {
                 className={`relative flex flex-col bg-white rounded-2xl border-2 p-7 transition-all duration-300 ${
                   plan.highlighted
                     ? 'border-[#FF5C00] shadow-xl shadow-[#FF5C00]/10 md:scale-[1.03]'
-                    : 'border-[#F4F0EB] hover:border-[#EEEEEE] hover:shadow-md'
+                    : 'border-[#F0F0F0] hover:border-[#F0F0F0] hover:shadow-md'
                 }`}
               >
                 {plan.highlighted && (
@@ -401,7 +401,7 @@ export default function LandingPage() {
                   className={`block text-center rounded-xl py-3 px-4 text-sm font-semibold transition-all duration-200 ${
                     plan.highlighted
                       ? 'bg-[#FF5C00] hover:bg-[#1ab5e2] text-white shadow-sm hover:shadow-md'
-                      : 'border-2 border-[#EEEEEE] bg-white hover:bg-[#FAF8F5] hover:border-[#EEEEEE] text-[#1A1A1A]'
+                      : 'border-2 border-[#F0F0F0] bg-white hover:bg-[#FAFAFA] hover:border-[#F0F0F0] text-[#1A1A1A]'
                   }`}
                 >
                   {plan.cta}
@@ -419,7 +419,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════ FORMATIONS PREVIEW ════════════════ */}
-      <section className="py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAF8F5' }}>
+      <section className="py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAFA' }}>
         <AnimatedSection className="max-w-5xl mx-auto">
           <motion.div variants={fadeUp} className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-4"

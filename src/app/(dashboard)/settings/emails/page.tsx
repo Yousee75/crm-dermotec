@@ -249,11 +249,11 @@ export default function EmailTemplatesPage() {
               <ChevronDown className="w-3 h-3 ml-1" />
             </Button>
             {showFilterMenu && (
-              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-[#EEEEEE] py-1 z-20">
+              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-[#F0F0F0] py-1 z-20">
                 <button
                   onClick={() => { setFilterCategory(null); setShowFilterMenu(false) }}
                   className={cn(
-                    'w-full text-left px-3 py-2 text-sm hover:bg-[#FAF8F5] transition',
+                    'w-full text-left px-3 py-2 text-sm hover:bg-[#FAFAFA] transition',
                     !filterCategory && 'font-medium text-primary'
                   )}
                 >
@@ -266,7 +266,7 @@ export default function EmailTemplatesPage() {
                       key={cat}
                       onClick={() => { setFilterCategory(cat); setShowFilterMenu(false) }}
                       className={cn(
-                        'w-full text-left px-3 py-2 text-sm hover:bg-[#FAF8F5] transition flex items-center gap-2',
+                        'w-full text-left px-3 py-2 text-sm hover:bg-[#FAFAFA] transition flex items-center gap-2',
                         filterCategory === cat && 'font-medium text-primary'
                       )}
                     >
@@ -413,7 +413,7 @@ export default function EmailTemplatesPage() {
                           'p-2 rounded-lg transition',
                           template.is_active
                             ? 'text-[#10B981] hover:bg-[#ECFDF5]'
-                            : 'text-[#999999] hover:bg-[#FAF8F5]'
+                            : 'text-[#999999] hover:bg-[#FAFAFA]'
                         )}
                         title={template.is_active ? 'Desactiver' : 'Activer'}
                       >
@@ -479,7 +479,7 @@ export default function EmailTemplatesPage() {
                 Editer
               </Button>
             </div>
-            <div className="border border-[#EEEEEE] rounded-lg overflow-hidden bg-white">
+            <div className="border border-[#F0F0F0] rounded-lg overflow-hidden bg-white">
               <div
                 className="p-6"
                 dangerouslySetInnerHTML={{

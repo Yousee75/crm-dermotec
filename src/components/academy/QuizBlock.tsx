@@ -84,7 +84,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
           </div>
         )}
 
-        <div className="bg-white rounded-2xl border border-[#EEEEEE] p-8 text-center">
+        <div className="bg-white rounded-2xl border border-[#F0F0F0] p-8 text-center">
           <div className={`w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center ${
             passed ? 'bg-[#D1FAE5]' : 'bg-orange-100'
           }`}>
@@ -109,7 +109,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
           </div>
 
           {/* Score bar */}
-          <div className="w-full max-w-xs mx-auto bg-[#F4F0EB] rounded-full h-3 mb-6">
+          <div className="w-full max-w-xs mx-auto bg-[#F5F5F5] rounded-full h-3 mb-6">
             <div
               className={`h-3 rounded-full transition-all duration-1000 ${passed ? 'bg-[#10B981]' : 'bg-orange-500'}`}
               style={{ width: `${scorePercent}%` }}
@@ -147,9 +147,9 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
+    <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
       {/* Progress bar */}
-      <div className="bg-[#FAF8F5] px-6 py-3 flex items-center justify-between">
+      <div className="bg-[#FAFAFA] px-6 py-3 flex items-center justify-between">
         <span className="text-sm font-medium text-[#777777]">
           Question {currentIndex + 1} / {questions.length}
         </span>
@@ -173,7 +173,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
         {/* Options */}
         <div className="space-y-3">
           {current.options.map((option, i) => {
-            let style = 'border-[#EEEEEE] bg-white hover:border-primary hover:bg-primary/5 cursor-pointer'
+            let style = 'border-[#F0F0F0] bg-white hover:border-primary hover:bg-primary/5 cursor-pointer'
 
             if (isAnswered) {
               if (i === current.correct) {
@@ -181,7 +181,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
               } else if (i === selectedOption && i !== current.correct) {
                 style = 'border-red-500 bg-[#FFE0EF] ring-2 ring-red-200'
               } else {
-                style = 'border-[#F4F0EB] bg-[#FAF8F5] opacity-50'
+                style = 'border-[#F0F0F0] bg-[#FAFAFA] opacity-50'
               }
             } else if (i === selectedOption) {
               style = 'border-primary bg-primary/10 ring-2 ring-primary/20'
@@ -199,7 +199,7 @@ export function QuizBlock({ questions, onComplete, passScore = 70 }: QuizBlockPr
                     ? 'bg-[#10B981] text-white'
                     : isAnswered && i === selectedOption
                     ? 'bg-[#FF2D78] text-white'
-                    : 'bg-[#F4F0EB] text-[#777777]'
+                    : 'bg-[#F5F5F5] text-[#777777]'
                 }`}>
                   {isAnswered && i === current.correct ? (
                     <CheckCircle className="w-5 h-5" />

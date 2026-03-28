@@ -34,12 +34,17 @@ const mockSupabase = {
 
 vi.mock('@/lib/supabase-server', () => ({
   createServerClient: vi.fn(() => mockSupabase),
-  createServiceSupabase: vi.fn(() => mockSupabase),
+  createServiceSupabase: vi.fn(() => Promise.resolve(mockSupabase)),
+  createServerSupabase: vi.fn(() => Promise.resolve(mockSupabase)),
+  createClient: vi.fn(() => Promise.resolve(mockSupabase)),
 }))
 
 vi.mock('@supabase/ssr', () => ({
   createServerClient: vi.fn(() => mockSupabase),
 }))
+
+// Mock server-only to prevent import errors in test environment
+vi.mock('server-only', () => ({}))
 
 // Mock services externes
 vi.mock('@/lib/integrations/stripe', () => ({

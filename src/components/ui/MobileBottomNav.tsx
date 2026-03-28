@@ -48,7 +48,7 @@ export function MobileBottomNav() {
       )}
 
       {/* Bottom navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#EEEEEE]/60" style={{ WebkitBackdropFilter: 'blur(20px)', paddingBottom: 'env(safe-area-inset-bottom, 0)' }}>
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#F0F0F0]/60" style={{ WebkitBackdropFilter: 'blur(20px)', paddingBottom: 'env(safe-area-inset-bottom, 0)' }}>
         <div className="flex items-stretch">
           {NAV_ITEMS.map((item) => {
             if (item.isFab) {

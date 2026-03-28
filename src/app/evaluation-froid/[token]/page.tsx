@@ -151,7 +151,7 @@ export default function EvaluationFroidPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
         <Loader2 className="h-8 w-8 animate-spin" style={{ color: '#FF5C00' }} />
       </div>
     )
@@ -159,7 +159,7 @@ export default function EvaluationFroidPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="text-center max-w-md px-6">
           <AlertCircle size={40} className="mx-auto mb-4" style={{ color: '#FF2D78' }} />
           <h1 className="text-xl font-bold mb-2" style={{ color: '#111111' }}>{error}</h1>
@@ -171,7 +171,7 @@ export default function EvaluationFroidPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -205,7 +205,7 @@ export default function EvaluationFroidPage() {
   const daysSinceEnd = data ? Math.floor((Date.now() - new Date(data.date_fin).getTime()) / 86400000) : 0
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
       <div className="max-w-2xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-8">
@@ -245,7 +245,7 @@ export default function EvaluationFroidPage() {
                       key={option}
                       className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
                       style={{
-                        backgroundColor: responses[q.id] === option ? '#FFF0E5' : '#FAF8F5',
+                        backgroundColor: responses[q.id] === option ? '#FFF0E5' : '#FAFAFA',
                         border: `1px solid ${responses[q.id] === option ? '#FF5C00' : '#EEEEEE'}`,
                       }}
                     >
@@ -273,7 +273,7 @@ export default function EvaluationFroidPage() {
                       onClick={() => setResponses(prev => ({ ...prev, [q.id]: n }))}
                       className="w-9 h-9 rounded-lg text-sm font-semibold transition-all"
                       style={{
-                        backgroundColor: (responses[q.id] as number) >= n ? '#FF5C00' : '#F4F0EB',
+                        backgroundColor: (responses[q.id] as number) >= n ? '#FF5C00' : '#F5F5F5',
                         color: (responses[q.id] as number) >= n ? '#FFFFFF' : '#777777',
                       }}
                     >
@@ -291,7 +291,7 @@ export default function EvaluationFroidPage() {
                   rows={3}
                   className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2"
                   style={{
-                    backgroundColor: '#FAF8F5',
+                    backgroundColor: '#FAFAFA',
                     border: '1px solid #EEEEEE',
                     color: '#111111',
                     // @ts-expect-error -- CSS custom property

@@ -24,7 +24,7 @@ const NOTIF_ICONS: Record<string, { icon: React.ElementType; color: string; bg: 
   session: { icon: Calendar, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   formation: { icon: GraduationCap, color: 'text-[#FF8C42]', bg: 'bg-[#FFF3E8]' },
   rappel: { icon: Clock, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
-  system: { icon: Bell, color: 'text-[#777777]', bg: 'bg-[#FAF8F5]' },
+  system: { icon: Bell, color: 'text-[#777777]', bg: 'bg-[#FAFAFA]' },
   alert: { icon: AlertTriangle, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   message: { icon: MessageSquare, color: 'text-[#FF5C00]', bg: 'bg-[#FFF0E5]' },
   analytics: { icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50' },
@@ -166,7 +166,7 @@ export default function NotificationsPage() {
                   'flex items-start gap-3 p-4 rounded-xl border transition hover:shadow-sm',
                   !notif.read
                     ? 'bg-primary/[0.03] border-primary/20'
-                    : 'bg-white border-[#F4F0EB]'
+                    : 'bg-white border-[#F0F0F0]'
                 )}
               >
                 <div className={cn('p-2 rounded-lg shrink-0', config.bg)}>

@@ -206,7 +206,7 @@ export default function EmargementPage() {
   // États de chargement et d'erreur
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
             <div className="animate-pulse space-y-4">
@@ -222,7 +222,7 @@ export default function EmargementPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
             <AlertCircle className="h-12 w-12 text-[#FF2D78] mx-auto mb-4" />
@@ -242,7 +242,7 @@ export default function EmargementPage() {
   const isAlreadySigned = !!existingEmargement
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className="min-h-screen bg-[#FAFAFA]">
       {/* Header Dermotec */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 py-4">

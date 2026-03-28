@@ -228,7 +228,7 @@ export default function LeadsPage() {
                 'flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition whitespace-nowrap border',
                 showMyLeads
                   ? 'bg-primary/10 text-primary border-primary/30'
-                  : 'bg-white text-[#777777] border-[#EEEEEE] hover:bg-[#FAF8F5]'
+                  : 'bg-white text-[#777777] border-[var(--color-border)] hover:bg-[#FAFAFA]'
               )}
             >
               <UserCheck className="w-3.5 h-3.5" />
@@ -239,7 +239,7 @@ export default function LeadsPage() {
           <div className="relative">
             <button
               onClick={() => setShowSortMenu(p => !p)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition border bg-white text-[#777777] border-[#EEEEEE] hover:bg-[#FAF8F5] whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition border bg-white text-[#777777] border-[var(--color-border)] hover:bg-[#FAFAFA] whitespace-nowrap"
             >
               {sort_dir === 'desc' ? <SortDesc className="w-3.5 h-3.5" /> : <SortAsc className="w-3.5 h-3.5" />}
               <span className="hidden sm:inline">{SORT_OPTIONS.find(s => s.value === sortBy)?.label || 'Trier'}</span>
@@ -248,13 +248,13 @@ export default function LeadsPage() {
             {showSortMenu && (
               <>
                 <div className="fixed inset-0 z-30" onClick={() => setShowSortMenu(false)} />
-                <div className="absolute right-0 top-full mt-1 z-40 bg-white rounded-xl shadow-xl border border-[#F4F0EB] py-1 min-w-[220px] animate-fadeIn">
+                <div className="absolute right-0 top-full mt-1 z-40 bg-white rounded-xl shadow-xl border border-[var(--color-border)] py-1 min-w-[220px] animate-fadeIn">
                   {SORT_OPTIONS.map(opt => (
                     <button
                       key={opt.value}
                       onClick={() => { setSortBy(opt.value); setShowSortMenu(false); setPage(1) }}
                       className={cn(
-                        'w-full flex items-center gap-2 px-3 py-2 text-xs transition hover:bg-[#FAF8F5] text-left',
+                        'w-full flex items-center gap-2 px-3 py-2 text-xs transition hover:bg-[#FAFAFA] text-left',
                         sortBy === opt.value && 'text-primary font-medium bg-primary/5'
                       )}
                     >
@@ -282,14 +282,14 @@ export default function LeadsPage() {
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition whitespace-nowrap border shrink-0',
                   isActive
                     ? 'text-white border-transparent shadow-sm'
-                    : 'bg-white text-[#777777] border-[#EEEEEE] hover:border-[#EEEEEE]'
+                    : 'bg-white text-[#777777] border-[var(--color-border)] hover:border-[var(--color-border)]'
                 )}
                 style={isActive ? { backgroundColor: sf.color } : undefined}
               >
                 <Icon className="w-3.5 h-3.5" />
                 {sf.label}
                 {count !== undefined && count > 0 && !isActive && (
-                  <span className="min-w-[16px] h-4 rounded-full bg-[#F4F0EB] text-[#777777] text-[10px] flex items-center justify-center bounce-badge count-up tabular-nums">{count}</span>
+                  <span className="min-w-[16px] h-4 rounded-full bg-[#F5F5F5] text-[#777777] text-[10px] flex items-center justify-center bounce-badge count-up tabular-nums">{count}</span>
                 )}
               </button>
             )
@@ -465,7 +465,7 @@ export default function LeadsPage() {
           {data.leads.map((lead) => {
             const statut = STATUTS_LEAD[lead.statut]
             return (
-              <Link key={lead.id} href={`/lead/${lead.id}`} className={cn("block bg-white rounded-xl border border-[#F4F0EB] p-4 haptic-press active:bg-[#FAF8F5] transition hover-row", lead.score_chaud >= 80 && 'row-hot glow-hot', lead.score_chaud >= 60 && lead.score_chaud < 80 && 'row-hot')}>
+              <Link key={lead.id} href={`/lead/${lead.id}`} className={cn("block bg-white rounded-xl border border-[var(--color-border)] p-4 haptic-press active:bg-[#FAFAFA] transition hover-row", lead.score_chaud >= 80 && 'row-hot glow-hot', lead.score_chaud >= 60 && lead.score_chaud < 80 && 'row-hot')}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="relative flex-shrink-0">
@@ -482,7 +482,7 @@ export default function LeadsPage() {
                     <StatusBadge status={lead.statut} label={statut.label} color={statut.color} />
                   </div>
                 </div>
-                <div className="flex items-center gap-3 mt-3 pt-3 border-t border-[#FAF8F5]">
+                <div className="flex items-center gap-3 mt-3 pt-3 border-t border-[#F0F0F0]">
                   {lead.telephone && (
                     <a href={`tel:${lead.telephone}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-xs text-[#777777] hover:text-primary">
                       <Phone className="w-3.5 h-3.5" /> {lead.telephone}
@@ -508,13 +508,13 @@ export default function LeadsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#FAF8F5]/80 border-b border-[#F4F0EB]">
+                <tr className="bg-[#FAFAFA] border-b border-[var(--color-border)]">
                   <th className="w-10 px-3 py-3">
                     <input
                       type="checkbox"
                       checked={allSelected}
                       onChange={toggleAll}
-                      className="w-4 h-4 rounded border-[#EEEEEE] text-primary focus:ring-primary cursor-pointer"
+                      className="w-4 h-4 rounded border-[var(--color-border)] text-primary focus:ring-primary cursor-pointer"
                     />
                   </th>
                   <th className="px-4 py-3 text-left">
@@ -537,7 +537,7 @@ export default function LeadsPage() {
                   <th className="px-2 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className={cn("divide-y divide-[#FAF8F5]", smartFilter && 'filter-reveal-stagger')}>
+              <tbody className={cn("divide-y divide-[#F0F0F0]", smartFilter && 'filter-reveal-stagger')}>
                 {data?.leads.length === 0 ? (
                   <tr>
                     <td colSpan={8}>
@@ -573,7 +573,7 @@ export default function LeadsPage() {
                           type="checkbox"
                           checked={selectedIds.has(lead.id)}
                           onChange={() => toggleSelect(lead.id)}
-                          className="w-4 h-4 rounded border-[#EEEEEE] text-primary focus:ring-primary cursor-pointer"
+                          className="w-4 h-4 rounded border-[var(--color-border)] text-primary focus:ring-primary cursor-pointer"
                         />
                       </td>
                       <td className="px-4 py-3">
@@ -715,7 +715,7 @@ export default function LeadsPage() {
 
           {/* Pagination */}
           {data && data.total_pages > 1 && (
-            <div className="flex items-center justify-between px-4 py-3 border-t border-[#F4F0EB]">
+            <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--color-border)]">
               <p className="text-xs text-[#777777]">
                 Page <span className="font-medium text-[#3A3A3A] count-up tabular-nums">{data.page}</span> sur <span className="tabular-nums">{data.total_pages}</span>
                 <span className="text-[#999999] mx-1">·</span>
@@ -753,7 +753,7 @@ export default function LeadsPage() {
                           'w-8 h-8 rounded-md text-xs font-medium transition',
                           pageNum === page
                             ? 'bg-primary text-white shadow-sm'
-                            : 'text-[#777777] hover:bg-[#F4F0EB]'
+                            : 'text-[#777777] hover:bg-[#F5F5F5]'
                         )}
                       >
                         {pageNum}

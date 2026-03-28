@@ -149,7 +149,7 @@ export default function CompetenceGrid({
         </h3>
 
         {showPhaseToggle && (
-          <div className="flex rounded-lg overflow-hidden" style={{ backgroundColor: '#F4F0EB' }}>
+          <div className="flex rounded-lg overflow-hidden" style={{ backgroundColor: '#F5F5F5' }}>
             <button
               onClick={() => setPhase('avant')}
               className="px-3 py-1.5 text-xs font-medium transition-colors"
@@ -197,7 +197,7 @@ export default function CompetenceGrid({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
               className="p-4 rounded-xl"
-              style={{ backgroundColor: '#FAF8F5', border: '1px solid #EEEEEE' }}
+              style={{ backgroundColor: '#FAFAFA', border: '1px solid #EEEEEE' }}
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1 min-w-0">
@@ -227,7 +227,7 @@ export default function CompetenceGrid({
                     onClick={() => updateNiveau(comp.id, niveau.value)}
                     className="flex-1 py-1.5 rounded-lg text-xs font-medium transition-all"
                     style={{
-                      backgroundColor: (currentValue || 0) >= niveau.value ? niveau.color : '#F4F0EB',
+                      backgroundColor: (currentValue || 0) >= niveau.value ? niveau.color : '#F5F5F5',
                       color: (currentValue || 0) >= niveau.value ? '#FFFFFF' : '#999999',
                     }}
                     title={niveau.label}

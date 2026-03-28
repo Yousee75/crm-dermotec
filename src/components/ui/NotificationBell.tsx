@@ -17,7 +17,7 @@ const NOTIF_CONFIG: Record<string, { icon: React.ElementType; color: string; bg:
   inscription: { icon: GraduationCap, color: 'text-[#FF8C42]', bg: 'bg-[#FFF3E8]' },
   session: { icon: Calendar, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   rappel: { icon: Clock, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
-  systeme: { icon: Bell, color: 'text-[#777777]', bg: 'bg-[#F4F0EB]' },
+  systeme: { icon: Bell, color: 'text-[#777777]', bg: 'bg-[#F5F5F5]' },
   alerte: { icon: AlertTriangle, color: 'text-[#FF2D78]', bg: 'bg-[#FFE0EF]' },
   message: { icon: MessageSquare, color: 'text-[#FF5C00]', bg: 'bg-[#FFF0E5]' },
 }
@@ -42,10 +42,10 @@ function NotificationItem({
   const content = (
     <div
       className={cn(
-        'flex items-start gap-3 px-4 py-3 transition border-b border-[#FAF8F5] cursor-pointer',
+        'flex items-start gap-3 px-4 py-3 transition border-b border-[#FAFAFA] cursor-pointer',
         !notif.lu
           ? 'bg-primary/[0.04] hover:bg-primary/[0.08]'
-          : 'hover:bg-[#FAF8F5]'
+          : 'hover:bg-[#FAFAFA]'
       )}
       onClick={notif.lien ? undefined : handleClick}
     >
@@ -122,7 +122,7 @@ export function NotificationBell() {
       {/* Bell button */}
       <button
         onClick={() => setOpen(prev => !prev)}
-        className="relative p-2 rounded-lg text-[#999999] hover:bg-[#F4F0EB] hover:text-[#777777] transition"
+        className="relative p-2 rounded-lg text-[#999999] hover:bg-[#F5F5F5] hover:text-[#777777] transition"
         aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} non lues)` : ''}`}
       >
         <Bell className="w-[18px] h-[18px]" />
@@ -135,9 +135,9 @@ export function NotificationBell() {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 top-full mt-1 w-[calc(100vw-2rem)] sm:w-96 max-w-96 bg-white rounded-xl shadow-xl border border-[#F4F0EB] z-50 overflow-hidden animate-scaleIn origin-top-right">
+        <div className="absolute right-0 top-full mt-1 w-[calc(100vw-2rem)] sm:w-96 max-w-96 bg-white rounded-xl shadow-xl border border-[#F0F0F0] z-50 overflow-hidden animate-scaleIn origin-top-right">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#F4F0EB]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#F0F0F0]">
             <div className="flex items-center gap-2">
               <p className="text-sm font-semibold text-[#111111]">Notifications</p>
               {unreadCount > 0 && (
@@ -164,7 +164,7 @@ export function NotificationBell() {
           <div className="max-h-[400px] overflow-y-auto">
             {isLoading ? (
               <div className="py-8 text-center">
-                <div className="w-5 h-5 border-2 border-[#EEEEEE] border-t-primary rounded-full animate-spin mx-auto" />
+                <div className="w-5 h-5 border-2 border-[#F0F0F0] border-t-primary rounded-full animate-spin mx-auto" />
                 <p className="text-xs text-[#999999] mt-2">Chargement...</p>
               </div>
             ) : notifications.length === 0 ? (
@@ -190,7 +190,7 @@ export function NotificationBell() {
             <Link
               href="/notifications"
               onClick={() => setOpen(false)}
-              className="block px-4 py-2.5 text-center text-xs text-primary font-medium hover:bg-[#FAF8F5] transition border-t border-[#F4F0EB]"
+              className="block px-4 py-2.5 text-center text-xs text-primary font-medium hover:bg-[#FAFAFA] transition border-t border-[#F0F0F0]"
             >
               Voir toutes les notifications
             </Link>

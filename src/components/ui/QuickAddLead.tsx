@@ -131,7 +131,7 @@ export function QuickAddLead() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 left-6 md:left-auto md:right-24 z-[65] w-[320px] max-w-[calc(100vw-48px)] bg-white rounded-2xl shadow-2xl border border-[#EEEEEE]/80 overflow-hidden"
+            className="fixed bottom-24 left-6 md:left-auto md:right-24 z-[65] w-[320px] max-w-[calc(100vw-48px)] bg-white rounded-2xl shadow-2xl border border-[#F0F0F0]/80 overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
@@ -166,7 +166,7 @@ export function QuickAddLead() {
                     value={nom}
                     onChange={e => setNom(e.target.value)}
                     placeholder="Nom du prospect *"
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAFA] border border-[#F0F0F0] rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
                     autoComplete="off"
                   />
                 </div>
@@ -179,7 +179,7 @@ export function QuickAddLead() {
                     value={telephone}
                     onChange={e => setTelephone(e.target.value)}
                     placeholder="Téléphone *"
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAFA] border border-[#F0F0F0] rounded-xl text-sm focus:outline-none focus:border-success focus:ring-1 focus:ring-success/30"
                     autoComplete="off"
                   />
                 </div>
@@ -190,7 +190,7 @@ export function QuickAddLead() {
                   <select
                     value={formation}
                     onChange={e => setFormation(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] border border-[#EEEEEE] rounded-xl text-sm focus:outline-none focus:border-success appearance-none"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAFA] border border-[#F0F0F0] rounded-xl text-sm focus:outline-none focus:border-success appearance-none"
                   >
                     <option value="">Formation (optionnel)</option>
                     {FORMATIONS.map(f => (

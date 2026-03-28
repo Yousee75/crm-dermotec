@@ -91,13 +91,13 @@ export function ExportButton({ data, columns, filename, title, disabled }: Expor
       </Button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-1 z-50 w-44 bg-white rounded-lg border border-[#EEEEEE] shadow-lg py-1 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute right-0 top-full mt-1 z-50 w-44 bg-white rounded-lg border border-[#F0F0F0] shadow-lg py-1 animate-in fade-in slide-in-from-top-2 duration-150">
           <button
             onClick={handleExportCSV}
             disabled={loading === 'csv'}
             className={cn(
               'flex items-center gap-2.5 w-full px-3 py-2 text-sm text-[#3A3A3A]',
-              'hover:bg-[#FAF8F5] transition-colors disabled:opacity-50'
+              'hover:bg-[#FAFAFA] transition-colors disabled:opacity-50'
             )}
           >
             {loading === 'csv' ? (
@@ -112,7 +112,7 @@ export function ExportButton({ data, columns, filename, title, disabled }: Expor
             disabled={loading === 'pdf'}
             className={cn(
               'flex items-center gap-2.5 w-full px-3 py-2 text-sm text-[#3A3A3A]',
-              'hover:bg-[#FAF8F5] transition-colors disabled:opacity-50'
+              'hover:bg-[#FAFAFA] transition-colors disabled:opacity-50'
             )}
           >
             {loading === 'pdf' ? (

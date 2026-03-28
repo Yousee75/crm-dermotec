@@ -64,7 +64,7 @@ export function PdfMerger() {
   return (
     <div className="space-y-4">
       {/* Upload zone */}
-      <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#EEEEEE] hover:border-primary rounded-xl p-6 cursor-pointer transition-colors">
+      <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#F0F0F0] hover:border-primary rounded-xl p-6 cursor-pointer transition-colors">
         <Upload size={28} className="text-[#999999] mb-2" />
         <p className="text-sm text-[#777777] font-medium">Ajouter des fichiers PDF</p>
         <p className="text-xs text-[#999999] mt-1">Glissez ou cliquez pour sélectionner</p>
@@ -76,7 +76,7 @@ export function PdfMerger() {
         <div className="space-y-2">
           <p className="text-sm font-medium text-[#3A3A3A]">{files.length} fichier(s)</p>
           {files.map((file, i) => (
-            <div key={`${file.name}-${i}`} className="flex items-center gap-2 bg-[#FAF8F5] rounded-lg px-3 py-2">
+            <div key={`${file.name}-${i}`} className="flex items-center gap-2 bg-[#FAFAFA] rounded-lg px-3 py-2">
               <FileText size={16} className="text-[#FF2D78] shrink-0" />
               <span className="text-sm flex-1 truncate">{file.name}</span>
               <span className="text-xs text-[#999999] shrink-0">{formatSize(file.size)}</span>

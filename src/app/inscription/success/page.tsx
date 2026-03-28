@@ -145,7 +145,7 @@ function InscriptionSuccessContent() {
         </div>
 
         {/* Détails de l'inscription */}
-        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB] mb-6">
+        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F0F0F0] mb-6">
           <h2 className="text-xl font-bold text-accent mb-6">Détails de votre formation</h2>
 
           <div className="space-y-4">
@@ -186,7 +186,7 @@ function InscriptionSuccessContent() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#F4F0EB]">
+            <div className="pt-4 border-t border-[#F0F0F0]">
               <div className="flex justify-between items-center">
                 <span className="font-medium text-[#111111]">Montant payé</span>
                 <span className="text-xl font-bold text-primary">
@@ -203,7 +203,7 @@ function InscriptionSuccessContent() {
         </div>
 
         {/* Prochaines étapes */}
-        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F4F0EB] mb-6">
+        <div className="rounded-2xl bg-white p-8 shadow-lg border border-[#F0F0F0] mb-6">
           <h2 className="text-xl font-bold text-accent mb-6">Prochaines étapes</h2>
 
           <div className="space-y-4">

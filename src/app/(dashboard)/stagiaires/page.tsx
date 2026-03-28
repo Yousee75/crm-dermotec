@@ -210,7 +210,7 @@ export default function StagiairesPage() {
 
   const SortableHeader = ({ column, children }: { column: typeof sortBy, children: React.ReactNode }) => (
     <th
-      className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider cursor-pointer hover:bg-[#F4F0EB] transition-colors"
+      className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider cursor-pointer hover:bg-[#F5F5F5] transition-colors"
       onClick={() => handleSort(column)}
     >
       <div className="flex items-center gap-1">
@@ -302,7 +302,7 @@ export default function StagiairesPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 p-1 bg-[#F4F0EB] rounded-lg w-fit">
+      <div className="flex items-center gap-1 p-1 bg-[#F5F5F5] rounded-lg w-fit">
         <button
           className={cn(
             "px-3 py-2 rounded-md text-sm font-medium transition-colors",
@@ -337,7 +337,7 @@ export default function StagiairesPage() {
           <select
             value={statutFilter}
             onChange={(e) => { setStatutFilter(e.target.value as StatutInscription | ''); setPage(1) }}
-            className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+            className="px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
           >
             <option value="">Tous les statuts</option>
             {Object.entries(STATUTS_INSCRIPTION).map(([value, { label }]) => (
@@ -349,7 +349,7 @@ export default function StagiairesPage() {
         <select
           value={formationFilter}
           onChange={(e) => { setFormationFilter(e.target.value); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Toutes les formations</option>
           {formations.map(formation => (
@@ -360,7 +360,7 @@ export default function StagiairesPage() {
         <select
           value={sessionFilter}
           onChange={(e) => { setSessionFilter(e.target.value); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Toutes les sessions</option>
           {sessions.map(session => (
@@ -373,7 +373,7 @@ export default function StagiairesPage() {
         <select
           value={paiementFilter}
           onChange={(e) => { setPaiementFilter(e.target.value as PaiementStatut | ''); setPage(1) }}
-          className="px-3 py-2 rounded-lg border border-[#EEEEEE] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+          className="px-3 py-2 rounded-lg border border-[#F0F0F0] text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
         >
           <option value="">Tous les paiements</option>
           {Object.entries(PAIEMENT_STATUTS).map(([value, { label }]) => (
@@ -390,7 +390,7 @@ export default function StagiairesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#FAF8F5]/80 border-b border-[#F4F0EB]">
+                <tr className="bg-[#FAFAFA]/80 border-b border-[#F0F0F0]">
                   <SortableHeader column="nom">Stagiaire</SortableHeader>
                   <SortableHeader column="formation">Formation</SortableHeader>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Session</th>
@@ -402,7 +402,7 @@ export default function StagiairesPage() {
                   <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FAF8F5]">
+              <tbody className="divide-y divide-[#FAFAFA]">
                 {inscriptions.length === 0 ? (
                   <tr>
                     <td colSpan={9}>

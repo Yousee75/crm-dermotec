@@ -159,7 +159,7 @@ export default function FinancementTab() {
           <select
             value={statutFilter}
             onChange={(e) => setStatutFilter(e.target.value)}
-            className="px-3 py-2 border border-[#EEEEEE] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="px-3 py-2 border border-[#F0F0F0] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">Tous les statuts</option>
             <option value="en_attente">En attente</option>
@@ -183,10 +183,10 @@ export default function FinancementTab() {
           description="Les demandes de financement OPCO, CPF et Pôle Emploi apparaîtront ici."
         />
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-[#F4F0EB] overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-[#F0F0F0] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#FAF8F5]/50 border-b border-[#F4F0EB]">
+              <thead className="bg-[#FAFAFA]/50 border-b border-[#F0F0F0]">
                 <tr>
                   <th className="text-left text-xs font-semibold text-[#777777] uppercase tracking-wider px-6 py-3">
                     Apprenant
@@ -211,13 +211,13 @@ export default function FinancementTab() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F4F0EB]">
+              <tbody className="divide-y divide-[#F0F0F0]">
                 {financements.map((financement) => {
                   const statutConfig = STATUT_CONFIG[financement.statut]
                   const StatutIcon = statutConfig.icon
 
                   return (
-                    <tr key={financement.id} className="hover:bg-[#FAF8F5]/50 transition-colors">
+                    <tr key={financement.id} className="hover:bg-[#FAFAFA]/50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium">

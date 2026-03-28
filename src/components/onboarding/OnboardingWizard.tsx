@@ -231,14 +231,14 @@ export function OnboardingWizard() {
         {/* Close button */}
         <button
           onClick={dismiss}
-          className="absolute top-4 right-4 z-20 p-1.5 rounded-lg text-[#999999] hover:text-[#777777] hover:bg-[#F4F0EB] transition"
+          className="absolute top-4 right-4 z-20 p-1.5 rounded-lg text-[#999999] hover:text-[#777777] hover:bg-[#F5F5F5] transition"
           title="Passer l'onboarding"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Progress bar */}
-        <div className="h-1 bg-[#F4F0EB]">
+        <div className="h-1 bg-[#F5F5F5]">
           <motion.div
             className="h-full bg-gradient-to-r from-[#FF5C00] to-[#22C55E]"
             initial={{ width: 0 }}
@@ -532,7 +532,7 @@ function StepPipeline() {
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * i + 0.2 }}
-                  className="h-8 bg-[#FAF8F5] border border-[#F4F0EB] rounded-lg"
+                  className="h-8 bg-[#FAFAFA] border border-[#F0F0F0] rounded-lg"
                 />
               ))}
             </div>
@@ -617,7 +617,7 @@ function StepProfile({
             <select
               value={form.role}
               onChange={(e) => update('role', e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-xl bg-white text-[#111111] focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition"
+              className="w-full px-3 py-2 text-sm border border-[#F0F0F0] rounded-xl bg-white text-[#111111] focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition"
             >
               <option value="">Selectionnez</option>
               <option value="admin">Administrateur</option>
@@ -680,7 +680,7 @@ function StepReady() {
           <a
             key={link.href}
             href={link.href}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#F4F0EB] hover:border-[#EEEEEE] hover:bg-[#FAF8F5] transition group"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#F0F0F0] hover:border-[#F0F0F0] hover:bg-[#FAFAFA] transition group"
           >
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center"
@@ -757,7 +757,7 @@ function InputField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-xl bg-white text-[#111111] placeholder:text-[#999999] focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition ${
+          className={`w-full px-3 py-2 text-sm border border-[#F0F0F0] rounded-xl bg-white text-[#111111] placeholder:text-[#999999] focus:outline-none focus:ring-2 focus:ring-[#FF5C00]/30 focus:border-[#FF5C00] transition ${
             Icon ? 'pl-9' : ''
           }`}
         />

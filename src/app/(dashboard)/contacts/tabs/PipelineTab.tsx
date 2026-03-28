@@ -31,7 +31,7 @@ const STATUT_COLORS = {
   financement: 'bg-[#FFF0E5] text-[#FF5C00] border-[#FF8C42]',
   inscrit: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
   forme: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  sans_suite: 'bg-[#FAF8F5] text-[#777777] border-[#EEEEEE]',
+  sans_suite: 'bg-[#FAFAFA] text-[#777777] border-[#F0F0F0]',
 } as const
 
 export default function PipelineTab() {
@@ -130,7 +130,7 @@ export default function PipelineTab() {
                 </h3>
                 <Badge
                   variant="outline"
-                  className={cn("text-xs", STATUT_COLORS[statut] || "bg-[#FAF8F5] text-[#777777]")}
+                  className={cn("text-xs", STATUT_COLORS[statut] || "bg-[#FAFAFA] text-[#777777]")}
                 >
                   {count}
                 </Badge>
@@ -141,7 +141,7 @@ export default function PipelineTab() {
                   <Link
                     key={lead.id}
                     href={`/lead/${lead.id}`}
-                    className="block p-2 rounded-lg hover:bg-[#FAF8F5] transition-colors"
+                    className="block p-2 rounded-lg hover:bg-[#FAFAFA] transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium">

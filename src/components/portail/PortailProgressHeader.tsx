@@ -117,7 +117,7 @@ export default function PortailProgressHeader({ data }: PortailProgressHeaderPro
           <div className="relative flex-shrink-0">
             <svg width="80" height="80" viewBox="0 0 80 80">
               {/* Cercle fond */}
-              <circle cx="40" cy="40" r="34" fill="none" stroke="#F4F0EB" strokeWidth="6" />
+              <circle cx="40" cy="40" r="34" fill="none" stroke="#F5F5F5" strokeWidth="6" />
               {/* Cercle progression */}
               <motion.circle
                 cx="40" cy="40" r="34"
@@ -178,7 +178,7 @@ export default function PortailProgressHeader({ data }: PortailProgressHeaderPro
         {/* Timeline horizontale */}
         <div className="flex items-center justify-between relative">
           {/* Ligne de fond */}
-          <div className="absolute top-5 left-8 right-8 h-0.5" style={{ backgroundColor: '#F4F0EB' }} />
+          <div className="absolute top-5 left-8 right-8 h-0.5" style={{ backgroundColor: '#F5F5F5' }} />
           {/* Ligne de progression */}
           <motion.div
             className="absolute top-5 left-8 h-0.5"
@@ -196,7 +196,7 @@ export default function PortailProgressHeader({ data }: PortailProgressHeaderPro
                 <motion.div
                   className="w-10 h-10 rounded-full flex items-center justify-center"
                   style={{
-                    backgroundColor: step.completed ? '#FF5C00' : step.active ? '#FFF0E5' : '#F4F0EB',
+                    backgroundColor: step.completed ? '#FF5C00' : step.active ? '#FFF0E5' : '#F5F5F5',
                     border: step.active ? '2px solid #FF5C00' : 'none',
                   }}
                   initial={{ scale: 0.8 }}

@@ -94,7 +94,7 @@ function AvatarGroup({ children, max = 4, className }: { children: React.ReactNo
     <div className={cn('flex -space-x-2', className)}>
       {shown}
       {overflow > 0 && (
-        <div className="w-8 h-8 rounded-full bg-[#F4F0EB] border-2 border-white flex items-center justify-center text-[10px] font-medium text-[#777777]">
+        <div className="w-8 h-8 rounded-full bg-[#F5F5F5] border-2 border-white flex items-center justify-center text-[10px] font-medium text-[#777777]">
           +{overflow}
         </div>
       )}

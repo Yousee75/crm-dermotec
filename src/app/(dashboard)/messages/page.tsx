@@ -187,7 +187,7 @@ export default function MessagesPage() {
                         ? 'bg-[#FFF3E8] border border-[#FF8C42]/30'
                         : isOutbound
                         ? 'bg-primary text-white'
-                        : 'bg-[#F4F0EB] text-[#111111]'
+                        : 'bg-[#F5F5F5] text-[#111111]'
                     )}
                   >
                     <div className="flex items-center gap-2">
@@ -212,7 +212,7 @@ export default function MessagesPage() {
         </div>
 
         {/* Composer mobile */}
-        <div className="p-4 border-t bg-[#FAF8F5]">
+        <div className="p-4 border-t bg-[#FAFAFA]">
           <div className="space-y-3">
             {/* Sélecteur canal */}
             <div className="flex gap-1 overflow-x-auto">
@@ -309,7 +309,7 @@ export default function MessagesPage() {
               {CANAUX.slice(0, 4).map((canal) => (
                 <button
                   key={canal.id}
-                  className="px-2 py-1 text-xs border rounded text-[#777777] hover:bg-[#FAF8F5] whitespace-nowrap"
+                  className="px-2 py-1 text-xs border rounded text-[#777777] hover:bg-[#FAFAFA] whitespace-nowrap"
                 >
                   {(() => { const CI = canal.icon; return <CI className="w-3 h-3 inline mr-1" /> })()}
                   {canal.label}
@@ -341,7 +341,7 @@ export default function MessagesPage() {
                       if (isMobileView) setShowThread(true)
                     }}
                     className={cn(
-                      'p-4 border-b cursor-pointer hover:bg-[#FAF8F5] transition-colors',
+                      'p-4 border-b cursor-pointer hover:bg-[#FAFAFA] transition-colors',
                       isSelected && 'bg-[#E0EBF5] border-r-2 border-r-primary'
                     )}
                   >
@@ -460,7 +460,7 @@ export default function MessagesPage() {
                                 ? 'bg-[#FFF3E8] border border-[#FF8C42]/30'
                                 : isOutbound
                                 ? 'bg-primary text-white'
-                                : 'bg-[#F4F0EB] text-[#111111]'
+                                : 'bg-[#F5F5F5] text-[#111111]'
                             )}
                           >
                             <div className="flex items-center gap-2 text-xs opacity-70">
@@ -483,7 +483,7 @@ export default function MessagesPage() {
                 </div>
 
                 {/* Composer */}
-                <div className="p-4 border-t bg-[#FAF8F5]">
+                <div className="p-4 border-t bg-[#FAFAFA]">
                   <div className="space-y-3">
                     {/* Canal selector */}
                     <div className="flex gap-1">
@@ -495,7 +495,7 @@ export default function MessagesPage() {
                             'flex items-center gap-2 px-3 py-2 rounded-lg text-sm',
                             selectedCanal === canal.id
                               ? 'bg-primary text-white'
-                              : 'bg-white border text-[#777777] hover:bg-[#FAF8F5]'
+                              : 'bg-white border text-[#777777] hover:bg-[#FAFAFA]'
                           )}
                         >
                           {(() => { const CI = canal.icon; return <CI className="w-4 h-4" /> })()}

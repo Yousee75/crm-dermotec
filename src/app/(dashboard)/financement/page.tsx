@@ -44,7 +44,7 @@ const KANBAN_COLUMNS = [
     id: 'PREPARATION',
     title: 'Préparation',
     statuts: ['PREPARATION'],
-    color: 'bg-[#F4F0EB] border-[#EEEEEE]',
+    color: 'bg-[#F5F5F5] border-[#F0F0F0]',
     badge: 'default' as const
   },
   {
@@ -179,7 +179,7 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
             ORGANISME_COLORS[financement.organisme] === 'pink' && 'border-pink-200 text-pink-700 bg-pink-50',
             ORGANISME_COLORS[financement.organisme] === 'indigo' && 'border-[#FF8C42] text-[#FF5C00] bg-[#FFF0E5]',
 
-            ORGANISME_COLORS[financement.organisme] === 'gray' && 'border-[#EEEEEE] text-[#3A3A3A] bg-[#FAF8F5]'
+            ORGANISME_COLORS[financement.organisme] === 'gray' && 'border-[#F0F0F0] text-[#3A3A3A] bg-[#FAFAFA]'
           )}
         >
           {organisme?.label || financement.organisme}
@@ -220,7 +220,7 @@ function FinancementCard({ financement, onClick }: { financement: FinancementWit
 
         {/* Numéro dossier si disponible */}
         {financement.numero_dossier && (
-          <div className="pt-1 border-t border-[#F4F0EB]">
+          <div className="pt-1 border-t border-[#F0F0F0]">
             <p className="text-xs font-mono text-[#777777]">
               {financement.numero_dossier}
             </p>
@@ -297,7 +297,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden">
-        <div className="p-6 border-b border-[#F4F0EB] flex items-center justify-between">
+        <div className="p-6 border-b border-[#F0F0F0] flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold text-accent">Dossier de financement</h2>
             <p className="text-[#777777]">
@@ -366,7 +366,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
 
               <div className="space-y-2">
                 {organisme?.documents_requis.map((doc, index) => (
-                  <div key={index} className="flex items-center gap-3 p-2 bg-[#FAF8F5] rounded-lg">
+                  <div key={index} className="flex items-center gap-3 p-2 bg-[#FAFAFA] rounded-lg">
                     <CheckCircle2 className="w-4 h-4 text-[#999999]" />
                     <span className="text-sm text-[#3A3A3A]">{doc}</span>
                     <div className="ml-auto flex gap-1">
@@ -457,7 +457,7 @@ function DetailPanel({ financement, onClose }: { financement: FinancementWithLea
           )}
         </div>
 
-        <div className="p-4 border-t border-[#F4F0EB] flex justify-end gap-3">
+        <div className="p-4 border-t border-[#F0F0F0] flex justify-end gap-3">
           <Button variant="outline" onClick={onClose}>
             Fermer
           </Button>
@@ -477,7 +477,7 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-[#FAF8F5]/80 border-b border-[#F4F0EB]">
+            <tr className="bg-[#FAFAFA]/80 border-b border-[#F0F0F0]">
               <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Lead</th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Organisme</th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Formation</th>
@@ -488,7 +488,7 @@ function TableView({ financements }: { financements: FinancementWithLead[] }) {
               <th className="px-4 py-3 text-left text-xs font-semibold text-[#777777] uppercase tracking-wider">Dernière MAJ</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#FAF8F5]">
+          <tbody className="divide-y divide-[#FAFAFA]">
             {financements.map((financement) => {
               const organisme = ORGANISMES_FINANCEMENT[financement.organisme]
 
@@ -643,7 +643,7 @@ export default function FinancementPage() {
         />
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center border border-[#EEEEEE] rounded-lg p-1">
+          <div className="flex items-center border border-[#F0F0F0] rounded-lg p-1">
             <Button
               size="sm"
               variant={viewMode === 'kanban' ? 'primary' : 'ghost'}

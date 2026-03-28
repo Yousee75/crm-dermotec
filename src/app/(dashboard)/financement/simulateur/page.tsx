@@ -69,7 +69,7 @@ function SimulateurCompact() {
           <select
             value={selectedProfil}
             onChange={(e) => setSelectedProfil(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-lg focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 text-sm border border-[#F0F0F0] rounded-lg focus:ring-primary focus:border-primary"
           >
             <option value="">Sélectionner</option>
             {PROFILS.map(p => (
@@ -83,7 +83,7 @@ function SimulateurCompact() {
           <select
             value={selectedFormation}
             onChange={(e) => setSelectedFormation(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-[#EEEEEE] rounded-lg focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 text-sm border border-[#F0F0F0] rounded-lg focus:ring-primary focus:border-primary"
           >
             <option value="">Sélectionner</option>
             {FORMATIONS_DATA.map(f => (
@@ -142,7 +142,7 @@ function SimulateurCompact() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="bg-[#FAF8F5] rounded-lg p-3 border-l-4 border-primary"
+          className="bg-[#FAFAFA] rounded-lg p-3 border-l-4 border-primary"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -179,7 +179,7 @@ function TableauOrganismes() {
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[#FAF8F5]">
+            <thead className="bg-[#FAFAFA]">
               <tr>
                 <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Organisme</th>
                 <th className="px-3 py-2 text-left font-semibold text-[#3A3A3A]">Public</th>
@@ -194,7 +194,7 @@ function TableauOrganismes() {
               {ORGANISMES_FINANCEMENT.map((org, idx) => (
                 <React.Fragment key={org.id}>
                   <tr
-                    className={`border-t ${expandedRow === org.id ? 'bg-[#E0EBF5]' : 'hover:bg-[#FAF8F5]'} cursor-pointer`}
+                    className={`border-t ${expandedRow === org.id ? 'bg-[#E0EBF5]' : 'hover:bg-[#FAFAFA]'} cursor-pointer`}
                     onClick={() => setExpandedRow(expandedRow === org.id ? null : org.id)}
                   >
                     <td className="px-3 py-2">
@@ -317,7 +317,7 @@ function ChecklistEtCasPratiques() {
             <>
               <div className="space-y-2">
                 {checklist.documents.map(doc => (
-                  <label key={doc} className="flex items-center gap-2 p-2 bg-[#FAF8F5] rounded cursor-pointer hover:bg-[#F4F0EB]">
+                  <label key={doc} className="flex items-center gap-2 p-2 bg-[#FAFAFA] rounded cursor-pointer hover:bg-[#F5F5F5]">
                     <input
                       type="checkbox"
                       checked={checkedDocs.includes(doc)}
@@ -359,7 +359,7 @@ function ChecklistEtCasPratiques() {
 
           <div className="space-y-2 max-h-96 overflow-y-auto">
             {CAS_MONTAGE_FINANCIER.map((cas, idx) => (
-              <div key={idx} className="p-3 border border-[#EEEEEE] rounded-lg hover:bg-[#FAF8F5]">
+              <div key={idx} className="p-3 border border-[#F0F0F0] rounded-lg hover:bg-[#FAFAFA]">
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <p className="font-semibold text-accent text-sm">{cas.prenom}, {cas.age} ans</p>
@@ -410,7 +410,7 @@ function MotifsRefusCompact() {
           <Card key={idx} className="overflow-hidden">
             <button
               onClick={() => setExpanded(expanded === motif.motif ? null : motif.motif)}
-              className="w-full p-3 text-left hover:bg-[#FAF8F5] transition-colors"
+              className="w-full p-3 text-left hover:bg-[#FAFAFA] transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -437,7 +437,7 @@ function MotifsRefusCompact() {
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="px-3 pb-3 border-t border-[#F4F0EB]"
+                  className="px-3 pb-3 border-t border-[#F0F0F0]"
                 >
                   <div className="pt-3 space-y-2 text-sm">
                     <div>

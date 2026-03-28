@@ -53,7 +53,7 @@ export function StickyBottomBar({
     <div
       className={cn(
         'fixed bottom-0 left-0 right-0 z-50 md:hidden',
-        'bg-white border-t border-[#EEEEEE]',
+        'bg-white border-t border-[#F0F0F0]',
         'shadow-[0_-4px_12px_rgba(0,0,0,0.1)]',
         'transition-transform duration-300 ease-out',
         isVisible ? 'translate-y-0' : 'translate-y-full'

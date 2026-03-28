@@ -13,7 +13,7 @@ export function TimelineStep({ action, isLast, className }: TimelineStepProps) {
   return (
     <div className={cn(
       'flex gap-3 pb-3',
-      !isLast && 'border-b border-[#EEEEEE]',
+      !isLast && 'border-b border-[#F0F0F0]',
       action.est_critique && 'bg-[#ECFDF5] rounded-lg px-3 py-2 -mx-1',
       className
     )}>

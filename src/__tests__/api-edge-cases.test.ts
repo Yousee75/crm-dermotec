@@ -6,6 +6,36 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { NextRequest } from 'next/server'
 
+// Mock server-only to prevent import errors in test environment
+vi.mock('server-only', () => ({}))
+
+// Base mock for supabase-server (doMock overrides per-test below)
+vi.mock('@/lib/supabase-server', () => ({
+  createServiceSupabase: vi.fn(() => Promise.resolve({
+    from: vi.fn().mockReturnValue({
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: null }),
+    }),
+  })),
+  createServerSupabase: vi.fn(() => Promise.resolve({
+    auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null } }) },
+  })),
+  createServerClient: vi.fn(() => ({
+    auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null } }) },
+  })),
+  createClient: vi.fn(() => Promise.resolve({
+    auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null } }) },
+  })),
+}))
+
+// Base mock for @supabase/ssr
+vi.mock('@supabase/ssr', () => ({
+  createServerClient: vi.fn(() => ({
+    auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null } }) },
+  })),
+}))
+
 // Mock auth avec différents scénarios
 const createMockAuth = (scenario: 'authenticated' | 'demo' | 'no-env' | 'corrupted') => {
   switch (scenario) {

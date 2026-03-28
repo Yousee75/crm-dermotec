@@ -162,7 +162,7 @@ export function SignatureCanvas({
   return (
     <div className="space-y-4">
       <div
-        className="border-2 border-dashed border-[#EEEEEE] rounded-lg overflow-hidden bg-white"
+        className="border-2 border-dashed border-[#F0F0F0] rounded-lg overflow-hidden bg-white"
         style={{ width: '100%', maxWidth: width }}
       >
         <canvas

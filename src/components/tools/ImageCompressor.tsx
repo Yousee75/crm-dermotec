@@ -60,7 +60,7 @@ export function ImageCompressor() {
   return (
     <div className="space-y-4">
       {/* Upload */}
-      <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#EEEEEE] hover:border-primary rounded-xl p-8 cursor-pointer transition-colors">
+      <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#F0F0F0] hover:border-primary rounded-xl p-8 cursor-pointer transition-colors">
         <Upload size={32} className="text-[#999999] mb-2" />
         <p className="text-sm text-[#777777] font-medium">Choisir une image</p>
         <p className="text-xs text-[#999999] mt-1">JPG, PNG, WebP (max 20 MB)</p>

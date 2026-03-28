@@ -212,7 +212,7 @@ export function OnboardingProgressBar() {
 
   return (
     <div className={cn(
-      "sticky top-0 z-20 bg-white border-b border-[#EEEEEE] px-4 py-3 transition-all duration-500",
+      "sticky top-0 z-20 bg-white border-b border-[#F0F0F0] px-4 py-3 transition-all duration-500",
       celebrateComplete && "animate-pulse bg-gradient-to-r from-[#FFF0E5] via-white to-[#FFE0EF]"
     )}>
       <div className="max-w-7xl mx-auto">
@@ -245,7 +245,7 @@ export function OnboardingProgressBar() {
 
             {/* Barre de progression */}
             <div className="flex-1 max-w-md">
-              <div className="h-1.5 bg-[#F4F0EB] rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[#F5F5F5] rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-700 ease-out"
                   style={{
@@ -268,7 +268,7 @@ export function OnboardingProgressBar() {
                     "flex items-center gap-2 px-2 py-1 rounded-md text-xs transition-all",
                     step.completed
                       ? "bg-[#ECFDF5] text-[#10B981]"
-                      : "bg-[#F4F0EB] text-[#777777]"
+                      : "bg-[#F5F5F5] text-[#777777]"
                   )}
                   title={step.label}
                 >
@@ -295,7 +295,7 @@ export function OnboardingProgressBar() {
           {/* Bouton dismiss */}
           <button
             onClick={handleDismiss}
-            className="p-1.5 rounded-md hover:bg-[#F4F0EB] text-[#999999] hover:text-[#777777] transition-colors"
+            className="p-1.5 rounded-md hover:bg-[#F5F5F5] text-[#999999] hover:text-[#777777] transition-colors"
             title="Masquer pour 24h"
           >
             <X className="w-4 h-4" />

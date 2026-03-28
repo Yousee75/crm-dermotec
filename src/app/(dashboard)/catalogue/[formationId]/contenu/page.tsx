@@ -44,7 +44,7 @@ const TYPE_CONFIG: Record<string, { icon: typeof FileText; color: string; label:
   video: { icon: Video, color: 'text-[#FF5C00] bg-[#FFF0E5]', label: 'Video' },
   pdf: { icon: FileText, color: 'text-[#FF2D78] bg-[#FFE0EF]', label: 'PDF' },
   quiz: { icon: BookOpen, color: 'text-[#FF8C42] bg-[#FFF3E8]', label: 'Quiz' },
-  texte: { icon: FileText, color: 'text-[#777777] bg-[#FAF8F5]', label: 'Texte' },
+  texte: { icon: FileText, color: 'text-[#777777] bg-[#FAFAFA]', label: 'Texte' },
   exercice: { icon: BookOpen, color: 'text-emerald-600 bg-emerald-50', label: 'Exercice' },
   lien: { icon: ExternalLink, color: 'text-[#FF2D78] bg-[#FFE0EF]', label: 'Lien' },
   ppt: { icon: FileText, color: 'text-orange-600 bg-orange-50', label: 'Presentation' },
@@ -256,7 +256,7 @@ export default function FormationContenuPage() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => router.push('/catalogue')}
-          className="p-2 rounded-lg hover:bg-[#F4F0EB] transition-colors"
+          className="p-2 rounded-lg hover:bg-[#F5F5F5] transition-colors"
           aria-label="Retour au catalogue"
         >
           <ArrowLeft className="w-5 h-5 text-[#777777]" />
@@ -294,7 +294,7 @@ export default function FormationContenuPage() {
       </div>
 
       {/* Content Uploader */}
-      <div className="bg-white rounded-xl border border-[#EEEEEE] p-6">
+      <div className="bg-white rounded-xl border border-[#F0F0F0] p-6">
         <ContentUploader
           formationId={formationId}
           formationNom={formation?.nom || 'Formation'}
@@ -316,7 +316,7 @@ export default function FormationContenuPage() {
             <Loader2 className="h-6 w-6 animate-spin text-[#999999]" />
           </div>
         ) : !modules || modules.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-xl border border-[#EEEEEE]">
+          <div className="text-center py-12 bg-white rounded-xl border border-[#F0F0F0]">
             <BookOpen className="h-12 w-12 text-[#999999] mx-auto mb-4" />
             <p className="text-[#777777] font-medium">Aucun module pour cette formation</p>
             <p className="text-sm text-[#999999] mt-1">
@@ -332,12 +332,12 @@ export default function FormationContenuPage() {
               return (
                 <div
                   key={module.id}
-                  className="bg-white rounded-xl border border-[#EEEEEE] overflow-hidden"
+                  className="bg-white rounded-xl border border-[#F0F0F0] overflow-hidden"
                 >
                   {/* Header module — accordion */}
                   <button
                     onClick={() => toggleModule(module.id)}
-                    className="w-full flex items-center gap-4 p-4 hover:bg-[#FAF8F5] transition-colors text-left"
+                    className="w-full flex items-center gap-4 p-4 hover:bg-[#FAFAFA] transition-colors text-left"
                   >
                     <div className="w-10 h-10 rounded-lg bg-[#FFF0E5] text-[#FF5C00] flex items-center justify-center flex-shrink-0 font-bold text-sm">
                       {moduleIdx + 1}
@@ -359,7 +359,7 @@ export default function FormationContenuPage() {
                       </div>
                     </div>
 
-                    <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-[#F4F0EB] text-[#777777]">
+                    <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-[#F5F5F5] text-[#777777]">
                       {contenus.length}
                     </span>
 
@@ -372,7 +372,7 @@ export default function FormationContenuPage() {
 
                   {/* Contenus du module */}
                   {isExpanded && (
-                    <div className="border-t border-[#F4F0EB]">
+                    <div className="border-t border-[#F0F0F0]">
                       {contenus.length === 0 ? (
                         <div className="px-4 py-6 text-center">
                           <p className="text-sm text-[#999999]">
@@ -380,7 +380,7 @@ export default function FormationContenuPage() {
                           </p>
                         </div>
                       ) : (
-                        <div className="divide-y divide-[#FAF8F5]">
+                        <div className="divide-y divide-[#FAFAFA]">
                           {contenus.map((contenu, contenuIdx) => {
                             const config = TYPE_CONFIG[contenu.type] || TYPE_CONFIG.pdf
                             const Icon = config.icon
@@ -388,7 +388,7 @@ export default function FormationContenuPage() {
                             return (
                               <div
                                 key={contenu.id}
-                                className="flex items-center gap-3 px-4 py-3 hover:bg-[#FAF8F5]/50 transition-colors group"
+                                className="flex items-center gap-3 px-4 py-3 hover:bg-[#FAFAFA]/50 transition-colors group"
                               >
                                 {/* Drag handle placeholder */}
                                 <div className="flex-shrink-0 opacity-0 group-hover:opacity-40 transition-opacity cursor-grab">
@@ -436,7 +436,7 @@ export default function FormationContenuPage() {
                                       href={contenu.url}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="p-1.5 rounded-lg hover:bg-[#F4F0EB] transition-colors"
+                                      className="p-1.5 rounded-lg hover:bg-[#F5F5F5] transition-colors"
                                       title="Voir le contenu"
                                     >
                                       <Eye className="w-4 h-4 text-[#777777]" />
@@ -488,7 +488,7 @@ function StatCard({
   bgColor: string
 }) {
   return (
-    <div className="bg-white rounded-xl border border-[#EEEEEE] p-4 flex items-center gap-4">
+    <div className="bg-white rounded-xl border border-[#F0F0F0] p-4 flex items-center gap-4">
       <div className={`w-11 h-11 rounded-lg flex items-center justify-center ${bgColor}`}>
         {icon}
       </div>

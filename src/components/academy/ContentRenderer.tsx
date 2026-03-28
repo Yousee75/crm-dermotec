@@ -87,7 +87,7 @@ function TextContent({ body }: { body: string }) {
       )
     }
     if (line.startsWith('---')) {
-      return <hr key={i} className="my-6 border-[#EEEEEE]" />
+      return <hr key={i} className="my-6 border-[#F0F0F0]" />
     }
     if (line.trim() === '') {
       return <div key={i} className="h-3" />
@@ -99,7 +99,7 @@ function TextContent({ body }: { body: string }) {
     return text
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-accent">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code class="bg-[#F4F0EB] px-1.5 py-0.5 rounded text-sm font-mono text-primary">$1</code>')
+      .replace(/`(.*?)`/g, '<code class="bg-[#F5F5F5] px-1.5 py-0.5 rounded text-sm font-mono text-primary">$1</code>')
   }
 
   const lines = body.split('\n')
@@ -164,7 +164,7 @@ function VideoContent({ url, transcript }: { url: string; transcript?: string })
             {showTranscript ? 'Masquer la transcription' : 'Voir la transcription'}
           </button>
           {showTranscript && (
-            <div className="mt-3 p-4 bg-[#FAF8F5] rounded-xl text-sm text-[#777777] leading-relaxed max-h-[300px] overflow-y-auto">
+            <div className="mt-3 p-4 bg-[#FAFAFA] rounded-xl text-sm text-[#777777] leading-relaxed max-h-[300px] overflow-y-auto">
               {transcript}
             </div>
           )}
@@ -190,8 +190,8 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
-      <div className="px-6 py-4 bg-[#FAF8F5] border-b flex items-center justify-between">
+    <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
+      <div className="px-6 py-4 bg-[#FAFAFA] border-b flex items-center justify-between">
         <h3 className="font-semibold text-accent">Checklist</h3>
         <span className="text-sm text-[#777777]">{checked.size}/{items.length} complété{checked.size > 1 ? 's' : ''}</span>
       </div>
@@ -201,7 +201,7 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
             key={i}
             onClick={() => toggle(i)}
             className={`w-full flex items-start gap-3 p-3 rounded-xl text-left transition ${
-              checked.has(i) ? 'bg-[#ECFDF5]' : 'hover:bg-[#FAF8F5]'
+              checked.has(i) ? 'bg-[#ECFDF5]' : 'hover:bg-[#FAFAFA]'
             }`}
           >
             {checked.has(i) ? (
@@ -232,7 +232,7 @@ function ChecklistContent({ items, onComplete }: { items: { label: string; descr
 // --- PDF content ---
 function PdfContent({ url, titre }: { url: string; titre: string }) {
   return (
-    <div className="bg-white rounded-2xl border border-[#EEEEEE] p-6">
+    <div className="bg-white rounded-2xl border border-[#F0F0F0] p-6">
       <div className="flex items-center gap-4">
         <div className="w-14 h-14 bg-[#FFE0EF] rounded-xl flex items-center justify-center">
           <span className="text-[#FF2D78] font-bold text-lg">PDF</span>
@@ -248,7 +248,7 @@ function PdfContent({ url, titre }: { url: string; titre: string }) {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 bg-[#F4F0EB] text-[#3A3A3A] rounded-lg text-sm font-medium hover:bg-[#EEEEEE] transition"
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#F5F5F5] text-[#3A3A3A] rounded-lg text-sm font-medium hover:bg-[#EEEEEE] transition"
               >
                 <ExternalLink className="w-4 h-4" /> Ouvrir
               </a>
@@ -270,7 +270,7 @@ function PdfContent({ url, titre }: { url: string; titre: string }) {
 // --- Exercice content ---
 function ExerciceContent({ consigne, exemple, criteres }: { consigne: string; exemple?: string; criteres?: string[] }) {
   return (
-    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
+    <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
       <div className="bg-[#FFE0EF] px-6 py-4 border-b border-[#FF2D78]/20">
         <h3 className="font-semibold text-[#FF2D78] flex items-center gap-2">
           <span className="text-lg">✍️</span> Exercice pratique
@@ -283,7 +283,7 @@ function ExerciceContent({ consigne, exemple, criteres }: { consigne: string; ex
         </div>
 
         {exemple && (
-          <div className="bg-[#FAF8F5] rounded-xl p-4">
+          <div className="bg-[#FAFAFA] rounded-xl p-4">
             <h4 className="text-sm font-semibold text-[#777777] mb-2">Exemple</h4>
             <p className="text-sm text-[#3A3A3A] leading-relaxed italic">{exemple}</p>
           </div>

@@ -42,7 +42,7 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-[#EEEEEE] overflow-hidden">
+    <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
       {/* Header scénario */}
       <div className="bg-gradient-to-r from-accent to-accent-light px-6 py-4">
         <div className="flex items-center gap-2 mb-2">
@@ -70,7 +70,7 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
               <div className={`flex gap-3 ${isCommerciale ? '' : 'flex-row-reverse'}`}>
                 {/* Avatar */}
                 <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${
-                  isCommerciale ? 'bg-primary/15' : 'bg-[#F4F0EB]'
+                  isCommerciale ? 'bg-primary/15' : 'bg-[#F5F5F5]'
                 }`}>
                   {isCommerciale ? (
                     <Phone className="w-4 h-4 text-primary" />
@@ -89,7 +89,7 @@ export function ScriptBlock({ scenario, etapes }: ScriptBlockProps) {
                   <div className={`relative inline-block rounded-2xl px-4 py-3 text-[14px] leading-relaxed ${
                     isCommerciale
                       ? 'bg-primary/10 text-accent rounded-tl-sm'
-                      : 'bg-[#FAF8F5] text-[#777777] rounded-tr-sm'
+                      : 'bg-[#FAFAFA] text-[#777777] rounded-tr-sm'
                   }`}>
                     <p>{etape.texte}</p>
 

@@ -121,7 +121,7 @@ export default function MonitoringPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#FAF8F5', fontFamily: 'DM Sans, sans-serif' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#FAFAFA', fontFamily: 'DM Sans, sans-serif' }}>
       {/* Header */}
       <div style={{
         backgroundColor: '#111111',
@@ -252,7 +252,7 @@ export default function MonitoringPage() {
                     key={run.id}
                     onClick={() => loadRunDetails(run.id)}
                     style={{
-                      backgroundColor: isSelected ? '#F4F0EB' : '#FFFFFF',
+                      backgroundColor: isSelected ? '#F5F5F5' : '#FFFFFF',
                       border: `1px solid ${isSelected ? '#FF5C00' : '#EEEEEE'}`,
                       borderRadius: 10,
                       padding: '12px 14px',
