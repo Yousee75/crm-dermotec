@@ -16,7 +16,6 @@ import {
   Loader2,
 } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { createClient } from '@/lib/infra/supabase-client'
 
 interface CertificatData {
   numero: string
@@ -40,8 +39,6 @@ export default function CertificatVerificationPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const supabase = createClient()
-
   useEffect(() => {
     async function verify() {
       if (!numero) {
@@ -51,41 +48,19 @@ export default function CertificatVerificationPage() {
       }
 
       try {
-        const { data: inscription } = await supabase
-          .from('inscriptions')
-          .select(`
-            certificat_numero, taux_presence, statut,
-            session:sessions(
-              date_debut, date_fin,
-              formation:formations(nom, categorie, duree_jours, duree_heures)
-            ),
-            lead:leads(prenom, nom)
-          `)
-          .eq('certificat_numero', numero)
-          .single()
-
-        if (!inscription) {
+        const res = await fetch(`/api/certificat/${encodeURIComponent(numero)}`)
+        if (!res.ok) {
           setError(true)
           setLoading(false)
           return
         }
-
-        const formation = (inscription.session as any)?.formation
-        const lead = inscription.lead as any
-
-        setData({
-          numero: inscription.certificat_numero!,
-          prenom: lead?.prenom || '',
-          nom: lead?.nom || '',
-          formation: formation?.nom || '',
-          categorie: formation?.categorie || '',
-          duree_jours: formation?.duree_jours || 0,
-          duree_heures: formation?.duree_heures || 0,
-          date_debut: (inscription.session as any)?.date_debut || '',
-          date_fin: (inscription.session as any)?.date_fin || '',
-          taux_presence: inscription.taux_presence || 0,
-          valid: inscription.statut === 'COMPLETEE',
-        })
+        const result = await res.json()
+        if (!result.found) {
+          setError(true)
+          setLoading(false)
+          return
+        }
+        setData(result.certificat)
       } catch {
         setError(true)
       } finally {

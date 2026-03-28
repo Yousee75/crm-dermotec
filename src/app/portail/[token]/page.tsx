@@ -128,7 +128,7 @@ export default function PortailPage() {
   }
 
   const submitEvaluation = async () => {
-    if (!data?.inscription.id) return
+    if (!data?.inscription.id || submittingEval) return // Protection double-clic
 
     try {
       setSubmittingEval(true)

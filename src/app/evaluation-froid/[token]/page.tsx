@@ -141,7 +141,7 @@ export default function EvaluationFroidPage() {
         type: 'evaluation_froid',
         description: `Évaluation à froid J+30 — ${data.formation_nom}`,
         metadata: { responses, inscription_id: data.inscription_id },
-      }).catch(() => {})
+      })
 
       setSubmitted(true)
     } finally {

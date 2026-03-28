@@ -129,7 +129,8 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
           }
         }
       } catch (error) {
-        // silently fail
+        // Formation non trouvée ou erreur réseau — affichera l'écran "non trouvée"
+        setFormation(null)
       } finally {
         setLoading(false)
       }

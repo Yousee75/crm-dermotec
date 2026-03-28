@@ -169,6 +169,8 @@ export default function InscriptionPage() {
   const [selectedFinancement, setSelectedFinancement] = useState<TypeFinancementInscription>('personnel')
   const [success, setSuccess] = useState(false)
   const [positionnement, setPositionnement] = useState<Record<string, string>>({})
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [positionnementError, setPositionnementError] = useState(false)
 
   const supabase = createClient()
 
@@ -245,8 +247,10 @@ export default function InscriptionPage() {
   }
 
   async function onSubmit(data: InscriptionPubliqueData) {
+    if (submitting) return // Protection double-clic
     try {
       setSubmitting(true)
+      setSubmitError(null)
 
       // Préparer les données pour l'API
       const inscriptionData = {
@@ -270,7 +274,7 @@ export default function InscriptionPage() {
       setSuccess(true)
     } catch (error) {
       console.error('Erreur soumission:', error)
-      alert('Erreur lors de l\'envoi de votre demande. Veuillez réessayer.')
+      setSubmitError('Erreur lors de l\'envoi. Vérifiez votre connexion et réessayez.')
     } finally {
       setSubmitting(false)
     }
@@ -289,9 +293,10 @@ export default function InscriptionPage() {
       case 3:
         // Positionnement — pas de validation zod, juste vérifier qu'au moins motivation est remplie
         if (!positionnement.motivation) {
-          alert('Veuillez répondre à la question sur votre motivation.')
+          setPositionnementError(true)
           return
         }
+        setPositionnementError(false)
         setCurrentStep(currentStep + 1)
         window.scrollTo({ top: 0, behavior: 'smooth' })
         return
@@ -1152,6 +1157,18 @@ export default function InscriptionPage() {
             </button>
           ) : (
             <div></div>
+          )}
+
+          {/* Erreur soumission */}
+          {submitError && (
+            <div className="px-4 py-3 rounded-xl text-sm font-medium" style={{ backgroundColor: '#FFE0EF', color: '#FF2D78', border: '1px solid #FF2D78' }}>
+              {submitError}
+            </div>
+          )}
+          {positionnementError && currentStep === 3 && (
+            <div className="px-4 py-3 rounded-xl text-sm font-medium" style={{ backgroundColor: '#FFE0EF', color: '#FF2D78', border: '1px solid #FF2D78' }}>
+              Veuillez répondre à la question sur votre motivation avant de continuer.
+            </div>
           )}
 
           {currentStep < TOTAL_STEPS ? (
