@@ -46,7 +46,7 @@ import { TabsRoot as Tabs, TabsList, TabsTrigger, TabsContent } from '@/componen
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
-import { useFinancement } from '@/hooks/use-financements'
+import { useFinancement, useUpdateFinancement } from '@/hooks/use-financements'
 import { createClient } from '@/lib/infra/supabase-client'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -74,64 +74,64 @@ const WORKFLOW_STEPS = [
   { id: 'ANNULE', label: 'Annulé', description: 'Dossier annulé par le demandeur' }
 ] as const
 
-// Mock data pour les fonctionnalités non implémentées
-// TODO: Remplacer par de vrais hooks quand les tables seront créées
-const mockFactures: Array<{
-  id: string; numero: string; type: string; destinataire: string;
-  montantHT: number; tauxTVA: number; montantTTC: number;
-  statut: 'brouillon' | 'envoyee' | 'payee'; dateEmission: string;
-  dateEcheance: string; dateEnvoi?: string; relances: number;
-}> = [
-  {
-    id: '1',
-    numero: 'FAC-2026-0001',
-    type: 'facture',
-    destinataire: 'OPCO EP',
-    montantHT: 1200,
-    tauxTVA: 0,
-    montantTTC: 1200,
-    statut: 'envoyee',
-    dateEmission: '2026-03-15',
-    dateEcheance: '2026-04-15',
-    dateEnvoi: '2026-03-15',
-    relances: 0
-  },
-  {
-    id: '2',
-    numero: 'FAC-2026-0002',
-    type: 'avoir',
-    destinataire: 'Stagiaire',
-    montantHT: -200,
-    tauxTVA: 20,
-    montantTTC: -240,
-    statut: 'brouillon',
-    dateEmission: '2026-03-20',
-    dateEcheance: '2026-04-20',
-    relances: 0
-  }
-]
+// Hooks pour factures et paiements liés au financement
+function useFinancementFactures(financementId: string) {
+  const supabase = createClient()
+  return useQuery({
+    queryKey: ['financement-factures', financementId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('factures_formation')
+        .select('*')
+        .eq('financement_id', financementId)
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      return (data || []).map((f: any) => ({
+        id: f.id,
+        numero: f.numero_facture || '—',
+        type: f.type || 'facture',
+        destinataire: f.destinataire_nom || '—',
+        montantHT: f.montant_ht || 0,
+        tauxTVA: f.taux_tva || 0,
+        montantTTC: f.montant_ttc || 0,
+        statut: (f.statut === 'PAYEE' ? 'payee' : f.statut === 'ENVOYEE' ? 'envoyee' : 'brouillon') as 'brouillon' | 'envoyee' | 'payee',
+        dateEmission: f.date_emission || f.created_at,
+        dateEcheance: f.date_echeance || '',
+        dateEnvoi: f.date_envoi,
+        relances: f.relance_count || 0,
+      }))
+    },
+    enabled: !!financementId,
+    staleTime: 60_000,
+  })
+}
 
-const mockPaiements = [
-  {
-    id: '1',
-    type: 'financement_organisme',
-    moyen: 'virement',
-    montant: 1200,
-    statut: 'en_attente' as const,
-    dateEcheance: '2026-04-15',
-    reference: 'VIR-OPCO-2026-1234',
-    factureId: '1'
-  },
-  {
-    id: '2',
-    type: 'reste_a_charge',
-    moyen: 'cb',
-    montant: 300,
-    statut: 'recu' as const,
-    datePaiement: '2026-03-10',
-    reference: 'CB-****-1234'
-  }
-]
+function useFinancementPaiements(financementId: string) {
+  const supabase = createClient()
+  return useQuery({
+    queryKey: ['financement-paiements', financementId],
+    queryFn: async () => {
+      // Paiements = factures payées + infos versement du financement
+      const { data: factures } = await supabase
+        .from('factures_formation')
+        .select('id, montant_ttc, montant_paye, statut, date_paiement, destinataire_type, conditions_paiement')
+        .eq('financement_id', financementId)
+
+      return (factures || []).filter((f: any) => f.montant_paye > 0).map((f: any) => ({
+        id: f.id,
+        type: f.destinataire_type === 'organisme_financeur' ? 'financement_organisme' : 'reste_a_charge',
+        moyen: f.conditions_paiement || 'virement',
+        montant: f.montant_paye || 0,
+        statut: (f.statut === 'PAYEE' ? 'recu' : 'en_attente') as 'recu' | 'en_attente',
+        datePaiement: f.date_paiement,
+        reference: '',
+        factureId: f.id,
+      }))
+    },
+    enabled: !!financementId,
+    staleTime: 60_000,
+  })
+}
 
 // Hook pour charger les documents depuis Supabase
 function useFinancementDocuments(financementId: string) {
@@ -206,22 +206,8 @@ function useFinancementHistorique(financementId: string, leadId?: string) {
   })
 }
 
-const mockEcheancier = [
-  {
-    id: '1',
-    numero: 1,
-    montant: 600,
-    date: '2026-04-15',
-    statut: 'a_venir' as const
-  },
-  {
-    id: '2',
-    numero: 2,
-    montant: 600,
-    date: '2026-05-15',
-    statut: 'a_venir' as const
-  }
-]
+// Échéancier vide par défaut — sera rempli dynamiquement si le financement a des factures
+const emptyEcheancier: Array<{ id: string; numero: number; montant: number; date: string; statut: 'a_venir' | 'paye' | 'en_retard' }> = []
 
 
 function getCurrentStepIndex(statut: string): number {
@@ -367,6 +353,13 @@ function PipelineBar({ currentStep, onStepClick }: { currentStep: number; onStep
 function ResumeActionsTab({ financement }: { financement: any }) {
   const [showActionModal, setShowActionModal] = useState(false)
   const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [newStep, setNewStep] = useState('')
+  const [stepComment, setStepComment] = useState('')
+  const [paymentAmount, setPaymentAmount] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('')
+  const [paymentRef, setPaymentRef] = useState('')
+  const updateFinancement = useUpdateFinancement()
+  const supabase = createClient()
 
   return (
     <div className="space-y-6">
@@ -579,26 +572,66 @@ function ResumeActionsTab({ financement }: { financement: any }) {
             >
               <h3 className="font-semibold text-accent mb-4">Avancer à l'étape suivante</h3>
               <div className="space-y-4">
-                <Select>
+                <Select value={newStep} onValueChange={setNewStep}>
                   <SelectTrigger>
                     <SelectValue placeholder="Choisir la nouvelle étape" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="EN_FORMATION">En formation</SelectItem>
-                    <SelectItem value="FACTURE_ENVOYEE">Facture envoyée</SelectItem>
+                    {WORKFLOW_STEPS.map(step => (
+                      <SelectItem key={step.id} value={step.id}>{step.label}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
-                <Textarea placeholder="Commentaire (optionnel)" />
+                <Textarea
+                  placeholder="Commentaire (optionnel)"
+                  value={stepComment}
+                  onChange={(e) => setStepComment(e.target.value)}
+                />
                 <div className="flex gap-3">
                   <Button variant="outline" onClick={() => setShowActionModal(false)}>
                     Annuler
                   </Button>
-                  <Button onClick={() => {
-                    // TODO: Connecter à Supabase pour vraiment mettre à jour l'étape
-                    toast.info('Fonctionnalité à connecter à Supabase')
-                    setShowActionModal(false)
-                  }}>
-                    Valider
+                  <Button
+                    disabled={!newStep || updateFinancement.isPending}
+                    onClick={async () => {
+                      if (!newStep) return
+                      // Mapping étape workflow → statut DB
+                      const stepToStatut: Record<string, string> = {
+                        QUALIFICATION: 'PREPARATION',
+                        COLLECTE_DOCS: 'DOCUMENTS_REQUIS',
+                        DOSSIER_COMPLET: 'DOSSIER_COMPLET',
+                        DEPOSE: 'SOUMIS',
+                        EN_INSTRUCTION: 'EN_EXAMEN',
+                        COMPLEMENT_DEMANDE: 'COMPLEMENT_DEMANDE',
+                        ACCORDE: 'VALIDE',
+                        PAIEMENT_RECU: 'VERSE',
+                        CLOTURE: 'CLOTURE',
+                        REFUSE: 'REFUSE',
+                        ANNULE: 'ANNULE',
+                      }
+                      const dbStatut = stepToStatut[newStep] || newStep
+                      updateFinancement.mutate(
+                        {
+                          id: financement.id,
+                          statut: dbStatut,
+                          historique_entry: {
+                            action: `Avancé à : ${WORKFLOW_STEPS.find(s => s.id === newStep)?.label || newStep}`,
+                            detail: stepComment || undefined,
+                          },
+                        },
+                        {
+                          onSuccess: () => {
+                            toast.success(`Étape mise à jour : ${WORKFLOW_STEPS.find(s => s.id === newStep)?.label}`)
+                            setShowActionModal(false)
+                            setNewStep('')
+                            setStepComment('')
+                          },
+                          onError: (err) => toast.error(`Erreur : ${err.message}`),
+                        }
+                      )
+                    }}
+                  >
+                    {updateFinancement.isPending ? 'En cours...' : 'Valider'}
                   </Button>
                 </div>
               </div>
@@ -625,11 +658,16 @@ function ResumeActionsTab({ financement }: { financement: any }) {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-[#3A3A3A] mb-1 block">Montant</label>
-                  <Input type="number" placeholder="1200" />
+                  <Input
+                    type="number"
+                    placeholder="1200"
+                    value={paymentAmount}
+                    onChange={(e) => setPaymentAmount(e.target.value)}
+                  />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-[#3A3A3A] mb-1 block">Moyen de paiement</label>
-                  <Select>
+                  <Select value={paymentMethod} onValueChange={setPaymentMethod}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionner" />
                     </SelectTrigger>
@@ -643,17 +681,47 @@ function ResumeActionsTab({ financement }: { financement: any }) {
                 </div>
                 <div>
                   <label className="text-sm font-medium text-[#3A3A3A] mb-1 block">Référence</label>
-                  <Input placeholder="N° de virement, chèque..." />
+                  <Input
+                    placeholder="N° de virement, chèque..."
+                    value={paymentRef}
+                    onChange={(e) => setPaymentRef(e.target.value)}
+                  />
                 </div>
                 <div className="flex gap-3">
                   <Button variant="outline" onClick={() => setShowPaymentModal(false)}>
                     Annuler
                   </Button>
-                  <Button onClick={() => {
-                    // TODO: Connecter à Supabase pour vraiment enregistrer le paiement
-                    toast.info('Fonctionnalité à connecter à Supabase')
-                    setShowPaymentModal(false)
-                  }}>
+                  <Button
+                    disabled={!paymentAmount || !paymentMethod}
+                    onClick={async () => {
+                      const montant = parseFloat(paymentAmount)
+                      if (!montant || !paymentMethod) return
+                      // Mettre à jour le montant versé + historique
+                      const newMontantVerse = (financement.montant_verse || 0) + montant
+                      updateFinancement.mutate(
+                        {
+                          id: financement.id,
+                          montant_verse: newMontantVerse,
+                          // Si tout est versé, passer en VERSE
+                          ...(newMontantVerse >= (financement.montant_accorde || 0) ? { statut: 'VERSE' } : {}),
+                          historique_entry: {
+                            action: `Paiement reçu : ${montant.toFixed(2)}€ (${paymentMethod})`,
+                            detail: paymentRef || undefined,
+                          },
+                        },
+                        {
+                          onSuccess: () => {
+                            toast.success(`Paiement de ${montant.toFixed(2)}€ enregistré`)
+                            setShowPaymentModal(false)
+                            setPaymentAmount('')
+                            setPaymentMethod('')
+                            setPaymentRef('')
+                          },
+                          onError: (err) => toast.error(`Erreur : ${err.message}`),
+                        }
+                      )
+                    }}
+                  >
                     Enregistrer
                   </Button>
                 </div>
@@ -885,11 +953,13 @@ function DocumentsTab({ financementId }: { financementId: string }) {
 }
 
 // Composant pour l'onglet Paiements & Facturation
-function PaiementsTab() {
+function PaiementsTab({ financementId }: { financementId: string }) {
   const [activeSubTab, setActiveSubTab] = useState('factures')
+  const { data: factures = [] } = useFinancementFactures(financementId)
+  const { data: paiements = [] } = useFinancementPaiements(financementId)
 
-  const totalFacture = mockFactures.reduce((sum, f) => sum + f.montantTTC, 0)
-  const totalPaye = mockPaiements.filter(p => p.statut === 'recu').reduce((sum, p) => sum + p.montant, 0)
+  const totalFacture = factures.reduce((sum, f) => sum + f.montantTTC, 0)
+  const totalPaye = paiements.filter(p => p.statut === 'recu').reduce((sum, p) => sum + p.montant, 0)
   const soldeRestant = totalFacture - totalPaye
 
   return (
@@ -924,9 +994,9 @@ function PaiementsTab() {
       <div className="border-b border-[#EEEEEE]">
         <nav className="flex space-x-8">
           {[
-            { key: 'factures', label: 'Factures', count: mockFactures.length },
-            { key: 'paiements', label: 'Paiements', count: mockPaiements.length },
-            { key: 'echeancier', label: 'Échéancier', count: mockEcheancier.length }
+            { key: 'factures', label: 'Factures', count: factures.length },
+            { key: 'paiements', label: 'Paiements', count: paiements.length },
+            { key: 'echeancier', label: 'Échéancier', count: emptyEcheancier.length }
           ].map(tab => (
             <button
               key={tab.key}
@@ -969,7 +1039,7 @@ function PaiementsTab() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#FAF8F5]">
-                {mockFactures.map((facture) => (
+                {factures.map((facture) => (
                   <tr key={facture.id} className="hover:bg-[#FAF8F5]/50">
                     <td className="px-4 py-3 font-mono text-xs">{facture.numero}</td>
                     <td className="px-4 py-3">
@@ -1040,7 +1110,7 @@ function PaiementsTab() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#FAF8F5]">
-                {mockPaiements.map((paiement) => (
+                {paiements.map((paiement) => (
                   <tr key={paiement.id} className="hover:bg-[#FAF8F5]/50">
                     <td className="px-4 py-3">
                       <Badge variant="outline" size="sm">
@@ -1094,7 +1164,7 @@ function PaiementsTab() {
             </div>
 
             <div className="space-y-3">
-              {mockEcheancier.map((echeance) => (
+              {emptyEcheancier.map((echeance) => (
                 <div key={echeance.id} className="flex items-center justify-between p-3 border border-[#EEEEEE] rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-[#F4F0EB] rounded-full flex items-center justify-center text-sm font-medium">
@@ -1594,7 +1664,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
               </TabsContent>
 
               <TabsContent value="paiements" className="p-6 m-0">
-                <PaiementsTab />
+                <PaiementsTab financementId={financementId} />
               </TabsContent>
 
               <TabsContent value="multi" className="p-6 m-0">

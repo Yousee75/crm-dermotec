@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { createClient } from '@/lib/infra/supabase-client'
 
 interface ActionButton {
   id: string
@@ -74,8 +75,46 @@ export function SmartActionBar() {
           icon: Upload,
           variant: 'secondary',
           onClick: () => {
-            // TODO: Implémenter l'import CSV
-            toast.info('Fonctionnalité à venir')
+            const input = document.createElement('input')
+            input.type = 'file'
+            input.accept = '.csv'
+            input.onchange = async (e) => {
+              const file = (e.target as HTMLInputElement).files?.[0]
+              if (!file) return
+              toast.loading('Import en cours...')
+              try {
+                const text = await file.text()
+                const lines = text.split('\n').filter(l => l.trim())
+                if (lines.length < 2) { toast.dismiss(); toast.error('Fichier vide'); return }
+                const headers = lines[0].split(/[,;]/).map(h => h.trim().toLowerCase().replace(/"/g, ''))
+                const supabase = createClient()
+                let imported = 0
+                for (let i = 1; i < lines.length; i++) {
+                  const values = lines[i].split(/[,;]/).map(v => v.trim().replace(/^"|"$/g, ''))
+                  const row: Record<string, string> = {}
+                  headers.forEach((h, idx) => { row[h] = values[idx] || '' })
+                  const lead = {
+                    prenom: row['prenom'] || row['prénom'] || row['firstname'] || '',
+                    nom: row['nom'] || row['lastname'] || row['name'] || '',
+                    email: row['email'] || row['mail'] || '',
+                    telephone: row['telephone'] || row['tel'] || row['phone'] || '',
+                    entreprise_nom: row['entreprise'] || row['societe'] || row['société'] || row['company'] || '',
+                    ville: row['ville'] || row['city'] || '',
+                    source: 'IMPORT_CSV',
+                    statut: 'NOUVEAU',
+                  }
+                  if (!lead.nom && !lead.email) continue
+                  const { error } = await supabase.from('leads').insert(lead)
+                  if (!error) imported++
+                }
+                toast.dismiss()
+                toast.success(`${imported} contacts importés sur ${lines.length - 1} lignes`)
+              } catch (err) {
+                toast.dismiss()
+                toast.error('Erreur lors de l\'import')
+              }
+            }
+            input.click()
           }
         },
         {
@@ -83,9 +122,39 @@ export function SmartActionBar() {
           label: 'Exporter',
           icon: Download,
           variant: 'secondary',
-          onClick: () => {
-            // TODO: Implémenter l'export
-            toast.info('Fonctionnalité à venir')
+          onClick: async () => {
+            toast.loading('Export en cours...')
+            try {
+              const supabase = createClient()
+              const { data, error } = await supabase
+                .from('leads')
+                .select('prenom, nom, email, telephone, entreprise_nom, ville, statut, source, score_global, created_at')
+                .order('created_at', { ascending: false })
+                .limit(5000)
+              if (error) throw error
+              if (!data?.length) { toast.dismiss(); toast.info('Aucun contact à exporter'); return }
+              const headers = ['Prénom', 'Nom', 'Email', 'Téléphone', 'Entreprise', 'Ville', 'Statut', 'Source', 'Score', 'Date création']
+              const csvRows = [headers.join(';')]
+              data.forEach((lead: any) => {
+                csvRows.push([
+                  lead.prenom || '', lead.nom || '', lead.email || '', lead.telephone || '',
+                  lead.entreprise_nom || '', lead.ville || '', lead.statut || '', lead.source || '',
+                  lead.score_global || '', lead.created_at?.split('T')[0] || ''
+                ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(';'))
+              })
+              const blob = new Blob(['\ufeff' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' })
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href = url
+              a.download = `contacts-dermotec-${new Date().toISOString().split('T')[0]}.csv`
+              a.click()
+              URL.revokeObjectURL(url)
+              toast.dismiss()
+              toast.success(`${data.length} contacts exportés`)
+            } catch {
+              toast.dismiss()
+              toast.error('Erreur lors de l\'export')
+            }
           }
         }
       ]
