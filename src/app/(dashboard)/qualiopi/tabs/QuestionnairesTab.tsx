@@ -1,131 +1,211 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
-import { EmptyState } from '@/components/ui/EmptyState'
+import { useState } from 'react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { ClipboardList, Plus, FileText, Users, TrendingUp } from 'lucide-react'
+import { Badge } from '@/components/ui/Badge'
+import { SkeletonTable } from '@/components/ui/Skeleton'
+import { EmptyState } from '@/components/ui/EmptyState'
+import { IllustrationEmptyCommandes } from '@/components/ui/Illustrations'
+import {
+  ClipboardList, Send, Eye, CheckCircle, Clock, AlertTriangle,
+  BarChart3, Users, Mail, TrendingUp
+} from 'lucide-react'
+import { useQuestionnaires } from '@/hooks/use-qualiopi'
+import { toast } from 'sonner'
+
+const TYPE_CONFIG: Record<string, { label: string; color: string; icon: any; qualiopi: string }> = {
+  positionnement: {
+    label: 'Positionnement',
+    color: 'bg-[#E0EBF5] text-[#6B8CAE] border-[#6B8CAE]/30',
+    icon: Users,
+    qualiopi: 'I4, I8'
+  },
+  evaluation_acquis: {
+    label: 'Éval. acquis',
+    color: 'bg-[#FFF0E5] text-[#FF5C00] border-[#FF5C00]/30',
+    icon: CheckCircle,
+    qualiopi: 'I11'
+  },
+  satisfaction: {
+    label: 'Satisfaction (J+1)',
+    color: 'bg-[#ECFDF5] text-[#10B981] border-[#10B981]/30',
+    icon: TrendingUp,
+    qualiopi: 'I30'
+  },
+  satisfaction_froid: {
+    label: 'Satisfaction (J+30)',
+    color: 'bg-[#FFE0EF] text-[#FF2D78] border-[#FF2D78]/30',
+    icon: BarChart3,
+    qualiopi: 'I30'
+  },
+  insertion: {
+    label: 'Insertion (J+90)',
+    color: 'bg-[#FFF3E8] text-[#FF8C42] border-[#FF8C42]/30',
+    icon: TrendingUp,
+    qualiopi: 'I2'
+  },
+}
+
+const DECLENCHEUR_LABELS: Record<string, string> = {
+  inscription_confirmee: 'À l\'inscription',
+  session_j_moins_7: 'J-7 avant session',
+  session_terminee: 'Fin de session',
+  j_plus_1: 'J+1 après formation',
+  j_plus_30: 'J+30 après formation',
+  j_plus_90: 'J+90 après formation',
+  manuel: 'Envoi manuel',
+}
+
+const STATUT_CONFIG: Record<string, { label: string; color: string }> = {
+  en_attente: { label: 'En attente', color: 'bg-[#FAF8F5] text-[#777777]' },
+  envoye: { label: 'Envoyé', color: 'bg-[#E0EBF5] text-[#6B8CAE]' },
+  ouvert: { label: 'Ouvert', color: 'bg-[#FFF0E5] text-[#FF5C00]' },
+  en_cours: { label: 'En cours', color: 'bg-[#FFF3E8] text-[#FF8C42]' },
+  complete: { label: 'Complété', color: 'bg-[#ECFDF5] text-[#10B981]' },
+  expire: { label: 'Expiré', color: 'bg-[#FFE0EF] text-[#FF2D78]' },
+}
 
 export default function QuestionnairesTab() {
-  const t = useTranslations('questionnaires')
+  const { data, isLoading, error } = useQuestionnaires()
+
+  if (isLoading) return <SkeletonTable rows={4} cols={5} />
+
+  if (error) {
+    return (
+      <EmptyState
+        illustration={<IllustrationEmptyCommandes size={120} />}
+        icon={<AlertTriangle className="w-4 h-4" />}
+        title="Erreur chargement"
+        description={(error as Error).message}
+      />
+    )
+  }
+
+  const templates = data?.templates || []
+  const stats = data?.stats || {}
 
   return (
     <div className="space-y-6">
-      {/* État actuel */}
-      <Card className="p-8 text-center">
-        <div className="max-w-md mx-auto space-y-4">
-          <div className="w-16 h-16 bg-[#E0EBF5] rounded-full flex items-center justify-center mx-auto">
-            <ClipboardList className="w-8 h-8 text-[#6B8CAE]" />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-[#111111] mb-2">
-              Questionnaires de satisfaction
-            </h3>
-            <p className="text-[#777777]">
-              Fonctionnalité en cours de développement. Bientôt, vous pourrez créer et gérer vos questionnaires de satisfaction automatiquement.
-            </p>
-          </div>
-          <div className="pt-2">
-            <Button disabled variant="outline">
-              <Plus className="w-4 h-4 mr-2" />
-              Créer un questionnaire
-            </Button>
-          </div>
-        </div>
-      </Card>
-
-      {/* Fonctionnalités à venir */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="p-6">
-          <div className="space-y-3">
-            <div className="w-10 h-10 bg-[#D1FAE5] rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-[#10B981]" />
+      {/* KPIs */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#777777]">Templates actifs</p>
+              <p className="text-xl font-bold text-[#111111]">{templates.filter((t: any) => t.is_active).length}</p>
             </div>
-            <h3 className="font-semibold text-[#111111]">Questionnaires apprenants</h3>
-            <p className="text-sm text-[#777777]">
-              Évaluez automatiquement la satisfaction de vos apprenants à chaud et à froid.
-            </p>
-            <div className="pt-2">
-              <span className="text-xs bg-[#E0EBF5] text-[#6B8CAE] px-2 py-1 rounded">Bientôt disponible</span>
-            </div>
+            <ClipboardList className="w-8 h-8 text-[#999999]" />
           </div>
         </Card>
-
-        <Card className="p-6">
-          <div className="space-y-3">
-            <div className="w-10 h-10 bg-[#FFE0EF] rounded-lg flex items-center justify-center">
-              <FileText className="w-5 h-5 text-[#FF2D78]" />
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#777777]">Envois total</p>
+              <p className="text-xl font-bold text-[#6B8CAE]">{stats.total_envois || 0}</p>
             </div>
-            <h3 className="font-semibold text-[#111111]">Questionnaires entreprises</h3>
-            <p className="text-sm text-[#777777]">
-              Mesurez l'impact des formations sur les entreprises clientes et leur ROI.
-            </p>
-            <div className="pt-2">
-              <span className="text-xs bg-[#E0EBF5] text-[#6B8CAE] px-2 py-1 rounded">Bientôt disponible</span>
-            </div>
+            <Mail className="w-8 h-8 text-[#6B8CAE]" />
           </div>
         </Card>
-
-        <Card className="p-6">
-          <div className="space-y-3">
-            <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-orange-600" />
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#777777]">Taux réponse</p>
+              <p className="text-xl font-bold text-[#10B981]">{stats.taux_reponse || 0}%</p>
             </div>
-            <h3 className="font-semibold text-[#111111]">Analytics satisfaction</h3>
-            <p className="text-sm text-[#777777]">
-              Analysez les tendances de satisfaction et identifiez les axes d'amélioration.
-            </p>
-            <div className="pt-2">
-              <span className="text-xs bg-[#E0EBF5] text-[#6B8CAE] px-2 py-1 rounded">Bientôt disponible</span>
+            <CheckCircle className="w-8 h-8 text-[#10B981]" />
+          </div>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#777777]">Score moyen</p>
+              <p className="text-xl font-bold text-[#FF5C00]">{stats.score_moyen || '—'}/10</p>
             </div>
+            <BarChart3 className="w-8 h-8 text-[#FF5C00]" />
           </div>
         </Card>
       </div>
 
-      {/* Modèles de questionnaires */}
+      {/* Templates questionnaires */}
+      <div>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Modèles de questionnaires</h3>
+        {templates.length === 0 ? (
+          <EmptyState
+            illustration={<IllustrationEmptyCommandes size={120} />}
+            icon={<ClipboardList className="w-4 h-4" />}
+            title="Aucun template"
+            description="Les modèles de questionnaires seront chargés depuis la base de données."
+          />
+        ) : (
+          <div className="space-y-3">
+            {templates.map((template: any) => {
+              const conf = TYPE_CONFIG[template.type] || TYPE_CONFIG.satisfaction
+              const TypeIcon = conf.icon
+              const nbQuestions = Array.isArray(template.questions) ? template.questions.length : 0
+
+              return (
+                <Card key={template.id} className="p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-[#FAF8F5] rounded-lg flex items-center justify-center">
+                        <TypeIcon className="w-5 h-5 text-[#FF5C00]" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-[#111111]">{template.titre}</h4>
+                        <div className="flex items-center gap-3 mt-1">
+                          <span className="text-xs text-[#777777]">{nbQuestions} questions</span>
+                          <span className="text-xs text-[#999999]">·</span>
+                          <span className="text-xs text-[#777777]">
+                            {DECLENCHEUR_LABELS[template.declencheur] || template.declencheur}
+                          </span>
+                          <span className="text-xs text-[#999999]">·</span>
+                          <Badge className={conf.color} size="sm">Qualiopi {conf.qualiopi}</Badge>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {template.envoi_auto && (
+                        <Badge className="bg-[#ECFDF5] text-[#10B981]" size="sm">
+                          Auto
+                        </Badge>
+                      )}
+                      <Badge className={template.is_active ? 'bg-[#ECFDF5] text-[#10B981]' : 'bg-[#FAF8F5] text-[#999999]'} size="sm">
+                        {template.is_active ? 'Actif' : 'Inactif'}
+                      </Badge>
+                    </div>
+                  </div>
+                </Card>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Mapping Qualiopi */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-[#111111] mb-4">Modèles de questionnaires prêts</h3>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-[#FAF8F5] rounded-lg">
-            <div>
-              <h4 className="font-medium text-[#111111]">Satisfaction formation à chaud</h4>
-              <p className="text-sm text-[#777777]">15 questions · Envoi automatique en fin de session</p>
-            </div>
-            <Button size="sm" disabled variant="outline">Prévisualiser</Button>
-          </div>
-
-          <div className="flex items-center justify-between p-4 bg-[#FAF8F5] rounded-lg">
-            <div>
-              <h4 className="font-medium text-[#111111]">Satisfaction formation à froid</h4>
-              <p className="text-sm text-[#777777]">12 questions · Envoi 3 mois après la formation</p>
-            </div>
-            <Button size="sm" disabled variant="outline">Prévisualiser</Button>
-          </div>
-
-          <div className="flex items-center justify-between p-4 bg-[#FAF8F5] rounded-lg">
-            <div>
-              <h4 className="font-medium text-[#111111]">Évaluation formateur</h4>
-              <p className="text-sm text-[#777777]">8 questions · Pédagogie et expertise</p>
-            </div>
-            <Button size="sm" disabled variant="outline">Prévisualiser</Button>
-          </div>
-        </div>
-      </Card>
-
-      {/* Notification de développement */}
-      <Card className="p-4 border-primary bg-primary/5">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-            <ClipboardList className="w-4 h-4 text-white" />
-          </div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-primary">
-              Développement en cours
-            </p>
-            <p className="text-sm text-[#777777]">
-              Cette fonctionnalité sera disponible dans la prochaine mise à jour de Dermotec CRM.
-            </p>
-          </div>
+        <h3 className="text-lg font-semibold text-[#111111] mb-4">Couverture indicateurs Qualiopi</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Object.entries(TYPE_CONFIG).map(([type, conf]) => {
+            const TypeIcon = conf.icon
+            const hasTemplate = templates.some((t: any) => t.type === type && t.is_active)
+            return (
+              <div key={type} className="flex items-center gap-3 p-3 rounded-lg bg-[#FAF8F5]">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${hasTemplate ? 'bg-[#ECFDF5]' : 'bg-[#FFE0EF]'}`}>
+                  {hasTemplate ? (
+                    <CheckCircle className="w-4 h-4 text-[#10B981]" />
+                  ) : (
+                    <Clock className="w-4 h-4 text-[#FF2D78]" />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-[#111111]">{conf.label}</p>
+                  <p className="text-xs text-[#777777]">Indicateur{conf.qualiopi.includes(',') ? 's' : ''} {conf.qualiopi}</p>
+                </div>
+                <Badge className={conf.color} size="sm">{hasTemplate ? 'Couvert' : 'À configurer'}</Badge>
+              </div>
+            )
+          })}
         </div>
       </Card>
     </div>
