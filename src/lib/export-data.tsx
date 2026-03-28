@@ -180,11 +180,11 @@ export async function exportToPDF(
     pages.push(data.slice(i, i + ROWS_PER_PAGE))
   }
 
+  const pageProps = { size: 'A4', orientation: 'landscape' } as any
   const doc = (
     <Document>
       {pages.map((pageData, pageIndex) => (
-        {/* @ts-expect-error react-pdf orientation type */}
-        <Page key={pageIndex} size="A4" orientation="landscape" style={styles.page}>
+        <Page key={pageIndex} {...pageProps} style={styles.page}>
           {/* Watermark */}
           {userName && (
             <Text style={styles.watermark}>{userName}</Text>
