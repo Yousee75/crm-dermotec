@@ -93,7 +93,7 @@ const itemVariants = {
 function FormationsKPIs() {
   const supabase = createClient()
 
-  const { data: stats } = useQuery({
+  const { data: stats, isError: statsError } = useQuery({
     queryKey: ['formations-kpis'],
     queryFn: async () => {
       const [formationsRes, sessionsRes, inscriptionsRes] = await Promise.all([
@@ -1012,7 +1012,7 @@ export default function CatalogueFormationsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Charger les formations depuis Supabase (fallback sur FORMATIONS_ENRICHIES si Supabase down)
-  const { data: formationsDB } = useQuery({
+  const { data: formationsDB, isError: formationsError } = useQuery({
     queryKey: ['formations-catalogue'],
     queryFn: async () => {
       const supabase = createClient()

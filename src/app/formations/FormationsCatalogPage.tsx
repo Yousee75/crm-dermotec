@@ -65,16 +65,13 @@ export default function FormationsCatalogPage() {
   const [sortBy, setSortBy] = useState<SortOption>('default')
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
 
-  const supabase = createClient()
-
-  // Debounce search term to avoid excessive filtering
+  // Debounce search 300ms
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm)
-    }, 300)
-
-    return () => clearTimeout(timer)
+    const t = setTimeout(() => setDebouncedSearchTerm(searchTerm), 300)
+    return () => clearTimeout(t)
   }, [searchTerm])
+
+  const supabase = createClient()
 
   const { data: formations = [], isLoading, isError } = useQuery({
     queryKey: ['formations-catalog'],
