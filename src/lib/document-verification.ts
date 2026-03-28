@@ -205,7 +205,7 @@ export async function scanWithVirusTotal(
 
 /**
  * Extraction de texte OCR — placeholder pour Tesseract.js
- * TODO: npm install tesseract.js pour activer
+ * Activer avec : npm install tesseract.js
  */
 export async function extractTextOCR(imageBuffer: ArrayBuffer): Promise<string> {
   // Placeholder pour l'implémentation future

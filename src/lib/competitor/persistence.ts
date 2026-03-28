@@ -45,7 +45,7 @@ export async function saveCompetitorProfile(data: CompetitorFullData): Promise<s
       lng: c.lng || null,
       code_ape: c.codeApe || null,
       forme_juridique: c.formeJuridique || null,
-      capital_social: null, // TODO: from scraper-societe
+      capital_social: c.capitalSocial || null,
       ca_dernier: c.chiffreAffaires || null,
       resultat_net: c.resultatNet || null,
       annee_fiscale: c.anneeFiscale || null,

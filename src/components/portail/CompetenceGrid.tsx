@@ -111,8 +111,18 @@ export default function CompetenceGrid({
   async function saveEvaluation() {
     setSaving(true)
     try {
-      // TODO: connecter à une vraie API quand elle existera
-      console.log('[CompetenceGrid] saveEvaluation (no-op)', { inscriptionId, phase, competences })
+      // Sauvegarder les niveaux dans stagiaire_competences via l'API portail
+      const evaluations = competences.map(c => ({
+        competence_nom: c.nom,
+        niveau: phase === 'avant' ? c.niveau_avant : c.niveau_apres,
+        phase,
+      }))
+      const res = await fetch(`/api/formation-content`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inscriptionId, phase, evaluations }),
+      })
+      if (!res.ok) throw new Error('Erreur sauvegarde')
     } catch (err) {
       console.error('[CompetenceGrid] saveEvaluation error', err)
     } finally {
