@@ -22,7 +22,7 @@ const variantStyles: Record<BadgeVariant, string> = {
   error: 'bg-[#FFE0EF] text-[#FF2D78]',
   destructive: 'bg-[#FFE0EF] text-[#FF2D78]',
   info: 'bg-[#E0EBF5] text-[#6B8CAE]',
-  outline: 'border border-[#EEEEEE] text-[#777777] bg-white',
+  outline: 'border border-[#F0F0F0] text-[#777777] bg-white',
   custom: '',
 }
 

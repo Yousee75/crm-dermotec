@@ -65,7 +65,7 @@ function DialogHeader({ children, onClose, className }: { children: React.ReactN
       {onClose && (
         <button
           onClick={onClose}
-          className="p-1.5 -m-1.5 rounded-lg hover:bg-[#F4F0EB] text-[#999999] hover:text-[#777777] transition"
+          className="p-1.5 -m-1.5 rounded-lg hover:bg-[#F5F5F5] text-[#999999] hover:text-[#777777] transition"
         >
           <X className="w-4 h-4" />
         </button>
@@ -92,7 +92,7 @@ function DialogDescription({ children, className }: { children: React.ReactNode;
 
 function DialogFooter({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[#F4F0EB]', className)}>
+    <div className={cn('flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[#F0F0F0]', className)}>
       {children}
     </div>
   )

@@ -61,7 +61,7 @@ function DashboardSkeleton() {
         {[1,2,3].map(i => (
           <div key={i} className="bg-white rounded-2xl border border-[var(--color-border)] p-5">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-[#F4F0EB]" />
+              <div className="w-10 h-10 rounded-full bg-[#F5F5F5]" />
               <div className="flex-1 space-y-1">
                 <Skeleton className="h-3 w-28" />
                 <Skeleton className="h-3 w-20" />

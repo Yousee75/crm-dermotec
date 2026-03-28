@@ -469,7 +469,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setMobileOpen(true)}
-                className="md:hidden p-2 -ml-2 rounded-lg hover:bg-[#F4F0EB] transition"
+                className="md:hidden p-2 -ml-2 rounded-lg hover:bg-[#F5F5F5] transition"
               >
                 <Menu className="w-5 h-5 text-[#777777]" />
               </button>
@@ -478,7 +478,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               {collapsed && (
                 <button
                   onClick={() => setCollapsed(false)}
-                  className="hidden md:flex p-1.5 -ml-1 rounded-md hover:bg-[#F4F0EB] text-[#999999] hover:text-[#777777] transition"
+                  className="hidden md:flex p-1.5 -ml-1 rounded-md hover:bg-[#F5F5F5] text-[#999999] hover:text-[#777777] transition"
                 >
                   <PanelLeft className="w-4 h-4" />
                 </button>
@@ -495,10 +495,10 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             {/* Right: actions */}
             <div className="flex items-center gap-1">
               {/* Search shortcut */}
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-[#999999] hover:bg-[#F4F0EB] hover:text-[#777777] transition">
+              <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-[#999999] hover:bg-[#F5F5F5] hover:text-[#777777] transition">
                 <Search className="w-4 h-4" />
                 <span className="hidden md:block text-xs">Rechercher</span>
-                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#F4F0EB] rounded text-[10px] font-medium text-[#999999] border border-[#EEEEEE]">
+                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#F5F5F5] rounded text-[10px] font-medium text-[#999999] border border-[#F0F0F0]">
                   ⌘K
                 </kbd>
               </button>
@@ -540,13 +540,13 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         <div className="fixed inset-0 z-[100]">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-[4px]" onClick={() => setShowShortcuts(false)} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4 animate-scaleIn">
-            <div className="bg-white rounded-2xl shadow-2xl border border-[#EEEEEE]/80 overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#F4F0EB]">
+            <div className="bg-white rounded-2xl shadow-2xl border border-[#F0F0F0]/80 overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-[#F0F0F0]">
                 <div className="flex items-center gap-2.5">
                   <Keyboard className="w-4 h-4 text-primary" />
                   <h2 className="text-sm font-semibold text-[#111111]">Raccourcis clavier</h2>
                 </div>
-                <button onClick={() => setShowShortcuts(false)} className="p-1 rounded hover:bg-[#F4F0EB] transition">
+                <button onClick={() => setShowShortcuts(false)} className="p-1 rounded hover:bg-[#F5F5F5] transition">
                   <span className="text-[#999999] text-lg leading-none">&times;</span>
                 </button>
               </div>
@@ -585,7 +585,7 @@ function ShortcutRow({ keys, label }: { keys: string[]; label: string }) {
       <span className="text-xs text-[#777777]">{label}</span>
       <div className="flex items-center gap-0.5">
         {keys.map((key, i) => (
-          <kbd key={i} className="min-w-[22px] h-[22px] flex items-center justify-center px-1.5 bg-[#F4F0EB] rounded text-[10px] font-medium text-[#777777] border border-[#EEEEEE]">
+          <kbd key={i} className="min-w-[22px] h-[22px] flex items-center justify-center px-1.5 bg-[#F5F5F5] rounded text-[10px] font-medium text-[#777777] border border-[#F0F0F0]">
             {key}
           </kbd>
         ))}
