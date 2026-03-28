@@ -418,16 +418,78 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ════════════════ FORMATIONS PREVIEW ════════════════ */}
+      <section className="py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAF8F5' }}>
+        <AnimatedSection className="max-w-5xl mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-4"
+              style={{ backgroundColor: '#FFF0E5', color: '#FF5C00' }}>
+              <GraduationCap size={14} />
+              Certifié Qualiopi
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ color: '#111111', fontFamily: 'var(--font-heading)' }}>
+              11 formations pour lancer votre activité
+            </h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: '#777777' }}>
+              De la dermo-pigmentation au laser, financées jusqu'à 100% par votre OPCO ou CPF.
+              Paris 11e — Petits groupes — Pratique sur modèles.
+            </p>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="grid sm:grid-cols-3 gap-6 mb-10">
+            {[
+              { cat: 'Dermo-Esthétique', count: '6 formations', prix: 'À partir de 450€', color: '#FF5C00' },
+              { cat: 'Soins Visage & Corps', count: '3 formations', prix: 'À partir de 990€', color: '#FF2D78' },
+              { cat: 'Laser & Réglementaire', count: '2 formations', prix: 'À partir de 1 500€', color: '#10B981' },
+            ].map((item, i) => (
+              <Link
+                key={i}
+                href="/formations"
+                className="group p-6 rounded-2xl transition-all hover:-translate-y-1"
+                style={{ backgroundColor: '#FFFFFF', border: '1px solid #EEEEEE', boxShadow: '0 1px 4px rgba(26,26,26,0.04)' }}
+              >
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+                  style={{ backgroundColor: `${item.color}15` }}>
+                  <GraduationCap size={20} style={{ color: item.color }} />
+                </div>
+                <h3 className="font-bold mb-1 group-hover:text-[#FF5C00] transition-colors" style={{ color: '#111111' }}>
+                  {item.cat}
+                </h3>
+                <p className="text-sm" style={{ color: '#777777' }}>{item.count} — {item.prix}</p>
+              </Link>
+            ))}
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/formations"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-white text-lg transition-all hover:scale-105"
+              style={{ backgroundColor: '#FF5C00', boxShadow: '0 0 24px rgba(255,92,0,0.25)' }}
+            >
+              Voir toutes les formations
+              <ArrowRight size={18} />
+            </Link>
+            <Link
+              href="/accessibilite"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-lg transition-all"
+              style={{ border: '2px solid #EEEEEE', color: '#111111' }}
+            >
+              Accessibilité & Handicap
+            </Link>
+          </motion.div>
+        </AnimatedSection>
+      </section>
+
       {/* ════════════════ CTA FINAL ════════════════ */}
       <section className="relative py-24 px-4 sm:px-6 overflow-hidden">
         <div
           className="absolute inset-0 -z-10"
           style={{
-            background: 'linear-gradient(135deg, #1A1A1A 0%, #0a3a6b 50%, #0e4d8f 100%)',
+            background: 'linear-gradient(135deg, #111111 0%, #1A1A1A 100%)',
           }}
         />
         <div className="absolute top-10 right-10 w-72 h-72 bg-[#FF5C00]/15 rounded-full blur-[100px] -z-[5]" />
-        <div className="absolute bottom-10 left-10 w-64 h-64 bg-[#FF5C00]/10 rounded-full blur-[80px] -z-[5]" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-[#FF2D78]/10 rounded-full blur-[80px] -z-[5]" />
 
         <AnimatedSection className="max-w-3xl mx-auto text-center">
           <motion.h2
@@ -500,10 +562,14 @@ export default function LandingPage() {
                   </Link>
                 </li>
                 <li>
-                  <span className="text-[#777777]">Certifications</span>
+                  <Link href="/accessibilite" className="hover:text-[#FF5C00] transition-colors">
+                    Accessibilit&eacute; &amp; Handicap
+                  </Link>
                 </li>
                 <li>
-                  <span className="text-[#777777]">Financement</span>
+                  <Link href="/formations" className="hover:text-[#FF5C00] transition-colors">
+                    Financement OPCO / CPF
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -532,6 +598,11 @@ export default function LandingPage() {
                 <li>
                   <Link href="/dpa" className="hover:text-[#FF5C00] transition-colors">
                     DPA
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/accessibilite" className="hover:text-[#FF5C00] transition-colors">
+                    Accessibilit&eacute;
                   </Link>
                 </li>
               </ul>

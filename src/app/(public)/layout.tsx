@@ -34,7 +34,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             </Link>
             <Link
               href="/login"
-              className="text-sm font-semibold text-white bg-[#FF5C00] hover:bg-[#1ab5e2] rounded-lg px-4 py-2 transition-colors"
+              className="text-sm font-semibold text-white bg-[#FF5C00] hover:bg-[#E65200] rounded-lg px-4 py-2 transition-colors"
             >
               Connexion
             </Link>
@@ -72,6 +72,12 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 className="text-sm text-[#777777] hover:text-[#FF5C00] transition-colors"
               >
                 CGU / CGV
+              </Link>
+              <Link
+                href="/accessibilite"
+                className="text-sm text-[#777777] hover:text-[#FF5C00] transition-colors"
+              >
+                Accessibilit&eacute;
               </Link>
             </nav>
           </div>
