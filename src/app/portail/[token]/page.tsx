@@ -22,18 +22,28 @@ import {
   AlertCircle,
   Loader2,
   FileSignature,
+  Users,
+  Gift,
+  ExternalLink,
+  Award,
+  Share2,
+  Heart,
 } from 'lucide-react'
 import type { PortailData } from '@/types'
 import ProgressDashboard from '@/components/lms/ProgressDashboard'
 import type { ModuleProgress } from '@/components/lms/ProgressDashboard'
 import CoursePlayer from '@/components/lms/CoursePlayer'
+import PortailProgressHeader from '@/components/portail/PortailProgressHeader'
+import PortailBadges from '@/components/portail/PortailBadges'
+import CompetenceGrid from '@/components/portail/CompetenceGrid'
 
-type TabId = 'formation' | 'planning' | 'convention' | 'documents' | 'emargements' | 'evaluation' | 'factures' | 'supports'
+type TabId = 'formation' | 'planning' | 'convention' | 'documents' | 'emargements' | 'evaluation' | 'factures' | 'supports' | 'alumni'
 
 interface TabOption {
   id: TabId
   label: string
   icon: React.ComponentType<{ className?: string }>
+  requiresCompletion?: boolean
 }
 
 const tabs: TabOption[] = [
@@ -45,6 +55,7 @@ const tabs: TabOption[] = [
   { id: 'evaluation', label: 'Mon Évaluation', icon: Star },
   { id: 'factures', label: 'Mes Factures', icon: Euro },
   { id: 'supports', label: 'Mes Supports', icon: GraduationCap },
+  { id: 'alumni', label: 'Espace Alumni', icon: Users, requiresCompletion: true },
 ]
 
 export default function PortailPage() {
@@ -253,21 +264,22 @@ export default function PortailPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
+      {/* Header avec salutation */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold" style={{ color: '#111111', fontFamily: 'var(--font-heading, "Bricolage Grotesque", serif)' }}>
+          Bonjour {data.lead.prenom} !
+        </h1>
+        <p className="text-sm mt-1" style={{ color: '#777777' }}>
+          Bienvenue sur votre portail stagiaire
+        </p>
+      </div>
+
+      {/* Progression et timeline */}
+      <PortailProgressHeader data={data} />
+
+      {/* Badges gamification */}
       <div className="mb-8">
-        <div className="flex items-start space-x-4">
-          <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-            <GraduationCap className="h-8 w-8 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-heading font-bold text-text">
-              Bonjour {data.lead.prenom} !
-            </h1>
-            <p className="text-lg text-text-secondary mt-1">
-              Bienvenue sur votre portail stagiaire
-            </p>
-          </div>
-        </div>
+        <PortailBadges data={data} />
       </div>
 
       {/* Navigation mobile */}
@@ -277,7 +289,7 @@ export default function PortailPage() {
           onChange={(e) => setActiveTab(e.target.value as TabId)}
           className="w-full p-3 border border-border rounded-lg bg-white text-text focus:ring-2 focus:ring-primary focus:border-transparent"
         >
-          {tabs.map((tab) => (
+          {tabs.filter(t => !t.requiresCompletion || isFormationCompleted()).map((tab) => (
             <option key={tab.id} value={tab.id}>
               {tab.label}
             </option>
@@ -289,7 +301,7 @@ export default function PortailPage() {
         {/* Navigation desktop */}
         <nav className="hidden lg:block w-64 flex-shrink-0">
           <div className="bg-white rounded-lg border border-border p-2 sticky top-8">
-            {tabs.map((tab) => {
+            {tabs.filter(t => !t.requiresCompletion || isFormationCompleted()).map((tab) => {
               const Icon = tab.icon
               return (
                 <button
@@ -637,11 +649,21 @@ export default function PortailPage() {
               <div className="p-6">
                 <h2 className="text-2xl font-heading font-bold text-text mb-6">Mon Évaluation</h2>
 
+                {/* Grille compétences (disponible avant et après) */}
+                <div className="mb-8">
+                  <CompetenceGrid
+                    formationId={data.formation.id}
+                    inscriptionId={data.inscription.id}
+                    isCompleted={isFormationCompleted()}
+                    competencesAcquises={data.formation.competences_acquises}
+                  />
+                </div>
+
                 {!isFormationCompleted() ? (
                   <div className="text-center py-8">
                     <Star className="h-12 w-12 text-text-muted mx-auto mb-4" />
                     <p className="text-text-secondary">
-                      L'évaluation sera disponible à la fin de votre formation
+                      L'évaluation de satisfaction sera disponible à la fin de votre formation
                     </p>
                   </div>
                 ) : (
@@ -855,6 +877,133 @@ export default function PortailPage() {
                     </p>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Espace Alumni */}
+            {activeTab === 'alumni' && isFormationCompleted() && (
+              <div className="p-6">
+                <h2 className="text-2xl font-heading font-bold text-text mb-6">Espace Alumni</h2>
+
+                <div className="space-y-6">
+                  {/* Bienvenue Alumni */}
+                  <div className="p-5 rounded-2xl" style={{ backgroundColor: '#FFF0E5', border: '1px solid #FFCAAA' }}>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: '#FF5C00' }}>
+                        <Heart size={24} className="text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold" style={{ color: '#111111' }}>
+                          Bienvenue dans la communauté Dermotec !
+                        </h3>
+                        <p className="text-sm mt-1" style={{ color: '#3A3A3A' }}>
+                          Vous faites maintenant partie des +500 professionnelles formées chez Dermotec Advanced.
+                          Profitez de vos avantages exclusifs.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Certificat */}
+                  {data.inscription.certificat_genere && (
+                    <div className="p-5 rounded-2xl" style={{ backgroundColor: '#FFFFFF', border: '1px solid #EEEEEE' }}>
+                      <h3 className="font-bold text-sm mb-3" style={{ color: '#111111' }}>
+                        <Award className="inline h-4 w-4 mr-2" style={{ color: '#FF5C00' }} />
+                        Mon certificat
+                      </h3>
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1">
+                          <p className="text-sm" style={{ color: '#3A3A3A' }}>
+                            Certificat n° <strong>{data.inscription.certificat_numero || 'En cours de génération'}</strong>
+                          </p>
+                          <p className="text-xs mt-1" style={{ color: '#777777' }}>
+                            Partagez-le sur LinkedIn pour valoriser vos compétences
+                          </p>
+                        </div>
+                        {data.inscription.certificat_numero && (
+                          <a
+                            href={`/certificat/${data.inscription.certificat_numero}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white"
+                            style={{ backgroundColor: '#FF5C00' }}
+                          >
+                            <Share2 size={14} />
+                            Partager
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Formations recommandées */}
+                  <div className="p-5 rounded-2xl" style={{ backgroundColor: '#FFFFFF', border: '1px solid #EEEEEE' }}>
+                    <h3 className="font-bold text-sm mb-3" style={{ color: '#111111' }}>
+                      <GraduationCap className="inline h-4 w-4 mr-2" style={{ color: '#FF2D78' }} />
+                      Formations recommandées pour vous
+                    </h3>
+                    <p className="text-sm mb-4" style={{ color: '#777777' }}>
+                      Continuez votre progression avec nos formations complémentaires
+                    </p>
+                    <a href="/formations" target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white"
+                      style={{ backgroundColor: '#FF2D78' }}>
+                      <ExternalLink size={14} />
+                      Voir le catalogue
+                    </a>
+                  </div>
+
+                  {/* Programme parrainage */}
+                  <div className="p-5 rounded-2xl" style={{ backgroundColor: '#FFFFFF', border: '1px solid #EEEEEE' }}>
+                    <h3 className="font-bold text-sm mb-3" style={{ color: '#111111' }}>
+                      <Gift className="inline h-4 w-4 mr-2" style={{ color: '#10B981' }} />
+                      Programme parrainage — 10% de réduction
+                    </h3>
+                    <p className="text-sm mb-3" style={{ color: '#3A3A3A' }}>
+                      Recommandez Dermotec à une collègue et bénéficiez toutes les deux de <strong>10% de réduction</strong> sur votre prochaine formation.
+                    </p>
+                    <div className="p-3 rounded-xl" style={{ backgroundColor: '#D1FAE5' }}>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-xs font-medium" style={{ color: '#10B981' }}>Votre code parrainage</div>
+                          <div className="text-lg font-bold font-mono" style={{ color: '#111111' }}>
+                            ALUMNI-{data.lead.prenom?.toUpperCase().slice(0, 3)}{data.lead.nom?.toUpperCase().slice(0, 3)}
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const code = `ALUMNI-${data.lead.prenom?.toUpperCase().slice(0, 3)}${data.lead.nom?.toUpperCase().slice(0, 3)}`
+                            navigator.clipboard.writeText(code).catch(() => {})
+                          }}
+                          className="px-3 py-1.5 rounded-lg text-xs font-medium"
+                          style={{ backgroundColor: '#10B981', color: '#FFFFFF' }}
+                        >
+                          Copier
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs mt-2" style={{ color: '#777777' }}>
+                      Partagez ce code avec vos collègues. La réduction s'applique automatiquement.
+                    </p>
+                  </div>
+
+                  {/* Contact alumni */}
+                  <div className="p-4 rounded-xl text-center" style={{ backgroundColor: '#FAF8F5' }}>
+                    <p className="text-sm" style={{ color: '#777777' }}>
+                      Besoin d'aide ? Votre équipe Dermotec reste à votre disposition.
+                    </p>
+                    <div className="flex items-center justify-center gap-4 mt-2 text-sm">
+                      <a href="tel:0188334343" className="font-medium" style={{ color: '#FF5C00' }}>
+                        01 88 33 43 43
+                      </a>
+                      <a href="https://wa.me/33188334343" target="_blank" rel="noopener noreferrer"
+                        className="font-medium" style={{ color: '#25D366' }}>
+                        WhatsApp
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>

@@ -8,6 +8,18 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createClient } from '@/lib/infra/supabase-client'
 import { getInscriptionSchema } from '@/lib/validators-inscription'
+import {
+  User,
+  Briefcase,
+  ClipboardCheck,
+  Euro,
+  FileCheck,
+  CheckCircle,
+  Calendar,
+  Clock,
+  Users,
+  MapPin,
+} from 'lucide-react'
 import type {
   Formation,
   Session,
@@ -77,6 +89,74 @@ const OPCO_OPTIONS = [
   { value: 'TRANSITIONS_PRO', label: 'Transitions Pro (Reconversion)' }
 ]
 
+// Définition des étapes du parcours inscription
+const INSCRIPTION_STEPS = [
+  { id: 1, label: 'Identité', icon: User },
+  { id: 2, label: 'Profil', icon: Briefcase },
+  { id: 3, label: 'Positionnement', icon: ClipboardCheck },
+  { id: 4, label: 'Financement', icon: Euro },
+  { id: 5, label: 'Récapitulatif', icon: FileCheck },
+]
+
+const TOTAL_STEPS = INSCRIPTION_STEPS.length
+
+// Questions de positionnement Qualiopi (I8)
+const POSITIONNEMENT_QUESTIONS = [
+  {
+    id: 'motivation',
+    question: 'Quelle est votre principale motivation pour cette formation ?',
+    type: 'radio' as const,
+    options: [
+      'Développer une nouvelle compétence',
+      'Me spécialiser dans mon domaine',
+      'Reconversion professionnelle',
+      'Obligation réglementaire',
+      'Développer mon activité'
+    ]
+  },
+  {
+    id: 'objectif',
+    question: 'Quel est votre objectif après cette formation ?',
+    type: 'radio' as const,
+    options: [
+      'Pratiquer en institut existant',
+      'Ouvrir mon propre institut',
+      'Ajouter une prestation à mon offre',
+      'Formation continue / perfectionnement',
+      'Autre'
+    ]
+  },
+  {
+    id: 'connaissance_prealable',
+    question: 'Avez-vous déjà des connaissances dans ce domaine ?',
+    type: 'radio' as const,
+    options: [
+      'Aucune — je découvre',
+      'Notions de base (cours / tutoriels)',
+      'J\'ai déjà pratiqué occasionnellement',
+      'Je pratique régulièrement',
+      'Expert(e) — je veux me perfectionner'
+    ]
+  },
+  {
+    id: 'besoin_specifique',
+    question: 'Avez-vous des besoins spécifiques d\'accessibilité ?',
+    type: 'radio' as const,
+    options: [
+      'Non, aucun besoin particulier',
+      'Oui — mobilité réduite',
+      'Oui — déficience visuelle ou auditive',
+      'Oui — autre (précisez dans le champ ci-dessous)',
+    ]
+  },
+  {
+    id: 'commentaire',
+    question: 'Un commentaire ou une question avant la formation ? (optionnel)',
+    type: 'text' as const,
+    options: []
+  },
+]
+
 export default function InscriptionPage() {
   const router = useRouter()
   const params = useParams()
@@ -88,6 +168,7 @@ export default function InscriptionPage() {
   const [submitting, setSubmitting] = useState(false)
   const [selectedFinancement, setSelectedFinancement] = useState<TypeFinancementInscription>('personnel')
   const [success, setSuccess] = useState(false)
+  const [positionnement, setPositionnement] = useState<Record<string, string>>({})
 
   const supabase = createClient()
 
@@ -206,6 +287,15 @@ export default function InscriptionPage() {
         fieldsToValidate = ['statut_pro', 'experience_esthetique', 'session_id']
         break
       case 3:
+        // Positionnement — pas de validation zod, juste vérifier qu'au moins motivation est remplie
+        if (!positionnement.motivation) {
+          alert('Veuillez répondre à la question sur votre motivation.')
+          return
+        }
+        setCurrentStep(currentStep + 1)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
+      case 4:
         fieldsToValidate = ['type_financement']
         // Ajouter les champs conditionnels selon le type de financement
         switch (selectedFinancement) {
@@ -226,8 +316,9 @@ export default function InscriptionPage() {
     }
 
     const isStepValid = await trigger(fieldsToValidate)
-    if (isStepValid && currentStep < 4) {
+    if (isStepValid && currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
@@ -320,19 +411,52 @@ export default function InscriptionPage() {
         </div>
       </div>
 
-      {/* Progress Bar */}
+      {/* Stepper visuel */}
       <div className="mb-8">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-[#3A3A3A]">Étape {currentStep} sur 4</span>
-          <span className="text-sm text-[#777777]">
-            {Math.round((currentStep / 4) * 100)}% complété
-          </span>
-        </div>
-        <div className="w-full bg-[#EEEEEE] rounded-full h-2">
+        <div className="flex items-center justify-between relative">
+          {/* Ligne de fond */}
+          <div className="absolute top-5 left-6 right-6 h-0.5" style={{ backgroundColor: '#EEEEEE' }} />
+          {/* Ligne de progression */}
           <div
-            className="bg-primary h-2 rounded-full transition-all duration-300"
-            style={{ width: `${(currentStep / 4) * 100}%` }}
-          ></div>
+            className="absolute top-5 left-6 h-0.5 transition-all duration-500"
+            style={{
+              backgroundColor: '#FF5C00',
+              width: `${Math.max(0, ((currentStep - 1) / (TOTAL_STEPS - 1)) * 100)}%`,
+            }}
+          />
+
+          {INSCRIPTION_STEPS.map((step) => {
+            const Icon = step.icon
+            const isCompleted = currentStep > step.id
+            const isActive = currentStep === step.id
+
+            return (
+              <div key={step.id} className="relative flex flex-col items-center" style={{ zIndex: 1 }}>
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all"
+                  style={{
+                    backgroundColor: isCompleted ? '#FF5C00' : isActive ? '#FFFFFF' : '#F4F0EB',
+                    border: isActive ? '2px solid #FF5C00' : isCompleted ? 'none' : '1px solid #EEEEEE',
+                    boxShadow: isActive ? '0 0 0 4px rgba(255,92,0,0.15)' : 'none',
+                  }}
+                >
+                  {isCompleted ? (
+                    <CheckCircle size={20} className="text-white" />
+                  ) : (
+                    <Icon size={18} style={{ color: isActive ? '#FF5C00' : '#999999' }} />
+                  )}
+                </div>
+                <span className="mt-2 text-xs font-medium hidden sm:block" style={{
+                  color: isCompleted ? '#FF5C00' : isActive ? '#111111' : '#999999'
+                }}>
+                  {step.label}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="mt-4 text-sm text-center" style={{ color: '#777777' }}>
+          Étape {currentStep} sur {TOTAL_STEPS} — {INSCRIPTION_STEPS[currentStep - 1]?.label}
         </div>
       </div>
 
@@ -607,11 +731,74 @@ export default function InscriptionPage() {
           </div>
         )}
 
-        {/* Étape 3: Financement */}
+        {/* Étape 3: Positionnement Qualiopi (I8) */}
         {currentStep === 3 && (
           <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-semibold mb-1" style={{ color: '#111111' }}>
+                3. Positionnement pré-formation
+              </h2>
+              <p className="text-sm" style={{ color: '#777777' }}>
+                Ces questions nous permettent d'adapter la formation à votre profil (obligation Qualiopi).
+              </p>
+            </div>
+
+            {POSITIONNEMENT_QUESTIONS.map((q) => (
+              <div key={q.id} className="space-y-3">
+                <label className="block text-sm font-medium" style={{ color: '#3A3A3A' }}>
+                  {q.question}
+                </label>
+
+                {q.type === 'radio' ? (
+                  <div className="space-y-2">
+                    {q.options.map((option) => (
+                      <label
+                        key={option}
+                        className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+                        style={{
+                          backgroundColor: positionnement[q.id] === option ? '#FFF0E5' : '#FAF8F5',
+                          border: `1px solid ${positionnement[q.id] === option ? '#FF5C00' : '#EEEEEE'}`,
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name={q.id}
+                          value={option}
+                          checked={positionnement[q.id] === option}
+                          onChange={(e) => setPositionnement(prev => ({ ...prev, [q.id]: e.target.value }))}
+                          className="h-4 w-4 border-[#EEEEEE]"
+                          style={{ accentColor: '#FF5C00' }}
+                        />
+                        <span className="text-sm" style={{ color: '#111111' }}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                ) : (
+                  <textarea
+                    value={positionnement[q.id] || ''}
+                    onChange={(e) => setPositionnement(prev => ({ ...prev, [q.id]: e.target.value }))}
+                    placeholder="Écrivez ici..."
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2"
+                    style={{
+                      backgroundColor: '#FAF8F5',
+                      border: '1px solid #EEEEEE',
+                      color: '#111111',
+                      // @ts-expect-error -- CSS custom property
+                      '--tw-ring-color': '#FF5C00',
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Étape 4: Financement */}
+        {currentStep === 4 && (
+          <div className="space-y-6">
             <h2 className="text-xl font-semibold text-[#111111] mb-6">
-              3. Mode de financement
+              4. Mode de financement
             </h2>
 
             <div>
@@ -860,11 +1047,11 @@ export default function InscriptionPage() {
           </div>
         )}
 
-        {/* Étape 4: Récapitulatif & Validation */}
-        {currentStep === 4 && (
+        {/* Étape 5: Récapitulatif & Validation */}
+        {currentStep === 5 && (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold text-[#111111] mb-6">
-              4. Récapitulatif et validation
+              5. Récapitulatif et validation
             </h2>
 
             <div className="bg-[#FAF8F5] p-6 rounded-lg space-y-4">
@@ -967,7 +1154,7 @@ export default function InscriptionPage() {
             <div></div>
           )}
 
-          {currentStep < 4 ? (
+          {currentStep < TOTAL_STEPS ? (
             <button
               type="button"
               onClick={nextStep}

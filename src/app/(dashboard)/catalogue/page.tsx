@@ -1011,13 +1011,101 @@ export default function CatalogueFormationsPage() {
   const [selectedFormation, setSelectedFormation] = useState<FormationEnriched | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  // Charger les formations depuis Supabase (fallback sur FORMATIONS_ENRICHIES si Supabase down)
+  const { data: formationsDB } = useQuery({
+    queryKey: ['formations-catalogue'],
+    queryFn: async () => {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('formations')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order')
+      return data || []
+    },
+    staleTime: 60_000,
+  })
+
+  // Fusionner données DB + contenu enrichi (DB prioritaire pour prix/nom, enrichi pour ROI/FAQ/technique)
+  const mergedFormations = useMemo<FormationEnriched[]>(() => {
+    if (!formationsDB || formationsDB.length === 0) {
+      // Fallback complet sur les données enrichies statiques
+      return FORMATIONS_ENRICHIES
+    }
+
+    const enrichedBySlug = new Map(FORMATIONS_ENRICHIES.map(f => [f.slug, f]))
+    const mergedSlugs = new Set<string>()
+    const result: FormationEnriched[] = []
+
+    // 1. Formations DB — merge avec enrichi si disponible
+    for (const dbFormation of formationsDB) {
+      const slug = dbFormation.slug as string
+      mergedSlugs.add(slug)
+      const enriched = enrichedBySlug.get(slug)
+
+      if (enriched) {
+        // Merge : DB prioritaire pour prix/nom/description, enrichi pour le reste
+        result.push({
+          ...enriched,
+          nom: dbFormation.nom || enriched.nom,
+          categorie: (dbFormation.categorie as FormationEnriched['categorie']) || enriched.categorie,
+          descriptionTechnique: dbFormation.description || enriched.descriptionTechnique,
+          duree: dbFormation.duree_heures
+            ? `${dbFormation.duree_heures}h (${dbFormation.duree_jours || 1}j)`
+            : enriched.duree,
+          prix: dbFormation.prix_ht != null
+            ? `${Number(dbFormation.prix_ht).toLocaleString('fr-FR')}€ HT`
+            : enriched.prix,
+        })
+      } else {
+        // Formation DB sans contenu enrichi — créer une entrée minimale
+        result.push({
+          slug,
+          nom: dbFormation.nom || 'Formation sans nom',
+          categorie: (dbFormation.categorie as FormationEnriched['categorie']) || 'dermopigmentation',
+          descriptionTechnique: dbFormation.description || dbFormation.description_commerciale || '',
+          techniquesComparees: [],
+          materiel: [],
+          roi: {
+            coutFormation: Number(dbFormation.prix_ht) || 0,
+            coutConsommablesParSeance: 0,
+            prixVenteMoyen: 0,
+            seuilRentabiliteSeances: 0,
+            gainAnnuelEstime: 'Non estimé',
+            tempsAmortissement: 'Non estimé',
+          },
+          faq: [],
+          glossaire: [],
+          reglementation: '',
+          contreIndications: [],
+          publicCible: [],
+          duree: dbFormation.duree_heures
+            ? `${dbFormation.duree_heures}h (${dbFormation.duree_jours || 1}j)`
+            : 'Durée à confirmer',
+          prix: dbFormation.prix_ht != null
+            ? `${Number(dbFormation.prix_ht).toLocaleString('fr-FR')}€ HT`
+            : 'Prix sur demande',
+        })
+      }
+    }
+
+    // 2. Formations enrichies qui ne sont PAS en DB — garder comme fallback
+    for (const enriched of FORMATIONS_ENRICHIES) {
+      if (!mergedSlugs.has(enriched.slug)) {
+        result.push(enriched)
+      }
+    }
+
+    return result
+  }, [formationsDB])
+
   // Formations filtrées
   const filteredFormations = useMemo(() => {
-    let formations = FORMATIONS_ENRICHIES
+    let formations = mergedFormations
 
     // Filtre par catégorie
     if (selectedCategory !== 'all') {
-      formations = getFormationsByCategorie(selectedCategory as CategorieFormation)
+      formations = formations.filter(f => f.categorie === selectedCategory)
     }
 
     // Filtre par recherche
@@ -1029,7 +1117,7 @@ export default function CatalogueFormationsPage() {
     }
 
     return formations
-  }, [selectedCategory, searchTerm])
+  }, [selectedCategory, searchTerm, mergedFormations])
 
   const openFormationDetail = (formation: FormationEnriched) => {
     setSelectedFormation(formation)
