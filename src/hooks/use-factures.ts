@@ -243,6 +243,38 @@ export function useConvertDevis() {
   })
 }
 
+// ── Mutation annuler facture (crée un avoir automatiquement) ──
+export function useAnnulerFacture() {
+  const qc = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ id, motif }: { id: string; motif?: string }) => {
+      const res = await fetch(`/api/factures/${id}/annuler`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ motif: motif || 'Annulation demandée' }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erreur annulation' }))
+        throw new Error(err.error)
+      }
+      return res.json() as Promise<{
+        success: boolean
+        facture_annulee: { id: string; numero: string }
+        avoir_cree: { id: string; numero: string; montant_ttc: number }
+        motif: string
+      }>
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ['factures'] })
+      toast.success(`Facture ${data.facture_annulee.numero} annulée — Avoir ${data.avoir_cree.numero} créé`)
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Erreur annulation')
+    },
+  })
+}
+
 // ── Mutation envoyer facture par email ──
 export function useSendFacture() {
   const qc = useQueryClient()

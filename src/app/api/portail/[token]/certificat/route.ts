@@ -2,11 +2,14 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { randomBytes } from 'crypto'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
 
 // GET /api/portail/[token]/certificat — Generer ou recuperer certificat
 export async function GET(
@@ -21,11 +24,12 @@ export async function GET(
     }
 
     // Recuperer inscription par token
+    const supabase = getSupabase()
     const { data: inscription, error } = await supabase
       .from('inscriptions')
       .select(`
         *,
-        lead:leads(prenom, nom, email),
+        lead:leads(prenom, nom),
         session:sessions(
           date_debut, date_fin,
           formation:formations(nom, categorie, duree_jours, duree_heures)
@@ -50,7 +54,7 @@ export async function GET(
     let certificatNumero = inscription.certificat_numero
     if (!certificatNumero) {
       const year = new Date().getFullYear()
-      const random = Math.random().toString(36).substring(2, 7).toUpperCase()
+      const random = randomBytes(4).toString('hex').toUpperCase()
       certificatNumero = `CERT-${year}-${random}`
 
       await supabase

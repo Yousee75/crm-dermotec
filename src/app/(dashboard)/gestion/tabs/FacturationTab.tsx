@@ -7,9 +7,9 @@ import { EmptyState } from '@/components/ui/EmptyState'
 import { IllustrationEmptyCommandes } from '@/components/ui/Illustrations'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { Card } from '@/components/ui/Card'
-import { Receipt, Plus, Download, Clock, CheckCircle, AlertTriangle, Eye, Send, MoreHorizontal, Trash2 } from 'lucide-react'
+import { Receipt, Plus, Download, Clock, CheckCircle, AlertTriangle, Eye, Send, MoreHorizontal, Trash2, XCircle, Lock } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
-import { useFactures, useSendFacture, useDeleteFacture, useUpdateFacture, type FactureFormation } from '@/hooks/use-factures'
+import { useFactures, useSendFacture, useDeleteFacture, useUpdateFacture, useAnnulerFacture, type FactureFormation } from '@/hooks/use-factures'
 import { toast } from 'sonner'
 
 const STATUT_CONFIG: Record<string, { label: string; color: string; icon: any }> = {
@@ -85,6 +85,7 @@ export default function FacturationTab() {
   const sendFacture = useSendFacture()
   const deleteFacture = useDeleteFacture()
   const updateFacture = useUpdateFacture()
+  const annulerFacture = useAnnulerFacture()
 
   if (isLoading) {
     return <SkeletonTable rows={5} cols={7} />
@@ -115,8 +116,8 @@ export default function FacturationTab() {
   }
 
   const handleDelete = async (facture: FactureFormation) => {
-    if (facture.statut === 'payee') {
-      toast.error('Impossible de supprimer une facture payée')
+    if (['payee', 'envoyee', 'en_retard'].includes(facture.statut)) {
+      toast.error('Facture verrouillée — utilisez "Annuler" pour créer un avoir')
       return
     }
     deleteFacture.mutate(facture.id)
@@ -129,6 +130,21 @@ export default function FacturationTab() {
       statut: 'payee',
       montant_paye: facture.montant_ttc,
     })
+    setActionMenuId(null)
+  }
+
+  const handleAnnuler = async (facture: FactureFormation) => {
+    if (facture.statut === 'annulee') {
+      toast.error('Facture déjà annulée')
+      return
+    }
+    if (facture.type === 'avoir') {
+      toast.error('Impossible d\'annuler un avoir')
+      return
+    }
+    const motif = window.prompt('Motif d\'annulation :')
+    if (!motif) return
+    annulerFacture.mutate({ id: facture.id, motif })
     setActionMenuId(null)
   }
 
@@ -308,20 +324,20 @@ export default function FacturationTab() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="relative flex items-center gap-1">
-                          {/* Envoyer */}
+                          {/* Envoyer — disponible si pas payée/annulée et email existe */}
                           {facture.destinataire_email && !['payee', 'annulee'].includes(facture.statut) && (
                             <Button
                               size="sm"
                               variant="outline"
                               onClick={() => handleSend(facture)}
                               disabled={sendFacture.isPending}
-                              title="Envoyer par email"
+                              title={facture.statut === 'envoyee' ? 'Relancer' : 'Envoyer par email'}
                             >
                               <Send className="w-3 h-3" />
                             </Button>
                           )}
-                          {/* Marquer payée */}
-                          {!['payee', 'annulee'].includes(facture.statut) && (
+                          {/* Marquer payée — pas sur avoir/annulée/déjà payée */}
+                          {!['payee', 'annulee'].includes(facture.statut) && facture.type !== 'avoir' && (
                             <Button
                               size="sm"
                               variant="outline"
@@ -331,13 +347,26 @@ export default function FacturationTab() {
                               <CheckCircle className="w-3 h-3" />
                             </Button>
                           )}
-                          {/* Supprimer */}
-                          {facture.statut !== 'payee' && (
+                          {/* Annuler — crée un avoir (pour factures émises/envoyées/payées) */}
+                          {!['annulee', 'brouillon'].includes(facture.statut) && facture.type !== 'avoir' && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleAnnuler(facture)}
+                              disabled={annulerFacture.isPending}
+                              title="Annuler (crée un avoir)"
+                              className="text-[#FF2D78] border-[#FF2D78]/30 hover:bg-[#FFE0EF]"
+                            >
+                              <XCircle className="w-3 h-3" />
+                            </Button>
+                          )}
+                          {/* Supprimer — uniquement brouillons (pas encore émis) */}
+                          {facture.statut === 'brouillon' && (
                             <Button
                               size="sm"
                               variant="outline"
                               onClick={() => handleDelete(facture)}
-                              title="Supprimer"
+                              title="Supprimer le brouillon"
                             >
                               <Trash2 className="w-3 h-3" />
                             </Button>

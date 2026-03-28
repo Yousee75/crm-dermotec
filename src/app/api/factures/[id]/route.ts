@@ -67,37 +67,69 @@ export async function PATCH(
     const body = await request.json()
     const supabase = await getServiceClient()
 
-    // Champs autorisés à modifier
-    const allowedFields = [
+    // ── Vérifier verrouillage ──
+    const { data: current } = await supabase
+      .from('factures_formation')
+      .select('montant_ht, taux_tva, is_locked, statut')
+      .eq('id', id)
+      .is('deleted_at', null)
+      .single()
+
+    if (!current) {
+      return NextResponse.json({ error: 'Facture non trouvée' }, { status: 404 })
+    }
+
+    // Champs autorisés selon verrouillage
+    const lockedFields = ['notes', 'montant_paye', 'date_paiement', 'pdf_url', 'statut']
+    const allFields = [
       'statut', 'notes', 'mentions', 'conditions_paiement',
       'destinataire_nom', 'destinataire_adresse', 'destinataire_siret', 'destinataire_email',
       'montant_ht', 'taux_tva', 'montant_tva', 'montant_ttc',
       'montant_paye', 'date_echeance', 'date_paiement', 'pdf_url',
       'date_emission', 'date_envoi',
+      'remise_pct', 'remise_montant', 'remise_motif',
     ]
+    const allowedFields = current.is_locked ? lockedFields : allFields
+
     const updates: Record<string, any> = {}
-    for (const key of allowedFields) {
-      if (body[key] !== undefined) updates[key] = body[key]
+    const blockedKeys: string[] = []
+    for (const key of Object.keys(body)) {
+      if (allowedFields.includes(key)) {
+        updates[key] = body[key]
+      } else if (allFields.includes(key) && current.is_locked) {
+        blockedKeys.push(key)
+      }
+    }
+
+    if (blockedKeys.length > 0) {
+      return NextResponse.json(
+        { error: `Facture verrouillée — champs non modifiables : ${blockedKeys.join(', ')}. Créez un avoir pour corriger.` },
+        { status: 403 }
+      )
     }
 
     if (Object.keys(updates).length === 0) {
       return NextResponse.json({ error: 'Aucun champ à modifier' }, { status: 400 })
     }
 
+    // ── Validation remise ──
+    if (updates.remise_pct !== undefined && updates.remise_pct > 10) {
+      // Remise > 10% nécessite validation manager
+      if (!body.remise_validee_par) {
+        return NextResponse.json(
+          { error: 'Remise > 10% nécessite validation manager (remise_validee_par requis)' },
+          { status: 400 }
+        )
+      }
+      updates.remise_validee_par = body.remise_validee_par
+    }
+
     // Recalcul auto si montant_ht ou taux_tva changent
     if (updates.montant_ht !== undefined || updates.taux_tva !== undefined) {
-      const { data: current } = await supabase
-        .from('factures_formation')
-        .select('montant_ht, taux_tva')
-        .eq('id', id)
-        .single()
-
-      if (current) {
-        const ht = updates.montant_ht ?? current.montant_ht
-        const tva = updates.taux_tva ?? current.taux_tva
-        updates.montant_tva = Math.round(ht * tva * 100) / 100
-        updates.montant_ttc = Math.round((ht + updates.montant_tva) * 100) / 100
-      }
+      const ht = updates.montant_ht ?? current.montant_ht
+      const tva = updates.taux_tva ?? current.taux_tva
+      updates.montant_tva = Math.round(ht * tva * 100) / 100
+      updates.montant_ttc = Math.round((ht + updates.montant_tva) * 100) / 100
     }
 
     // Si passage à "envoyee", marquer la date d'envoi

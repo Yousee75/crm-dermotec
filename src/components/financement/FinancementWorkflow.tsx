@@ -47,6 +47,8 @@ import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useFinancement } from '@/hooks/use-financements'
+import { createClient } from '@/lib/infra/supabase-client'
+import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 interface FinancementWorkflowProps {
@@ -131,44 +133,78 @@ const mockPaiements = [
   }
 ]
 
-const mockDocuments = [
-  {
-    id: '1',
-    nom: 'Devis formation',
-    type: 'pdf',
-    statut: 'valide' as const,
-    dateUpload: '2026-03-01',
-    etapeRequise: 'QUALIFICATION',
-    obligatoire: true
-  },
-  {
-    id: '2',
-    nom: 'Programme pédagogique',
-    type: 'pdf',
-    statut: 'valide' as const,
-    dateUpload: '2026-03-02',
-    etapeRequise: 'COLLECTE_DOCS',
-    obligatoire: true
-  },
-  {
-    id: '3',
-    nom: 'Convention de formation',
-    type: 'pdf',
-    statut: 'en_attente' as const,
-    etapeRequise: 'DOSSIER_COMPLET',
-    obligatoire: true
-  },
-  {
-    id: '4',
-    nom: 'Attestation URSSAF',
-    type: 'pdf',
-    statut: 'refuse' as const,
-    dateUpload: '2026-03-05',
-    etapeRequise: 'DOSSIER_COMPLET',
-    obligatoire: true,
-    commentaire: 'Document expiré, à renouveler'
-  }
-]
+// Hook pour charger les documents depuis Supabase
+function useFinancementDocuments(financementId: string) {
+  const supabase = createClient()
+  return useQuery({
+    queryKey: ['financement-documents', financementId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('documents')
+        .select('id, type, filename, description, storage_path, mime_type, file_size, is_signed, created_at, uploaded_by')
+        .eq('financement_id', financementId)
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      return (data || []).map((doc: any) => ({
+        id: doc.id,
+        nom: doc.description || doc.filename || 'Document',
+        type: doc.mime_type?.includes('pdf') ? 'pdf' : (doc.type || 'autre'),
+        statut: (doc.is_signed ? 'valide' : 'en_attente') as 'valide' | 'en_attente' | 'refuse',
+        dateUpload: doc.created_at,
+        etapeRequise: doc.type || 'COLLECTE_DOCS',
+        obligatoire: true,
+        commentaire: undefined as string | undefined,
+      }))
+    },
+    enabled: !!financementId,
+    staleTime: 60_000,
+  })
+}
+
+// Hook pour charger l'historique/activites depuis Supabase
+function useFinancementHistorique(financementId: string, leadId?: string) {
+  const supabase = createClient()
+  return useQuery({
+    queryKey: ['financement-historique', financementId, leadId],
+    queryFn: async () => {
+      // On charge les activites liées au lead du financement
+      let query = supabase
+        .from('activites')
+        .select('id, type, description, created_at, metadata, user_id')
+        .order('created_at', { ascending: false })
+        .limit(50)
+
+      if (leadId) {
+        query = query.eq('lead_id', leadId)
+      }
+
+      const { data, error } = await query
+      if (error) throw error
+
+      const actionTypeMapping: Record<string, string> = {
+        'CONTACT': 'Commentaire',
+        'EMAIL': 'Relance',
+        'NOTE': 'Commentaire',
+        'SYSTEME': 'Changement étape',
+        'APPEL': 'Commentaire',
+        'FINANCEMENT': 'Modification',
+        'DOCUMENT': 'Document',
+        'PAIEMENT': 'Paiement',
+      }
+
+      return (data || []).map((entry: any) => ({
+        id: entry.id,
+        date: entry.created_at,
+        utilisateur: entry.metadata?.user_name || 'Système',
+        action: (actionTypeMapping[entry.type] || 'Modification') as string,
+        description: entry.description || '',
+        details: entry.metadata?.detail || '',
+      }))
+    },
+    enabled: !!financementId,
+    staleTime: 60_000,
+  })
+}
 
 const mockEcheancier = [
   {
@@ -187,40 +223,6 @@ const mockEcheancier = [
   }
 ]
 
-const mockHistorique = [
-  {
-    id: '1',
-    date: '2026-03-22T10:30:00Z',
-    utilisateur: 'Marine Durand',
-    action: 'Création' as const,
-    description: 'Dossier de financement créé',
-    details: 'Organisme: OPCO EP - Montant: 1 500€'
-  },
-  {
-    id: '2',
-    date: '2026-03-21T14:15:00Z',
-    utilisateur: 'Système',
-    action: 'Changement étape' as const,
-    description: 'Qualification → Collecte docs',
-    details: 'Transition automatique après validation'
-  },
-  {
-    id: '3',
-    date: '2026-03-20T09:45:00Z',
-    utilisateur: 'Thomas Martin',
-    action: 'Document' as const,
-    description: 'Attestation URSSAF uploadée',
-    details: 'Fichier: attestation_urssaf_2026.pdf'
-  },
-  {
-    id: '4',
-    date: '2026-03-19T16:20:00Z',
-    utilisateur: 'Marine Durand',
-    action: 'Modification' as const,
-    description: 'Montant demandé: 1 200€ → 1 500€',
-    details: 'Mise à jour suite à discussion client'
-  }
-]
 
 function getCurrentStepIndex(statut: string): number {
   const mapping: Record<string, number> = {
@@ -665,36 +667,54 @@ function ResumeActionsTab({ financement }: { financement: any }) {
 }
 
 // Composant pour l'onglet Documents
-function DocumentsTab() {
+function DocumentsTab({ financementId }: { financementId: string }) {
   const [filter, setFilter] = useState('tous')
+  const { data: documents = [], isLoading: isLoadingDocs } = useFinancementDocuments(financementId)
 
-  // TODO: Remplacer mockDocuments par de vraies données depuis un hook ou API
-  const filteredDocuments = mockDocuments.filter(doc => {
+  const filteredDocuments = documents.filter(doc => {
     if (filter === 'tous') return true
     return doc.statut === filter
   })
 
-  const documentsByStatus = mockDocuments.reduce((acc, doc) => {
+  const documentsByStatus = documents.reduce((acc, doc) => {
     acc[doc.statut] = (acc[doc.statut] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
   const validatedCount = documentsByStatus.valide || 0
-  const totalCount = mockDocuments.length
-  const progressPercentage = (validatedCount / totalCount) * 100
+  const totalCount = documents.length
+  const progressPercentage = totalCount > 0 ? (validatedCount / totalCount) * 100 : 0
 
   return (
     <div className="space-y-6">
-      {/* Badge données de démonstration */}
-      <Card className="p-3 border-amber-200 bg-amber-50">
-        <div className="flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-amber-600" />
-          <span className="text-sm font-medium text-amber-800">Données de démonstration</span>
-          <span className="text-xs text-amber-600">– Les documents affichés sont fictifs</span>
-        </div>
-      </Card>
+      {/* Loading state */}
+      {isLoadingDocs && (
+        <Card className="p-6">
+          <div className="animate-pulse space-y-3">
+            <div className="h-4 bg-[#EEEEEE] rounded w-1/3" />
+            <div className="h-8 bg-[#EEEEEE] rounded" />
+            <div className="h-4 bg-[#EEEEEE] rounded w-1/2" />
+          </div>
+        </Card>
+      )}
+
+      {/* Empty state */}
+      {!isLoadingDocs && documents.length === 0 && (
+        <Card className="p-8 text-center">
+          <FileText className="w-12 h-12 mx-auto text-[#999999] mb-4" />
+          <h3 className="font-medium text-accent mb-2">Aucun document</h3>
+          <p className="text-sm text-[#777777] mb-4">
+            Aucun document n'a encore été ajouté à ce dossier de financement.
+          </p>
+          <Button size="sm" className="gap-2">
+            <Upload className="w-4 h-4" />
+            Ajouter un document
+          </Button>
+        </Card>
+      )}
 
       {/* Progress et filtres */}
+      {!isLoadingDocs && documents.length > 0 && (
       <Card className="p-4">
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -745,26 +765,34 @@ function DocumentsTab() {
           </Button>
         </div>
       </Card>
+      )}
 
       {/* Documents manquants pour avancer */}
-      <Card className="p-4 border-orange-200 bg-orange-50">
-        <h4 className="font-medium text-orange-800 mb-3 flex items-center gap-2">
+      {!isLoadingDocs && documents.some(d => d.statut === 'en_attente' || d.statut === 'refuse') && (
+      <Card className="p-4 border-[#FF8C42]/30 bg-[#FFF3E8]">
+        <h4 className="font-medium text-[#FF8C42] mb-3 flex items-center gap-2">
           <AlertTriangle className="w-4 h-4" />
           Documents requis pour avancer
         </h4>
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-orange-400 rounded-full" />
-            <span className="text-sm text-orange-700">Convention de formation (obligatoire)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-red-400 rounded-full" />
-            <span className="text-sm text-[#FF2D78]">Attestation URSSAF renouvelée (refusée)</span>
-          </div>
+          {documents.filter(d => d.statut === 'en_attente').map(d => (
+            <div key={d.id} className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-[#FF8C42] rounded-full" />
+              <span className="text-sm text-[#FF8C42]">{d.nom} (en attente)</span>
+            </div>
+          ))}
+          {documents.filter(d => d.statut === 'refuse').map(d => (
+            <div key={d.id} className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-[#FF2D78] rounded-full" />
+              <span className="text-sm text-[#FF2D78]">{d.nom} (refusé)</span>
+            </div>
+          ))}
         </div>
       </Card>
+      )}
 
       {/* Liste des documents */}
+      {!isLoadingDocs && documents.length > 0 && (
       <Card padding="none">
         <div className="p-4 border-b border-[#F4F0EB] flex justify-between items-center">
           <h3 className="font-semibold text-accent">Documents du dossier</h3>
@@ -851,6 +879,7 @@ function DocumentsTab() {
           ))}
         </div>
       </Card>
+      )}
     </div>
   )
 }
@@ -1261,11 +1290,12 @@ function MultiFinancementTab() {
 }
 
 // Composant pour l'onglet Historique & Audit
-function HistoriqueTab() {
+function HistoriqueTab({ financementId, leadId }: { financementId: string; leadId?: string }) {
   const [filter, setFilter] = useState('tous')
   const [showNoteModal, setShowNoteModal] = useState(false)
+  const { data: historique = [], isLoading: isLoadingHistorique } = useFinancementHistorique(financementId, leadId)
 
-  const filteredHistorique = mockHistorique.filter(entry => {
+  const filteredHistorique = historique.filter(entry => {
     if (filter === 'tous') return true
     return entry.action.toLowerCase().includes(filter.toLowerCase())
   })
@@ -1350,7 +1380,36 @@ function HistoriqueTab() {
         </div>
       </div>
 
+      {/* Loading state */}
+      {isLoadingHistorique && (
+        <Card className="p-6">
+          <div className="animate-pulse space-y-4">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="flex gap-4">
+                <div className="w-8 h-8 bg-[#EEEEEE] rounded-full" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-[#EEEEEE] rounded w-1/3" />
+                  <div className="h-3 bg-[#EEEEEE] rounded w-2/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {/* Empty state */}
+      {!isLoadingHistorique && historique.length === 0 && (
+        <Card className="p-8 text-center">
+          <Clock className="w-12 h-12 mx-auto text-[#999999] mb-4" />
+          <h3 className="font-medium text-accent mb-2">Aucune activité</h3>
+          <p className="text-sm text-[#777777]">
+            L'historique des actions apparaîtra ici au fur et à mesure de l'avancement du dossier.
+          </p>
+        </Card>
+      )}
+
       {/* Timeline */}
+      {!isLoadingHistorique && filteredHistorique.length > 0 && (
       <Card className="p-6">
         <h3 className="font-semibold text-accent mb-6">Historique complet</h3>
 
@@ -1415,6 +1474,7 @@ function HistoriqueTab() {
           })}
         </div>
       </Card>
+      )}
 
       {/* Modal pour ajouter une note */}
       <AnimatePresence>
@@ -1530,7 +1590,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
               </TabsContent>
 
               <TabsContent value="documents" className="p-6 m-0">
-                <DocumentsTab />
+                <DocumentsTab financementId={financementId} />
               </TabsContent>
 
               <TabsContent value="paiements" className="p-6 m-0">
@@ -1542,7 +1602,7 @@ export default function FinancementWorkflow({ financementId, onClose }: Financem
               </TabsContent>
 
               <TabsContent value="historique" className="p-6 m-0">
-                <HistoriqueTab />
+                <HistoriqueTab financementId={financementId} leadId={(financement as any)?.lead_id} />
               </TabsContent>
             </div>
           </Tabs>

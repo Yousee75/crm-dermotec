@@ -29,7 +29,7 @@ export interface NotificationData {
 // Configuration des types de notifications avec leurs icônes et couleurs
 export const NOTIFICATION_CONFIG = {
   prospect_chaud: {
-    icon: 'Fire',
+    icon: 'Flame',
     color: 'text-orange-500',
     bgColor: 'bg-orange-50',
     toastType: 'error' as const,
@@ -57,7 +57,7 @@ export const NOTIFICATION_CONFIG = {
     duration: 10000
   },
   lead_recuperable: {
-    icon: 'Fire',
+    icon: 'Flame',
     color: 'text-[#FF2D78]',
     bgColor: 'bg-[#FFE0EF]',
     toastType: 'default' as const,

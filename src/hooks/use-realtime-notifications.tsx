@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { createClient } from '@/lib/infra/supabase-client'
 import { toast } from 'sonner'
-import { Fire, Clock, Calendar, AlertTriangle } from 'lucide-react'
+import { Flame, Clock, Calendar, AlertTriangle } from 'lucide-react'
 
 export interface RealtimeNotificationPayload {
   id: string
@@ -58,7 +58,7 @@ export function useRealtimeNotifications(userId: string | undefined) {
         if (action === 'rappel_auto' && record.metadata?.score) {
           toast.error('Prospect chaud détecté', {
             description: description.replace('[Agent IA] ', ''),
-            icon: <Fire className="w-4 h-4" />,
+            icon: <Flame className="w-4 h-4" />,
             duration: 8000,
             action: record.lead_id ? {
               label: 'Voir le prospect',
@@ -97,7 +97,7 @@ export function useRealtimeNotifications(userId: string | undefined) {
         else if (action === 'recovery_attempt' && record.metadata?.score) {
           toast('Lead récupérable', {
             description: description.replace('[Agent IA] ', ''),
-            icon: <Fire className="w-4 h-4" />,
+            icon: <Flame className="w-4 h-4" />,
             duration: 8000,
             action: record.lead_id ? {
               label: 'Tenter la récupération',

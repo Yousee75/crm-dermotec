@@ -28,7 +28,7 @@ import { Badge } from '@/components/ui/Badge'
 import { CommandPalette } from '@/components/ui/CommandPalette'
 import { KeyboardShortcuts } from '@/components/ui/KeyboardShortcuts'
 import { MobileBottomNav } from '@/components/ui/MobileBottomNav'
-import { AgentChat } from '@/components/ui/AgentChat'
+import { AgentPanel } from '@/components/agent'
 import { QuickAddLead } from '@/components/ui/QuickAddLead'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
 import { SmartActionBar } from '@/components/ui/SmartActionBar'
@@ -536,7 +536,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       <CommandPalette />
       <KeyboardShortcuts />
       <MobileBottomNav />
-      <AgentChat />
+      <AgentPanel />
       <QuickAddLead />
       <OnboardingWizard />
       <SmartActionBar />
