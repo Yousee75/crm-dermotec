@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -150,8 +151,21 @@ export async function PATCH(
       .single()
 
     if (error) {
+      // Erreur verrouillage DB → message clair
+      if (error.message?.includes('verrouillée')) {
+        return NextResponse.json({ error: 'Facture verrouillée — créez un avoir pour corriger.' }, { status: 403 })
+      }
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    // Log activité
+    logActivity({
+      type: 'DOCUMENT',
+      description: `Facture ${facture.numero_facture} modifiée — ${Object.keys(updates).join(', ')}`,
+      lead_id: facture.lead_id || undefined,
+      user_id: user.id,
+      metadata: { action: 'facture_modification', facture_id: id, champs_modifies: Object.keys(updates), nouveau_statut: updates.statut },
+    })
 
     return NextResponse.json({ facture })
   } catch (err: any) {
@@ -175,7 +189,7 @@ export async function DELETE(
     // Vérifier que la facture n'est pas payée
     const { data: facture } = await supabase
       .from('factures_formation')
-      .select('statut')
+      .select('statut, lead_id')
       .eq('id', id)
       .is('deleted_at', null)
       .single()
@@ -196,6 +210,14 @@ export async function DELETE(
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    logActivity({
+      type: 'DOCUMENT',
+      description: `Facture supprimée (soft-delete) — statut était : ${facture.statut}`,
+      lead_id: facture.lead_id || undefined,
+      user_id: user.id,
+      metadata: { action: 'facture_suppression', facture_id: id },
+    })
 
     return NextResponse.json({ success: true })
   } catch (err: any) {

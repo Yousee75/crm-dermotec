@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -105,6 +106,15 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    logActivity({
+      type: 'SYSTEME',
+      description: `${type === 'reclamation' ? 'Réclamation' : type === 'amelioration' ? 'Amélioration' : 'Action corrective'} créée : ${titre}`,
+      lead_id: lead_id || undefined,
+      session_id: session_id || undefined,
+      user_id: user.id,
+      metadata: { action: 'qualite_creation', type, priorite, indicateur_qualiopi, item_id: data.id },
+    })
 
     return NextResponse.json({ item: data }, { status: 201 })
   } catch (err: any) {

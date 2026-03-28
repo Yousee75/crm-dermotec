@@ -105,15 +105,19 @@ export default function PortailBadges({ data }: PortailBadgesProps) {
 
   const earnedCount = badges.filter(b => b.earned).length
 
-  // Montrer popup pour le dernier badge gagne (une seule fois)
+  // Montrer popup pour le dernier badge gagne (une seule fois par session)
   useEffect(() => {
-    const lastEarned = [...badges].reverse().find(b => b.earned && !dismissedBadges.includes(b.id))
+    const STORAGE_KEY = 'portail_badges_shown'
+    const alreadyShown = sessionStorage.getItem(STORAGE_KEY)
+    if (alreadyShown) return
+
+    const lastEarned = [...badges].reverse().find(b => b.earned)
     if (lastEarned && earnedCount > 1) {
-      // Petit delai pour l'animation
+      sessionStorage.setItem(STORAGE_KEY, '1')
       const timer = setTimeout(() => setShowAchievement(lastEarned), 1500)
       return () => clearTimeout(timer)
     }
-  }, [])
+  }, [badges, earnedCount])
 
   const dismissAchievement = () => {
     if (showAchievement) {

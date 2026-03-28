@@ -537,7 +537,7 @@ export default function FormationClientPage({ slug }: FormationClientPageProps) 
               </motion.div>
             )) : (
               <div className="text-center py-8" style={{ color: '#777777' }}>
-                Programme détaillé envoyé lors de l'inscription
+                Programme détaillé disponible sur demande
               </div>
             )}
           </div>

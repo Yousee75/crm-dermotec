@@ -111,12 +111,10 @@ export default function CompetenceGrid({
   async function saveEvaluation() {
     setSaving(true)
     try {
-      // Sauvegarder via l'API portail (à connecter)
-      await fetch(`/api/portail/${inscriptionId}/competences`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phase, competences }),
-      }).catch(() => {})
+      // TODO: connecter à une vraie API quand elle existera
+      console.log('[CompetenceGrid] saveEvaluation (no-op)', { inscriptionId, phase, competences })
+    } catch (err) {
+      console.error('[CompetenceGrid] saveEvaluation error', err)
     } finally {
       setSaving(false)
     }

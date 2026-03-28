@@ -66,7 +66,11 @@ EXEMPLE : "Leads à rappeler" → searchLeads({ statut: "CONTACTE", limit: 10 })
       .limit(limit || 5)
 
     if (query) {
-      q = q.or(`prenom.ilike.%${query}%,nom.ilike.%${query}%,email.ilike.%${query}%,telephone.ilike.%${query}%`)
+      // Sanitize query to prevent SQL injection via ilike
+      const safeQuery = query.replace(/[%_'";\\\n\r]/g, '').trim().slice(0, 100)
+      if (safeQuery.length > 0) {
+        q = q.or(`prenom.ilike.%${safeQuery}%,nom.ilike.%${safeQuery}%,email.ilike.%${safeQuery}%,telephone.ilike.%${safeQuery}%`)
+      }
     }
     if (statut) {
       q = q.eq('statut', statut)
@@ -196,35 +200,68 @@ EXEMPLE : "Comment financer le microblading pour une salariée ?" → analyzeFin
     formation_nom: z.string().describe('Nom de la formation'),
   }),
   execute: async ({ statut_pro, formation_prix, formation_nom }: { statut_pro: string; formation_prix: number; formation_nom: string }) => {
-    const mapping: Record<string, Array<{ org: string; taux: string; rac: string; delai: string; conseil: string }>> = {
-      salariee: [
-        { org: 'OPCO EP', taux: '100%', rac: '0€', delai: '3-6 semaines', conseil: 'Demander au RH le code OPCO.' },
-        { org: 'CPF', taux: 'Variable', rac: 'Selon solde CPF', delai: 'Immédiat', conseil: 'moncompteformation.gouv.fr' },
-        { org: 'Employeur', taux: '100%', rac: '0€', delai: '1-2 semaines', conseil: 'Plan de développement des compétences.' },
-      ],
-      independante: [
-        { org: 'FAFCEA', taux: '100% (plafond 2000€)', rac: formation_prix > 2000 ? `${formation_prix - 2000}€` : '0€', delai: '2-4 semaines', conseil: 'Vérifier cotisation CFP URSSAF.' },
-        { org: 'FIFPL', taux: '100% (plafond 1500€)', rac: formation_prix > 1500 ? `${formation_prix - 1500}€` : '0€', delai: '2-4 semaines', conseil: 'Créer compte FIFPL.' },
-      ],
-      auto_entrepreneur: [
-        { org: 'FAFCEA', taux: '100% (plafond 2000€)', rac: formation_prix > 2000 ? `${formation_prix - 2000}€` : '0€', delai: '2-4 semaines', conseil: 'Vérifier cotisation CFP.' },
-        { org: 'CPF', taux: 'Variable', rac: 'Selon solde', delai: 'Immédiat', conseil: 'moncompteformation.gouv.fr' },
-      ],
-      demandeur_emploi: [
-        { org: 'France Travail (AIF)', taux: '100%', rac: '0€', delai: '4-8 semaines', conseil: 'Le conseiller France Travail valide. Préparer le devis.' },
-        { org: 'CPF', taux: 'Variable', rac: 'Selon solde', delai: 'Immédiat', conseil: 'Cumulable avec AIF.' },
-      ],
-      reconversion: [
-        { org: 'Transitions Pro (PTP)', taux: '100% salaire + formation', rac: '0€', delai: '2-3 mois', conseil: 'CDI >2 ans requis. Salaire maintenu.' },
-        { org: 'France Travail (AIF)', taux: '100%', rac: '0€', delai: '4-8 semaines', conseil: 'Si démission reconversion.' },
-      ],
-      gerant_institut: [
-        { org: 'OPCO EP', taux: '100%', rac: '0€', delai: '3-6 semaines', conseil: 'Cotisation OPCO EP via charges entreprise.' },
-        { org: 'FAFCEA', taux: '100% (plafond 2000€)', rac: formation_prix > 2000 ? `${formation_prix - 2000}€` : '0€', delai: '2-4 semaines', conseil: 'Si artisan, plus rapide.' },
-      ],
+    // Taux financement : DB d'abord (table financement_regles), fallback hardcodé
+    const supabase = await createServiceSupabase() as any
+    let options: Array<{ org: string; taux: string; rac: string; delai: string; conseil: string }> = []
+
+    try {
+      const { data: regles } = await supabase
+        .from('financement_regles')
+        .select('organisme, taux_pct, plafond_euros, delai_texte, conseil, priorite')
+        .eq('statut_pro', statut_pro)
+        .eq('is_active', true)
+        .order('priorite', { ascending: true })
+
+      if (regles?.length) {
+        options = regles.map((r: any) => {
+          const plafond = r.plafond_euros || Infinity
+          const rac = r.taux_pct >= 100
+            ? (formation_prix > plafond ? `${formation_prix - plafond}€` : '0€')
+            : `${Math.round(formation_prix * (1 - r.taux_pct / 100))}€`
+          return {
+            org: r.organisme,
+            taux: r.taux_pct >= 100 ? (plafond < Infinity ? `100% (plafond ${plafond}€)` : '100%') : `${r.taux_pct}%`,
+            rac,
+            delai: r.delai_texte || '2-4 semaines',
+            conseil: r.conseil || '',
+          }
+        })
+      }
+    } catch {
+      // DB non disponible — fallback hardcodé
     }
 
-    const options = mapping[statut_pro] || mapping.salariee
+    // Fallback hardcodé si pas de données en DB
+    if (options.length === 0) {
+      const mapping: Record<string, Array<{ org: string; taux: string; rac: string; delai: string; conseil: string }>> = {
+        salariee: [
+          { org: 'OPCO EP', taux: '100%', rac: '0€', delai: '3-6 semaines', conseil: 'Demander au RH le code OPCO.' },
+          { org: 'CPF', taux: 'Variable', rac: 'Selon solde CPF', delai: 'Immediat', conseil: 'moncompteformation.gouv.fr' },
+          { org: 'Employeur', taux: '100%', rac: '0€', delai: '1-2 semaines', conseil: 'Plan de developpement des competences.' },
+        ],
+        independante: [
+          { org: 'FAFCEA', taux: '100% (plafond 2000€)', rac: formation_prix > 2000 ? `${formation_prix - 2000}€` : '0€', delai: '2-4 semaines', conseil: 'Verifier cotisation CFP URSSAF.' },
+          { org: 'FIFPL', taux: '100% (plafond 1500€)', rac: formation_prix > 1500 ? `${formation_prix - 1500}€` : '0€', delai: '2-4 semaines', conseil: 'Creer compte FIFPL.' },
+        ],
+        auto_entrepreneur: [
+          { org: 'FAFCEA', taux: '100% (plafond 2000€)', rac: formation_prix > 2000 ? `${formation_prix - 2000}€` : '0€', delai: '2-4 semaines', conseil: 'Verifier cotisation CFP.' },
+          { org: 'CPF', taux: 'Variable', rac: 'Selon solde', delai: 'Immediat', conseil: 'moncompteformation.gouv.fr' },
+        ],
+        demandeur_emploi: [
+          { org: 'France Travail (AIF)', taux: '100%', rac: '0€', delai: '4-8 semaines', conseil: 'Le conseiller France Travail valide.' },
+          { org: 'CPF', taux: 'Variable', rac: 'Selon solde', delai: 'Immediat', conseil: 'Cumulable avec AIF.' },
+        ],
+        reconversion: [
+          { org: 'Transitions Pro (PTP)', taux: '100% salaire + formation', rac: '0€', delai: '2-3 mois', conseil: 'CDI >2 ans requis. Salaire maintenu.' },
+          { org: 'France Travail (AIF)', taux: '100%', rac: '0€', delai: '4-8 semaines', conseil: 'Si demission reconversion.' },
+        ],
+        gerant_institut: [
+          { org: 'OPCO EP', taux: '100%', rac: '0€', delai: '3-6 semaines', conseil: 'Cotisation OPCO EP via charges entreprise.' },
+          { org: 'FAFCEA', taux: '100% (plafond 2000€)', rac: formation_prix > 2000 ? `${formation_prix - 2000}€` : '0€', delai: '2-4 semaines', conseil: 'Si artisan, plus rapide.' },
+        ],
+      }
+      options = mapping[statut_pro] || mapping.salariee
+    }
     return {
       formation: formation_nom,
       prix_ht: formation_prix,
@@ -433,6 +470,28 @@ EXEMPLE : "Envoie un email de relance à Marie" → D'ABORD getLeadDetails pour 
     lead_id: z.string().optional().describe('ID du lead pour le tracking'),
   }),
   execute: async ({ to, subject, body, lead_id }: { to: string; subject: string; body: string; lead_id?: string }) => {
+    // Validation email robuste (defense in depth au-delà de Zod)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!to || !emailRegex.test(to)) {
+      return { error: `Email invalide : "${to}". Vérifiez l'adresse du lead.` }
+    }
+
+    // Si lead_id fourni, vérifier que l'email correspond au lead
+    if (lead_id) {
+      const sbCheck = await createServiceSupabase() as any
+      const { data: leadCheck } = await sbCheck.from('leads').select('email, prenom, nom').eq('id', lead_id).single()
+      if (leadCheck && leadCheck.email && leadCheck.email.toLowerCase() !== to.toLowerCase()) {
+        return { error: `L'email "${to}" ne correspond pas au lead ${leadCheck.prenom} ${leadCheck.nom} (${leadCheck.email}). Confirmez avant d'envoyer.` }
+      }
+      if (leadCheck && !leadCheck.email) {
+        return { error: `Le lead ${leadCheck.prenom} ${leadCheck.nom} n'a pas d'email configuré.` }
+      }
+    }
+
+    // Limiter la taille du body pour éviter les abus
+    const safeBody = body.slice(0, 5000)
+    const safeSubject = subject.slice(0, 200)
+
     // Envoyer via l'API interne
     try {
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'

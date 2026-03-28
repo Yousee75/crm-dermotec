@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -119,6 +120,15 @@ export async function POST(request: NextRequest) {
       .from('devis')
       .update({ statut: 'signe' })
       .eq('id', devis_id)
+
+    // Log activité
+    logActivity({
+      type: 'DOCUMENT',
+      description: `Facture ${facture.numero_facture} créée depuis devis ${devis_id.slice(0, 8).toUpperCase()} — ${montant_ttc}€ TTC → ${destinataire_nom}`,
+      lead_id: devis.lead_id || undefined,
+      user_id: user.id,
+      metadata: { action: 'facture_conversion_devis', facture_id: facture.id, devis_id, montant_ttc },
+    })
 
     return NextResponse.json({ facture, devis_id }, { status: 201 })
   } catch (err: any) {

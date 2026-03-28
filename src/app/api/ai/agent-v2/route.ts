@@ -44,12 +44,45 @@ export async function POST(request: Request) {
       }
     }
 
+    // Rate limiting serveur — max 15 requêtes/min par user (protection crédits IA)
+    try {
+      const { createServiceSupabase } = await import('@/lib/supabase-server')
+      const sb = await createServiceSupabase() as any
+      const rateLimitKey = `agent_ratelimit:${userId}`
+      const now = new Date()
+      const oneMinAgo = new Date(now.getTime() - 60000).toISOString()
+
+      // Utiliser idempotency_keys comme rate limiter léger
+      const { count } = await sb
+        .from('agent_conversations')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', userId)
+        .gte('created_at', oneMinAgo)
+
+      if (count !== null && count >= 15) {
+        return new Response(JSON.stringify({
+          error: 'Trop de requêtes IA. Attendez une minute.',
+          retry_after: 60,
+        }), {
+          status: 429,
+          headers: { 'Content-Type': 'application/json', 'Retry-After': '60' },
+        })
+      }
+    } catch {
+      // Rate limiting non bloquant si DB down
+    }
+
     const body = await request.json()
-    const { leadId, mode } = body as {
+    const { mode } = body as {
       messages?: any[]
       leadId?: string
       mode?: 'commercial' | 'formation'
     }
+    // Validate leadId format to prevent prompt injection via URL manipulation
+    const rawLeadId = body.leadId
+    const leadId = typeof rawLeadId === 'string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(rawLeadId)
+      ? rawLeadId
+      : undefined
 
     // AI SDK v6 : useChat envoie des UIMessages (avec parts, id, etc.)
     // Compatibilité : accepter les 2 formats (UIMessage v6 ET legacy {role, content})
@@ -202,7 +235,7 @@ COMPORTEMENT en mode formation :
       system: systemPrompt,
       messages,
       ...(useTools ? { tools: crmTools } : {}),
-      maxSteps: useTools ? 10 : 1,
+      maxSteps: useTools ? 5 : 1, // Réduit de 10→5 pour éviter race conditions entre tools
       maxRetries: 2,
       temperature: 0.4,
       onFinish: async ({ text, usage }: { text: string; usage?: { totalTokens?: number } }) => {

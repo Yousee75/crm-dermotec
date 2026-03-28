@@ -42,9 +42,12 @@ export function AgentPanel() {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [input, setInput] = useState('')
 
-  // Detect lead page
+  // Detect lead page — validate UUID format to prevent prompt injection via URL
   const leadIdMatch = (pathname ?? '').match(/\/lead\/([a-f0-9-]+)/)
-  const currentLeadId = leadIdMatch ? leadIdMatch[1] : undefined
+  const potentialLeadId = leadIdMatch ? leadIdMatch[1] : undefined
+  const currentLeadId = potentialLeadId && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(potentialLeadId)
+    ? potentialLeadId
+    : undefined
 
   const {
     messages,

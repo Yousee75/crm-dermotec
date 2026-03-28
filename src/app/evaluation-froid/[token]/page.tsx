@@ -132,7 +132,7 @@ export default function EvaluationFroidPage() {
   }, [token])
 
   async function handleSubmit() {
-    if (!data) return
+    if (!data || submitting) return
     setSubmitting(true)
 
     try {

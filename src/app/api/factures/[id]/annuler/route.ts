@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -108,6 +109,15 @@ export async function POST(
         details: `Annulation + avoir ${avoir.numero_facture} créé. Motif : ${motif}`,
         user_id: user.id,
       })
+
+    // Log activité
+    logActivity({
+      type: 'DOCUMENT',
+      description: `Facture ${facture.numero_facture} annulée — Avoir ${avoir.numero_facture} créé (${avoir.montant_ttc}€). Motif : ${motif}`,
+      lead_id: facture.lead_id || undefined,
+      user_id: user.id,
+      metadata: { action: 'facture_annulation', facture_id: id, avoir_id: avoir.id, motif },
+    })
 
     return NextResponse.json({
       success: true,

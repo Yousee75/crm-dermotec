@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { createClient } from '@/lib/infra/supabase-client'
 import type { Formation } from '@/types'
 import { CATEGORIES_FORMATION } from '@/types'
@@ -59,6 +59,7 @@ const sortLabels: Record<SortOption, string> = {
 export default function FormationsCatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchTerm, setSearchTerm] = useState('')
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [financementFilter, setFinancementFilter] = useState<FinancementFilter>('all')
   const [showFilters, setShowFilters] = useState(false)
   const [sortBy, setSortBy] = useState<SortOption>('default')
@@ -66,7 +67,16 @@ export default function FormationsCatalogPage() {
 
   const supabase = createClient()
 
-  const { data: formations = [], isLoading } = useQuery({
+  // Debounce search term to avoid excessive filtering
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm)
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [searchTerm])
+
+  const { data: formations = [], isLoading, isError } = useQuery({
     queryKey: ['formations-catalog'],
     queryFn: async () => {
       const { data } = await supabase
@@ -110,8 +120,8 @@ export default function FormationsCatalogPage() {
       filtered = filtered.filter(f => f.categorie === selectedCategory)
     }
 
-    if (searchTerm.trim()) {
-      const search = searchTerm.toLowerCase()
+    if (debouncedSearchTerm.trim()) {
+      const search = debouncedSearchTerm.toLowerCase()
       filtered = filtered.filter(f =>
         f.nom.toLowerCase().includes(search) ||
         f.description?.toLowerCase().includes(search) ||
@@ -144,12 +154,12 @@ export default function FormationsCatalogPage() {
     }
 
     return filtered
-  }, [formations, selectedCategory, searchTerm, financementFilter, sortBy, sessionsByFormation])
+  }, [formations, selectedCategory, debouncedSearchTerm, financementFilter, sortBy, sessionsByFormation])
 
   const activeFiltersCount = [
     selectedCategory !== 'all',
     financementFilter !== 'all',
-    searchTerm.trim() !== ''
+    debouncedSearchTerm.trim() !== ''
   ].filter(Boolean).length
 
   if (isLoading) {
@@ -159,6 +169,27 @@ export default function FormationsCatalogPage() {
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#FF5C00' }} />
             <p style={{ color: '#3A3A3A' }}>Chargement des formations...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: '#FAF8F5' }}>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center max-w-md">
+            <div className="rounded-xl p-4 mb-4" style={{ backgroundColor: '#FFE0EF', color: '#FF2D78' }}>
+              Impossible de charger les formations. Vérifiez votre connexion.
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 rounded-lg text-white"
+              style={{ backgroundColor: '#FF5C00' }}
+            >
+              Réessayer
+            </button>
           </div>
         </div>
       </div>

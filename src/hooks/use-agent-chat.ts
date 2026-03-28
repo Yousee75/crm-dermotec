@@ -23,7 +23,9 @@ export type AgentPart =
 export type AgentMode = 'commercial' | 'formation'
 
 const STORAGE_KEY = 'satorea-agent-chat'
-const MAX_STORED_MESSAGES = 50
+const MAX_STORED_MESSAGES = 30
+const REQUEST_COOLDOWN_MS = 1500 // Anti-flood: 1.5s between messages
+const MAX_STORAGE_BYTES = 500_000 // 500KB max localStorage
 
 interface StoredState {
   messages: AgentMessage[]
@@ -53,15 +55,44 @@ function loadState(): StoredState {
   return { messages: [], mode: 'commercial', conversationId: generateId() }
 }
 
+function stripSensitiveData(messages: AgentMessage[]): AgentMessage[] {
+  return messages.map(m => ({
+    ...m,
+    parts: m.parts.map(p => {
+      if (p.type === 'tool-invocation') {
+        // Strip tool outputs containing PII (leads, emails, phones)
+        return { ...p, output: undefined, args: undefined }
+      }
+      return p
+    }),
+  }))
+}
+
 function saveState(state: StoredState) {
   if (typeof window === 'undefined') return
   try {
     const trimmed = {
       ...state,
-      messages: state.messages.slice(-MAX_STORED_MESSAGES),
+      messages: stripSensitiveData(state.messages.slice(-MAX_STORED_MESSAGES)),
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed))
-  } catch { /* quota exceeded */ }
+    const json = JSON.stringify(trimmed)
+    // Check size before saving
+    if (json.length > MAX_STORAGE_BYTES) {
+      // Keep only last 10 messages if too large
+      trimmed.messages = stripSensitiveData(state.messages.slice(-10))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed))
+    } else {
+      localStorage.setItem(STORAGE_KEY, json)
+    }
+  } catch {
+    // QuotaExceededError — clear and keep minimal
+    try {
+      const minimal = { ...state, messages: state.messages.slice(-5).map(m => ({ ...m, parts: m.parts.filter(p => p.type === 'text') })) }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(minimal))
+    } catch {
+      localStorage.removeItem(STORAGE_KEY)
+    }
+  }
 }
 
 export interface UseAgentChatOptions {
@@ -75,6 +106,7 @@ export function useAgentChat(options: UseAgentChatOptions = {}) {
   const [mode, setModeState] = useState<AgentMode>(() => loadState().mode)
   const [isStreaming, setIsStreaming] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const lastRequestRef = useRef(0) // Anti-flood timestamp
   const conversationIdRef = useRef(loadState().conversationId)
   const abortRef = useRef<AbortController | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -101,12 +133,34 @@ export function useAgentChat(options: UseAgentChatOptions = {}) {
     return () => { abortRef.current?.abort() }
   }, [])
 
+  // Sync state across tabs via StorageEvent
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key !== STORAGE_KEY || !e.newValue) return
+      try {
+        const synced = JSON.parse(e.newValue)
+        if (synced.messages) setMessages(synced.messages)
+        if (synced.mode) setModeState(synced.mode)
+      } catch { /* corrupted sync */ }
+    }
+    window.addEventListener('storage', handleStorage)
+    return () => window.removeEventListener('storage', handleStorage)
+  }, [])
+
   const hasConversation = messages.some(m => m.role === 'user')
 
   // ---- SEND MESSAGE ----
   const sendMessage = useCallback(async (text: string) => {
     const trimmed = text.trim()
     if (!trimmed || isStreaming) return
+
+    // Anti-flood: 1.5s cooldown between messages
+    const now = Date.now()
+    if (now - lastRequestRef.current < REQUEST_COOLDOWN_MS) {
+      setError('Trop rapide. Attendez un instant.')
+      return
+    }
+    lastRequestRef.current = now
 
     setError(null)
 
@@ -162,84 +216,91 @@ export function useAgentChat(options: UseAgentChatOptions = {}) {
       let buffer = ''
       let toolParts: AgentPart[] = []
 
+      // Helper to update the assistant message
+      const updateAssistant = () => {
+        const parts: AgentPart[] = [
+          ...toolParts,
+          ...(fullText ? [{ type: 'text' as const, text: fullText }] : []),
+        ]
+        setMessages(prev => prev.map((m, i) =>
+          i === prev.length - 1 && m.role === 'assistant'
+            ? { ...m, parts }
+            : m
+        ))
+      }
+
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
 
         buffer += decoder.decode(value, { stream: true })
+        // SSE uses double newline as separator, but lines within can be single
         const lines = buffer.split('\n')
         buffer = lines.pop() || ''
 
         for (const line of lines) {
-          if (!line.trim()) continue
+          const trimmed = line.trim()
+          if (!trimmed || trimmed === 'data: [DONE]') continue
 
-          // AI SDK v6 UIMessage stream protocol
-          // Format: TYPE:JSON\n
-          try {
-            // Text deltas: 0:"text"
-            if (line.startsWith('0:')) {
-              const text = JSON.parse(line.slice(2))
-              if (typeof text === 'string') {
-                fullText += text
-                setMessages(prev => prev.map((m, i) =>
-                  i === prev.length - 1 && m.role === 'assistant'
-                    ? { ...m, parts: [...toolParts, { type: 'text' as const, text: fullText }] }
-                    : m
-                ))
+          // AI SDK v6 UIMessageStream format: data: {"type":"...","..."}\n\n
+          if (trimmed.startsWith('data: ')) {
+            try {
+              const part = JSON.parse(trimmed.slice(6))
+
+              // Text delta — the main content
+              if (part.type === 'text-delta' && part.textDelta) {
+                fullText += part.textDelta
+                updateAssistant()
+                continue
               }
-              continue
-            }
 
-            // Tool call start: b:{toolCallId, toolName, args}
-            if (line.startsWith('b:')) {
-              const toolData = JSON.parse(line.slice(2))
-              const newPart: AgentPart = {
-                type: 'tool-invocation',
-                toolCallId: toolData.toolCallId,
-                toolName: toolData.toolName,
-                state: 'partial-call',
-                args: toolData.args,
-              }
-              toolParts = [...toolParts, newPart]
-              setMessages(prev => prev.map((m, i) =>
-                i === prev.length - 1 && m.role === 'assistant'
-                  ? { ...m, parts: [...toolParts, ...(fullText ? [{ type: 'text' as const, text: fullText }] : [])] }
-                  : m
-              ))
-              continue
-            }
-
-            // Tool result: c:{toolCallId, result}
-            if (line.startsWith('c:')) {
-              const toolResult = JSON.parse(line.slice(2))
-              toolParts = toolParts.map(p =>
-                p.type === 'tool-invocation' && p.toolCallId === toolResult.toolCallId
-                  ? { ...p, state: 'output-available', output: toolResult.result }
-                  : p
-              )
-              setMessages(prev => prev.map((m, i) =>
-                i === prev.length - 1 && m.role === 'assistant'
-                  ? { ...m, parts: [...toolParts, ...(fullText ? [{ type: 'text' as const, text: fullText }] : [])] }
-                  : m
-              ))
-              continue
-            }
-
-            // Fallback: try old data: format
-            if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-              try {
-                const chunk = JSON.parse(line.slice(6))
-                if (chunk.type === 'text-delta' && chunk.delta) {
-                  fullText += chunk.delta
-                  setMessages(prev => prev.map((m, i) =>
-                    i === prev.length - 1 && m.role === 'assistant'
-                      ? { ...m, parts: [...toolParts, { type: 'text' as const, text: fullText }] }
-                      : m
-                  ))
+              // Tool call — agent is calling a CRM tool
+              if (part.type === 'tool-call') {
+                const newPart: AgentPart = {
+                  type: 'tool-invocation',
+                  toolCallId: part.toolCallId,
+                  toolName: part.toolName,
+                  state: 'partial-call',
+                  args: part.args,
                 }
-              } catch { /* invalid chunk */ }
+                toolParts = [...toolParts, newPart]
+                updateAssistant()
+                continue
+              }
+
+              // Tool result — tool has returned data
+              if (part.type === 'tool-result') {
+                toolParts = toolParts.map(p =>
+                  p.type === 'tool-invocation' && p.toolCallId === part.toolCallId
+                    ? { ...p, state: 'output-available', output: part.result }
+                    : p
+                )
+                updateAssistant()
+                continue
+              }
+
+              // Start step — new reasoning step (reset text for multi-step)
+              if (part.type === 'start-step') {
+                // Keep accumulated text, new step may add more
+                continue
+              }
+
+              // Finish step / finish message — ignore (handled by final state)
+              if (part.type === 'finish-step' || part.type === 'finish') {
+                continue
+              }
+
+              // Error from server
+              if (part.type === 'error') {
+                const errorText = part.errorText || part.error || 'Erreur serveur'
+                fullText += `\n\nErreur : ${errorText}`
+                updateAssistant()
+                continue
+              }
+            } catch {
+              // Invalid JSON in SSE line — skip
             }
-          } catch { /* parse error, skip line */ }
+          }
         }
       }
 

@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
+import { logActivity } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -166,6 +167,14 @@ export async function GET(request: NextRequest) {
     // SIREN Dermotec (à remplacer par la vraie valeur)
     const siren = '123456789'
     const filename = `${siren}FEC${year}1231.txt`
+
+    // Log activité
+    logActivity({
+      type: 'SYSTEME',
+      description: `Export FEC ${year} — ${factures?.length || 0} factures, ${lignes.length} écritures`,
+      user_id: user.id,
+      metadata: { action: 'export_fec', year, nb_factures: factures?.length || 0, nb_ecritures: lignes.length },
+    })
 
     return new NextResponse(content, {
       headers: {

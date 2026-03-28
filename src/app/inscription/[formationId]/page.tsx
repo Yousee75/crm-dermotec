@@ -205,6 +205,54 @@ export default function InscriptionPage() {
     loadFormationData()
   }, [formationId])
 
+  // Restore form draft from localStorage on mount
+  // LocalStorage key pattern: inscription-draft-{formationId}
+  useEffect(() => {
+    if (!formationId) return
+
+    const draftKey = `inscription-draft-${formationId}`
+    const savedDraft = localStorage.getItem(draftKey)
+
+    if (savedDraft) {
+      try {
+        const draft = JSON.parse(savedDraft)
+
+        // Restore form values
+        if (draft.formValues) {
+          Object.keys(draft.formValues).forEach(key => {
+            setValue(key as keyof InscriptionPubliqueData, draft.formValues[key])
+          })
+        }
+
+        // Restore other state
+        if (draft.currentStep) setCurrentStep(draft.currentStep)
+        if (draft.positionnement) setPositionnement(draft.positionnement)
+        if (draft.selectedFinancement) setSelectedFinancement(draft.selectedFinancement)
+      } catch (error) {
+        console.warn('Error restoring draft:', error)
+        localStorage.removeItem(draftKey)
+      }
+    }
+  }, [formationId, setValue])
+
+  // Save form draft to localStorage on changes
+  useEffect(() => {
+    if (!formationId || success) return // Don't save after success
+
+    const draftKey = `inscription-draft-${formationId}`
+    const formValues = getValues()
+
+    const draft = {
+      formValues,
+      currentStep,
+      positionnement,
+      selectedFinancement,
+      timestamp: Date.now()
+    }
+
+    localStorage.setItem(draftKey, JSON.stringify(draft))
+  }, [formationId, currentStep, positionnement, selectedFinancement, success, getValues])
+
   async function loadFormationData() {
     try {
       setLoading(true)
@@ -272,6 +320,10 @@ export default function InscriptionPage() {
       }
 
       setSuccess(true)
+
+      // Clear the draft on successful submission
+      const draftKey = `inscription-draft-${formationId}`
+      localStorage.removeItem(draftKey)
     } catch (error) {
       console.error('Erreur soumission:', error)
       setSubmitError('Erreur lors de l\'envoi. Vérifiez votre connexion et réessayez.')
@@ -679,10 +731,7 @@ export default function InscriptionPage() {
               </label>
               {sessions.length === 0 ? (
                 <div className="text-center py-8 bg-[#FAF8F5] rounded-lg">
-                  <p className="text-[#777777]">Aucune session disponible pour cette formation.</p>
-                  <p className="text-sm text-[#777777] mt-2">
-                    Contactez-nous au 01 43 14 28 28 pour être informé(e) des prochaines sessions.
-                  </p>
+                  <p className="text-[#777777]">Aucune session disponible actuellement. Contactez-nous.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

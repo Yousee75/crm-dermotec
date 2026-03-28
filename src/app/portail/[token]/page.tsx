@@ -333,7 +333,7 @@ export default function PortailPage() {
                   {/* Détails formation */}
                   <div className="space-y-4">
                     <div>
-                      <h3 className="font-semibold text-text text-lg mb-2">{data.formation.nom}</h3>
+                      <h3 className="font-semibold text-text text-lg mb-2">{data.formation.nom || 'Formation non spécifiée'}</h3>
                       <div className="bg-primary/5 p-3 rounded-lg">
                         <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">
                           {data.formation.categorie}
@@ -484,7 +484,7 @@ export default function PortailPage() {
                     <div>
                       <h3 className="font-semibold text-text text-lg">Convention de Formation</h3>
                       <p className="text-text-secondary text-sm mt-1">
-                        {data.formation.nom} • Du {formatDate(data.session.date_debut)} au {formatDate(data.session.date_fin)}
+                        {data.formation.nom || 'Formation'} • Du {formatDate(data.session.date_debut)} au {formatDate(data.session.date_fin)}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -537,7 +537,7 @@ export default function PortailPage() {
                       <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                         <h4 className="font-medium text-text mb-2">Informations importantes :</h4>
                         <ul className="space-y-1 text-sm text-text-secondary">
-                          <li>• Formation : {data.formation.nom}</li>
+                          <li>• Formation : {data.formation.nom || 'Non spécifiée'}</li>
                           <li>• Durée : {data.formation.duree_jours} jour{data.formation.duree_jours > 1 ? 's' : ''} ({data.formation.duree_heures}h)</li>
                           <li>• Montant : {data.inscription.montant_total.toFixed(2)} € HT</li>
                           <li>• Reste à charge : {data.inscription.reste_a_charge.toFixed(2)} €</li>
@@ -830,13 +830,13 @@ export default function PortailPage() {
 
                 {lmsLoading ? (
                   <div className="text-center py-12">
-                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary mb-4" />
-                    <p className="text-text-secondary">Chargement des supports...</p>
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" style={{ color: '#FF5C00' }} />
+                    <p style={{ color: '#777777' }}>Chargement des supports...</p>
                   </div>
                 ) : lmsData && lmsData.modules.length > 0 ? (
                   <div className="space-y-6">
                     <ProgressDashboard
-                      formationNom={data.formation.nom}
+                      formationNom={data.formation.nom || 'Formation'}
                       formationDureeJours={data.formation.duree_jours}
                       progressionGlobale={lmsData.progressionGlobale}
                       pointsGagnes={lmsData.pointsGagnes}
@@ -1178,7 +1178,7 @@ function CoursePlayerFullscreen({
   return (
     <div className="fixed inset-0 z-50">
       <CoursePlayer
-        formationNom={data.formation.nom}
+        formationNom={data.formation.nom || 'Formation'}
         modules={modules}
         currentContentId={currentContentId}
         progressionGlobale={progressionGlobale}

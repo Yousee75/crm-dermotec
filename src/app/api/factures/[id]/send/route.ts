@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
+import { logActivity, logEmailSent } from '@/lib/activity-logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -157,6 +158,19 @@ export async function POST(
         })
         .eq('id', id)
     }
+
+    // Log activité
+    const isRelance = ['envoyee', 'en_retard', 'impayee'].includes(facture.statut)
+    if (facture.lead_id) {
+      logEmailSent(facture.lead_id, `${typeLabel} ${facture.numero_facture}`, email, 'resend', user.id)
+    }
+    logActivity({
+      type: 'DOCUMENT',
+      description: `${isRelance ? 'Relance' : 'Envoi'} ${typeLabel.toLowerCase()} ${facture.numero_facture} → ${email}`,
+      lead_id: facture.lead_id || undefined,
+      user_id: user.id,
+      metadata: { action: isRelance ? 'facture_relance' : 'facture_envoi', facture_id: id, email, relance_numero: facture.relance_count },
+    })
 
     return NextResponse.json({ success: true, email_sent_to: email })
   } catch (err: any) {

@@ -10,7 +10,7 @@ import { createServiceSupabase } from './supabase-server'
 
 export type CheckStatus = 'pass' | 'fail' | 'warn' | 'skip'
 export type RunStatus = 'running' | 'healthy' | 'degraded' | 'down'
-export type CheckCategory = 'api' | 'database' | 'external' | 'storage' | 'auth'
+export type CheckCategory = 'api' | 'database' | 'external' | 'storage' | 'auth' | 'scraping' | 'enrichment'
 
 interface CheckResult {
   category: CheckCategory
