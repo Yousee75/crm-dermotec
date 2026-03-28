@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false, // JAMAIS de source maps en prod
 
-  serverExternalPackages: ['@react-pdf/renderer'],
+  serverExternalPackages: ['@react-pdf/renderer', 'sharp', 'staticmaps'],
 
   // Images — AVIF en priorite, WebP fallback, cache 1 an
   images: {
