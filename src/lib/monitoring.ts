@@ -361,8 +361,8 @@ async function checkPappers(): Promise<CheckResult> {
   }
 
   try {
-    // Test avec un SIRET connu (Dermotec)
-    const res = await fetch(`https://api.pappers.fr/v2/entreprise?siret=88301396500013&api_token=${key}`)
+    // Test avec une recherche simple
+    const res = await fetch(`https://api.pappers.fr/v2/recherche?q=dermotec&par_page=1&api_token=${key}`)
     return {
       category: 'enrichment',
       service_name: 'pappers',
@@ -441,18 +441,18 @@ async function checkOutscraper(): Promise<CheckResult> {
   }
 
   try {
-    const res = await fetch('https://api.app.outscraper.com/accounts/profile', {
+    // Test avec une recherche Google Maps basique (1 résultat)
+    const res = await fetch('https://api.app.outscraper.com/maps/search-v3?query=dermotec+paris&limit=1&async=false', {
       headers: { 'X-API-KEY': key }
     })
-    const data = res.ok ? await res.json() : null
     return {
       category: 'scraping',
       service_name: 'outscraper',
       check_name: 'connection',
-      status: res.ok ? 'pass' : 'fail',
+      status: res.ok || res.status === 202 ? 'pass' : 'fail',
       response_time_ms: Date.now() - start,
       status_code: res.status,
-      details: data ? { credits: data.credits_amount, email: data.email } : undefined
+      details: { note: res.status === 202 ? 'Async accepté' : 'Résultat immédiat' }
     }
   } catch (e) {
     return {
@@ -617,7 +617,7 @@ async function checkDVF(): Promise<CheckResult> {
 async function checkFranceCompetences(): Promise<CheckResult> {
   const start = Date.now()
   try {
-    const res = await fetch('https://api.francecompetences.fr/fc/v1/rs?INTITULE=maquillage+permanent&ETAT_FICHE=Actif&LIMIT=1')
+    const res = await fetch('https://www.francecompetences.fr/recherche_certificationFiche/5858')
     return {
       category: 'enrichment',
       service_name: 'france_competences',
@@ -665,7 +665,7 @@ async function checkBODACC(): Promise<CheckResult> {
 async function checkDGEFP(): Promise<CheckResult> {
   const start = Date.now()
   try {
-    const res = await fetch('https://dgefp-opendatasoft.opendatasoft.com/api/records/1.0/search/?dataset=liste-publique-des-of-v2&q=dermotec&rows=1')
+    const res = await fetch('https://opendata.caissedesdepots.fr/api/explore/v2.1/catalog/datasets/moncompteformation_catalogueformation/records?limit=1&where=nom_of%20like%20%22dermotec%22')
     return {
       category: 'enrichment',
       service_name: 'dgefp',
