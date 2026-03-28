@@ -330,8 +330,8 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
       }
 
       // Gestion échec paiement abonnement
-      if (invoice.subscription) {
-        const subscriptionId = invoice.subscription as string
+      if ((invoice as any).subscription) {
+        const subscriptionId = (invoice as any).subscription as string
         await supabase.from('activites').insert({
           type: 'SYSTEME',
           titre: 'Échec paiement abonnement',
@@ -383,7 +383,7 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
             plan: planId,
             subscription_status: subscription.status,
             subscription_created: subscription.created,
-            current_period_end: subscription.current_period_end,
+            current_period_end: (subscription as any).current_period_end,
           }
         })
 
@@ -415,7 +415,7 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
             subscription_id: subscription.id,
             plan: planId,
             subscription_status: subscription.status,
-            current_period_end: subscription.current_period_end,
+            current_period_end: (subscription as any).current_period_end,
             cancel_at_period_end: subscription.cancel_at_period_end,
           }
         })
@@ -424,7 +424,7 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
         await supabase.from('activites').insert({
           type: 'SYSTEME',
           titre: `Abonnement ${planId || 'inconnu'} mis à jour`,
-          description: `Statut: ${subscription.status}, Fin: ${new Date(subscription.current_period_end * 1000).toLocaleDateString('fr-FR')}`,
+          description: `Statut: ${subscription.status}, Fin: ${new Date((subscription as any).current_period_end * 1000).toLocaleDateString('fr-FR')}`,
           metadata: {
             subscription_id: subscription.id,
             status: subscription.status,
@@ -467,9 +467,9 @@ async function processStripeEventInline(supabase: any, event: Stripe.Event) {
 
     case 'invoice.payment_succeeded': {
       const invoice = event.data.object as Stripe.Invoice
-      if (invoice.subscription && invoice.billing_reason === 'subscription_cycle') {
+      if ((invoice as any).subscription && invoice.billing_reason === 'subscription_cycle') {
         // Paiement d'abonnement réussi
-        const subscriptionId = invoice.subscription as string
+        const subscriptionId = (invoice as any).subscription as string
 
         await supabase.from('activites').insert({
           type: 'PAIEMENT',

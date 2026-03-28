@@ -120,10 +120,10 @@ export async function POST(req: NextRequest) {
             const { createServiceSupabase } = await import('@/lib/supabase-server')
             const supabase = await createServiceSupabase()
 
-            await (supabase
+            await ((supabase as any)
               .from('leads')
               .update({ statut: 'CONTACTE' })
-              .eq('id', lead.id) as any)
+              .eq('id', lead.id))
 
             const { logStatutChange } = await import('@/lib/activity-logger')
             await logStatutChange(lead.id, 'NOUVEAU', 'CONTACTE')
@@ -151,14 +151,14 @@ export async function POST(req: NextRequest) {
 
         const nouveauDate = new Date(startTime).toISOString()
 
-        const { error } = await (supabase
+        const { error } = await ((supabase as any)
           .from('rappels')
           .update({
             date_rappel: nouveauDate,
             titre: title || 'RDV Cal.com (reprogrammé)',
             description: `RDV reprogrammé via Cal.com`
           })
-          .eq('metadata->external_id', uid) as any)
+          .eq('metadata->external_id', uid))
 
         if (error) {
           console.error('[Cal.com Webhook] Erreur mise à jour rappel:', error)
@@ -200,10 +200,10 @@ export async function POST(req: NextRequest) {
         const { createServiceSupabase } = await import('@/lib/supabase-server')
         const supabase = await createServiceSupabase()
 
-        const { error } = await (supabase
+        const { error } = await ((supabase as any)
           .from('rappels')
           .update({ statut: 'ANNULE' })
-          .eq('metadata->external_id', uid) as any)
+          .eq('metadata->external_id', uid))
 
         if (error) {
           console.error('[Cal.com Webhook] Erreur annulation rappel:', error)

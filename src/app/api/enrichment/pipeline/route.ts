@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
           date_avis: review.time ? new Date(review.time * 1000).toISOString().split('T')[0] : null,
           date_avis_relative: review.relative_time_description || review.review_datetime_utc,
           reponse_proprietaire: review.owner_answer || null,
-          sentiment: (review.rating || review.review_rating) >= 4 ? 'positif' : (review.rating || review.review_rating) <= 2 ? 'negatif' : 'neutre',
+          sentiment: ((review as any).rating || (review as any).review_rating) >= 4 ? 'positif' : ((review as any).rating || (review as any).review_rating) <= 2 ? 'negatif' : 'neutre',
         } as any, {
           onConflict: 'lead_id,plateforme,auteur,date_avis',
           ignoreDuplicates: true,

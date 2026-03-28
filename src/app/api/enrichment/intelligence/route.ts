@@ -24,11 +24,11 @@ export async function GET(req: NextRequest) {
 
   try {
     // Récupérer les données intelligence depuis prospect_data
-    const { data: prospectData, error } = await supabase
-      .from('prospect_data')
+    const { data: prospectData, error } = await (supabase
+      .from('prospect_data' as any)
       .select('intelligence_complete, carte_soins, signaux_commerciaux, convention_idcc, convention_droit_heures, aides_zone, concurrents_osm_count, enrichment_version, last_scraping_at')
       .eq('lead_id', leadId)
-      .single()
+      .single() as any) as { data: any; error: any }
 
     if (error && error.code !== 'PGRST116') {
       console.error('Erreur récupération intelligence:', error)

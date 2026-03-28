@@ -90,10 +90,16 @@ export function AgentPanel() {
     }
   }, [isOpen])
 
-  // Keyboard shortcut: Escape to close
+  // Keyboard shortcuts: Cmd+J toggle agent, Escape close
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) setIsOpen(false)
+      const tag = (e.target as HTMLElement).tagName
+      if (e.key === 'Escape' && isOpen) { setIsOpen(false); return }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'j') {
+        e.preventDefault()
+        setIsOpen(prev => !prev)
+        setIsMinimized(false)
+      }
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
@@ -331,8 +337,9 @@ export function AgentPanel() {
                 </form>
 
                 {/* Powered by */}
-                <p className="text-center text-[9px] mt-2" style={{ color: SATOREA.muted }}>
-                  Agent IA Satorea · 15 outils CRM
+                <p className="text-center text-[9px] mt-2 flex items-center justify-center gap-2" style={{ color: SATOREA.muted }}>
+                  <span>Agent IA Satorea · 15 outils CRM</span>
+                  <kbd className="px-1 py-0.5 bg-[#F4F0EB] rounded text-[8px] font-medium border border-[#EEEEEE]">⌘J</kbd>
                 </p>
               </div>
             </>

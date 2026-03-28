@@ -216,8 +216,8 @@ export async function enrichComplet(params: EnrichmentParams): Promise<Intellige
     if (!params.skip_formation) {
       identityBranch.push(
         safeCall('I7', async () => {
-          const { getRNCPData } = await import('./enrichment-rncp')
-          const rncp = await getRNCPData({ siret: params.siret!, keyword: 'esthetique' })
+          const { searchCertifications } = await import('./enrichment-rncp')
+          const rncp = await searchCertifications('esthetique')
           if (rncp) data._signaux.est_organisme_concurrent = true
         }, perCallTimeout)
       )

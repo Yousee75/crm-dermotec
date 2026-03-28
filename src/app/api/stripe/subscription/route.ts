@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
         id: subscription.id,
         status: subscription.status,
         plan,
-        current_period_end: subscription.current_period_end * 1000, // Convertir en ms
+        current_period_end: (subscription as any).current_period_end * 1000, // Convertir en ms
         cancel_at_period_end: subscription.cancel_at_period_end,
         created: subscription.created * 1000,
         price_id: priceId,

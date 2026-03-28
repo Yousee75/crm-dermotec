@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         .single() as any)
 
       if (error && error.code !== 'PGRST116') {
-        logger.error('DocuSeal webhook error: lead search failed', {
+        logger.error('DocuSeal webhook error: lead search failed', undefined, {
           service: 'docuseal-webhook',
           error
         })
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
         // Chercher par email via la relation lead
         const { data, error } = await (query as any)
         if (error) {
-          logger.error('DocuSeal webhook error: inscription search failed', {
+          logger.error('DocuSeal webhook error: inscription search failed', undefined, {
           service: 'docuseal-webhook',
           error
         })
@@ -116,9 +116,9 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        const { error: docError } = await (supabase.from('documents').insert(documentData) as any)
+        const { error: docError } = await (supabase.from('documents' as any).insert(documentData as any) as any)
         if (docError) {
-          logger.error('DocuSeal webhook error: document creation failed', {
+          logger.error('DocuSeal webhook error: document creation failed', undefined, {
             service: 'docuseal-webhook',
             error: docError
           })
@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
           }
           */
         } catch (storageErr) {
-          logger.error('DocuSeal webhook error: storage operation failed', {
+          logger.error('DocuSeal webhook error: storage operation failed', undefined, {
             service: 'docuseal-webhook',
             error: storageErr
           })
@@ -271,7 +271,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ received: true })
   } catch (err: any) {
-    logger.error('DocuSeal webhook error: unexpected error', {
+    logger.error('DocuSeal webhook error: unexpected error', undefined, {
       service: 'docuseal-webhook',
       error: err.message || err
     })

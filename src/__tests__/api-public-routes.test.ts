@@ -59,10 +59,10 @@ function createPublicRequest(url: string, options?: RequestInit) {
       'Content-Type': 'application/json',
       'User-Agent': 'vitest/test-runner',
       'X-Forwarded-For': '127.0.0.1',
-      ...options?.headers,
+      ...(options?.headers as Record<string, string>),
     },
     ...options,
-  })
+  } as any)
 }
 
 describe('API Public Routes - No Auth Required', () => {
@@ -253,9 +253,10 @@ describe('API Public Routes - No Auth Required', () => {
             select: vi.fn().mockReturnThis(),
             eq: vi.fn().mockReturnThis(),
             single: vi.fn().mockResolvedValue({ data: null }), // Pas de lead existant
-            insert: vi.fn().mockReturnThis(),
-            select: vi.fn().mockResolvedValue({
-              data: { id: 'lead-123', email: 'test@example.com' },
+            insert: vi.fn().mockReturnValue({
+              select: vi.fn().mockResolvedValue({
+                data: { id: 'lead-123', email: 'test@example.com' },
+              }),
             }),
           }
         }
@@ -339,10 +340,10 @@ describe('API Public Routes - No Auth Required', () => {
         }),
       })
 
-      const { GET } = await import('@/app/api/questionnaires/test-token/route')
+      const { GET } = await import('@/app/api/questionnaires/[token]/route')
 
       const request = createPublicRequest('/api/questionnaires/test-token')
-      const response = await GET(request, { params: { token: 'test-token' } })
+      const response = await GET(request, { params: Promise.resolve({ token: 'test-token' }) })
 
       expect(response.status).toBe(200)
     })
@@ -355,10 +356,10 @@ describe('API Public Routes - No Auth Required', () => {
         single: vi.fn().mockResolvedValue({ data: null }),
       })
 
-      const { GET } = await import('@/app/api/questionnaires/invalid-token/route')
+      const { GET } = await import('@/app/api/questionnaires/[token]/route')
 
       const request = createPublicRequest('/api/questionnaires/invalid-token')
-      const response = await GET(request, { params: { token: 'invalid-token' } })
+      const response = await GET(request, { params: Promise.resolve({ token: 'invalid-token' }) })
 
       expect(response.status).toBe(404)
     })

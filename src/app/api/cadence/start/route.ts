@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       lead_id: leadId,
       email: lead.email,
       prenom: lead.prenom,
-      formation_nom: lead.formation_principale?.nom || 'nos formations',
+      formation_nom: (lead.formation_principale as any)?.nom || 'nos formations',
     })
 
     // Logger l'activité

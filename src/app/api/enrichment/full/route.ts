@@ -104,8 +104,8 @@ export async function POST(req: NextRequest) {
         adresse_complete: params.ville,
         code_postal: params.code_postal,
         ville: params.ville,
-        latitude: params.lat,
-        longitude: params.lng,
+        latitude: (params as any).lat,
+        longitude: (params as any).lng,
         // Réputation (opaque — pas de .google sous-objet)
         google_rating: intel.reputation?.note_globale,
         google_reviews_count: intel.reputation?.nb_avis_total,
@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       })
 
       // Mettre à jour le lead avec le score
-      await supabase.from('leads').update({
+      await ((supabase as any).from('leads').update({
         score_chaud: intel.score_global || 50,
         metadata: {
           ...(leadData?.metadata || {}),
@@ -152,7 +152,7 @@ export async function POST(req: NextRequest) {
           enrichment_fiabilite: intel.fiabilite,
           nb_donnees_collectees: intel.nb_donnees_collectees,
         },
-      }).eq('id', leadId)
+      }).eq('id', leadId))
 
     }
 

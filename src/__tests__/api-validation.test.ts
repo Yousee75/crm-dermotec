@@ -61,10 +61,10 @@ function createAuthenticatedRequest(url: string, options?: RequestInit) {
     headers: {
       'Content-Type': 'application/json',
       'Cookie': 'sb-access-token=valid-token; sb-refresh-token=refresh-token',
-      ...options?.headers,
+      ...(options?.headers as Record<string, string>),
     },
     ...options,
-  })
+  } as any)
 }
 
 describe('API Input Validation', () => {

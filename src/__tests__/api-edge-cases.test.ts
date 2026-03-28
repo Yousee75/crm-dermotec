@@ -48,10 +48,10 @@ const createMockAuth = (scenario: 'authenticated' | 'demo' | 'no-env' | 'corrupt
 }
 
 function createRequest(url: string, options?: RequestInit & { scenario?: string }) {
-  const headers = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     'User-Agent': 'vitest/test-runner',
-    ...options?.headers,
+    ...(options?.headers as Record<string, string>),
   }
 
   // Simuler différents scénarios d'origine
@@ -70,7 +70,7 @@ function createRequest(url: string, options?: RequestInit & { scenario?: string 
   return new NextRequest(`http://localhost:3000${url}`, {
     ...options,
     headers,
-  })
+  } as any)
 }
 
 describe('API Edge Cases & Error Scenarios', () => {
@@ -150,7 +150,7 @@ describe('API Edge Cases & Error Scenarios', () => {
 
   describe('Rate Limiting & Security', () => {
     it('détecte les tentatives d\'énumération d\'IDs', async () => {
-      const { GET } = await import('@/app/api/leads/non-existent-id/enrich/route')
+      const { GET } = await import('@/app/api/leads/[id]/enrich/route')
 
       // Tentative d'accès à des IDs non existants (simulation)
       const suspiciousIds = ['admin', 'test', '1', 'user', 'null', 'undefined']
@@ -158,7 +158,7 @@ describe('API Edge Cases & Error Scenarios', () => {
       for (const id of suspiciousIds) {
         const request = createRequest(`/api/leads/${id}/enrich`)
 
-        const response = await GET(request, { params: { id } })
+        const response = await GET(request, { params: Promise.resolve({ id }) })
 
         // Devrait retourner 401 (non auth) ou 404, jamais d'info sensible
         expect([401, 404].includes(response.status)).toBe(true)

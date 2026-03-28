@@ -259,7 +259,7 @@ export async function generateBriefingWord(d: BriefingData): Promise<Buffer> {
           ]),
           rich([
             { text: '3. FORMATION : ', bold: true, color: BRAND },
-            { text: d.formations?.length ? `${d.formations[0].nom} (${d.formations[0].prix}) — ${d.formations[0].argument_roi || d.formations[0].pourquoi}` : 'À déterminer selon profil' },
+            { text: d.formations?.length ? `${d.formations[0].nom} (${d.formations[0].prix}) — ${(d.formations[0] as any).argument_roi || d.formations[0].pourquoi}` : 'À déterminer selon profil' },
           ]),
           rich([
             { text: '4. FINANCEMENT : ', bold: true, color: BRAND },

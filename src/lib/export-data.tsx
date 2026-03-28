@@ -183,6 +183,7 @@ export async function exportToPDF(
   const doc = (
     <Document>
       {pages.map((pageData, pageIndex) => (
+        {/* @ts-expect-error react-pdf orientation type */}
         <Page key={pageIndex} size="A4" orientation="landscape" style={styles.page}>
           {/* Watermark */}
           {userName && (

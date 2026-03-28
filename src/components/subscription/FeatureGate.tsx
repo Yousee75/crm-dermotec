@@ -6,8 +6,8 @@
 import { ReactNode } from 'react'
 import { useCurrentPlan } from '@/hooks/use-subscription'
 import type { PlanSaaS } from '@/types/subscription'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
 import { Lock, Zap, Crown } from 'lucide-react'
 
 interface FeatureGateProps {

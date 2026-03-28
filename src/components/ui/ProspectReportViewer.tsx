@@ -333,7 +333,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                     </tr>
                   </thead>
                   <tbody>
-                    {reportData.intelligence.plateformes_avis.map((p, i) => (
+                    {reportData.intelligence.plateformes_avis.map((p: any, i: number) => (
                       <tr key={i} className="border-b border-[#F4F0EB]">
                         <td className="py-2 font-medium text-[#1A1A1A]">{p.plateforme}</td>
                         <td className="py-2">
@@ -356,7 +356,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 </table>
               </div>
               <div className="text-xs text-[#777777] pt-2 border-t border-[#F4F0EB]">
-                Total avis : {reportData.intelligence.plateformes_avis.reduce((acc, p) => acc + (p.nb_avis || 0), 0)}
+                Total avis : {reportData.intelligence.plateformes_avis.reduce((acc: number, p: any) => acc + (p.nb_avis || 0), 0)}
               </div>
             </div>
           </CollapsibleSection>
@@ -370,7 +370,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 {reportData.intelligence.carte_soins.length} soins détectés sur les plateformes de réservation
               </p>
               <div className="flex flex-wrap gap-1.5">
-                {reportData.intelligence.carte_soins.map((soin, i) => (
+                {reportData.intelligence.carte_soins.map((soin: any, i: number) => (
                   <span
                     key={i}
                     className="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full border border-primary/20"
@@ -396,7 +396,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 </div>
               )}
               <div className="space-y-1">
-                {reportData.intelligence.concurrents_zone.slice(0, 5).map((c, i) => (
+                {reportData.intelligence.concurrents_zone.slice(0, 5).map((c: any, i: number) => (
                   <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-[#FAF8F5] rounded-lg">
                     <div>
                       <span className="text-xs font-medium text-[#1A1A1A]">{c.nom || 'Sans nom'}</span>
@@ -438,7 +438,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                 <div>
                   <p className="text-xs font-semibold text-[#3A3A3A] mb-2">Aides disponibles :</p>
                   <div className="space-y-2">
-                    {reportData.intelligence.aides_disponibles.map((aide, i) => (
+                    {reportData.intelligence.aides_disponibles.map((aide: any, i: number) => (
                       <div key={i} className="flex items-center justify-between py-1.5 px-2 bg-[#ECFDF5] rounded-lg border border-[#10B981]/30">
                         <div>
                           <span className="text-xs font-medium text-[#10B981]">{aide.nom}</span>
@@ -450,7 +450,7 @@ export function ProspectReportViewer({ leadId, leadName }: ProspectReportViewerP
                       </div>
                     ))}
                     <div className="text-xs text-[#10B981] font-medium pt-1 border-t border-[#10B981]/30">
-                      Total cumulé : {reportData.intelligence.aides_disponibles.reduce((acc, a) => acc + (a.montant_max || 0), 0)}€
+                      Total cumulé : {reportData.intelligence.aides_disponibles.reduce((acc: number, a: any) => acc + (a.montant_max || 0), 0)}€
                     </div>
                   </div>
                 </div>

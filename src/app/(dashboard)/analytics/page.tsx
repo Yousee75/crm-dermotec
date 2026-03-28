@@ -255,7 +255,7 @@ function generateWeeklyLeadsData(realData?: { leadsThisMonth: number; caMensuel:
     weekStart.setDate(weekStart.getDate() - i * 7)
 
     // Utilise les vraies données CA mensuelles comme indicateur d'activité
-    const monthIndex = Math.min(Math.floor(i / 4), realData?.caMensuel?.length - 1 || 0)
+    const monthIndex = Math.min(Math.floor(i / 4), (realData?.caMensuel?.length ?? 1) - 1)
     const caIndicator = realData?.caMensuel?.[monthIndex]?.ca || 5000
     const activityFactor = Math.max(0.5, caIndicator / 10000) // normaliser
 

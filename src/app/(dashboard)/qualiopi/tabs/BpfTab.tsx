@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/Badge'
 import { SkeletonTable } from '@/components/ui/Skeleton'
 import { FileBarChart, Download, Calendar, Users, Euro, BookOpen, CheckCircle, AlertCircle } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/infra/supabase-client'
 import { toast } from 'sonner'
 
 const STATUT_CONFIG: Record<string, { label: string; color: string; icon: any }> = {

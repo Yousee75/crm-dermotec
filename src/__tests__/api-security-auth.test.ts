@@ -28,9 +28,9 @@ function createUnauthenticatedRequest(url: string, options?: RequestInit) {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...options?.headers,
+      ...(options?.headers as Record<string, string>),
     },
-  })
+  } as any)
 }
 
 describe('API Security - Auth Required Routes', () => {
@@ -80,14 +80,14 @@ describe('API Security - Auth Required Routes', () => {
 
   describe('Lead Enrichment Routes', () => {
     it('POST /api/leads/[id]/enrich - retourne 401 sans auth', async () => {
-      const { POST } = await import('@/app/api/leads/test-id/enrich/route')
+      const { POST } = await import('@/app/api/leads/[id]/enrich/route')
 
       const request = createUnauthenticatedRequest('/api/leads/test-id/enrich', {
         method: 'POST',
         body: JSON.stringify({ force: false }),
       })
 
-      const response = await POST(request)
+      const response = await POST(request, { params: Promise.resolve({ id: 'test-id' }) })
       const body = await response.json()
 
       expect(response.status).toBe(401)
@@ -95,11 +95,11 @@ describe('API Security - Auth Required Routes', () => {
     })
 
     it('GET /api/leads/[id]/enrich - retourne 401 sans auth', async () => {
-      const { GET } = await import('@/app/api/leads/test-id/enrich/route')
+      const { GET } = await import('@/app/api/leads/[id]/enrich/route')
 
       const request = createUnauthenticatedRequest('/api/leads/test-id/enrich')
 
-      const response = await GET(request)
+      const response = await GET(request, { params: Promise.resolve({ id: 'test-id' }) })
       const body = await response.json()
 
       expect(response.status).toBe(401)

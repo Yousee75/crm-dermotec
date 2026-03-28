@@ -94,10 +94,10 @@ function createAuthenticatedRequest(url: string, options?: RequestInit) {
       'Cookie': 'sb-access-token=valid-token; sb-refresh-token=refresh-token',
       'User-Agent': 'vitest/test-runner',
       'X-Forwarded-For': '127.0.0.1',
-      ...options?.headers,
+      ...(options?.headers as Record<string, string>),
     },
     ...options,
-  })
+  } as any)
 }
 
 describe('API Integration - Critical CRM Flows', () => {
@@ -132,7 +132,7 @@ describe('API Integration - Critical CRM Flows', () => {
       })
 
       // 2. Enrichir le lead
-      const { POST: enrichPost } = await import('@/app/api/leads/lead-123/enrich/route')
+      const { POST: enrichPost } = await import('@/app/api/leads/[id]/enrich/route')
 
       const enrichRequest = createAuthenticatedRequest('/api/leads/lead-123/enrich', {
         method: 'POST',
@@ -140,7 +140,7 @@ describe('API Integration - Critical CRM Flows', () => {
       })
 
       const enrichResponse = await enrichPost(enrichRequest, {
-        params: { id: 'lead-123' },
+        params: Promise.resolve({ id: 'lead-123' }),
       })
 
       expect(enrichResponse.status).toBe(200)
@@ -355,14 +355,14 @@ describe('API Integration - Critical CRM Flows', () => {
         },
       })
 
-      const { POST } = await import('@/app/api/leads/lead-123/enrich/route')
+      const { POST } = await import('@/app/api/leads/[id]/enrich/route')
 
       const request = createAuthenticatedRequest('/api/leads/lead-123/enrich', {
         method: 'POST',
         body: JSON.stringify({ force: false }),
       })
 
-      const response = await POST(request, { params: { id: 'lead-123' } })
+      const response = await POST(request, { params: Promise.resolve({ id: 'lead-123' }) })
 
       // Devrait gérer l'erreur gracieusement
       expect(response.status).toBeGreaterThanOrEqual(400)

@@ -371,8 +371,8 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
         {/* Accroche */}
         <View style={[s.verdict, { backgroundColor: C.skyBg, borderLeftColor: C.brand, marginBottom: 16 }]}>
           <Text style={[s.verdictText, { color: C.brandDark }]}>
-            {n.classification === 'PROSPECT CHAUD' ? '🔥 Prospect premium avec potentiel immédiat !' :
-             n.classification === 'PROSPECT TIÈDE' ? '⚡ Bon prospect à approcher avec la bonne stratégie' :
+            {n.classification === 'CHAUD' ? '🔥 Prospect premium avec potentiel immédiat !' :
+             n.classification === 'TIEDE' ? '⚡ Bon prospect à approcher avec la bonne stratégie' :
              '💪 Prospect à convaincre - challenge commercial'}
           </Text>
         </View>
@@ -449,7 +449,7 @@ export function RapportProspect({ lead, narrative: n, enrichment, scores, genera
             </View>
             <Text style={s.stratLabel}>Angle d'attaque</Text><Text style={s.stratValue}>{n.strategie.angle_attaque}</Text>
             <Text style={[s.stratLabel, { marginTop: 3 }]}>Objectif de l'appel</Text><Text style={s.stratValue}>{n.strategie.objectif_appel}</Text>
-            <Text style={[s.stratLabel, { marginTop: 3 }]}>⚠️ Ne jamais dire</Text><Text style={[s.stratValue, { color: C.red, fontStyle: 'italic' }]}>{n.strategie.ne_jamais_dire || 'Éviter les termes techniques trop complexes'}</Text>
+            <Text style={[s.stratLabel, { marginTop: 3 }]}>⚠️ Ne jamais dire</Text><Text style={[s.stratValue, { color: C.red, fontStyle: 'italic' }]}>{(n.strategie as any).ne_jamais_dire || 'Éviter les termes techniques trop complexes'}</Text>
           </View>
         )}
 
